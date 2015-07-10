@@ -1,0 +1,8 @@
+/vendor
+/node_modules
+#add for me
+/public/node_modules
+/public/vendor
+# .add
+Homestead.yaml
+.env
