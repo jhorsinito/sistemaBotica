@@ -80,18 +80,20 @@
                 };
 
                 $scope.updatePerson = function(){
-                    crudService.update($scope.person,'persons').then(function(data)
-                    {
-                        if(data['estado'] == true){
-                            $scope.success = data['nombre'];
-                            $location.path('/persons');
-                            alert('true');
-                        }else{
-                            //$scope.errors =data['error'];
-                            $scope.errors =data;
-                            alert('not true');
-                        }
-                    });
+                    if ($scope.personCreateForm.$valid) {
+                        crudService.update($scope.person,'persons').then(function(data)
+                        {
+                            if(data['estado'] == true){
+                                $scope.success = data['nombre'];
+                                $location.path('/persons');
+                                //alert('true');
+                            }else{
+                                //$scope.errors =data['error'];
+                                $scope.errors =data;
+                                //alert('not true');
+                            }
+                        });
+                    }
                 };
 
                 $scope.deletePerson = function(row){

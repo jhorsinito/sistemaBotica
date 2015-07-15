@@ -18,6 +18,7 @@
     "raphael": "*",
     "jquery": "*",
     "jquery-ui": "*",
-    "moment": "*"
+    "moment": "*",
+      "jquery.inputmask": "*"
   }
 }

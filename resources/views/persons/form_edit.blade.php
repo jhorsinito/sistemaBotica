@@ -22,6 +22,7 @@
                   <h3 class="box-title">Editar Persona</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
+
                 <form name="personCreateForm" role="form" novalidate>
                   <div class="box-body">
                                 <div class="callout callout-danger" ng-show="errors">
@@ -38,13 +39,15 @@
                         <div ng-show="personCreateForm.nombres.$error.required">Tell us your name.</div>
                       </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-class="{true: 'has-error'}[personCreateForm.apPaterno.$dirty && personCreateForm.apPaterno.$invalid]">
                       <label for="apPaterno">Ap paterno</label>
                       <input type="text" class="form-control" name="apPaterno" placeholder="ap paterno"
                       ng-model="person.apPaterno" required>
-                      <div ng-show="personCreateForm.$submitted || personCreateForm.apPaterno.$touched">
-                        <span ng-show="personCreateForm.apPaterno.$error.required">Tell us your ap Paterno.</span>
-                       </div>
+                      <label ng-show="personCreateForm.$submitted || personCreateForm.$dirty || personCreateForm.apPaterno.$touched">
+                      <i class="fa fa-times-circle-o"></i>
+                        <span ng-show="personCreateForm.apPaterno.$error.required">Tell us your ap Paterno.
+                        </span>
+                       </label>
                     </div>
                 </div><!-- /.box-body -->
 

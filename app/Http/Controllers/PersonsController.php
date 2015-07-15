@@ -48,8 +48,8 @@ class PersonsController extends Controller {
     public function create(Request $request)
     {
         $person = $this->personRepo->getModel();
-        //var_dump($request->all());
-        //die();
+        var_dump($request->all());
+        die();
         $manager = new PersonManager($person,$request->all());
         //print_r($manager); die();
         $manager->save();
