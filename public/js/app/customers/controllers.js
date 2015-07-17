@@ -76,6 +76,7 @@
 
                     if ($scope.customerCreateForm.$valid) {
                         crudService.create($scope.customer, 'customers').then(function (data) {
+                           
                             if (data['estado'] == true) {
                                 $scope.success = data['nombres'];
                                 alert('grabado correctamente');

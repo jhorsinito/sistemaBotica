@@ -1,7 +1,19 @@
 (function(){
     angular.module('routes',[])
         .config(['$routeProvider','$locationProvider', function ($routeProvider,$locationProvider) {
-            $routeProvider                
+            $routeProvider
+                .when('/stores', {
+                    templateUrl: '/js/app/stores/views/index.html',
+                    controller: 'StoreController'
+                })
+                .when('/stores/create',{
+                    templateUrl:'/stores/form-create',
+                    controller: 'StoreController'
+                })
+                .when('/stores/edit/:id',{
+                    templateUrl:'/stores/form-edit',
+                    controller: 'StoreController'
+                })                
                 .when('/persons', {
                     templateUrl: '/js/app/persons/views/index.html',
                     controller: 'PersonController'

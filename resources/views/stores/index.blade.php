@@ -3,7 +3,7 @@
 Clientes
 @stop
 @section('base_url')
-<base href="{{URL::to('/')}}/customers"/>
+<base href="{{URL::to('/')}}/stores"/>
 @stop
 @section('css-customize')
 @stop
@@ -16,7 +16,7 @@ Clientes
 </section>-->
 
 <!-- Main content -->
-<section ng-app="customers">
+<section ng-app="stores">
     <div ng-view>
 
     </div>

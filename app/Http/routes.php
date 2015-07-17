@@ -16,6 +16,10 @@ Route::get('/', 'Layout\LayoutController@index');
 Route::get('/login', function () {
     return view('login');
 });
+Route::get('/melvin', function(){
+	//return make("hola mundo");
+	return 'hola';
+});
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
@@ -54,3 +58,19 @@ Route::post('api/customers/destroy',['as'=>'person_destroy', 'uses'=>'CustomersC
 Route::get('api/customers/search/{q?}',['as'=>'person_search', 'uses'=>'CustomersController@search']);
 Route::get('api/customers/find/{id}',['as'=>'person_find', 'uses'=>'CustomersController@find']);
 //END PERSONS ROUTES
+
+//STORE ROUTES
+Route::get('stores',['as'=>'store','uses'=>'StoresController@index']);
+Route::get('stores/create',['as'=>'store_create','uses'=>'StoresController@index']);
+Route::get('stores/edit/{id?}', ['as' => 'store_edit', 'uses' => 'StoresController@index']);
+Route::get('stores/form-create',['as'=>'store_form_create','uses'=>'StoresController@form_create']);
+Route::get('stores/form-edit',['as'=>'store_form_edit','uses'=>'StoresController@form_edit']);
+Route::get('api/stores/all',['as'=>'store_all', 'uses'=>'StoresController@all']);
+Route::get('api/stores/paginate/',['as' => 'store_paginate', 'uses' => 'StoresController@paginatep']);
+Route::post('api/stores/create',['as'=>'store_create', 'uses'=>'StoresController@create']);
+Route::put('api/stores/edit',['as'=>'store_edit', 'uses'=>'StoresController@edit']);
+Route::post('api/stores/destroy',['as'=>'store_destroy', 'uses'=>'StoresController@destroy']);
+Route::get('api/stores/search/{q?}',['as'=>'store_search', 'uses'=>'StoresController@search']);
+Route::get('api/stores/find/{id}',['as'=>'store_find', 'uses'=>'StoresController@find']);
+//route::controller('/', 'Layout\proban@prob');
+//END STORE ROUTES
