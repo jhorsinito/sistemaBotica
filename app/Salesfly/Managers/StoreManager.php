@@ -6,15 +6,15 @@ class StoreManager extends BaseManager {
     public function getRules()
     {
         $rules = [  
-                    'nombreTienda'=>'',
-                    'razonSocial'=>'',
-                    'ruc'=>'',
-                    'direccion'=>'',
+                    'nombreTienda'=>'required',
+                    'razonSocial'=>'required',
+                    'ruc'=>'required',
+                    'direccion'=>'required',
                     'distrito'=>'',
                     'provincia'=>'',
                     'departamento'=>'',
                     'email'=>'',
-                    'website'=>''
+                    'website'=>''                    
                   ];
         return $rules;
     }

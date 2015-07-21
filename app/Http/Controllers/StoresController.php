@@ -76,6 +76,7 @@ class StoresController extends Controller {
         return response()->json(['estado'=>true, 'nombre'=>$stores->nombreTienda]);
     }
 
+    
     public function destroy(Request $request)
     {
         $store= $this->storeRepo->find($request->id);

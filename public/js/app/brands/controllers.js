@@ -1,24 +1,25 @@
 (function(){
-    angular.module('stores.controllers',[])
-        .controller('StoreController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log',
+    angular.module('brands.controllers',[])
+        .controller('BrandController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log',
             function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log){
-                $scope.stores = [];
-                $scope.store;
+                $scope.brands = [];
+                $scope.brand = {};
                 $scope.errors = null;
                 $scope.success;
                 $scope.query = '';
+
                 $scope.toggle = function () {
                     $scope.show = !$scope.show;
                 };
 
                 $scope.pageChanged = function() {
                     if ($scope.query.length > 0) {
-                        crudService.search('stores',$scope.query,$scope.currentPage).then(function (data){
-                        $scope.stores = data.data;
+                        crudService.search('brands',$scope.query,$scope.currentPage).then(function (data){
+                        $scope.brands = data.data;
                     });
                     }else{
-                        crudService.paginate('stores',$scope.currentPage).then(function (data) {
-                            $scope.stores = data.data;
+                        crudService.paginate('brands',$scope.currentPage).then(function (data) {
+                            $scope.brands = data.data;
                         });
                     }
                 };
@@ -28,34 +29,34 @@
 
                 if(id)
                 {
-                    crudService.byId(id,'stores').then(function (data) {
-                        $scope.store = data;
+                    crudService.byId(id,'brands').then(function (data) {
+                        $scope.brand = data;
                     });
                 }else{
-                    crudService.paginate('stores',1).then(function (data) {
-                        $scope.stores = data.data;
+                    crudService.paginate('brands',1).then(function (data) {
+                        $scope.brands = data.data;
                         $scope.maxSize = 5;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
-                        $scope.itemsperPage = 2;
+                        $scope.itemsperPage = 15;
 
                     });
                 }
 
-                socket.on('stores.update', function (data) {
-                    $scope.stores=JSON.parse(data);
+                socket.on('brand.update', function (data) {
+                    $scope.brands=JSON.parse(data);
                 });
 
-                $scope.searchStore = function(){
+                $scope.searchBrand = function(){
                 if ($scope.query.length > 0) {
-                    crudService.search('stores',$scope.query,1).then(function (data){
-                        $scope.stores = data.data;
+                    crudService.search('brands',$scope.query,1).then(function (data){
+                        $scope.brands = data.data;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                     });
                 }else{
-                    crudService.paginate('stores',1).then(function (data) {
-                        $scope.stores = data.data;
+                    crudService.paginate('brands',1).then(function (data) {
+                        $scope.brands = data.data;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                     });
@@ -63,15 +64,15 @@
                     
                 };
 
-                $scope.createStore = function(){
-                    //$scope.store.estado = 1;
-                    if ($scope.storeCreateForm.$valid) {
-                        crudService.create($scope.store, 'stores').then(function (data) {
-                           
+                $scope.createBrand = function(){
+                    //$scope.atribut.estado = 1;
+                    if ($scope.brandCreateForm.$valid) {
+                        crudService.create($scope.brand, 'brands').then(function (data) {
+                          
                             if (data['estado'] == true) {
                                 $scope.success = data['nombres'];
                                 alert('grabado correctamente');
-                                $location.path('/stores');
+                                $location.path('/brands');
 
                             } else {
                                 $scope.errors = data;
@@ -81,18 +82,20 @@
                     }
                 }
 
-                $scope.editStore = function(row){
-                    $location.path('/stores/edit/'+row.id);
+
+                $scope.editBrand = function(row){
+                    $location.path('/brands/edit/'+row.id);
                 };
 
-                $scope.updateStore = function(){
-                   if ($scope.storeCreateForm.$valid) {
-                        crudService.update($scope.store,'stores').then(function(data)
+                $scope.updateBrand = function(){
+
+                    if ($scope.brandCreateForm.$valid) {
+                        crudService.update($scope.brand,'brands').then(function(data)
                         {
                             if(data['estado'] == true){
                                 $scope.success = data['nombres'];
                                 alert('editado correctamente');
-                                $location.path('/stores');
+                                $location.path('/brands');
                             }else{
                                 $scope.errors =data;
                             }
@@ -100,20 +103,20 @@
                     }
                 };
 
-                $scope.deleteStore = function(row){
-                    $scope.store = row;
+                $scope.deleteBrand = function(row){
+                    $scope.brand = row;
                 }
 
-                $scope.cancelStore = function(){
-                    $scope.store = {};
+                $scope.cancelBrand = function(){
+                    $scope.brand = {};
                 }
 
-                $scope.destroyStore = function(){
-                    crudService.destroy($scope.store,'stores').then(function(data)
+                $scope.destroyBrand = function(){
+                    crudService.destroy($scope.brand,'brands').then(function(data)
                     {
                         if(data['estado'] == true){
                             $scope.success = data['nombre'];
-                            $scope.store = {};
+                            $scope.brand = {};
                             //alert('hola');
                             $route.reload();
 

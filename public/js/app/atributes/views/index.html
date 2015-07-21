@@ -1,12 +1,12 @@
 <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Stores
+            Atributs
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Stores</li>
+            <li class="active">Atributs</li>
           </ol>
 
           
@@ -18,7 +18,7 @@
         <section class="content">
         <div class="row">
         <div class="col-md-12">
-          <a href="/stores/create" type="submit" class="btn btn-primary pull-left">Add Stores</a> 
+          <a href="/atributes/create" type="submit" class="btn btn-primary pull-left">Add Atribut</a> 
           </div>
         </div>
         </br>
@@ -31,7 +31,7 @@
                 <div class="box-header with-border">
                   <h3 class="box-title">Stores</h3>
                   <div class="box-tools">
-                  <form ng-keyup="searchStore()">
+                  <form ng-keyup="searchAtribut()">
                     <div class="input-group" style="width: 200px;">
                       <input type="text" ng-model="query"  name="table_search" class="form-control input-sm pull-right" placeholder="Search" />
                       <div class="input-group-btn">
@@ -49,42 +49,32 @@
                             </div>
                         </div>
                     </div>
-                  <div class="callout callout-info"  ng-show="store.id >0">
-                    <h4>¿ Estás seguro que deseas eliminar a "{{store.nombreTienda}}" ?</h4>
+                  <div class="callout callout-info"  ng-show="atribut.id > 0">
+                    <h4>¿ Estás seguro que deseas eliminar a "{{atribut.nombre}}" ?</h4>
                     <p>
-                      <button type="button" class="btn btn-danger" ng-click="destroyStore()">Si</button>
-                      <button type="button" class="btn btn-default" ng-click="cancelStore()">No</button>
+                      <button type="button" class="btn btn-danger" ng-click="destroyAtribut()">Si</button>
+                      <button type="button" class="btn btn-default" ng-click="cancelAtribut()">No</button>
                     </p>
                   </div>
                   <table class="table table-bordered">
                     <tr>
                       <th style="width: 10px">#</th>
-                      <th>Nombre Tienda</th>
-                      <th>Razon Social</th>
-                      <th>Ruc</th>
-                      <th>Direccion</th>
-                      <th>Distrito</th>
-                      <th>Provincia</th>
-                      <th>Departamento</th>
-                      <th>Email</th>
-                      <th>Website</th>
+                      <th>Nombre </th>
+                      <th>ShortName</th>
+                      <th>Descripcion</th>
+                    
                       <th style="width: 40px">Editar</th>
                       <th style="width: 40px">Eliminar</th>
                     </tr>
                     
-                    <tr ng-repeat="row in stores">
+                    <tr ng-repeat="row in atributes">
                       <td>{{$index + 1}}</td>
-                      <td>{{row.nombreTienda}}</td>
-                      <td>{{row.razonSocial}}</td>
-                      <td>{{row.ruc}}</td>
-                      <td>{{row.direccion}}</td>
-                      <td>{{row.distrito}}</td>
-                      <td>{{row.provincia}}</td>
-                      <td>{{row.departamento}}</td>
-                      <td>{{row.email}}</td>
-                      <td>{{row.website}}</td>
-                      <td><a ng-click="editStore(row)" class="btn btn-warning btn-xs">Editar</a></td>
-                      <td><a ng-click="deleteStore(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
+                      <td>{{row.nombre}}</td>
+                      <td>{{row.shortname}}</td>
+                      <td>{{row.descripcion}}</td>
+                      
+                      <td><a ng-click="editAtribut(row)" class="btn btn-warning btn-xs">Editar</a></td>
+                      <td><a ng-click="deleteAtribut(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
                       
                     </tr>
                     
