@@ -15,7 +15,8 @@ class CustomersController extends Controller {
     public function __construct(CustomerRepo $customerRepo)
     {
         $this->customerRepo = $customerRepo;
-        $this->middleware('auth');
+        $this->middleware('auth:admin');
+        //$this->middleware('role:admin');
     }
 
     public function index()

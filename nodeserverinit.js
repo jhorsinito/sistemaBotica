@@ -23,8 +23,7 @@ const client =  redis.createClient();
 io.listen(server).on('connection', function(client) {
     const redisClient = redis.createClient();
 
-    redisClient.subscribe('hotel.update','floor.update','room_type.update', 'room.update','person.update'
-                        ,'user.update','customer.update','employee.update');
+    redisClient.subscribe('hotel.update','*');
 
     console.log("Redis server running.....");
 

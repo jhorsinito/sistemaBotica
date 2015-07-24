@@ -20,6 +20,7 @@
     "redis": "^0.12.1",
     "socket.io": "^1.2.0",
     "laravel-elixir": "^2.0.0",
-    "bootstrap-sass": "^3.0.0"
+    "bootstrap-sass": "^3.0.0",
+      "ioredis" : "*"
   }
 }

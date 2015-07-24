@@ -16,6 +16,16 @@ Route::get('/', 'Layout\LayoutController@index');
 Route::get('/login', function () {
     return view('login');
 });
+
+Route::get('/test', function() {
+    event(new \Salesfly\Events\SomeEvent());
+    return 'event fired';
+});
+
+Route::get('/vista-redis', function() {
+   return view('test');
+});
+
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
@@ -24,6 +34,20 @@ Route::get('auth/logout', 'Auth\AuthController@getLogout');
 // Registration routes...
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
+Route::get('users/create',['as'=>'user_create','uses'=>'Auth\AuthController@indexU']);
+Route::get('users/edit/{id?}', ['as' => 'user_edit', 'uses' => 'Auth\AuthController@indexU']);
+Route::get('users/form-create',['as'=>'user_form_create','uses'=>'Auth\AuthController@form_create']);
+Route::get('users/form-edit',['as' => 'user_form_edit','uses' => 'Auth\AuthController@form_edit']);
+Route::get('users',['as'=>'user','uses'=>'Auth\AuthController@indexU']);
+Route::get('api/users/all',['as'=>'user_all', 'uses'=>'Auth\AuthController@all']);
+Route::get('api/users/paginate/',['as' => 'user_paginate', 'uses' => 'Auth\AuthController@paginate']);
+Route::post('api/users/create',['as'=>'user_create', 'uses'=>'Auth\AuthController@postRegister']);
+Route::put('api/users/edit',['as'=>'user_edit', 'uses'=>'Auth\AuthController@edit']);
+Route::post('api/users/destroy',['as'=>'user_destroy', 'uses'=>'Auth\AuthController@destroy']);
+Route::get('api/users/search/{q?}',['as'=>'user_search', 'uses'=>'Auth\AuthController@search']);
+Route::get('api/users/find/{id}',['as'=>'user_find', 'uses'=>'Auth\AuthController@find']);
+Route::get('api/users/stores',['as' => 'user_stores_select','uses' => 'Auth\AuthController@store_select']);
+//END
 
 //PERSONS ROUTES
 Route::get('persons',['as'=>'person','uses'=>'PersonsController@index']);
@@ -40,7 +64,7 @@ Route::get('api/persons/search/{q?}',['as'=>'person_search', 'uses'=>'PersonsCon
 Route::get('api/persons/find/{id}',['as'=>'person_find', 'uses'=>'PersonsController@find']);
 //END PERSONS ROUTES
 
-//PERSONS ROUTES
+//CUSTOMERS ROUTES
 Route::get('customers',['as'=>'person','uses'=>'CustomersController@index']);
 Route::get('customers/create',['as'=>'person_create','uses'=>'CustomersController@index']);
 Route::get('customers/edit/{id?}', ['as' => 'person_edit', 'uses' => 'CustomersController@index']);
@@ -53,4 +77,4 @@ Route::put('api/customers/edit',['as'=>'person_edit', 'uses'=>'CustomersControll
 Route::post('api/customers/destroy',['as'=>'person_destroy', 'uses'=>'CustomersController@destroy']);
 Route::get('api/customers/search/{q?}',['as'=>'person_search', 'uses'=>'CustomersController@search']);
 Route::get('api/customers/find/{id}',['as'=>'person_find', 'uses'=>'CustomersController@find']);
-//END PERSONS ROUTES
+//END CUSTOMERS ROUTES

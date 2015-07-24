@@ -30,8 +30,12 @@
                     .success(function (data)
                     {
                         deferred.resolve(data);
-                    }
-                );
+                    })
+                //    .error(function (data) //add for user , error send by 422 status
+                //    {
+                //        deferred.resolve(data);
+                //    })
+                ;
                 return deferred.promise;
             }
 
@@ -80,6 +84,17 @@
                 return deferred.promise;
             }
 
+            function select(uri,select)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/'+select)
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
+
             return {
                 all: all,
                 paginate: paginate,
@@ -87,7 +102,8 @@
                 byId:byId,
                 update:update,
                 destroy:destroy,
-                search: search
+                search: search,
+                select:select
             }
         }])
         .factory('socketService', function ($rootScope) {
