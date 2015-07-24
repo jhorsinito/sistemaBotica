@@ -5,7 +5,7 @@ var server =    http.createServer(app);
 var app = express();
 
 app.get('/', function(req, res){
-  res.send('hello world');
+  res.send('hola mundo');
 });
 
 var server = app.listen(3001, function(){

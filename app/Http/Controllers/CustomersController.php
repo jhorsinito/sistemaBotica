@@ -15,12 +15,13 @@ class CustomersController extends Controller {
     public function __construct(CustomerRepo $customerRepo)
     {
         $this->customerRepo = $customerRepo;
-        $this->middleware('auth:admin');
+        $this->middleware('auth');
         //$this->middleware('role:admin');
     }
 
     public function index()
     {
+
         return View('customers.index');
     }
 

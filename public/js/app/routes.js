@@ -1,7 +1,59 @@
 (function(){
     angular.module('routes',[])
         .config(['$routeProvider','$locationProvider', function ($routeProvider,$locationProvider) {
-            $routeProvider                
+            $routeProvider
+            // ------------------------------------------------------
+            .when('/atributes', {
+                    templateUrl: '/js/app/atributes/views/index.html',
+                    controller: 'AtributController'
+                })
+                .when('/atributes/create',{
+                    templateUrl:'/atributes/form-create',
+                    controller: 'AtributController'
+                })
+                .when('/atributes/edit/:id',{
+                    templateUrl:'/atributes/form-edit',
+                    controller: 'AtributController'
+                })  
+           // ------------------------------------------------------
+            .when('/types', {
+                    templateUrl: '/js/app/types/views/index.html',
+                    controller: 'TypeController'
+                })
+                .when('/types/create',{
+                    templateUrl:'/types/form-create',
+                    controller: 'TypeController'
+                })
+                .when('/types/edit/:id',{
+                    templateUrl:'/types/form-edit',
+                    controller: 'TypeController'
+                })    
+
+                //-------------------------------------------------------------        
+             .when('/brands', {
+                    templateUrl: '/js/app/brands/views/index.html',
+                    controller: 'BrandController'
+                })
+                .when('/brands/create',{
+                    templateUrl:'/brands/form-create',
+                    controller: 'BrandController'
+                })
+                .when('/brands/edit/:id',{
+                    templateUrl:'/brands/form-edit',
+                    controller: 'BrandController'
+                })            
+                .when('/stores', {
+                    templateUrl: '/js/app/stores/views/index.html',
+                    controller: 'StoreController'
+                })
+                .when('/stores/create',{
+                    templateUrl:'/stores/form-create',
+                    controller: 'StoreController'
+                })
+                .when('/stores/edit/:id',{
+                    templateUrl:'/stores/form-edit',
+                    controller: 'StoreController'
+                })                
                 .when('/persons', {
                     templateUrl: '/js/app/persons/views/index.html',
                     controller: 'PersonController'

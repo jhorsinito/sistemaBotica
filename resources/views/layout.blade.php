@@ -372,7 +372,14 @@
     <script src="/js/app/persons/controllers.js"></script>
     <script src="/js/app/customers/app.js"></script>
     <script src="/js/app/customers/controllers.js"></script>
-
+    <script src="/js/app/stores/app.js"></script>
+    <script src="/js/app/stores/controllers.js"></script>
+    <script src="/js/app/brands/app.js"></script>
+    <script src="/js/app/brands/controllers.js"></script>
+    <script src="/js/app/atributes/app.js"></script>
+    <script src="/js/app/atributes/controllers.js"></script>
+    <script src="/js/app/types/app.js"></script>
+    <script src="/js/app/types/controllers.js"></script>
     <!-- endinject -->
     @section('js-customize')
     @show
