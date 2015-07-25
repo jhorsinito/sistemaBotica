@@ -15,6 +15,32 @@
                     templateUrl:'/atributes/form-edit',
                     controller: 'AtributController'
                 })  
+                //----------------------------------------------------
+                  .when('/materials', {
+                    templateUrl: '/js/app/materials/views/index.html',
+                    controller: 'MaterialController'
+                })
+                .when('/materials/create',{
+                    templateUrl:'/materials/form-create',
+                    controller: 'MaterialController'
+                })
+                .when('/materials/edit/:id',{
+                    templateUrl:'/materials/form-edit',
+                    controller: 'MaterialController'
+                }) 
+                //---------------------------------------------------
+                .when('/stations', {
+                    templateUrl: '/js/app/stations/views/index.html',
+                    controller: 'StationController'
+                })
+                .when('/stations/create',{
+                    templateUrl:'/stations/form-create',
+                    controller: 'StationController'
+                })
+                .when('/stations/edit/:id',{
+                    templateUrl:'/stations/form-edit',
+                    controller: 'StationController'
+                }) 
            // ------------------------------------------------------
             .when('/types', {
                     templateUrl: '/js/app/types/views/index.html',
@@ -41,7 +67,22 @@
                 .when('/brands/edit/:id',{
                     templateUrl:'/brands/form-edit',
                     controller: 'BrandController'
-                })            
+                })  
+            //----------------------------------------------------------------------
+            .when('/warehouses', {
+                    templateUrl: '/js/app/warehouses/views/index.html',
+                    controller: 'WarehouseController'
+                })
+                .when('/warehouses/create',{
+                    templateUrl:'/warehouses/form-create',
+                    controller: 'WarehouseController'
+                })
+                
+                .when('/warehouses/edit/:id',{
+                    templateUrl:'/warehouses/form-edit',
+                    controller: 'WarehouseController'
+                }) 
+                //-----------------------------------------------          
                 .when('/stores', {
                     templateUrl: '/js/app/stores/views/index.html',
                     controller: 'StoreController'

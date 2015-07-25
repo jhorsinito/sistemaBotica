@@ -17,7 +17,7 @@
 
           <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Editar Marcas</h3>
+                  <h3 class="box-title">Agregar Marcas</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form name="brandCreateForm" role="form" novalidate>

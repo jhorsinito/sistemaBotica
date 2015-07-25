@@ -15,5 +15,9 @@ class Store extends \Eloquent {
                     'departamento',
                     'email',
                     'website'];
+    public function warehouses()
+    {
+        return $this->hasMany('warehouse');
+    }
 
 }

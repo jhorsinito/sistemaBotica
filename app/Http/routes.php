@@ -72,6 +72,7 @@ Route::put('api/stores/edit',['as'=>'store_edit', 'uses'=>'StoresController@edit
 Route::post('api/stores/destroy',['as'=>'store_destroy', 'uses'=>'StoresController@destroy']);
 Route::get('api/stores/search/{q?}',['as'=>'store_search', 'uses'=>'StoresController@search']);
 Route::get('api/stores/find/{id}',['as'=>'store_find', 'uses'=>'StoresController@find']);
+Route::get('api/stores/select','StoresController@selectStores');
 //route::controller('/', 'Layout\proban@prob');
 Route::get('brands',['as'=>'brand','uses'=>'BrandsController@index']);
  Route::get('brands/create',['as'=>'brand_create','uses'=>'BrandsController@index']);
@@ -117,5 +118,63 @@ Route::post('api/atributes/destroy',['as'=>'atribut_destroy', 'uses'=>'Atributes
 Route::get('api/atributes/search/{q?}',['as'=>'atribut_search', 'uses'=>'AtributesController@search']);
 Route::get('api/atributes/find/{id}',['as'=>'atribut_find', 'uses'=>'AtributesController@find']);
 
-
+Route::get('/joder','WarehousesController@all');
+//Route::controller('api/warehouses/','WarehousesController');
 Route::get('api/stores/','AtributesController@selest');
+Route::get('api/praticando/{id}','alumController@find');
+
+Route::get('warehouses',['as'=>'warehouse','uses'=>'WarehousesController@index']);
+Route::get('warehouses/create',['as'=>'warehouse_create','uses'=>'WarehousesController@index']);
+Route::get('warehouses/edit/{id?}', ['as' => 'atribut_edit', 'uses' => 'WarehousesController@index']);
+Route::get('warehouses/form-create',['as'=>'atribut_form_create','uses'=>'WarehousesController@form_create']);
+Route::get('warehouses/form-edit',['as'=>'atribut_form_edit','uses'=>'WarehousesController@form_edit']);
+Route::get('api/warehouses/all',['as'=>'atribut_all', 'uses'=>'WarehousesController@all']);
+Route::get('api/warehouses/paginate/',['as' => 'atribut_paginate', 'uses' => 'WarehousesController@paginatep']);
+Route::post('api/warehouses/create',['as'=>'atribut_create', 'uses'=>'WarehousesController@create']);
+Route::put('api/warehouses/edit',['as'=>'atribut_edit', 'uses'=>'WarehousesController@edit']);
+Route::post('api/warehouses/destroy',['as'=>'atribut_destroy', 'uses'=>'WarehousesController@destroy']);
+Route::get('api/warehouses/search/{q?}',['as'=>'atribut_search', 'uses'=>'WarehousesController@search']);
+Route::get('api/warehouses/find/{id}',['as'=>'atribut_find', 'uses'=>'WarehousesController@find']);
+
+//Route::get('api/stores/select','WarehousesController@select');
+
+Route::get('stations',['as'=>'warehouse','uses'=>'StationsController@index']);
+Route::get('stations/create',['as'=>'warehouse_create','uses'=>'StationsController@index']);
+Route::get('stations/edit/{id?}', ['as' => 'atribut_edit', 'uses' => 'StationsController@index']);
+Route::get('stations/form-create',['as'=>'atribut_form_create','uses'=>'StationsController@form_create']);
+Route::get('stations/form-edit',['as'=>'atribut_form_edit','uses'=>'StationsController@form_edit']);
+Route::get('api/stations/all',['as'=>'atribut_all', 'uses'=>'StationsController@all']);
+Route::get('api/stations/paginate/',['as' => 'atribut_paginate', 'uses' => 'StationsController@paginatep']);
+Route::post('api/stations/create',['as'=>'atribut_create', 'uses'=>'StationsController@create']);
+Route::put('api/stations/edit',['as'=>'atribut_edit', 'uses'=>'StationsController@edit']);
+Route::post('api/stations/destroy',['as'=>'atribut_destroy', 'uses'=>'StationsController@destroy']);
+Route::get('api/stations/search/{q?}',['as'=>'atribut_search', 'uses'=>'StationsController@search']);
+Route::get('api/stations/find/{id}',['as'=>'atribut_find', 'uses'=>'StationsController@find']);
+
+
+Route::get('materials',['as'=>'warehouse','uses'=>'MaterialsController@index']);
+Route::get('materials/create',['as'=>'warehouse_create','uses'=>'MaterialsController@index']);
+Route::get('materials/edit/{id?}', ['as' => 'atribut_edit', 'uses' => 'MaterialsController@index']);
+Route::get('materials/form-create',['as'=>'atribut_form_create','uses'=>'MaterialsController@form_create']);
+Route::get('materials/form-edit',['as'=>'atribut_form_edit','uses'=>'MaterialsController@form_edit']);
+Route::get('api/materials/all',['as'=>'atribut_all', 'uses'=>'MaterialsController@all']);
+Route::get('api/materials/paginate/',['as' => 'atribut_paginate', 'uses' => 'MaterialsController@paginatep']);
+Route::post('api/materials/create',['as'=>'atribut_create', 'uses'=>'MaterialsController@create']);
+Route::put('api/materials/edit',['as'=>'atribut_edit', 'uses'=>'MaterialsController@edit']);
+Route::post('api/materials/destroy',['as'=>'atribut_destroy', 'uses'=>'MaterialsController@destroy']);
+Route::get('api/materials/search/{q?}',['as'=>'atribut_search', 'uses'=>'MaterialsController@search']);
+Route::get('api/materials/find/{id}',['as'=>'atribut_find', 'uses'=>'MaterialsController@find']);
+
+
+
+// Route::get('aprende',function(){
+// 	echo Form::open(array('url'=>'nombre','method'=>'post'));
+// 	echo Form::label('nombre','Tu nombre');
+// 	echo Form::text('nom');
+// 	echo Form::submit('Enviar');
+// 	echo Form::close();
+// });
+// Route::post('nombre',function(){
+// 	$nombre = Input::get('nom');
+// 	return "tu nombre es: ".$nombre;
+// });

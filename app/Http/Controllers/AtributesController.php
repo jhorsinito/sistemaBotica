@@ -19,7 +19,8 @@ class AtributesController extends Controller {
         //$this->middleware('auth');
     }
     public function selest(){
-        $stores = Store::all();
+        //$stores = Store::all();
+        $stores = alumno::all();
         return response()->json($stores);
     }
 

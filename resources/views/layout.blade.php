@@ -398,8 +398,7 @@
     <script src="/js/app/servicesglobal.js"></script>
     <script src="/js/app/persons/app.js"></script>
     <script src="/js/app/persons/controllers.js"></script>
-    <script src="/js/app/customers/app.js"></script>
-    <script src="/js/app/customers/controllers.js"></script>
+
     <script src="/js/app/stores/app.js"></script>
     <script src="/js/app/stores/controllers.js"></script>
     <script src="/js/app/brands/app.js"></script>

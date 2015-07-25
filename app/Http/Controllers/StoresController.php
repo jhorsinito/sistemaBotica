@@ -24,13 +24,13 @@ class StoresController extends Controller {
 
     public function all()
     {
-        $stores = $this->storeRepo->paginate(2);
+        $stores = $this->storeRepo->paginate(15);
         return response()->json($stores);
         //var_dump($stores);
     }
 
     public function paginatep(){
-        $stores = $this->storeRepo->paginate(2);
+        $stores = $this->storeRepo->paginate(15);
         return response()->json($stores);
     }
 
@@ -90,6 +90,11 @@ class StoresController extends Controller {
         //$q = Input::get('q');
         $stores = $this->storeRepo->search($q);
 
+        return response()->json($stores);
+    }
+
+    public function selectStores(){
+        $stores = $this->storeRepo->all();
         return response()->json($stores);
     }
 }

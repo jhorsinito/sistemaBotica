@@ -1,3 +1,5 @@
+
+
 (function(){
     angular.module('crud.services',[])
         .factory('crudService',['$http', '$q','$location', function($http, $q,$location){
@@ -80,6 +82,16 @@
                 return deferred.promise;
             }
 
+            function select(uri){
+                var deferred = $q.defer();
+                var result = $http.get('/api/'+uri+'/select');
+
+                result.success(function(data){
+                        deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
+
             return {
                 all: all,
                 paginate: paginate,
@@ -87,7 +99,8 @@
                 byId:byId,
                 update:update,
                 destroy:destroy,
-                search: search
+                search: search,
+                select: select
             }
         }])
         .factory('socketService', function ($rootScope) {

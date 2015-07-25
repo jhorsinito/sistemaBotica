@@ -16,4 +16,10 @@ class StoreRepo extends BaseRepo{
                     ->paginate(15);
         return $stores;
     }
+    public function all(){
+        //$stores = $this->storeRepo->all();
+        //return response()->json($stores);
+        $stores = Store::all();
+        return $stores;
+    }
 } 
