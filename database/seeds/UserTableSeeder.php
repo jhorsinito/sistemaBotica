@@ -22,6 +22,14 @@ class UserTableSeeder extends Seeder
                 'store_id' => 1
             ]);
 
+            DB::table('users')->insert([
+                'name' => 'Melvin Alexis Diaz Rojas',
+                'email' => 'mdiazr@honeysoft.pe',
+                'password' => bcrypt('123456'),
+                'role_id' => 1,
+                'store_id' => 1
+            ]);
+
 
 
     }

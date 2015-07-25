@@ -28,7 +28,8 @@
                                               <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
                                               </ul>
                                             </div>
-                   
+                   <div class="row">
+                     <div class="col-md-6">
                     <div class="form-group" ng-class="{true: 'has-error'}[ warehouseCreateForm.nombre.$error.required && warehouseCreateForm.$submitted || warehouseCreateForm.nombre.$dirty && warehouseCreateForm.nombre.$invalid]">
                       <label for="nombre">Nombre</label>
                       <input type="text" class="form-control" name="nombre" placeholder="Nombre" ng-model="warehouse.nombre" required>
@@ -43,27 +44,27 @@
                         <span ng-show="warehouseCreateForm.shortname.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>
                     </div>
-                    <div class="form-group" >
-                      <label for="descripcion">Descripcion</label>
-                      <textarea type="descripcion" class="form-control" name="descripcion" placeholder="Decripcion"
-                      ng-model="warehouse.descripcion" rows="4" cols="50"></textarea>
-                     </div>
+                    </div>
+                    <div class="col-md-6">
                      <div class="form-group" >
                       <label for="descripcion">Capacidad</label>
-                      <textarea type="descripcion" class="form-control" name="capacidad" placeholder="Capcidad"
-                      ng-model="warehouse.capacidad" rows="4" cols="50"></textarea>
+                      <input type="text" class="form-control" name="capacidad" placeholder="Capcidad"
+                      ng-model="warehouse.capacidad">
                      </div>
-                     <div class="form-group" >
-                      <label for="descripcion">Tienda</label>
-                      <textarea type="descripcion" class="form-control" name="capacidad" placeholder="Tienda"
-                      ng-model="warehouse.store_id" rows="4" cols="50"></textarea>
-                     </div>
+                     
                      <div class="form-group" >
                        <label for="Tienda">Tienda</label>
                        <select class="form-control" name="" ng-model="warehouse.store_id" ng-options="item.id as item.nombreTienda for item in stores">
                        </select>
                      </div>
-
+                     </div>
+                     <div class="col-md-12">
+                      <div class="form-group" >
+                      <label for="descripcion">Descripcion</label>
+                      <textarea type="descripcion" class="form-control" name="descripcion" placeholder="Decripcion"
+                      ng-model="warehouse.descripcion" rows="4" cols="50"></textarea>
+                     </div>
+                     </div>
                 </div><!-- /.box-body -->
 
                   <div class="box-footer">

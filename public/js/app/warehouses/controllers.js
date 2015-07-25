@@ -34,6 +34,10 @@
                     crudService.byId(id,'warehouses').then(function (data) {
                         $scope.warehouse = data;
                     });
+                    crudService.select('stores','select').then(function(data){
+                        $scope.stores = data;
+
+                    })
                 }else{
                     crudService.paginate('warehouses',1).then(function (data) {
                         $scope.warehouses = data.data;
@@ -43,7 +47,7 @@
                         $scope.itemsperPage = 15;
 
                     });
-                    crudService.select('stores',1).then(function(data){
+                    crudService.select('stores','select').then(function(data){
                         $scope.stores = data;
                         //alert($scope.stores);
                         //$log.log($scope.stores);
