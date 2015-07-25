@@ -28,11 +28,19 @@
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Escibre tus credenciales para iniciar sesión</p>
-        <?php if(count($errors)) print_r($errors); ?>
+        @if($errors->has())
+         <div class="callout callout-warning">
+            @foreach($errors->all() as $error)
+                 <p> {{$error}}</p>
+            @endforeach
+            </div>
+         @endif
+
+
         <form action="/auth/login" method="post">
         {!! csrf_field() !!}
           <div class="form-group has-feedback">
-            <input type="email" class="form-control" placeholder="Email" name="email"/>
+            <input type="email" class="form-control" placeholder="Email" name="email" value="{{old('email')}}"/>
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">

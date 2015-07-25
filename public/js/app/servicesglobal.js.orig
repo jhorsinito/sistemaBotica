@@ -86,6 +86,15 @@
                 return deferred.promise;
             }
 
+<<<<<<< HEAD
+            function select(uri){
+                var deferred = $q.defer();
+                var result = $http.get('/api/'+uri+'/select');
+
+                result.success(function(data){
+                        deferred.resolve(data);
+                });
+=======
             function select(uri,select)
             {
                 var deferred = $q.defer();
@@ -94,6 +103,7 @@
                         deferred.resolve(data);
                     });
 
+>>>>>>> 941928b9a05e8df97fa78ebcb53151a58b1e07f5
                 return deferred.promise;
             }
 
@@ -105,7 +115,11 @@
                 update:update,
                 destroy:destroy,
                 search: search,
+<<<<<<< HEAD
+                select: select
+=======
                 select:select
+>>>>>>> 941928b9a05e8df97fa78ebcb53151a58b1e07f5
             }
         }])
         .factory('socketService', function ($rootScope) {

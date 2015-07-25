@@ -29,5 +29,6 @@ class Kernel extends HttpKernel
         'auth' => \Salesfly\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \Salesfly\Http\Middleware\RedirectIfAuthenticated::class,
+        'role' => \Salesfly\Http\Middleware\RoleMiddleware::class
     ];
 }

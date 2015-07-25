@@ -32,7 +32,7 @@ class Authenticate
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next,$role = null)
     {
         if ($this->auth->guest()) {
             if ($request->ajax()) {
@@ -41,7 +41,15 @@ class Authenticate
                 return redirect()->guest('auth/login');
             }
         }
-
-        return $next($request);
+        if($role === null) return $next($request);
+        if($role === 'admin') {
+            return $next($request);
+        }else{
+            if ($request->ajax()) {
+                return response('Unauthorized.', 401);
+            } else {
+                return response('No tienes permisos para ejecutar esta acción',401);
+            }
+        } ;
     }
 }

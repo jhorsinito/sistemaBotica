@@ -18,18 +18,7 @@
     <link href="/vendor/adminlte/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
     <!-- AdminLTE fonts OpenSans-->
     <link href="/css/fonts.css" rel="stylesheet" type="text/css" />
-    <!-- iCheck -->
-    <link href="/vendor/adminlte/plugins/iCheck/flat/blue.css" rel="stylesheet" type="text/css" />
-    <!-- Morris chart -->
-    <link href="/vendor/adminlte/plugins/morris/morris.css" rel="stylesheet" type="text/css" />
-    <!-- jvectormap -->
-    <link href="/vendor/adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
-    <!-- Date Picker -->
-    <link href="/vendor/adminlte/plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
-    <!-- Daterange picker -->
-    <link href="/vendor/adminlte/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
-    <!-- bootstrap wysihtml5 - text editor -->
-    <link href="/vendor/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+
 
      <!-- <link href="/vendor/angular-bootstrap/ui-bootstrap-csp.css" rel="stylesheet" type="text/css" /> -->
 
@@ -165,7 +154,6 @@
       <div class="content-wrapper">
             @yield('content')
         </div>
-<input type="text" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask />
   <!-- END Content Wrapper. Contains page content -->
 
 
@@ -354,30 +342,14 @@
     </script>
     <!-- Bootstrap 3.3.2 JS -->
     <script src="/vendor/adminlte/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-    <!-- Morris.js charts -->
-    <script src="/vendor/raphael/raphael-min.js"></script>
-    <script src="/vendor/adminlte/plugins/morris/morris.min.js" type="text/javascript"></script>
-    <!-- Sparkline -->
-    <script src="/vendor/adminlte/plugins/sparkline/jquery.sparkline.min.js" type="text/javascript"></script>
-     <!-- jvectormap -->
-    <script src="/vendor/adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js" type="text/javascript"></script>
-    <script src="/vendor/adminlte/plugins/jvectormap/jquery-jvectormap-world-mill-en.js" type="text/javascript"></script>
-    <!-- jQuery Knob Chart -->
-    <script src="/vendor/adminlte/plugins/knob/jquery.knob.js" type="text/javascript"></script>
-    <!-- daterang/epicker -->
-    <script src="vendor/moment/min/moment.min.js" type="text/javascript"></script>
-    <script src="/vendor/adminlte/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
-    <!-- datepicker -->
-    <script src="/vendor/adminlte/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
-    <!-- Bootstrap WYSIHTML5 -->
-    <script src="/vendor/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
+
     <!-- Slimscroll -->
     <script src="/vendor/adminlte/plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
     <!-- FastClick -->
     <script src="/vendor/adminlte/plugins/fastclick/fastclick.min.js" type="text/javascript"></script>
     <!-- AdminLTE App -->
     <script src="/vendor/adminlte/dist/js/app.min.js" type="text/javascript"></script>
-    
+
     <!-- AdminLTE for demo purposes -->
     <script src="/vendor/adminlte/dist/js/demo.js" type="text/javascript"></script>
 

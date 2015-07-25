@@ -3,6 +3,7 @@
 #add for me
 /public/node_modules
 /public/vendor
+/.idea
 # .add
 Homestead.yaml
 .env
