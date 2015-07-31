@@ -55,16 +55,17 @@
                       <input type="text" class="form-control" name="empresa" placeholder="Codigo"
                       ng-model="employee.codigo">
                      </div>
-                     <div class="form-group" ng-class="{true: 'has-error'}[ employeeCreateForm.fechanac.$error.required && employeeCreateForm.$submitted || employeeCreateForm.fechanac.$dirty && employeeCreateForm.fechanac.$invalid]">
+                   
+                      <div class="form-group" ng-class="{true: 'has-error'}[ employeeCreateForm.fechanac.$error.required && employeeCreateForm.$submitted || employeeCreateForm.fechanac.$dirty && employeeCreateForm.fechanac.$invalid]">
                     <label for="fechanac">Fecha de Nacimiento</label>
                                         <div class="input-group">
                                           <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                           </div>
-                      <input type="datetime"  class="form-control" name="fechanac" ng-model="employee.fechanac">
+                      <input type="date" class="form-control" name="fechanac" ng-model="employee.fechanac">
                       <label ng-show="employeeCreateForm.$submitted || employeeCreateForm.fechanac.$dirty && employeeCreateForm.fechanac.$invalid">
-                                              <span ng-show="employeeCreateForm.fechanac.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
-                                            </label>
+                      <span ng-show="employeeCreateForm.fechanac.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
+                      </label>
                       </div>
                      </div>
                     <div class="form-group" >

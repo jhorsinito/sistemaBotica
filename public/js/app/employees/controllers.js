@@ -3,11 +3,17 @@
         .controller('EmployeeController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log',
             function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log){
                 $scope.employees = [];
-                $scope.employee = {};
+                $scope.employee;
                 $scope.errors = null;
-                $scope.success;
+                $scope.close;
+                $scope.codigo;
+                $scope.mostraragregar;
+                $scope.mostrarver;
+                $scope.estado=false;
+                $scope.ngenabled=true;
+                $scope.employeecost={};
+                $scope.employeecosts;
                 $scope.query = '';
-
                 $scope.toggle = function () {
                     $scope.show = !$scope.show;
                 };
@@ -29,9 +35,18 @@
 
                 if(id)
                 {
+                    
                     crudService.byId(id,'employees').then(function (data) {
+                        $log.log(data);
+                        if(data.fechanac != null) {
+                            if (data.fechanac.length > 0) {
+                                data.fechanac = new Date(data.fechanac);
+                            }
+                        }
+
                         $scope.employee = data;
                     });
+                    
                 }else{
                     crudService.paginate('employees',1).then(function (data) {
                         $scope.employees = data.data;
@@ -43,10 +58,34 @@
                     });
                 }
 
-                socket.on('employee.update', function (data) {
+                socket.on('employees.update', function (data) {
                     $scope.employees=JSON.parse(data);
                 });
+                 
+                  $scope.editCostos=function(row){
+                     //  alert(id);
+                       crudService.byforeingKey('employeecosts','mostrarCostos',row.id).then(function(data){
+                        $scope.employeecost = data;
+                        $scope.totalItems=data.total;
+                        //alert($scope.employeecost.employee_id);
+                         $scope.estado=true;
+                         $scope.mostrarShow=row.nombres;
+                        if($scope.employeecost.employee_id>0){
+                        //alert("si tiene");
+                            $scope.mostraragregar=false;
+                            $scope.mostrarver=true;
+                       }else{
+                            $scope.mostraragregar=true;
+                            $scope.mostrarver=false;
+                            
+                            $scope.employeecost.employee_id=row.id;
+                            $scope.codigo=row.id;
+                           
+                       }
+                    
+                    });
 
+                  }
                 $scope.searchEmployee = function(){
                 if ($scope.query.length > 0) {
                     crudService.search('employees',$scope.query,1).then(function (data){
@@ -61,14 +100,15 @@
                         $scope.currentPage = data.current_page;
                     });
                 }
+               
                     
                 };
 
                 $scope.createEmployee = function(){
-                    //$scope.atribut.estado = 1;
+                    //$scope.employee.estado = 1;
                     if ($scope.employeeCreateForm.$valid) {
                         crudService.create($scope.employee, 'employees').then(function (data) {
-                          
+                           
                             if (data['estado'] == true) {
                                 $scope.success = data['nombres'];
                                 alert('grabado correctamente');
@@ -81,15 +121,14 @@
                         });
                     }
                 }
-
+               
 
                 $scope.editEmployee = function(row){
                     $location.path('/employees/edit/'+row.id);
                 };
 
                 $scope.updateEmployee = function(){
-
-                    if ($scope.employeeCreateForm.$valid) {
+                   if ($scope.employeeCreateForm.$valid) {
                         crudService.update($scope.employee,'employees').then(function(data)
                         {
                             if(data['estado'] == true){
@@ -114,16 +153,75 @@
                 $scope.destroyEmployee = function(){
                     crudService.destroy($scope.employee,'employees').then(function(data)
                     {
-                        if(data['estado'] == true){
+                         if(data['estado'] == true){
                             $scope.success = data['nombre'];
                             $scope.employee = {};
-                            //alert('hola');
+                            
                             $route.reload();
 
                         }else{
                             $scope.errors = data;
                         }
                     });
+                }
+               
+                $scope.variable2=function(){
+                    $scope.estado=false;
+                }
+
+                  $scope.createEmployeecost = function(){
+                    //$scope.employeecost.estado = 1;
+
+
+                    if ($scope.employeecostCreateForm.$valid) {
+                        crudService.create($scope.employeecost, 'employeecosts').then(function (data) {
+                           
+                            if (data['estado'] == true) {
+                                $scope.success = data['nombres'];
+                                alert('grabado correctamente');
+                                $scope.close='modal';
+                                 $scope.estado=false;
+                                $scope.employeecost={};
+                            } else {
+                                $scope.errors = data;
+
+                            }
+                        });
+                    }
+                }
+                  $scope.updateEmployeecost = function(){
+                   if ($scope.employeecostCreateForm.$valid) {
+                        crudService.update($scope.employeecost,'employeecosts').then(function(data)
+                        {
+                            if(data['estado'] == true){
+                                $scope.success = data['nombres'];
+                                alert('editado correctamente');
+                                //$location.path('/employeecosts');
+                                 $scope.estado=false;
+                            }else{
+                                $scope.errors =data;
+                            }
+                        });
+                    }
+                };
+                $scope.destroyEmployeecost = function(){
+                    crudService.destroy($scope.employeecost,'employeecosts').then(function(data)
+                    {
+                         if(data['estado'] == true){
+                            $scope.success = data['nombre'];
+                            $scope.employeecost = {};
+                            //$route.reload();
+                             $scope.estado=false;
+                        }else{
+                            $scope.errors = data;
+                        }
+                    });
+                }
+                $scope.activarDesac=function(){
+                    $scope.ngenabled=false;
+                }
+                $scope.desacAct=function(){
+                    $scope.ngenabled=true;
                 }
             }]);
 })();

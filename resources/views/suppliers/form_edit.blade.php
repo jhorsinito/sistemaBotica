@@ -70,17 +70,19 @@
                       <input type="text" class="form-control" name="empresa" placeholder="Numero Cuenta"
                       ng-model="supplier.numcuenta">
                      </div>
-                     <div class="form-group" ng-class="{true: 'has-error'}[ supplierCreateForm.fechanac.$error.required && supplierCreateForm.$submitted || supplierCreateForm.fechanac.$dirty && supplierCreateForm.fechanac.$invalid]">
+                  
+                       <div class="form-group" ng-class="{true: 'has-error'}[ supplierCreateForm.fechanac.$error.required && supplierCreateForm.$submitted || supplierCreateForm.fechanac.$dirty && supplierCreateForm.fechanac.$invalid]">
                     <label for="fechanac">Fecha de Nacimiento</label>
                                         <div class="input-group">
                                           <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                           </div>
-                      <input type="datetime" class="form-control" name="fechanac" ng-model="supplier.fechanac">
+                      <input type="date" class="form-control" name="fechanac" ng-model="supplier.fechanac">
                       <label ng-show="supplierCreateForm.$submitted || supplierCreateForm.fechanac.$dirty && supplierCreateForm.fechanac.$invalid">
-                                              <span ng-show="supplierCreateForm.fechanac.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
-                                            </label>
-                      </div></div>
+                      <span ng-show="supplierCreateForm.fechanac.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
+                      </label>
+                      </div>
+                     </div>
                     <div class="form-group" >
                       <label for="ruc">Telefono Fijo</label>
                       <input type="text" class="form-control" name="ruc" placeholder="ruc"

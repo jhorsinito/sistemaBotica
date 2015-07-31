@@ -64,6 +64,14 @@
                 );
                 return deferred.promise;
             }
+            function byforeingKey(uri,fx,id){
+               var deferred = $q.defer();
+               $http.get('/api/'+uri+'/'+fx+'/'+id)
+                .success(function(data){
+                     deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
 
             function byId(id,uri) {
                 var deferred = $q.defer();
@@ -105,7 +113,8 @@
                 update:update,
                 destroy:destroy,
                 search: search,
-                select:select
+                select:select,
+                byforeingKey: byforeingKey
             }
         }])
         .factory('socketService', function ($rootScope) {
