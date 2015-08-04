@@ -83,7 +83,7 @@
                        <input type="file" ng-model="user.image" id="userImage" name="userImage"/>
                        </div>
                        <div class="form-group">
-                        <img ng-src="@{{user.image}}" alt=""/>
+                        <img ng-src="@{{::user.image}}" alt=""/>
                        </div>
 
                  </div>

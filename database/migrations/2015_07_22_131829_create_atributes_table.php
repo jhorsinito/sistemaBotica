@@ -19,6 +19,7 @@ class CreateAtributesTable extends Migration
             $table->text('descripcion');
             $table->timestamps();
         });
+
     }
 
     /**
@@ -28,6 +29,6 @@ class CreateAtributesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('attributes');
+        //Schema::drop('attributes');
     }
 }

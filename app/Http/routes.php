@@ -79,6 +79,25 @@ Route::get('api/customers/search/{q?}',['as'=>'person_search', 'uses'=>'Customer
 Route::get('api/customers/find/{id}',['as'=>'person_find', 'uses'=>'CustomersController@find']);
 //END CUSTOMERS ROUTES
 
+//PRODUCTS ROUTES
+Route::get('products',['as'=>'product','uses'=>'ProductsController@index']);
+Route::get('products/create',['as'=>'product_create','uses'=>'ProductsController@index']);
+Route::get('products/edit/{id?}', ['as' => 'product_edit', 'uses' => 'ProductsController@index']);
+Route::get('products/form-create',['as'=>'product_form_create','uses'=>'ProductsController@form_create']);
+Route::get('products/form-edit',['as'=>'product_form_edit','uses'=>'ProductsController@form_edit']);
+Route::get('api/products/all',['as'=>'product_all', 'uses'=>'ProductsController@all']);
+Route::get('api/products/paginate/',['as' => 'product_paginate', 'uses' => 'ProductsController@paginate']);
+Route::post('api/products/create',['as'=>'product_create', 'uses'=>'ProductsController@create']);
+Route::put('api/products/edit',['as'=>'product_edit', 'uses'=>'ProductsController@edit']);
+Route::post('api/products/destroy',['as'=>'product_destroy', 'uses'=>'ProductsController@destroy']);
+Route::get('api/products/search/{q?}',['as'=>'product_search', 'uses'=>'ProductsController@search']);
+Route::get('api/products/find/{id}',['as'=>'person_find', 'uses'=>'ProductsController@find']);
+Route::get('api/products/brands',['as' => 'products_brands_select','uses' => 'ProductsController@brands_select']);
+Route::get('api/products/materials',['as' => 'products_materials_select','uses' => 'ProductsController@materials_select']);
+Route::get('api/products/types',['as' => 'products_types_select','uses' => 'ProductsController@types_select']);
+Route::get('api/products/stations',['as' => 'products_stations_select','uses' => 'ProductsController@stations_select']);
+//END PRODUCTS ROUTES
+
 //STORE ROUTES
 Route::get('stores',['as'=>'store','uses'=>'StoresController@index']);
 Route::get('stores/create',['as'=>'store_create','uses'=>'StoresController@index']);
