@@ -49,41 +49,47 @@
                         <span ng-show="userCreateForm.email1.$error.email"><i class="fa fa-times-circle-o"></i>Formato incorrecto.</span>
                       </label>
                     </div>
+                    <div class="form-group" ng-class="{true: 'has-error'}[ userCreateForm.store.$error.required  && userCreateForm.$submitted || userCreateForm.store.$dirty && userCreateForm.store.$invalid]">
+                                              <label>Tienda</label>
+                                                   <select name="store" class="form-control" ng-model="user.store_id" ng-options="k as v for (k, v) in stores">
+
+                                                </select>
+                                                <label ng-show="userCreateForm.$submitted || userCreateForm.store.$dirty && userCreateForm.store.$invalid">
+                                                                        <span ng-show="userCreateForm.store.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+
+                                                                      </label>
+                                         </div>
+                                         <div class="row">
+                                         <div class="col-md-6">
+                                         <div class="form-group" ng-class="{true: 'has-error'}[ userCreateForm.role.$error.required  && userCreateForm.$submitted || userCreateForm.role.$dirty && userCreateForm.role.$invalid]">
+                                                                   <label>Rol</label>
+                                                                        <select name="role" class="form-control" ng-model="user.role_id" ng-options="role.key1 as role.value1 for role in roles">
+
+                                                                     </select>
+                                                                     <label ng-show="userCreateForm.$submitted || userCreateForm.role.$dirty && userCreateForm.role.$invalid">
+                                                                                             <span ng-show="userCreateForm.role.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+
+                                                                                           </label>
+                                                              </div></div>
+                                                              <div class="col-md-6">
+                                                              <div class="form-group">
+                                                                                                           <label for="estado">Estado</label>
+                                                                                                                <select class="form-control" name="estado" ng-model="user.estado" ng-options="item.key as item.value for item in estados"></select>
+                                                                                                           </div></div>
+                                                                                                           </div>
 
                  </div>
 
                  <div class="col-md-6">
 
-                   <div class="form-group" ng-class="{true: 'has-error'}[ userCreateForm.store.$error.required  && userCreateForm.$submitted || userCreateForm.store.$dirty && userCreateForm.store.$invalid]">
-                          <label>Tienda</label>
-                               <select name="store" class="form-control" ng-model="user.store_id" ng-options="k as v for (k, v) in stores">
 
-                            </select>
-                            <label ng-show="userCreateForm.$submitted || userCreateForm.store.$dirty && userCreateForm.store.$invalid">
-                                                    <span ng-show="userCreateForm.store.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
 
-                                                  </label>
-                     </div>
-                     <div class="form-group" ng-class="{true: 'has-error'}[ userCreateForm.role.$error.required  && userCreateForm.$submitted || userCreateForm.role.$dirty && userCreateForm.role.$invalid]">
-                                               <label>Rol</label>
-                                                    <select name="role" class="form-control" ng-model="user.role_id" ng-options="role.key1 as role.value1 for role in roles">
-
-                                                 </select>
-                                                 <label ng-show="userCreateForm.$submitted || userCreateForm.role.$dirty && userCreateForm.role.$invalid">
-                                                                         <span ng-show="userCreateForm.role.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
-
-                                                                       </label>
-                                          </div>
-                      <div class="form-group">
-                                             <label for="estado">Estado</label>
-                                                  <select class="form-control" name="estado" ng-model="user.estado" ng-options="item.key as item.value for item in estados"></select>
-                                             </div>
                        <div class="form-group">
                        <label>Imagen</label>
                        <input type="file" ng-model="user.image" id="userImage" name="userImage"/>
                        </div>
                        <div class="form-group">
-                        <img ng-src="@{{::user.image}}" alt=""/>
+                        <img ng-src="@{{::user.image}}" alt="" class="img-thumbnail"/>
                        </div>
 
                  </div>
