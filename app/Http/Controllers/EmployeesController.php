@@ -8,6 +8,8 @@ use Illuminate\Routing\Controller;
 use Salesfly\Salesfly\Repositories\EmployeeRepo;
 use Salesfly\Salesfly\Managers\EmployeeManager;
 
+use Intervention\Image\Facades\Image;
+
 class EmployeesController extends Controller {
 
     protected $employeeRepo;
@@ -49,9 +51,24 @@ class EmployeesController extends Controller {
     {
         $employee = $this->employeeRepo->getModel();
        
-        $manager = new EmployeeManager($employee,$request->except('fechanac'));
-        
+        $manager = new EmployeeManager($employee,$request->except('fechanac','imagen'));
         $manager->save();
+        //------------------------------------------------
+
+        if($request->has('imagen') and substr($request->input('imagen'),5,5) === 'image'){
+            $imagen = $request->input('imagen');
+            $mime = $this->get_string_between($imagen,'/',';');
+            $imagen = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagen));
+            Image::make($imagen)->resize(200,200)->save('images/employees/'.$employee->id.'.'.$mime);
+            $employee->imagen='/images/employees/'.$employee->id.'.'.$mime;
+            $employee->save();
+        }else{
+            $employee->imagen='/images/employees/default.jpg';
+            $employee->save();
+        }
+        //-------------------------------------------------
+        
+       
         if($this->employeeRepo->validateDate(substr($request->input('fechanac'),0,10))){
             $employee->fechanac = substr($request->input('fechanac'),0,10);
         }else{
@@ -72,18 +89,35 @@ class EmployeesController extends Controller {
     public function edit(Request $request)
     {
        $employee = $this->employeeRepo->find($request->id);
-        //var_dump($request->except('fechaNac'));
-        //die();
-        $manager = new EmployeeManager($employee,$request->except('fechanac'));
+       
+        $manager = new EmployeeManager($employee,$request->except('fechanac','imagen'));
         $manager->save();
-        if($this->employeeRepo->validateDate(substr($request->input('fechanac'),0,10))){
-            //$employee->fechaNac = date("Y-m-d", strtotime($request->input('fechaNac')));
-            $employee->fechanac = substr($request->input('fechanac'),0,10);
+        //------------------------------------------------
+        
+        if($request->has('imagen') and substr($request->input('imagen'),5,5) === 'image'){
+            $imagen = $request->input('imagen');
+            $mime = $this->get_string_between($imagen,'/',';');
+            $imagen = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagen));
+            Image::make($imagen)->resize(200,200)->save('images/employees/'.$employee->id.'.'.$mime);
+            $employee->imagen='/images/employees/'.$employee->id.'.'.$mime;
             $employee->save();
         }
+        else{
+            $employee->imagen='/images/employees/default.jpg';
+            $employee->save();
+        }
+        //-------------------------------------------------
+        
+       
+        if($this->employeeRepo->validateDate(substr($request->input('fechanac'),0,10))){
+            $employee->fechanac = substr($request->input('fechanac'),0,10);
+        }else{
+            $employee->fechanac = null;
+        }
 
-        //Event::fire('update.employee',$employee->all());
-        return response()->json(['estado'=>true, 'nombre'=>$employee->nombre]);
+        $employee->save();
+
+        return response()->json(['estado'=>true, 'nombres'=>$employee->nombres]);
     }
 
     public function destroy(Request $request)
@@ -100,5 +134,14 @@ class EmployeesController extends Controller {
         $employees = $this->employeeRepo->search($q);
 
         return response()->json($employees);
+    }
+
+    public function get_string_between($string, $start, $end){
+        $string = " ".$string;
+        $ini = strpos($string,$start);
+        if ($ini == 0) return "";
+        $ini += strlen($start);
+        $len = strpos($string,$end,$ini) - $ini;
+        return substr($string,$ini,$len);
     }
 }

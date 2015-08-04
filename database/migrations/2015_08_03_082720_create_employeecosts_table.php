@@ -12,14 +12,14 @@ class CreateEmployeecostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('employeecosts', function (Blueprint $table) {
+         Schema::create('employeecosts', function (Blueprint $table) {
             $table->increments('id');
-            $table->double('SueldoFijo');
-            $table->double('comisiones');
-            $table->double('seguro');
-            $table->double('menu');
-            $table->double('pasajes');
-            $table->double('total');
+            $table->decimal('SueldoFijo',10,2);
+            $table->decimal('comisiones',10,2);
+            $table->decimal('seguro',10,2);
+            $table->decimal('menu',10,2);
+            $table->decimal('pasajes',10,2);
+            $table->decimal('total',10,2);
             $table->integer('employee_id')->unsigned();
             $table->foreign('employee_id')->references('id')->on('employees');
             $table->timestamps();

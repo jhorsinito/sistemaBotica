@@ -15,7 +15,8 @@
         <section class="content">
         <div class="row">
         <div class="col-md-12">
-          <a href="/employees/create" type="submit" class="btn btn-primary pull-left">Añadir Cliente</a>
+        <a href="/employees/create" type="submit" ng-click="llenarcombo()" class="btn btn-primary pull-left">Añadir Cliente</a>
+         <!-- <input type="submit" class="btn btn-primary pull-left" value="Anadir Cl" ng-click="llenarcombo()" onclick="location='/employees/create'"/>-->
           </div>
         </div>
         </br>
@@ -37,6 +38,7 @@
                     </div>
                     </form>
                   </div>
+                  
                 </div><!-- /.box-header -->
                   <div class="callout callout-warning"  ng-show="estado">
                       <h4><b>Gastos Del Empleado {{mostrarShow}}</b></h4>
@@ -72,12 +74,18 @@
                       <td>{{row.nombres+ " " + row.apellidos }}</td>
                       <td>{{row.codigo}}</td>
                       <td>{{row.email}}</td>
-                      <td>{{row.estado}}</td>
-                      <td>-</td>
+                      <td>{{row.direccioncontacto}}</td>
+                      <td><div ng-if="row.estado==='1'">
+                          Activo      
+                          </div>
+                          <div ng-if="row.estado==='0'">
+                          Inactivo      
+                          </div>
+                      </td>
 
                       <!--<td><a ng-click="showForm" class="btn btn-warning btn-xs">Costos Fijos</a></td>
                       <td><a ng-click="variable(row)" data-toggle="modal" data-target="#miventana" class="btn btn-info btn-xs">Costos Fijos</a></td>-->
-                        <td><a ng-click="editCostos(row)" class="btn btn-success btn-xs">Ver Costos</a></td>
+                        <td><a ng-click="editCostos(row)" class="btn btn-success btn-xs">Costos</a></td>
                         <td><a ng-click="editEmployee(row)" class="btn btn-warning btn-xs">Editar</a></td>
                       <td><a ng-click="deleteEmployee(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
                       

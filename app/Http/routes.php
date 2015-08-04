@@ -226,7 +226,7 @@ Route::post('api/employeecosts/destroy',['as'=>'person_destroy', 'uses'=>'Employ
 Route::get('api/employeecosts/search/{q?}',['as'=>'person_search', 'uses'=>'EmployeecostsController@search']);
 Route::get('api/employeecosts/find/{id}',['as'=>'person_find', 'uses'=>'EmployeecostsController@find']);
 Route::get('api/employeecosts/mostrarCostos/{id}','EmployeecostsController@mostrarCostos');
-Route::get('api/employeecosts/hola/{id}','EmployeecostsController@hola');
+//Route::get('api/employeecosts/hola','EmployeecostsController@hola');
 // Route::get('aprende',function(){
 // 	echo Form::open(array('url'=>'nombre','method'=>'post'));
 // 	echo Form::label('nombre','Tu nombre');
