@@ -68,6 +68,51 @@
                     templateUrl:'/brands/form-edit',
                     controller: 'BrandController'
                 })  
+                      //----------------------------------------------------------------------
+            .when('/suppliers', {
+                    templateUrl: '/js/app/suppliers/views/index.html',
+                    controller: 'SupplierController'
+                })
+                .when('/suppliers/create',{
+                    templateUrl:'/suppliers/form-create',
+                    controller: 'SupplierController'
+                })
+                
+                .when('/suppliers/edit/:id',{
+                    templateUrl:'/suppliers/form-edit',
+                    controller: 'SupplierController'
+                }) 
+
+                //-----------------------------------------------  
+                .when('/employeecosts', {
+                    templateUrl: '/js/app/employeecosts/views/index.html',
+                    controller: 'EmployeecostController'
+                })
+                .when('/employeecosts/create',{
+                    templateUrl:'/employeecosts/form-create',
+                    controller: 'EmployeecostController'
+                })
+                
+                .when('/employeecosts/edit/:id',{
+                    templateUrl:'/employeecosts/form-edit',
+                    controller: 'EmployeecostController'
+                }) 
+                //-----------------------------------------------  
+                //----------------------------------------------------------------------
+            .when('/employees', {
+                    templateUrl: '/js/app/employees/views/index.html',
+                    controller: 'EmployeeController'
+                })
+                .when('/employees/create',{
+                    templateUrl:'/employees/form-create',
+                    controller: 'EmployeeController'
+                })
+                
+                .when('/employees/edit/:id',{
+                    templateUrl:'/employees/form-edit',
+                    controller: 'EmployeeController'
+                }) 
+                //-----------------------------------------------  
             //----------------------------------------------------------------------
             .when('/warehouses', {
                     templateUrl: '/js/app/warehouses/views/index.html',
