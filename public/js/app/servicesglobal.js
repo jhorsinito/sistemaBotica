@@ -1,5 +1,3 @@
-
-
 (function(){
     angular.module('crud.services',[])
         .factory('crudService',['$http', '$q','$location', function($http, $q,$location){

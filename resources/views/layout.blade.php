@@ -62,7 +62,13 @@
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="" class="user-image" alt="User Image" />
-                  <span class="hidden-xs">Javier J. Alvarez M.</span>
+                  <span class="hidden-xs">
+                  @if(!empty(Auth::user()))
+                  {{Auth::user()->name}}
+                  @else
+                  {{'No estas logueado'}}
+                  @endif
+                  </span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->

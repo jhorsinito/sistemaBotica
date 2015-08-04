@@ -26,6 +26,10 @@ Route::get('/vista-redis', function() {
    return view('test');
 });
 
+Route::get('/cristobal', function(){
+	return Salesfly\User::all()->toJson();
+});
+
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
@@ -221,3 +225,44 @@ Route::get('api/suppliers/find/{id}',['as'=>'person_find', 'uses'=>'SuppliersCon
 // 	$nombre = Input::get('nom');
 // 	return "tu nombre es: ".$nombre;
 // });
+
+//practica
+Route::get('cashMonthlys',['as'=>'person','uses'=>'CashMonthlyController@index']);
+Route::get('cashMonthlys/create',['as'=>'person_create','uses'=>'CashMonthlyController@index']);
+Route::get('cashMonthlys/edit/{id?}', ['as' => 'person_edit', 'uses' => 'CashMonthlyController@index']);
+Route::get('cashMonthlys/form-create',['as'=>'person_form_create','uses'=>'CashMonthlyController@form_create']);
+Route::get('cashMonthlys/form-edit',['as'=>'person_form_edit','uses'=>'CashMonthlyController@form_edit']);
+Route::get('api/cashMonthlys/all',['as'=>'person_all', 'uses'=>'CashMonthlyController@all']);
+Route::get('api/cashMonthlys/paginate/',['as' => 'person_paginate', 'uses' => 'CashMonthlyController@paginatep']);
+Route::post('api/cashMonthlys/create',['as'=>'person_create', 'uses'=>'CashMonthlyController@create']);
+Route::put('api/cashMonthlys/edit',['as'=>'person_edit', 'uses'=>'CashMonthlyController@edit']);
+Route::post('api/cashMonthlys/destroy',['as'=>'person_destroy', 'uses'=>'CashMonthlyController@destroy']);
+Route::get('api/cashMonthlys/search/{q?}',['as'=>'person_search', 'uses'=>'CashMonthlyController@search']);
+Route::get('api/cashMonthlys/find/{id}',['as'=>'person_find', 'uses'=>'CashMonthlyController@find']);
+//-----------------------------------------------------
+Route::get('api/months/select','MonthsController@select');
+Route::get('api/years/select','YearsController@select');
+Route::get('api/expenses/select','ExpenseMonthlysController@select');
+Route::post('api/expenseMonthlys/create',['as'=>'person_create', 'uses'=>'ExpenseMonthlysController@create']);
+Route::post('api/years/create',['as'=>'person_create', 'uses'=>'YearsController@create']);
+Route::post('api/years/destroy',['as'=>'person_destroy', 'uses'=>'YearsController@destroy']);
+Route::put('api/years/edit',['as'=>'person_edit', 'uses'=>'YearsController@edit']);
+Route::post('api/expenseMonthlys/destroy',['as'=>'person_destroy', 'uses'=>'ExpenseMonthlysController@destroy']);
+Route::put('api/expenseMonthlys/edit',['as'=>'person_edit', 'uses'=>'ExpenseMonthlysController@edit']);
+
+//practica
+Route::get('practicas',['as'=>'person','uses'=>'PracticasController@index']);
+Route::get('practicas/create',['as'=>'person_create','uses'=>'PracticasController@index']);
+Route::get('practicas/edit/{id?}', ['as' => 'person_edit', 'uses' => 'PracticasController@index']);
+Route::get('practicas/form-create',['as'=>'person_form_create','uses'=>'PracticasController@form_create']);
+Route::get('practicas/form-edit',['as'=>'person_form_edit','uses'=>'PracticasController@form_edit']);
+Route::get('api/practicas/all',['as'=>'person_all', 'uses'=>'PracticasController@all']);
+Route::get('api/practicas/paginate/',['as' => 'person_paginate', 'uses' => 'PracticasController@paginatep']);
+Route::post('api/practicas/create',['as'=>'person_create', 'uses'=>'PracticasController@create']);
+Route::put('api/practicas/edit',['as'=>'person_edit', 'uses'=>'PracticasController@edit']);
+Route::post('api/practicas/destroy',['as'=>'person_destroy', 'uses'=>'PracticasController@destroy']);
+Route::get('api/practicas/search/{q?}',['as'=>'person_search', 'uses'=>'PracticasController@search']);
+Route::get('api/practicas/find/{id}',['as'=>'person_find', 'uses'=>'PracticasController@find']);
+
+Route::get('api/expenses/find/{id}','ExpenseMonthlysController@find');
+Route::get('api/years/find/{id}','YearsController@find');

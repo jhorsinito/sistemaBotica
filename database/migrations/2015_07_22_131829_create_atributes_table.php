@@ -28,6 +28,6 @@ class CreateAtributesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('attributes');
+        Schema::drop('atributes');
     }
 }

@@ -27,6 +27,7 @@ class AddEstadoToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
+            $table->dropColumn('estado'); //1-> activo, 0 -> no activo;
         });
     }
 }
