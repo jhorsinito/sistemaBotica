@@ -19,6 +19,7 @@ class CreateAtributesTable extends Migration
             $table->text('descripcion');
             $table->timestamps();
         });
+
     }
 
     /**

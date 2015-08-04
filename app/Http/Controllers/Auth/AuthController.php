@@ -2,6 +2,7 @@
 
 namespace Salesfly\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\View;
 use Salesfly\User;
 use Salesfly\Salesfly\Entities\Store;
 use Validator;
@@ -121,7 +122,7 @@ class AuthController extends Controller
         if(\Auth::check()){
             return View('auth.users.index');
         }else{
-            return 'no estás logueado';
+            return redirect()->to('auth/login');
         }
 
     }
@@ -132,7 +133,7 @@ class AuthController extends Controller
             $users = User::all();
             return response()->json($users);
         }else{
-            return 'no estás logueado';
+            return redirect()->to('auth/login');
         }
     }
 
@@ -149,7 +150,7 @@ class AuthController extends Controller
             return response()->json($users);
 
         }else{
-            return 'no estás logueado';
+            return redirect()->to('auth/login');
         }
     }
     public function form_create()

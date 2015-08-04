@@ -29,7 +29,15 @@
 
                 if(id)
                 {
+                   
                     crudService.byId(id,'suppliers').then(function (data) {
+                        $log.log(data);
+                        if(data.fechanac != null) {
+                            if (data.fechanac.length > 0) {
+                                data.fechanac = new Date(data.fechanac);
+                            }
+                        }
+
                         $scope.supplier = data;
                     });
                 }else{
@@ -125,5 +133,6 @@
                         }
                     });
                 }
+                
             }]);
 })();

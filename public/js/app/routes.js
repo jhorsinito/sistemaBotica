@@ -82,6 +82,21 @@
                     templateUrl:'/suppliers/form-edit',
                     controller: 'SupplierController'
                 }) 
+
+                //-----------------------------------------------  
+                .when('/employeecosts', {
+                    templateUrl: '/js/app/employeecosts/views/index.html',
+                    controller: 'EmployeecostController'
+                })
+                .when('/employeecosts/create',{
+                    templateUrl:'/employeecosts/form-create',
+                    controller: 'EmployeecostController'
+                })
+                
+                .when('/employeecosts/edit/:id',{
+                    templateUrl:'/employeecosts/form-edit',
+                    controller: 'EmployeecostController'
+                }) 
                 //-----------------------------------------------  
                 //----------------------------------------------------------------------
             .when('/employees', {
@@ -172,6 +187,18 @@
                 .when('/employees/edit/:id',{
                     templateUrl:'/employees/form-edit',
                     controller: 'EmployeeController'
+                })
+                .when('/products', {
+                    templateUrl: '/js/app/products/views/index.html',
+                    controller: 'ProductController'
+                })
+                .when('/products/create',{
+                    templateUrl:'/products/form-create',
+                    controller: 'ProductController'
+                })
+                .when('/products/edit/:id',{
+                    templateUrl:'/products/form-edit',
+                    controller: 'ProductController'
                 })
                 //-----------------------------------------
                 .when('/cashMonthlys', {

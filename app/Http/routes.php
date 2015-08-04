@@ -83,6 +83,25 @@ Route::get('api/customers/search/{q?}',['as'=>'person_search', 'uses'=>'Customer
 Route::get('api/customers/find/{id}',['as'=>'person_find', 'uses'=>'CustomersController@find']);
 //END CUSTOMERS ROUTES
 
+//PRODUCTS ROUTES
+Route::get('products',['as'=>'product','uses'=>'ProductsController@index']);
+Route::get('products/create',['as'=>'product_create','uses'=>'ProductsController@index']);
+Route::get('products/edit/{id?}', ['as' => 'product_edit', 'uses' => 'ProductsController@index']);
+Route::get('products/form-create',['as'=>'product_form_create','uses'=>'ProductsController@form_create']);
+Route::get('products/form-edit',['as'=>'product_form_edit','uses'=>'ProductsController@form_edit']);
+Route::get('api/products/all',['as'=>'product_all', 'uses'=>'ProductsController@all']);
+Route::get('api/products/paginate/',['as' => 'product_paginate', 'uses' => 'ProductsController@paginate']);
+Route::post('api/products/create',['as'=>'product_create', 'uses'=>'ProductsController@create']);
+Route::put('api/products/edit',['as'=>'product_edit', 'uses'=>'ProductsController@edit']);
+Route::post('api/products/destroy',['as'=>'product_destroy', 'uses'=>'ProductsController@destroy']);
+Route::get('api/products/search/{q?}',['as'=>'product_search', 'uses'=>'ProductsController@search']);
+Route::get('api/products/find/{id}',['as'=>'person_find', 'uses'=>'ProductsController@find']);
+Route::get('api/products/brands',['as' => 'products_brands_select','uses' => 'ProductsController@brands_select']);
+Route::get('api/products/materials',['as' => 'products_materials_select','uses' => 'ProductsController@materials_select']);
+Route::get('api/products/types',['as' => 'products_types_select','uses' => 'ProductsController@types_select']);
+Route::get('api/products/stations',['as' => 'products_stations_select','uses' => 'ProductsController@stations_select']);
+//END PRODUCTS ROUTES
+
 //STORE ROUTES
 Route::get('stores',['as'=>'store','uses'=>'StoresController@index']);
 Route::get('stores/create',['as'=>'store_create','uses'=>'StoresController@index']);
@@ -202,6 +221,8 @@ Route::post('api/employees/destroy',['as'=>'person_destroy', 'uses'=>'EmployeesC
 Route::get('api/employees/search/{q?}',['as'=>'person_search', 'uses'=>'EmployeesController@search']);
 Route::get('api/employees/find/{id}',['as'=>'person_find', 'uses'=>'EmployeesController@find']);
 
+Route::get('api/buscar/find/{id}',['as'=>'person_find', 'uses'=>'EmployeesController@find']);
+
 Route::get('suppliers',['as'=>'person','uses'=>'SuppliersController@index']);
 Route::get('suppliers/create',['as'=>'person_create','uses'=>'SuppliersController@index']);
 Route::get('suppliers/edit/{id?}', ['as' => 'person_edit', 'uses' => 'SuppliersController@index']);
@@ -214,6 +235,21 @@ Route::put('api/suppliers/edit',['as'=>'person_edit', 'uses'=>'SuppliersControll
 Route::post('api/suppliers/destroy',['as'=>'person_destroy', 'uses'=>'SuppliersController@destroy']);
 Route::get('api/suppliers/search/{q?}',['as'=>'person_search', 'uses'=>'SuppliersController@search']);
 Route::get('api/suppliers/find/{id}',['as'=>'person_find', 'uses'=>'SuppliersController@find']);
+
+Route::get('employeecosts',['as'=>'person','uses'=>'EmployeecostsController@index']);
+Route::get('employeecosts/create',['as'=>'person_create','uses'=>'EmployeecostsController@index']);
+Route::get('employeecosts/edit/{id?}', ['as' => 'person_edit', 'uses' => 'EmployeecostsController@index']);
+Route::get('employeecosts/form-create',['as'=>'person_form_create','uses'=>'EmployeecostsController@form_create']);
+Route::get('employeecosts/form-edit',['as'=>'person_form_edit','uses'=>'EmployeecostsController@form_edit']);
+Route::get('api/employeecosts/all',['as'=>'person_all', 'uses'=>'EmployeecostsController@all']);
+Route::get('api/employeecosts/paginate/',['as' => 'person_paginate', 'uses' => 'EmployeecostsController@paginatep']);
+Route::post('api/employeecosts/create',['as'=>'person_create', 'uses'=>'EmployeecostsController@create']);
+Route::put('api/employeecosts/edit',['as'=>'person_edit', 'uses'=>'EmployeecostsController@edit']);
+Route::post('api/employeecosts/destroy',['as'=>'person_destroy', 'uses'=>'EmployeecostsController@destroy']);
+Route::get('api/employeecosts/search/{q?}',['as'=>'person_search', 'uses'=>'EmployeecostsController@search']);
+Route::get('api/employeecosts/find/{id}',['as'=>'person_find', 'uses'=>'EmployeecostsController@find']);
+Route::get('api/employeecosts/mostrarCostos/{id}','EmployeecostsController@mostrarCostos');
+//Route::get('api/employeecosts/hola','EmployeecostsController@hola');
 // Route::get('aprende',function(){
 // 	echo Form::open(array('url'=>'nombre','method'=>'post'));
 // 	echo Form::label('nombre','Tu nombre');

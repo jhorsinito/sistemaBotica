@@ -3,7 +3,7 @@
 Clientes
 @stop
 @section('base_url')
-<base href="{{URL::to('/')}}/employees"/>
+<base href="{{URL::to('/')}}/employeecosts"/>
 @stop
 @section('css-customize')
 @stop
@@ -16,16 +16,15 @@ Clientes
 </section>-->
 
 <!-- Main content -->
-<section ng-app="employees">
+<section ng-app="employeecosts">
     <div ng-view>
 
     </div>
 </section>
 
 @section('js-customize')
-<script src="/js/app/employees/app.js"></script>
-    <script src="/js/app/employees/controllers.js"></script>
-
+<script src="/js/app/employeecosts/app.js"></script>
+<script src="/js/app/employeecosts/controllers.js"></script>
 @stop
 
 @stop

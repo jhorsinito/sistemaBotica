@@ -41,7 +41,7 @@
 
       <header class="main-header">
         <!-- Logo -->
-        <a href="index2.html" class="logo">
+        <a href="/" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>SL</b>F</span>
           <!-- logo for regular state and mobile devices -->
@@ -61,8 +61,8 @@
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="" class="user-image" alt="User Image" />
-                  <span class="hidden-xs">
+                  <img src="{{Auth()->user()->image}}" class="user-image" alt="User Image" />
+                  <span class="hidden-xs"> @if(!empty(Auth()->user())){{Auth()->user()->name}} @else Not user @endif</span>
                   @if(!empty(Auth::user()))
                   {{Auth::user()->name}}
                   @else
@@ -73,10 +73,15 @@
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="" class="img-circle" alt="User Image" />
+                    <img src="{{Auth()->user()->image}}" class="img-circle" alt="User Image" />
                     <p>
-                      Alexander Pierce - Web Developer
-                      <small>Member since Nov. 2012</small>
+                    @if(!empty(Auth()->user()))
+                      {{Auth()->user()->name}}
+                      <small>Miembro desde {{Auth()->user()->created_at}}</small>
+                      @else
+                        Not user
+                        <small>Miembro desde --</small>
+                      @endif
                     </p>
                   </li>
                   <!-- Menu Body -->
@@ -94,10 +99,10 @@
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profile</a>
+                      <a href="/users/edit/{{Auth()->user()->id}}" class="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="/auth/logout" class="btn btn-default btn-flat">Salir</a>
                     </div>
                   </li>
                 </ul>
@@ -117,10 +122,10 @@
           <!-- Sidebar user panel -->
           <div class="user-panel">
             <div class="pull-left image">
-              <img src="" class="img-circle" alt="User Image" />
+              <img src="{{Auth()->user()->image}}" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
-              <p>Javier J. Alvarez M.</p>
+              <p>@if(!empty(Auth()->user())){{Auth()->user()->name}} @else Not user @endif</p>
 
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
@@ -129,7 +134,7 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">Navegación</li>
-            <li class="treeview">
+            <li class="treeview active">
               <a href="#">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
@@ -138,7 +143,7 @@
 
               </ul>
             </li>
-            <li class="active treeview">
+            <li class="treeview">
               <a href="#">
                 <i class="fa fa-files-o"></i>
                 <span>Clientes</span>
@@ -148,7 +153,61 @@
                 <li class="active"><a href="/customers" ><i class="fa fa-circle-o"></i>Clientes</a></li>
               </ul>
             </li>
-
+            <li class="">
+                          <a href="/employees">
+                            <i class="fa fa-th"></i> <span>Vendedores</span> <small class="label pull-right bg-green">new</small>
+                          </a>
+             </li>
+             <li class="">
+                    <a href="/users">
+                        <i class="fa fa-th"></i> <span>Usuarios</span> <small class="label pull-right bg-green">new</small>
+                   </a>
+              </li>
+              <li class="">
+                   <a href="/warehouses">
+                       <i class="fa fa-th"></i> <span>Almacenes</span> <small class="label pull-right bg-green">new</small>
+                    </a>
+               </li>
+               <li class="">
+                                  <a href="/types">
+                                      <i class="fa fa-th"></i> <span>Categorías</span> <small class="label pull-right bg-green">new</small>
+                                   </a>
+                              </li>
+                 <li class="">
+                                                  <a href="/materials">
+                                                      <i class="fa fa-th"></i> <span>Materiales</span> <small class="label pull-right bg-green">new</small>
+                                                   </a>
+                                              </li>
+                 <li class="">
+                                                                  <a href="/products">
+                                                                      <i class="fa fa-th"></i> <span>Productos</span> <small class="label pull-right bg-green">new</small>
+                                                                   </a>
+                                                              </li>
+                  <li class="">
+                                                                   <a href="/stations">
+                                                                       <i class="fa fa-th"></i> <span>Estaciones</span> <small class="label pull-right bg-green">new</small>
+                                                                    </a>
+                                                               </li>
+                     <li class="">
+                                                                      <a href="/brands">
+                                                                          <i class="fa fa-th"></i> <span>Marcas</span> <small class="label pull-right bg-green">new</small>
+                                                                       </a>
+                                                                  </li>
+                     <li class="">
+                             <a href="/atributes">
+                                 <i class="fa fa-th"></i> <span>Atributos</span> <small class="label pull-right bg-green">new</small>
+                             </a>
+                       </li>
+                    <li class="">
+                                                <a href="/stores">
+                                                    <i class="fa fa-th"></i> <span>Tienda</span> <small class="label pull-right bg-green">new</small>
+                                                </a>
+                                          </li>
+                <li class="">
+                                                                <a href="/suppliers">
+                                                                    <i class="fa fa-th"></i> <span>Proveedores</span> <small class="label pull-right bg-green">new</small>
+                                                                </a>
+                                                          </li>
           </ul>
         </section>
         <!-- /.sidebar -->
