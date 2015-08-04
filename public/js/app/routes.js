@@ -188,6 +188,18 @@
                     templateUrl:'/employees/form-edit',
                     controller: 'EmployeeController'
                 })
+                .when('/products', {
+                    templateUrl: '/js/app/products/views/index.html',
+                    controller: 'ProductController'
+                })
+                .when('/products/create',{
+                    templateUrl:'/products/form-create',
+                    controller: 'ProductController'
+                })
+                .when('/products/edit/:id',{
+                    templateUrl:'/products/form-edit',
+                    controller: 'ProductController'
+                })
                 .otherwise({
                     redirectTo: '/'
                 });

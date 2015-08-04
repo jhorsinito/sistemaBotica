@@ -1,30 +1,30 @@
 @extends('layout')
 @section('module')
-Clientes
+Productos
 @stop
 @section('base_url')
-<base href="{{URL::to('/')}}/employees"/>
+<base href="{{URL::to('/')}}/products"/>
 @stop
 @section('css-customize')
 @stop
 @section('content')
 <!--<section class="content-header">
     <h1>
-        CLIENTES
+        Productos
         <small>Panel de Control</small>
     </h1>
 </section>-->
 
 <!-- Main content -->
-<section ng-app="employees">
+<section ng-app="products">
     <div ng-view>
 
     </div>
 </section>
 
 @section('js-customize')
-<script src="/js/app/employees/app.js"></script>
-    <script src="/js/app/employees/controllers.js"></script>
+    <script src="/js/app/products/app.js"></script>
+    <script src="/js/app/products/controllers.js"></script>
 
 @stop
 
