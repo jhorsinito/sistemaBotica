@@ -63,12 +63,14 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="{{Auth()->user()->image}}" class="user-image" alt="User Image" />
                   <span class="hidden-xs"> @if(!empty(Auth()->user())){{Auth()->user()->name}} @else Not user @endif</span>
+                  <!--
                   @if(!empty(Auth::user()))
                   {{Auth::user()->name}}
                   @else
                   {{'No estas logueado'}}
                   @endif
                   </span>
+                  -->
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->

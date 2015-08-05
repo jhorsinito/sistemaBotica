@@ -18,6 +18,7 @@ class UserTableSeeder extends Seeder
                 'name' => 'Javier Jesús Alvarez Montenegro',
                 'email' => 'jalvarez@honeysoft.pe',
                 'password' => bcrypt('root'),
+                'estado' => 1,
                 'role_id' => 1,
                 'store_id' => 1
             ]);
@@ -26,6 +27,7 @@ class UserTableSeeder extends Seeder
                 'name' => 'Melvin Alexis Diaz Rojas',
                 'email' => 'mdiazr@honeysoft.pe',
                 'password' => bcrypt('123456'),
+                'estado' => 1,
                 'role_id' => 1,
                 'store_id' => 1
             ]);
@@ -33,6 +35,7 @@ class UserTableSeeder extends Seeder
                 'name' => 'Cristobal Ramirez Cabrera',
                 'email' => 'cramirez@honeysoft.pe',
                 'password' => bcrypt('123456'),
+                'estado' => 1,
                 'role_id' => 1,
                 'store_id' => 1
             ]);

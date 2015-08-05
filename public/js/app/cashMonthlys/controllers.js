@@ -15,7 +15,7 @@
                 $scope.estado=false;
                 $scope.months = [];
                 $scope.cashMonthly.years_id;
-                $scope.cashMonthly.expenseMonthlys_id='1';
+                $scope.cashMonthly.expenseMonthlys_id;
                 $scope.expenses = {};
                 $scope.expense = {};
 
@@ -70,12 +70,17 @@
                     });
 
                     crudService.select('years','select').then(function (data) {
-                        
                         $scope.years = data;
-                        $scope.cashMonthly.years_id=$scope.years[0].id; 
+                        if ($scope.years.length>0) {
+                            $scope.cashMonthly.years_id=$scope.years[0].id;    
+                        };
+                        
                     });
                     crudService.select('expenses','select').then(function (data) {
                         $scope.expenses = data;
+                        if ($scope.expenses.length>0) {
+                            $scope.cashMonthly.expenseMonthlys_id=$scope.expenses[0].id;    
+                        };
                     });
 
                 }
@@ -107,7 +112,10 @@
 
                                 alert('grabado correctamente');
                                 
-                                  $scope.expenses.push(data);
+                                  //$scope.expenses.push(data);
+                                  crudService.select('expenses','select').then(function (data) {
+                                    $scope.expenses = data;
+                                });
 
                             } else {
                                 $scope.errors = data;
@@ -118,28 +126,17 @@
                 }
 
                 $scope.createYear = function(){
-                    /*if ($scope.yearCreateForm.$valid) {  
-                        crudService.create($scope.year, 'years').then(function (data) {
-                            if (data['estado'] == true) {
-                                //$scope.success = data['year'];
-                                alert('grabado correctamente');
-                                //$location.path('/cashMonthlys/create');
-                                $scope.years.push(data);
-                                $scope.year.year="";
-                            } else {
-                                $scope.errors = data;
-                            }
-                        });
-                    }*/
-                    //--------------------------------------------------
                      if ($scope.yearCreateForm.$valid) {
                         crudService.create($scope.year, 'years').then(function (data) {
                            
                             if (data['estado'] == true) {
-                                //$scope.success = data['nombres'];
                                 alert('grabado correctamente');
-                               // $location.path('/stores');
-                               $scope.year.year="";
+                               //$scope.year.year="";
+                                //$scope.years.push(data);
+                                crudService.select('years','select').then(function (data) {                        
+                                     $scope.years = data;
+
+                                });
 
                             } else {
                                 $scope.errors = data;
@@ -223,6 +220,25 @@
                      $scope.mostrardata=false;
                     }
 
+
+
+                    $scope.mostrardata1=false;
+
+                $scope.ver=function(){
+                    alert("ver");
+                   $scope.mostrardata1=true;
+
+                   crudService.byId($scope.cashMonthly.years_id,'years').then(function (data) {
+                        $scope.year.year=data.year;
+                    });
+
+                }
+
+                $scope.ocultar=function(){
+                     alert("ocultar");
+                     $scope.mostrardata1=false;
+                    }
+
                 $scope.deleteYear=function(){
                     crudService.byId($scope.cashMonthly.years_id,'years').then(function (data) {
                         //alert(data.year);
@@ -252,34 +268,38 @@
 
                             crudService.select('years','select').then(function (data) {
                                 $scope.years = data;
-                                $scope.cashMonthly.years_id=$scope.years[0].id; 
+                                //$scope.cashMonthly.years_id=$scope.years[0].id; 
                             });
 
                         }else{
                             $scope.errors =data;
                         }
                     });
+                    $scope.mostrardata1=false;
                 };
 
                 $scope.deleteExpense=function(){
                     crudService.byId($scope.cashMonthly.expenseMonthlys_id,'expenses').then(function (data) {
+                        //alert(data.name);
                         crudService.destroy(data,'expenseMonthlys').then(function(data)
                             {  
                                 if(data['estado'] == true){
                                     alert("Eliminado Correctamente");
                                     crudService.select('expenses','select').then(function (data) {
-                                    $scope.expenses = data;
-                                    $scope.cashMonthly.expenseMonthlys_id=$scope.expenses[0].id; 
-                                });
+                                        $scope.expenses = data;
+                                        $scope.cashMonthly.expenseMonthlys_id=$scope.expenses[0].id; 
+                                    });
                                     //cashMonthly.years_id='1';
                                 }else{
-                                    $scope.errors = data;
+                                    //$scope.errors = data;
+                                    alert("Concepto en USO");
                                 }
                             });
                     });   
                 }
                 $scope.updatecashExpense = function(){
                     $scope.expense.id=$scope.cashMonthly.expenseMonthlys_id;
+                    alert($scope.expense.name);
                     
                     crudService.update($scope.expense,'expenseMonthlys').then(function(data)
                     {

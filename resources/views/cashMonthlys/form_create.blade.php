@@ -37,7 +37,7 @@
                         <div class="form-group" >
                          <label for="expense">Concepto</label>
 
-                          <select class="form-control" name="" ng-model="cashMonthly.expenseMonthlys_id" ng-options="item.id as item.name for item in expenses">
+                          <select class="form-control" name="" ng-model="cashMonthly.expenseMonthlys_id" ng-options="item.id as item.name for item in expenses | orderBy: 'name'">
                           </select>
                           </div>
                           </div>
@@ -170,7 +170,7 @@
                   <div class="tab-pane" id="tab_21">
                     <div class="form-group" >
                           
-                          <div class="row">
+                          <div class="row" ng-hide="mostrardata1">
                           <div class="col-md-8">
 
                           <div class="form-group" >
@@ -183,7 +183,7 @@
                           </div>
                           </div>
                           <!---->
-                        <div class="row">
+                        <div class="row" ng-show="mostrardata1">
                           <div class="col-md-8">
 
                             <div class="form-group" ng-class="{true: 'has-error'}[ yearCreateForm.year.$error.required && yearCreateForm.$submitted || yearCreateForm.year.$dirty && yearCreateForm.year.$invalid]">
@@ -195,13 +195,18 @@
                             </div>
 
                           </div>
+
                         </div>
 
-                          <div class="modal-footer" >
-                          <button type="submit" class="btn btn-primary" ng-click="updatecashYear()" >Guardar</button>
-                          <button type="submit" class="btn btn-primary" ng-click="deleteYear()">Eliminar</button>
-                          <button type="submit" class="btn btn-primary">Modificar</button>
+
+                        <div class="modal-footer" >
+                          <button type="submit" class="btn btn-primary" ng-show="mostrardata1" ng-click="ocultar()">Cancelar</button>
+                          <button type="submit" class="btn btn-primary" ng-click="updatecashYear()" ng-show="mostrardata1">Guardar</button>
+                          <button type="submit" class="btn btn-primary" ng-hide="mostrardata1" ng-click="deleteYear()">Eliminar</button>
+                          <button type="submit" class="btn btn-primary" ng-hide="mostrardata1" ng-click="ver()">Modificar</button>
                           <a  class="btn btn-danger" data-dismiss="modal" aria-hidden="ngenabled">Salir</a>
+                      </div>
+
                       </div>
                   </div><!-- /.tab-pane -->
                 </div><!-- /.tab-content -->
@@ -288,6 +293,8 @@
 
                           </div>
                         </div>
+
+
 
                           <div class="modal-footer" >
                           <button type="submit" class="btn btn-primary" ng-show="mostrardata" ng-click="ocultardata()">Cancelaar</button>

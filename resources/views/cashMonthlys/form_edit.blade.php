@@ -122,17 +122,122 @@
               </div><!-- /.row -->
         </section><!-- /.content -->
 
-
-        <!-- =========================================Ventana Agregar Concepto=================================-->
-   
-           <div  class="modal fade" id="miventana1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="ngenabled">
+ <!-- =========================================Ventana Agregar Año=================================-->
+         <div class="container"  style="margin-top: 60px;">
+           <div  class="modal fade" id="miventana2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="ngenabled">
              <div  class="modal-dialog">
-                  <div  class="modal-content" style="border-radius: 5px">
-                        <div class="modal-header"  >
+                  <div style="border-radius: 5px" class="modal-content">
+                        <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal" aria-hidden="ngenabled"> &times; </button>
-                          <h4 class="modal-title">Agregar Concepto</h4>
+                          <h4 class="modal-title">Opciones Año</h4>
                         </div>
-                   <div class="modal-body">
+                        <!--=================cueropo========================-->
+                        <div class="nav-tabs-custom" id="myTabs">
+                <ul class="nav nav-tabs">
+                  <li class="active"><a href="#tab_11" data-toggle="#tab">Agregar Año</a></li>
+                  <li><a href="#tab_21" data-toggle="tab">Editar o Eliminar</a></li>
+
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane active" id="tab_11">
+                      <form name="yearCreateForm" role="form" novalidate>
+                        <div class="row">
+                          <div class="col-md-8">
+
+                            
+                            <div class="form-group" ng-class="{true: 'has-error'}[ yearCreateForm.year.$error.required && yearCreateForm.$submitted || yearCreateForm.year.$dirty && yearCreateForm.year.$invalid]">
+                      <label for="year">Año</label>
+                      <input type="text" class="form-control" name="year" placeholder="year" ng-model="year.year" required>
+                      <label ng-show="yearCreateForm.$submitted || yearCreateForm.year.$dirty && yearCreateForm.year.$invalid">
+                        <span ng-show="yearCreateForm.year.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                      </label>
+                    </div>
+
+                          </div>
+                        </div>
+                      
+
+                      <div class="modal-footer" >
+                          <button type="submit" class="btn btn-primary" ng-click="createYear()" data-dismiss="modal">Agregar</button>
+                          <a  class="btn btn-danger" data-dismiss="modal" aria-hidden="ngenabled">Salir</a>
+                      </div>
+                      </form>
+                  </div><!-- /.tab-pane -->
+                  <div class="tab-pane" id="tab_21">
+                    <div class="form-group" >
+                          
+                          <div class="row" ng-hide="mostrardata1">
+                          <div class="col-md-8">
+
+                          <div class="form-group" >
+                          <label for="year">Año</label>
+
+                          <select class="form-control" name="" ng-model="cashMonthly.years_id" ng-options="item.id as item.year for item in years">
+                          </select>
+                          </div>
+                          </div>
+                          </div>
+                          </div>
+                          <!---->
+                        <div class="row" ng-show="mostrardata1">
+                          <div class="col-md-8">
+
+                            <div class="form-group" ng-class="{true: 'has-error'}[ yearCreateForm.year.$error.required && yearCreateForm.$submitted || yearCreateForm.year.$dirty && yearCreateForm.year.$invalid]">
+                              <label for="year">Año</label>
+                              <input type="text" class="form-control" name="year" placeholder="Concepto" ng-model="year.year" required>
+                              <label ng-show="yearCreateForm.$submitted || yearCreateForm.year.$dirty && yearCreateForm.year.$invalid">
+                                <span ng-show="yearCreateForm.year.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                              </label>
+                            </div>
+
+                          </div>
+
+                        </div>
+
+
+                        <div class="modal-footer" >
+                          <button type="submit" class="btn btn-primary" ng-show="mostrardata1" ng-click="ocultar()">Cancelar</button>
+                          <button type="submit" class="btn btn-primary" ng-click="updatecashYear()" ng-show="mostrardata1">Guardar</button>
+                          <button type="submit" class="btn btn-primary" ng-hide="mostrardata1" ng-click="deleteYear()">Eliminar</button>
+                          <button type="submit" class="btn btn-primary" ng-hide="mostrardata1" ng-click="ver()">Modificar</button>
+                          <a  class="btn btn-danger" data-dismiss="modal" aria-hidden="ngenabled">Salir</a>
+                      </div>
+
+                      </div>
+                  </div><!-- /.tab-pane -->
+                </div><!-- /.tab-content -->
+              </div>
+              <script type="text/javascript">$('#myTabs a').click(function (e) {
+                          e.preventDefault()
+                          $(this).tab('show')})
+              </script>
+              
+                        <!--================================================-->
+                  </div>
+              </div>
+            </div>
+          </div>
+
+<!-- =========================================Ventana Agregar Concepto=================================-->
+   
+           <div class="container"  style="margin-top: 60px;">
+              <div  class="modal fade" id="miventana1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="ngenabled">
+             <div  class="modal-dialog">
+                  <div style="border-radius: 5px" class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="ngenabled"> &times; </button>
+                          <h4 class="modal-title">Opciones Concepto</h4>
+                        </div>
+                        <!--=================cueropo========================-->
+                        <div class="nav-tabs-custom" id="myTabs">
+                <ul class="nav nav-tabs">
+                  <li class="active"><a href="#tab_1" data-toggle="#tab">Agregar</a></li>
+                  <li><a href="#tab_2" data-toggle="tab">Editar o Eliminar</a></li>
+
+                </ul>
+                
+                <div class="tab-content">
+                  <div class="tab-pane active" id="tab_1">
                       <form name="expenseMonthlyCreateForm" role="form" novalidate>
                         <div class="row">
                           <div class="col-md-8">
@@ -148,55 +253,66 @@
                           </div>
                         </div>
                       </form>
-                        <div class="modal-footer" >
+
+                      <div class="modal-footer" >
                           <button type="submit" class="btn btn-primary" ng-click="createExpense()">Agregar</button>
                           <a  class="btn btn-danger" data-dismiss="modal" aria-hidden="ngenabled">Salir</a>
-                        </div>
-                   
-                   
                       </div>
-                  </div>
-              </div>
-            </div>
-          
-          <!--===================================================-->
-
-
-
-          <!-- =========================================Ventana Agregar Año=================================-->
-         <div class="container"  style="margin-top: 60px;">
-           <div  class="modal fade" id="miventana2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="ngenabled">
-             <div  class="modal-dialog">
-                  <div style="border-radius: 5px" class="modal-content">
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal" aria-hidden="ngenabled"> &times; </button>
-                          <h4 class="modal-title">Agregar Año</h4>
-                        </div>
-                   <div class="modal-body">
-                      <form name="yearCreateForm" role="form" novalidate>
-                        <div class="row">
+                  </div><!-- /.tab-pane -->
+                      <div class="tab-pane" id="tab_2">
+                    <div class="form-group" >
+                          
+                          <div class="row" ng-hide="mostrardata">
                           <div class="col-md-8">
 
-                            <div class="form-group" ng-class="{true: 'has-error'}[ yearCreateForm.year.$error.required && yearCreateForm.$submitted || yearCreateForm.year.$dirty && yearCreateForm.year.$invalid]">
-                              <label for="year">Año</label>
-                              <input type="text" class="form-control" name="year" placeholder="Concepto" ng-model="year.year" required>
-                              <label ng-show="yearCreateForm.$submitted || yearCreateForm.year.$dirty && yearCreateForm.year.$invalid">
-                                <span ng-show="yearCreateForm.year.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                          <div class="form-group" >
+                          <label for="expense">Concepto</label>
+
+                          <select class="form-control" name="" ng-model="cashMonthly.expenseMonthlys_id" ng-options="item.id as item.name for item in expenses">
+                          </select>
+                          </div>
+                          </div>
+                          </div>
+                          </div>
+                          <!---->
+
+                        <div ng-show="mostrardata" class="row">
+                          <div class="col-md-8">
+
+                            <div class="form-group" ng-class="{true: 'has-error'}[ expenseMonthlyCreateForm.name.$error.required && expenseMonthlyCreateForm.$submitted || expenseMonthlyCreateForm.name.$dirty && expenseMonthlyCreateForm.name.$invalid]">
+                              <label for="name">Concepto</label>
+                              <input type="text" class="form-control" name="name" placeholder="Concepto" ng-model="expense.name" required>
+                              <label ng-show="expenseMonthlyCreateForm.$submitted || expenseMonthlyCreateForm.name.$dirty && expenseMonthlyCreateForm.name.$invalid">
+                                <span ng-show="expenseMonthlyCreateForm.name.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                               </label>
                             </div>
 
                           </div>
                         </div>
-                      </form>
-                        <div class="modal-footer">
-                          <button type="submit" class="btn btn-primary" ng-click="createYear()">Agregar</button>
+
+
+
+                          <div class="modal-footer" >
+                          <button type="submit" class="btn btn-primary" ng-show="mostrardata" ng-click="ocultardata()">Cancelaar</button>
+                          <button type="submit" class="btn btn-primary" ng-click="updatecashExpense()" ng-show="mostrardata">Guardar</button>
+                          <button type="submit" class="btn btn-primary" ng-hide="mostrardata" ng-click="deleteExpense()">Eliminar</button>
+                          <button type="submit" class="btn btn-primary" ng-hide="mostrardata" ng-click="verdata()">Modificar</button>
                           <a  class="btn btn-danger" data-dismiss="modal" aria-hidden="ngenabled">Salir</a>
-                        </div>
-                   
-                   
                       </div>
+                  </div><!-- /.tab-pane -->
+                </div><!-- /.tab-content -->
+              </div>
+              <script type="text/javascript">$('#myTabs a').click(function (e) {
+                          e.preventDefault()
+                          $(this).tab('show')})
+              </script>
+              
+                        <!--================================================-->
                   </div>
               </div>
             </div>
           </div>
+          
           <!--===================================================-->
+
+
