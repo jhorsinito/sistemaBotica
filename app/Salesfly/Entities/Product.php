@@ -33,4 +33,15 @@ class Product extends Model
     public function material(){
         return $this->belongsTo('Salesfly\Salesfly\Entities\Material');
     }
+
+    /*
+     * Fx para variants
+     */
+
+    public function variant(){
+        return $this->hasOne('Salesfly\Salesfly\Entities\Variant');
+    }
+    public function variants(){
+        return $this->hasMany('Salesfly\Salesfly\Entities\Variant');
+    }
 }

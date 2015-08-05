@@ -26,6 +26,11 @@ Route::get('/vista-redis', function() {
    return view('test');
 });
 
+Route::get('status', function(){
+    return response('holi', 422)
+        ->header('Content-Type', 'text/html; charset=UTF-8');
+});
+
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');

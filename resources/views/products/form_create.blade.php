@@ -189,7 +189,7 @@
                                                                                                                 <label for="variantes">¿Desea seguir el stock del Producto?</label>
                                                                                                                 <input type="checkbox" name="track" ng-model="product.track" ng-checked="product.track" ng-disabled="product.hasVariants"/>
                                                                                              <span class="text-info"> <em> </em></span>
-                                                                                             <div class="row">
+                                                                                             <div class="row" ng-show="product.track && !product.hasVariants">
 
                                                                                                 <div class="col-md-5">
                                                                                                 <div class="form-group" >
@@ -200,19 +200,19 @@
                                                                                                 <div class="col-md-2">
                                                                                                     <div class="form-group" >
                                                                                                     <label for="suppPric">Stock Actual</label>
-                                                                                                    <input type="number" class="form-control" name="markup" placeholder="0.00" ng-model="product.markup" ng-blur="calculateMarkup()" ng-disabled="product.hasVariants || product.track" step="0.1">
+                                                                                                    <input type="number" class="form-control" name="markup" placeholder="0.00" ng-model="product.markup" ng-blur="calculateMarkup()" ng-disabled="product.hasVariants || !product.track" step="0.1">
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div class="col-md-2">
                                                                                                     <div class="form-group" >
                                                                                                     <label for="suppPric">Stock Mínimo</label>
-                                                                                                     <input type="number" class="form-control" name="markup" placeholder="0.00" ng-model="product.markup" ng-blur="calculateMarkup()" ng-disabled="product.hasVariants || product.track" step="0.1">
+                                                                                                     <input type="number" class="form-control" name="markup" placeholder="0.00" ng-model="product.markup" ng-blur="calculateMarkup()" ng-disabled="product.hasVariants || !product.track" step="0.1">
                                                                                                         </div>
                                                                                                 </div>
                                                                                                 <div class="col-md-2">
                                                                                                 <div class="form-group" >
                                                                                                      <label for="suppPric">Costo Mínimo</label>
-                                                                                                      <input type="number" class="form-control" name="markup" placeholder="0.00" ng-model="product.markup" ng-blur="calculateMarkup()" ng-disabled="product.hasVariants || product.track" step="0.1">
+                                                                                                      <input type="number" class="form-control" name="markup" placeholder="0.00" ng-model="product.markup" ng-blur="calculateMarkup()" ng-disabled="product.hasVariants || !product.track" step="0.1">
                                                                                                         </div>
                                                                                                 </div>
 

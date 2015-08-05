@@ -59,6 +59,8 @@
                       <th>Marca</th>
                       <th>Categoría</th>
                         <th>Creado</th>
+                        <th>Variantes</th>
+                        <th>Cantidad</th>
                       <th style="width: 40px">Editar</th>
                       <th style="width: 40px">Eliminar</th>
                     </tr>
@@ -66,12 +68,14 @@
                     <tr ng-repeat="row in products">
                       <td>{{$index + 1}}</td>
 
-                      <td>{{row.codigo }}</td>
-                      <td><a ng-href="/product/show/{{row.id}}">{{row.nombre}}</a></td>
-                        <td>{{row.price}}</td>
-                      <td>{{row.brand.nombre}}</td>
-                      <td>{{row.type.nombre}}</td>
-                        <td>{{row.created_at}}</td>
+                      <td>{{row.proCodigo }}</td>
+                      <td><a ng-href="/product/show/{{row.proId}}">{{row.proNombre}}</a></td>
+                        <td>{{row.varPrice}}</td>
+                      <td>{{row.braNombre}}</td>
+                      <td>{{row.typNombre}}</td>
+                        <td>{{row.proCreado}}</td>
+                        <td><a ng-href="/product/show/{{row.proId}}">{{row.variantes}}</a></td>
+                        <td>##</td>
                       <td><a ng-click="editProduct(row)" class="btn btn-warning btn-xs">Editar</a></td>
                       <td><a ng-click="deleteProduct(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
 

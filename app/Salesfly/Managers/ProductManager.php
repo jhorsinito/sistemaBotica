@@ -9,13 +9,13 @@ class ProductManager extends BaseManager{
             'nombre' => 'required',
             'codigo' => 'required',
             'suppCode' => 'required',
-            'hasVariants' => 'required',
+            'hasVariants' => 'required|boolean',
             'descripcion' => '',
-            'type_id' => '',
-            'brand_id' => '',
-            'material_id' => '',
-            'station_id' => '',
-            'estado' => 'required',
+            'type_id' => 'integer',
+            'brand_id' => 'integer',
+            'material_id' => 'integer',
+            'station_id' => 'integer',
+            'estado' => 'required|boolean',
             'image' => ''
 
         ];
