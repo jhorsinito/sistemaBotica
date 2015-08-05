@@ -1,9 +1,9 @@
 @extends('layout')
 @section('module')
-Clientes
+Practica
 @stop
 @section('base_url')
-<base href="{{URL::to('/')}}/materiales"/>
+<base href="{{URL::to('/')}}/practicas"/>
 @stop
 @section('css-customize')
 @stop
@@ -16,15 +16,15 @@ Clientes
 </section>-->
 
 <!-- Main content -->
-<section ng-app="materiales">
+<section ng-app="practicas">
     <div ng-view>
 
     </div>
 </section>
 
 @section('js-customize')
-<script src="/js/app/materiales/app.js"></script>
-    <script src="/js/app/materiales/controllers.js"></script>
+    <script src="/js/app/practicas/app.js"></script>
+    <script src="/js/app/practicas/controllers.js"></script>
 @stop
 
 @stop

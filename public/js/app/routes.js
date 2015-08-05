@@ -200,6 +200,36 @@
                     templateUrl:'/products/form-edit',
                     controller: 'ProductController'
                 })
+                //-----------------------------------------
+                .when('/cashMonthlys', {
+                    templateUrl: '/js/app/cashMonthlys/views/index.html',
+                    controller: 'CashMonthlyController'
+                })
+                .when('/cashMonthlys/create', {
+                    templateUrl: '/cashMonthlys/form-create',
+                    controller: 'CashMonthlyController'
+                })
+                .when('/cashMonthlys/edit/:id',{
+                    templateUrl:'/cashMonthlys/form-edit',
+                    controller: 'CashMonthlyController'
+                })
+
+                //-----------------------------------------
+
+
+                //-----------------------------------------
+                .when('/practicas', {
+                    templateUrl: '/js/app/practicas/views/index.html',
+                    controller: 'PracticaController'
+                })
+                .when('/practicas/create', {
+                    templateUrl: '/practicas/form-create',
+                    controller: 'PracticaController'
+                })
+                .when('/practicas/edit/:id',{
+                    templateUrl:'/practicas/form-edit',
+                    controller: 'PracticaController'
+                })
                 .otherwise({
                     redirectTo: '/'
                 });

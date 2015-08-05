@@ -26,6 +26,8 @@ class AddEstadoToEmployeesTable extends Migration
     public function down()
     {
         Schema::table('employees', function (Blueprint $table) {
+            //
+            $table->dropColumn('estado'); //1-> activo, 0 -> no activo;
         });
     }
 }

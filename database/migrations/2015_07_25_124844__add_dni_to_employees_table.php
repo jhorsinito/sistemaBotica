@@ -26,6 +26,8 @@ class AddDniToEmployeesTable extends Migration
     public function down()
     {
         Schema::table('employees', function (Blueprint $table) {
+            //
+            $table->dropColumn('dni'); //1-> activo, 0 -> no activo;
         });
     }
 }

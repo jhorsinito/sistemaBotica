@@ -7,8 +7,16 @@ use Illuminate\Http\Request;
 use Salesfly\Http\Requests;
 use Salesfly\Http\Controllers\Controller;
 
-class pruebacontroller extends Controller
+use Salesfly\Salesfly\Repositories\MonthRepo;
+
+class MonthsController extends Controller
 {
+    protected $monthRepo;
+
+    public function __construct(MonthRepo $monthRepo)
+    {
+        $this->monthRepo = $monthRepo;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -81,5 +89,11 @@ class pruebacontroller extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function select()
+    {
+        $months = $this->monthRepo->lists();
+        return response()->json($months);
     }
 }

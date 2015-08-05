@@ -89,6 +89,9 @@
                         });
                     }
                 }
+                $scope.createcashMonthlysss = function(){
+                    alert("Hola");
+                };
 
                 $scope.editCustomer = function(row){
                     $location.path('/customers/edit/'+row.id);
