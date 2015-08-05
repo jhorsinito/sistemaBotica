@@ -41,7 +41,7 @@
                         $scope.supplier = data;
                     });
                 }else{
-                    crudService.paginate('suppliers',1).then(function (data) {
+                   crudService.paginate('suppliers',1).then(function (data) {
                         $scope.suppliers = data.data;
                         $scope.maxSize = 5;
                         $scope.totalItems = data.total;

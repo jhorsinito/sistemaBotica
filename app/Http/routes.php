@@ -236,6 +236,7 @@ Route::put('api/suppliers/edit',['as'=>'person_edit', 'uses'=>'SuppliersControll
 Route::post('api/suppliers/destroy',['as'=>'person_destroy', 'uses'=>'SuppliersController@destroy']);
 Route::get('api/suppliers/search/{q?}',['as'=>'person_search', 'uses'=>'SuppliersController@search']);
 Route::get('api/suppliers/find/{id}',['as'=>'person_find', 'uses'=>'SuppliersController@find']);
+Route::get('api/suppliers/select','SuppliersController@selectSupliers');
 
 Route::get('employeecosts',['as'=>'person','uses'=>'EmployeecostsController@index']);
 Route::get('employeecosts/create',['as'=>'person_create','uses'=>'EmployeecostsController@index']);
@@ -303,3 +304,20 @@ Route::get('api/practicas/find/{id}',['as'=>'person_find', 'uses'=>'PracticasCon
 
 Route::get('api/expenses/find/{id}','ExpenseMonthlysController@find');
 Route::get('api/years/find/{id}','YearsController@find');
+Route::get('api/warehouses/select','WarehousesController@selectWarehouses');
+
+
+Route::get('purchases',['as'=>'person','uses'=>'PurchasesController@index']);
+Route::get('purchases/create',['as'=>'person_create','uses'=>'PurchasesController@index']);
+Route::get('purchases/edit/{id?}', ['as' => 'person_edit', 'uses' => 'PurchasesController@index']);
+Route::get('purchases/form-create',['as'=>'person_form_create','uses'=>'PurchasesController@form_create']);
+Route::get('purchases/form-edit',['as'=>'person_form_edit','uses'=>'PurchasesController@form_edit']);
+Route::get('api/purchases/all',['as'=>'person_all', 'uses'=>'PurchasesController@all']);
+Route::get('api/purchases/paginate/',['as' => 'person_paginate', 'uses' => 'PurchasesController@paginatep']);
+Route::post('api/purchases/create',['as'=>'person_create', 'uses'=>'PurchasesController@create']);
+Route::put('api/purchases/edit',['as'=>'person_edit', 'uses'=>'PurchasesController@edit']);
+Route::post('api/purchases/destroy',['as'=>'person_destroy', 'uses'=>'PurchasesController@destroy']);
+Route::get('api/purchases/search/{q?}',['as'=>'person_search', 'uses'=>'PurchasesController@search']);
+Route::get('api/purchases/find/{id}',['as'=>'person_find', 'uses'=>'PurchasesController@find']);
+Route::get('api/purchases/mostrarCostos/{id}','PurchasesController@mostrarCostos');
+

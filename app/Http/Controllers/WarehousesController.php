@@ -93,5 +93,9 @@ class WarehousesController extends Controller {
 
         return response()->json($warehouses);
     }
+    public function selectWarehouses(){
+        $warehouses = $this->warehouseRepo->all();
+        return response()->json($warehouses);
+    }
 
 }

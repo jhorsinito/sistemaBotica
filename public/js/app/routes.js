@@ -15,6 +15,19 @@
                     templateUrl:'/atributes/form-edit',
                     controller: 'AtributController'
                 })  
+                //---------------------------------------------------------
+                 .when('/purchases', {
+                    templateUrl: '/js/app/purchases/views/index.html',
+                    controller: 'PurchaseController'
+                })
+                .when('/purchases/create',{
+                    templateUrl:'/purchases/form-create',
+                    controller: 'PurchaseController'
+                })
+                .when('/purchases/edit/:id',{
+                    templateUrl:'/purchases/form-edit',
+                    controller: 'PurchaseController'
+                }) 
                 //----------------------------------------------------
                   .when('/materials', {
                     templateUrl: '/js/app/materials/views/index.html',
