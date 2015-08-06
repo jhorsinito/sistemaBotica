@@ -50,7 +50,7 @@
                       <button type="button" class="btn btn-default" ng-click="cancelProduct()">No</button>
                     </p>
                   </div>
-                  <table class="table table-bordered">
+                  <table class="table table-bordered table-hover">
                     <tr>
                       <th style="width: 10px">#</th>
                       <th>Código</th>
@@ -60,7 +60,7 @@
                       <th>Categoría</th>
                         <th>Creado</th>
                         <th>Variantes</th>
-                        <th>Cantidad</th>
+                        <th>Stock</th>
                       <th style="width: 40px">Editar</th>
                       <th style="width: 40px">Eliminar</th>
                     </tr>
@@ -74,7 +74,10 @@
                       <td>{{row.braNombre}}</td>
                       <td>{{row.typNombre}}</td>
                         <td>{{row.proCreado}}</td>
-                        <td><a ng-href="/product/show/{{row.proId}}">{{row.variantes}}</a></td>
+                        <td>
+                            <span ng-if="row.proQuantvar == '0'">-</span>
+                            <a ng-if="row.proQuantvar != '0'" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" ng-click="showVariants(row)">{{row.proQuantvar}}</a>
+                        </td>
                         <td>##</td>
                       <td><a ng-click="editProduct(row)" class="btn btn-warning btn-xs">Editar</a></td>
                       <td><a ng-click="deleteProduct(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
@@ -90,7 +93,58 @@
 
 
                 </div>
+                  <!-- Modal -->
+
               </div><!-- /.box -->
             </div>  
           </div>
         </section>
+
+<!--Modal de Variants-->
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Variantes del Producto ...</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Variantes</h3>
+                    </div><!-- /.box-header -->
+
+                    <div class="box-body no-padding">
+                        <table class="table table-condensed">
+                            <tbody><tr>
+                                <th style="width: 10px">#</th>
+                                <th>Variante</th>
+                                <th>Precio</th>
+                                <th style="width: 40px">Stock</th>
+                            </tr>
+                            <tr ng-repeat="row in variants">
+                                <td>{{$index + 1}}</td>
+                                <td><a ng-href="/variant/show/{{row.id}}">{{row.sku}}
+                                    <span ng-repeat="row2 in row.det_atr ">
+                                        / {{row2.descripcion}}
+                                    </span>
+
+                                </a></td>
+                                <td>{{row.price}}</td>
+                                <td>{{row.stock}}</td>
+                            </tr>
+
+                            </tbody></table>
+                    </div><!-- /.box-body -->
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

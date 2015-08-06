@@ -41,4 +41,8 @@ class VariantRepo extends BaseRepo{
         
     }  
 
+    //public function byForeignKey($id){
+
+    //}
+
 }

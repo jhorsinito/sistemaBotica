@@ -14,20 +14,22 @@
                 $scope.stations = {};
                 $scope.product.estado = true;
                 $scope.product.hasVariants = false;
-                $scope.product.suppPric = 0;
+                $scope.product.suppPri = 0;
                 $scope.product.markup = 0;
                 $scope.product.price = 0;
 
+                $scope.variants = []; //variantes por product_id;
+
 
                 $scope.calculateSuppPric = function() {
-                    if(angular.isNumber($scope.product.suppPric) && angular.isNumber($scope.product.markup) && angular.isNumber($scope.product.price)){
-                        $scope.product.price = $scope.product.suppPric + $scope.product.markup * $scope.product.suppPric / 100;
+                    if(angular.isNumber($scope.product.suppPri) && angular.isNumber($scope.product.markup) && angular.isNumber($scope.product.price)){
+                        $scope.product.price = $scope.product.suppPri + $scope.product.markup * $scope.product.suppPri / 100;
                     }
                 };
                 $scope.calculateMarkup = function() {
                     //alert('ho');
-                    if(angular.isNumber($scope.product.suppPric) && angular.isNumber($scope.product.markup) && angular.isNumber($scope.product.price)){
-                        $scope.product.price = $scope.product.suppPric + $scope.product.markup * $scope.product.suppPric / 100;
+                    if(angular.isNumber($scope.product.suppPri) && angular.isNumber($scope.product.markup) && angular.isNumber($scope.product.price)){
+                        $scope.product.price = $scope.product.suppPri + $scope.product.markup * $scope.product.suppPri / 100;
                     }
                 };
                 $scope.toggle = function () {
@@ -133,6 +135,7 @@
                             });
                         }
                         if(!document.getElementById('productImage').files[0]){
+                            alert($scope.product.hasVariants);
                             crudService.create($scope.product,'products').then(function (data){
                                 if (data['estado'] == true) {
                                     //$scope.success = data['nombres'];
@@ -215,5 +218,17 @@
                         }
                     });
                 }
+
+                /*
+                fx de variants
+                 */
+                $scope.showVariants = function(row){
+                    crudService.byforeingKey('variants','variants',row.proId).then(function(data)
+                    {
+                            $scope.variants = data;
+                    })
+                }
+
+
             }]);
 })();
