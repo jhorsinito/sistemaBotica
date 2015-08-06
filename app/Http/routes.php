@@ -305,6 +305,9 @@ Route::get('api/practicas/find/{id}',['as'=>'person_find', 'uses'=>'PracticasCon
 Route::get('api/expenses/find/{id}','ExpenseMonthlysController@find');
 Route::get('api/years/find/{id}','YearsController@find');
 Route::get('api/warehouses/select','WarehousesController@selectWarehouses');
+Route::get('api/products/select','ProductsController@selectProducts');
+Route::get('api/variants/paginate/','VariantsController@paginatep');
+Route::get('api/detailPurchase/find/{id}','VariantsController@find');
 
 
 Route::get('purchases',['as'=>'person','uses'=>'PurchasesController@index']);

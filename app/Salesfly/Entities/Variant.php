@@ -11,5 +11,9 @@ class Variant extends \Eloquent {
                             'price',
                             'track',
                             'product_id'];
+     public function product()
+    {
+        return $this->belongsTo('\Salesfly\Salesfly\Entities\Product');
+    }
 
 }

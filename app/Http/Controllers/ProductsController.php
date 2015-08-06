@@ -136,4 +136,8 @@ class ProductsController extends Controller
         $stations = Station::lists('nombre','id');
         return response()->json($stations);
     }
+    public function selectProducts(){
+        $products = $this->productRepo->all();
+        return response()->json($products);
+    }
 }
