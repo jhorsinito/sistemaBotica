@@ -21,7 +21,6 @@ class VariantsController extends Controller
 
     public function __construct(VariantRepo $variantRepo)
     {
-<<<<<<< HEAD
         $this->variantRepo = $variantRepo;
     }
 
@@ -36,16 +35,11 @@ class VariantsController extends Controller
    
     public function findVariant($id)
     {
-        $variant = $this->variantRepo->select$id);
+        $variant = $this->variantRepo->select($id);
         return response()->json($variant);
     }
 
-    
 
-=======
-        $this->productRepo = $variantRepo;
-        $this->middleware('auth');
-    }
 
     public function variants($product_id){
 
@@ -70,6 +64,5 @@ class VariantsController extends Controller
         return response()->json($variants);
         //return response()->json(Product::find(2)->with('brand')->get());
     }
->>>>>>> 30646b8244670402666d871d8ea3b1e36dbf11bd
 
 }
