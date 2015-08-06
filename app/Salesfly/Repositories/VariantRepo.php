@@ -21,4 +21,8 @@ class VariantRepo extends BaseRepo{
         //return $variants;
     }
 
+    //public function byForeignKey($id){
+
+    //}
+
 }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class YearsTable extends Migration
+class CreatePresentationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,12 @@ class YearsTable extends Migration
      */
     public function up()
     {
-        Schema::create('years', function (Blueprint $table) {
+        Schema::create('presentation', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('year',100);
+            $table->string('nombre');
+            $table->string('shortname');
+            $table->string('descripcion');
+            $table->boolean('base'); //kilos,lts,unidades .. si es base o no
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class YearsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('years');
+        Schema::drop('presentation');
     }
 }

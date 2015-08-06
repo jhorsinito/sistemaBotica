@@ -103,6 +103,11 @@ Route::get('api/products/types',['as' => 'products_types_select','uses' => 'Prod
 Route::get('api/products/stations',['as' => 'products_stations_select','uses' => 'ProductsController@stations_select']);
 //END PRODUCTS ROUTES
 
+//VARIANTS ROUTES
+Route::get('api/variants/variants/{id}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@variants']);
+
+//END VARIANTS ROUTES
+
 //STORE ROUTES
 Route::get('stores',['as'=>'store','uses'=>'StoresController@index']);
 Route::get('stores/create',['as'=>'store_create','uses'=>'StoresController@index']);

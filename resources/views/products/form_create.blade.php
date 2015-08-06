@@ -79,7 +79,7 @@
 
                                                                                <label for="suppPric">Precio de Compra</label>
                                                                                 <input type="number" class="form-control" name="suppPric" placeholder="0.00"
-                                                                                              ng-model="product.suppPric" ng-disabled="product.hasVariants"  ng-blur="calculateSuppPric()" step="0.1">
+                                                                                              ng-model="product.suppPri" ng-disabled="product.hasVariants"  ng-blur="calculateSuppPric()" step="0.1">
 
                                                                         </div>
                                                                         </div>

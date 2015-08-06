@@ -11,6 +11,8 @@ use Salesfly\Http\Controllers\Controller;
 
 use Salesfly\Salesfly\Repositories\ProductRepo;
 use Salesfly\Salesfly\Managers\ProductManager;
+use Salesfly\Salesfly\Repositories\VariantRepo;
+use Salesfly\Salesfly\Managers\VariantManager;
 
 use Salesfly\Salesfly\Entities\Brand;
 use Salesfly\Salesfly\Entities\Ttype;
@@ -20,10 +22,12 @@ use Salesfly\Salesfly\Entities\Station;
 class ProductsController extends Controller
 {
     protected $productRepo;
+    protected $variantRepo;
 
-    public function __construct(ProductRepo $productRepo)
+    public function __construct(ProductRepo $productRepo, VariantRepo $variantRepo)
     {
         $this->productRepo = $productRepo;
+        $this->variantRepo = $variantRepo;
         $this->middleware('auth');
         //$this->middleware('role:admin');
     }
@@ -65,14 +69,29 @@ class ProductsController extends Controller
     public function create(Request $request)
     {
         $product = $this->productRepo->getModel();
+        $variant = $this->variantRepo->getModel();
 
-        $manager = new ProductManager($product,$request->all());
+        if ($request->input('estado') == 1) {}else{$request->merge(array('estado' => '0'));};
+        if ($request->input('hasVariants') == 1) {}else{$request->merge(array('hasVariants' => '0'));};
+        if ($request->input('track') == 1) {}else{$request->merge(array('track' => '0'));};
 
-        $manager->save();
+        $managerPro = new ProductManager($product,$request->except('sku','suppPri','markup','price','track'));
 
-        //if($request->input('hasVariants') === true){
-
-        //}
+        if($request->input('hasVariants') === true){
+            $managerPro->save();
+            $request->merge(array('product_id' => $product->id));
+            $product->quantVar = 0;
+            $product->save();
+            //$managerVar = new VariantManager($variant,$request->only('sku','suppPri','markup','price','track','product_id'));
+            //$managerVar->save();
+        }elseif($request->input('hasVariants') === '0'){
+            $managerPro->save();
+            $request->merge(array('product_id' => $product->id));
+            $product->quantVar = 0;
+            $product->save();
+            $managerVar = new VariantManager($variant,$request->only('sku','suppPri','markup','price','track','product_id'));
+            $managerVar->save();
+        }
 
         return response()->json(['estado'=>true, 'nombres'=>$product->nombre]);
     }

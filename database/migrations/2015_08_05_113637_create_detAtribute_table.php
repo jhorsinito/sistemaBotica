@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStockTable extends Migration
+class CreateDetAtributeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,13 @@ class CreateStockTable extends Migration
      */
     public function up()
     {
-        Schema::create('stock', function (Blueprint $table) {
+        Schema::create('detAtr', function (Blueprint $table) {
             $table->increments('id');
-            $table->decimal('stockActual',10,2);
-            $table->decimal('stockMin',10,2);
-            $table->decimal('stockMinSoles',10,2);
             $table->integer('variant_id')->unsigned();
-            $table->integer('warehouse_id')->unsigned();
+            $table->integer('atribute_id')->unsigned();
+            $table->string('descripcion');
             $table->foreign('variant_id')->references('id')->on('variants');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses');
+            $table->foreign('atribute_id')->references('id')->on('atributes');
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ class CreateStockTable extends Migration
      */
     public function down()
     {
-        Schema::drop('stock');
+        Schema::drop('detAtr');
     }
 }
