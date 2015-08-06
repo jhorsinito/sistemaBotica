@@ -80,7 +80,8 @@
                     //=========================================
                     //=========================================
                 $scope.searchProduct=function(){
-                 crudPurchase.paginate('products',1).then(function (data) {
+                 crudPurchase.paginate('variants',1).then(function (data) {: 
+                    alert("nombre"+data.data.nombrep);
                         $scope.products = data.data;
                         $scope.maxSize = 5;
                         $scope.totalItems = data.total;
@@ -90,6 +91,10 @@
                     });
                     }
                     $scope.asignarProduc=function(row){
+                        crudPurchase.byId(row.id,'variants').then(function (data) {
+                        $scope.purchase = data;
+                    });
+                        /*
                         $scope.product.id=row.id;
                         $scope.variantsProductos=[];
                         $scope.contador=0;
@@ -105,7 +110,7 @@
                                 }
                             };
                             
-                        });
+                        });*/
                     }
                     //$scope.contadorProducto=0;
                     $scope.AgregarProducto=function(){

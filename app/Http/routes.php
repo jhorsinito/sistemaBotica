@@ -324,3 +324,5 @@ Route::get('api/purchases/mostrarCostos/{id}','PurchasesController@mostrarCostos
 
 //---------------------------------------------------------------------
 Route::get('api/variants/select','VariantsController@select');
+Route::get('api/variants/findVariant/{id}','VariantsController@findVariant');
+Route::get('api/variants/paginatep/','VariantsController@paginatep');
