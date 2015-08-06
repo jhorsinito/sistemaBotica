@@ -21,7 +21,7 @@ class ProductRepo extends BaseRepo{
 
         return ($item1['id'] > $item2['id'])?1:-1;
     }
-
+/*
     public function paginate($qantity){
         //$products = $this->getModel()->with('brand','type')->_variant->paginate($qantity);
         //$products = Product::find(1)->variant; trae 1
@@ -58,5 +58,6 @@ class ProductRepo extends BaseRepo{
 
         //return $products;
     }
+    */
 
 }

@@ -101,6 +101,7 @@ Route::get('api/products/brands',['as' => 'products_brands_select','uses' => 'Pr
 Route::get('api/products/materials',['as' => 'products_materials_select','uses' => 'ProductsController@materials_select']);
 Route::get('api/products/types',['as' => 'products_types_select','uses' => 'ProductsController@types_select']);
 Route::get('api/products/stations',['as' => 'products_stations_select','uses' => 'ProductsController@stations_select']);
+
 //END PRODUCTS ROUTES
 
 //STORE ROUTES
@@ -321,3 +322,5 @@ Route::get('api/purchases/search/{q?}',['as'=>'person_search', 'uses'=>'Purchase
 Route::get('api/purchases/find/{id}',['as'=>'person_find', 'uses'=>'PurchasesController@find']);
 Route::get('api/purchases/mostrarCostos/{id}','PurchasesController@mostrarCostos');
 
+//---------------------------------------------------------------------
+Route::get('api/variants/select','VariantsController@select');

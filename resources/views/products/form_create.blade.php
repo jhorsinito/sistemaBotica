@@ -68,8 +68,8 @@
                                                                 <div class="box-tools pull-right">
                                                                   <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                                                 </div><!-- /.box-tools -->
-                                                              </div><!-- /.box-header -->
-                                                              <div class="box-body">
+                                                                </div><!-- /.box-header -->
+                                                                <div class="box-body">
                                                                           <div class="callout callout-default">
                                                                               <p>Si el producto presenta Variantes. El precio del mismo se establecerá al momento de crear las Variantes.</p>
                                                                             </div>

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class YearsTable extends Migration
+class AddColumnDetailPurchasesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,10 @@ class YearsTable extends Migration
      */
     public function up()
     {
-        Schema::create('years', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('year',100);
-            $table->timestamps();
+        Schema::table('detailPurchases', function (Blueprint $table) {
+            $table->decimal('preProducto',10,2); //quantVar 0 -> sin variantes , 1... con variantes.
+            $table->decimal('preCompra',10,2);
+            $table->integer('cantidad');
         });
     }
 
@@ -26,6 +26,6 @@ class YearsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('years');
+        
     }
 }

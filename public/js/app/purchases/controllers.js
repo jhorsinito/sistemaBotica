@@ -4,13 +4,21 @@
             function($scope, $routeParams,$location,crudPurchase,socket,$filter,$route,$log){
                 $scope.purchases = [];
                 $scope.purchase = {};
+                $scope.products = [];
+                $scope.product = {};
+                $scope.detailPurchases = [];
+                $scope.detailPurchase = {};
                 $scope.errors = null;
                 $scope.success;
                 $scope.query = '';
                 $scope.warehouses;
+                $scope.variantsProductos=[];
+                $scope.variantsProducto={};
                 $scope.suppliers;
                 $scope.supplier ;
                 $scope.purchase.suppliers_id;
+
+                //$scope.detailPurchase.preCompra=$scope.detailPurchases.variants_id;
 
                 $scope.toggle = function () {
                     $scope.show = !$scope.show;
@@ -69,7 +77,53 @@
                        
                     });
                     }
+                    //=========================================
+                    //=========================================
+                $scope.searchProduct=function(){
+                 crudPurchase.paginate('products',1).then(function (data) {
+                        $scope.products = data.data;
+                        $scope.maxSize = 5;
+                        $scope.totalItems = data.total;
+                        $scope.currentPage = data.current_page;
+                        $scope.itemsperPage = 15;
+                       
+                    });
+                    }
+                    $scope.asignarProduc=function(row){
+                        $scope.product.id=row.id;
+                        $scope.variantsProductos=[];
+                        $scope.contador=0;
 
+                        crudPurchase.select('variants','select').then(function(data){
+                            alert(data[1].product_id)
+                            for (var i = 0; i < data.length; i++) {
+                                if(data[i].product_id==row.id){
+                                    //$scope.variantsProductos[$scope.contador] = data[i];
+                                    $scope.variantsProducto=data[i];
+                                    $scope.variantsProductos[$scope.contador]=$scope.variantsProducto;
+                                    $scope.contador++;
+                                }
+                            };
+                            
+                        });
+                    }
+                    //$scope.contadorProducto=0;
+                    $scope.AgregarProducto=function(){
+                        //alert($scope.contadorProducto);
+                        $scope.detailPurchase.variants_id=$scope.variantsProducto.id;
+                        $log.log($scope.detailPurchase);
+                        $scope.detailPurchase.preProducto=$scope.variantsProducto.price;
+                        $scope.detailPurchases.push($scope.detailPurchase);
+                        $scope.detailPurchase = {};
+                        //$scope.contadorProducto++;
+                    }
+                    $scope.sacarPrecio=function(){
+
+                        $scope.detailPurchase.preCompra=$scope.variantsProducto.price;
+                        alert($scope.detailPurchase.preCompra);    
+                    }
+                    //===========================================
+                    //===========================================
                 $scope.searchPurchase = function(){
                 if ($scope.query.length > 0) {
                     crudPurchase.search('purchases',$scope.query,1).then(function (data){

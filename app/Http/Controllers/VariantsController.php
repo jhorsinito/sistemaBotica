@@ -94,4 +94,9 @@ class VariantsController extends Controller {
         return response()->json($variants);
     }
 
+    public function select(){
+        $variant = $this->variantRepo->all();
+        return response()->json($variant);
+    }
+
 }
