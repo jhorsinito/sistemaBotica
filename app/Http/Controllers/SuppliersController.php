@@ -93,4 +93,9 @@ class SuppliersController extends Controller {
 
         return response()->json($suppliers);
     }
+     public function selectSupliers(){
+        $suppliers = $this->supplierRepo->all();
+        return response()->json($suppliers);
+    }
+
 }
