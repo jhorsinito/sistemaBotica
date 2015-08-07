@@ -12,16 +12,24 @@ class CashMonthlyRepo extends BaseRepo{
         return new CashMonthly;
     }
 
-    public function search($q)
-    {
-        //$cashMonthlys = CashMonthly::with('year','month','expenseMonthly');
-        $CashMonthlys =CashMonthly::with('year','month','expenseMonthly')->where('amount','like', $q.'%')
-                    ->orWhere('descripcion','like',$q.'%')
-                    ->orWhere('months_id','like',$q.'%')
-                    ->orWhere('years_id','like',$q.'%')
-                    ->orWhere('expenseMonthlys_id','like',$q.'%')
-                    //with(['customer','employee'])
-                    ->paginate(15);
+    public function search($m,$a,$c)
+    { 
+        if($m==0){
+            $m='%%';
+        }
+        if($a==0){
+            $a='%%';
+        }
+        if($c==0){
+            $c='%%';
+        }
+            $CashMonthlys =CashMonthly::with('year','month','expenseMonthly')
+                    ->where('months_id','like',$m)
+                    ->where('years_id','like',$a) 
+                    ->where('expenseMonthlys_id','like',$c)  
+                    ->paginate(15); 
+
+
         return $CashMonthlys;
     }
 
