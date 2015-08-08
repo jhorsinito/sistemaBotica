@@ -30,7 +30,10 @@
                     .success(function (data)
                     {
                         deferred.resolve(data);
-                    })
+                    }).error(function(data)
+                {
+                    alert('No se puede Agregar');
+                });
                 //    .error(function (data) //add for user , error send by 422 status
                 //    {
                 //        deferred.resolve(data);
@@ -59,7 +62,10 @@
                     {
                         deferred.resolve(data);
                     }
-                );
+                ).error(function(data)
+                {
+                    alert('Item en USO');
+                });
                 return deferred.promise;
             }
             function byforeingKey(uri,fx,id){
@@ -92,6 +98,17 @@
                 return deferred.promise;
             }
 
+            function searchMes(uri,mes,year,conc,page){
+                var deferred = $q.defer();
+                var result = $http.get('/api/'+uri+'/search/'+mes+'/'+year+'/'+conc+'/?page='+page);
+
+
+                result.success(function(data){
+                        deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
+
             function select(uri,select)
             {
                 var deferred = $q.defer();
@@ -112,7 +129,8 @@
                 destroy:destroy,
                 search: search,
                 select:select,
-                byforeingKey: byforeingKey
+                byforeingKey: byforeingKey,
+                searchMes,searchMes
             }
         }])
         .factory('socketService', function ($rootScope) {

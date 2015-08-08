@@ -144,14 +144,13 @@
                         <div class="row">
                           <div class="col-md-8">
 
-                            
-                            <div class="form-group" ng-class="{true: 'has-error'}[ yearCreateForm.year.$error.required && yearCreateForm.$submitted || yearCreateForm.year.$dirty && yearCreateForm.year.$invalid]">
-                      <label for="year">Año</label>
-                      <input type="text" class="form-control" name="year" placeholder="year" ng-model="year.year" required>
-                      <label ng-show="yearCreateForm.$submitted || yearCreateForm.year.$dirty && yearCreateForm.year.$invalid">
-                        <span ng-show="yearCreateForm.year.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
-                      </label>
-                    </div>
+                          <div class="form-group" ng-class="{true: 'has-error'}[ yearCreateForm.year.$error.required && yearCreateForm.$submitted || yearCreateForm.year.$dirty && yearCreateForm.year.$invalid]">
+                          <label for="year">Año</label>
+                          <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="year" placeholder="2015" ng-model="year.year" ng-blur="calculateSuppPric()" step="1">
+                          <label ng-show="yearCreateForm.$submitted || yearCreateForm.year.$dirty && yearCreateForm.year.$invalid">
+                            <span ng-show="yearCreateForm.year.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                          </label>
+                         </div>
 
                           </div>
                         </div>
@@ -172,7 +171,8 @@
                           <div class="form-group" >
                           <label for="year">Año</label>
 
-                          <select class="form-control" name="" ng-model="cashMonthly.years_id" ng-options="item.id as item.year for item in years">
+                          <select class="form-control" name="" ng-model="cashMonthly.years_id" ng-options="item.id as item.year for item in years | orderBy: 'year'">
+                            <option value="">--Elije Año--</option>
                           </select>
                           </div>
                           </div>
@@ -181,14 +181,15 @@
                           <!---->
                         <div class="row" ng-show="mostrardata1">
                           <div class="col-md-8">
+                          
 
                             <div class="form-group" ng-class="{true: 'has-error'}[ yearCreateForm.year.$error.required && yearCreateForm.$submitted || yearCreateForm.year.$dirty && yearCreateForm.year.$invalid]">
-                              <label for="year">Año</label>
-                              <input type="text" class="form-control" name="year" placeholder="Concepto" ng-model="year.year" required>
-                              <label ng-show="yearCreateForm.$submitted || yearCreateForm.year.$dirty && yearCreateForm.year.$invalid">
-                                <span ng-show="yearCreateForm.year.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
-                              </label>
-                            </div>
+                          <label for="year">Año</label>
+                          <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="year" placeholder="2015" ng-model="year.year" ng-blur="calculateSuppPric()" step="1">
+                          <label ng-show="yearCreateForm.$submitted || yearCreateForm.year.$dirty && yearCreateForm.year.$invalid">
+                            <span ng-show="yearCreateForm.year.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                          </label>
+                         </div>
 
                           </div>
 
@@ -238,7 +239,7 @@
                 
                 <div class="tab-content">
                   <div class="tab-pane active" id="tab_1">
-                      <form name="expenseMonthlyCreateForm" role="form" novalidate>
+                      <form name="expenseMonthlyCreateForm" role="form" validate>
                         <div class="row">
                           <div class="col-md-8">
 
@@ -252,12 +253,13 @@
 
                           </div>
                         </div>
-                      </form>
+                      
 
                       <div class="modal-footer" >
-                          <button type="submit" class="btn btn-primary" ng-click="createExpense()">Agregar</button>
+                          <button type="submit" class="btn btn-primary" ng-click="createExpense()" >Agregar</button>
                           <a  class="btn btn-danger" data-dismiss="modal" aria-hidden="ngenabled">Salir</a>
                       </div>
+                      </form>
                   </div><!-- /.tab-pane -->
                       <div class="tab-pane" id="tab_2">
                     <div class="form-group" >
@@ -268,7 +270,8 @@
                           <div class="form-group" >
                           <label for="expense">Concepto</label>
 
-                          <select class="form-control" name="" ng-model="cashMonthly.expenseMonthlys_id" ng-options="item.id as item.name for item in expenses">
+                          <select class="form-control" name="" ng-model="cashMonthly.expenseMonthlys_id" ng-options="item.id as item.name for item in expenses | orderBy: 'name'">
+                            <option value="">--Elije Concepto--</option>
                           </select>
                           </div>
                           </div>

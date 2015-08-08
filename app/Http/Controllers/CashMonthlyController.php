@@ -84,11 +84,14 @@ class CashMonthlyController extends Controller {
         return response()->json(['estado'=>true, 'nombre'=>$material->nombre]);
     }
 
-    public function search($q)
+    public function search($m,$a,$c)
     {
-        //$q = Input::get('q');
-        $cashMonthlys = $this->CashMonthlyRepo->search($q);
+        //return substr($q, 0,1);
+        //return substr($q, -1);
+
+        $cashMonthlys = $this->CashMonthlyRepo->search($m,$a,$c);
 
         return response()->json($cashMonthlys);
+        //return $m+$a+$c;
     }
 }

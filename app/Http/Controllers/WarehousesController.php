@@ -25,7 +25,7 @@ class WarehousesController extends Controller {
 
     public function all()
     {
-        $warehouses = $this->warehouseRepo->paginate(15);
+        $warehouses = $this->warehouseRepo->all();
         return response()->json($warehouses);
         //var_dump($warehouses);
     }
