@@ -115,6 +115,14 @@ Route::get('api/variants/variants/{id}',['as' => 'variant_byproduct_id', 'uses' 
 Route::get('api/presentations/all',['as'=>'presentation_all', 'uses'=>'PresentationsController@all']);
 //End prese routes
 
+//detpres routes
+Route::get('api/detpres/all','DetPresController@all');
+//end detpres routes
+
+//equiv routes
+Route::get('api/equiv/all','EquivController@all');
+//end equiv routes
+
 //STORE ROUTES
 Route::get('stores',['as'=>'store','uses'=>'StoresController@index']);
 Route::get('stores/create',['as'=>'store_create','uses'=>'StoresController@index']);
@@ -340,3 +348,4 @@ Route::get('api/purchases/mostrarCostos/{id}','PurchasesController@mostrarCostos
 Route::get('api/variants/select','VariantsController@select');
 Route::get('api/variants/findVariant/{id}','VariantsController@findVariant');
 Route::get('api/variants/paginatep/','VariantsController@paginatep');
+
