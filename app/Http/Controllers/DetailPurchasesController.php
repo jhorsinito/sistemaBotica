@@ -8,7 +8,7 @@ use Illuminate\Routing\Controller;
 use Salesfly\Salesfly\Repositories\DetailPurchaseRepo;
 use Salesfly\Salesfly\Managers\DetailPurchaseManager;
 
-class DetailPurchaseController extends Controller {
+class DetailPurchasesController extends Controller {
 
     protected $detailPurchaseRepo;
 
@@ -31,8 +31,8 @@ class DetailPurchaseController extends Controller {
         //var_dump($materials);
     }
 
-    public function paginatep(){
-        $detailPurchases = $this->detailPurchaseRepo->paginate(15);
+    public function paginatep($id){
+        $detailPurchases =$this->detailPurchaseRepo->paginate($id);
         return response()->json($detailPurchases);
     }
 
@@ -49,13 +49,31 @@ class DetailPurchaseController extends Controller {
 
     public function create(Request $request)
     {
+  
+  $var = $request->all();
+  $detailPurchaseRepox;
+         
+       foreach($var as $object){
 
-        $detailPurchases = $this->detailPurchaseRepo->getModel();
-
-        $manager = new DetailPurchaseManager($detailPurchases,$request->all());
-        $manager->save();
-
-        return response()->json(['estado'=>true, 'descuento'=>$detailPurchases->descuento]);
+           $detailPurchaseRepox = new DetailPurchaseRepo;
+           $insertar=new DetailPurchaseManager($detailPurchaseRepox->getModel(),$object);
+           $insertar->save();
+           $detailPurchaseRepox = null;
+       }
+      return response()->json(['estado'=>true]);
+    }
+    public function destroy(Request $request)
+    {
+      
+           $detailPurchases= $this->detailPurchaseRepo->find($request->id);
+        $detailPurchases->delete();
+       
+      return response()->json(['estado'=>true]);
+        
+    }
+    public function Eliminar($id){
+         $detailPurchases = $this->detailPurchaseRepo->Eliminar($id);
+        return response()->json($detailPurchases);
     }
 
     public function find($id)
@@ -74,13 +92,7 @@ class DetailPurchaseController extends Controller {
         return response()->json(['estado'=>true, 'descuento'=>$detailPurchases->descuento]);
     }
 
-    public function destroy(Request $request)
-    {
-        $detailPurchases= $this->detailPurchaseRepo->find($request->id);
-        $detailPurchases->delete();
-
-        return response()->json(['estado'=>true, 'nombre'=>$detailPurchases->nombre]);
-    }
+    
 
     public function search($q)
     {

@@ -17,8 +17,8 @@ class CreateDetailPurchasesTable extends Migration
             $table->decimal('descuento',10,2);
             $table->decimal('montoBruto',10,2);
             $table->decimal('montoTotal',10,2);
-            $table->integer('variants_id')->unsigned();
-            $table->foreign('variants_id')->references('id')->on('variants');
+            $table->integer('detAtr_id')->unsigned();
+            $table->foreign('detAtr_id')->references('id')->on('detAtr');
             $table->integer('purchases_id')->unsigned();
             $table->foreign('purchases_id')->references('id')->on('purchases');
             $table->timestamps();

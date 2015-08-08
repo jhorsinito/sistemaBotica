@@ -23,11 +23,14 @@ class VariantsController extends Controller
     {
         $this->variantRepo = $variantRepo;
     }
-
+    public function find($id)
+    {
+        $variants = $this->variantRepo->find($id);
+        return response()->json($variants);
+    }
 
     public function paginatep(){ //->with(['store'])
-        $variants = $this->variantRepo->paginaterepo(15);
-        //$variants = $this->variantRepo->with(['store'])->paginate(15);
+        $variants = $this->variantRepo->detPre();
         return response()->json($variants);
     }
 
