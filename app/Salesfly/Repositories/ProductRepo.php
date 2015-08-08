@@ -56,13 +56,19 @@ class ProductRepo extends BaseRepo{
                             ->join('types','products.type_id','=','types.id')
                             ->leftjoin('variants','products.id','=','variants.product_id')
                             ->select(\DB::raw('DISTINCT(products.id) as proId'),'products.codigo as proCodigo','products.nombre as proNombre','variants.price as varPrice',
-                               'brands.nombre as braNombre','types.nombre as typNombre','products.created_at as proCreado',
+                               'brands.nombre as braNombre','types.nombre as typNombre','products.created_at as proCreado','products.hasVariants as proHasVar',
                               'products.quantVar as proQuantvar',\DB::raw('"0" as stoStockActual'))
                             ->groupBy('products.id')
                             ->paginate($qantity);
 
         return $products;
 
+    }
+
+    public function find($id){
+        $product = Product::find($id)->load('brand','material','station','type');
+
+        return $product;
     }
 
 

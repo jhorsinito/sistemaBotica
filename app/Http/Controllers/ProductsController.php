@@ -101,13 +101,13 @@ class ProductsController extends Controller
         return View('products.show');
     }
 
-    /*public function find($id)
+    public function find($id)
     {
-        $customer = $this->customerRepo->find($id);
-        return response()->json($customer);
+        $product = $this->productRepo->find($id);
+        return response()->json($product);
     }
 
-    public function edit(Request $request)
+    /*public function edit(Request $request)
     {
         $customer = $this->customerRepo->find($request->id);
         //var_dump($request->except('fechaNac'));

@@ -17,9 +17,9 @@ class CreateVariantsTable extends Migration
             $table->increments('id');
             //$table->string('nombre');
             $table->integer('sku'); //en base de datos poner inicio a 1000, true de increments
-            $table->decimal('suppPri',10,2);
-            $table->decimal('markup',10,2); //porcentaje %
-            $table->decimal('price',10,2);
+            $table->decimal('suppPri',10,2); //promedio
+            $table->decimal('markup',10,2); //porcentaje % promedio
+            $table->decimal('price',10,2); // promedio
             $table->boolean('track'); //si está trackeado para el stock
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');

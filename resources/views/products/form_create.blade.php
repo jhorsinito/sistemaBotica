@@ -62,44 +62,7 @@
                     </div>
                     </div></div>
 
-                    <div class="box box-default" id="price">
-                                                              <div class="box-header with-border">
-                                                                <h3 class="box-title">Precio del Producto</h3>
-                                                                <div class="box-tools pull-right">
-                                                                  <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                                                </div><!-- /.box-tools -->
-                                                                </div><!-- /.box-header -->
-                                                                <div class="box-body">
-                                                                          <div class="callout callout-default">
-                                                                              <p>Si el producto presenta Variantes. El precio del mismo se establecerá al momento de crear las Variantes.</p>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                            <div class="col-md-2 col-md-offset-3">
-                                                                        <div class="form-group" >
 
-                                                                               <label for="suppPric">Precio de Compra</label>
-                                                                                <input type="number" class="form-control" name="suppPric" placeholder="0.00"
-                                                                                              ng-model="product.suppPri" ng-disabled="product.hasVariants"  ng-blur="calculateSuppPric()" step="0.1">
-
-                                                                        </div>
-                                                                        </div>
-                                                                         <div class="col-md-2"><div class="form-group" >
-
-                                                                                                                                                                              <label for="suppPric">% de Ganancia</label>
-                                                                                                                                                                               <input type="number" class="form-control" name="markup" placeholder="0.00"
-                                                                                                                                                                                             ng-model="product.markup" ng-blur="calculateMarkup()" ng-disabled="product.hasVariants" step="0.1">
-
-                                                                                                                                                                       </div></div>
-                                                                          <div class="col-md-2"><div class="form-group" >
-
-                                                                                                                                                                               <label for="suppPric">Precio de Venta</label>
-                                                                                                                                                                                <input type="number" class="form-control" name="price" placeholder="0.00"
-                                                                                                                                                                                              ng-model="product.price" ng-blur="calculatePrice()" ng-disabled="product.hasVariants" step="0.1">
-
-                                                                                                                                                                        </div></div>
-                                                                </div>
-                                                              </div><!-- /.box-body -->
-                                                            </div><!-- /.box -->
                     <div class="form-group">
                                            <label>Imagen</label>
                                            <input type="file" ng-model="product.image" id="productImage" name="productImage"/>
@@ -147,9 +110,8 @@
                       ng-model="product.descripcion" rows="4" cols="50"></textarea>
                      </div>
 
-                      @{{ product.hasVariants }}
 
-                                        <div class="box box-default" id="variants">
+                      <div class="box box-default" id="variants">
                                           <div class="box-header with-border">
                                             <h3 class="box-title">Variantes</h3>
                                             <div class="box-tools pull-right">
@@ -164,6 +126,97 @@
                                                                   </div>
                                           </div><!-- /.box-body -->
                                         </div><!-- /.box -->
+
+<div class="box box-default" id="price">
+                                                                    <div class="box-header with-border">
+                                                                      <h3 class="box-title">Presentaciones del Producto     </h3>    <button class="btn btn-xs btn-info btn-flat" data-toggle="modal" data-target="#presentation" ng-click="traerPres()">Añadir Presentación</button>
+                                                                      <div class="box-tools pull-right">
+                                                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                                                      </div><!-- /.box-tools -->
+                                                                      </div><!-- /.box-header -->
+                                                                      <div class="box-body">
+
+                                                                                  <div class="row">
+
+                                                                                        <div class="col-md-6 col-md-offset-3">
+                                                                                            <table class="table table-bordered">
+                                                                                                                <tbody><tr>
+                                                                                                                  <th>#</th>
+                                                                                                                  <th>Presentación</th>
+                                                                                                                  <th>Precio de Proveedor</th>
+                                                                                                                  <th>% de Utilidad</th>
+                                                                                                                  <th>Precio de Venta</th>
+                                                                                                                  <th>Opciones</th>
+                                                                                                                </tr>
+                                                                                                                <tr ng-repeat="row in product.presentations">
+                                                                                                                  <td>@{{$index + 1}}</td>
+                                                                                                                  <td>@{{row.nombre}}</td>
+                                                                                                                  <td>@{{row.suppPri}}</td>
+                                                                                                                  <td>@{{row.markup}}</td>
+
+                                                                                                                  <td>@{{row.price}}</td>
+                                                                                                                  <td><a class="btn btn-warning btn-xs" href="" ng-click="editPres($index)"><i class="fa fa-fw fa-pencil"></i></a>
+                                                                                                                  <a href="" class="btn btn-danger btn-xs" ng-click="deletePres($index)"><i class="fa fa-fw fa-trash"></i></a>
+                                                                                                                  </td>
+                                                                                                                </tr>
+
+
+
+                                                                                         </tbody></table>
+                                                                                     </div>
+
+
+                                                                                 </div>
+                                                                    </div><!-- /.box-body -->
+
+
+                                                                  </div><!-- /.box -->
+
+
+
+                                         <div class="box box-default" id="price">
+                                                                    <div class="box-header with-border">
+                                                                      <h3 class="box-title">Precio del Producto</h3>
+                                                                      <div class="box-tools pull-right">
+                                                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                                                      </div><!-- /.box-tools -->
+                                                                      </div><!-- /.box-header -->
+                                                                      <div class="box-body">
+                                                                                <div class="callout callout-default">
+                                                                                    <p>Si el producto presenta Variantes. El precio del mismo se establecerá al momento de crear las Variantes.</p>
+                                                                                  </div>
+                                                                                  <div class="row">
+                                                                                  <div class="col-md-2 col-md-offset-3">
+                                                                              <div class="form-group" >
+
+                                                                                     <label for="suppPric">Precio de Compra</label>
+                                                                                      <input type="number" class="form-control" name="suppPric" placeholder="0.00"
+                                                                                                    ng-model="product.suppPri" ng-disabled="product.hasVariants"  ng-blur="calculateSuppPric()" step="0.1">
+
+                                                                              </div>
+                                                                              </div>
+                                                                               <div class="col-md-2"><div class="form-group" >
+
+                                                                                                                                                                                    <label for="suppPric">% de Ganancia</label>
+                                                                                                                                                                                     <input type="number" class="form-control" name="markup" placeholder="0.00"
+                                                                                                                                                                                                   ng-model="product.markup" ng-blur="calculateMarkup()" ng-disabled="product.hasVariants" step="0.1">
+
+                                                                                                                                                                             </div></div>
+                                                                                <div class="col-md-2"><div class="form-group" >
+
+                                                                                                                                                                                     <label for="suppPric">Precio de Venta</label>
+                                                                                                                                                                                      <input type="number" class="form-control" name="price" placeholder="0.00"
+                                                                                                                                                                                                    ng-model="product.price" ng-blur="calculatePrice()" ng-disabled="product.hasVariants" step="0.1">
+
+                                                                                                                                                                              </div></div>
+                                                                      </div>
+                                                                    </div><!-- /.box-body -->
+                                                                        <div class="overlay" >
+                                                                        </div>
+
+                                                                  </div><!-- /.box -->
+
+
                          <div class="box box-default" id="inventory">
                                                                    <div class="box-header with-border">
                                                                      <h3 class="box-title">Inventario</h3>
@@ -189,37 +242,41 @@
                                                                                                                 <label for="variantes">¿Desea seguir el stock del Producto?</label>
                                                                                                                 <input type="checkbox" name="track" ng-model="product.track" ng-checked="product.track" ng-disabled="product.hasVariants"/>
                                                                                              <span class="text-info"> <em> </em></span>
-                                                                                             <div class="row" ng-show="product.track && !product.hasVariants">
 
+                                                                                             <div class="row" ng-show="product.track && !product.hasVariants">
+                                                                                                <span ng-repeat="row in warehouses">
                                                                                                 <div class="col-md-5">
                                                                                                 <div class="form-group" >
-                                                                                                   <label for="suppPric">Almacenes</label>
-                                                                                                   <h5>Almacén Principal</h5>
+                                                                                                 <label for=""></label>
+                                                                                                   <h5>@{{ row.nombre }}</h5>
                                                                                                 </div></div>
 
                                                                                                 <div class="col-md-2">
                                                                                                     <div class="form-group" >
                                                                                                     <label for="suppPric">Stock Actual</label>
-                                                                                                    <input type="number" class="form-control" name="markup" placeholder="0.00" ng-model="product.markup" ng-blur="calculateMarkup()" ng-disabled="product.hasVariants || !product.track" step="0.1">
+                                                                                                    <input type="number" class="form-control" name="markup" placeholder="0.00" ng-model="row.stock.markup"  ng-disabled="product.hasVariants || !product.track" step="0.1">
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div class="col-md-2">
                                                                                                     <div class="form-group" >
                                                                                                     <label for="suppPric">Stock Mínimo</label>
-                                                                                                     <input type="number" class="form-control" name="markup" placeholder="0.00" ng-model="product.markup" ng-blur="calculateMarkup()" ng-disabled="product.hasVariants || !product.track" step="0.1">
+                                                                                                     <input type="number" class="form-control" name="markup" placeholder="0.00" ng-model="row.stock.markup"  ng-disabled="product.hasVariants || !product.track" step="0.1">
                                                                                                         </div>
                                                                                                 </div>
                                                                                                 <div class="col-md-2">
                                                                                                 <div class="form-group" >
                                                                                                      <label for="suppPric">Costo Mínimo</label>
-                                                                                                      <input type="number" class="form-control" name="markup" placeholder="0.00" ng-model="product.markup" ng-blur="calculateMarkup()" ng-disabled="product.hasVariants || !product.track" step="0.1">
+                                                                                                      <input type="number" class="form-control" name="markup" placeholder="0.00" ng-model="row.stock.markup"  ng-disabled="product.hasVariants || !product.track" step="0.1">
                                                                                                         </div>
                                                                                                 </div>
-
+                                                                                                 </span>
                                                                                              </div>
                                                                                            </div>
                                                                    </div><!-- /.box-body -->
+                                                                    <div class="overlay" ng-class="{ 'hidden': !product.hasVariants}">
+                                                                    </div>
                                                                  </div>
+
     <script>
                         $("#variants").activateBox();
                         $("#price").activateBox();
@@ -237,3 +294,53 @@
               </div>
               </div><!-- /.row -->
               </section><!-- /.content -->
+
+
+
+             <!-- =============================Modal de Presentacion ================================ -->
+
+             <div class="modal fade" id="presentation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                           <div class="modal-dialog"  role="document">
+                             <div class="modal-content">
+                               <div class="modal-header">
+                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                 <h4 class="modal-title">Añadir Presentación</h4>
+                               </div>
+                               <div class="modal-body">
+                                <div class="row">
+                                <div class="col-md-3">
+                                <div class="form-group">
+                                 <select name="" id="" ng-model="presentation.id" ng-options="item.id as item.nombre for item in presentations">
+
+                                 </select>
+                                 @{{presentation.id}}
+                                </div>
+                                </div>
+                                 <div class="col-md-2">
+                                 <div class="form-group" >
+                                  <label for="suppPric">Precio de Compra</label>
+                                  <input type="number" class="form-control" name="suppPric1" placeholder="0.00" ng-model="presentation.suppPri" ng-disabled="product.hasVariants"  ng-blur="calculateSuppPric()" step="0.1">
+                                   </div>
+                                    </div>
+                                     <div class="col-md-2">
+                                     <div class="form-group" > <label for="suppPric">% de Ganancia</label> <input type="number" class="form-control" name="markup1" placeholder="0.00" ng-model="presentation.markup" ng-blur="calculateMarkup()" ng-disabled="product.hasVariants" step="0.1">
+                                     </div>
+                                     </div>
+                                     <div class="col-md-2">
+                                      <div class="form-group" >
+                                      <label for="suppPric">Precio de Venta</label>
+                                      <input type="number" class="form-control" name="price1" placeholder="0.00" ng-model="presentation.price" ng-blur="calculatePrice()" ng-disabled="product.hasVariants" step="0.1">
+                                      </div>
+                                      </div>
+                                      </div>
+                                     @{{ presentation.markup}}
+                               </div>
+                               <div class="modal-footer">
+                                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                 <button type="button" class="btn btn-primary" ng-click="AddPres()" data-dismiss="modal">Grabar Cambios</button>
+                               </div>
+                             </div><!-- /.modal-content -->
+                           </div><!-- /.modal-dialog -->
+                         </div>
+
+            <!-- ======================================================================================== -->

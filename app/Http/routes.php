@@ -101,6 +101,8 @@ Route::get('api/products/brands',['as' => 'products_brands_select','uses' => 'Pr
 Route::get('api/products/materials',['as' => 'products_materials_select','uses' => 'ProductsController@materials_select']);
 Route::get('api/products/types',['as' => 'products_types_select','uses' => 'ProductsController@types_select']);
 Route::get('api/products/stations',['as' => 'products_stations_select','uses' => 'ProductsController@stations_select']);
+Route::get('products/show/{id?}',['as' => 'products_show_by_id','uses' => 'ProductsController@index']);
+Route::get('products/view-show','ProductsController@show');
 
 //END PRODUCTS ROUTES
 
@@ -108,6 +110,10 @@ Route::get('api/products/stations',['as' => 'products_stations_select','uses' =>
 Route::get('api/variants/variants/{id}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@variants']);
 
 //END VARIANTS ROUTES
+
+//Presentations routes
+Route::get('api/presentations/all',['as'=>'presentation_all', 'uses'=>'PresentationsController@all']);
+//End prese routes
 
 //STORE ROUTES
 Route::get('stores',['as'=>'store','uses'=>'StoresController@index']);

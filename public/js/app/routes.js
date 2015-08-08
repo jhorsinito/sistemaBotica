@@ -201,6 +201,7 @@
                     templateUrl:'/employees/form-edit',
                     controller: 'EmployeeController'
                 })
+                //-------------------------------------------------
                 .when('/products', {
                     templateUrl: '/js/app/products/views/index.html',
                     controller: 'ProductController'
@@ -211,6 +212,10 @@
                 })
                 .when('/products/edit/:id',{
                     templateUrl:'/products/form-edit',
+                    controller: 'ProductController'
+                })
+                .when('/products/show/:id',{
+                    templateUrl:'/products/view-show',
                     controller: 'ProductController'
                 })
                 //-----------------------------------------
