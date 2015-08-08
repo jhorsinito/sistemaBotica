@@ -1,11 +1,11 @@
 <section class="content-header">
           <h1>
-            Tiendas
+            Compras
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="/stores">Tiendas</li>
+            <li class="/stores">Compras</li>
             <li class="active">Crear</li>
           </ol>
 
@@ -18,7 +18,7 @@
 
           <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Crear Tiendas</h3>
+                  <h3 class="box-title">Editar Pedido de Compras</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form name="purchaseCreateForm" role="form" novalidate>
@@ -42,29 +42,28 @@
   
   
   <div class="col-md-4">
-
-                      <div class="form-group" ng-class="{true: 'has-error'}[ purchaseCreateForm.fechaPedido.$error.required && purchaseCreateForm.$submitted || purchaseCreateForm.fechaPedido.$dirty && purchaseCreateForm.fechaPedido.$invalid]">
-                    <label for="fechaPedido">Fecha Pedido</label>
+                      <div class="form-group" ng-class="{true: 'has-error'}[ employeeCreateForm.fechanac.$error.required && employeeCreateForm.$submitted || employeeCreateForm.fechanac.$dirty && employeeCreateForm.fechanac.$invalid]">
+                    <label for="fechanac">Fecha Pedido</label>
                                         <div class="input-group">
                                           <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                           </div>
-                      <input type="date" class="form-control"  name="fechaPedido" ng-model="purchase.fechaPedido" >
-                      <label ng-show="purchaseCreateForm.$submitted || purchaseCreateForm.fechaPedido.$dirty && purchaseCreateForm.fechaPedido.$invalid">
-                                              <span ng-show="purchaseCreateForm.fechaPedido.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
+                      <input type="date" class="form-control"  name="fechanac" ng-model="purchase.fechaPedido" required>
+                      <label ng-show="employeeCreateForm.$submitted || employeeCreateForm.fechanac.$dirty && employeeCreateForm.fechanac.$invalid">
+                                              <span ng-show="employeeCreateForm.fechanac.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
                                             </label>
                       </div></div>  
   </div>
   <div class="col-md-4">
-                      <div class="form-group" ng-class="{true: 'has-error'}[ purchaseCreateForm.fechaPrevista.$error.required && purchaseCreateForm.$submitted || purchaseCreateForm.fechaPrevista.$dirty && purchaseCreateForm.fechaPrevista.$invalid]">
-                    <label for="fechaPrevista">Fecha Prevista</label>
+                      <div class="form-group" ng-class="{true: 'has-error'}[ employeeCreateForm.fechanac.$error.required && employeeCreateForm.$submitted || employeeCreateForm.fechanac.$dirty && employeeCreateForm.fechanac.$invalid]">
+                    <label for="fechanac">Fecha Prevista</label>
                                         <div class="input-group">
                                           <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                           </div>
-                      <input  type="date"  min="@{{purchase.fechaPedido}}" class="form-control" name="fechaPrevista" ng-model="purchase.fechaPrevista"  >
-                      <label ng-show="purchaseCreateForm.$submitted || purchaseCreateForm.fechaPrevista.$dirty && purchaseCreateForm.fechaPrevista.$invalid">
-                                              <span ng-show="purchaseCreateForm.fechaPrevista.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
+                      <input  type="date"  class="form-control" name="fechanac" ng-model="purchase.fechaPrevista"  >
+                      <label ng-show="employeeCreateForm.$submitted || employeeCreateForm.fechanac.$dirty && employeeCreateForm.fechanac.$invalid">
+                                              <span ng-show="employeeCreateForm.fechanac.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
                                             </label>
                       </div></div> 
                    
@@ -74,7 +73,7 @@
    <div class="col-md-4">
                    <div class="form-group" >
                        <label for="Tienda">Almacen</label>
-                       <select class="form-control" ng-click="seleccionarWarehouse()" ng-model="purchase.warehouses_id" ng-options="item.id as item.nombre for item in warehouses">
+                       <select class="form-control" name="" ng-model="purchase.warehouses_id" ng-options="item.id as item.nombre for item in warehouses">
                        <option value="">--Elija Almacen--</option>
                        </select>
                      </div>
@@ -85,7 +84,7 @@
         <div class="box-header with-border">
           <h3 class="box-title">Precio del Producto</h3>
           <div class="box-tools pull-right">
-            <button type="submit" ng-click="createPurchase()" class="btn btn-box-tool" data-widget="collapse"><i  class="fa fa-minus"></i></button>
+            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
           </div><!-- /.box-tools -->
         </div><!-- /.box-header -->
         <div class="box-body" style="display: block;">
@@ -103,13 +102,13 @@
               </div> 
             </div> 
 
-            <div class="col-md-4" ng-show="mostrarVariantes">
+            <div class="col-md-4">
               <div class="form-group" >
-                <label for="Variante">Variante</label>
-                <select class="form-control"  ng-click="seleccionar()" ng-model="variants.id" ng-options="item.id as item.sku for item in variants">
-                  <option value="">--Elija Variante--</option>
+                <label for="Variante">Variate</label>
+                <select class="form-control" name="" ng-click="seleccionar()" ng-model="variants.id" ng-options="item.id as item.sku for item in variants">
+                  <option value="">--Elija Variate--</option>
                 </select>
-                <!--@{{variants.varid}}-->
+                @{{variants.varid}}
                 </div>
             </div>
 
@@ -171,7 +170,7 @@
             </div>
           <button type="submit" class="btn btn-primary" ng-click="AgregarProducto()">Agregar Producto</button>
         
-          </form>
+          </from>
         </div><!-- /.box-body -->
       </div>
       <script>
@@ -203,8 +202,8 @@
             </tr>
             <tr ng-repeat="row in detailPurchases">
                       <td></td>
-                      <td>@{{row.nombre}}</td>
-                      <td>@{{row.CodigoPCompra}}</td>
+                      <td>@{{purchase.empresa}}</td>
+                      <td>@{{row.codigo}}</td>
                       <td>@{{row.cantidad}}</td>
                       <td>@{{row.preProducto}}</td>
                       <td>@{{row.preCompra}}</td>
@@ -247,7 +246,7 @@
 
 
         
-                    <button type="submit" class="btn btn-primary" ng-click="DcreatePurchase()">Crear</button>
+                    <button type="submit" class="btn btn-primary" ng-click="updatePurchase()">Modificar</button>
                     <a href="/purchases" class="btn btn-danger">Cancelar</a>
                   </div>
                 </form>
@@ -336,12 +335,11 @@
                       <td>@{{$index + 1}}</td>
                       <td ng-hide='true'>@{{row.proId}}</td>
                       <td ng-hide='true'>@{{row.precioProducto}}</td>
-                      <td ng-hide='true'>@{{row.TieneVariante}}</td>
                      <td>@{{row.proCodigo}}</td>
                       <td>@{{row.proNombre }}</td>                      
                       <td>@{{row.braNombre +"/"+row.typNombre}}</td>
                       <td>@{{row.varPrice}}</td>
-                      <td><a ng-click="asignarProduc(row)" class="btn btn-warning btn-xs" data-dismiss="modal">Enviar</a></td>
+                      <td><a ng-click="asignarProduc(row)" class="btn btn-warning btn-xs">Enviar</a></td>
 
                     </tr>
                     

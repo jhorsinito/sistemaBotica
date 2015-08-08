@@ -22,4 +22,13 @@ class PurchaseRepo extends BaseRepo{
         $d = \DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
     }
+   /* public function ultimoDato(){
+        $purchases=Purchase::select('id')->orderBy('id','desc')->first();
+        return $purchases;
+    }*/
+    public function traerSumplier($id){
+        $purchases=Purchase::join('suppliers','purchases.suppliers_id','=','suppliers.id')
+        ->where('suppliers.id','=',$id)->select('suppliers.empresa as empresa')->first();
+        return $purchases;
+    }
 } 

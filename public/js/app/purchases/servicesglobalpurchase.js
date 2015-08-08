@@ -12,11 +12,29 @@
 
                 return deferred.promise;
             }
+            function traerEliminar(id){
+
+                var deferred = $q.defer();
+                $http.get('api/detailpurchases/Eliminar/'+id).success(function (data) {
+                    deferred.resolve(data);
+                });
+
+                return deferred.promise;
+            }
 
             function paginate(uri,page)
             {
                 var deferred = $q.defer();
                 $http.get('/api/'+uri+'/paginate/?page='+page).success(function (data) {
+                    deferred.resolve(data);
+                });
+
+                return deferred.promise;
+            }
+            function paginateDPedido(id,uri)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/paginatep/'+id).success(function (data) {
                     deferred.resolve(data);
                 });
 
@@ -67,7 +85,36 @@
                 });
                 return deferred.promise;
             }
-
+            function bytraervar(id,uri) {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/findVariant/'+id)
+                    .success(function(data)
+                    {
+                        deferred.resolve(data);
+                    }
+                );
+                return deferred.promise;
+            }
+            function traerEmpresa(id){
+                var deferred = $q.defer();
+                $http.get('/api/purchases/mostrarEmpresa/'+id)
+                    .success(function(data)
+                    {
+                        deferred.resolve(data);
+                    }
+                );
+                return deferred.promise;
+            }
+            /*function traerCodigo() {
+                var deferred = $q.defer();
+                $http.get('/api/purchases/mostarUltimoagregado')
+                    .success(function(data)
+                    {
+                        deferred.resolve(data);
+                    }
+                );
+                return deferred.promise;
+            }*/
             function byId(id,uri) {
                 var deferred = $q.defer();
                 $http.get('/api/'+uri+'/find/'+id)
@@ -109,7 +156,12 @@
                 destroy:destroy,
                 search: search,
                 select:select,
-                byforeingKey: byforeingKey
+                byforeingKey: byforeingKey,
+                bytraervar: bytraervar,
+                //traerCodigo: traerCodigo,
+                traerEmpresa: traerEmpresa,
+                paginateDPedido: paginateDPedido,
+                traerEliminar: traerEliminar
             }
         }])
         .factory('socketService', function ($rootScope) {
