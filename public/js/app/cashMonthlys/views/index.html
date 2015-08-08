@@ -31,22 +31,42 @@
               <div class="box">
 
                 <div class="box-header with-border">
-                  <h3 class="box-title">Gastos Mensuales</h3>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <label>Busqueda por Año</label>
+                        <select class="form-control" name="" ng-model="cashMonthly.years_id" ng-options="item.id as item.year for item in years" ng-click="buscarTodo()">
+                        <option value="">--</option>
+                      </select>
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group" >
+                          <label for="month">Buscar por Mes</label>
+
+                          <select class="form-control" name="" ng-model="cashMonthly.months_id" ng-options="item.id as item.month for item in months"  ng-click="buscarTodo()">
+                          <option value="">--</option>
+                          </select>                          
+                        </div>
+                      </div>
+
+
+                      <div class="col-md-3">
+                        <div class="form-group" >
+                         <label for="expense">Buscar por Concepto</label>
+
+                          <select class="form-control" name="" ng-model="cashMonthly.expenseMonthlys_id" ng-options="item.id as item.name for item in expenses" ng-click="buscarTodo()">
+                          <option value="">--</option>
+                          </select>
+                          
+                          </div>
+                          </div>
+
+                  </div>
+                  
                   <div class="box-tools">
 
-
-
-                          
-
-
-                  <form ng-keyup="searchcashMonthly()">
-                    <div class="input-group" style="width: 200px;">
-                      <input type="text" ng-model="query"  name="table_search" class="form-control input-sm pull-right" placeholder="Search" />
-                      <div class="input-group-btn">
-                        <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
-                      </div>
-                    </div>
-                    </form>
+                  
                   </div>
                 </div><!-- /.box-header -->
                 <div class="box-body">
@@ -59,7 +79,7 @@
                     </div>
                     
                 <div class="callout callout-info"  ng-show="cashMonthly.id > 0">
-                    <h4>¿ Estás seguro que deseas eliminar a "{{cashMonthly.expenseMonthlys_id}}" ?</h4>
+                    <h4>¿ Estás seguro que deseas eliminar a el concepto "{{cashMonthly.expense_monthly.name}}" ?</h4>
                     <p>
                       <button type="button" class="btn btn-danger" ng-click="destroycashMonthly()">Si</button>
                       <button type="button" class="btn btn-default" ng-click="cancelcashMonthly()">No</button>

@@ -11,13 +11,14 @@
                 $scope.errors = null;
                 $scope.success;
                 $scope.query = '';
-                $scope.cashMonthly.months_id='1';
+                $scope.cashMonthly.months_id;
                 $scope.estado=false;
                 $scope.months = [];
                 $scope.cashMonthly.years_id;
                 $scope.cashMonthly.expenseMonthlys_id;
                 $scope.expenses = {};
                 $scope.expense = {};
+                $scope.year.year=2015;
 
                 $scope.toggle = function () {
                     $scope.show = !$scope.show;
@@ -72,14 +73,14 @@
                     crudService.select('years','select').then(function (data) {
                         $scope.years = data;
                         if ($scope.years.length>0) {
-                            $scope.cashMonthly.years_id=$scope.years[0].id;    
+                            //$scope.cashMonthly.years_id=$scope.years[0].id;    
                         };
                         
                     });
                     crudService.select('expenses','select').then(function (data) {
                         $scope.expenses = data;
                         if ($scope.expenses.length>0) {
-                            $scope.cashMonthly.expenseMonthlys_id=$scope.expenses[0].id;    
+                            //$scope.cashMonthly.expenseMonthlys_id=$scope.expenses[0].id;    
                         };
                     });
 
@@ -92,7 +93,8 @@
                 $scope.searchcashMonthly = function(){
                 if ($scope.query.length > 0) {
                     crudService.search('cashMonthlys',$scope.query,1).then(function (data){
-                        $scope.cashMonthlys = data.data;
+                        $log.log(data);
+                        $scope.cashMonthlys = data.data;                 
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                     });
@@ -105,19 +107,47 @@
                 }
                     
                 };
+
+                $scope.buscarTodo= function(){
+                    if($scope.cashMonthly.years_id==null){
+                        $scope.cashMonthly.years_id=0;
+                    }
+                    if($scope.cashMonthly.months_id==null){
+                        $scope.cashMonthly.months_id=0;
+                    }
+                    if($scope.cashMonthly.expenseMonthlys_id==null){
+                        $scope.cashMonthly.expenseMonthlys_id=0;
+                    }
+                    
+                    crudService.searchMes('cashMonthlys',$scope.cashMonthly.months_id,$scope.cashMonthly.years_id,$scope.cashMonthly.expenseMonthlys_id,1).then(function (data){
+                        $log.log(data);
+                        $scope.cashMonthlys = data.data;                 
+                        $scope.totalItems = data.total;
+                        $scope.currentPage = data.current_page;
+                    });     
+                }
+
                 $scope.createExpense = function(){
+                    /*
+                    if(expenseMonthly.name){
+                        alert('Ingrese Concepto');    
+                    }*/
                     if ($scope.expenseMonthlyCreateForm.$valid) {  
                         crudService.create($scope.expenseMonthly, 'expenseMonthlys').then(function (data) {
                             if (data['estado'] == true) {
-
+                                $('#miventana1').modal('hide');
                                 alert('grabado correctamente');
                                 
                                   //$scope.expenses.push(data);
                                   crudService.select('expenses','select').then(function (data) {
                                     $scope.expenses = data;
+
                                 });
+                                
+                                $scope.year.year=2015;
 
                             } else {
+                                
                                 $scope.errors = data;
                             }
                         });
@@ -130,6 +160,7 @@
                         crudService.create($scope.year, 'years').then(function (data) {
                            
                             if (data['estado'] == true) {
+                                $('#miventana2').modal('hide');
                                 alert('grabado correctamente');
                                //$scope.year.year="";
                                 //$scope.years.push(data);
@@ -137,6 +168,7 @@
                                      $scope.years = data;
 
                                 });
+                                
 
                             } else {
                                 $scope.errors = data;
@@ -182,6 +214,7 @@
                 };
 
                 $scope.deletecashMonthly = function(row){
+                    $log.log(row);
                     $scope.cashMonthly = row;
                 }
 
@@ -225,17 +258,15 @@
                     $scope.mostrardata1=false;
 
                 $scope.ver=function(){
-                    alert("ver");
                    $scope.mostrardata1=true;
 
                    crudService.byId($scope.cashMonthly.years_id,'years').then(function (data) {
-                        $scope.year.year=data.year;
+                        $scope.year.year=parseInt(data.year);
                     });
 
                 }
 
                 $scope.ocultar=function(){
-                     alert("ocultar");
                      $scope.mostrardata1=false;
                     }
 
@@ -246,11 +277,14 @@
                             {  
                                 //alert(data.year);
                                 if(data['estado'] == true){
+                                    $('#miventana2').modal('hide');
                                     alert("Eliminado Correctamente");
+                                    
                                     crudService.select('years','select').then(function (data) {
                                 $scope.years = data;
                                 $scope.cashMonthly.years_id=$scope.years[0].id; 
                             });
+
                                     //cashMonthly.years_id='1';
                                 }else{
                                     $scope.errors = data;
@@ -264,12 +298,15 @@
                     crudService.update($scope.year,'years').then(function(data)
                     {
                         if(data['estado'] == true){
+                            $('#miventana2').modal('hide');
                             alert('editado correctamente');
+                            
 
                             crudService.select('years','select').then(function (data) {
                                 $scope.years = data;
                                 //$scope.cashMonthly.years_id=$scope.years[0].id; 
                             });
+                            
 
                         }else{
                             $scope.errors =data;
@@ -284,15 +321,17 @@
                         crudService.destroy(data,'expenseMonthlys').then(function(data)
                             {  
                                 if(data['estado'] == true){
+                                    $('#miventana1').modal('hide');
                                     alert("Eliminado Correctamente");
+                                    
                                     crudService.select('expenses','select').then(function (data) {
                                         $scope.expenses = data;
                                         $scope.cashMonthly.expenseMonthlys_id=$scope.expenses[0].id; 
                                     });
                                     //cashMonthly.years_id='1';
                                 }else{
-                                    //$scope.errors = data;
-                                    alert("Concepto en USO");
+                                    $scope.errors = data;
+                                    //alert("Concepto en USO");
                                 }
                             });
                     });   
@@ -304,7 +343,9 @@
                     crudService.update($scope.expense,'expenseMonthlys').then(function(data)
                     {
                         if(data['estado'] == true){
+                            $('#miventana1').modal('hide');
                             alert('editado correctamente');
+                            
                             crudService.select('expenses','select').then(function (data) {
                                 $scope.expenses = data;
                             });

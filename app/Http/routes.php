@@ -289,6 +289,9 @@ Route::put('api/cashMonthlys/edit',['as'=>'person_edit', 'uses'=>'CashMonthlyCon
 Route::post('api/cashMonthlys/destroy',['as'=>'person_destroy', 'uses'=>'CashMonthlyController@destroy']);
 Route::get('api/cashMonthlys/search/{q?}',['as'=>'person_search', 'uses'=>'CashMonthlyController@search']);
 Route::get('api/cashMonthlys/find/{id}',['as'=>'person_find', 'uses'=>'CashMonthlyController@find']);
+Route::get('api/cashMonthlys/search/{m?}/{a?}/{c?}',['as'=>'person_search', 'uses'=>'CashMonthlyController@search']);
+
+//Route::get('api/cashMonthlys/search/{q?}',['as'=>'person_search', 'uses'=>'CashMonthlyController@search']);
 //-----------------------------------------------------
 Route::get('api/months/select','MonthsController@select');
 Route::get('api/years/select','YearsController@select');
