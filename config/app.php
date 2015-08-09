@@ -146,8 +146,9 @@ return [
 
 
         /*
-         * Customer Service Providers
+         * Customer Service Provider
          */
+        Reportico\Reportico\ReporticoServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class
     ],
 
