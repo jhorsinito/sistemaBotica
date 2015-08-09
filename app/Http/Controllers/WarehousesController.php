@@ -25,7 +25,7 @@ class WarehousesController extends Controller {
 
     public function all()
     {
-        $warehouses = $this->warehouseRepo->paginate(15);
+        $warehouses = $this->warehouseRepo->all();
         return response()->json($warehouses);
         //var_dump($warehouses);
     }
@@ -50,8 +50,8 @@ class WarehousesController extends Controller {
     public function create(Request $request)
     {
         $warehouses = $this->warehouseRepo->getModel();
-        //var_dump($request->all());
-        //die();
+        var_dump($request->all());
+        die();
         $manager = new WarehouseManager($warehouses,$request->all());
         //print_r($manager); die();
         $manager->save();

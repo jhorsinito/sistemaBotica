@@ -23,11 +23,14 @@ class VariantsController extends Controller
     {
         $this->variantRepo = $variantRepo;
     }
-
+    public function find($id)
+    {
+        $variants = $this->variantRepo->find($id);
+        return response()->json($variants);
+    }
 
     public function paginatep(){ //->with(['store'])
-        $variants = $this->variantRepo->paginaterepo(15);
-        //$variants = $this->variantRepo->with(['store'])->paginate(15);
+        $variants = $this->variantRepo->detPre();
         return response()->json($variants);
     }
 
@@ -47,7 +50,12 @@ class VariantsController extends Controller
         if($product->hasVariants == 1) {
             $variants = $product->variants->load(['detAtr' => function ($query) {
                 $query->orderBy('atribute_id', 'asc');
-            }]);
+            },'product']);
+
+
+            //$variants = $product->variants->load('detAtr','product');
+
+
             //foreach($variants as $variant) {
             //    print_r($variant->detAtr->toJson());
             //}

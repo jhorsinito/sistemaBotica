@@ -16,6 +16,8 @@ class CreateDetPresentationTable extends Migration
             $table->increments('id');
             $table->integer('variant_id')->unsigned();
             $table->integer('presentation_id')->unsigned();
+            $table->decimal('suppPri',10,2);
+            $table->decimal('markup',10,2);
             $table->decimal('price',10,2);
             $table->foreign('variant_id')->references('id')->on('variants');
             $table->foreign('presentation_id')->references('id')->on('presentation');

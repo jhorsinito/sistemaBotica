@@ -101,6 +101,8 @@ Route::get('api/products/brands',['as' => 'products_brands_select','uses' => 'Pr
 Route::get('api/products/materials',['as' => 'products_materials_select','uses' => 'ProductsController@materials_select']);
 Route::get('api/products/types',['as' => 'products_types_select','uses' => 'ProductsController@types_select']);
 Route::get('api/products/stations',['as' => 'products_stations_select','uses' => 'ProductsController@stations_select']);
+Route::get('products/show/{id?}',['as' => 'products_show_by_id','uses' => 'ProductsController@index']);
+Route::get('products/view-show','ProductsController@show');
 
 //END PRODUCTS ROUTES
 
@@ -108,6 +110,18 @@ Route::get('api/products/stations',['as' => 'products_stations_select','uses' =>
 Route::get('api/variants/variants/{id}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@variants']);
 
 //END VARIANTS ROUTES
+
+//Presentations routes
+Route::get('api/presentations/all',['as'=>'presentation_all', 'uses'=>'PresentationsController@all']);
+//End prese routes
+
+//detpres routes
+Route::get('api/detpres/all','DetPresController@all');
+//end detpres routes
+
+//equiv routes
+Route::get('api/equiv/all','EquivController@all');
+//end equiv routes
 
 //STORE ROUTES
 Route::get('stores',['as'=>'store','uses'=>'StoresController@index']);
@@ -329,8 +343,17 @@ Route::post('api/purchases/destroy',['as'=>'person_destroy', 'uses'=>'PurchasesC
 Route::get('api/purchases/search/{q?}',['as'=>'person_search', 'uses'=>'PurchasesController@search']);
 Route::get('api/purchases/find/{id}',['as'=>'person_find', 'uses'=>'PurchasesController@find']);
 Route::get('api/purchases/mostrarCostos/{id}','PurchasesController@mostrarCostos');
+//Route::get('api/purchases/mostarUltimoagregado','PurchasesController@mostarUltimoagregado');
+Route::get('api/purchases/mostrarEmpresa/{id}','PurchasesController@mostrarEmpresa');
+
 
 //---------------------------------------------------------------------
 Route::get('api/variants/select','VariantsController@select');
 Route::get('api/variants/findVariant/{id}','VariantsController@findVariant');
-Route::get('api/variants/paginatep/','VariantsController@paginatep');
+Route::get('api/variants/paginate/','VariantsController@paginatep');
+Route::get('api/variants/find/{id}','VariantsController@find');
+
+Route::post('api/detailpurchases/create','DetailPurchasesController@create');
+Route::get('api/detailpurchases/paginatep/{id}','DetailPurchasesController@paginatep');
+Route::get('api/detailpurchases/Eliminar/{id}','DetailPurchasesController@Eliminar');
+Route::post('api/detailpurchases/destroy','DetailPurchasesController@destroy');

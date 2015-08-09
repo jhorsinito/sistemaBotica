@@ -23,7 +23,10 @@ class PurchasesController extends Controller {
     {
         return View('purchases.index');
     }
-
+    /*public function mostarUltimoagregado(){
+        $purchases=$this->purchaseRepo->ultimoDato();
+         return response()->json($purchases);
+    }*/
     public function all()
     {
         $purchases = $this->purchaseRepo->paginate(15);
@@ -64,13 +67,18 @@ class PurchasesController extends Controller {
 
         $purchase->save();
 
-        return response()->json(['estado'=>true, 'nombres'=>$purchase->nombres]);
+
+        return response()->json(['estado'=>true, 'nombres'=>$purchase->nombres,'codigo'=>$purchase->id]);
     }
 
     public function find($id)
     {
         $purchase = $this->purchaseRepo->find($id);
         return response()->json($purchase);
+    }
+    public function mostrarEmpresa($id){
+    $purchase=$this->purchaseRepo->traerSumplier($id);
+    return response()->json($purchase);
     }
 
     public function edit(Request $request)

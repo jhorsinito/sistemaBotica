@@ -14,22 +14,32 @@
                 $scope.stations = {};
                 $scope.product.estado = true;
                 $scope.product.hasVariants = false;
-                $scope.product.suppPri = 0;
-                $scope.product.markup = 0;
-                $scope.product.price = 0;
+
+                $scope.presentation = {};
+                $scope.presentations = [];
+                $scope.presentation.id = '1';
+                $scope.product.presentations = [];
+                $scope.presentation.suppPri = 0;
+                $scope.presentation.markup = 0;
+                $scope.presentation.price = 0;
+
+                $scope.warehouses = []
+
 
                 $scope.variants = []; //variantes por product_id;
 
 
-                $scope.calculateSuppPric = function() {
-                    if(angular.isNumber($scope.product.suppPri) && angular.isNumber($scope.product.markup) && angular.isNumber($scope.product.price)){
-                        $scope.product.price = $scope.product.suppPri + $scope.product.markup * $scope.product.suppPri / 100;
+                $scope.calculateSuppPric = function() {//presentation.markup
+                    //alert('holi');alert($scope.presentation.suppPri);
+                    if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
+                        $scope.presentation.price = $scope.presentation.suppPri + $scope.presentation.markup * $scope.presentation.suppPri / 100;
+                        //alert('pasa');
                     }
                 };
                 $scope.calculateMarkup = function() {
-                    //alert('ho');
-                    if(angular.isNumber($scope.product.suppPri) && angular.isNumber($scope.product.markup) && angular.isNumber($scope.product.price)){
-                        $scope.product.price = $scope.product.suppPri + $scope.product.markup * $scope.product.suppPri / 100;
+                    //alert('holi');
+                    if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
+                        $scope.presentation.price = $scope.presentation.suppPri + $scope.presentation.markup * $scope.presentation.suppPri / 100;
                     }
                 };
                 $scope.toggle = function () {
@@ -53,14 +63,22 @@
 
                 if(id)
                 {
-                    crudService.byId(id,'products').then(function (data) {
-                        $log.log(data);
-                        $scope.product = data;
+                    if($location.path() == '/products/edit/'+$routeParams.id) {
+                        crudService.byId(id, 'products').then(function (data) {
+                           // $log.log(data);
+                            $scope.product = data;
 
-                    });
-                    crudService.select('products','stores').then(function (data){
-                        $scope.stores = data;
-                    });
+                        });
+                    };
+
+                    if($location.path() == '/products/show/'+$routeParams.id) {
+                        //alert('ok');
+                        crudService.byId(id,'products').then(function (data){
+                            $scope.product = data;
+                        });
+                    };
+                    //alert('ok');
+
                 }else{
                     crudService.paginate('products',1).then(function (data) {
                         $scope.products = data.data;
@@ -85,6 +103,9 @@
                         });
                         crudService.select('products', 'stations').then(function (data) {
                             $scope.stations = data;
+                        });
+                        crudService.all('warehouses').then(function (data){
+                            $scope.warehouses = data;
                         });
                     }
                 }
@@ -227,6 +248,22 @@
                     {
                             $scope.variants = data;
                     })
+                }
+
+                $scope.traerPres = function(){
+                    crudService.all('presentations').then(function(data){
+                        $scope.presentations = data;
+                        $log.log( $scope.presentations);
+                    });
+                }
+
+                $scope.AddPres = function(){
+                    $scope.product.presentations.push($scope.presentation);
+                    $scope.presentation = {};
+                }
+
+                $scope.deletePres = function($index){
+                    $scope.product.presentations.splice($index,1);
                 }
 
 

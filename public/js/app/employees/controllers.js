@@ -43,6 +43,7 @@
                         if(data.fechanac != null) {
                             if (data.fechanac.length > 0) {
                                 data.fechanac = new Date(data.fechanac);
+                                //alert(data.fechanac);
                             }
                         }
                        
@@ -107,6 +108,7 @@
                
                     
                 };
+
 
                 $scope.createEmployee = function(){
                     if ($scope.employeeCreateForm.$valid){
