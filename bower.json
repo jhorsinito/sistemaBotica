@@ -15,6 +15,7 @@
     "font-awesome": "*",
     "ionicons": "*",
     "raphael": "*",
-    "jquery": "*"
+    "jquery": "*",
+    "angular-xeditable": "*"
   }
 }

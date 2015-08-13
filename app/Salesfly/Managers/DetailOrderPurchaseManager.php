@@ -1,6 +1,6 @@
 <?php
 namespace Salesfly\Salesfly\Managers;
-class DetailPurchaseManager extends BaseManager {
+class DetailOrderPurchaseManager extends BaseManager {
 
     public function getRules()
     {
@@ -8,7 +8,7 @@ class DetailPurchaseManager extends BaseManager {
         			'montoBruto'=>'',
         			'montoTotal'=>'',
         			'detPres_id'=>'',
-        			'purchases_id'=>'',
+        			'orderPurchases_id'=>'',
                     'preProducto'=>'',
                     'preCompra'=>'',
                     'cantidad'=>''

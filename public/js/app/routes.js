@@ -15,6 +15,7 @@
                     templateUrl:'/atributes/form-edit',
                     controller: 'AtributController'
                 })  
+                
                 //---------------------------------------------------------
                  .when('/purchases', {
                     templateUrl: '/js/app/purchases/views/index.html',
@@ -27,6 +28,23 @@
                 .when('/purchases/edit/:id',{
                     templateUrl:'/purchases/form-edit',
                     controller: 'PurchaseController'
+                })  
+                //---------------------------------------
+                 .when('/orderPurchases', {
+                    templateUrl: '/js/app/orderPurchases/views/index.html',
+                    controller: 'OrderPurchaseController'
+                })
+                .when('/orderPurchases/create',{
+                    templateUrl:'/orderPurchases/form-create',
+                    controller: 'OrderPurchaseController'
+                })
+                .when('/orderPurchases/edit/:id',{
+                    templateUrl:'/orderPurchases/form-edit',
+                    controller: 'OrderPurchaseController'
+                }) 
+                .when('/orderPurchases/createDetalle/:id',{
+                    templateUrl:'/orderPurchases/form-createDetalle',
+                    controller: 'OrderPurchaseController'
                 }) 
                 //----------------------------------------------------
                   .when('/materials', {

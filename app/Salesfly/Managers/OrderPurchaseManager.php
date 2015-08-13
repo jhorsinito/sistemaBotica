@@ -1,16 +1,17 @@
 <?php
 namespace Salesfly\Salesfly\Managers;
-class PurchaseManager extends BaseManager {
+class OrderPurchaseManager extends BaseManager {
 
     public function getRules()
     {
-        $rules = [
-            'fechaEntrega'=>'',
+        $rules = [              
+            'fechaPedido'=>'',
+            'fechaPrevista'=>'',
              'descuento'=>'',
              'montoBruto'=>'',
              'montoTotal'=>'',
-             'orderPurchase_id'=>'',
+             'Estado'=>'',
              'warehouses_id'=>'',
-                    'suppliers_id'=>''];
+             'suppliers_id'=>''];
         return $rules;
     }}

@@ -10,5 +10,13 @@ class Stock extends \Eloquent {
                             'stockMinSoles',
                             'variant_id',
                             'warehouse_id'];
+ public function variant()
+      {
+        return $this->belongsTo('\Salesfly\Salesfly\Entities\Variant');
+      }
+      public function warehouse()
+      {
+        return $this->belongsTo('\Salesfly\Salesfly\Entities\Warehouse');
+      }
 
 }

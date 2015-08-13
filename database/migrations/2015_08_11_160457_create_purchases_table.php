@@ -14,17 +14,16 @@ class CreatePurchasesTable extends Migration
     {
          Schema::create('purchases', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('fechaPedido');
-            $table->date('fechaPrevista');
             $table->date('fechaEntrega');
             $table->decimal('descuento',10,2);
             $table->decimal('montoBruto',10,2);
             $table->decimal('montoTotal',10,2);
-            $table->tinyInteger('Estado');
             $table->integer('warehouses_id')->unsigned();
             $table->foreign('warehouses_id')->references('id')->on('warehouses');
             $table->integer('suppliers_id')->unsigned();
             $table->foreign('suppliers_id')->references('id')->on('suppliers');
+            $table->integer('orderPurchase_id')->unsigned();
+            $table->foreign('orderPurchase_id')->references('id')->on('orderPurchases');
             $table->timestamps();
         });
     }

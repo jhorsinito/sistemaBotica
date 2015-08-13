@@ -32,7 +32,7 @@ class VariantRepo extends BaseRepo{
      public function select($id){
        
         $variants=Variant::join('detAtr','variants.id','=','detAtr.variant_id')->where('variants.product_id','=',$id)
-        ->select('variants.*','detAtr.descripcion as Atrdescri')->get();
+        ->select('variants.*','detAtr.descripcion as Atrdescri')->groupBy('variants.id')->get();
         return $variants;
     }  
     public function detPre(){

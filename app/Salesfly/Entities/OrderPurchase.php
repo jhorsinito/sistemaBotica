@@ -1,32 +1,29 @@
 <?php
 namespace Salesfly\Salesfly\Entities;
 
-class Purchase extends \Eloquent {
+class OrderPurchase extends \Eloquent {
 
-    protected $table = 'purchases';
+    protected $table = 'orderPurchases';
     
     protected $fillable = [ 
-                    'fechaEntrega',
+                    'fechaPedido',
+                    'fechaPrevista',
                     'descuento',
                     'montoBruto',
                     'montoTotal',
-                    'orderPurchase_id',
+                    'Estado',
                     'warehouses_id',
                     'suppliers_id'];
      public function warehouse()
     {
         return $this->belongsTo('\Salesfly\Salesfly\Entities\Warehouse');
     }
-    public function orderPurchase()
-    {
-        return $this->belongsTo('\Salesfly\Salesfly\Entities\OrderPurchase');
-    }
      public function supplier()
     {
         return $this->belongsTo('\Salesfly\Salesfly\Entities\Supplier');
     }
     public function detpres(){
-        return $this->belongsToMany('\Salesfly\Salesfly\Entities\DetPres','detailPurchases','purchases_id','detPres_id');
+        return $this->belongsToMany('\Salesfly\Salesfly\Entities\DetPres','detailOrderPurchases','orderPurchases_id','detPres_id');
     }
 
 }

@@ -19,4 +19,15 @@ class EquivController extends Controller
     public function all(){
         return response()->json($this->equivRepo->all());
     }
+    public function equivalencias($id){
+    	$presentation = Presentation::find($id);
+            $equiv = $presentation->equiv->load(['detAtr' => function ($query) {
+                $query->orderBy('atribute_id', 'asc');
+            },'product']);
+
+    }
+    public function find($id){
+        $equiv=$this->equivRepo->select($id);
+        return response()->json($equiv);
+    }
 }

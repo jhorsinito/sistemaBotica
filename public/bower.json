@@ -19,6 +19,7 @@
     "jquery": "*",
     "jquery-ui": "*",
     "moment": "*",
-      "jquery.inputmask": "*"
+      "jquery.inputmask": "*",
+      "angular-xeditable": "*"
   }
 }
