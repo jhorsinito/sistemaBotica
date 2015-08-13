@@ -16,7 +16,8 @@ class ProductManager extends BaseManager{
             'material_id' => 'integer',
             'station_id' => 'integer',
             'estado' => 'required|boolean',
-            'image' => ''
+            'image' => '',
+            'presentation_base' => 'integer'
 
         ];
         return $rules;

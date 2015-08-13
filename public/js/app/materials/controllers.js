@@ -1,6 +1,6 @@
 (function(){
     angular.module('materials.controllers',[])
-        .controller('materialsController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log',
+        .controller('MaterialsController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log',
             function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log){
                 $scope.materials = [];
                 $scope.material = {};

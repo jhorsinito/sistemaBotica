@@ -34,5 +34,16 @@ class PresentationsController extends Controller
         //var_dump($customers);
     }
 
-
+    //todas las presentaciones base.
+    public function all_base()
+    {
+        $presentations = $this->presentationRepo->all_base();
+        return response()->json($presentations);
+        //var_dump($customers);
+    }
+    public function all_by_base($id)
+    {
+        $presentations = $this->presentationRepo->all_by_base($id);
+        return response()->json($presentations);
+    }
 }

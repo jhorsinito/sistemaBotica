@@ -31,15 +31,15 @@
                 //----------------------------------------------------
                   .when('/materials', {
                     templateUrl: '/js/app/materials/views/index.html',
-                    controller: 'MaterialController'
+                    controller: 'MaterialsController'
                 })
                 .when('/materials/create',{
                     templateUrl:'/materials/form-create',
-                    controller: 'MaterialController'
+                    controller: 'MaterialsController'
                 })
                 .when('/materials/edit/:id',{
                     templateUrl:'/materials/form-edit',
-                    controller: 'MaterialController'
+                    controller: 'MaterialsController'
                 }) 
                 //---------------------------------------------------
                 .when('/stations', {

@@ -113,7 +113,10 @@ Route::get('api/variants/variants/{id}',['as' => 'variant_byproduct_id', 'uses' 
 
 //Presentations routes
 Route::get('api/presentations/all',['as'=>'presentation_all', 'uses'=>'PresentationsController@all']);
+Route::get('api/presentations_base/all',['as'=>'presentation_base_all', 'uses'=>'PresentationsController@all_base']);
+Route::get('api/presentations/all_by_base/{id}',['as'=>'presentation_by_base_all', 'uses'=>'PresentationsController@all_by_base']);
 //End prese routes
+//byforeingKey(uri,fx,id
 
 //detpres routes
 Route::get('api/detpres/all','DetPresController@all');

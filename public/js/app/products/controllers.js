@@ -23,10 +23,15 @@
                 $scope.presentation.markup = 0;
                 $scope.presentation.price = 0;
 
-                $scope.warehouses = []
+                $scope.warehouses = [];
 
 
                 $scope.variants = []; //variantes por product_id;
+                $scope.product.presentation_base = '1';
+
+                $scope.product.presentation_base_object = {};
+                //$scope.product.presentation_base_object.id = '1';
+                $scope.enabled_presentation_button = true;
 
 
                 $scope.calculateSuppPric = function() {//presentation.markup
@@ -82,7 +87,7 @@
                 }else{
                     crudService.paginate('products',1).then(function (data) {
                         $scope.products = data.data;
-                        $log.log(data.data);
+                        //$log.log(data.data);
                         $scope.maxSize = 5;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
@@ -106,6 +111,10 @@
                         });
                         crudService.all('warehouses').then(function (data){
                             $scope.warehouses = data;
+                        });
+                        crudService.all('presentations_base').then(function(data){
+                            $scope.presentations_base = data;
+                            //$log.log( $scope.presentations);
                         });
                     }
                 }
@@ -160,7 +169,7 @@
                             crudService.create($scope.product,'products').then(function (data){
                                 if (data['estado'] == true) {
                                     //$scope.success = data['nombres'];
-
+                                    alert('Producto creado con Éxito');
                                     $location.path('/products');
 
                                 } else {
@@ -250,20 +259,58 @@
                     })
                 }
 
-                $scope.traerPres = function(){
-                    crudService.all('presentations').then(function(data){
+                $scope.traerPres = function(preBase){
+                    crudService.byforeingKey('presentations','all_by_base',preBase).then(function(data){
                         $scope.presentations = data;
-                        $log.log( $scope.presentations);
+                        //$log.log( $scope.presentations);
+                        //$scope.presentations.push({id:$scope.product.presentation_base.id,nombre:'holi'});
+                        $scope.presentations.push({
+                            id:$scope.product.presentation_base_object.id,
+                            nombre:$scope.product.presentation_base_object.nombre,
+                            shortname:$scope.product.presentation_base_object.shortname,
+                            cant:'Pre. base'
+                            });
                     });
                 }
 
                 $scope.AddPres = function(){
-                    $scope.product.presentations.push($scope.presentation);
-                    $scope.presentation = {};
+                    var isYa = $.grep($scope.product.presentations, function(e){ return e.id == $scope.presentationSelect.id; });
+                    $log.log($scope.presentationSelect);
+                    $log.log($scope.product.presentations);
+                    //$log.log(isYa);
+                    if(isYa.length == 0) {
+                        $scope.presentationSelect.suppPri = $scope.presentation.suppPri;
+                        $scope.presentationSelect.markup = $scope.presentation.markup;
+                        $scope.presentationSelect.price = $scope.presentation.price;
+                        $scope.product.presentations.push($scope.presentationSelect);
+                        //$log.log($scope.product.presentations);
+                        $scope.presentation = {};
+                        $scope.presentationSelect = {};
+                        $scope.presentation.suppPri = 0;
+                        $scope.presentation.markup = 0;
+                        $scope.presentation.price = 0;
+                    }else{
+                        alert('Item duplicado');
+                    }
                 }
 
                 $scope.deletePres = function($index){
                     $scope.product.presentations.splice($index,1);
+                }
+
+                $scope.selectPres = function(){
+                    $scope.presentation.suppPri = 0;
+                    $scope.presentation.markup = 0;
+                    $scope.presentation.price = 0;
+                }
+
+                $scope.changePreBase = function(){
+                    $log.log($scope.product.presentation_base_object);
+                    $scope.product.presentation_base = $scope.product.presentation_base_object.id;
+                    $scope.product.presentations = [];
+                    //alert('ol');
+                    $scope.enabled_presentation_button = false;
+
                 }
 
 

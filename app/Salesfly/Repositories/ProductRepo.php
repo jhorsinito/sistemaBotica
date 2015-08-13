@@ -52,13 +52,16 @@ class ProductRepo extends BaseRepo{
 
         //return $products;
 
-        $products = Product::join('brands','products.brand_id','=','brands.id')
-                            ->join('types','products.type_id','=','types.id')
+        $products = Product::leftjoin('brands','products.brand_id','=','brands.id')
+                            ->leftjoin('types','products.type_id','=','types.id')
                             ->leftjoin('variants','products.id','=','variants.product_id')
+                            ->leftjoin('detPres','variants.id','=','detPres.variant_id')
+                            ->leftjoin('presentation','detPres.presentation_id','=','presentation.id')
                             ->select(\DB::raw('DISTINCT(products.id) as proId'),'products.codigo as proCodigo','products.nombre as proNombre',
                               'variants.suppPri as varPrice','variants.price as precioProducto',
-                               'brands.nombre as braNombre','products.hasVariants as TieneVariante','types.nombre as typNombre','products.created_at as proCreado',
-                              'products.quantVar as proQuantvar',\DB::raw('"0" as stoStockActual'))
+                               'brands.nombre as braNombre','products.hasVariants as TieneVariante','products.hasVariants as proHasVar','types.nombre as typNombre','products.created_at as proCreado',
+                              'products.quantVar as proQuantvar',\DB::raw('"0" as stoStockActual'),\DB::raw('IF (presentation.base = 1,detPres.price,"-" ) as detPresPri'))
+                            //->having()
                             ->groupBy('products.id')
                             ->paginate($qantity);
 
