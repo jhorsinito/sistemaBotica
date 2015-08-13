@@ -23,4 +23,7 @@ class Variant extends \Eloquent {
     public function product(){
         return $this->belongsTo('\Salesfly\Salesfly\Entities\Product');
     }
+     public function detPre(){
+        return $this->hasMany('\Salesfly\Salesfly\Entities\DetPres');
+    }
 }

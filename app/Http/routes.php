@@ -121,6 +121,7 @@ Route::get('api/detpres/all','DetPresController@all');
 
 //equiv routes
 Route::get('api/equiv/all','EquivController@all');
+Route::get('api/equiv/traer/{id}','EquivController@equivalencias');
 //end equiv routes
 
 //STORE ROUTES
@@ -330,6 +331,25 @@ Route::get('api/years/find/{id}','YearsController@find');
 Route::get('api/warehouses/select','WarehousesController@selectWarehouses');
 
 
+Route::get('orderPurchases',['as'=>'person','uses'=>'OrderPurchasesController@index']);
+Route::get('orderPurchases/create',['as'=>'person_create','uses'=>'OrderPurchasesController@index']);
+Route::get('orderPurchases/edit/{id?}', ['as' => 'person_edit', 'uses' => 'OrderPurchasesController@index']);
+Route::get('orderPurchases/form-create',['as'=>'person_form_create','uses'=>'OrderPurchasesController@form_create']);
+Route::get('orderPurchases/form-edit',['as'=>'person_form_edit','uses'=>'OrderPurchasesController@form_edit']);
+Route::get('api/orderPurchases/all/{estado}',['as'=>'person_all', 'uses'=>'OrderPurchasesController@all']);
+Route::get('api/orderPurchases/paginate/',['as' => 'person_paginate', 'uses' => 'OrderPurchasesController@paginatep']);
+Route::post('api/orderPurchases/create',['as'=>'person_create', 'uses'=>'OrderPurchasesController@create']);
+Route::put('api/orderPurchases/edit/',['as'=>'person_edit', 'uses'=>'OrderPurchasesController@edit']);
+Route::post('api/orderPurchases/destroy',['as'=>'person_destroy', 'uses'=>'OrderPurchasesController@destroy']);
+Route::get('api/orderPurchases/search/{q?}',['as'=>'person_search', 'uses'=>'OrderPurchasesController@search']);
+Route::get('api/orderPurchases/find/{id}',['as'=>'person_find', 'uses'=>'OrderPurchasesController@find']);
+Route::get('api/orderPurchases/mostrarCostos/{id}','OrderPurchasesController@mostrarCostos');
+//Route::get('api/orderPurchases/mostarUltimoagregado','OrderPurchasesController@mostarUltimoagregado');
+Route::get('api/orderPurchases/mostrarEmpresa/{id}','OrderPurchasesController@mostrarEmpresa');
+Route::get('orderPurchases/createDetalle/{id?}', ['as' => 'person_edit', 'uses' => 'OrderPurchasesController@index']);
+Route::get('orderPurchases/form-createDetalle',['as'=>'atribut_form_create','uses'=>'OrderPurchasesController@createDetalle']);
+
+
 Route::get('purchases',['as'=>'person','uses'=>'PurchasesController@index']);
 Route::get('purchases/create',['as'=>'person_create','uses'=>'PurchasesController@index']);
 Route::get('purchases/edit/{id?}', ['as' => 'person_edit', 'uses' => 'PurchasesController@index']);
@@ -338,14 +358,11 @@ Route::get('purchases/form-edit',['as'=>'person_form_edit','uses'=>'PurchasesCon
 Route::get('api/purchases/all',['as'=>'person_all', 'uses'=>'PurchasesController@all']);
 Route::get('api/purchases/paginate/',['as' => 'person_paginate', 'uses' => 'PurchasesController@paginatep']);
 Route::post('api/purchases/create',['as'=>'person_create', 'uses'=>'PurchasesController@create']);
-Route::put('api/purchases/edit',['as'=>'person_edit', 'uses'=>'PurchasesController@edit']);
+Route::put('api/purchases/edit/',['as'=>'person_edit', 'uses'=>'PurchasesController@edit']);
 Route::post('api/purchases/destroy',['as'=>'person_destroy', 'uses'=>'PurchasesController@destroy']);
 Route::get('api/purchases/search/{q?}',['as'=>'person_search', 'uses'=>'PurchasesController@search']);
 Route::get('api/purchases/find/{id}',['as'=>'person_find', 'uses'=>'PurchasesController@find']);
 Route::get('api/purchases/mostrarCostos/{id}','PurchasesController@mostrarCostos');
-//Route::get('api/purchases/mostarUltimoagregado','PurchasesController@mostarUltimoagregado');
-Route::get('api/purchases/mostrarEmpresa/{id}','PurchasesController@mostrarEmpresa');
-
 
 //---------------------------------------------------------------------
 Route::get('api/variants/select','VariantsController@select');
@@ -353,7 +370,22 @@ Route::get('api/variants/findVariant/{id}','VariantsController@findVariant');
 Route::get('api/variants/paginate/','VariantsController@paginatep');
 Route::get('api/variants/find/{id}','VariantsController@find');
 
-Route::post('api/detailpurchases/create','DetailPurchasesController@create');
-Route::get('api/detailpurchases/paginatep/{id}','DetailPurchasesController@paginatep');
-Route::get('api/detailpurchases/Eliminar/{id}','DetailPurchasesController@Eliminar');
-Route::post('api/detailpurchases/destroy','DetailPurchasesController@destroy');
+Route::post('api/detailOrderPurchases/create','DetailOrderPurchasesController@create');
+Route::get('api/detailOrderPurchases/all/{estado}',['as'=>'person_all', 'uses'=>'DetailOrderPurchasesController@all']);
+Route::get('api/detailOrderPurchases/paginatep/{id}','DetailOrderPurchasesController@paginatep');
+Route::get('api/detailOrderPurchases/Eliminar/{id}','DetailOrderPurchasesController@Eliminar');
+Route::post('api/detailOrderPurchases/destroy','DetailOrderPurchasesController@destroy');
+Route::post('api/detailOrderPurchases/destroy','DetailOrderPurchasesController@destroy');
+Route::put('api/detailOrderPurchases/edit/','DetailOrderPurchasesController@edit');
+
+
+Route::get('api/detailPurchases/paginatep/{id?}','DetailPurchasesController@paginatep');
+Route::get('api/stocks/find/{id}/{id1}','StocksController@find');
+Route::put('api/stocks/edit/','StocksController@edit');
+
+Route::get('api/detpres/paginatep/{id}','DetPresController@paginatep');
+Route::get('api/detpres/find/{id}','DetPresController@find');
+
+Route::get('api/equivs/find/{id}','EquivController@find');
+
+

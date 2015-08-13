@@ -15,8 +15,10 @@ class DetailPurchaseRepo extends BaseRepo{
         //return $d && $d->format($format) == $date;
     //}
     public function paginate($id){
-      $detailpurchase=DetailPurchase::join("variants","variants.id","=","detailPurchases.variants_id")
-      ->select('detailPurchases.*','variants.sku as codigo')->where("detailPurchases.purchases_id","=",$id)
+      $detailpurchase=DetailPurchase::join("detPres","detPres.id","=","detailPurchases.detPres_id")
+      ->join("variants","variants.id","=","detPres.variant_id")
+      ->join("products","products.id","=","variants.product_id")
+      ->select('detailPurchases.*',"variants.sku as CodigoPCompra","products.nombre as nombre")->where("detailPurchases.purchases_id","=",$id)
       ->paginate();
       return $detailpurchase;
     }
@@ -25,4 +27,7 @@ class DetailPurchaseRepo extends BaseRepo{
      ->get();
      return $detailpurchase;
     }
+  
+
+    //public function Delete($)
 }

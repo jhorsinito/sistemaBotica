@@ -8,20 +8,20 @@ class DetailPurchase extends \Eloquent {
     protected $fillable = ['descuento',
     						'montoBruto',
     						'montoTotal',
-    						'variants_id',
     						'purchases_id',
+    						'detPres_id',
     						'preProducto',
     						'preCompra',
     						'cantidad'
     						];
 
-    public function puchase()
+    public function detPres()
+      {
+        return $this->belongsTo('\Salesfly\Salesfly\Entities\DetPres');
+      }
+      public function purchase()
       {
         return $this->belongsTo('\Salesfly\Salesfly\Entities\Purchase');
-      }
-      public function variant()
-      {
-        return $this->belongsTo('\Salesfly\Salesfly\Entities\Variant');
       }
 
 }

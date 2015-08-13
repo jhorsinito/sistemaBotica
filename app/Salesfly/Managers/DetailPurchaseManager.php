@@ -7,7 +7,7 @@ class DetailPurchaseManager extends BaseManager {
         $rules = ['descuento'=> '',
         			'montoBruto'=>'',
         			'montoTotal'=>'',
-        			'variants_id'=>'',
+        			'detPres_id'=>'',
         			'purchases_id'=>'',
                     'preProducto'=>'',
                     'preCompra'=>'',

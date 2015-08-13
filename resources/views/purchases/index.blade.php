@@ -6,6 +6,7 @@ Compras
 <base href="{{URL::to('/')}}/purchases"/>
 @stop
 @section('css-customize')
+
 @stop
 @section('content')
 <!--<section class="content-header">
@@ -25,7 +26,7 @@ Compras
 @section('js-customize')
 <script src="/js/app/purchases/app.js"></script>
 <script src="/js/app/purchases/controllers.js"></script>
-<script src="/js/app/purchases/servicesglobalpurchase.js"></script>
+<script src="/js/app/purchases/servicesglobalP.js"></script>
 @stop
 
 @stop

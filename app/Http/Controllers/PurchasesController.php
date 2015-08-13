@@ -7,6 +7,8 @@ use Illuminate\Routing\Controller;
 
 use Salesfly\Salesfly\Repositories\PurchaseRepo;
 use Salesfly\Salesfly\Managers\PurchaseManager;
+use Salesfly\Salesfly\Repositories\DetailPurchaseRepo;
+use Salesfly\Salesfly\Managers\DetailPurchaseManager;
 
 //use Intervention\Image\Facades\Image;
 
@@ -14,8 +16,14 @@ class PurchasesController extends Controller {
 
     protected $purchaseRepo;
 
-    public function __construct(PurchaseRepo $purchaseRepo)
+   /** public function __construct(PurchaseRepo $purchaseRepo)
     {
+        $this->purchaseRepo = $purchaseRepo;
+    }*/
+
+    public function __construct(DetailPurchaseRepo $detailPurchaseRepo, PurchaseRepo $purchaseRepo)
+    {
+        $this->detailPurchaseRepo = $detailPurchaseRepo;
         $this->purchaseRepo = $purchaseRepo;
     }
 
@@ -35,7 +43,7 @@ class PurchasesController extends Controller {
     }
 
     public function paginatep(){
-        $purchases = $this->purchaseRepo->paginate(15);
+        $purchases = $this->purchaseRepo->paginar(15);
         return response()->json($purchases);
     }
 
@@ -51,29 +59,41 @@ class PurchasesController extends Controller {
     }
 
     public function create(Request $request)
-    {
+        {
         $purchase = $this->purchaseRepo->getModel();
-       
-        $manager = new PurchaseManager($purchase,$request->except('fechaPedido','fechaPrevista','fechaEntrega'));
+        //$detailPurchase = $this->detailPurchaseRepo->getModel();
+
+        $var = $request->detailOrderPurchases;//->merge(array('purchases_id' => '10'));
+       //var_dump($var); die();
+        $manager = new PurchaseManager($purchase,$request->except('fechaEntrega'));
         $manager->save();
-       if($this->purchaseRepo->validateDate(substr($request->input('fechaPedido'),0,10)) and $this->purchaseRepo->validateDate(substr($request->input('fechaPrevista'),0,10)) ){
-            $purchase->fechaPedido = substr($request->input('fechaPedido'),0,10);
-             $purchase->fechaPrevista = substr($request->input('fechaPrevista'),0,10);
+       if($this->purchaseRepo->validateDate(substr($request->input('fechaEntrega'),0,10))){
+            $purchase->fechaEntrega = substr($request->input('fechaEntrega'),0,10);
         }else{
            
-            $purchase->fechaPedido = null;
-             $purchase->fechaPrevista = null;
+            $purchase->fechaEntrega = null;
         }
 
         $purchase->save();
+        $temporal=$purchase->id;
+  $detailPurchaseRepox;
+         
+       foreach($var as $object){
+          //var_dump($object); die();
+           $object['purchases_id'] = $temporal;
+           $detailPurchaseRepox = new DetailPurchaseRepo;
+           $insertar=new DetailPurchaseManager($detailPurchaseRepox->getModel(),$object);
+           $insertar->save();
+          
+           $detailPurchaseRepox = null;
 
-
-        return response()->json(['estado'=>true, 'nombres'=>$purchase->nombres,'codigo'=>$purchase->id]);
+       }
+     return response()->json(['estado'=>true, 'nombres'=>$purchase->nombres]);
     }
 
     public function find($id)
     {
-        $purchase = $this->purchaseRepo->find($id);
+        $purchase = $this->purchaseRepo->select($id);
         return response()->json($purchase);
     }
     public function mostrarEmpresa($id){
@@ -85,17 +105,13 @@ class PurchasesController extends Controller {
     {
        $purchase = $this->purchaseRepo->find($request->id);
 
-        $manager = new PurchaseManager($purchase,$request->except('fechaPedido','fechaPrevista','fechaEntrega'));
+        $manager = new PurchaseManager($purchase,$request->except('fechaEntrega'));
         $manager->save();
-       if($this->purchaseRepo->validateDate(substr($request->input('fechaPedido'),0,10)) and $this->purchaseRepo->validateDate(substr($request->input('fechaPrevista'),0,10)) and $this->purchaseRepo->validateDate(substr($request->input('fechaEntrega'),0,10))){
-            $purchase->fechaPedido = substr($request->input('fechaPedido'),0,10);
-             $purchase->fechaPrevista = substr($request->input('fechaPrevista'),0,10);
-              $purchase->fechaEntrega = substr($request->input('fechaEntrega'),0,10);
+       if($this->purchaseRepo->validateDate(substr($request->input('fechaEntrega'),0,10))){
+            $purchase->fechaEntrega = substr($request->input('fechaEntrega'),0,10);
         }else{
            
-            $purchase->fechaPedido = null;
-             $purchase->fechaPrevista = null;
-              $purchase->fechaEntrega = null;
+            $purchase->fechaEntrega = null;
         }
 
         $purchase->save();

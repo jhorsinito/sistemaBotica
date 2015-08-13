@@ -27,4 +27,12 @@ class DetPresController extends Controller
         return response()->json($detPres);
         //var_dump($customers);
     }
+    public function paginatep($id){
+        $detPres = $this->detPresRepo->traerDetalles($id);
+        return response()->json($detPres);
+    }
+    public function find($id){
+        $detPres=$this->detPresRepo->traerCodPresentation($id);
+        return response()->json($detPres);
+    }
 }

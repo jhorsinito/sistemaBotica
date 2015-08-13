@@ -6,22 +6,27 @@ class Purchase extends \Eloquent {
     protected $table = 'purchases';
     
     protected $fillable = [ 
-                    'fechaPedido',
-                    'fechaPrevista',
                     'fechaEntrega',
                     'descuento',
                     'montoBruto',
                     'montoTotal',
-                    'Estado',
+                    'orderPurchase_id',
                     'warehouses_id',
                     'suppliers_id'];
      public function warehouse()
     {
         return $this->belongsTo('\Salesfly\Salesfly\Entities\Warehouse');
     }
+    public function orderPurchase()
+    {
+        return $this->belongsTo('\Salesfly\Salesfly\Entities\OrderPurchase');
+    }
      public function supplier()
     {
         return $this->belongsTo('\Salesfly\Salesfly\Entities\Supplier');
+    }
+    public function detpres(){
+        return $this->belongsToMany('\Salesfly\Salesfly\Entities\DetPres','detailPurchases','purchases_id','detPres_id');
     }
 
 }

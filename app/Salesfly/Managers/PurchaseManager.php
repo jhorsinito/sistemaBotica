@@ -4,14 +4,12 @@ class PurchaseManager extends BaseManager {
 
     public function getRules()
     {
-        $rules = [              
-            'fechaPedido'=>'',
-            'fechaPrevista'=>'',
+        $rules = [
             'fechaEntrega'=>'',
              'descuento'=>'',
              'montoBruto'=>'',
              'montoTotal'=>'',
-             'Estado'=>'',
+             'orderPurchase_id'=>'',
              'warehouses_id'=>'',
                     'suppliers_id'=>''];
         return $rules;
