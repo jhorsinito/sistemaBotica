@@ -35,4 +35,9 @@ class DetPresController extends Controller
         $detPres=$this->detPresRepo->traerCodPresentation($id);
         return response()->json($detPres);
     }
+    public function select($id){
+        $detPres=$this->detPresRepo->elegirunDetPres($id);
+        return response()->json($detPres);
+        
+    }
 }

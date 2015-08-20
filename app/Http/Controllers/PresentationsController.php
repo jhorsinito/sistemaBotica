@@ -33,6 +33,10 @@ class PresentationsController extends Controller
         return response()->json($presentations);
         //var_dump($customers);
     }
+    public function findVariant($id){
+        $presentations = $this->presentationRepo->select($id);
+        return response()->json($presentations);
+    }
 
 
 }

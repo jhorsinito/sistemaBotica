@@ -23,10 +23,7 @@ class OrderPurchasesController extends Controller {
     {
         return View('orderPurchases.index');
     }
-    /*public function mostarUltimoagregado(){
-        $orderPurchases=$this->orderPurchaseRepo->ultimoDato();
-         return response()->json($orderPurchases);
-    }*/
+  
     public function all($estado)
     {
         $orderPurchases = $this->orderPurchaseRepo->searchEstados($estado);
@@ -35,7 +32,7 @@ class OrderPurchasesController extends Controller {
     }
 
     public function paginatep(){
-        $orderPurchases = $this->orderPurchaseRepo->paginar(15);
+        $orderPurchases = $this->orderPurchaseRepo->paginar();
         return response()->json($orderPurchases);
     }
 
@@ -52,8 +49,7 @@ class OrderPurchasesController extends Controller {
 
     public function create(Request $request)
     {
-        $orderPurchase = $this->orderPurchaseRepo->getModel();
-       
+        $orderPurchase = $this->orderPurchaseRepo->getModel();       
         $manager = new OrderPurchaseManager($orderPurchase,$request->except('fechaPedido','fechaPrevista'));
         $manager->save();
        if($this->orderPurchaseRepo->validateDate(substr($request->input('fechaPedido'),0,10)) and $this->orderPurchaseRepo->validateDate(substr($request->input('fechaPrevista'),0,10)) ){
@@ -115,24 +111,15 @@ class OrderPurchasesController extends Controller {
     {
         $orderPurchase= $this->orderPurchaseRepo->find($request->id);
         $orderPurchase->delete();
-        //Event::fire('update.orderPurchase',$orderPurchase->all());
         return response()->json(['estado'=>true, 'nombre'=>$orderPurchase->nombre]);
     }
 
     public function search($q)
     {
-        //$q = Input::get('q');
+        
         $orderPurchases = $this->orderPurchaseRepo->search($q);
 
         return response()->json($orderPurchases);
     }
 
-    /*public function get_string_between($string, $start, $end){
-        $string = " ".$string;
-        $ini = strpos($string,$start);
-        if ($ini == 0) return "";
-        $ini += strlen($start);
-        $len = strpos($string,$end,$ini) - $ini;
-        return substr($string,$ini,$len);
-    }*/
 }

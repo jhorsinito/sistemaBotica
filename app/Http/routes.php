@@ -103,16 +103,18 @@ Route::get('api/products/types',['as' => 'products_types_select','uses' => 'Prod
 Route::get('api/products/stations',['as' => 'products_stations_select','uses' => 'ProductsController@stations_select']);
 Route::get('products/show/{id?}',['as' => 'products_show_by_id','uses' => 'ProductsController@index']);
 Route::get('products/view-show','ProductsController@show');
+Route::get('api/products/autocomplit/','ProductsController@autocomplit');
 
 //END PRODUCTS ROUTES
 
 //VARIANTS ROUTES
 Route::get('api/variants/variants/{id}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@variants']);
-
+Route::get('api/variants/autocomplit/','VariantsController@autocomplit');
 //END VARIANTS ROUTES
 
 //Presentations routes
 Route::get('api/presentations/all',['as'=>'presentation_all', 'uses'=>'PresentationsController@all']);
+Route::get('api/presentations/findVariant/{id}','PresentationsController@findVariant');
 //End prese routes
 
 //detpres routes
@@ -385,6 +387,7 @@ Route::put('api/stocks/edit/','StocksController@edit');
 
 Route::get('api/detpres/paginatep/{id}','DetPresController@paginatep');
 Route::get('api/detpres/find/{id}','DetPresController@find');
+Route::get('api/detpres/{id}','DetPresController@select');
 
 Route::get('api/equivs/find/{id}','EquivController@find');
 

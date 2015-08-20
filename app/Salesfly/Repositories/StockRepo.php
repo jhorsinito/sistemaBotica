@@ -16,12 +16,12 @@ class StockRepo extends BaseRepo{
                     ->paginate(15);
         return $stock;
     }
-   public function traerStock($id,$id2){
+   /*public function traerStock($id,$id2){
     $stock=Stock::where('warehouse_id','=',$id)->where('variant_id','=',$id2)->first();
     return $stock;
-   }
-   public function encontrar($vari){
-        $stock=Stock::where("variant_id","=",$vari);
-        return $stock;
+   }*/
+   public function encontrar($vari,$almacen){
+        $stocks=Stock::where("variant_id","=",$vari)->where("warehouse_id","=",$almacen)->first();
+        return $stocks;
     }
 } 

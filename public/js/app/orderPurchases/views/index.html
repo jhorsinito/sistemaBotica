@@ -63,7 +63,7 @@
                         <option value="2">--Pedidos Cancelados--</option>
                         <option value="3">--Todos los Pedidos--</option>
                 </select>
-                <button type="button" class="btn btn-default" ng-click="ActualizarStock()">ActualizarEstock</button>
+                
             </div>
                   <table class="table table-bordered table-hover">
                     <tr>
@@ -84,16 +84,17 @@
                       <td ng-hide="true">{{row.id}}</td>
                       <td>{{row.empresa}}</td>
                       <td>{{row.almacen}}</td>
-                      <td>{{row.fechaPedido}}</td>
-                      <td>{{row.fechaPrevista}}</td>
+                      <td>{{row.fechaPedido.substring(0,10)}}</td>
+                      <td>{{row.fechaPrevista.substring(0,10)}}</td>
                       <td>{{row.descuento}}</td>
                       <td>{{row.montoBruto}}</td>
                       <td>{{row.montoTotal}}</td>
                       <td ng-if="row.Estado==0"><a  class="btn btn-success btn-xs">Pendiente</a></td>
                       <td ng-if="row.Estado==1"><a  class="btn btn-default btn-xs">Atendido</a></td>
+                      <td ng-if="row.Estado==2"><a  class="btn btn-danger btn-xs">Cancelado</a></td>
                       <td ng-if="row.Estado==0"><a ng-click="editPurchase(row)" class="btn btn-warning btn-xs">Editar</a></td>
-                      <td ng-if="row.Estado==1"><a ng-click="editPurchase(row)" class="btn btn-success btn-xs">ver</a></td>
-                     
+                      <td ng-if="row.Estado==1"><a ng-click="editPurchase(row)" class="btn btn-info btn-xs">ver</a></td>
+                      <td ng-if="row.Estado==2"><a ng-click="editPurchase(row)" class="btn btn-success btn-xs">ver</a></td>
                       
                     </tr>
                     

@@ -71,8 +71,8 @@
                                           </div>
                       <input type="date" class="form-control" name="fechanac" ng-model="employee.fechanac">
                       <label ng-show="employeeCreateForm.$submitted || employeeCreateForm.fechanac.$dirty && employeeCreateForm.fechanac.$invalid">
-                                              <span ng-show="employeeCreateForm.fechanac.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
-                                            </label>
+                              <span ng-show="employeeCreateForm.fechanac.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
+                      </label>
                       </div></div>   
   </div>
   </div>

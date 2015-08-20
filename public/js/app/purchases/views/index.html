@@ -85,6 +85,8 @@
                   </div>
                 </div>-->
              
+ 
+           
                   
                   <table class="table table-bordered table-hover">
                     <tr>
@@ -102,7 +104,7 @@
                     <tr ng-repeat="row in purchases">
                       <td>{{$index + 1}}</td>
                       <td ng-hide="true">{{row.id}}</td>
-                      <td>{{row.fechaEntrega}}</td>
+                      <td>{{row.fechaEntrega.substring(0,10)}}</td>
                       <td>{{row.empresa}}</td>
                       <td>{{row.almacen}}</td>
                       <td><a ng-href="/orderPurchases/edit/{{row.orderPurchase_id}}">Ver Orden</a></td>

@@ -22,8 +22,5 @@ class StoreRepo extends BaseRepo{
         $stores = Store::all();
         return $stores;
     }
-    public function encontrar($vari){
-        $stock=Stock::where("variant_id","=",$vari);
-        return $stock;
-    }
+    
 } 

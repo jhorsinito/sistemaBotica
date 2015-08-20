@@ -1,7 +1,7 @@
 (function(){
     angular.module('purchases.controllers',[])
-        .controller('PurchaseController',['$scope', '$routeParams','$location','crudOPurchase','socketService' ,'$filter','$route','$log',
-            function($scope, $routeParams,$location,crudOPurchase,socket,$filter,$route,$log){
+        .controller('PurchaseController',['$scope','$http' ,'$routeParams','$location','crudOPurchase','socketService' ,'$filter','$route','$log',
+            function($scope,$http, $routeParams,$location,crudOPurchase,socket,$filter,$route,$log){
                 $scope.purchases = [];
                 $scope.purchase = {};
                 $scope.errors = null;
@@ -9,6 +9,9 @@
                 $scope.query = '';
                 $scope.stores;
                 $scope.purchase.store_id='1';
+                //------------------------------------------------
+            
+                //-------------------------------------------------
 
                 $scope.toggle = function () {
                     $scope.show = !$scope.show;
@@ -91,7 +94,23 @@
                  $scope.verOrden= function(row){
                     $location.path('/orderPurchases/edit/'+row.orderPurchase_id);
                 };
-               
+                $scope.searchPurchase = function(){
+                if ($scope.query.length > 0) {
+                    crudOPurchase.search('purchases',$scope.query,1).then(function (data){
+                        $scope.purchases = data.data;
+                        $scope.totalItems = data.total;
+                        $scope.currentPage = data.current_page;
+                    });
+                }else{
+                    crudOPurchase.paginate('purchases',1).then(function (data) {
+                        $scope.purchases = data.data;
+                        $scope.totalItems = data.total;
+                        $scope.currentPage = data.current_page;
+                    });
+                }
+                    
+                };
+ 
 
 
               

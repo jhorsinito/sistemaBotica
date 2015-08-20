@@ -54,7 +54,10 @@ class ProductsController extends Controller
         $products = $this->productRepo->paginate(15);
         return response()->json($products);
     }
-
+    public function autocomplit(){
+         $products = $this->productRepo->Autocomplit();
+        return response()->json($products);
+    }
 
     public function form_create()
     {

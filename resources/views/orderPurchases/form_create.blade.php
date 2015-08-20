@@ -35,55 +35,87 @@
                  </div>
   <div class="box-body">           
     <div class="row">
-          <div class="col-md-4">
-              <div class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.table_search.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.table_search.$dirty && orderPurchaseCreateForm.table_search.$invalid]">
+          <div class="col-md-1">
+          </div>
+         <!-- <div class="col-md-4">
+              <div class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.empresa.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.empresa.$dirty && orderPurchaseCreateForm.empresa.$invalid]">
                     <label>Proveedor: </label>
                     <div ng-hide="show" class="input-group">
-                               <input  type="text" ng-model="orderPurchase.empresa"  name="table_search" class="form-control input-sm pull-right" placeholder="Search" />
-                               <div class="input-group-btn">
+                               <input  type="text" ng-model="orderPurchase.empresa"  name="empresa" class="form-control input-sm pull-right" placeholder="Search" required/>
+                                                             
+                                <div class="input-group-btn">
                                  <button class="btn btn-sm btn-default" data-toggle="modal" ng-click="searchsupplier()" data-target="#miventana" ><i class="fa fa-search"></i></button>
                                </div>
-                               <label ng-show="orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.table_search.$dirty && orderPurchaseCreateForm.table_search.$invalid">
-                                    <span ng-show="orderPurchaseCreateForm.table_search.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
-                                </label>
                    </div>
+                   <label ng-show="orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.empresa.$dirty && orderPurchaseCreateForm.empresa.$invalid">
+                                    <span ng-show="orderPurchaseCreateForm.empresa.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                </label>
                     <div ng-show="show" class="input-group">
                                <spam ng-show="show">@{{orderPurchase.empresa}}</spam>
 
                     </div> 
               </div> 
-            </div>
-           <div class="col-md-4">
+            </div>-->
+             <div class="col-md-4">
+          <div class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.empresa.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.empresa.$dirty && orderPurchaseCreateForm.empresa.$invalid]">
+              <label>Proveedor: </label>
+              <div class="input-group" ng-hide="show">
+              
+               
+               <input typeahead-on-select="asignarEmpresa()" type="text" name="empresa" ng-model="orderPurchase.empresa" placeholder="Busca por Proveedor" 
+                     typeahead="supplier as supplier.empresa for supplier in suppliers | filter:$viewValue | limitTo:8"  
+                     typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
+                     tooltip="Ingrese caracteres para busacar Proveedor por Empres" required>
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noResults">
+                            <i class="glyphicon glyphicon-remove"></i> No Results Found
+                    </div>
+             
+                </div> 
+                <label ng-show="orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.empresa.$dirty && orderPurchaseCreateForm.empresa.$invalid">
+                                    <span ng-show="orderPurchaseCreateForm.empresa.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                </label>
+                <div ng-show="show" class="input-group">
+                      <spam ng-show="show">@{{orderPurchase.empresa}}</spam>
+                </div>
+        </div>
+      </div>
+
+          
+                    <!--)=========================================================================-->
+           <div class="col-md-3">
 
                       <div  class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.fechaPedido.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.fechaPedido.$dirty && orderPurchaseCreateForm.fechaPedido.$invalid]">
-                                      <label for="fechaPedido">Fecha Pedido: </label>
-                                <div ng-hide="show" class="input-group">
+                                <label for="fechaPedido">Fecha Pedido: </label>
+                            <div ng-hide="show" class="input-group">
                                 <div class="input-group-addon">
                                       <i class="fa fa-calendar"></i>
                                 </div>
-                            <input type="date" class="form-control"  name="fechaPedido" ng-model="orderPurchase.fechaPedido" >
+                                  <input type="date" class="form-control"  name="fechaPedido" ng-model="orderPurchase.fechaPedido" >
+                            </div>
                             <label ng-show="orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.fechaPedido.$dirty && orderPurchaseCreateForm.fechaPedido.$invalid">
-                                  <span ng-show="orderPurchaseCreateForm.fechaPedido.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
+                            <span ng-show="orderPurchaseCreateForm.fechaPedido.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
                             </label>
-                             </div>
+                             
                              <div ng-show="show" class="input-group">
                                <spam >@{{orderPurchase.fechaPedid}}</spam>
                     </div> 
                       </div>  
                       
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
                        <div  class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.fechaPrevista.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.fechaPrevista.$dirty && orderPurchaseCreateForm.fechaPrevista.$invalid]">
                             <label for="fechaPrevista">Fecha Prevista: </label>
-                                        <div ng-hide="show" class="input-group">
+                                <div ng-hide="show" class="input-group">
                                         <div class="input-group-addon">
                                               <i class="fa fa-calendar"></i>
                                         </div>
-                           <input  type="date"  min="@{{orderPurchase.fechaPedido}}" class="form-control" name="fechaPrevista" ng-model="orderPurchase.fechaPrevista"  >
-                           <label ng-show="orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.fechaPrevista.$dirty && orderPurchaseCreateForm.fechaPrevista.$invalid">
-                              <span ng-show="orderPurchaseCreateForm.fechaPrevista.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
-                           </label>
-                           </div>
+                                      <input  type="date"  min="@{{orderPurchase.fechaPedido}}" class="form-control" name="fechaPrevista" ng-model="orderPurchase.fechaPrevista" required>
+                                   </div>   
+                                  <label ng-show="orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.fechaPrevista.$dirty && orderPurchaseCreateForm.fechaPrevista.$invalid">
+                                         <span ng-show="orderPurchaseCreateForm.fechaPrevista.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
+                                      </label>
+                               
                            <div ng-show="show" class="input-group">
                                <spam>@{{orderPurchase.fechaPrevist}}</spam>
                            </div>
@@ -92,30 +124,43 @@
          </div>
       </div>
     <div class="row">
+          <div class="col-md-1">
+          </div>
           <div class="col-md-4">
-                   <div class="form-group" >
+                   <div class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.warehouse.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.warehouse.$dirty && orderPurchaseCreateForm.warehouse.$invalid]">
                        <label for="Tienda">Almacen: </label>
-                       <select ng-hide="show" class="form-control" ng-click="seleccionarWarehouse()" ng-model="orderPurchase.warehouses_id" ng-options="item.id as item.nombre for item in warehouses">
+                       <select ng-hide="show" class="form-control" name="warehouse" ng-click="seleccionarWarehouse()" ng-model="orderPurchase.warehouses_id" ng-options="item.id as item.nombre for item in warehouses" required>
                        <option value="">--Elija warehouses_id--</option>
                        </select>
+                       <label ng-show="orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.warehouse.$dirty && orderPurchaseCreateForm.warehouse.$invalid">
+                                <span ng-show="orderPurchaseCreateForm.warehouse.$invalid"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                      </label>
                        <div ng-show="show" class="input-group">
                                <spam>@{{warehouses.nombre}}</spam>
                            </div>
                     </div>
           </div>
      </div>
-            
+     <div class="row">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-4">    
       <div class="form-group">
                 
-                <a ng-hide="show" ng-click="createPurchase()" class="btn btn-default btn-xs">Guardar y Continuar</a>
+                <button ng-hide="show" type="submit" ng-click="createPurchase()" class="btn btn-default btn-xs">Guardar y Continuar</button>
                 <a ng-show="show" ng-click="ProvandoEdicion()" class="btn btn-default btn-xs">Editar</a>
      
       </div>
+      </div>
+    </div>
+ 
              <!--   <div ng-app>
-                         <a ng-click="purchase.$show()" ng-show="!purchase.$visible" editable-text="userxx.name">@{{ userxx.name }}</a>
+                         <a ng-click="purchase.$show()" ng-show="!purchase.$visible" ediable-text="userxx.name">@{{ userxx.name }}</a>
                 </div>-->
             </div>
             <!--===================================================================================-->
+            
+          <!--==================================================================================-->
   <div ng-show="show"  class="box" name="DetalleOrden">
         <div class="box box-default" id="box-addPro">
         <div class="box-header with-border">
@@ -129,34 +174,102 @@
 
         <form name="detailOrderPurchaseCreateForm" role="form" novalidate> 
           <div class="row">
-
+             <div class="col-md-1"></div>
             <div class="col-md-4">
+          <div class="input-group">
               <label>Producto</label>
-              <div class="input-group">
-                <input type="text" ng-model="product.id"  name="table_search" class="form-control input-sm pull-right" placeholder="Search" />
-                <div class="input-group-btn">
-                  <button class="btn btn-sm btn-default" data-toggle="modal" ng-click="searchProduct()" data-target="#miventanaProductos" ><i class="fa fa-search"></i></button>
-                </div>
-              </div> 
+                
+               <input typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Locations loaded via $http" 
+          typeahead="product as product.proNombre+' /'+product.NombreAtributos for product in products | filter:$viewValue | limitTo:8" 
+          typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
+           tooltip="Ingrese caracteres para busacar producto por nombre"
+            >
+         
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+            <div ng-show="noResults">
+                    <i class="glyphicon glyphicon-remove"></i> No Results Found
+           </div>
+            
+        </div> 
             </div> 
-
-            <div class="col-md-4" ng-show="mostrarVariantes">
-              <div class="form-group" >
-                <label for="Variante">Variante</label>
-                <select class="form-control"  data-target="#miventanaPresentacion" data-toggle="modal" ng-click="seleccionarDetPres()" ng-model="variants.id" ng-options="item.id as item.sku for item in variants">
-                  <option value="">--Elija Variante--</option>
-                </select>
-                <!--@{{variants.varid}}-->
-                </div>
-            </div>
+           <div class="col-md-4">
+          <div class="input-group">
+              <label>Variante</label>
+               
+               <input typeahead-on-select="asignarProduc2()" type="text" ng-model="variant.sku" placeholder="Busca por producto" 
+          typeahead="variant as variant.sku for variant in variants | filter:$viewValue | limitTo:8"  
+          typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
+          tooltip="Ingrese caracteres para busacar producto por sku">
+         
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+            <div ng-show="noResults">
+                    <i class="glyphicon glyphicon-remove"></i> No Results Found
+           </div>
+             
+        </div> 
+      </div>
+      <div class="col-md-1">
+      <div class="input-group">
+      <label></label><br/>
+           <input type="checkbox" name="vehicle"  ng-click="llenar()" >Base<br>
+      </div>
+    </div>
+           
 
           </div>
+
+        
+           <!-------------------------------------------------------------------------->
+          <div class="row">
+           <div class="col-md-1">
+           </div>
+           <div class="col-md-10">
+             <hr>
+          
+            <div collapse="mostrarPresentacion">
+          <div class="well well-lg">
+                 <div align="center"><h3>Seleccione Una Presentacion</h3></div> 
+
+                    <table class="table table-bordered">
+                    <tr>
+                      <th style="width: 10px">#</th>
+                      <th>Nombre</th>
+                      <th>Precio</th>
+                      <th>Equivalencia</th>
+                      <th>Producto Base</th>
+
+                      <th style="width: 40px">Enviar</th>
+                    </tr>
+                    
+                    <tr ng-repeat="row in detPres">
+                      <td>@{{$index + 1}}</td>
+                      <td ng-hide="true">@{{row.iddetalleP}}</td>
+                      <td >@{{row.nombre}}</td>
+                      <td>@{{row.precioCompra}}</td>  
+                      <td>@{{row.equivalencia}}</td>
+                      <td ng-if="row.base==0"><span class="badge bg-red">NO</span></td> 
+                      <td ng-if="row.base!=0"><span class="badge bg-green">SI</span></td> 
+                      <td><a ng-click="AsignarP(row)" class="btn btn-warning btn-xs" data-dismiss="modal">Enviar</a></td>
+
+                    </tr>
+                    
+                    
+                  </table>
+                  
+                     
+          </div> 
+          </div>
+        </div>
+        </div>
+           <!--=---------------------------------------------------------------------=--> 
           <div class="row">
           <!-- capo de Texto  Cantidad-->
+          <div class="col-md-1">
+          </div> 
             <div class="col-md-2"> 
                 <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.cantidad.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.cantidad.$dirty && detailOrderPurchaseCreateForm.cantidad.$invalid]">
                 <label for="cantidad">Cantidad</label>
-                <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="cantidad" id="cantidad" placeholder="0.00" ng-model="detailOrderPurchase.cantidad" ng-blur="calculateSuppPric()" step="0.1">
+                <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="cantidad" id="cantidad" placeholder="0.00" ng-model="detailOrderPurchase.cantidad" ng-blur="calculateSuppPric()" step="0.1" rquired>
                 <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.cantidad.$dirty && detailOrderPurchaseCreateForm.cantidad.$invalid">
                   <span ng-show="detailOrderPurchaseCreateForm.cantidad.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
@@ -206,8 +319,14 @@
                 </div>
             </div>
             </div>
+          <div class="row">
+          <!-- capo de Texto  Cantidad-->
+          <div class="col-md-1">
+          </div> 
+           <div class="col-md-4">
           <button type="submit" class="btn btn-primary" ng-click="AgregarProducto()">Agregar Producto</button>
-        
+          </div>
+        </div>
           </form>
         </div><!-- /.box-body -->
       </div>
@@ -239,29 +358,36 @@
               <th>Precio Compra</th>
               <th>Total Bruto</th>
               <th>Descuento</th>
-              <th>Total</th>
-              <td></td>     
+              <th>SubTotal</th>
+              <th>Acciones</th>     
             </tr>
-            <tr ng-repeat="row in detailOrderPurchases">
+            <tr  ng-repeat="row in detailOrderPurchases " >
                       <td>@{{$index + 1}}</td>
                       <td ng-hide="true">@{{row.orderPurchases_id}}</td>
                       <td ng-hide="true">@{{row.detPres_id}}</td>
                       <td>@{{row.nombre}}</td>
                       <td>@{{row.CodigoPCompra}}</td>
                       <td>@{{row.cantidad}}</td>
-                      <td>@{{row.preProducto}}</td>
-                      <td>@{{row.preCompra}}</td>
-                      <td>@{{row.montoBruto}}</td>
-                      <td>@{{row.descuento}}</td>
-                      <td>@{{row.montoTotal}}</td>
-                      <td><a data-target="#miventanaEditRow" ng-click="EditarDetalles(row,$index)" data-toggle="modal" class="btn btn-warning btn-xs" ><i class="fa fa-fw fa-pencil"></i></a>
+                      <td>S/.@{{row.preProducto}}</td>
+                      <td>S/.@{{row.preCompra}}</td>
+                      <td>S/.@{{row.montoBruto}}</td>
+                      <td>@{{row.descuento}}%</td>
+                      <td>S/.@{{row.montoTotal}}</td>
+                      <!--<td><a data-target="#miventanaEditRow" ng-click="EditarDetalles(row,$index)" data-toggle="modal" class="btn btn-warning btn-xs" ><i class="fa fa-fw fa-pencil"></i></a>
                           <a  class="btn btn-danger btn-xs" ng-click="sacarRow($index,row.montoTotal)"><i class="fa fa-fw fa-trash"></i></a>
-                      </td>
+                      </td>-->
+                       <td><button type="button" class="btn  btn-xs" ng-click="addCant(row,$index)">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        <button type="button" class="btn btn-xs " ng-disabled="" ng-click="lessCant(row,$index)">
+                        <span type="button" class="glyphicon glyphicon-minus"></span><button type="button" class="btn btn-danger btn-xs"  ng-click="sacarRow($index,row.montoTotal)">
+                        <span class="glyphicon glyphicon-trash"></span></td>
+                      
                       <!--<td><a ng-click="sacarRow(row.index,row.montoTotal)" class="btn btn-warning btn-xs">Sacar</a></td>
                       <td><a ng-click="EditarDetalles(row,row.index)" data-target="#miventanaEditRow" data-toggle="modal" class="btn btn-warning btn-xs">Edit</a></td>
                     -->
                     </tr> 
           </table>
+          
 <!--===============================================================================================-->
      <div class="row">
           <div class="col-md-4"> 
@@ -311,234 +437,3 @@
 </div>
 
 </section>
-<!--=======================================================================================================-->
-      <!-- ==============================Ventana Elegir Empresa=================================-->
-        <div class="container"  style="margin-top: 60px;">
-           <div  class="modal fade" id="miventana" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="ngenabled">
-             <div  class="modal-dialog">
-               <div style="border-radius: 5px" class="modal-content">
-                 <div class="modal-header"  >
-                   <button type="button"  class="close" data-dismiss="modal" aria-hidden="ngenabled"> &times; </button>
-                   <h4><b>Gastos Del Empleado </b></h4>
-                   </div>
-                   <div class="modal-body">
-
-                    <table class="table table-bordered">
-                    <tr>
-                      <th style="width: 10px">#</th>
-
-                      <th>Empresa</th>
-                      <th>Nombre Completo </th>
-                      <th>Ruc</th>
-                      
-                      
-                      <th style="width: 40px">Seleccionar</th>
-                    </tr>
-                  <tr ng-repeat="row in suppliers">
-                      <td>@{{$index + 1 + (currentPage-1)*itemsperPage}}</td>
-                      <td>@{{row.empresa}}</td>
-                      <td>@{{row.nombres+ " " + row.apellidos }}</td>
-                      <td>@{{row.ruc}}</td>
-                      
-                      <td><a ng-click="asignarEmpresa(row)" class="btn btn-danger btn-xs" data-dismiss="modal">Eviar</a></td>
-                      
-                    </tr>               
-                    
-                    
-                    
-                  </table>
-                  
-                      
-                     </div>
-                    
-               </div>
-             </div>
-           </div>
-        </div>
-        </div>
-        <!-- ===================================================================================-->
-
-<!-- =================================Ventana Elegir Producto=================================-->
-        <div class="container"  style="margin-top: 60px;">
-           <div  class="modal fade" id="miventanaProductos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="ngenabled">
-             <div  class="modal-dialog">
-               <div style="border-radius: 5px" class="modal-content">
-                 <div class="modal-header"  >
-                   <button type="button"  class="close" data-dismiss="modal" aria-hidden="ngenabled"> &times; </button>
-                   <h4><b>Elija Producto</b></h4>
-                   </div>
-                   <div class="modal-body">
-
-                    <table class="table table-bordered">
-                    <tr>
-                      <th style="width: 10px">#</th>
-                      <th>Código</th>
-                      <th>Nombre</th>
-                      <th>Marca</th>
-                      <th>Categoría</th>
-
-                      <th style="width: 40px">Enviar</th>
-                    </tr>
-                    
-                    <tr ng-repeat="row in products">
-                      <td>@{{$index + 1}}</td>
-                      <td ng-hide='true'>@{{row.proId}}</td>
-                      <td ng-hide='true'>@{{row.precioProducto}}</td>
-                      <td ng-hide='true'>@{{row.TieneVariante}}</td>
-                     <td>@{{row.proCodigo}}</td>
-                      <td>@{{row.proNombre }}</td>                      
-                      <td>@{{row.braNombre +"/"+row.typNombre}}</td>
-                      <td>@{{row.varPrice}}</td>
-                      <td><a ng-click="asignarProduc(row)" class="btn btn-warning btn-xs" data-dismiss="modal">Enviar</a></td>
-
-                    </tr>
-                    
-                    
-                  </table>
-                  
-                      
-                     </div>
-                    
-               </div>
-             </div>
-           </div>
-        </div>
-        </div>
-        <!-- ===================================================================================-->
-        <div class="container"  style="margin-top: 60px;">
-           <div  class="modal fade" id="miventanaPresentacion"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="ngenabled">
-             <div  class="modal-dialog">
-               <div style="border-radius: 5px" class="modal-content">
-                 <div class="modal-header"  >
-                   <button type="button"  class="close" data-dismiss="modal" aria-hidden="ngenabled"> &times; </button>
-                   <h4><b>Elija Presentacion</b></h4>
-                   </div>
-                   <div class="modal-body">
-
-                    <table class="table table-bordered">
-                    <tr>
-                      <th style="width: 10px">#</th>
-                      <th>Nombre</th>
-                      <th>Precio</th>
-                      <th>Producto Base</th>
-
-                      <th style="width: 40px">Enviar</th>
-                    </tr>
-                    
-                    <tr ng-repeat="row in detPres">
-                      <td>@{{$index + 1}}</td>
-                      <td ng-hide="true">@{{row.iddetalleP}}</td>
-                      <td >@{{row.nombre}}</td>
-                      <td>@{{row.precioCompra}}</td>  
-                      <td ng-if="row.base==0"><span class="badge bg-red">NO</span></td> 
-                      <td ng-if="row.base!=0"><span class="badge bg-green">SI</span></td> 
-                      <td><a ng-click="AsignarP(row)" class="btn btn-warning btn-xs" data-dismiss="modal">Enviar</a></td>
-
-                    </tr>
-                    
-                    
-                  </table>
-                  
-                      
-                     </div>
-                    
-               </div>
-             </div>
-           </div>
-        </div>
-        </div>
-        <!-- ===================================================================================-->
-
-<div class="container"  style="margin-top: 60px;">
-           <div  class="modal fade" id="miventanaEditRow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="ngenabled">
-             <div  class="modal-dialog">
-               <div style="border-radius: 5px" class="modal-content">
-                 <div class="modal-header"  >
-                   <button type="button"  class="close" data-dismiss="modal" aria-hidden="ngenabled"> &times; </button>
-                   <h4><b>Edita Detalle</b></h4>
-                   </div>
-                   <div class="modal-body">
-        <form>
-                       
-                      <input type="text" ng-hide="true"  name="producto" 
-                      ng-model="detailOrderPurchase.orderPurchases_id">
-                     
-                      <input type="text" ng-hide="true"  name="producto" 
-                      ng-model="detailOrderPurchase.detPres_id">
-                     
-            
-        <div class="row ">
-          <div class="col-md-4">
-                     <div class="form-group" >
-                      <label for="descripcion">Producto</label>
-                      <input type="text" class="form-control" name="producto" placeholder="Capcidad"
-                      ng-model="detailOrderPurchase.nombre">
-                     </div>
-            </div> 
-            <div class="col-md-4">
-                     
-                     <div class="form-group" >
-                      <label for="descripcion">Variante</label>
-                      <input type="text" class="form-control" name="variante" placeholder="Capcidad"
-                      ng-model="detailOrderPurchase.CodigoPCompra">
-                     </div>
-            </div>
-        </div> 
-    <div class="row ">
-          <div class="col-md-4">
-                     <div class="form-group" >
-                      <label for="descripcion">Cantidad</label>
-                      <input type="number" class="form-control" ng-blur="calculateSuppPric()" name="cantidad" placeholder="0.00"
-                      ng-model="detailOrderPurchase.cantidad">
-                     </div>
-          </div>
-          <div class="col-md-4">
-                     <div class="form-group" >
-                      <label for="descripcion">Precio Producto</label>
-                      <input type="number" class="form-control" ng-blur="calculateSuppPric()" name="preproduct" placeholder="0.00"
-                      ng-model="detailOrderPurchase.preProducto">
-                     </div>
-          </div>
-          <div class="col-md-4">
-                     <div class="form-group" >
-                      <label for="descripcion">Precio Compra</label>
-                      <input type="number" class="form-control" ng-blur="calculateSuppPric()" name="precompra" placeholder="0.00"
-                      ng-model="detailOrderPurchase.preCompra">
-                     </div>
-          </div>
-    </div>
-    <div class="row ">
-          <div class="col-md-4">
-                     <div class="form-group" >
-                      <label for="descripcion">Total Bruto</label>
-                      <input type="number" class="form-control" ng-blur="calculateSuppPric()" name="montoBruto" placeholder="0.00"
-                      ng-model="detailOrderPurchase.montoBruto">
-                     </div>
-          </div>
-          <div class="col-md-4">
-                     <div class="form-group" >
-                      <label for="descripcion">Descuento</label>
-                      <input type="number" class="form-control" ng-blur="calculateSuppPric()" name="descuento" placeholder="0.00"
-                      ng-model="detailOrderPurchase.descuento">
-                     </div>
-          </div>
-          <div class="col-md-4">
-                     <div class="form-group" >
-                      <label for="descripcion">Total</label>
-                      <input type="number" class="form-control" ng-blur="calculateSuppPric()" name="total" placeholder="0.00"
-                      ng-model="detailOrderPurchase.montoTotal">
-                     </div>
-            </div>
-      </div>
-        <button type="submit" data-dismiss="modal" class="btn btn-primary" ng-click="ModificarRow()">Modificar</button>
-        <button class="btn btn-danger" data-dismiss="modal" ng-click="ModificarRow()" >Cancelar</button>
-                  
-    </form>
-                      
-                   </div>
-                    
-               </div>
-             </div>
-           </div>
-        </div>
-        </div>
