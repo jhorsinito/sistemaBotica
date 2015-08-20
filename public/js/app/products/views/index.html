@@ -62,6 +62,7 @@
                         <th>Variantes</th>
                         <th>Stock</th>
                       <th style="width: 40px">Editar</th>
+                        <th>Desactivar</th>
                       <th style="width: 40px">Eliminar</th>
                     </tr>
                     
@@ -70,7 +71,7 @@
 
                       <td>{{row.proCodigo }}</td>
                       <td><a ng-href="/products/show/{{row.proId}}">{{row.proNombre}}</a></td>
-                        <td>{{row.varPrice}}</td>
+                        <td>{{row.detPresPri}}</td>
                       <td>{{row.braNombre}}</td>
                       <td>{{row.typNombre}}</td>
                         <td>{{row.proCreado}}</td>
@@ -83,8 +84,10 @@
                                         <span ng-if="row.proQuantvar == '0'">-</span>
                                 </span>
                         </td>
-                        <td>##</td>
+                        <td><a ng-click> <!--si prod join with stock table-->            <button popover-placement="right" popover="On the Top!" type="button" class="btn btn-default btn-xs">Ver</button>
+                        </a></td>
                       <td><a ng-click="editProduct(row)" class="btn btn-warning btn-xs">Editar</a></td>
+                        <td><a ng-click="disableProduct(row)" class="btn bg-purple-active color-palette btn-xs">Desactivar</a></td>
                       <td><a ng-click="deleteProduct(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
 
                     </tr>
@@ -153,3 +156,13 @@
         </div>
     </div>
 </div>
+
+<!--end modal de variantes-->
+
+<script type="text/ng-template" id="stock.html">
+    <div>{{stock.content}}</div>
+    <div class="form-group">
+        <label>Popup Title:</label>
+        <input type="text" ng-model="dynamicPopover.title" class="form-control">
+    </div>
+</script>

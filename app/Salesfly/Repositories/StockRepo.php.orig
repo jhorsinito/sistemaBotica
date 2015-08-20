@@ -8,7 +8,7 @@ class StockRepo extends BaseRepo{
     {
         return new Stock;
     }
-    
+<<<<<<< HEAD
 
     public function search($q)
     {
@@ -24,5 +24,11 @@ class StockRepo extends BaseRepo{
    public function encontrar($vari,$almacen){
         $stocks=Stock::where("variant_id","=",$vari)->where("warehouse_id","=",$almacen)->first();
         return $stocks;
+=======
+    
+   public function encontrar($vari){
+        $stock=Stock::where("variant_id","=",$vari);
+        return $stock;
+>>>>>>> da1d933c33203570ed4eb35e2c01504590feb565
     }
 } 

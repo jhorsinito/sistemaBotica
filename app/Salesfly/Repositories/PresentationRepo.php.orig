@@ -7,6 +7,13 @@ class PresentationRepo extends BaseRepo{
     {
         return new Presentation;
     }
+<<<<<<< HEAD
+    public function select($id){
+         $presentations=Presentation::leftjoin('equiv','equiv.preBase_id','=','presentation.id')
+                                   ->where('presentation.id','=',$id)
+                                   ->select('presentation.shortname')->first();
+        return $presentations;
+=======
     public function all(){
         return Presentation::with(['equivFin' => function ($query) {
             $query->join('presentation','presentation.id','=','equiv.preBase_id')
@@ -14,14 +21,9 @@ class PresentationRepo extends BaseRepo{
                     ;
         }])->get();
     }
-        public function select($id){
-         $presentations=Presentation::leftjoin('equiv','equiv.preBase_id','=','presentation.id')
-                                   ->where('presentation.id','=',$id)
-                                   ->select('presentation.shortname')->first();
-        return $presentations;
-    }
     public function all_base(){
         return Presentation::where('base',1)->get();
+>>>>>>> da1d933c33203570ed4eb35e2c01504590feb565
     }
 
     public function all_by_base($id){

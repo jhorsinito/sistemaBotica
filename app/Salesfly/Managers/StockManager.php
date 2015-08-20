@@ -5,11 +5,14 @@ class StockManager extends BaseManager {
 
     public function getRules()
     {
-        $rules = ['stockActual'=>'',
-                            'stockMin'=>'',
-                            'stockMinSoles'=>'',
-                            'warehouse_id'=>'',
-                            'variant_id'=>''];
+        $rules = [
+            'stockActual'=>'between:0,9999999999.00',
+            'stockMin'=>'between:0,9999999999.00',
+            'stockMinSoles'=>'between:0,9999999999.00',
+            'variant_id'=>'required',
+            'warehouse_id'=>'required'
+        ];
         return $rules;
     }
-} 
+}
+

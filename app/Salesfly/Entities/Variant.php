@@ -6,9 +6,9 @@ class Variant extends \Eloquent {
     protected $table = 'variants';
 
     protected $fillable = ['sku',
-                            'suppPri',
+                            /*'suppPri',
                             'markup',
-                            'price',
+                            'price',*/
                             'track',
                             'product_id'];
 

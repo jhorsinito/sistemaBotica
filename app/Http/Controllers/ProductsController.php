@@ -9,8 +9,12 @@ use Mockery\Matcher\Type;
 use Salesfly\Http\Requests;
 use Salesfly\Http\Controllers\Controller;
 
+use Salesfly\Salesfly\Managers\DetPresManager;
+use Salesfly\Salesfly\Managers\StockManager;
+use Salesfly\Salesfly\Repositories\DetPresRepo;
 use Salesfly\Salesfly\Repositories\ProductRepo;
 use Salesfly\Salesfly\Managers\ProductManager;
+use Salesfly\Salesfly\Repositories\StockRepo;
 use Salesfly\Salesfly\Repositories\VariantRepo;
 use Salesfly\Salesfly\Managers\VariantManager;
 
@@ -23,11 +27,13 @@ class ProductsController extends Controller
 {
     protected $productRepo;
     protected $variantRepo;
+    protected $detPres;
 
-    public function __construct(ProductRepo $productRepo, VariantRepo $variantRepo)
+    public function __construct(ProductRepo $productRepo, VariantRepo $variantRepo, DetPresRepo $detPres)
     {
         $this->productRepo = $productRepo;
         $this->variantRepo = $variantRepo;
+        $this->detPres = $detPres;
         $this->middleware('auth');
         //$this->middleware('role:admin');
     }
@@ -71,8 +77,10 @@ class ProductsController extends Controller
 
     public function create(Request $request)
     {
+        //var_dump($request->all());die();
         $product = $this->productRepo->getModel();
         $variant = $this->variantRepo->getModel();
+        $detPres = $this->detPres->getModel();
 
         if ($request->input('estado') == 1) {}else{$request->merge(array('estado' => '0'));};
         if ($request->input('hasVariants') == 1) {}else{$request->merge(array('hasVariants' => '0'));};
@@ -94,6 +102,24 @@ class ProductsController extends Controller
             $product->save();
             $managerVar = new VariantManager($variant,$request->only('sku','suppPri','markup','price','track','product_id'));
             $managerVar->save();
+
+                //$oPres;
+                foreach($request->input('presentations') as $presentation){
+                    $presentation['variant_id'] = $variant->id;
+                    $presentation['presentation_id'] =  $presentation['id'];
+                    $oPres = new DetPresRepo();
+                    $presManager = new DetPresManager($oPres->getModel(),$presentation);
+                    $presManager->save();
+                }
+                if($request->input('track') == 1) {
+                    foreach ($request->input('stock') as $stock) {
+                        $stock['variant_id'] = $variant->id;
+                        $oStock = new StockRepo();
+                        $stockManager = new StockManager($oStock->getModel(), $stock);
+                        $stockManager->save();
+                    }
+                }
+
         }
 
         return response()->json(['estado'=>true, 'nombres'=>$product->nombre]);

@@ -113,10 +113,13 @@ Route::get('api/variants/autocomplit/','VariantsController@autocomplit');
 //END VARIANTS ROUTES
 
 //Presentations routes
-Route::get('api/presentations/findVariant/{id}','PresentationsController@findVariant');
 Route::get('api/presentations/all',['as'=>'presentation_all', 'uses'=>'PresentationsController@all']);
+<<<<<<< HEAD
+Route::get('api/presentations/findVariant/{id}','PresentationsController@findVariant');
+=======
 Route::get('api/presentations_base/all',['as'=>'presentation_base_all', 'uses'=>'PresentationsController@all_base']);
 Route::get('api/presentations/all_by_base/{id}',['as'=>'presentation_by_base_all', 'uses'=>'PresentationsController@all_by_base']);
+>>>>>>> da1d933c33203570ed4eb35e2c01504590feb565
 //End prese routes
 //byforeingKey(uri,fx,id
 
