@@ -115,4 +115,12 @@ class CustomersController extends Controller {
 
         return response()->json($customers);
     }
+
+    public function searchVenta($q)
+    {
+        //$q = Input::get('q');
+        $customers = $this->customerRepo->searchVenta($q);
+
+        return response()->json($customers);
+    }
 }

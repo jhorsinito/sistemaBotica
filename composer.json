@@ -11,7 +11,9 @@
         "vinkla/pusher": "^2.0",
         "intervention/image": "^2.3",
         "doctrine/dbal":"*",
-        "reportico/laravel-reportico": "~5.1"
+        "cossou/jasperphp": "dev-master"
+
+
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

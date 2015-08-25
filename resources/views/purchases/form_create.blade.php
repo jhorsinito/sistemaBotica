@@ -53,7 +53,8 @@
                       <label ng-show="purchaseCreateForm.$submitted || purchaseCreateForm.fechaPedido.$dirty && purchaseCreateForm.fechaPedido.$invalid">
                                               <span ng-show="purchaseCreateForm.fechaPedido.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
                                             </label>
-                      </div></div>  
+                      </div>
+                      </div>  
   </div>
   <div class="col-md-4">
                       <div class="form-group" ng-class="{true: 'has-error'}[ purchaseCreateForm.fechaPrevista.$error.required && purchaseCreateForm.$submitted || purchaseCreateForm.fechaPrevista.$dirty && purchaseCreateForm.fechaPrevista.$invalid]">

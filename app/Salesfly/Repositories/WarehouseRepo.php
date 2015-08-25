@@ -15,6 +15,15 @@ class WarehouseRepo extends BaseRepo{
                     ->paginate(15);
         return $warehouses;
     }
+    public function searchWarehouse($q,$id)
+    {
+        $warehouses =Warehouse::select('id','nombre','shortname','capacidad')
+                    ->where('nombre','like', $q.'%')->where('store_id','=',$id)
+                    //->with(['customer','employee'])
+                    ->paginate(15);
+        return $warehouses;
+    }
+
     public function paginaterepo($c){
         //$warehouses = Warehouse::with('store')->paginate($c);
         $warehouses = Warehouse::with(array('store'=>function($query){

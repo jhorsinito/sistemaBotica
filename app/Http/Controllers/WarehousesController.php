@@ -93,6 +93,15 @@ class WarehousesController extends Controller {
 
         return response()->json($warehouses);
     }
+    public function searchWarehouse($q,$id)
+    {
+        //$q = Input::get('q');
+        $warehouses = $this->warehouseRepo->searchWarehouse($q,$id);
+
+        return response()->json($warehouses);
+        //return "Hola";
+    }
+    
     public function selectWarehouses(){
         $warehouses = $this->warehouseRepo->all();
         return response()->json($warehouses);

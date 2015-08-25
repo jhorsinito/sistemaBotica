@@ -97,4 +97,12 @@ class StoresController extends Controller {
         $stores = $this->storeRepo->all();
         return response()->json($stores);
     }
+
+    public function searchReport($q)
+    {
+        //$q = Input::get('q');
+        $stores = $this->storeRepo->searchReport($q);
+
+        return response()->json($stores);
+    }
 }

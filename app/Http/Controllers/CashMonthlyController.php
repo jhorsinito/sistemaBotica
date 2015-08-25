@@ -32,6 +32,7 @@ class CashMonthlyController extends Controller {
     }
 
     public function paginatep(){
+        
         $cashMonthlys = $this->CashMonthlyRepo->paginate(15);
         return response()->json($cashMonthlys);
     }
@@ -46,7 +47,7 @@ class CashMonthlyController extends Controller {
     {
         return View('cashMonthlys.form_edit');
     }
-
+    
     public function create(Request $request)
     {
 
@@ -60,7 +61,7 @@ class CashMonthlyController extends Controller {
 
     public function find($id)
     {
-        $material = $this->CashMonthlyRepo->find($id);
+        $material = $this->CashMonthlyRepo->find($id)->paginate(15);
         return response()->json($material);
     }
 

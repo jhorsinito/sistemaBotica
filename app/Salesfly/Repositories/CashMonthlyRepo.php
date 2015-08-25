@@ -3,7 +3,6 @@ namespace Salesfly\Salesfly\Repositories;
 use Salesfly\Salesfly\Entities\CashMonthly;
 
 
-
 class CashMonthlyRepo extends BaseRepo{
     
     public function getModel()
