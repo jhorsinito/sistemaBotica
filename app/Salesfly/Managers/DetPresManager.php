@@ -15,7 +15,7 @@ class DetPresManager extends BaseManager{
     public function getRules(){
         return ['variant_id' => 'required|integer',
                 'presentation_id' => 'required|integer',
-                'suppPri' => 'required|between:0,99999.99', //para que agregue decimales
+                'suppPri' => 'required|between:0,99999999.99', //para que agregue decimales
                 'markup' => 'required',
                 'price' => 'required'
                 ];

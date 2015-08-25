@@ -152,7 +152,7 @@ return [
         /*
          * Customer Service Provider
          */
-        //Reportico\Reportico\ReporticoServiceProvider::class,
+        //Barryvdh\Debugbar\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class
     ],
 

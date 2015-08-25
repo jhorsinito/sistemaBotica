@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddColumnDetailPurchasesTable extends Migration
+class CreateMethodPaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,11 @@ class AddColumnDetailPurchasesTable extends Migration
      */
     public function up()
     {
-        Schema::table('detailPurchases', function (Blueprint $table) {
-            $table->decimal('preProducto',10,2); //quantVar 0 -> sin variantes , 1... con variantes.
-            $table->decimal('preCompra',10,2);
-            $table->integer('cantidad');
+         Schema::create('methodPayments', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('nombre');
+            $table->string('descripcion');
+            $table->timestamps();
         });
     }
 
@@ -26,6 +27,6 @@ class AddColumnDetailPurchasesTable extends Migration
      */
     public function down()
     {
-        
+         Schema::drop('methodPayments');
     }
 }

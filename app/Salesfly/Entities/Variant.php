@@ -6,9 +6,9 @@ class Variant extends \Eloquent {
     protected $table = 'variants';
 
     protected $fillable = ['sku',
-                            'suppPri',
+                            /*'suppPri',
                             'markup',
-                            'price',
+                            'price',*/
                             'track',
                             'product_id'];
 
@@ -22,5 +22,8 @@ class Variant extends \Eloquent {
 
     public function product(){
         return $this->belongsTo('\Salesfly\Salesfly\Entities\Product');
+    }
+     public function detPre(){
+        return $this->hasMany('\Salesfly\Salesfly\Entities\DetPres');
     }
 }

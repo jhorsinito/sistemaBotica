@@ -55,35 +55,82 @@
                       <button type="button" class="btn btn-default" ng-click="cancelPurchase()">No</button>
                     </p>
                   </div>
-                  <table class="table table-bordered">
+              <div class="form-group">
+                  <button class=" label-default" data-toggle="modal" data-target="#miventana" >Crear Adelantos</button>
+              
+              
+                  <button class=" label-default" data-toggle="modal" data-target="#miventana" >Crear Compra</button>
+              </div>
+
+           <!-- <div class="form-group">
+                <select class="form-control"  ng-click="searchEstados()" ng-model="estado" >
+                        <option value="">--Elija Variante--</option>
+                        <option value="0">--Pedidos Pendientes--</option>
+                        <option value="1">--Pedidos Atendidos--</option>
+                        <option value="2">--Pedidos Cancelados--</option>
+                </select>
+            </div>
+              <div class="col-md-2">
+                  <div class="form-group">
+                    <a ng-href="/orderPurchases/create" class="btn btn-success btn-xs">Crear Nuevo Pedido</a>
+                  </div>
+              </div>
+              <div class="col-md-2">
+                  <div class="form-group">
+                    <a ng-href="/purchases" class="btn btn-success btn-xs">Ver Compras Realizadas</a>
+                  </div>
+              </div>
+              <div class="col-md-2">
+                  <div class="form-group">
+                    <a ng-href="/orderPurchases/edit/" class="btn btn-success btn-xs">Ver Pedidos Pendientes</a>
+                  </div>
+              </div>
+              <div class="col-md-2">
+                  <div class="form-group">
+                    <a ng-href="/orderPurchases/edit/" class="btn btn-success btn-xs">Ver pedidos Cancelados</a>
+                  </div>
+                </div>-->
+             
+ 
+           
+                  
+                  <table class="table table-bordered table-hover">
                     <tr>
                       <th style="width: 10px">#</th>
-                      <th>Fecha Pedido</th>
-                      <th>Fecha Prevista</th>
                       <th>Fecha Entrega</th>
+                      <th>Proveedor</th>
+                      <th>Alamcen</th>
+                      <th>Orden Purchase</th>
                       <th>Descuento</th>
                       <th>Monto Bruto</th>
                       <th>Monto Total</th>
-                      <th style="width: 40px">Editar</th>
-                      <th style="width: 40px">Eliminar</th>
+                      <th style="width: 40px">Pagar Pedido</th>
+                      <th style="width: 40px">Ver Detalles</th>
                     </tr>
                     
                     <tr ng-repeat="row in purchases">
                       <td>{{$index + 1}}</td>
                       <td ng-hide="true">{{row.id}}</td>
-                      <td>{{row.fechaPedido}}</td>
-                      <td>{{row.fechaPrevista}}</td>
-                      <td>{{row.fechaEntrega}}</td>
+                      <td>{{row.fechaEntrega.substring(0,10)}}</td>
+                      <td>{{row.empresa}}</td>
+                      <td>{{row.almacen}}</td>
+                      <td><a ng-href="/orderPurchases/edit/{{row.orderPurchase_id}}">Ver Orden</a></td>
                       <td>{{row.descuento}}</td>
                       <td>{{row.montoBruto}}</td>
                       <td>{{row.montoTotal}}</td>
-                      <td><a ng-click="editPurchase(row)" class="btn btn-warning btn-xs">Editar</a></td>
-                      <td><a ng-click="TreerDetalleCompra(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
-                      
+                      <td ng-if="row.saldo>0"><a ng-href="/purchases/show/{{row.id}}">Pagar</a>
+                      </td>
+                      <td ng-if="row.saldo<=0"><a ng-href="/purchases/show/{{row.id}}">Ver Pagos</a>
+                      </td>
+                      <td><a ng-click="editCompra(row)" class="btn btn-success btn-xs">Ver Detalles</a></td>
+                                        
                     </tr>
                     
                     
                   </table>
+                  <!--======================================================-->
+                
+                  <!--============================================================================-->
                 </div><!-- /.box-body -->
                 <div class="box-footer clearfix">
                   <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm no-margin pull-right" items-per-page="itemsperPage" boundary-links="true" rotate="false" num-pages="numPages" ng-change="pageChanged()"></pagination>
@@ -95,3 +142,54 @@
             </div>  
           </div>
         </section>
+        <!-- =======================================================================================================Ventana Emergente Crear=================================-->
+        <div class="container"  style="margin-top: 60px;">
+           <div  class="modal fade" id="miventana" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="ngenabled">
+             <div  class="modal-dialog">
+               <div style="border-radius: 5px" class="modal-content">
+                 <div class="modal-header" style="border-radius: 5px" >
+                   <button type="button"  class="close" data-dismiss="modal" aria-hidden="ngenabled"> &times; </button>
+                   <h4><b>Agregar Pagos Adelantados {{mostrarShow}}</b></h4>
+                   </div>
+                   <div class="modal-body">
+                    <div class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.empresa.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.empresa.$dirty && orderPurchaseCreateForm.empresa.$invalid]">
+                           <label>Proveedor: </label>
+                           <div class="input-group" ng-hide="show">
+              
+                            
+                            <input typeahead-on-select="asignarEmpresa()" type="text" name="empresa" ng-model="  orderPurchase.empresa" placeholder="Busca por Proveedor" 
+                                  typeahead="supplier as supplier.empresa for supplier in suppliers | filter:$viewValue | limitTo:8"  
+                     typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
+                     tooltip="Ingrese caracteres para busacar Proveedor por Empres" required>
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noResults">
+                            <i class="glyphicon glyphicon-remove"></i> No Results Found
+                    </div>
+             
+                </div> 
+                <label ng-show="orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.empresa.$dirty && orderPurchaseCreateForm.empresa.$invalid">
+                                    <span ng-show="orderPurchaseCreateForm.empresa.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                </label>
+                <div ng-show="show" class="input-group">
+                      <spam ng-show="show">@{{orderPurchase.empresa}}</spam>
+                </div>
+        </div>
+          <div class="form-group" >
+                <label for="suppPric">Num de Pedido</label>
+                <input type="number" class="form-control" name="markup" placeholder="0.00"  ng-model="product.stock[$index].stockActual" ng-disabled="product.hasVariants || !product.track" step="0.1">
+          </div>
+                     
+                   </div>
+                  
+                     <div class="modal-footer" >
+                     <button type="submit" class="btn btn-primary" ng-click="createEmployeecost()" data-dismiss="modal">Crear</button>
+                    <a  class="btn btn-danger" data-dismiss="modal" aria-hidden="ngenabled">Cancelar</a>
+                   </div>
+                     </form>
+                   
+                   
+               </div>
+             </div>
+           </div>
+        </div>
+        </div>

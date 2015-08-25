@@ -8,7 +8,15 @@ class Stock extends \Eloquent {
     protected $fillable = ['stockActual',
                             'stockMin',
                             'stockMinSoles',
-                            'product_id',
-                            'variant_id'];
+                            'variant_id',
+                            'warehouse_id'];
+ public function variant()
+      {
+        return $this->belongsTo('\Salesfly\Salesfly\Entities\Variant');
+      }
+      public function warehouse()
+      {
+        return $this->belongsTo('\Salesfly\Salesfly\Entities\Warehouse');
+      }
 
 }

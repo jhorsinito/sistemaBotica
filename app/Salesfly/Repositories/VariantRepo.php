@@ -29,22 +29,34 @@ class VariantRepo extends BaseRepo{
         return $variants;
         
     }
-     public function select($id){
+     public function findVariant($id){
        
-        $variants=Variant::join('detAtr','variants.id','=','detAtr.variant_id')->where('variants.product_id','=',$id)
-        ->select('variants.*','detAtr.descripcion as Atrdescri')->get();
+        $variants=Variant::join('detAtr','variants.id','=','detAtr.variant_id')
+                        ->join('detPres','detPres.variant_id','=','variants.id')
+                        ->join('presentation','detPres.presentation_id','=','presentation.id')
+                        ->leftjoin('equiv','equiv.preFin_id','=','presentation.id')
+                        ->where('detPres.id','=',$id)
+        ->select(\DB::raw('variants.*,detAtr.descripcion as Atrdescri,presentation.nombre,
+            equiv.cant as equivalencia,equiv.preBase_id as base'))->groupBy('variants.id')->first();
+       $variants->preBase=Variant::join('detPres','detPres.variant_id','=','variants.id')
+                        ->join('presentation','detPres.presentation_id','=','presentation.id')
+                        ->leftjoin('equiv','equiv.preFin_id','=','presentation.id')
+                        ->where('presentation.id','=',$variants->base)
+                        ->select('presentation.shortname')->first();
         return $variants;
-    }  
-    public function detPre(){
-          $variants = Variant::with(['detAtr' => function ($query) {
-                //$query->select('*');
-            }])->paginate();
-        
+    } 
+    public function uatocomplit(){
+       
+        $variants=Variant::join('detAtr','variants.id','=','detAtr.variant_id')
+                        ->join('products','products.id','=','variants.product_id')
+        ->select(\DB::raw('variants.*,variants.id as varid,products.nombre as nombre,detAtr.descripcion as descripcion,
+            (SELECT GROUP_CONCAT(detAtr.descripcion SEPARATOR "-") FROM variants
+                                INNER JOIN detAtr ON detAtr.variant_id = variants.id
+                                INNER JOIN atributes ON atributes.id = detAtr.atribute_id
+                                where variants.id=varid
+                                GROUP BY variants.id) as NombreAtributos'))->groupBy('variants.id')->paginate(15);
         return $variants;
-    }
-
-    //public function byForeignKey($id){
-
-    //}
+    }   
+  
 
 }

@@ -28,6 +28,11 @@ class VariantsController extends Controller
         $variants = $this->variantRepo->find($id);
         return response()->json($variants);
     }
+    public function autocomplit(){
+        $variants = $this->variantRepo->uatocomplit();
+        return response()->json($variants);
+        
+    }
 
     public function paginatep(){ //->with(['store'])
         $variants = $this->variantRepo->detPre();
@@ -38,7 +43,7 @@ class VariantsController extends Controller
    
     public function findVariant($id)
     {
-        $variant = $this->variantRepo->select($id);
+        $variant = $this->variantRepo->findVariant($id);
         return response()->json($variant);
     }
 
@@ -51,16 +56,6 @@ class VariantsController extends Controller
             $variants = $product->variants->load(['detAtr' => function ($query) {
                 $query->orderBy('atribute_id', 'asc');
             },'product']);
-
-
-            //$variants = $product->variants->load('detAtr','product');
-
-
-            //foreach($variants as $variant) {
-            //    print_r($variant->detAtr->toJson());
-            //}
-            //die();
-            //dd($variants->toArray());
 
         }else{
             $variants = null;

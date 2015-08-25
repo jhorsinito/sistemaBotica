@@ -11,7 +11,9 @@
         "vinkla/pusher": "^2.0",
         "intervention/image": "^2.3",
         "doctrine/dbal":"*",
+"barryvdh/laravel-debugbar": "^2.0",
         "cossou/jasperphp": "dev-master"
+        
 
 
     },

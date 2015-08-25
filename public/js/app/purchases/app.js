@@ -4,8 +4,9 @@
         'btford.socket-io',
         'ngSanitize',
         'purchases.controllers',
-        'crudPurchases.services',
+        'crudOPurchases.services',
         'routes',
         'ui.bootstrap'
     ]);
+ 
 })();

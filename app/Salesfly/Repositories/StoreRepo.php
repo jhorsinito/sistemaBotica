@@ -31,4 +31,5 @@ class StoreRepo extends BaseRepo{
         $stores = Store::all();
         return $stores;
     }
+    
 } 

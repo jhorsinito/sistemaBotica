@@ -15,6 +15,7 @@
                     templateUrl:'/atributes/form-edit',
                     controller: 'AtributController'
                 })  
+                
                 //---------------------------------------------------------
                  .when('/purchases', {
                     templateUrl: '/js/app/purchases/views/index.html',
@@ -27,19 +28,40 @@
                 .when('/purchases/edit/:id',{
                     templateUrl:'/purchases/form-edit',
                     controller: 'PurchaseController'
+                })  
+                   .when('/purchases/show/:id',{
+                    templateUrl:'/purchases/view-show',
+                    controller: 'PurchaseController'
+                })
+                //---------------------------------------
+                 .when('/orderPurchases', {
+                    templateUrl: '/js/app/orderPurchases/views/index.html',
+                    controller: 'OrderPurchaseController'
+                })
+                .when('/orderPurchases/create',{
+                    templateUrl:'/orderPurchases/form-create',
+                    controller: 'OrderPurchaseController'
+                })
+                .when('/orderPurchases/edit/:id',{
+                    templateUrl:'/orderPurchases/form-edit',
+                    controller: 'OrderPurchaseController'
+                }) 
+                .when('/orderPurchases/createP',{
+                    templateUrl:'/orderPurchases/form-createP',
+                    controller: 'OrderPurchaseController'
                 }) 
                 //----------------------------------------------------
                   .when('/materials', {
                     templateUrl: '/js/app/materials/views/index.html',
-                    controller: 'MaterialController'
+                    controller: 'MaterialsController'
                 })
                 .when('/materials/create',{
                     templateUrl:'/materials/form-create',
-                    controller: 'MaterialController'
+                    controller: 'MaterialsController'
                 })
                 .when('/materials/edit/:id',{
                     templateUrl:'/materials/form-edit',
-                    controller: 'MaterialController'
+                    controller: 'MaterialsController'
                 }) 
                 //---------------------------------------------------
                 .when('/stations', {

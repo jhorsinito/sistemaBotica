@@ -55,19 +55,36 @@ class ProductRepo extends BaseRepo{
 
         //return $products;
 
-        $products = Product::join('brands','products.brand_id','=','brands.id')
-                            ->join('types','products.type_id','=','types.id')
+        $products = Product::leftjoin('brands','products.brand_id','=','brands.id')
+                            ->leftjoin('types','products.type_id','=','types.id')
                             ->leftjoin('variants','products.id','=','variants.product_id')
+                            ->leftjoin('detPres','variants.id','=','detPres.variant_id')
+                            ->leftjoin('presentation','detPres.presentation_id','=','presentation.id')
                             ->select(\DB::raw('DISTINCT(products.id) as proId'),'products.codigo as proCodigo','products.nombre as proNombre',
                               'variants.suppPri as varPrice','variants.price as precioProducto',
-                               'brands.nombre as braNombre','products.hasVariants as TieneVariante','types.nombre as typNombre','products.created_at as proCreado',
-                              'products.quantVar as proQuantvar',\DB::raw('"0" as stoStockActual'))
+                               'brands.nombre as braNombre','products.hasVariants as TieneVariante','products.hasVariants as proHasVar','types.nombre as typNombre','products.created_at as proCreado',
+                              'products.quantVar as proQuantvar',\DB::raw('"0" as stoStockActual'),\DB::raw('IF (presentation.base = 1,detPres.price,"-" ) as detPresPri'))
+                            //->having()
                             ->groupBy('products.id')
                             ->paginate($qantity);
+        return $products;
+    }
+    public function Autocomplit(){
+            $products = Product::leftjoin('variants','products.id','=','variants.product_id')
+                            ->leftjoin("detAtr","variants.id","=","detAtr.variant_id")
+                            //->join("atributes","atributes.id","=","detAtr.atribute_id")
+                            ->select(\DB::raw('products.id as proId,products.codigo as proCodigo,products.nombre as proNombre,
+                              variants.id as varid,variants.sku as varcode,variants.suppPri as varPrice,variants.price as precioProducto,
+                               products.hasVariants as TieneVariante,products.created_at as proCreado,
+                              detAtr.descripcion as descripcion,products.quantVar as proQuantvar,(SELECT GROUP_CONCAT(detAtr.descripcion SEPARATOR "-") FROM variants
+                                INNER JOIN detAtr ON detAtr.variant_id = variants.id
+                                INNER JOIN atributes ON atributes.id = detAtr.atribute_id
+                                where variants.id=varid
+                                GROUP BY variants.id) as NombreAtributos'))->groupBy('variants.id')
+                            ->paginate(15);
 
         return $products;
     }
-
     public function find($id){
         $product = Product::find($id)->load('brand','material','station','type');
 

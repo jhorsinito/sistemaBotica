@@ -2,25 +2,25 @@
     angular.module('crudPurchases.services',[])
         .factory('crudPurchase',['$http', '$q','$location', function($http, $q,$location){
 
-            function all(uri)
+            function all(uri,estado)
             {
                 var deferred = $q.defer();
-                $http.get('/api/'+uri+'/all')
+                $http.get('/api/'+uri+'/all/'+estado)
                     .success(function (data) {
                         deferred.resolve(data);
                     });
 
                 return deferred.promise;
             }
-            function traerEliminar(id){
+           /* function traerEliminar(id){
 
                 var deferred = $q.defer();
-                $http.get('api/detailpurchases/Eliminar/'+id).success(function (data) {
+                $http.get('api/detailOrderPurchases/Eliminar/'+id).success(function (data) {
                     deferred.resolve(data);
                 });
 
                 return deferred.promise;
-            }
+            }*/
 
             function paginate(uri,page)
             {
@@ -97,7 +97,7 @@
             }
             function traerEmpresa(id){
                 var deferred = $q.defer();
-                $http.get('/api/purchases/mostrarEmpresa/'+id)
+                $http.get('/api/orderPurchases/mostrarEmpresa/'+id)
                     .success(function(data)
                     {
                         deferred.resolve(data);
@@ -125,7 +125,7 @@
                 );
                 return deferred.promise;
             }
-
+          
             function search(uri,query,page){
                 var deferred = $q.defer();
                 var result = $http.get('/api/'+uri+'/search/'+query+'/?page='+page);
@@ -146,7 +146,16 @@
 
                 return deferred.promise;
             }
+             function autocomplit(uri)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/autocomplit/')
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
 
+                return deferred.promise;
+            }
             return {
                 all: all,
                 paginate: paginate,
@@ -161,7 +170,7 @@
                 //traerCodigo: traerCodigo,
                 traerEmpresa: traerEmpresa,
                 paginateDPedido: paginateDPedido,
-                traerEliminar: traerEliminar
+                autocomplit: autocomplit
             }
         }])
         .factory('socketService', function ($rootScope) {

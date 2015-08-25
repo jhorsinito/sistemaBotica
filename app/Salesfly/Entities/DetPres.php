@@ -13,4 +13,12 @@ class DetPres extends \Eloquent {
 
     protected $fillable = ['variant_id','presentation_id','suppPri','markup','price'];
 
+    public function variant()
+      {
+        return $this->belongsTo('\Salesfly\Salesfly\Entities\Variant');
+      }
+      public function presentation()
+      {
+        return $this->belongsTo('\Salesfly\Salesfly\Entities\Presentation');
+      }
 }

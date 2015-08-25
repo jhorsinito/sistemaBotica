@@ -7,14 +7,17 @@ use Illuminate\Routing\Controller;
 
 use Salesfly\Salesfly\Repositories\DetailPurchaseRepo;
 use Salesfly\Salesfly\Managers\DetailPurchaseManager;
-
+use Salesfly\Salesfly\Repositories\PurchaseRepo;
+use Salesfly\Salesfly\Managers\PurchaseManager;
 class DetailPurchasesController extends Controller {
 
     protected $detailPurchaseRepo;
+    protected $purchaseRepo;
 
-    public function __construct(DetailPurchaseRepo $detailPurchaseRepo)
+    public function __construct(DetailPurchaseRepo $detailPurchaseRepo, PurchaseRepo $purchaseRepo)
     {
         $this->detailPurchaseRepo = $detailPurchaseRepo;
+        $this->purchaseRepo = $purchaseRepo;
     }
 
 
@@ -49,7 +52,7 @@ class DetailPurchasesController extends Controller {
 
     public function create(Request $request)
     {
-  
+  //-----------------------------------------------------
   $var = $request->all();
   $detailPurchaseRepox;
          
@@ -59,6 +62,7 @@ class DetailPurchasesController extends Controller {
            $insertar=new DetailPurchaseManager($detailPurchaseRepox->getModel(),$object);
            $insertar->save();
            $detailPurchaseRepox = null;
+
        }
       return response()->json(['estado'=>true]);
     }
@@ -84,12 +88,25 @@ class DetailPurchasesController extends Controller {
 
     public function edit(Request $request)
     {
-        $detailPurchases = $this->detailPurchaseRepo->find($request->id);
+       $var=$request->detailPurchases;//->except($request->detailPurchases["id"]);
+       $purchase = $this->purchaseRepo->find($request->input('id'));
 
-        $manager = new DetailPurchaseManager($detailPurchases,$request->all());
-        $manager->save();
+       $purchase->detPres()->detach();
+       //die();
+       //var_dump($purchase); die();
+         
+       foreach($var as $object){
+        //$detailPurchase=$object->merge(['id' => '0']);
+        
+         //var_dump($object); die();
+           //request merge;
+           $detailPurchaseRepox = new DetailPurchaseRepo;
+           $insertar=new DetailPurchaseManager($detailPurchaseRepox->getModel(),$object);
+           $insertar->save();
+           $detailPurchaseRepox = null;
 
-        return response()->json(['estado'=>true, 'descuento'=>$detailPurchases->descuento]);
+       }
+      return response()->json(['estado'=>true]);
     }
 
     
