@@ -82,6 +82,8 @@ Route::put('api/customers/edit',['as'=>'person_edit', 'uses'=>'CustomersControll
 Route::post('api/customers/destroy',['as'=>'person_destroy', 'uses'=>'CustomersController@destroy']);
 Route::get('api/customers/search/{q?}',['as'=>'person_search', 'uses'=>'CustomersController@search']);
 Route::get('api/customers/find/{id}',['as'=>'person_find', 'uses'=>'CustomersController@find']);
+Route::get('api/customersVenta/search/{q?}',['as'=>'person_search', 'uses'=>'CustomersController@searchVenta']);
+
 //END CUSTOMERS ROUTES
 
 //PRODUCTS ROUTES
@@ -95,7 +97,9 @@ Route::get('api/products/paginate/',['as' => 'product_paginate', 'uses' => 'Prod
 Route::post('api/products/create',['as'=>'product_create', 'uses'=>'ProductsController@create']);
 Route::put('api/products/edit',['as'=>'product_edit', 'uses'=>'ProductsController@edit']);
 Route::post('api/products/destroy',['as'=>'product_destroy', 'uses'=>'ProductsController@destroy']);
+
 Route::get('api/products/search/{q?}',['as'=>'product_search', 'uses'=>'ProductsController@search']);
+
 Route::get('api/products/find/{id}',['as'=>'person_find', 'uses'=>'ProductsController@find']);
 Route::get('api/products/brands',['as' => 'products_brands_select','uses' => 'ProductsController@brands_select']);
 Route::get('api/products/materials',['as' => 'products_materials_select','uses' => 'ProductsController@materials_select']);
@@ -103,7 +107,16 @@ Route::get('api/products/types',['as' => 'products_types_select','uses' => 'Prod
 Route::get('api/products/stations',['as' => 'products_stations_select','uses' => 'ProductsController@stations_select']);
 Route::get('products/show/{id?}',['as' => 'products_show_by_id','uses' => 'ProductsController@index']);
 Route::get('products/view-show','ProductsController@show');
+<<<<<<< HEAD
+Route::get('api/products/select','ProductsController@selectProducts');
+
+//---------------------
+Route::get('api/products/misDatos/{store?}/{were?}/{q?}',['as'=>'person_find', 'uses'=>'ProductsController@misDatos']);
+Route::get('api/productsVariantes/misDatos/{store?}/{were?}/{q?}',['as'=>'person_find', 'uses'=>'ProductsController@misDatosVariantes']);
+//---------------------
+=======
 Route::get('api/products/autocomplit/','ProductsController@autocomplit');
+>>>>>>> 8ae069cf4eeae53a3308a11dfc0459fbf4983c9a
 
 //END PRODUCTS ROUTES
 
@@ -113,13 +126,10 @@ Route::get('api/variants/autocomplit/','VariantsController@autocomplit');
 //END VARIANTS ROUTES
 
 //Presentations routes
-Route::get('api/presentations/all',['as'=>'presentation_all', 'uses'=>'PresentationsController@all']);
-<<<<<<< HEAD
 Route::get('api/presentations/findVariant/{id}','PresentationsController@findVariant');
-=======
+Route::get('api/presentations/all',['as'=>'presentation_all', 'uses'=>'PresentationsController@all']);
 Route::get('api/presentations_base/all',['as'=>'presentation_base_all', 'uses'=>'PresentationsController@all_base']);
 Route::get('api/presentations/all_by_base/{id}',['as'=>'presentation_by_base_all', 'uses'=>'PresentationsController@all_by_base']);
->>>>>>> da1d933c33203570ed4eb35e2c01504590feb565
 //End prese routes
 //byforeingKey(uri,fx,id
 
@@ -144,6 +154,8 @@ Route::post('api/stores/create',['as'=>'store_create', 'uses'=>'StoresController
 Route::put('api/stores/edit',['as'=>'store_edit', 'uses'=>'StoresController@edit']);
 Route::post('api/stores/destroy',['as'=>'store_destroy', 'uses'=>'StoresController@destroy']);
 Route::get('api/stores/search/{q?}',['as'=>'store_search', 'uses'=>'StoresController@search']);
+Route::get('api/storeReport/search/{q?}',['as'=>'store_search', 'uses'=>'StoresController@searchReport']);
+
 Route::get('api/stores/find/{id}',['as'=>'store_find', 'uses'=>'StoresController@find']);
 Route::get('api/stores/select','StoresController@selectStores');
 //route::controller('/', 'Layout\proban@prob');
@@ -209,6 +221,8 @@ Route::post('api/warehouses/destroy',['as'=>'atribut_destroy', 'uses'=>'Warehous
 Route::get('api/warehouses/search/{q?}',['as'=>'atribut_search', 'uses'=>'WarehousesController@search']);
 Route::get('api/warehouses/find/{id}',['as'=>'atribut_find', 'uses'=>'WarehousesController@find']);
 
+Route::get('api/warehouses/search/{q?}/{id?}',['as'=>'atribut_search', 'uses'=>'WarehousesController@searchWarehouse']);
+
 //Route::get('api/stores/select','WarehousesController@select');
 
 Route::get('stations',['as'=>'warehouse','uses'=>'StationsController@index']);
@@ -250,6 +264,7 @@ Route::put('api/employees/edit',['as'=>'person_edit', 'uses'=>'EmployeesControll
 Route::post('api/employees/destroy',['as'=>'person_destroy', 'uses'=>'EmployeesController@destroy']);
 Route::get('api/employees/search/{q?}',['as'=>'person_search', 'uses'=>'EmployeesController@search']);
 Route::get('api/employees/find/{id}',['as'=>'person_find', 'uses'=>'EmployeesController@find']);
+Route::get('api/employeesVenta/search/{q?}',['as'=>'person_search', 'uses'=>'EmployeesController@searchVenta']);
 
 Route::get('api/buscar/find/{id}',['as'=>'person_find', 'uses'=>'EmployeesController@find']);
 
@@ -356,6 +371,9 @@ Route::get('api/orderPurchases/mostrarCostos/{id}','OrderPurchasesController@mos
 Route::get('api/orderPurchases/mostrarEmpresa/{id}','OrderPurchasesController@mostrarEmpresa');
 Route::get('orderPurchases/createDetalle/{id?}', ['as' => 'person_edit', 'uses' => 'OrderPurchasesController@index']);
 Route::get('orderPurchases/form-createDetalle',['as'=>'atribut_form_create','uses'=>'OrderPurchasesController@createDetalle']);
+Route::get('orderPurchases/form-createP','OrderPurchasesController@form_createP');
+Route::get('orderPurchases/createP','OrderPurchasesController@index');
+
 
 
 Route::get('purchases',['as'=>'person','uses'=>'PurchasesController@index']);
@@ -378,6 +396,118 @@ Route::get('api/variants/findVariant/{id}','VariantsController@findVariant');
 Route::get('api/variants/paginate/','VariantsController@paginatep');
 Route::get('api/variants/find/{id}','VariantsController@find');
 
+<<<<<<< HEAD
+Route::post('api/detailpurchases/create','DetailPurchasesController@create');
+Route::get('api/detailpurchases/paginatep/{id}','DetailPurchasesController@paginatep');
+Route::get('api/detailpurchases/Eliminar/{id}','DetailPurchasesController@Eliminar');
+Route::post('api/detailpurchases/destroy','DetailPurchasesController@destroy');
+
+
+//-----------------------------Promociones---------------------------
+Route::get('promotions',['as'=>'person','uses'=>'PromotionsController@index']);
+Route::get('promotions/create',['as'=>'person_create','uses'=>'PromotionsController@index']);
+Route::get('promotions/edit/{id?}', ['as' => 'person_edit', 'uses' => 'PromotionsController@index']);
+Route::get('promotions/form-create',['as'=>'person_form_create','uses'=>'PromotionsController@form_create']);
+Route::get('promotions/form-edit',['as'=>'person_form_edit','uses'=>'PromotionsController@form_edit']);
+Route::get('api/promotions/all',['as'=>'person_all', 'uses'=>'PromotionsController@all']);
+Route::get('api/promotions/paginate/',['as' => 'person_paginate', 'uses' => 'PromotionsController@paginatep']);
+Route::post('api/promotions/create',['as'=>'person_create', 'uses'=>'PromotionsController@create']);
+Route::put('api/promotions/edit',['as'=>'person_edit', 'uses'=>'PromotionsController@edit']);
+Route::post('api/promotions/destroy',['as'=>'person_destroy', 'uses'=>'PromotionsController@destroy']);
+Route::get('api/promotions/search/{q?}',['as'=>'person_search', 'uses'=>'PromotionsController@search']);
+Route::get('api/promotions/find/{id}',['as'=>'person_find', 'uses'=>'PromotionsController@find']);
+Route::get('api/promotions/mostrarCostos/{id}','PromotionsController@mostrarCostos');
+
+
+//-----------------reportes----------------------------------------
+
+Route::get('reports',['as'=>'person','uses'=>'ReportsController@index']);
+Route::post('api/reports/{id?}',['as'=>'person_search', 'uses'=>'ReportsController@reportProduct']);
+Route::post('api/reports/{idStore?}/{idWerwhaose?}',['as'=>'person_search', 'uses'=>'ReportsController@reportProductWere']);
+
+
+
+//------------------------------------------------
+Route::get('/reporting', ['uses' =>'ReportController@index', 'as' => 'Report']);
+Route::post('/reporting', ['uses' =>'ReportController@post']);
+Route::get('pdf', 'PdfController@invoice');
+
+//-----------------------------CashHeader---------------------------
+Route::get('cashHeaders',['as'=>'person','uses'=>'CashHeadersController@index']);
+Route::get('cashHeaders/create',['as'=>'person_create','uses'=>'CashHeadersController@index']);
+Route::get('cashHeaders/edit/{id?}', ['as' => 'person_edit', 'uses' => 'CashHeadersController@index']);
+Route::get('cashHeaders/form-create',['as'=>'person_form_create','uses'=>'CashHeadersController@form_create']);
+Route::get('cashHeaders/form-edit',['as'=>'person_form_edit','uses'=>'CashHeadersController@form_edit']);
+Route::get('api/cashHeaders/all',['as'=>'person_all', 'uses'=>'CashHeadersController@all']);
+Route::get('api/cashHeaders/paginate/',['as' => 'person_paginate', 'uses' => 'CashHeadersController@paginatep']);
+Route::post('api/cashHeaders/create',['as'=>'person_create', 'uses'=>'CashHeadersController@create']);
+Route::put('api/cashHeaders/edit',['as'=>'person_edit', 'uses'=>'CashHeadersController@edit']);
+Route::post('api/cashHeaders/destroy',['as'=>'person_destroy', 'uses'=>'CashHeadersController@destroy']);
+Route::get('api/cashHeaders/search/{q?}',['as'=>'person_search', 'uses'=>'CashHeadersController@search']);
+Route::get('api/cashHeaders/find/{id}',['as'=>'person_find', 'uses'=>'CashHeadersController@find']);
+Route::get('api/cashHeaders/select','CashHeadersController@select');
+//Route::get('api/cashHeaders/mostrarCostos/{id}','PromotionsController@mostrarCostos');
+
+//-----------------------------Cashes---------------------------
+Route::get('cashes',['as'=>'person','uses'=>'CashesController@index']);
+Route::get('cashes/create',['as'=>'person_create','uses'=>'CashesController@index']);
+Route::get('cashes/edit/{id?}', ['as' => 'person_edit', 'uses' => 'CashesController@index']);
+Route::get('cashes/form-create',['as'=>'person_form_create','uses'=>'CashesController@form_create']);
+Route::get('cashes/form-edit',['as'=>'person_form_edit','uses'=>'CashesController@form_edit']);
+Route::get('api/cashes/all',['as'=>'person_all', 'uses'=>'CashesController@all']);
+Route::get('api/cashes/paginate/',['as' => 'person_paginate', 'uses' => 'CashesController@paginatep']);
+Route::post('api/cashes/create',['as'=>'person_create', 'uses'=>'CashesController@create']);
+Route::put('api/cashes/edit',['as'=>'person_edit', 'uses'=>'CashesController@edit']);
+Route::post('api/cashes/destroy',['as'=>'person_destroy', 'uses'=>'CashesController@destroy']);
+Route::get('api/cashes/search/{q?}',['as'=>'person_search', 'uses'=>'CashesController@search']);
+Route::get('api/cashes/find/{id}',['as'=>'person_find', 'uses'=>'CashesController@find']);
+//Route::get('api/cashes/select','SuppliersController@selectSupliers');
+
+//-----------------------------DetCashes---------------------------
+Route::get('detCashes',['as'=>'person','uses'=>'DetCashController@index']);
+//Route::get('detCashes',['as'=>'person','uses'=>'DetCashController@index']);
+Route::get('detCashes/create/{id?}',['as'=>'person_create','uses'=>'DetCashController@index']);
+Route::get('detCashes/edit/{id?}', ['as' => 'person_edit', 'uses' => 'DetCashController@index']);
+Route::get('detCashes/form-create',['as'=>'person_form_create','uses'=>'DetCashController@form_create']);
+Route::get('detCashes/form-edit',['as'=>'person_form_edit','uses'=>'DetCashController@form_edit']);
+Route::get('api/detCashes/all',['as'=>'person_all', 'uses'=>'DetCashController@all']);
+Route::get('api/detCashes/paginate/',['as' => 'person_paginate', 'uses' => 'DetCashController@paginatep']);
+Route::post('api/detCashes/create',['as'=>'person_create', 'uses'=>'DetCashController@create']);
+Route::put('api/detCashes/edit',['as'=>'person_edit', 'uses'=>'DetCashController@edit']);
+Route::post('api/detCashes/destroy',['as'=>'person_destroy', 'uses'=>'DetCashController@destroy']);
+Route::get('api/detCashes/search/{q?}',['as'=>'person_search', 'uses'=>'DetCashController@search']);
+Route::get('api/detCashes/find/{id}',['as'=>'person_find', 'uses'=>'DetCashController@find']);
+//-------------------------------------------------------------
+Route::get('api/cashMotives/select','CashMotivesController@select');
+Route::get('api/cashMotives/search/{q?}',['as'=>'person_search', 'uses'=>'CashMotivesController@search']);
+
+//----------------------------------------------------------------------
+//-----------------------------Cashes---------------------------
+Route::get('orders',['as'=>'person','uses'=>'OrdersController@index']);
+Route::get('orders/create',['as'=>'person_create','uses'=>'OrdersController@index']);
+Route::get('orders/edit/{id?}', ['as' => 'person_edit', 'uses' => 'OrdersController@index']);
+Route::get('orders/form-create',['as'=>'person_form_create','uses'=>'OrdersController@form_create']);
+Route::get('orders/form-edit',['as'=>'person_form_edit','uses'=>'OrdersController@form_edit']);
+Route::get('api/orders/all',['as'=>'person_all', 'uses'=>'OrdersController@all']);
+Route::get('api/orders/paginate/',['as' => 'person_paginate', 'uses' => 'OrdersController@paginatep']);
+Route::post('api/orders/create',['as'=>'person_create', 'uses'=>'OrdersController@create']);
+Route::put('api/orders/edit',['as'=>'person_edit', 'uses'=>'OrdersController@edit']);
+Route::post('api/orders/destroy',['as'=>'person_destroy', 'uses'=>'OrdersController@destroy']);
+Route::get('api/orders/search/{q?}',['as'=>'person_search', 'uses'=>'OrdersController@search']);
+Route::get('api/orders/find/{id}',['as'=>'person_find', 'uses'=>'OrdersController@find']);
+
+
+
+Route::get('api/detpresPresentation/search/{id?}',['as'=>'person_search', 'uses'=>'DetPresController@searchPresentations']);
+
+Route::get('api/DetOrders/search/{id?}',['as'=>'person_search', 'uses'=>'DetOrderController@searchDetalle']);
+Route::get('api/salePayment/search/{id?}',['as'=>'person_search', 'uses'=>'SalePaymentController@searchPayment']);
+Route::get('api/SaleDetPayment/search/{id?}',['as'=>'person_search', 'uses'=>'SaleDetPaymentController@searchDetalle']);
+//Route::get('api/stores/select','StoresController@selectStores');
+Route::get('api/saleMethodPayments/select','SaleMethodPaymentController@select');
+Route::post('api/saledetPayments/create',['as'=>'person_create', 'uses'=>'SaleDetPaymentController@create']);
+Route::get('api/saledetPayments/find/{id}',['as'=>'person_create', 'uses'=>'SaleDetPaymentController@find']);
+=======
 Route::post('api/detailOrderPurchases/create','DetailOrderPurchasesController@create');
 Route::get('api/detailOrderPurchases/all/{estado}',['as'=>'person_all', 'uses'=>'DetailOrderPurchasesController@all']);
 Route::get('api/detailOrderPurchases/paginatep/{id}','DetailOrderPurchasesController@paginatep');
@@ -396,5 +526,17 @@ Route::get('api/detpres/find/{id}','DetPresController@find');
 Route::get('api/detpres/{id}','DetPresController@select');
 
 Route::get('api/equivs/find/{id}','EquivController@find');
+Route::post('api/payments/create','PaymentsController@create');
+Route::get('api/payments/find/{id}','PaymentsController@find');
+Route::post('api/payments/destroy','PaymentsController@destroy');
+Route::put('api/payments/edit/','PaymentsController@edit');
+
+Route::get('purchases/show/{id?}','PurchasesController@index');
+Route::get('purchases/view-show','PurchasesController@show');
+Route::get('api/methodPayments/paginate/','MethodPaymentController@paginatep');
+Route::post('api/detPayments/create','DetPaymentsController@create');
+Route::get('api/detPayments/paginate/','DetPaymentsController@paginatep');
+Route::get('api/detPayments/find/{id}','DetPaymentsController@find');
 
 
+>>>>>>> 8ae069cf4eeae53a3308a11dfc0459fbf4983c9a
