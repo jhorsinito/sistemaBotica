@@ -29,6 +29,10 @@
                     templateUrl:'/purchases/form-edit',
                     controller: 'PurchaseController'
                 })  
+                   .when('/purchases/show/:id',{
+                    templateUrl:'/purchases/view-show',
+                    controller: 'PurchaseController'
+                })
                 //---------------------------------------
                  .when('/orderPurchases', {
                     templateUrl: '/js/app/orderPurchases/views/index.html',
@@ -42,8 +46,8 @@
                     templateUrl:'/orderPurchases/form-edit',
                     controller: 'OrderPurchaseController'
                 }) 
-                .when('/orderPurchases/createDetalle/:id',{
-                    templateUrl:'/orderPurchases/form-createDetalle',
+                .when('/orderPurchases/createP',{
+                    templateUrl:'/orderPurchases/form-createP',
                     controller: 'OrderPurchaseController'
                 }) 
                 //----------------------------------------------------

@@ -37,7 +37,7 @@ class DetPresRepo extends BaseRepo{
     public function elegirunDetPres($id){
         $detPres=DetPres::join("variants","variants.id","=","detPres.variant_id")
                            ->join("presentation","presentation.id","=","detPres.presentation_id")
-                           ->where("variants.product_id","=",$id)->where("presentation.base","=",1)
+                           ->where("variants.id","=",$id)->where("presentation.base","=",1)
                            ->select("variants.*","detPres.id as detpresen_id","detPres.suppPri as precioProduct","presentation.base as esbase")->groupBy("detPres.id")->first();
 
         return $detPres;

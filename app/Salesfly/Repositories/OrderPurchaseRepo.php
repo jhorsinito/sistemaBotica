@@ -10,7 +10,7 @@ class OrderPurchaseRepo extends BaseRepo{
 
     public function search($q)
     {   
-         $purchases=OrderPurchase::join('suppliers','orderPurchases.suppliers_id','=','suppliers.id')
+         $purchases=OrderPurchase::join('suppliers','orderPurchases.supplier_id','=','suppliers.id')
                        ->join('warehouses','warehouses.id','=','orderPurchases.warehouses_id')
                        ->select('orderPurchases.*','suppliers.empresa as empresa','warehouses.nombre as almacen')->where('suppliers.empresa','like',$q.'%')
                        ->orWhere('warehouses.nombre','like',$q.'%')
@@ -26,14 +26,14 @@ class OrderPurchaseRepo extends BaseRepo{
         return $d && $d->format($format) == $date;
     }
     public function paginar(){
-    $purchases=OrderPurchase::join('suppliers','orderPurchases.suppliers_id','=','suppliers.id')
+    $purchases=OrderPurchase::join('suppliers','orderPurchases.supplier_id','=','suppliers.id')
                        ->join('warehouses','warehouses.id','=','orderPurchases.warehouses_id')
-                       ->select('orderPurchases.*','suppliers.empresa as empresa','warehouses.nombre as almacen')->orderBy('orderPurchases.id','asc')
+                       ->select('orderPurchases.*','suppliers.id as supID','suppliers.empresa as empresa','warehouses.nombre as almacen')->orderBy('orderPurchases.id','asc')
                        ->paginate(15);
         return $purchases;
    }
    public function searchEstados($estado){
-    $purchases=OrderPurchase::join('suppliers','orderPurchases.suppliers_id','=','suppliers.id')
+    $purchases=OrderPurchase::join('suppliers','orderPurchases.supplier_id','=','suppliers.id')
                        ->join('warehouses','warehouses.id','=','orderPurchases.warehouses_id')
                        ->select('orderPurchases.*','suppliers.empresa as empresa','warehouses.nombre as almacen')->where('orderPurchases.Estado','=',$estado)
                        ->orderBy('orderPurchases.id','asc')
@@ -41,7 +41,7 @@ class OrderPurchaseRepo extends BaseRepo{
         return $purchases;
    }
     public function traerSumplier($id){
-        $orderPurchases=OrderPurchase::join('suppliers','orderPurchases.suppliers_id','=','suppliers.id')
+        $orderPurchases=OrderPurchase::join('suppliers','orderPurchases.supplier_id','=','suppliers.id')
         ->where('suppliers.id','=',$id)->select('suppliers.empresa as empresa')->first();
         return $orderPurchases;
     }

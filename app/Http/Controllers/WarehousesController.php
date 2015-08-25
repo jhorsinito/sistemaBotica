@@ -50,8 +50,8 @@ class WarehousesController extends Controller {
     public function create(Request $request)
     {
         $warehouses = $this->warehouseRepo->getModel();
-        var_dump($request->all());
-        die();
+        //var_dump($request->all());
+        //die();
         $manager = new WarehouseManager($warehouses,$request->all());
         //print_r($manager); die();
         $manager->save();

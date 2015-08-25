@@ -12,6 +12,9 @@ use Salesfly\Salesfly\Managers\DetailPurchaseManager;
 use Salesfly\Salesfly\Repositories\StockRepo;
 use Salesfly\Salesfly\Managers\StockManager;
 
+use Salesfly\Salesfly\Repositories\PaymentRepo;
+use Salesfly\Salesfly\Managers\PaymentManager;
+
 //use Intervention\Image\Facades\Image;
 
 class PurchasesController extends Controller {
@@ -23,11 +26,12 @@ class PurchasesController extends Controller {
         $this->purchaseRepo = $purchaseRepo;
     }*/
 
-    public function __construct(DetailPurchaseRepo $detailPurchaseRepo, PurchaseRepo $purchaseRepo,StockRepo $stockRepo)
+    public function __construct(PaymentRepo $paymentRepo,DetailPurchaseRepo $detailPurchaseRepo, PurchaseRepo $purchaseRepo,StockRepo $stockRepo)
     {
         $this->detailPurchaseRepo = $detailPurchaseRepo;
         $this->purchaseRepo = $purchaseRepo;
         $this->stockRepo = $stockRepo;
+        $this->paymentRepo=$paymentRepo;
     }
 
     public function index()
@@ -63,12 +67,16 @@ class PurchasesController extends Controller {
 
     public function create(Request $request)
         {
+         // var_dump($request->all());die();
         $purchase = $this->purchaseRepo->getModel();
+        $payment = $this->paymentRepo->getModel();
         $var = $request->detailOrderPurchases;
         $almacen_id=$request->input("warehouses_id");
+        //=============================Creando Purchase=============================
        //var_dump($var); die();
         $manager = new PurchaseManager($purchase,$request->except('fechaEntrega'));
         $manager->save();
+
        if($this->purchaseRepo->validateDate(substr($request->input('fechaEntrega'),0,10))){
             $purchase->fechaEntrega = substr($request->input('fechaEntrega'),0,10);
         }else{
@@ -78,8 +86,30 @@ class PurchasesController extends Controller {
 
         $purchase->save();
         $temporal=$purchase->id;
+        $request->merge(["purchase_id"=>$temporal]);
         $detailPurchaseRepox;
-         
+        //$almacen_id=$request->input("warehouses_id");
+      //====================Creando Payment====================================
+        if($request->input('compraDirecta')==1){
+          $request->merge(["Acuenta"=>0]);
+          $inserPay=new PaymentManager($payment,$request->all());
+          $inserPay->save();
+        }else{
+        $consulPayment=$this->paymentRepo->payIDLocal($purchase->orderPurchase_id);
+        if($consulPayment==null){
+          $request->merge(["Acuenta"=>0]);
+          $inserPay=new PaymentManager($payment,$request->all());
+          $inserPay->save();
+        }else{
+              $request->merge(["Acuenta"=>$consulPayment->Acuenta]);
+              $request->merge(["Saldo"=>(floatval($request->input("montoTotal"))-floatval($request->input("Acuenta")))]);
+              $inserPay=new PaymentManager($consulPayment,$request->all());
+              $inserPay->save();
+        }
+      }
+        
+       
+      //========================================================================
        foreach($var as $object){
            $object['purchases_id'] = $temporal;
            $detailPurchaseRepox = new DetailPurchaseRepo;
@@ -163,5 +193,8 @@ class PurchasesController extends Controller {
 
         return response()->json($purchases);
     }
-
+     public function show()
+    {
+        return View('purchases.show');
+    }
 }

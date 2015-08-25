@@ -10,7 +10,7 @@ class PurchaseRepo extends BaseRepo{
 
     public function search($q)
     {
-      $purchases=Purchase::join('suppliers','purchases.suppliers_id','=','suppliers.id')
+      $purchases=Purchase::join('suppliers','purchases.supplier_id','=','suppliers.id')
                        ->join('warehouses','warehouses.id','=','purchases.warehouses_id')
                        ->select('purchases.*','suppliers.empresa as empresa','warehouses.nombre as almacen')
                        ->where('suppliers.empresa','like',$q.'%')
@@ -27,15 +27,16 @@ class PurchaseRepo extends BaseRepo{
         return $d && $d->format($format) == $date;
     }
    public function paginar($c){
-    $purchases=Purchase::join('suppliers','purchases.suppliers_id','=','suppliers.id')
+    $purchases=Purchase::join('suppliers','purchases.supplier_id','=','suppliers.id')
                        ->join('warehouses','warehouses.id','=','purchases.warehouses_id')
-                       ->select('purchases.*','suppliers.empresa as empresa','warehouses.nombre as almacen')
+                       ->leftjoin('payments','payments.purchase_id','=','purchases.id')
+                       ->select('purchases.*','payments.Saldo as saldo','suppliers.empresa as empresa','warehouses.nombre as almacen')
                        ->orderBy('purchases.id','asc')
                        ->paginate($c);
         return $purchases;
    }
     public function select($id){
-       $purchases=Purchase::join('suppliers','purchases.suppliers_id','=','suppliers.id')
+       $purchases=Purchase::join('suppliers','purchases.supplier_id','=','suppliers.id')
                        ->join('warehouses','warehouses.id','=','purchases.warehouses_id')
                        ->select('purchases.*','suppliers.empresa as empresa','warehouses.nombre as almacen')
                        ->where('purchases.id','=',$id)

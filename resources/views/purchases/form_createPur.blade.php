@@ -61,8 +61,8 @@
               <label>Proveedor: </label>
               <div class="input-group" ng-hide="show">
               
-              
-               <input typeahead-on-select="asignarEmpresa()" type="text" name="empresa" ng-model="orderPurchase.empresa" placeholder="Busca por Proveedor" 
+               
+               <input typeahead-on-select="asignarEmpresa()" type="text" name="empresa" ng-model="purchase.empresa" placeholder="por hajajaj" 
                      typeahead="supplier as supplier.empresa for supplier in suppliers | filter:$viewValue | limitTo:8"  
                      typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
                      tooltip="Ingrese caracteres para busacar Proveedor por Empres" required>
@@ -76,7 +76,7 @@
                                     <span ng-show="orderPurchaseCreateForm.empresa.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                                 </label>
                 <div ng-show="show" class="input-group">
-                      <spam ng-show="show">@{{orderPurchase.empresa}}</spam>
+                      <spam ng-show="show">@{{purchase.empresa}}</spam>
                 </div>
         </div>
       </div>
@@ -86,50 +86,29 @@
            <div class="col-md-3">
 
                       <div  class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.fechaPedido.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.fechaPedido.$dirty && orderPurchaseCreateForm.fechaPedido.$invalid]">
-                                <label for="fechaPedido">Fecha Pedido: </label>
+                                <label for="fechaPedido">Fecha Entrega: </label>
                             <div ng-hide="show" class="input-group">
                                 <div class="input-group-addon">
                                       <i class="fa fa-calendar"></i>
                                 </div>
-                                  <input type="date" class="form-control"  name="fechaPedido" ng-model="orderPurchase.fechaPedido" >
+                                  <input type="date" class="form-control"  name="fechaPedido" ng-model="purchase.fechaEntrega" >
                             </div>
                             <label ng-show="orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.fechaPedido.$dirty && orderPurchaseCreateForm.fechaPedido.$invalid">
                             <span ng-show="orderPurchaseCreateForm.fechaPedido.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
                             </label>
                              
                              <div ng-show="show" class="input-group">
-                               <spam >@{{orderPurchase.fechaPedid}}</spam>
+                               <spam >@{{purchase.fechaEntreg}}</spam>
                     </div> 
                       </div>  
                       
           </div>
-          <div  class="col-md-3">
-                       <div  class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.fechaPrevista.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.fechaPrevista.$dirty && orderPurchaseCreateForm.fechaPrevista.$invalid]">
-                            <label for="fechaPrevista">Fecha Prevista: </label>
-                                <div ng-hide="show" class="input-group">
-                                        <div class="input-group-addon">
-                                              <i class="fa fa-calendar"></i>
-                                        </div>
-                                      <input  type="date"  min="@{{orderPurchase.fechaPedido}}" class="form-control" name="fechaPrevista" ng-model="orderPurchase.fechaPrevista" required>
-                                   </div>   
-                                  <label ng-show="orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.fechaPrevista.$dirty && orderPurchaseCreateForm.fechaPrevista.$invalid">
-                                         <span ng-show="orderPurchaseCreateForm.fechaPrevista.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
-                                      </label>
-                               
-                           <div ng-show="show" class="input-group">
-                               <spam>@{{orderPurchase.fechaPrevist}}</spam>
-                           </div>
-                      </div> 
-                                          
-         </div>
-      </div>
-    <div class="row">
-          <div class="col-md-1">
-          </div>
-          <div class="col-md-4">
+         
+     
+          <div class="col-md-3">
                    <div class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.warehouse.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.warehouse.$dirty && orderPurchaseCreateForm.warehouse.$invalid]">
                        <label for="Tienda">Almacen: </label>
-                       <select ng-hide="show" class="form-control" name="warehouse" ng-click="seleccionarWarehouse()" ng-model="orderPurchase.warehouses_id" ng-options="item.id as item.nombre for item in warehouses" required>
+                       <select ng-hide="show" class="form-control" name="warehouse" ng-click="seleccionarWarehouse()" ng-model="purchase.warehouses_id" ng-options="item.id as item.nombre for item in warehouses" required>
                        <option value="">--Elija warehouses_id--</option>
                        </select>
                        <label ng-show="orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.warehouse.$dirty && orderPurchaseCreateForm.warehouse.$invalid">
@@ -147,8 +126,8 @@
           <div class="col-md-4">    
       <div class="form-group">
                 
-                <button ng-hide="show" type="submit" ng-click="createPurchase()" class="btn btn-default btn-xs">Guardar y Continuar</button>
-                <a ng-show="show" ng-click="ProvandoEdicion()" class="btn btn-default btn-xs">Editar</a>
+                <button ng-hide="show" type="submit" ng-click="Warehouses()" class="btn btn-default btn-xs">Guardar y Continuar</button>
+                <a ng-show="show" ng-click="" class="btn btn-default btn-xs">Editar</a>
      
       </div>
       </div>
@@ -172,7 +151,7 @@
         </div><!-- /.box-header -->
         <div class="box-body" style="display: block;">
 
-        <form name="detailOrderPurchaseCreateForm" role="form" novalidate> 
+        <form name="detailPurchaseCreateForm" role="form" novalidate> 
           <div class="row">
              <div class="col-md-1"></div>
             <div class="col-md-4">
@@ -267,54 +246,54 @@
           <div class="col-md-1">
           </div> 
             <div class="col-md-2"> 
-                <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.cantidad.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.cantidad.$dirty && detailOrderPurchaseCreateForm.cantidad.$invalid]">
+                <div class="form-group" ng-class="{true: 'has-error'}[ detailPurchaseCreateForm.cantidad.$error.required && detailPurchaseCreateForm.$submitted || detailPurchaseCreateForm.cantidad.$dirty && detailPurchaseCreateForm.cantidad.$invalid]">
                 <label for="cantidad">Cantidad</label>
-                <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="cantidad" id="cantidad" placeholder="0.00" ng-model="detailOrderPurchase.cantidad" ng-blur="calculateSuppPric()" step="0.1" rquired>
-                <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.cantidad.$dirty && detailOrderPurchaseCreateForm.cantidad.$invalid">
-                  <span ng-show="detailOrderPurchaseCreateForm.cantidad.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="cantidad" id="cantidad" placeholder="0.00" ng-model="detailPurchase.cantidad" ng-blur="calculateSuppPric()" step="0.1" rquired>
+                <label ng-show="detailPurchaseCreateForm.$submitted || detailPurchaseCreateForm.cantidad.$dirty && detailPurchaseCreateForm.cantidad.$invalid">
+                  <span ng-show="detailPurchaseCreateForm.cantidad.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
                 </div>
             </div>
             <!-- capo de Texto  Precio-->
             <div class="col-md-2">
-               <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.preCompra.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.preCompra.$dirty && detailOrderPurchaseCreateForm.preCompra.$invalid]">
+               <div class="form-group" ng-class="{true: 'has-error'}[ detailPurchaseCreateForm.preCompra.$error.required && detailPurchaseCreateForm.$submitted || detailPurchaseCreateForm.preCompra.$dirty && detailPurchaseCreateForm.preCompra.$invalid]">
                 <label for="preCompra">Precio </label>
 
-                <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="preCompra" placeholder="0.00" ng-model="detailOrderPurchase.preCompra" ng-blur="calculateSuppPric()" step="0.1">
-                <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.preCompra.$dirty && detailOrderPurchaseCreateForm.preCompra.$invalid">
-                  <span ng-show="detailOrderPurchaseCreateForm.preCompra.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="preCompra" placeholder="0.00" ng-model="detailPurchase.preCompra" ng-blur="calculateSuppPric()" step="0.1">
+                <label ng-show="detailPurchaseCreateForm.$submitted || detailPurchaseCreateForm.preCompra.$dirty && detailPurchaseCreateForm.preCompra.$invalid">
+                  <span ng-show="detailPurchaseCreateForm.preCompra.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
                 </div>
             </div>
 
             <!-- capo de Texto  Total Bruto-->
             <div class="col-md-2"> 
-                <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.montoBruto.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.montoBruto.$dirty && detailOrderPurchaseCreateForm.montoBruto.$invalid]">
+                <div class="form-group" ng-class="{true: 'has-error'}[ detailPurchaseCreateForm.montoBruto.$error.required && detailPurchaseCreateForm.$submitted || detailPurchaseCreateForm.montoBruto.$dirty && detailPurchaseCreateForm.montoBruto.$invalid]">
                 <label for="montoBruto">Total Bruto</label>
-                <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="montoBruto" placeholder="0.00" ng-model="detailOrderPurchase.montoBruto" ng-blur="calculateSuppPric()" step="0.1">
-                <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.montoBruto.$dirty && detailOrderPurchaseCreateForm.montoBruto.$invalid">
-                  <span ng-show="detailOrderPurchaseCreateForm.montoBruto.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="montoBruto" placeholder="0.00" ng-model="detailPurchase.montoBruto" ng-blur="calculateSuppPric()" step="0.1">
+                <label ng-show="detailPurchaseCreateForm.$submitted || detailPurchaseCreateForm.montoBruto.$dirty && detailPurchaseCreateForm.montoBruto.$invalid">
+                  <span ng-show="detailPurchaseCreateForm.montoBruto.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
                 </div>
             </div>
             <!-- capo de Texto  Descuento-->
             <div class="col-md-2"> 
-                <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.descuento.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.descuento.$dirty && detailOrderPurchaseCreateForm.descuento.$invalid]">
+                <div class="form-group" ng-class="{true: 'has-error'}[ detailPurchaseCreateForm.descuento.$error.required && detailPurchaseCreateForm.$submitted || detailPurchaseCreateForm.descuento.$dirty && detailPurchaseCreateForm.descuento.$invalid]">
                 <label for="descuento">Descuento % </label>
 
-                <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="descuento" placeholder="0.00" ng-model="detailOrderPurchase.descuento" ng-blur="calculateSuppPric()" step="0.1">
-                <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.descuento.$dirty && detailOrderPurchaseCreateForm.descuento.$invalid">
-                  <span ng-show="detailOrderPurchaseCreateForm.descuento.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="descuento" placeholder="0.00" ng-model="detailPurchase.descuento" ng-blur="calculateSuppPric()" step="0.1">
+                <label ng-show="detailPurchaseCreateForm.$submitted || detailPurchaseCreateForm.descuento.$dirty && detailPurchaseCreateForm.descuento.$invalid">
+                  <span ng-show="detailPurchaseCreateForm.descuento.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
                 </div>
             </div>
             <!-- capo de Texto  Total-->
             <div class="col-md-2"> 
-                <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.montoTotal.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.montoTotal.$dirty && detailOrderPurchaseCreateForm.montoTotal.$invalid]">
+                <div class="form-group" ng-class="{true: 'has-error'}[ detailPurchaseCreateForm.montoTotal.$error.required && detailPurchaseCreateForm.$submitted || detailPurchaseCreateForm.montoTotal.$dirty && detailPurchaseCreateForm.montoTotal.$invalid]">
                 <label for="montoTotal">Total</label>
-                <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="montoTotal" placeholder="0.00" ng-model="detailOrderPurchase.montoTotal" ng-blur="calculateSuppPric()" step="0.1">
-                <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.montoTotal.$dirty && detailOrderPurchaseCreateForm.montoTotal.$invalid">
-                  <span ng-show="detailOrderPurchaseCreateForm.montoTotal.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="montoTotal" placeholder="0.00" ng-model="detailPurchase.montoTotal" ng-blur="calculateSuppPric()" step="0.1">
+                <label ng-show="detailPurchaseCreateForm.$submitted || detailPurchaseCreateForm.montoTotal.$dirty && detailPurchaseCreateForm.montoTotal.$invalid">
+                  <span ng-show="detailPurchaseCreateForm.montoTotal.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
                 </div>
             </div>
@@ -361,7 +340,7 @@
               <th>SubTotal</th>
               <th>Acciones</th>     
             </tr>
-            <tr  ng-repeat="row in detailOrderPurchases " >
+            <tr  ng-repeat="row in detailPurchases " >
                       <td>@{{$index + 1}}</td>
                       <td ng-hide="true">@{{row.orderPurchases_id}}</td>
                       <td ng-hide="true">@{{row.detPres_id}}</td>

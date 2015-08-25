@@ -41,6 +41,10 @@ class OrderPurchasesController extends Controller {
     {
         return View('orderPurchases.form_create');
     }
+    public function form_createP()
+    {
+        return View('orderPurchases.form_createP');
+    }
 
     public function form_edit()
     {

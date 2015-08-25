@@ -353,6 +353,9 @@ Route::get('api/orderPurchases/mostrarCostos/{id}','OrderPurchasesController@mos
 Route::get('api/orderPurchases/mostrarEmpresa/{id}','OrderPurchasesController@mostrarEmpresa');
 Route::get('orderPurchases/createDetalle/{id?}', ['as' => 'person_edit', 'uses' => 'OrderPurchasesController@index']);
 Route::get('orderPurchases/form-createDetalle',['as'=>'atribut_form_create','uses'=>'OrderPurchasesController@createDetalle']);
+Route::get('orderPurchases/form-createP','OrderPurchasesController@form_createP');
+Route::get('orderPurchases/createP','OrderPurchasesController@index');
+
 
 
 Route::get('purchases',['as'=>'person','uses'=>'PurchasesController@index']);
@@ -393,5 +396,16 @@ Route::get('api/detpres/find/{id}','DetPresController@find');
 Route::get('api/detpres/{id}','DetPresController@select');
 
 Route::get('api/equivs/find/{id}','EquivController@find');
+Route::post('api/payments/create','PaymentsController@create');
+Route::get('api/payments/find/{id}','PaymentsController@find');
+Route::post('api/payments/destroy','PaymentsController@destroy');
+Route::put('api/payments/edit/','PaymentsController@edit');
+
+Route::get('purchases/show/{id?}','PurchasesController@index');
+Route::get('purchases/view-show','PurchasesController@show');
+Route::get('api/methodPayments/paginate/','MethodPaymentController@paginatep');
+Route::post('api/detPayments/create','DetPaymentsController@create');
+Route::get('api/detPayments/paginate/','DetPaymentsController@paginatep');
+Route::get('api/detPayments/find/{id}','DetPaymentsController@find');
 
 

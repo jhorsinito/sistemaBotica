@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePurchasesTable extends Migration
+class CreateOrderPurchasesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,18 +12,18 @@ class CreatePurchasesTable extends Migration
      */
     public function up()
     {
-         Schema::create('purchases', function (Blueprint $table) {
+         Schema::create('orderPurchases', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('fechaEntrega');
+            $table->date('fechaPedido');
+            $table->date('fechaPrevista');
             $table->decimal('descuento',10,2);
             $table->decimal('montoBruto',10,2);
             $table->decimal('montoTotal',10,2);
+            $table->tinyInteger('Estado');
             $table->integer('warehouses_id')->unsigned();
             $table->foreign('warehouses_id')->references('id')->on('warehouses');
-            $table->integer('suppliers_id')->unsigned();
-            $table->foreign('suppliers_id')->references('id')->on('suppliers');
-            $table->integer('orderPurchase_id')->unsigned();
-            $table->foreign('orderPurchase_id')->references('id')->on('orderPurchases');
+            $table->integer('supplier_id')->unsigned();
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->timestamps();
         });
     }
@@ -35,6 +35,6 @@ class CreatePurchasesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('purchases');
+        Schema::drop('orderPurchases');
     }
 }
