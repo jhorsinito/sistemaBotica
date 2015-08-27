@@ -11,7 +11,16 @@ class StoreRepo extends BaseRepo{
 
     public function search($q)
     {
-        $stores =Store::where('direccion','like', $q.'%')
+        $stores =Store::where('nombreTienda','like', $q.'%')
+                    //with(['customer','employee'])
+                    ->paginate(15);
+        return $stores;
+    }
+
+    public function searchReport($q)
+    {
+        $stores =Store::select('id','nombreTienda','direccion','distrito','provincia','departamento')
+                                ->where('nombreTienda','like', $q.'%')
                     //with(['customer','employee'])
                     ->paginate(15);
         return $stores;
@@ -22,8 +31,5 @@ class StoreRepo extends BaseRepo{
         $stores = Store::all();
         return $stores;
     }
-    public function encontrar($vari){
-        $stock=Stock::where("variant_id","=",$vari);
-        return $stock;
-    }
+    
 } 

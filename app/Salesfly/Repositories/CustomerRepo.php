@@ -18,6 +18,15 @@ class CustomerRepo extends BaseRepo{
                     ->paginate(15);
         return $customers;
     }
+    public function searchVenta($q)
+    {
+        $customers =Customer::select(\DB::raw('id,nombres,apellidos,empresa,CONCAT(nombres,"-",apellidos,"-",empresa) as busqueda'))
+                    ->where('nombres','like', $q.'%')
+                    ->orWhere('apellidos','like',$q.'%')
+                    ->orWhere('empresa','like',$q.'%')
+                    ->paginate(15);
+        return $customers;
+    }
 
     function validateDate($date, $format = 'Y-m-d')
     {

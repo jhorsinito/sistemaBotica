@@ -60,12 +60,21 @@ class ProductsController extends Controller
         $products = $this->productRepo->paginate(15);
         return response()->json($products);
     }
-
-    public function pag(){
+    public function autocomplit(){
+         $products = $this->productRepo->Autocomplit();
+        return response()->json($products);
+    }
+        public function pag(){
         $products = $this->productRepo->pag();
         return response()->json($products);
     }
-
+    public function misDatosVariantes($store,$were,$q){
+        $products = $this->productRepo->misDatosVariantes($store,$were,$q);
+        return response()->json($products);
+    }
+        public function misDatos($store,$were,$q){
+        $products = $this->productRepo->misDatos($store,$were,$q);
+        return response()->json($products);
 
     public function form_create()
     {
@@ -242,6 +251,17 @@ class ProductsController extends Controller
     }
     public function stations_select(){
         $stations = Station::lists('nombre','id');
+        return response()->json($stations);
+    }
+    public function selectProducts(){
+        $products = $this->productRepo->all();
+        return response()->json($products);
+    }
+    public function search($q)
+    {
+        //$q = Input::get('q');
+        $stations = $this->productRepo->search($q);
+
         return response()->json($stations);
     }
 }

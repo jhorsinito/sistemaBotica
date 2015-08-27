@@ -40,11 +40,11 @@
                          </div>
                           <div  class="input-group">
                                <label>Fecha de Entrega:</label>
-                               <spam>@{{purchases.fechaEntrega}}</spam>
+                               <spam>@{{purchases.fechaEntrega.substring(0,10)}}</spam>
                          </div>
                           <div  class="input-group">
                                <label>Orden de Pedido:</label>
-                               <spam><a ng-href="/orderPurchases/edit/@{{purchases.orderPurchase_id}}">ver Orden de Pedido</a></spam>
+                               <spam><a target="_self" ng-href="/orderPurchases/edit/@{{purchases.orderPurchase_id}}">ver Orden de Pedido</a></spam>
                          </div>
     </div>   
 

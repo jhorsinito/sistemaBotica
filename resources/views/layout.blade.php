@@ -451,6 +451,16 @@
     <!-- endinject -->
     @section('js-customize')
     @show
+<script>
+
+$(document).ready(function(){
+    $("body").on("click", '#myTabs2',function(e){
+        //alert("The paragraph was clicked.");
+        e.preventDefault()
+                          $(this).tab('show')
+    });
+});
+</script>
 
   </body>
 </html>

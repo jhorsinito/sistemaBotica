@@ -138,6 +138,16 @@
 
                 return deferred.promise;
             }
+              function autocomplit(uri)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/autocomplit/')
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
 
             return {
                 all: all,
@@ -152,7 +162,8 @@
                 bytraervar: bytraervar,
                 //traerCodigo: traerCodigo,
                 traerEmpresa: traerEmpresa,
-                paginateDPedido: paginateDPedido
+                paginateDPedido: paginateDPedido,
+                autocomplit: autocomplit
             }
         }])
         .factory('socketService', function ($rootScope) {

@@ -50,32 +50,43 @@ class StocksController extends Controller {
     public function edit(Request $request)
     {
          $var =$request->detailOrderPurchases;
-         //var_dump($var); die();
+         
          $almacen_id=$request->input("warehouses_id");
-         $stockmodel = new StockRepo;
+         
        foreach($var as $object){
-           $object['warehouse_id']=$almacen_id;
-           $object["variant_id"]=$object["Codigovar"];
-           //var_dump($object["variant_id"]);die();
-           $stockac=$this->stockRepo->encontrar($object["variant_id"]);
-           
-      if($stockac!= null){
-         if($object["esbase"]==0){
-                $object["stockActual"]=($object["cantidad"]+$stockac->stockActual)*$object["equivalencia"];
-         }else{
-                $object["stockActual"]=$object["cantidad"]+$stockac->stockActual;
-         }
-           $stock = $this->stockRepo->find($stockac->id);
-           $manager = new StockManager($stock,$object);
-           $manager->save();
-     }else{
-           $object["stockActual"]=$object["cantidad"];
-           $manager = new TypeManager($stockmodel->getModel(),$object);
-           $manager->save();
-           $stockmodel = null;
-          }
+                  //var_dump($object); die();
+                  $stockmodel = new StockRepo;
+                  $object['warehouse_id']=$almacen_id;
+                  $object["variant_id"]=$object["Codigovar"];
+                  $stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
+                  
+            if(!empty($stockac)){ 
+                //var_dump($stockac); var_dump('1');die();
+                if($object["esbase"]==0){
+                  $object["stockActual"]=$stockac->stockActual+($object["cantidad"]*$object["equivalencia"]);
+                }else{
+                  $object["stockActual"]=$stockac->stockActual+$object["cantidad"];
+                }
+                  //$stock = $stockmodel->find($stockac->id);
+                  //var_dump($object); var_dump('1');die();
+                  $manager = new StockManager($stockac,$object);
+                  $manager->save();
+                  $stock=null;
+            }else{
+                //var_dump($stockac); var_dump('2'); die();
+                if($object["esbase"]==0)
+                {
+                    $object["stockActual"]=$object["cantidad"]*$object["equivalencia"];
+                }else{
+                    $object["stockActual"]=$object["cantidad"];
+                }
+                  $manager = new StockManager($stockmodel->getModel(),$object);
+                  $manager->save();
+                  $stockmodel = null;
+            }
+            $stockac=null;
 
-       }
+        }
       
         return response()->json(['estado'=>true]);
     }

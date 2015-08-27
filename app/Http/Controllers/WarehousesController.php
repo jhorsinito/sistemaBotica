@@ -50,8 +50,8 @@ class WarehousesController extends Controller {
     public function create(Request $request)
     {
         $warehouses = $this->warehouseRepo->getModel();
-        var_dump($request->all());
-        die();
+        //var_dump($request->all());
+        //die();
         $manager = new WarehouseManager($warehouses,$request->all());
         //print_r($manager); die();
         $manager->save();
@@ -93,6 +93,15 @@ class WarehousesController extends Controller {
 
         return response()->json($warehouses);
     }
+    public function searchWarehouse($q,$id)
+    {
+        //$q = Input::get('q');
+        $warehouses = $this->warehouseRepo->searchWarehouse($q,$id);
+
+        return response()->json($warehouses);
+        //return "Hola";
+    }
+    
     public function selectWarehouses(){
         $warehouses = $this->warehouseRepo->all();
         return response()->json($warehouses);

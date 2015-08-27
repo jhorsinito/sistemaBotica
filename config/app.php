@@ -113,6 +113,7 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
+        Barryvdh\DomPDF\ServiceProvider::class,
         Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
@@ -136,6 +137,9 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        'JasperPHP\JasperPHPServiceProvider',
+        //'Thujohn\Pdf\PdfServiceProvider',
+        //'Vsmoraes\Pdf\PdfServiceProvider',
 
         /*
          * Application Service Providers...
@@ -146,9 +150,9 @@ return [
 
 
         /*
-         * Customer Service Providers
+         * Customer Service Provider
          */
-        Barryvdh\Debugbar\ServiceProvider::class,
+        //Barryvdh\Debugbar\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class
     ],
 
@@ -165,6 +169,9 @@ return [
 
     'aliases' => [
 
+        //'PDF'       => 'Thujohn\Pdf\PdfFacade',
+        //'PDF'       => 'Vsmoraes\Pdf\PdfFacade',
+        //'PDF'       => 'Barryvdh\DomPDF\Facade',
         'App'       => Illuminate\Support\Facades\App::class,
         'Artisan'   => Illuminate\Support\Facades\Artisan::class,
         'Auth'      => Illuminate\Support\Facades\Auth::class,

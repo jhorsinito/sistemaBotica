@@ -55,7 +55,13 @@
                       <button type="button" class="btn btn-default" ng-click="cancelPurchase()">No</button>
                     </p>
                   </div>
-            
+              <div class="form-group">
+                  <button class=" label-default" data-toggle="modal" data-target="#miventana" >Crear Adelantos</button>
+              
+              
+                  <button class=" label-default" data-toggle="modal" data-target="#miventana" >Crear Compra</button>
+              </div>
+
            <!-- <div class="form-group">
                 <select class="form-control"  ng-click="searchEstados()" ng-model="estado" >
                         <option value="">--Elija Variante--</option>
@@ -85,6 +91,8 @@
                   </div>
                 </div>-->
              
+ 
+           
                   
                   <table class="table table-bordered table-hover">
                     <tr>
@@ -96,19 +104,24 @@
                       <th>Descuento</th>
                       <th>Monto Bruto</th>
                       <th>Monto Total</th>
+                      <th style="width: 40px">Pagar Pedido</th>
                       <th style="width: 40px">Ver Detalles</th>
                     </tr>
                     
                     <tr ng-repeat="row in purchases">
                       <td>{{$index + 1}}</td>
                       <td ng-hide="true">{{row.id}}</td>
-                      <td>{{row.fechaEntrega}}</td>
+                      <td>{{row.fechaEntrega.substring(0,10)}}</td>
                       <td>{{row.empresa}}</td>
                       <td>{{row.almacen}}</td>
                       <td><a ng-href="/orderPurchases/edit/{{row.orderPurchase_id}}">Ver Orden</a></td>
                       <td>{{row.descuento}}</td>
                       <td>{{row.montoBruto}}</td>
                       <td>{{row.montoTotal}}</td>
+                      <td ng-if="row.saldo>0"><a ng-href="/purchases/show/{{row.id}}">Pagar</a>
+                      </td>
+                      <td ng-if="row.saldo<=0"><a ng-href="/purchases/show/{{row.id}}">Ver Pagos</a>
+                      </td>
                       <td><a ng-click="editCompra(row)" class="btn btn-success btn-xs">Ver Detalles</a></td>
                                         
                     </tr>
@@ -129,3 +142,54 @@
             </div>  
           </div>
         </section>
+        <!-- =======================================================================================================Ventana Emergente Crear=================================-->
+        <div class="container"  style="margin-top: 60px;">
+           <div  class="modal fade" id="miventana" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="ngenabled">
+             <div  class="modal-dialog">
+               <div style="border-radius: 5px" class="modal-content">
+                 <div class="modal-header" style="border-radius: 5px" >
+                   <button type="button"  class="close" data-dismiss="modal" aria-hidden="ngenabled"> &times; </button>
+                   <h4><b>Agregar Pagos Adelantados {{mostrarShow}}</b></h4>
+                   </div>
+                   <div class="modal-body">
+                    <div class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.empresa.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.empresa.$dirty && orderPurchaseCreateForm.empresa.$invalid]">
+                           <label>Proveedor: </label>
+                           <div class="input-group" ng-hide="show">
+              
+                            
+                            <input typeahead-on-select="asignarEmpresa()" type="text" name="empresa" ng-model="  orderPurchase.empresa" placeholder="Busca por Proveedor" 
+                                  typeahead="supplier as supplier.empresa for supplier in suppliers | filter:$viewValue | limitTo:8"  
+                     typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
+                     tooltip="Ingrese caracteres para busacar Proveedor por Empres" required>
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noResults">
+                            <i class="glyphicon glyphicon-remove"></i> No Results Found
+                    </div>
+             
+                </div> 
+                <label ng-show="orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.empresa.$dirty && orderPurchaseCreateForm.empresa.$invalid">
+                                    <span ng-show="orderPurchaseCreateForm.empresa.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                </label>
+                <div ng-show="show" class="input-group">
+                      <spam ng-show="show">@{{orderPurchase.empresa}}</spam>
+                </div>
+        </div>
+          <div class="form-group" >
+                <label for="suppPric">Num de Pedido</label>
+                <input type="number" class="form-control" name="markup" placeholder="0.00"  ng-model="product.stock[$index].stockActual" ng-disabled="product.hasVariants || !product.track" step="0.1">
+          </div>
+                     
+                   </div>
+                  
+                     <div class="modal-footer" >
+                     <button type="submit" class="btn btn-primary" ng-click="createEmployeecost()" data-dismiss="modal">Crear</button>
+                    <a  class="btn btn-danger" data-dismiss="modal" aria-hidden="ngenabled">Cancelar</a>
+                   </div>
+                     </form>
+                   
+                   
+               </div>
+             </div>
+           </div>
+        </div>
+        </div>

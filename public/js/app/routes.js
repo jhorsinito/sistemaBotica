@@ -29,6 +29,10 @@
                     templateUrl:'/purchases/form-edit',
                     controller: 'PurchaseController'
                 })  
+                   .when('/purchases/show/:id',{
+                    templateUrl:'/purchases/view-show',
+                    controller: 'PurchaseController'
+                })
                 //---------------------------------------
                  .when('/orderPurchases', {
                     templateUrl: '/js/app/orderPurchases/views/index.html',
@@ -42,8 +46,8 @@
                     templateUrl:'/orderPurchases/form-edit',
                     controller: 'OrderPurchaseController'
                 }) 
-                .when('/orderPurchases/createDetalle/:id',{
-                    templateUrl:'/orderPurchases/form-createDetalle',
+                .when('/orderPurchases/createP',{
+                    templateUrl:'/orderPurchases/form-createP',
                     controller: 'OrderPurchaseController'
                 }) 
                 //----------------------------------------------------
@@ -270,6 +274,88 @@
                 .when('/practicas/edit/:id',{
                     templateUrl:'/practicas/form-edit',
                     controller: 'PracticaController'
+                })
+                //-------------------------------------------
+                //-----------------------------------------
+                .when('/promotions', {
+                    templateUrl: '/js/app/promotions/views/index.html',
+                    controller: 'PromotionController'
+                })
+                .when('/promotions/create', {
+                    templateUrl: '/promotions/form-create',
+                    controller: 'PromotionController'
+                })
+                .when('/promotions/edit/:id',{
+                    templateUrl:'/promotions/form-edit',
+                    controller: 'PromotionController'
+                })
+                //-------------------------------------------
+                //-----------------------------------------
+                .when('/cashHeaders', {
+                    templateUrl: '/js/app/cashHeaders/views/index.html',
+                    controller: 'CashHeadersController'
+                })
+                .when('/cashHeaders/create', {
+                    templateUrl: '/cashHeaders/form-create',
+                    controller: 'CashHeadersController'
+                })
+                .when('/cashHeaders/edit/:id',{
+                    templateUrl:'/cashHeaders/form-edit',
+                    controller: 'CashHeadersController'
+                })
+                //-------------------------------------------
+                //-----------------------------------------
+                .when('/cashes', {
+                    templateUrl: '/js/app/cashes/views/index.html',
+                    controller: 'CashesController'
+                })
+
+               
+                .when('/cashes/create', {
+                    templateUrl: '/cashes/form-create',
+                    controller: 'CashesController'
+                })
+                .when('/cashes/edit/:id',{
+                    templateUrl:'/cashes/form-edit',
+                    controller: 'CashesController'
+                })
+
+                //-------------------------------------------
+                //-----------------------------------------
+                .when('/detCashes', {
+                    templateUrl: '/js/app/detCashes/views/index.html',
+                    controller: 'DetCashesController'
+                })
+
+               
+                .when('/detCashes/create/:id', {
+                    templateUrl: '/detCashes/form-create',
+                    controller: 'DetCashesController'
+                })
+                .when('/detCashes/edit/:id',{
+                    templateUrl:'/detCashes/form-edit',
+                    controller: 'DetCashesController'
+                })
+                //-------------------------------------------
+                //-----------------------------------------
+                .when('/orders', {
+                    templateUrl: '/js/app/orders/views/index.html',
+                    controller: 'OrderController'
+                })
+
+               
+                .when('/orders/create', {
+                    templateUrl: '/orders/form-create',
+                    controller: 'OrderController'
+                })
+                .when('/orders/edit/:id',{
+                    templateUrl:'/orders/form-edit',
+                    controller: 'OrderController'
+                })
+                //-------------------------------------
+                .when('/reports', {
+                    templateUrl: '/js/app/reports/views/index.html',
+                    controller: 'ReportController'
                 })
                 .otherwise({
                     redirectTo: '/'

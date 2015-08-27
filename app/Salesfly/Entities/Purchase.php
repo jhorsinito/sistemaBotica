@@ -12,7 +12,7 @@ class Purchase extends \Eloquent {
                     'montoTotal',
                     'orderPurchase_id',
                     'warehouses_id',
-                    'suppliers_id'];
+                    'supplier_id'];
      public function warehouse()
     {
         return $this->belongsTo('\Salesfly\Salesfly\Entities\Warehouse');

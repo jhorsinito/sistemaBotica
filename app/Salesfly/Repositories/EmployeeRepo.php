@@ -16,6 +16,15 @@ class EmployeeRepo extends BaseRepo{
                     ->paginate(15);
         return $customers;
     }
+    public function searchVenta($q)
+    {
+        $employee =Employee::select(\DB::raw('id,nombres,apellidos,codigo,CONCAT(nombres,"-",apellidos) as busqueda'))
+                    ->where('nombres','like', $q.'%')
+                    ->orWhere('apellidos','like',$q.'%')
+                    ->orWhere('codigo','like',$q.'%')
+                    ->paginate(15);
+        return $employee;
+    }
 
     function validateDate($date, $format = 'Y-m-d')
     {

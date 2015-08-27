@@ -19,10 +19,10 @@ class DetailOrderPurchaseRepo extends BaseRepo{
       ->join("variants","variants.id","=","detPres.variant_id")
       ->join("products","products.id","=","variants.product_id")
       ->join("presentation","presentation.id","=","detPres.presentation_id")
-      ->join("equiv","equiv.preFin_id","=","presentation.id")
+      ->leftjoin("equiv","equiv.preFin_id","=","presentation.id")
       ->select('detailOrderPurchases.*',"variants.id as Codigovar","variants.sku as CodigoPCompra","products.nombre as nombre","equiv.cant as equivalencia","presentation.base as esbase")
-      ->where("detailOrderPurchases.orderPurchases_id","=",$id)
-      ->paginate();
+     ->where("detailOrderPurchases.orderPurchases_id","=",$id)
+      ->paginate(15);
       return $detailOrderPurchase;
     }
     public function paginaporEstados($estado){
@@ -32,7 +32,7 @@ class DetailOrderPurchaseRepo extends BaseRepo{
       ->join("orderPurchases","orderPurchases.id","=","detailOrderPurchases.orderPurchases_id")
       ->select('detailOrderPurchases.*',"variants.sku as CodigoPCompra","products.nombre as nombre")
       ->where("orderPurchases.Estado","=",$estado)
-      ->paginate();
+      ->paginate(15);
       return $detailOrderPurchase;
 
     }

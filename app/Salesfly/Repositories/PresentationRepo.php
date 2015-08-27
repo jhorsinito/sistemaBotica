@@ -14,6 +14,12 @@ class PresentationRepo extends BaseRepo{
                     ;
         }])->get();
     }
+        public function select($id){
+         $presentations=Presentation::leftjoin('equiv','equiv.preBase_id','=','presentation.id')
+                                   ->where('presentation.id','=',$id)
+                                   ->select('presentation.shortname')->first();
+        return $presentations;
+    }
     public function all_base(){
         return Presentation::where('base',1)->get();
     }

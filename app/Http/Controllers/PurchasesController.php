@@ -9,6 +9,11 @@ use Salesfly\Salesfly\Repositories\PurchaseRepo;
 use Salesfly\Salesfly\Managers\PurchaseManager;
 use Salesfly\Salesfly\Repositories\DetailPurchaseRepo;
 use Salesfly\Salesfly\Managers\DetailPurchaseManager;
+use Salesfly\Salesfly\Repositories\StockRepo;
+use Salesfly\Salesfly\Managers\StockManager;
+
+use Salesfly\Salesfly\Repositories\PaymentRepo;
+use Salesfly\Salesfly\Managers\PaymentManager;
 
 //use Intervention\Image\Facades\Image;
 
@@ -21,10 +26,12 @@ class PurchasesController extends Controller {
         $this->purchaseRepo = $purchaseRepo;
     }*/
 
-    public function __construct(DetailPurchaseRepo $detailPurchaseRepo, PurchaseRepo $purchaseRepo)
+    public function __construct(PaymentRepo $paymentRepo,DetailPurchaseRepo $detailPurchaseRepo, PurchaseRepo $purchaseRepo,StockRepo $stockRepo)
     {
         $this->detailPurchaseRepo = $detailPurchaseRepo;
         $this->purchaseRepo = $purchaseRepo;
+        $this->stockRepo = $stockRepo;
+        $this->paymentRepo=$paymentRepo;
     }
 
     public function index()
@@ -60,13 +67,16 @@ class PurchasesController extends Controller {
 
     public function create(Request $request)
         {
+         // var_dump($request->all());die();
         $purchase = $this->purchaseRepo->getModel();
-        //$detailPurchase = $this->detailPurchaseRepo->getModel();
-
-        $var = $request->detailOrderPurchases;//->merge(array('purchases_id' => '10'));
+        $payment = $this->paymentRepo->getModel();
+        $var = $request->detailOrderPurchases;
+        $almacen_id=$request->input("warehouses_id");
+        //=============================Creando Purchase=============================
        //var_dump($var); die();
         $manager = new PurchaseManager($purchase,$request->except('fechaEntrega'));
         $manager->save();
+
        if($this->purchaseRepo->validateDate(substr($request->input('fechaEntrega'),0,10))){
             $purchase->fechaEntrega = substr($request->input('fechaEntrega'),0,10);
         }else{
@@ -76,16 +86,63 @@ class PurchasesController extends Controller {
 
         $purchase->save();
         $temporal=$purchase->id;
-  $detailPurchaseRepox;
-         
+        $request->merge(["purchase_id"=>$temporal]);
+        $detailPurchaseRepox;
+        //$almacen_id=$request->input("warehouses_id");
+      //====================Creando Payment====================================
+        if($request->input('compraDirecta')==1){
+          $request->merge(["Acuenta"=>0]);
+          $inserPay=new PaymentManager($payment,$request->all());
+          $inserPay->save();
+        }else{
+        $consulPayment=$this->paymentRepo->payIDLocal($purchase->orderPurchase_id);
+        if($consulPayment==null){
+          $request->merge(["Acuenta"=>0]);
+          $inserPay=new PaymentManager($payment,$request->all());
+          $inserPay->save();
+        }else{
+              $request->merge(["Acuenta"=>$consulPayment->Acuenta]);
+              $request->merge(["Saldo"=>(floatval($request->input("montoTotal"))-floatval($request->input("Acuenta")))]);
+              $inserPay=new PaymentManager($consulPayment,$request->all());
+              $inserPay->save();
+        }
+      }
+        
+       
+      //========================================================================
        foreach($var as $object){
-          //var_dump($object); die();
            $object['purchases_id'] = $temporal;
            $detailPurchaseRepox = new DetailPurchaseRepo;
            $insertar=new DetailPurchaseManager($detailPurchaseRepox->getModel(),$object);
            $insertar->save();
           
            $detailPurchaseRepox = null;
+           $stockmodel = new StockRepo;
+                  $object['warehouse_id']=$almacen_id;
+                  $object["variant_id"]=$object["Codigovar"];
+                  $stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
+                  
+            if(!empty($stockac)){ 
+                if($object["esbase"]==0){
+                  $object["stockActual"]=$stockac->stockActual+($object["cantidad"]*$object["equivalencia"]);
+                }else{
+                  $object["stockActual"]=$stockac->stockActual+$object["cantidad"];
+                }
+                  $manager = new StockManager($stockac,$object);
+                  $manager->save();
+                  $stock=null;
+            }else{
+                if($object["esbase"]==0)
+                {
+                    $object["stockActual"]=$object["cantidad"]*$object["equivalencia"];
+                }else{
+                    $object["stockActual"]=$object["cantidad"];
+                }
+                  $manager = new StockManager($stockmodel->getModel(),$object);
+                  $manager->save();
+                  $stockmodel = null;
+            }
+            $stockac=null;
 
        }
      return response()->json(['estado'=>true, 'nombres'=>$purchase->nombres]);
@@ -136,13 +193,8 @@ class PurchasesController extends Controller {
 
         return response()->json($purchases);
     }
-
-    /*public function get_string_between($string, $start, $end){
-        $string = " ".$string;
-        $ini = strpos($string,$start);
-        if ($ini == 0) return "";
-        $ini += strlen($start);
-        $len = strpos($string,$end,$ini) - $ini;
-        return substr($string,$ini,$len);
-    }*/
+     public function show()
+    {
+        return View('purchases.show');
+    }
 }
