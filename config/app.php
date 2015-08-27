@@ -113,7 +113,7 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
-        Barryvdh\DomPDF\ServiceProvider::class,
+        //Barryvdh\DomPDF\ServiceProvider::class,
         Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
@@ -152,7 +152,7 @@ return [
         /*
          * Customer Service Provider
          */
-        //Barryvdh\Debugbar\ServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class
     ],
 

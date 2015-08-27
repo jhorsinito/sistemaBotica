@@ -72,9 +72,11 @@ class ProductsController extends Controller
         $products = $this->productRepo->misDatosVariantes($store,$were,$q);
         return response()->json($products);
     }
-        public function misDatos($store,$were,$q){
-        $products = $this->productRepo->misDatos($store,$were,$q);
+    public function misDatos($store,$were,$q)
+    {
+        $products = $this->productRepo->misDatos($store, $were, $q);
         return response()->json($products);
+    }
 
     public function form_create()
     {

@@ -11,7 +11,7 @@
 |
 */
 
-\Debugbar::disable();
+//\Debugbar::disable();
 
 Route::get('/', 'Layout\LayoutController@index');
 
