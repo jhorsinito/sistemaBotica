@@ -6,7 +6,6 @@ Compras
 <base href="{{URL::to('/')}}/orderPurchases"/>
 @stop
 @section('css-customize')
-<link href="/vendor/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
 
 @stop
 @section('content')
@@ -28,7 +27,6 @@ Compras
 <script src="/js/app/orderPurchases/app.js"></script>
 <script src="/js/app/orderPurchases/controllers.js"></script>
 <script src="/js/app/orderPurchases/servicesglobalpurchase.js"></script>
-<script src="/vendor/angular-xeditable/dist/js/xeditable.js"></script>
 @stop
 
 @stop

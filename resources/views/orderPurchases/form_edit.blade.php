@@ -59,7 +59,7 @@
                     </div> 
               </div> 
             </div>
-            <button type="button" class="btn btn-default" ng-click="ActualizarStock()">ActualizarEstock</button>
+
            <div class="col-md-4">
 
                       <div  class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.fechaPedido.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.fechaPedido.$dirty && orderPurchaseCreateForm.fechaPedido.$invalid]">

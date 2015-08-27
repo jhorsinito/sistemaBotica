@@ -24,7 +24,7 @@
             <div class="box-tools pull-right">
               <!-- Buttons, labels, and many other things can be placed here! -->
               <!-- Here is a label for example -->
-              <button class=" label-default" ng-if="product.hasVariants == '1'">Añadir Variante</button>
+              <button class=" label-default" ng-if="product.hasVariants == '1'" ng-click="addVariant(product.id)">Añadir Variante</button>
 
               <button class=" label-default">Imprimir Código de Barras</button>
               <button class=" label-default">Editar Producto</button>
@@ -47,21 +47,25 @@
                               <table class="table table-striped">
                                 <tbody><tr>
                                   <th style="width: 10px">#</th>
+                                    <th>Código</th>
                                   <th>SKU</th>
                                   <th>Variante</th>
                                   <th style="">Precio</th>
                                   <th style="">En stock</th>
                                 </tr>
-                                <tr>
-                                  <td>1.</td>
-                                  <td>Update software</td>
-                                  <td>
-                                    <div class="progress progress-xs">
-                                      <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                    </div>
-                                  </td>
-                                  <td><span class="badge bg-red">55%</span></td>
-                                  <td><span class="badge bg-red">55%</span></td>
+                                <tr ng-repeat="row in variants">
+
+                                    <td>@{{$index + 1}}</td>
+                                    <td>@{{ row.codigo }}</td>
+                                    <td>@{{ row.sku }}</td>
+                                    <td><a ng-href="/variant/show/@{{row.id}}">@{{row.product.nombre}}
+                                            <span ng-repeat="row2 in row.det_atr ">
+                                        / @{{row2.descripcion}}
+                                    </span>
+
+                                        </a></td>
+                                    <td>@{{row.det_pre[0].price}}</td>
+                                    <td>@{{row.stock[0].stockActual}}</td>
 
                                 </tr>
 

@@ -34,7 +34,7 @@
                     <div class="form-group" ng-class="{true: 'has-error'}[ productCreateForm.nombre.$error.required && productCreateForm.$submitted || productCreateForm.nombre.$dirty && productCreateForm.nombre.$invalid]">
                       <label for="nombres">Nombre</label>
                       <input type="text" class="form-control" name="nombre" placeholder="Nombre" ng-model="product.nombre" required>
-                      <label ng-show="productCreateForm.$submitted || productCreateForm.nombre.$dirty && productCreateForm.nombres.$invalid">
+                      <label ng-show="productCreateForm.$submitted || productCreateForm.nombre.$dirty && productCreateForm.nombre.$invalid">
                         <span ng-show="productCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>
                     </div></div>
@@ -73,11 +73,18 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="">Presentación Base:</label>
-                            <select class="form-control" ng-model="product.presentation_base_object" ng-change="changePreBase()" ng-options="item as item.nombre for item in presentations_base">
+                            <select  class="form-control" ng-model="product.presentation_base_object" ng-change="changePreBase()" ng-options="item as item.nombre for item in presentations_base">
                                 <option value="">-- Elige Presentación Base--</option>
                             </select>
                         </div>
                         </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Modelo</label>
+                            <input class="form-control" type="text" ng-model="product.modelo">
+                        </div>
+                      </div>
                     </div>
                    <div class="row">
                     <div class="col-md-3">
@@ -90,9 +97,9 @@
                           </div></div>
                            <div class="col-md-3">
                             <div class="form-group">
-                                                <label>Categoría</label>
+                                                <label>Línea</label>
                                                 <select name="ttype" class="form-control" ng-model="product.type_id" ng-options="k as v for (k, v) in types">
-                                                 <option value="">--Elige Categoría--</option>
+                                                 <option value="">--Elige Línea--</option>
                                                 </select>
                           </div></div>
                            <div class="col-md-3">
@@ -141,8 +148,10 @@
 <!--  =============================================================================PRESENTACIONES===============================================================-->
 <div class="box box-default" id="price">
                                                                     <div class="box-header with-border">
-                                                                      <h3 class="box-title">Presentaciones del Producto     </h3>    <button class="btn btn-xs btn-info btn-flat" data-toggle="modal" data-target="#presentation" ng-click="traerPres(product.presentation_base)" ng-disabled="enabled_presentation_button" >Añadir Presentación</button>
-                                                                      <div class="box-tools pull-right">
+                                                                      <h3 class="box-title">Presentaciones del Producto     </h3>
+                                                                        <button class="btn btn-xs btn-info btn-flat" data-toggle="modal" data-target="#presentation" ng-click="traerPres(product.presentation_base)" ng-disabled="enabled_presentation_button" >Añadir Presentación</button>
+                                                                        <button class="btn btn-xs btn-warning btn-flat" data-toggle="modal" data-target="#createpresentation"  ng-disabled="enabled_createpresentation_button" >Crear Presentación</button>
+                                                                        <div class="box-tools pull-right">
                                                                         <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                                                       </div><!-- /.box-tools -->
                                                                       </div><!-- /.box-header -->
@@ -184,7 +193,7 @@
                                                                     </div>
 
                                                                   </div><!-- /.box -->
-
+                      form @{{ productCreateForm.$error}}
 <!--  =============================================================================PRECIO DEL PRODUCTO.. ya no se usa===============================================================-->
 
          <!--                                <div class="box box-default" id="price">
@@ -248,7 +257,8 @@
                                                                    </div>
                                                                    <div class="col-md-2">
                                                                    <div class="form-group">
-                                                                   <input class="form-control" type="text" ng-model="product.sku" ng-disabled="product.hasVariants"/>
+                                                                    <input class="form-control" name="sku" type="text" ng-model="product.sku" ng-disabled="product.hasVariants" ng-required="!product.hasVariants"/>
+                                                                   <span style="color:#dd4b39;" ng-show="productCreateForm.sku.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                                                                    </div>
                                                                    </div>
                                                                    </div>
@@ -278,19 +288,19 @@
                                                                                                 <div class="col-md-2">
                                                                                                     <div class="form-group" >
                                                                                                     <label for="suppPric">Stock Actual</label>
-                                                                                                    <input type="number" class="form-control" name="markup" placeholder="0.00"  ng-model="product.stock[$index].stockActual" ng-disabled="product.hasVariants || !product.track" step="0.1">
+                                                                                                    <input type="number" class="form-control" name="markup" min="0" placeholder="0.00"  ng-model="product.stock[$index].stockActual" ng-disabled="product.hasVariants || !product.track" step="0.1">
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div class="col-md-2">
                                                                                                     <div class="form-group" >
                                                                                                     <label for="suppPric">Stock Mínimo</label>
-                                                                                                     <input type="number" class="form-control" name="markup" placeholder="0.00"  ng-model="product.stock[$index].stockMin" ng-disabled="product.hasVariants || !product.track" step="0.1">
+                                                                                                     <input type="number" class="form-control" name="markup" min="0" placeholder="0.00"  ng-model="product.stock[$index].stockMin" ng-disabled="product.hasVariants || !product.track" step="0.1">
                                                                                                         </div>
                                                                                                 </div>
                                                                                                 <div class="col-md-2">
                                                                                                 <div class="form-group" >
                                                                                                      <label for="suppPric">Costo Mínimo</label>
-                                                                                                      <input type="number" class="form-control" name="markup" placeholder="0.00"  ng-model="product.stock[$index].stockMinSoles" ng-disabled="product.hasVariants || !product.track" step="0.1">
+                                                                                                      <input type="number" class="form-control" name="markup" min="0" placeholder="0.00"  ng-model="product.stock[$index].stockMinSoles" ng-disabled="product.hasVariants || !product.track" step="0.1">
                                                                                                         </div>
                                                                                                 </div>
                                                                                                  </span>
@@ -337,7 +347,7 @@
                                 <div class="col-md-12">
                                 <div class="form-group">
                                  <select name="" ng-click="selectPres()" class="form-control" id="" ng-model="presentationSelect" ng-options="item as item.nombre+' / '+item.shortname+' / '+item.cant for item in presentations">
-
+                                        <option value="">-- Elige Presentación--</option>
                                  </select>
                                  @{{presentationSelect}}
                                 </div>
@@ -373,3 +383,47 @@
                          </div>
 
             <!-- ======================================================================================== -->
+
+
+<!-- =============================Modal CREATE de Presentacion ================================ -->
+
+<div class="modal fade bs-example-modal-sm" id="createpresentation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm"  role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Crear Presentación</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" name="preAdd.preBase_id" ng-model="product.presentation_base">
+                        <div class="form-group" >
+                            <label for="suppPric">Nombre</label>
+                            <input type="text" class="form-control" name="nombre" placeholder="Docena" ng-model="preAdd.nombre">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group" > <label for="suppPric">Shortname</label>
+                            <input type="text" class="form-control" name="shortname" placeholder="DO12" ng-model="preAdd.shortname">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group" >
+                            <label for="suppPric">Equiv (@{{ product.presentation_base_object.nombre }})</label>
+                            <input type="number" class="form-control" name="equiv" placeholder="12.00" ng-model="preAdd.cant" min="0">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" ng-click="createPres(product.presentation_base)" data-dismiss="modal">Crear</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<!-- ======================================================================================== -->

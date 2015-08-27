@@ -45,4 +45,8 @@ class Product extends Model
     public function variants(){
         return $this->hasMany('Salesfly\Salesfly\Entities\Variant');
     }
+
+    /*
+     * Fx para presentations
+     */
 }

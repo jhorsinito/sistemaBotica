@@ -5,12 +5,18 @@ class Variant extends \Eloquent {
 
     protected $table = 'variants';
 
-    protected $fillable = ['sku',
+    protected $fillable = ['codigo',
+                            'sku',
                             /*'suppPri',
                             'markup',
                             'price',*/
                             'track',
-                            'product_id'];
+                            'product_id',
+                            'observado',
+                            'nota',
+                            'iamge',
+                            'category'
+                            ];
 
     public function atributes(){
         return $this->belongsToMany('Salesfly\Salesfly\Entities\Atribut','detAtr','variant_id','atribute_id');
@@ -25,5 +31,14 @@ class Variant extends \Eloquent {
     }
      public function detPre(){
         return $this->hasMany('\Salesfly\Salesfly\Entities\DetPres');
+    }
+    public function stock(){
+        return $this->hasMany('\Salesfly\Salesfly\Entities\Stock');
+    }
+    public function presentation(){
+        return $this->belongsToMany('\Salesfly\Salesfly\Entities\Presentation','detPres');
+    }
+    public function warehouse(){
+        return $this->belongsToMany('\Salesfly\Salesfly\Entities\Warehouse','stock');
     }
 }

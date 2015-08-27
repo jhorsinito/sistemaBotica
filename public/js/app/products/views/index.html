@@ -57,7 +57,7 @@
                       <th>Nombre</th>
                         <th>Precio</th>
                       <th>Marca</th>
-                      <th>Categoría</th>
+                      <th>Línea</th>
                         <th>Creado</th>
                         <th>Variantes</th>
                         <th>Stock</th>
@@ -84,8 +84,8 @@
                                         <span ng-if="row.proQuantvar == '0'">-</span>
                                 </span>
                         </td>
-                        <td><a ng-click> <!--si prod join with stock table-->            <button popover-placement="right" popover="On the Top!" type="button" class="btn btn-default btn-xs">Ver</button>
-                        </a></td>
+                        <td> <button popover-placement="bottom" popover-template="stockTemplate" type="button" class="btn btn-default btn-xs" ng-click="showStock(row.proId)">{{row.stoStockActual}}</button>
+                        </td>
                       <td><a ng-click="editProduct(row)" class="btn btn-warning btn-xs">Editar</a></td>
                         <td><a ng-click="disableProduct(row)" class="btn bg-purple-active color-palette btn-xs">Desactivar</a></td>
                       <td><a ng-click="deleteProduct(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
@@ -108,7 +108,7 @@
           </div>
         </section>
 
-<!--Modal de Variants-->
+<!-- ===============================================Modal de Variants=============================================-->
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -140,8 +140,8 @@
                                     </span>
 
                                 </a></td>
-                                <td>{{row.price}}</td>
-                                <td>{{row.stock}}</td>
+                                <td>{{row.det_pre[0].price}}</td>
+                                <td>{{row.stock[0].stockActual}}</td>
                             </tr>
 
                             </tbody></table>
@@ -157,12 +157,36 @@
     </div>
 </div>
 
-<!--end modal de variantes-->
+<!--==============================================end modal de variantes===============================================-->
 
-<script type="text/ng-template" id="stock.html">
-    <div>{{stock.content}}</div>
-    <div class="form-group">
-        <label>Popup Title:</label>
-        <input type="text" ng-model="dynamicPopover.title" class="form-control">
+<script type="text/ng-template" id="stockTemplate.html">
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Stock</h3>
+
+        </div><!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+            <table class="table table-hover">
+                <tbody><tr>
+                    <th>#</th>
+                    <th>Almacén</th>
+                    <th>Ćodigo</th>
+                    <th>SKU</th>
+                    <th>Stock Actual</th>
+                    <th>Stock por llegar</th>
+                </tr>
+                <tr ng-repeat="row in stockVariants">
+                    <td>{{$index + 1}}</td>
+                    <td>{{row.nombre}}</td>
+                    <td>{{row.codigo}}</td>
+                    <td>{{row.sku}}</td>
+                    <td>{{row.stockActual}}</td>
+                    <td>{{row.stockPorLlegar}}</td>
+                </tr>
+
+
+
+                </tbody></table>
+        </div><!-- /.box-body -->
     </div>
 </script>

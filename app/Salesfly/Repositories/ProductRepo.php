@@ -57,10 +57,21 @@ class ProductRepo extends BaseRepo{
                             ->leftjoin('variants','products.id','=','variants.product_id')
                             ->leftjoin('detPres','variants.id','=','detPres.variant_id')
                             ->leftjoin('presentation','detPres.presentation_id','=','presentation.id')
+                            ->leftjoin('stock','stock.variant_id','=','variants.id')
                             ->select(\DB::raw('DISTINCT(products.id) as proId'),'products.codigo as proCodigo','products.nombre as proNombre',
                               'variants.suppPri as varPrice','variants.price as precioProducto',
                                'brands.nombre as braNombre','products.hasVariants as TieneVariante','products.hasVariants as proHasVar','types.nombre as typNombre','products.created_at as proCreado',
-                              'products.quantVar as proQuantvar',\DB::raw('"0" as stoStockActual'),\DB::raw('IF (presentation.base = 1,detPres.price,"-" ) as detPresPri'))
+                              'products.quantVar as proQuantvar',\DB::raw('(SELECT sum(stock.stockActual)
+FROM products
+INNER JOIN variants ON products.id = variants.product_id
+INNER JOIN stock ON variants.id = stock.variant_id
+WHERE products.id = proId) as stoStockActual'),
+                                \DB::raw('( SELECT detPres.price
+FROM products
+INNER JOIN variants ON products.id = variants.product_id
+INNER JOIN detPres ON variants.id = detPres.variant_id
+INNER JOIN presentation ON detPres.presentation_id = presentation.id
+WHERE products.presentation_base = presentation.id and products.id = proId and products.hasVariants = false ) as detPresPri'))
                             //->having()
                             ->groupBy('products.id')
                             ->paginate($qantity);
@@ -70,10 +81,42 @@ class ProductRepo extends BaseRepo{
     }
 
     public function find($id){
-        $product = Product::find($id)->load('brand','material','station','type');
+        $oProduct = Product::find($id);
+
+        $product = $oProduct->load(['station','type','brand','material']);
 
         return $product;
     }
 
+    public function pag()
+    {
+
+        /*$products = Product::with(['variants' => function ($query) {
+            $query->join('detPres', 'variants.id', '=', 'detPres.variant_id')
+                ->join('presentation','presentation.id','=','detPres.presentation_id')
+                //->join('productss','products.presentation_base','=','presentation.id')
+                //->select('detPres.price')
+                //->first();
+                ->where('presentation.id', 'products.presentation_base');
+        }])->get();
+        */
+
+
+
+        //$products = Product::with(['brand'])->get();
+
+        //return $products;
+        /*$variants = $product->variants->load(['detAtr' => function ($query) {
+            $query->orderBy('atribute_id', 'asc');
+        },'product','detPre' => function($query) use ($product){
+            $query->join('presentation','presentation.id','=','detPres.presentation_id')
+                ->where('presentation.id',$product->presentation_base);
+        },'stock' => function($query){
+            $query->where('warehouse_id',1);
+        }]);
+        */
+
+
+    }
 
 }

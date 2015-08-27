@@ -11,6 +11,8 @@
 |
 */
 
+\Debugbar::disable();
+
 Route::get('/', 'Layout\LayoutController@index');
 
 Route::get('/login', function () {
@@ -92,6 +94,7 @@ Route::get('products/form-create',['as'=>'product_form_create','uses'=>'Products
 Route::get('products/form-edit',['as'=>'product_form_edit','uses'=>'ProductsController@form_edit']);
 Route::get('api/products/all',['as'=>'product_all', 'uses'=>'ProductsController@all']);
 Route::get('api/products/paginate/',['as' => 'product_paginate', 'uses' => 'ProductsController@paginate']);
+Route::get('api/products/pag',['as' => 'prod_pag', 'uses' => 'ProductsController@pag']);
 Route::post('api/products/create',['as'=>'product_create', 'uses'=>'ProductsController@create']);
 Route::put('api/products/edit',['as'=>'product_edit', 'uses'=>'ProductsController@edit']);
 Route::post('api/products/destroy',['as'=>'product_destroy', 'uses'=>'ProductsController@destroy']);
@@ -107,7 +110,8 @@ Route::get('products/view-show','ProductsController@show');
 //END PRODUCTS ROUTES
 
 //VARIANTS ROUTES
-Route::get('api/variants/variants/{id}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@variants']);
+Route::get('api/variants/variants/{id}',['as' => 'variants_byproduct_id', 'uses' => 'VariantsController@variants']);
+Route::get('api/variants/variant/{id}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@variant']);
 
 //END VARIANTS ROUTES
 
@@ -115,6 +119,7 @@ Route::get('api/variants/variants/{id}',['as' => 'variant_byproduct_id', 'uses' 
 Route::get('api/presentations/all',['as'=>'presentation_all', 'uses'=>'PresentationsController@all']);
 Route::get('api/presentations_base/all',['as'=>'presentation_base_all', 'uses'=>'PresentationsController@all_base']);
 Route::get('api/presentations/all_by_base/{id}',['as'=>'presentation_by_base_all', 'uses'=>'PresentationsController@all_by_base']);
+Route::post('api/presentations/create',['as'=>'presentation_create', 'uses'=>'PresentationsController@create']);
 //End prese routes
 //byforeingKey(uri,fx,id
 
@@ -368,6 +373,13 @@ Route::get('api/purchases/find/{id}',['as'=>'person_find', 'uses'=>'PurchasesCon
 Route::get('api/purchases/mostrarCostos/{id}','PurchasesController@mostrarCostos');
 
 //---------------------------------------------------------------------
+Route::get('variants/create/{product_id}',['as'=>'variant_create','uses'=>'VariantsController@index']);
+Route::get('variants/edit/{id?}', ['as' => 'variant_edit', 'uses' => 'VariantsController@index']);
+Route::get('variants/form-create',['as'=>'variant_form_create','uses'=>'VariantsController@form_create']);
+Route::get('variants/form-edit',['as'=>'variant_form_edit','uses'=>'VariantsController@form_edit']);
+Route::post('api/variants/create',['as'=>'variant_create', 'uses'=>'VariantsController@create']);
+Route::put('api/variants/edit',['as'=>'variant_edit', 'uses'=>'VariantsController@edit']);
+Route::post('api/variants/destroy',['as'=>'variant_destroy', 'uses'=>'VariantsController@destroy']);
 Route::get('api/variants/select','VariantsController@select');
 Route::get('api/variants/findVariant/{id}','VariantsController@findVariant');
 Route::get('api/variants/paginate/','VariantsController@paginatep');
@@ -385,6 +397,7 @@ Route::put('api/detailOrderPurchases/edit/','DetailOrderPurchasesController@edit
 Route::get('api/detailPurchases/paginatep/{id?}','DetailPurchasesController@paginatep');
 Route::get('api/stocks/find/{id}/{id1}','StocksController@find');
 Route::put('api/stocks/edit/','StocksController@edit');
+Route::get('api/stocks/traerstock/{product_id}','StocksController@traerStock');
 
 Route::get('api/detpres/paginatep/{id}','DetPresController@paginatep');
 Route::get('api/detpres/find/{id}','DetPresController@find');
