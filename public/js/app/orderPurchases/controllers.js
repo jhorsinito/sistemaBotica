@@ -125,14 +125,14 @@
                      
                 }
                 //=========================================
-                 crudPurchase.paginate('suppliers',1).then(function (data) {
+                /* crudPurchase.paginate('suppliers',1).then(function (data) {
                         $scope.suppliers = data.data;
                         //$scope.maxSize = 5;
                         //$scope.totalItems = data.total;
                         //$scope.currentPage = data.current_page;
                         //$scope.itemsperPage = 15;
                        
-                    });
+                    });*/
                // if($location.path() == '/orderPurchases/create/'){
                      crudPurchase.autocomplit('products',1).then(function (data) {
                         $scope.products = data.data;
