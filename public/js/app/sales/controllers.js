@@ -23,7 +23,7 @@
                     $scope.compras=[];
                     $scope.compra={};
                     $scope.sale.montoBruto=0;
-                    $scope.sale.descuento=0;
+                    $scope.sale.descuento=0; 
                     $scope.sale.montoTotal=0;
                     $scope.sale.montoTotalSinDescuento=0;
                     $scope.sale.igv=0;
@@ -313,6 +313,7 @@
                 $scope.getAtributos = function(val) {
                   return crudServiceOrders.reportProWare('products',$scope.store.id,$scope.warehouse.id,val).then(function(response){
                     return response.map(function(item){
+                        $log.log(item);
                       return item;
                     });
                   });

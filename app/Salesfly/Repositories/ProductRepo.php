@@ -147,17 +147,18 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->join('presentation as T2','T2.id','=','detPres.presentation_id')
                             ->select(\DB::raw('variants.sku as SKU ,detPres.id as detPre_id,products.nombre as NombreProducto,materials.nombre as Material,
                               warehouses.nombre as Almacen,stock.stockActual as Stock,detPres.price as precioProducto,
-                              variants.id as vari , CONCAT(products.nombre,"/",(SELECT GROUP_CONCAT(atributes.nombre SEPARATOR "/") FROM variants
+                              variants.id as vari , CONCAT(products.nombre,"/",(SELECT GROUP_CONCAT(CONCAT(atributes.nombre,":",detAtr.descripcion) SEPARATOR "/") FROM variants
                                 INNER JOIN detAtr ON detAtr.variant_id = variants.id
                                 INNER JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=vari
-                                GROUP BY variants.id)) as NombreAtributos , T1.nombre as Base, T2.nombre as Presentacion, products.presentation_base, warehouses.id as idAlmacen,
-                            equiv.cant as equivalencia, variants.favorite as favorite'))
+                                GROUP BY variants.id)) as NombreAtributo , T1.nombre as Base, T2.nombre as Presentacion, products.presentation_base, warehouses.id as idAlmacen,
+                            equiv.cant as equivalencia, variants.favorite as favorite, variants.codigo as NombreAtributos'))
                              
                               //'T1.nombre as Base')
                             ->where('stores.id','=',$store)
                             ->where('warehouses.id','=',$were)
                             ->where('products.nombre','like', $q.'%')
+                            //->where('variants.codigo','like', $q.'%')
                             ->where('T2.base','=','1')
                             ->groupBy('variants.id')
                             ->get();
@@ -181,8 +182,8 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                                 INNER JOIN detAtr ON detAtr.variant_id = variants.id
                                 INNER JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=vari
-                                GROUP BY variants.id)) as NombreAtributos , T1.nombre as Base, T2.nombre as Presentacion, products.presentation_base, warehouses.id as idAlmacen
-                              ,T2.base as base, equiv.cant as equivalencia, variants.favorite as favorite '))
+                                GROUP BY variants.id)) as NombreAtributo , T1.nombre as Base, T2.nombre as Presentacion, products.presentation_base, warehouses.id as idAlmacen
+                              ,T2.base as base, equiv.cant as equivalencia, variants.favorite as favorite ,variants.codigo as NombreAtributos'))
                              
                               //'T1.nombre as Base')
                             ->where('stores.id','=',$store)
@@ -212,8 +213,8 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                                 INNER JOIN detAtr ON detAtr.variant_id = variants.id
                                 INNER JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=vari
-                                GROUP BY variants.id)) as NombreAtributos , T1.nombre as Base, T2.nombre as Presentacion, products.presentation_base, warehouses.id as idAlmacen
-                              ,T2.base as base, equiv.cant as equivalencia, variants.favorite as favorite '))
+                                GROUP BY variants.id)) as NombreAtributo , T1.nombre as Base, T2.nombre as Presentacion, products.presentation_base, warehouses.id as idAlmacen
+                              ,T2.base as base, equiv.cant as equivalencia, variants.favorite as favorite,variants.codigo as NombreAtributos '))
                              
                               //'T1.nombre as Base')
                             ->where('stores.id','=',$store)
