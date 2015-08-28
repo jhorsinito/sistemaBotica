@@ -18,7 +18,7 @@ Route::get('/', 'Layout\LayoutController@index');
 Route::get('/login', function () {
     return view('login');
 });
-
+ 
 Route::get('/test', function() {
     event(new \Salesfly\Events\SomeEvent());
     return 'event fired';
