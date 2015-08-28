@@ -152,7 +152,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                                 INNER JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=vari
                                 GROUP BY variants.id)) as NombreAtributos , T1.nombre as Base, T2.nombre as Presentacion, products.presentation_base, warehouses.id as idAlmacen,
-                            equiv.cant as equivalencia, variants.favorito as favorito'))
+                            equiv.cant as equivalencia, variants.favorite as favorite'))
                              
                               //'T1.nombre as Base')
                             ->where('stores.id','=',$store)
@@ -182,7 +182,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                                 INNER JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=vari
                                 GROUP BY variants.id)) as NombreAtributos , T1.nombre as Base, T2.nombre as Presentacion, products.presentation_base, warehouses.id as idAlmacen
-                              ,T2.base as base, equiv.cant as equivalencia, variants.favorito as favorito '))
+                              ,T2.base as base, equiv.cant as equivalencia, variants.favorite as favorite '))
                              
                               //'T1.nombre as Base')
                             ->where('stores.id','=',$store)
@@ -213,7 +213,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                                 INNER JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=vari
                                 GROUP BY variants.id)) as NombreAtributos , T1.nombre as Base, T2.nombre as Presentacion, products.presentation_base, warehouses.id as idAlmacen
-                              ,T2.base as base, equiv.cant as equivalencia, variants.favorito as favorito '))
+                              ,T2.base as base, equiv.cant as equivalencia, variants.favorite as favorite '))
                              
                               //'T1.nombre as Base')
                             ->where('stores.id','=',$store)
@@ -221,7 +221,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             //->where('products.nombre','like', $q.'%')
                             ->where('T2.base','like','1')
                             ->groupBy('variants.id')
-                            ->where('variants.favorito','=','0')
+                            ->where('variants.favorite','=','0')
                             ->get();
             return $datos;
     }

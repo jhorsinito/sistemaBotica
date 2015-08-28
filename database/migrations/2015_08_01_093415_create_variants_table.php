@@ -34,6 +34,6 @@ class CreateVariantsTable extends Migration
      */
     public function down()
     {
-        //Schema::drop('variants');
+        Schema::drop('variants');
     }
 }

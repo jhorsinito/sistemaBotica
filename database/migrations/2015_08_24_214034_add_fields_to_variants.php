@@ -32,7 +32,12 @@ class AddFieldsToVariants extends Migration
     public function down()
     {
         Schema::table('variants', function (Blueprint $table) {
-            //
+            $table->dropColumn('codigo');
+            $table->dropColumn('observado');
+            $table->dropColumn('nota');
+            $table->dropColumn('image');
+            $table->dropColumn('category');
+            $table->dropColumn('favorite');
         });
     }
 }

@@ -621,14 +621,14 @@
                     if($scope.atributoSelected==undefined){
                         alert("Seleccione Producto Correctamente");
                     }else{
-                        if($scope.atributoSelected.favorito=='0'){
+                        if($scope.atributoSelected.favorite=='0'){
                             alert("El Producto ya es Favorito");
                         }else{
                             
                             if ($scope.atributoSelected.NombreAtributos!=undefined) { 
                                crudServiceOrders.byId($scope.atributoSelected.vari,'variants').then(function (data) {
                                     $scope.addFavorito=data;
-                                        $scope.addFavorito.favorito=0;
+                                        $scope.addFavorito.favorite=0;
                                     //$log.log($scope.addFavorito);
                                     crudServiceOrders.editFavoritoId($scope.addFavorito,'variants');
                                     
@@ -656,7 +656,7 @@
                         //alert($scope.atributoSelected.vari);
                         crudServiceOrders.byId(row.vari,'variants').then(function (data) {
                             $scope.addFavorito=data;
-                                $scope.addFavorito.favorito=1;
+                                $scope.addFavorito.favorite=1;
                             //$log.log($scope.addFavorito);
                             crudServiceOrders.editFavoritoId($scope.addFavorito,'variants');
 

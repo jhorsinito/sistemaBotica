@@ -28,7 +28,9 @@ class AddFieldsToProducts extends Migration
     public function down()
     {
         Schema::table('products', function (Blueprint $table) {
-            //
+            $table->dropColumn('modelo');
+            $table->dropColumn('favorite');
+            $table->dropColumn('presentation_base');
         });
     }
 }
