@@ -15,7 +15,7 @@ class CreateDetPaymentsTable extends Migration
          Schema::create('detPayments', function (Blueprint $table) {
             $table->increments('id');
             $table->dateTime('fecha');
-            $table->decimal('montoPagado',10,2)
+            $table->decimal('montoPagado',10,2);
             $table->char('tipoPago',1);
             $table->integer('payment_id')->unsigned();
             $table->foreign('payment_id')->references('id')->on('payments');

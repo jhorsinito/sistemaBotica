@@ -1,8 +1,8 @@
 <?php
 namespace Salesfly\Salesfly\Managers;
-class DetOrderManager extends BaseManager {
+class DetSaleManager extends BaseManager {
 
-    public function getRules()
+    public function getRules() 
     {
         $rules = [              
             'precioProducto'=> '',
@@ -10,7 +10,7 @@ class DetOrderManager extends BaseManager {
             'cantidad'=> '',
             'descuento'=> '',
             'subTotal'=> '',
-            'order_id'=> '',
+            'sale_id'=> '',
             'detPre_id'=> ''];
         return $rules;
     }}

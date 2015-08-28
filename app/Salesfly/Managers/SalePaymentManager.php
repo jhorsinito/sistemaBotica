@@ -10,7 +10,7 @@ class SalePaymentManager extends BaseManager {
                     'Acuenta'=>'',
             'Saldo' => '',
             'estado' => '',
-            'order_id'=> '',
+            'sale_id'=> '',
             'customer_id' => ''];
         return $rules;
     }

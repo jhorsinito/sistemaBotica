@@ -69,7 +69,7 @@ class ProductsController extends Controller
         public function pag(){
         $products = $this->productRepo->pag();
         return response()->json($products);
-    }
+        }
     public function misDatosVariantes($store,$were,$q){
         $products = $this->productRepo->misDatosVariantes($store,$were,$q);
         return response()->json($products);
@@ -79,6 +79,10 @@ class ProductsController extends Controller
         $products = $this->productRepo->misDatos($store, $were, $q);
         return response()->json($products);
     }
+    public function favoritos($store,$were,$q){
+        $products = $this->productRepo->favoritos($store,$were,$q);
+        return response()->json($products);
+    } 
 
     public function form_create()
     {
@@ -294,7 +298,7 @@ class ProductsController extends Controller
         $stations = $this->productRepo->search($q);
 
         return response()->json($stations);
-    }
+    } 
 
     /*fx ayuda para img*/
     public function get_string_between($string, $start, $end){

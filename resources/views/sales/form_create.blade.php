@@ -76,9 +76,9 @@
                               </td>
                               <td><a popover-template="dynamicPopover5.templateUrl" popover-trigger="mouseenter">@{{row.NombreAtributos}}</a></td>
                               <td>
-                                  <button data-toggle="popover" popover-template="dynamicPopover1.templateUrl" type="button" class="btn btn-default">@{{compras[$index].precioVenta}}</button>
+                                  <button data-toggle="popover" popover-template="dynamicPopover1.templateUrl" type="button" class="btn btn-default">@{{compras[$index].precioVenta| number:2}}</button>
                               </td>
-                              <td>@{{compras[$index].subTotal}}</td>
+                              <td>@{{compras[$index].subTotal | number:2}}</td>
                               <td><button type="button" class="btn btn-danger ng-binding"  ng-click="sacarRow($index,row.subTotal)">
                               <span class="glyphicon glyphicon-trash"></span>
                               </td>                    
@@ -103,18 +103,31 @@
                                       <a class="btn btn-default ng-binding" data-toggle="modal" data-target="#miventana2">+</a>
                                     </div>
                                 </tr>
-                                <br>
+                                <tr>
+                                  <div>
+                                    <a ng-if="sale.cliente!=undefined"type="button" class="glyphicon glyphicon-remove-sign " ng-click="deleteCliente()"></a>
+                                    @{{sale.cliente!=undefined? sale.cliente:'--No hay cliente seleccionado--'}}
+                                  </div>
+                                </tr>
                                 <tr>
                                   <div>
                                     <input type="text" ng-model="employeeSelected" placeholder="Buscar Vendedor" typeahead="atributo as atributo.busqueda for atributo in getemployee($viewValue)" 
                                             typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"/>
                                   </div>
                                 </tr>
-                               <br>
+                               <tr>
+                                  <div>
+                                    <a ng-if="sale.vendedor!=undefined"type="button" class="glyphicon glyphicon-remove-sign " ng-click="deleteVendedor()"></a>
+                                    @{{sale.vendedor!=undefined? sale.vendedor:'--No hay vendedor seleccionado--'}}
+                                  </div>
+                                </tr>
                                 <tr>
                                   <div class="row">
                                     <div class="col-md-7" >
-                                      <a class="btn btn-default ng-binding" ng-click="createorder()">ADD NOTAS</a>
+                                      <button ng-click="estadoNotas()" ng-if="banderaNotas" data-toggle="popover" popover-template="dynamicPopover6.templateUrl" type="button" class="btn btn-default">ADD NOTAS</a>
+                                      <button ng-click="estadoNotas()" ng-if="!banderaNotas" data-toggle="popover" popover-template="dynamicPopover6.templateUrl" type="button" class="btn btn-danger">ADD NOTAS</a>
+                                      
+                                    
                                     </div>
                                     <div class="col-md-5" >
                                       <a class="btn btn-default ng-binding" data-toggle="modal" data-target="#miventana1" ng-click="pagar()">PAGAR</a>
@@ -130,21 +143,21 @@
                                 <table class="table table-bordered">
                                 <tr>
                                 <td>Sub Total</td>
-                                <td>@{{order.montoBruto}}</td>                    
+                                <td>@{{sale.montoBruto | number:2}}</td>                    
                                 </tr>
                                 <tr> 
                                 <td>IGV</td>
-                                <td>@{{order.igv}}</td>                    
+                                <td>@{{sale.igv | number:2}}</td>                    
                                 </tr> 
                                 <tr>
                                 <td>Descuento</td>
                                 <td>
-                                  <button popover-template="dynamicPopover2.templateUrl" type="button" class="btn btn-default">@{{order.descuento}}</button>
+                                  <button popover-template="dynamicPopover2.templateUrl" type="button" class="btn btn-default">@{{sale.descuento | number:2}}</button>
                                 </td>                    
                                 </tr> 
                                 <tr>
                                 <td >Total</td>
-                                <td ng-model="order.montoTotal" >@{{order.montoTotal}}</td>                    
+                                <td ng-model="sale.montoTotal" >@{{sale.montoTotal | number:2}}</td>                    
                                 </tr>                                   
                               </table>
                             </div>
@@ -161,10 +174,25 @@
 
                     <div class="col-md-6" style="min-height: 670px; border-style: solid;
                                 border-width: 2px; border-color: #C8D9F7; border-radius:10px" >
-                        <div >
+                        <div>
+                        <div class="modal-header">
+                          <h4 class="modal-title">Favoritos <button type="button" class="btn btn-info btn-flat btn-xs pull-right" ng-click="AddFavoritos()"> <span class="glyphicon glyphicon-plus"></span> </button>
+                          <button type="button" class="btn btn-danger btn-flat btn-xs pull-right" ng-click="delFavEst()"> <span class="glyphicon glyphicon-trash"></span> </button></h4>
+                        </div>
+                          <div class="box-body">
+                            <button ng-if="!banderadeleteFavorito" type="button" class="btn btn-default" ng-repeat="row in favoritos" style="width: 115px;height: 60px; overflow-x:hidden;" title="@{{row.NombreAtributos}}"
+                                    ng-click="deleteFavoritos(row)">   
+                                    <a type="button" class="glyphicon glyphicon-remove" ng-click="deleteFavoritos(row)"></a>                         
+                                @{{row.NombreAtributos}}
 
-                           <button type="button" class="btn btn-default" ng-repeat="row in compras" style="width: 115px;height: 60px;">@{{row.cantidad}}</button>   
-                    
+                            </button>  
+                            <button ng-if="banderadeleteFavorito" type="button" class="btn btn-default" ng-repeat="row in favoritos" style="width: 115px;height: 60px; overflow-x:hidden;" title="@{{row.NombreAtributos}}"
+                                    ng-click="cargarFavoritos(row)">                           
+                                @{{row.NombreAtributos}}
+
+                            </button>  
+                          </div>
+
                         </div>
                       
                     </div>
@@ -248,6 +276,18 @@
 
 
 
+<script type="text/ng-template" id="myPopoverTemplate6.html">
+        <div class="form-group">
+          <label>@{{dynamicPopover6.title}}</label>
+          <div class="row" >
+          <div class="col-md-12">
+            <textarea  ng-model="sale.notas" type="text"  class="form-control"/>
+           </div> 
+          </div>
+        </div>
+    </script>
+
+
 
 
     <script type="text/ng-template" id="myPopoverTemplate.html">
@@ -255,12 +295,12 @@
           <label>@{{dynamicPopover.title}}</label>
           <div class="row" >
           <div class="col-md-9">
-            <input type="number" ng-model="compras[$index].cantidad" class="form-control">
+            <input type="number" ng-model="compras[$index].cantidad" ng-change="calcularmontos($index)" class="form-control">
             </div>
-            <button type="button" class="btn btn-xs">
-            <span type="button" class="glyphicon glyphicon-plus" ng-click="aumentarCantidad($index)"></span></button>
-            <button type="button" class="btn btn-xs">
-            <span type="button" class="glyphicon glyphicon-minus" ng-click="disminuirCantidad($index)"></span></button>
+            <button type="button" class="btn btn-xs" ng-click="aumentarCantidad($index)">
+            <span type="button" class="glyphicon glyphicon-plus"></span></button>
+            <button type="button" class="btn btn-xs" ng-click="disminuirCantidad($index)">
+            <span type="button" class="glyphicon glyphicon-minus"></span></button>
 
           </div>
         </div>
@@ -274,12 +314,12 @@
         <label>@{{dynamicPopover1.title1}}</label>
             <div class="row" >
             <div class="col-md-9">
-            <input type="number" ng-model="compras[$index].descuento" class="form-control">
+            <input type="number" ng-model="compras[$index].descuento" ng-change="keyUpDescuento($index)"class="form-control">
           </div>
-         <button type="button" class="btn btn-xs">
-          <span type="button" class="glyphicon glyphicon-plus" ng-click="aumentarDescuento($index)"></span></button>
-         <button type="button" class="btn btn-xs">
-         <span type="button" class="glyphicon glyphicon-minus" ng-click="disminuirDescuento($index)"></span></button>
+         <button type="button" class="btn btn-xs" ng-click="aumentarDescuento($index)">
+          <span type="button" class="glyphicon glyphicon-plus"></span></button>
+         <button type="button" class="btn btn-xs" ng-click="disminuirDescuento($index)">
+         <span type="button" class="glyphicon glyphicon-minus"></span></button>
 
         </div>
         </div>
@@ -289,12 +329,12 @@
             <label>@{{dynamicPopover1.title}}</label>
             <div class="row" >
             <div class="col-md-9">
-            <input type="number" ng-model="compras[$index].precioVenta" class="form-control">
+            <input type="number" ng-change="calcularmontos($index)" ng-model="compras[$index].precioVenta" class="form-control">
           </div>
-         <button type="button" class="btn btn-xs">
-          <span type="button" class="glyphicon glyphicon-plus" ng-click="aumentarPrecio($index)"></span></button>
-         <button type="button" class="btn btn-xs">
-         <span type="button" class="glyphicon glyphicon-minus" ng-click="disminuirPrecio($index)"></span></button>
+         <button type="button" class="btn btn-xs" ng-click="aumentarPrecio($index)">
+          <span type="button" class="glyphicon glyphicon-plus"></span></button>
+         <button type="button" class="btn btn-xs" ng-click="disminuirPrecio($index)">
+         <span type="button" class="glyphicon glyphicon-minus"></span></button>
 
         </div>
         </div> 
@@ -312,12 +352,12 @@
         <label>@{{dynamicPopover2.title1}}</label>
             <div class="row" >
             <div class="col-md-8">
-            <input type="number" ng-model="order.descuento" class="form-control">
+            <input type="number" ng-model="sale.descuento" ng-change="keyUpDescuentoPedido()" class="form-control"></input>
           </div>
-         <button type="button" class="btn btn-xs">
-          <span type="button" class="glyphicon glyphicon-plus" ng-click="aumentarDescuentoPedido()"></span></button>
-         <button type="button" class="btn btn-xs">
-         <span type="button" class="glyphicon glyphicon-minus" ng-click="disminuirDescuentoPedido()"></span></button>
+         <button type="button" class="btn btn-xs" ng-click="aumentarDescuentoPedido()">
+          <span type="button" class="glyphicon glyphicon-plus"></span></button>
+         <button type="button" class="btn btn-xs" ng-click="disminuirDescuentoPedido()">
+         <span type="button" class="glyphicon glyphicon-minus"></span></button>
 
         </div>
         </div>
@@ -327,12 +367,12 @@
             <label>@{{dynamicPopover2.title}}</label>
             <div class="row" >
             <div class="col-md-8">
-            <input type="number" ng-model="order.montoTotal" class="form-control">
+            <input type="number" ng-model="sale.montoTotal" ng-change="keyUpTotalPedido()" class="form-control">
           </div>
-         <button type="button" class="btn btn-xs">
-          <span type="button" class="glyphicon glyphicon-plus" ng-click="aumentarTotalPedido()"></span></button>
-         <button type="button" class="btn btn-xs">
-         <span type="button" class="glyphicon glyphicon-minus" ng-click="disminuirTotalPedido()"></span></button>
+         <button type="button" class="btn btn-xs" ng-click="aumentarTotalPedido()">
+          <span type="button" class="glyphicon glyphicon-plus"></span></button>
+         <button type="button" class="btn btn-xs" ng-click="disminuirTotalPedido()">
+         <span type="button" class="glyphicon glyphicon-minus"></span></button>
 
         </div>
         </div> 
@@ -564,7 +604,7 @@
                   </table>
                 </div>
                   <div class="col-md-3">
-                  <label>@{{order.montoTotal}}</label> 
+                  <label>@{{sale.montoTotal}}</label> 
                   
                     <div class="form-group">
                       <input type="checkbox" name="estado" ng-model="acuenta" ng-checked="acuenta" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="baseestado()">
@@ -598,6 +638,7 @@
                       <th style="width: 10px">#</th>
                       <th>Nombre</th>
                       <th>Precio</th>
+                      <th>Presentacion</th>
                       <th>Equivalencia</th>
                       <th>Producto Base</th>
 
@@ -608,7 +649,8 @@
                       <td>@{{$index + 1}}</td>
                       <td ng-hide="true">@{{row.iddetalleP}}</td>
                       <td >@{{row.NombreAtributos}}</td>
-                      <td>@{{row.precioProducto}}</td>  
+                      <td>@{{row.precioProducto}}</td> 
+                      <td>@{{row.Presentacion}}</td>  
                       <td>@{{row.equivalencia}} @{{row.nomBase}}</td>
                       <td ng-if="row.base==0"><span class="badge bg-red">NO</span></td> 
                       <td ng-if="row.base!=0"><span class="badge bg-green">SI</span></td> 

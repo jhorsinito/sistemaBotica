@@ -12,12 +12,17 @@ class VariantManager extends BaseManager{
             'markup' => 'between:0,99999.99',
             'price' => 'between:0,99999.99',
             'track' => 'required|boolean',
+<<<<<<< HEAD
+            'favorito' => '',           
+            'product_id' => 'required|integer'
+=======
             'product_id' => 'required|integer',
             'observado' => 'boolean',
             'nota' => '',
             'image' => '',
-            'category' => 'integer',
-            'favorite'=>'boolean'
+            'category' => 'integer'
+>>>>>>> a94cf47241561cdb396397ed604ce8ce62602295
+
         ];
         return $rules;
     }

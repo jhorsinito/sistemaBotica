@@ -7,7 +7,7 @@ class SaleDetPayment extends \Eloquent {
     
     protected $fillable = ['fecha',
     						'monto',
-    						'salePayment_id',
+    						'salePayment_id', 
     						'saleMethodPayment_id'];
     public function saleMethodPayment(){
         return $this->belongsTo('Salesfly\Salesfly\Entities\SaleMethodPayment','saleMethodPayment_id');

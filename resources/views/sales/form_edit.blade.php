@@ -137,7 +137,7 @@
                       <td>@{{row.MontoTotal}}</td>
                       <td>@{{row.Acuenta}}</td>
                       <td>@{{row.Saldo}}</td>
-                      <td>@{{row.order_id}}</td>  
+                      <td>@{{row.sale_id}}</td>  
                       
               <td><progressbar animate="false" value="dynamic" type="success"><b>10%</b></progressbar></td>
 

@@ -44,6 +44,7 @@ class VariantsController extends Controller
     public function find($id)
     {
         $variants = $this->variantRepo->find($id);
+        //var_dump($variants);die();
         return response()->json($variants);
     }
     public function autocomplit(){
@@ -141,26 +142,13 @@ class VariantsController extends Controller
         if($product->hasVariants == 1) {
             $variants = $product->variants->load(['detAtr' => function ($query) {
                 $query->orderBy('atribute_id', 'asc');
-<<<<<<< HEAD
             },'product','detPre' => function($query) use ($product){
                 $query->join('presentation','presentation.id','=','detPres.presentation_id')
                 ->where('presentation.id',$product->presentation_base);
             },'stock' => function($query){
                 $query->where('warehouse_id',1);
             }]);
-
             //echo 'hi';
-            //$variants = $product->variants->load('detAtr','product');
-
-
-            //foreach($variants as $variant) {
-            //    print_r($variant->detAtr->toJson());
-            //}
-            //die();
-            //dd($variants->toArray());
-=======
-            },'product']);
->>>>>>> 3020603313a2708a73bd9da2262e426bd3280ba2
 
         }else{
             $variants = null;
@@ -173,6 +161,18 @@ class VariantsController extends Controller
         //return response()->json(Product::find(2)->with('brand')->get());
     }
 
+<<<<<<< HEAD
+    public function editFavoritos(Request $request)
+    {
+        $vatiant = $this->variantRepo->find($request->id);
+        //var_dump($vatiant);
+        //die(); 
+        $manager = new VariantManager($vatiant,$request->all());
+        $manager->save();
+
+        //Event::fire('update.store',$store->all());
+        return response()->json(['estado'=>true, 'nombre'=>$vatiant->nombreTienda]);
+=======
     public function variant($product_id){
 
         $oProduct = Product::find($product_id);
@@ -190,6 +190,7 @@ class VariantsController extends Controller
 
 
         return response()->json($product);
+>>>>>>> a94cf47241561cdb396397ed604ce8ce62602295
     }
 
 }

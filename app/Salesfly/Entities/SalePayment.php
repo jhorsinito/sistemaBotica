@@ -9,7 +9,7 @@ class SalePayment extends \Eloquent {
     						'Acuenta',
     						'Saldo',
     						'estado',
-    						'order_id',
+    						'sale_id',
     						'customer_id'];
     						
     public function customer(){

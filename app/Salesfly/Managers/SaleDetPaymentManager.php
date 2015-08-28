@@ -5,7 +5,7 @@ class SaleDetPaymentManager extends BaseManager {
 
     public function getRules()
     {
-        $rules = [  
+        $rules = [ 
                     'fecha'=>'',
                     'monto'=>'',
             'salePayment_id' => '',

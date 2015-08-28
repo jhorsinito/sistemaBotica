@@ -90,6 +90,18 @@
                 return deferred.promise;
             }
 
+            function editFavoritoId(area,uri)
+            {
+                var deferred = $q.defer();
+                $http.put('/api/'+uri+'/editFavorito', area )
+                    .success(function(data)
+                    {
+                        deferred.resolve(data);
+                    }
+                );
+                return deferred.promise;
+            }
+
             function search(uri,query,page){
                 var deferred = $q.defer();
                 var result = $http.get('/api/'+uri+'/search/'+query+'/?page='+page);
@@ -161,7 +173,8 @@
                 searchMes,searchMes,
                 reportPro,reportPro,
                 reportProWare,reportProWare,
-                getPres, setPres
+                getPres, setPres,
+                editFavoritoId,editFavoritoId
             }
         }])
         .factory('socketService', function ($rootScope) {

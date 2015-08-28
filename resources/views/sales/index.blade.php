@@ -3,7 +3,7 @@
 Compras
 @stop
 @section('base_url')
-<base href="{{URL::to('/')}}/orders"/>
+<base href="{{URL::to('/')}}/sales"/>
 @stop
 @section('css-customize')
 @stop
@@ -16,16 +16,16 @@ Compras
 </section>-->
 
 <!-- Main content -->
-<section ng-app="orders">
+<section ng-app="sales">
     <div ng-view>
 
     </div>
 </section>
 
 @section('js-customize')
-<script src="/js/app/orders/app.js"></script>
-    <script src="/js/app/orders/controllers.js"></script>
-    <script src="/js/app/orders/servicesglobalOrders.js"></script>
+<script src="/js/app/sales/app.js"></script>
+    <script src="/js/app/sales/controllers.js"></script>
+    <script src="/js/app/sales/servicesglobalOrders.js"></script>
 @stop
 
 @stop

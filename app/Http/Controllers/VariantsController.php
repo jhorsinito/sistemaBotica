@@ -44,6 +44,7 @@ class VariantsController extends Controller
     public function find($id)
     {
         $variants = $this->variantRepo->find($id);
+        //var_dump($variants);die();
         return response()->json($variants);
     }
     public function autocomplit(){
@@ -175,8 +176,18 @@ class VariantsController extends Controller
             },'stock','product']);
         }
 
-
         return response()->json($product);
     }
+    public function editFavoritos(Request $request)
+    {
+        $vatiant = $this->variantRepo->find($request->id);
+        //var_dump($vatiant);
+        //die(); 
+        $manager = new VariantManager($vatiant,$request->all());
+        $manager->save();
+
+        //Event::fire('update.store',$store->all());
+        return response()->json(['estado'=>true, 'nombre'=>$vatiant->nombreTienda]);
+        }
 
 }

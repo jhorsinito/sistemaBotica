@@ -14,8 +14,9 @@ class Variant extends \Eloquent {
                             'product_id',
                             'observado',
                             'nota',
-                            'iamge',
-                            'category'
+                            'image',
+                            'category',
+                            'favorite'
                             ];
 
     public function atributes(){

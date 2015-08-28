@@ -1,15 +1,15 @@
 (function(){
-    var app = angular.module('orders',[
+    var app = angular.module('sales',[
         'ngRoute',
         'btford.socket-io',
         'ngSanitize',
-        'orders.controllers',
+        'sales.controllers',
         'crud.services.orders',
         'routes',
-        'ui.bootstrap'
+        'ui.bootstrap' 
     ]);
 
-angular.module('orders').controller('ModalInstanceCtrl', function ($scope,$log, $modalInstance,presentations,crudServiceOrders) {
+angular.module('sales').controller('ModalInstanceCtrl', function ($scope,$log, $modalInstance,presentations,crudServiceOrders) {
 	$scope.presentations = presentations;
 	//$log.log($scope.presentations+"Hola");
 /*
@@ -26,9 +26,10 @@ angular.module('orders').controller('ModalInstanceCtrl', function ($scope,$log, 
     $modalInstance.dismiss('cancel');
   };
    $scope.AsignarCompra = function(row){
-        //alert("Hola");
+        //$log.log(row);
         crudServiceOrders.setPres(row);
-        crudServiceOrders.qewsdxxd();
+
+        crudServiceOrders.AsignarCom();
         $scope.cancel();
         //$log.log(row);
           //alert($scope.atributoSelected.NombreAtributos);
