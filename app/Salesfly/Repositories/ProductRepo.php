@@ -99,7 +99,8 @@ class ProductRepo extends BaseRepo{
                             ->leftjoin('warehouses','warehouses.id','=','stock.warehouse_id')
                             ->leftjoin('stores','stores.id','=','warehouses.store_id')
                             ->leftjoin('presentation as T1','T1.id','=','products.presentation_base')
-                            ->join('detPres','detPres.variant_id','=','variants.id')
+                            ->leftjoin('equiv','equiv.preFin_id','=','T1.id')
+                            ->join('detPres','detPres.variant_id','=','variants.id')             
                             ->join('presentation as T2','T2.id','=','detPres.presentation_id')
                             ->select(\DB::raw('variants.sku as SKU ,detPres.id as detPre_id,products.nombre as NombreProducto,materials.nombre as Material,
                               warehouses.nombre as Almacen,stock.stockActual as Stock,detPres.price as precioProducto,
@@ -107,13 +108,14 @@ class ProductRepo extends BaseRepo{
                                 INNER JOIN detAtr ON detAtr.variant_id = variants.id
                                 INNER JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=vari
-                                GROUP BY variants.id)) as NombreAtributos , T1.nombre as Base, T2.nombre as Presentacion, products.presentation_base, warehouses.id as idAlmacen'))
+                                GROUP BY variants.id)) as NombreAtributos , T1.nombre as Base, T2.nombre as Presentacion, products.presentation_base, warehouses.id as idAlmacen,
+                            equiv.cant as equivalencia, variants.favorito as favorito'))
                              
                               //'T1.nombre as Base')
                             ->where('stores.id','=',$store)
                             ->where('warehouses.id','=',$were)
                             ->where('products.nombre','like', $q.'%')
-                            ->where('T2.base','like','%%')
+                            ->where('T2.base','=','1')
                             ->groupBy('variants.id')
                             ->get();
             return $datos;
@@ -125,8 +127,11 @@ class ProductRepo extends BaseRepo{
                             ->leftjoin('warehouses','warehouses.id','=','stock.warehouse_id')
                             ->leftjoin('stores','stores.id','=','warehouses.store_id')
                             ->leftjoin('presentation as T1','T1.id','=','products.presentation_base')
+                            
                             ->join('detPres','detPres.variant_id','=','variants.id')
+
                             ->join('presentation as T2','T2.id','=','detPres.presentation_id')
+                            ->leftjoin('equiv','equiv.preFin_id','=','T2.id')
                             ->select(\DB::raw('variants.sku as SKU ,detPres.id as detPre_id,products.nombre as NombreProducto,materials.nombre as Material,
                               warehouses.nombre as Almacen,stock.stockActual as Stock,detPres.price as precioProducto,
                               variants.id as vari , CONCAT(products.nombre,"/",(SELECT GROUP_CONCAT(atributes.nombre SEPARATOR "/") FROM variants
@@ -134,15 +139,46 @@ class ProductRepo extends BaseRepo{
                                 INNER JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=vari
                                 GROUP BY variants.id)) as NombreAtributos , T1.nombre as Base, T2.nombre as Presentacion, products.presentation_base, warehouses.id as idAlmacen
-                              ,T2.base as base'))
+                              ,T2.base as base, equiv.cant as equivalencia, variants.favorito as favorito '))
                              
                               //'T1.nombre as Base')
                             ->where('stores.id','=',$store)
                             ->where('warehouses.id','=',$were)
                             //->where('products.nombre','like', $q.'%')
-                            ->where('T2.base','like','%%')
+                            //->where('T2.base','like','%%')
                             //->groupBy('variants.id')
                             ->where('variants.id','=',$q)
+                            ->get();
+            return $datos;
+    }
+    public function favoritos($store,$were,$q){
+      $datos = \DB::table('products')->leftjoin('materials','products.material_id','=','materials.id')
+                           ->leftjoin('variants','products.id','=','variants.product_id')
+                            ->leftjoin('stock','variants.id','=','stock.variant_id')
+                            ->leftjoin('warehouses','warehouses.id','=','stock.warehouse_id')
+                            ->leftjoin('stores','stores.id','=','warehouses.store_id')
+                            ->leftjoin('presentation as T1','T1.id','=','products.presentation_base')
+                            
+                            ->join('detPres','detPres.variant_id','=','variants.id')
+
+                            ->join('presentation as T2','T2.id','=','detPres.presentation_id')
+                            ->leftjoin('equiv','equiv.preFin_id','=','T2.id')
+                            ->select(\DB::raw('variants.sku as SKU ,detPres.id as detPre_id,products.nombre as NombreProducto,materials.nombre as Material,
+                              warehouses.nombre as Almacen,stock.stockActual as Stock,detPres.price as precioProducto,
+                              variants.id as vari , CONCAT(products.nombre,"/",(SELECT GROUP_CONCAT(atributes.nombre SEPARATOR "/") FROM variants
+                                INNER JOIN detAtr ON detAtr.variant_id = variants.id
+                                INNER JOIN atributes ON atributes.id = detAtr.atribute_id
+                                where variants.id=vari
+                                GROUP BY variants.id)) as NombreAtributos , T1.nombre as Base, T2.nombre as Presentacion, products.presentation_base, warehouses.id as idAlmacen
+                              ,T2.base as base, equiv.cant as equivalencia, variants.favorito as favorito '))
+                             
+                              //'T1.nombre as Base')
+                            ->where('stores.id','=',$store)
+                            ->where('warehouses.id','=',$were)
+                            //->where('products.nombre','like', $q.'%')
+                            ->where('T2.base','like','1')
+                            ->groupBy('variants.id')
+                            ->where('variants.favorito','=','0')
                             ->get();
             return $datos;
     }

@@ -5,11 +5,11 @@ namespace Salesfly\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-use Salesfly\Salesfly\Repositories\OrderRepo;
-use Salesfly\Salesfly\Managers\OrderManager;
+use Salesfly\Salesfly\Repositories\SaleRepo;
+use Salesfly\Salesfly\Managers\SaleManager;
 
-use Salesfly\Salesfly\Repositories\DetOrderRepo;
-use Salesfly\Salesfly\Managers\DetOrderManager;
+use Salesfly\Salesfly\Repositories\DetSaleRepo;
+use Salesfly\Salesfly\Managers\DetSaleManager;
 
 use Salesfly\Salesfly\Managers\SalePaymentManager;
 use Salesfly\Salesfly\Repositories\SalePaymentRepo;
@@ -18,55 +18,55 @@ use Salesfly\Salesfly\Managers\SaleDetPaymentManager;
 use Salesfly\Salesfly\Repositories\SaleDetPaymentRepo;
 use Salesfly\Salesfly\Managers\StockManager;
 use Salesfly\Salesfly\Repositories\StockRepo;
-class OrdersController extends Controller
+class SalesController extends Controller
 {
-    protected $orderRepo;
+    protected $saleRepo;
 
-    public function __construct(OrderRepo $orderRepo)
+    public function __construct(SaleRepo $saleRepo)
     {
-        $this->orderRepo = $orderRepo;
+        $this->saleRepo = $saleRepo;
     }
 
     public function all()
     {
-        $orders = $this->orderRepo->paginate(15);
+        $orders = $this->saleRepo->paginate(15);
         return response()->json($orders);
         //var_dump($materials);
     }
 
     public function paginatep(){
-        $orders = $this->orderRepo->paginate(15);
+        $orders = $this->saleRepo->paginate(15);
         return response()->json($orders);
     }
 
     public function find($id)
     {
-        $cash = $this->orderRepo->find($id);
+        $cash = $this->saleRepo->find($id);
         return response()->json($cash);
     }
 
     public function search($q)
     {
-        $orders = $this->orderRepo->search($q);
+        $orders = $this->saleRepo->search($q);
 
         return response()->json($orders);
     }
     public function index()
     {
-        return View('orders.index');
+        return View('sales.index');
     }
     public function form_create()
     {
-        return View('orders.form_create');
+        return View('sales.form_create');
     }
     public function form_edit()
     {
-        return View('orders.form_edit');
+        return View('sales.form_edit');
     }
 
     public function create(Request $request)
         {
-        $order = $this->orderRepo->getModel();
+        $orderSale = $this->saleRepo->getModel();
 
         $var = $request->detOrders;
         //var_dump($var);die();
@@ -76,7 +76,7 @@ class OrdersController extends Controller
         $almacen_id=$request->input("idAlmacen");
         $variante_id=$request->input("vari");
         
-        $manager = new OrderManager($order,$request->all());
+        $manager = new SaleManager($orderSale,$request->all());
         $manager->save();
         /*
        if($this->purchaseRepo->validateDate(substr($request->input('fechaEntrega'),0,10))){
@@ -85,12 +85,12 @@ class OrdersController extends Controller
            
             $order->fechaEntrega = null;
         }*/ 
-        $order->save();
+        $orderSale->save();
 
-        $temporal=$order->id;
+        $temporal=$orderSale->id;
         //----------------
         $salePaymentrepo;
-        $payment['order_id']=$temporal;
+        $payment['sale_id']=$temporal;
         $salePaymentrepo = new SalePaymentRepo;
         $paymentSave=$salePaymentrepo->getModel();
         
@@ -118,11 +118,11 @@ class OrdersController extends Controller
         $detOrderrepox;
          
        foreach($var as $object){
-           $object['order_id'] = $temporal;
+           $object['sale_id'] = $temporal;
 
-           $detOrderrepox = new DetOrderRepo;
+           $detOrderrepox = new DetSaleRepo;
 
-           $insertar=new DetOrderManager($detOrderrepox->getModel(),$object);
+           $insertar=new DetSaleManager($detOrderrepox->getModel(),$object);
            $insertar->save();
           
            $detOrderrepox = null;
@@ -149,7 +149,7 @@ class OrdersController extends Controller
             $stockac=null;
             //-----------------------------------------------------
        }
-     return response()->json(['estado'=>true, 'nombres'=>$order->nombres]);
+     return response()->json(['estado'=>true, 'nombres'=>$orderSale->nombres]);
     }
 
     public function store(Request $request)

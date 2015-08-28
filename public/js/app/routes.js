@@ -333,19 +333,19 @@
                 })
                 //-------------------------------------------
                 //-----------------------------------------
-                .when('/orders', {
-                    templateUrl: '/js/app/orders/views/index.html',
-                    controller: 'OrderController'
+                .when('/sales', {
+                    templateUrl: '/js/app/sales/views/index.html',
+                    controller: 'SaleController'
                 })
 
                
-                .when('/orders/create', {
-                    templateUrl: '/orders/form-create',
-                    controller: 'OrderController'
+                .when('/sales/create', {
+                    templateUrl: '/sales/form-create',
+                    controller: 'SaleController'
                 })
-                .when('/orders/edit/:id',{
-                    templateUrl:'/orders/form-edit',
-                    controller: 'OrderController'
+                .when('/sales/edit/:id',{
+                    templateUrl:'/sales/form-edit',
+                    controller: 'SaleController'
                 })
                 //-------------------------------------
                 .when('/reports', {

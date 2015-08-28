@@ -64,14 +64,19 @@ class ProductsController extends Controller
          $products = $this->productRepo->Autocomplit();
         return response()->json($products);
     }
-    }
+    
     public function misDatosVariantes($store,$were,$q){
         $products = $this->productRepo->misDatosVariantes($store,$were,$q);
         return response()->json($products);
     }
-        public function misDatos($store,$were,$q){
+    public function misDatos($store,$were,$q){
         $products = $this->productRepo->misDatos($store,$were,$q);
         return response()->json($products);
+    } 
+    public function favoritos($store,$were,$q){
+        $products = $this->productRepo->favoritos($store,$were,$q);
+        return response()->json($products);
+    } 
 
     public function form_create()
     {
@@ -202,5 +207,5 @@ class ProductsController extends Controller
         $stations = $this->productRepo->search($q);
 
         return response()->json($stations);
-    }
+    } 
 }

@@ -11,6 +11,7 @@ class VariantManager extends BaseManager{
             'markup' => 'between:0,99999.99',
             'price' => 'between:0,99999.99',
             'track' => 'required|boolean',
+            'favorito' => '',           
             'product_id' => 'required|integer'
 
         ];

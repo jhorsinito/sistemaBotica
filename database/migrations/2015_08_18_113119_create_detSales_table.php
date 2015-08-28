@@ -3,11 +3,11 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDetOrdersTable extends Migration
+class CreateDetSalesTable extends Migration
 {
     public function up()
     {
-        Schema::create('detOrders', function (Blueprint $table) {
+        Schema::create('detSales', function (Blueprint $table) {
             $table->increments('id');
             $table->decimal('precioProducto',10,2);
             $table->decimal('precioVenta',10,2);
@@ -15,8 +15,8 @@ class CreateDetOrdersTable extends Migration
             $table->decimal('descuento',10,2);
             $table->decimal('subTotal',10,2);
 
-            $table->integer('order_id')->unsigned();
-            $table->foreign('order_id')->references('id')->on('orders');
+            $table->integer('sale_id')->unsigned();
+            $table->foreign('sale_id')->references('id')->on('sales');
 
             $table->integer('detPre_id')->unsigned();
             $table->foreign('detPre_id')->references('id')->on('detPres');
@@ -26,6 +26,6 @@ class CreateDetOrdersTable extends Migration
 
     public function down()
     {
-        Schema::drop('detOrders');
+        Schema::drop('detSales');
     }
 }

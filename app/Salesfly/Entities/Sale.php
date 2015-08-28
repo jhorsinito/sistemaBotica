@@ -1,9 +1,9 @@
 <?php
 namespace Salesfly\Salesfly\Entities;
 
-class Order extends \Eloquent {
+class Sale extends \Eloquent {
 
-	protected $table = 'orders';
+	protected $table = 'sales';
     
     protected $fillable = ['fechaPedido',
     						'montoTotal',
@@ -14,7 +14,7 @@ class Order extends \Eloquent {
     						'employee_id',
     						'estado',
     						'igv',
-    						'notas'];
+    						'notas']; 
 
     public function customer(){
         return $this->belongsTo('Salesfly\Salesfly\Entities\Customer','customer_id');

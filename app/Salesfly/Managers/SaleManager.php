@@ -1,6 +1,6 @@
 <?php
 namespace Salesfly\Salesfly\Managers;
-class OrderManager extends BaseManager {
+class SaleManager extends BaseManager {
 
     public function getRules()
     {
@@ -11,11 +11,11 @@ class OrderManager extends BaseManager {
             'descuento'=> '',
             'fechaAnulado'=> '',
             'estado'=>'',
-            'employee_id'=> 'required',
-            'customer_id'=> 'required',
+            'employee_id'=> '',
+            'customer_id'=> '',
             'igv'=> '',
             'notas'=> ''
                   ];
         return $rules;
-    }}
+    }} 
  

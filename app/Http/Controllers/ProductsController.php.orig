@@ -60,7 +60,7 @@ class ProductsController extends Controller
         $products = $this->productRepo->paginate(15);
         return response()->json($products);
     }
-<<<<<<< HEAD
+
 
     public function misDatos($store,$were,$q){
         $products = $this->productRepo->misDatos($store,$were,$q);
@@ -68,10 +68,10 @@ class ProductsController extends Controller
     }
     public function misDatosVariantes($store,$were,$q){
         $products = $this->productRepo->misDatosVariantes($store,$were,$q);
-=======
+
     public function autocomplit(){
          $products = $this->productRepo->Autocomplit();
->>>>>>> 8ae069cf4eeae53a3308a11dfc0459fbf4983c9a
+
         return response()->json($products);
     }
 

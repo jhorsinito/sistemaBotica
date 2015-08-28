@@ -1,41 +1,41 @@
 <?php
 namespace Salesfly\Salesfly\Repositories;
-use Salesfly\Salesfly\Entities\DetOrder;
+use Salesfly\Salesfly\Entities\DetSale;
 
-class DetOrderRepo extends BaseRepo{
+class DetSaleRepo extends BaseRepo{
     
     public function getModel()
     {
         
-        return new DetOrder;
+        return new DetSale;
     }
 
     public function search($q)
     {
-        $detOrders =DetOrder::where('nombre','like', $q.'%')
+        $detSales =DetSale::where('nombre','like', $q.'%')
                     //with(['customer','employee'])
                     ->paginate(15);
-        return $detOrders;
+        return $detSales;
     }
     public function searchDetalle($id)
     {
         //$detOrders = \DB::table('detOrders')->leftjoin('detPres','detOrders.detPre_id','=','detPres.id')
-        $detOrders =\DB::table('detOrders')->leftjoin("detPres","detPres.id","=","detOrders.detPre_id")
+        $detSales =\DB::table('detSales')->leftjoin("detPres","detPres.id","=","detSales.detPre_id")
                     ->leftjoin("variants","variants.id","=","detPres.variant_id")
                     ->leftjoin("products","products.id","=","variants.product_id")
                     ->leftjoin("presentation","presentation.id","=","detPres.presentation_id")
                     ->leftjoin("equiv","equiv.preFin_id","=","presentation.id")
                     
-                    ->select(\DB::raw('detOrders.*, products.nombre as nameProducto, presentation.nombre as presentacion ,variants.id as vari , (SELECT GROUP_CONCAT(atributes.nombre SEPARATOR "-") FROM variants
+                    ->select(\DB::raw('detSales.*, products.nombre as nameProducto, presentation.nombre as presentacion ,variants.id as vari , (SELECT GROUP_CONCAT(atributes.nombre SEPARATOR "-") FROM variants
                                 INNER JOIN detAtr ON detAtr.variant_id = variants.id
                                 INNER JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=vari
                                 GROUP BY variants.id) as NombreAtributos'))
 
-                    ->where('order_id','=', $id.'%')
+                    ->where('sale_id','=', $id.'%')
                              
                     //with(['customer','employee'])
                     ->paginate(15);
-        return $detOrders;
+        return $detSales;
     }
 } 
