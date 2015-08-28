@@ -8,6 +8,9 @@
         'routes',
         'ui.bootstrap'
     ]);
+<<<<<<< HEAD
+
+=======
     app.directive('stringToNumber', function() {
   return {
     require: 'ngModel',
@@ -20,4 +23,6 @@
       });
     }
   };
+});
+>>>>>>> 3020603313a2708a73bd9da2262e426bd3280ba2
 })();

@@ -60,27 +60,38 @@ class ProductsController extends Controller
         $products = $this->productRepo->paginate(15);
         return response()->json($products);
     }
-
-
-    public function pag(){
-        $products = $this->productRepo->pag();
-        return response()->json($products);
-    }
-
-
     public function autocomplit(){
          $products = $this->productRepo->Autocomplit();
         return response()->json($products);
     }
+<<<<<<< HEAD
+    
+=======
+        public function pag(){
+        $products = $this->productRepo->pag();
+        return response()->json($products);
     }
+>>>>>>> a94cf47241561cdb396397ed604ce8ce62602295
     public function misDatosVariantes($store,$were,$q){
         $products = $this->productRepo->misDatosVariantes($store,$were,$q);
         return response()->json($products);
     }
-        public function misDatos($store,$were,$q){
+<<<<<<< HEAD
+    public function misDatos($store,$were,$q){
         $products = $this->productRepo->misDatos($store,$were,$q);
         return response()->json($products);
->>>>>>> 3020603313a2708a73bd9da2262e426bd3280ba2
+    } 
+    public function favoritos($store,$were,$q){
+        $products = $this->productRepo->favoritos($store,$were,$q);
+        return response()->json($products);
+    } 
+=======
+    public function misDatos($store,$were,$q)
+    {
+        $products = $this->productRepo->misDatos($store, $were, $q);
+        return response()->json($products);
+    }
+>>>>>>> a94cf47241561cdb396397ed604ce8ce62602295
 
     public function form_create()
     {
@@ -269,5 +280,5 @@ class ProductsController extends Controller
         $stations = $this->productRepo->search($q);
 
         return response()->json($stations);
-    }
+    } 
 }

@@ -240,6 +240,11 @@
                     templateUrl:'/products/view-show',
                     controller: 'ProductController'
                 })
+                //-----------------------------------------------
+                .when('/variants/create/:product_id',{
+                    templateUrl: '/variants/form-create',
+                    controller: 'ProductController'
+                })
                 //-----------------------------------------
                 .when('/cashMonthlys', {
                     templateUrl: '/js/app/cashMonthlys/views/index.html',

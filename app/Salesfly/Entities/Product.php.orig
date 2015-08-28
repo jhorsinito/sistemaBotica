@@ -45,11 +45,14 @@ class Product extends Model
     public function variants(){
         return $this->hasMany('Salesfly\Salesfly\Entities\Variant');
     }
-    public function presentation(){
-        return $this->hasMany('Salesfly\Salesfly\Entities\Presentation');
-    }
-    
+<<<<<<< HEAD
+
     /*
      * Fx para presentations
      */
+=======
+    public function presentation(){
+        return $this->hasMany('Salesfly\Salesfly\Entities\Presentation');
+    }
+>>>>>>> 3020603313a2708a73bd9da2262e426bd3280ba2
 }

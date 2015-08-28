@@ -8,7 +8,7 @@ class StockRepo extends BaseRepo{
     {
         return new Stock;
     }
-    
+
 
     public function search($q)
     {

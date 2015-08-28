@@ -161,6 +161,18 @@ class VariantsController extends Controller
         //return response()->json(Product::find(2)->with('brand')->get());
     }
 
+<<<<<<< HEAD
+    public function editFavoritos(Request $request)
+    {
+        $vatiant = $this->variantRepo->find($request->id);
+        //var_dump($vatiant);
+        //die(); 
+        $manager = new VariantManager($vatiant,$request->all());
+        $manager->save();
+
+        //Event::fire('update.store',$store->all());
+        return response()->json(['estado'=>true, 'nombre'=>$vatiant->nombreTienda]);
+=======
     public function variant($product_id){
 
         $oProduct = Product::find($product_id);
@@ -176,18 +188,9 @@ class VariantsController extends Controller
             },'stock','product']);
         }
 
-        return response()->json($product);
-    }
-    public function editFavoritos(Request $request)
-    {
-        $vatiant = $this->variantRepo->find($request->id);
-        //var_dump($vatiant);
-        //die(); 
-        $manager = new VariantManager($vatiant,$request->all());
-        $manager->save();
 
-        //Event::fire('update.store',$store->all());
-        return response()->json(['estado'=>true, 'nombre'=>$vatiant->nombreTienda]);
-        }
+        return response()->json($product);
+>>>>>>> a94cf47241561cdb396397ed604ce8ce62602295
+    }
 
 }
