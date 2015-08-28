@@ -326,8 +326,8 @@
 
                             crudService.create($scope.product, 'products').then(function (data) {
                                 if (data['estado'] == true) {
-                                    $scope.success = data['nombres'];
-
+                                    //$scope.success = data['nombres'];
+                                    alert('Producto creado con Éxito');
                                     $location.path('/products');
 
                                 } else {
@@ -604,7 +604,7 @@
                         if ($scope.product.presentation_base_object !== null && !isEmpty($scope.product.presentation_base_object)) {
                             $scope.product.presentation_base = $scope.product.presentation_base_object.id;
                             $scope.product.presentations = [];
-                            alert('borra if');
+                            //alert('borra if');
                             $scope.enabled_presentation_button = false;
                             $scope.enabled_createpresentation_button = false;
                         } else {
@@ -612,14 +612,14 @@
                             $scope.enabled_createpresentation_button = true;
                             $scope.product.presentation_base = null;
                             $scope.product.presentations = [];
-                            alert('borra else');
+                            //alert('borra else');
                         }
                     }
                     if($location.path() == '/variants/create/'+$routeParams.product_id) {
                         if ($scope.variant.presentation_base_object !== null && !isEmpty($scope.variant.presentation_base_object)) {
                             $scope.variant.presentation_base = $scope.variant.presentation_base_object.id;
                             $scope.variant.presentations = [];
-                            alert('borra if');
+                            //alert('borra if');
                             $scope.enabled_presentation_button = false;
                             $scope.enabled_createpresentation_button = false;
                         } else {
@@ -627,7 +627,7 @@
                             $scope.enabled_createpresentation_button = true;
                             $scope.variant.presentation_base = null;
                             $scope.variant.presentations = [];
-                            alert('borra else');
+                            //alert('borra else');
                         }
                     }
 

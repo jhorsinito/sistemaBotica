@@ -7,7 +7,7 @@
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
             <li class="/users">Usuarios</li>
-            <li class="active">Crear</li>
+            <li class="active">Editar</li>
           </ol>
 
 
@@ -19,7 +19,7 @@
 
           <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Crear Usuario</h3>
+                  <h3 class="box-title">Editar Usuario</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
 
@@ -104,7 +104,7 @@
                 </div><!-- /.box-body -->
 
                   <div class="box-footer">
-                    <button type="submit" class="btn btn-primary" ng-click="updateUser()">Crear</button>
+                    <button type="submit" class="btn btn-primary" ng-click="updateUser()">Editar</button>
                     <a href="/users" class="btn btn-danger">Cancelar</a>
                   </div>
                 </form>

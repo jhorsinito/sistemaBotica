@@ -23,6 +23,8 @@ use Salesfly\Salesfly\Entities\Ttype;
 use Salesfly\Salesfly\Entities\Material;
 use Salesfly\Salesfly\Entities\Station;
 
+use Intervention\Image\Facades\Image;
+
 class ProductsController extends Controller
 {
     protected $productRepo;
@@ -138,8 +140,22 @@ class ProductsController extends Controller
                 }
 
         }
-
         //================================./PROD SIN VARIANTES==============================//
+        //================================ADD IMAGE TO PROD==============================//
+
+        if($request->has('image') and substr($request->input('image'),5,5) === 'image'){
+            $image = $request->input('image');
+            $mime = $this->get_string_between($image,'/',';');
+            $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image));
+            Image::make($image)->resize(200,200)->save('images/products/'.$product->id.'.'.$mime);
+            $product->image='/images/products/'.$product->id.'.'.$mime;
+            $product->save();
+        }else{
+            $product->image='/images/products/product.png';
+            $product->save();
+        }
+
+        //================================./ADD IMAGE TO PROD==============================//
 
         return response()->json(['estado'=>true, 'nombres'=>$product->nombre]);
     }
@@ -221,6 +237,19 @@ class ProductsController extends Controller
         }
         //================================./PROD SIN VARIANTES==============================//
 
+        //================================ADD IMAGE TO PROD==============================//
+
+        if($request->has('image') and substr($request->input('image'),5,5) === 'image'){
+            $image = $request->input('image');
+            $mime = $this->get_string_between($image,'/',';');
+            $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image));
+            Image::make($image)->resize(200,200)->save('images/products/'.$product->id.'.'.$mime);
+            $product->image='/images/products/'.$product->id.'.'.$mime;
+            $product->save();
+        }
+
+        //================================./ADD IMAGE TO PROD==============================//
+
         return response()->json(['estado'=>true, 'nombres'=>$product->nombre]);
     }
 
@@ -266,4 +295,17 @@ class ProductsController extends Controller
 
         return response()->json($stations);
     }
+
+    /*fx ayuda para img*/
+    public function get_string_between($string, $start, $end){
+        $string = " ".$string;
+        $ini = strpos($string,$start);
+        if ($ini == 0) return "";
+        $ini += strlen($start);
+        $len = strpos($string,$end,$ini) - $ini;
+        return substr($string,$ini,$len);
+    }
+    /*./ fx ayuda para img*/
+
+
 }

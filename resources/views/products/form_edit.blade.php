@@ -30,7 +30,9 @@
                             </ul>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-8">
+                            <div class="row">
+                            <div class="col-md-6">
                                 <div class="form-group" ng-class="{true: 'has-error'}[ productCreateForm.nombre.$error.required && productCreateForm.$submitted || productCreateForm.nombre.$dirty && productCreateForm.nombre.$invalid]">
                                     <label for="nombres">Nombre</label>
                                     <input type="text" class="form-control" name="nombre" placeholder="Nombre" ng-model="product.nombre" required>
@@ -38,7 +40,7 @@
                                         <span ng-show="productCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                                     </label>
                                 </div></div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group" ng-class="{true: 'has-error'}[ productCreateForm.codigo.$error.required && productCreateForm.$submitted || productCreateForm.codigo.$dirty && productCreateForm.codigo.$invalid]">
                                     <label for="codigo">Código de Producto</label>
                                     <input type="text" class="form-control" name="codigo" placeholder="1000"
@@ -49,74 +51,93 @@
                                     </label>
                                     <span class="text-info"> <em> Identificador único para este producto.</em></span>
                                 </div></div>
-                            <div class="col-md-4">
-                                <div class="form-group" ng-class="{true: 'has-error'}[ productCreateForm.suppCode.$error.required && productCreateForm.$submitted || productCreateForm.suppCode.$dirty && productCreateForm.suppCode.$invalid]">
-                                    <label for="suppCode">Código de Proveedor</label>
-                                    <input type="text" class="form-control" name="suppCode" placeholder="1000"
-                                           ng-model="product.suppCode" required>
-                                    <label ng-show="productCreateForm.$submitted || productCreateForm.suppCode.$dirty && productCreateForm.suppCode.$invalid">
 
-                                        <span ng-show="productCreateForm.suppCode.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
-                                    </label>
-                                    <span class="text-info"> <em> Código del producto para el proveedor.</em></span>
                                 </div>
-                            </div></div>
 
-                        <div class="row">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group" ng-class="{true: 'has-error'}[ productCreateForm.suppCode.$error.required && productCreateForm.$submitted || productCreateForm.suppCode.$dirty && productCreateForm.suppCode.$invalid]">
+                                            <label for="suppCode">Código de Proveedor</label>
+                                            <input type="text" class="form-control" name="suppCode" placeholder="1000"
+                                                   ng-model="product.suppCode" required>
+                                            <label ng-show="productCreateForm.$submitted || productCreateForm.suppCode.$dirty && productCreateForm.suppCode.$invalid">
+
+                                                <span ng-show="productCreateForm.suppCode.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                            </label>
+                                            <span class="text-info"> <em> Código del producto para el proveedor.</em></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Presentación Base:</label>
+                                            <select class="form-control" ng-model="product.presentation_base_object" ng-change="changePreBase()" ng-options="item as item.nombre for item in presentations_base">
+                                                <option value="">-- Elige Presentación Base--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div> <!--end row-->
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Marca</label>
+                                            <select name="brand" class="form-control" ng-model="product.brand_id" ng-options="k as v for (k, v) in brands">
+                                                <option value="">--Elige Marca--</option>
+                                            </select>
+                                            @{{ product.brand_id }}
+                                        </div></div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Categoría</label>
+                                            <select name="ttype" class="form-control" ng-model="product.type_id" ng-options="k as v for (k, v) in types">
+                                                <option value="">--Elige Categoría--</option>
+                                            </select>
+                                        </div></div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Material</label>
+                                            <select name="material" class="form-control" ng-model="product.material_id" ng-options="k as v for (k, v) in materials">
+                                                <option value="">--Elige Material--</option>
+                                            </select>
+                                        </div></div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Estación</label>
+                                            <select name="station" class="form-control" ng-model="product.station_id" ng-options="k as v for (k, v) in stations">
+                                                <option value="">--Elige Estación--</option>
+                                            </select>
+                                        </div></div>
+                                </div>
+
+
+                            </div> <!--end col-md-8-->
+
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Imagen</label>
                                     <input type="file" ng-model="product.image" id="productImage" name="productImage"/>
 
                                 </div>
-                            </div>
-                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">Presentación Base:</label>
-                                    <select class="form-control" ng-model="product.presentation_base_object" ng-change="changePreBase()" ng-options="item as item.nombre for item in presentations_base">
-                                        <option value="">-- Elige Presentación Base--</option>
-                                    </select>
+                                    <img ng-src="@{{product.image}}" alt="" class="img-thumbnail"/>
                                 </div>
                             </div>
-                            @{{ product.presentation_base_object }}
-                        </div>
+
+                        </div> <!--end row-->
+
+
                         <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Marca</label>
-                                    <select name="brand" class="form-control" ng-model="product.brand_id" ng-options="k as v for (k, v) in brands">
-                                        <option value="">--Elige Marca--</option>
-                                    </select>
-                                    @{{ product.brand_id }}
-                                </div></div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Categoría</label>
-                                    <select name="ttype" class="form-control" ng-model="product.type_id" ng-options="k as v for (k, v) in types">
-                                        <option value="">--Elige Categoría--</option>
-                                    </select>
-                                </div></div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Material</label>
-                                    <select name="material" class="form-control" ng-model="product.material_id" ng-options="k as v for (k, v) in materials">
-                                        <option value="">--Elige Material--</option>
-                                    </select>
-                                </div></div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Estación</label>
-                                    <select name="station" class="form-control" ng-model="product.station_id" ng-options="k as v for (k, v) in stations">
-                                        <option value="">--Elige Estación--</option>
-                                    </select>
-                                </div></div>
+
+
 
                         </div>
                         <div class="form-group" >
                             <label for="estado">¿Puede ser vendido/comprado?</label>
                             <input type="checkbox" name="estado" ng-model="product.estado" ng-checked="product.estado"/>
                         </div>
-                        @{{product.estado}}
+
                         <div class="form-group" >
                             <label for="notas">Descripción</label>
                       <textarea type="notas" class="form-control" name="notas" placeholder="..."
@@ -185,7 +206,7 @@
                             </div>
 
                         </div><!-- /.box -->
-                        form @{{ productCreateForm.$error}}
+
                                 <!--  =============================================================================PRECIO DEL PRODUCTO.. ya no se usa===============================================================-->
 
                         <!--                                <div class="box box-default" id="price">
@@ -341,7 +362,7 @@
                             <select name="" ng-click="selectPres()" class="form-control" id="" ng-model="presentationSelect" ng-options="item as item.nombre+' / '+item.shortname+' / '+item.cant for item in presentations">
                                 <option value="">-- Elige Presentación--</option>
                             </select>
-                            @{{presentationSelect}}
+
                         </div>
                     </div>
                 </div>
@@ -364,7 +385,7 @@
                         </div>
                     </div>
                 </div>
-                @{{ presentation.markup}}
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>

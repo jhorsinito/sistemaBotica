@@ -122,7 +122,7 @@
                       <label for="estado">¿Puede ser vendido/comprado?</label>
                       <input type="checkbox" name="estado" ng-model="product.estado" ng-checked="product.estado"/>
                      </div>
-                     @{{product.estado}}
+
                     <div class="form-group" >
                       <label for="notas">Descripción</label>
                       <textarea type="notas" class="form-control" name="notas" placeholder="..."
@@ -176,7 +176,7 @@
                                                                                                                   <td>@{{row.markup}}</td>
 
                                                                                                                   <td>@{{row.price}}</td>
-                                                                                                                  <td><a class="btn btn-warning btn-xs" href="" ng-click="editPres($index)"><i class="fa fa-fw fa-pencil"></i></a>
+                                                                                                                  <td><!--<a class="btn btn-warning btn-xs" href="" ng-click="editPres($index)"><i class="fa fa-fw fa-pencil"></i></a>-->
                                                                                                                   <a href="" class="btn btn-danger btn-xs" ng-click="deletePres($index)"><i class="fa fa-fw fa-trash"></i></a>
                                                                                                                   </td>
                                                                                                                 </tr>
@@ -193,7 +193,7 @@
                                                                     </div>
 
                                                                   </div><!-- /.box -->
-                      form @{{ productCreateForm.$error}}
+
 <!--  =============================================================================PRECIO DEL PRODUCTO.. ya no se usa===============================================================-->
 
          <!--                                <div class="box box-default" id="price">
@@ -349,7 +349,7 @@
                                  <select name="" ng-click="selectPres()" class="form-control" id="" ng-model="presentationSelect" ng-options="item as item.nombre+' / '+item.shortname+' / '+item.cant for item in presentations">
                                         <option value="">-- Elige Presentación--</option>
                                  </select>
-                                 @{{presentationSelect}}
+
                                 </div>
                                 </div>
                                 </div>
@@ -372,7 +372,7 @@
                                       </div>
                                       </div>
                                       </div>
-                                     @{{ presentation.markup}}
+
                                </div>
                                <div class="modal-footer">
                                  <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
@@ -398,7 +398,7 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <input type="text" class="form-control" name="preAdd.preBase_id" ng-model="product.presentation_base">
+                        <input type="hidden" class="form-control" name="preAdd.preBase_id" ng-model="product.presentation_base">
                         <div class="form-group" >
                             <label for="suppPric">Nombre</label>
                             <input type="text" class="form-control" name="nombre" placeholder="Docena" ng-model="preAdd.nombre">
