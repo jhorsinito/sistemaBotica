@@ -8,21 +8,5 @@
         'routes',
         'ui.bootstrap'
     ]);
-<<<<<<< HEAD
 
-=======
-    app.directive('stringToNumber', function() {
-  return {
-    require: 'ngModel',
-    link: function(scope, element, attrs, ngModel) {
-      ngModel.$parsers.push(function(value) {
-        return '' + value;
-      });
-      ngModel.$formatters.push(function(value) {
-        return parseFloat(value, 10);
-      });
-    }
-  };
-});
->>>>>>> 3020603313a2708a73bd9da2262e426bd3280ba2
 })();
