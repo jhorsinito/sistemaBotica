@@ -6,8 +6,7 @@
         'orderPurchases.controllers',
         'crudPurchases.services',
         'routes',
-        'ui.bootstrap',
-        'xeditable'
+        'ui.bootstrap'
     ]);
     app.directive('stringToNumber', function() {
   return {
@@ -21,5 +20,4 @@
       });
     }
   };
-});
-})();
+});})();

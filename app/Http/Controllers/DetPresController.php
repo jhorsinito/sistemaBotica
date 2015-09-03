@@ -40,4 +40,11 @@ class DetPresController extends Controller
         return response()->json($detPres);
         
     }
+        public function searchPresentations($id)
+    {
+        //$q = Input::get('q');
+        $presentations = $this->detPresRepo->traerDetalles($id);
+
+        return response()->json($presentations);
+    }
 }

@@ -24,7 +24,7 @@
             <div class="box-tools pull-right">
               <!-- Buttons, labels, and many other things can be placed here! -->
               <!-- Here is a label for example -->
-              <button class=" label-default" ng-if="product.hasVariants == '1'">Añadir Variante</button>
+              <button class=" label-default" ng-if="product.hasVariants == '1'" ng-click="addVariant(product.id)">Añadir Variante</button>
 
               <button class=" label-default">Imprimir Código de Barras</button>
               <button class=" label-default">Editar Producto</button>
@@ -32,37 +32,57 @@
             </div><!-- /.box-tools -->
           </div><!-- /.box-header -->
           <div class="box-body">
-            Descripción: @{{product.descripcion}}<br/>
-            -----------------------------------------------------------------------------<br/>
+              <div class="row">
+                  <div class="col-md-8">
+                      <b>Descripción:</b> @{{ product.descripcion }} <br/> <br/>
+            ------------------------------------------------------------------------------------------------------------------------------------<br/>
+                      <b>Código de Producto</b>: @{{product.codigo}}<br/>
+            <b>Marca:</b> @{{ product.brand.nombre }} <br/> <br/>
+            <b>Línea:</b> @{{ product.type.nombre }} <br/> <br/>
+            <b>Código Único de Producto:</b> @{{ product.codigo }}<br/> <br/>
+            <b>Estación:</b> @{{ product.station.nombre }} <br/> <br/>
+                      <b>Modelo:</b> @{{ product.modelo }}
 
-            Marca: @{{ product.brand.nombre }} <br/>
-            Categoría: @{{ product.type.nombre }} <br/>
-            Código Único de Producto: @{{ product.codigo }}<br/>
 
+                  </div>
+                  <div class="col-md-4">
+
+                      <img class="pull-right img-thumbnail" ng-src="@{{product.image}}" alt=""/>
+                  </div>
+              </div>
             <div class="box">
                             <div class="box-header">
-                              <h3 class="box-title">Stock de Productos</h3>
+                              <h3 class="box-title">Stock de Variantes</h3>
                             </div><!-- /.box-header -->
                             <div class="box-body no-padding">
                               <table class="table table-striped">
                                 <tbody><tr>
                                   <th style="width: 10px">#</th>
+                                    <th>Código</th>
                                   <th>SKU</th>
                                   <th>Variante</th>
                                   <th style="">Precio</th>
                                   <th style="">En stock</th>
+                                    <th>Editar</th>
+                                    <th >Opción</th>
+                                    <th >Eliminar</th>
                                 </tr>
-                                <tr>
-                                  <td>1.</td>
-                                  <td>Update software</td>
-                                  <td>
-                                    <div class="progress progress-xs">
-                                      <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                    </div>
-                                  </td>
-                                  <td><span class="badge bg-red">55%</span></td>
-                                  <td><span class="badge bg-red">55%</span></td>
+                                <tr ng-repeat="row in variants">
 
+                                    <td>@{{$index + 1}}</td>
+                                    <td>@{{ row.codigo }}</td>
+                                    <td>@{{ row.sku }}</td>
+                                    <td><a ng-href="/variant/show/@{{row.id}}">@{{row.product.nombre}}
+                                            <span ng-repeat="row2 in row.det_atr ">
+                                        / @{{row2.descripcion}}
+                                    </span>
+
+                                        </a></td>
+                                    <td>@{{row.det_pre[0].price}}</td>
+                                    <td>@{{row.stock[0].stockActual}}</td>
+                                    <td><a ng-click="editUser(row)" class="btn btn-warning btn-xs">Editar</a></td>
+                                    <td><a ng-click="" class="btn bg-purple-active color-palette btn-xs">Deshabilitar</a></td>
+                                    <td><a ng-click="deleteUser(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
                                 </tr>
 
 

@@ -23,6 +23,8 @@ use Salesfly\Salesfly\Entities\Ttype;
 use Salesfly\Salesfly\Entities\Material;
 use Salesfly\Salesfly\Entities\Station;
 
+use Intervention\Image\Facades\Image;
+
 class ProductsController extends Controller
 {
     protected $productRepo;
@@ -64,6 +66,28 @@ class ProductsController extends Controller
          $products = $this->productRepo->Autocomplit();
         return response()->json($products);
     }
+        public function pag(){
+        $products = $this->productRepo->pag();
+        return response()->json($products);
+        }
+    public function misDatosVariantes($store,$were,$q){
+        $products = $this->productRepo->misDatosVariantes($store,$were,$q);
+        return response()->json($products);
+    }
+    public function misDatos($store,$were,$q)
+    {
+        $products = $this->productRepo->misDatos($store, $were, $q);
+        return response()->json($products);
+    }
+    public function searchsku($store,$were,$q)
+    {
+        $products = $this->productRepo->searchsku($store, $were, $q);
+        return response()->json($products);
+    }
+    public function favoritos($store,$were,$q){
+        $products = $this->productRepo->favoritos($store,$were,$q);
+        return response()->json($products);
+    } 
 
     public function form_create()
     {
@@ -77,7 +101,7 @@ class ProductsController extends Controller
 
     public function create(Request $request)
     {
-        //var_dump($request->all());die();
+        //var_dump($request->input('presentations')); die();
         $product = $this->productRepo->getModel();
         $variant = $this->variantRepo->getModel();
         $detPres = $this->detPres->getModel();
@@ -87,14 +111,18 @@ class ProductsController extends Controller
         if ($request->input('track') == 1) {}else{$request->merge(array('track' => '0'));};
 
         $managerPro = new ProductManager($product,$request->except('sku','suppPri','markup','price','track'));
-
+        //================================PROD CON VARIANTES==============================//
         if($request->input('hasVariants') === true){
             $managerPro->save();
             $request->merge(array('product_id' => $product->id));
-            $product->quantVar = 0;
+            $product->quantVar = 0; //cantidad de variantes igual a 0;
             $product->save();
             //$managerVar = new VariantManager($variant,$request->only('sku','suppPri','markup','price','track','product_id'));
             //$managerVar->save();
+            //================================./PROD CON VARIANTES==============================//
+
+
+            //================================PROD SIN VARIANTES==============================//
         }elseif($request->input('hasVariants') === '0'){
             $managerPro->save();
             $request->merge(array('product_id' => $product->id));
@@ -103,7 +131,7 @@ class ProductsController extends Controller
             $managerVar = new VariantManager($variant,$request->only('sku','suppPri','markup','price','track','product_id'));
             $managerVar->save();
 
-                //$oPres;
+
                 foreach($request->input('presentations') as $presentation){
                     $presentation['variant_id'] = $variant->id;
                     $presentation['presentation_id'] =  $presentation['id'];
@@ -121,6 +149,22 @@ class ProductsController extends Controller
                 }
 
         }
+        //================================./PROD SIN VARIANTES==============================//
+        //================================ADD IMAGE TO PROD==============================//
+
+        if($request->has('image') and substr($request->input('image'),5,5) === 'image'){
+            $image = $request->input('image');
+            $mime = $this->get_string_between($image,'/',';');
+            $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image));
+            Image::make($image)->resize(200,200)->save('images/products/'.$product->id.'.'.$mime);
+            $product->image='/images/products/'.$product->id.'.'.$mime;
+            $product->save();
+        }else{
+            $product->image='/images/products/product.png';
+            $product->save();
+        }
+
+        //================================./ADD IMAGE TO PROD==============================//
 
         return response()->json(['estado'=>true, 'nombres'=>$product->nombre]);
     }
@@ -133,27 +177,92 @@ class ProductsController extends Controller
     public function find($id)
     {
         $product = $this->productRepo->find($id);
+        //sleep(5);
         return response()->json($product);
     }
 
-    /*public function edit(Request $request)
+    public function edit(Request $request)
     {
-        $customer = $this->customerRepo->find($request->id);
-        //var_dump($request->except('fechaNac'));
-        //die();
-        $manager = new CustomerManager($customer,$request->except('fechaNac'));
-        $manager->save();
-        if($this->customerRepo->validateDate(substr($request->input('fechaNac'),0,10))){
-            //$customer->fechaNac = date("Y-m-d", strtotime($request->input('fechaNac')));
-            $customer->fechaNac = substr($request->input('fechaNac'),0,10);
-            $customer->save();
+        //var_dump($request->all());die();
+
+        //$customer = $this->customerRepo->find($request->id);
+        //$manager = new CustomerManager($customer,$request->except('fechaNac'));
+        //$manager->save();
+
+        $product = $this->productRepo->find($request->id);
+
+        //$detPres = $this->detPres->getModel();
+
+        if ($request->input('estado') == 1) {}else{$request->merge(array('estado' => '0'));};
+        if ($request->input('hasVariants') == 1) {}else{$request->merge(array('hasVariants' => '0'));};
+        if ($request->input('track') == 1) {}else{$request->merge(array('track' => '0'));};
+
+        $managerPro = new ProductManager($product,$request->except('sku','suppPri','markup','price','track'));
+        //================================PROD CON VARIANTES==============================//
+        if($request->input('hasVariants') === true){
+            $managerPro->save();
+            $request->merge(array('product_id' => $product->id));
+            $product->quantVar = 0; //cantidad de variantes igual a 0;
+            $product->save();
+            //$managerVar = new VariantManager($variant,$request->only('sku','suppPri','markup','price','track','product_id'));
+            //$managerVar->save();
+            //================================./PROD CON VARIANTES==============================//
+
+
+            //================================PROD SIN VARIANTES==============================//
+        }elseif($request->input('hasVariants') === '0'){
+            $managerPro->save();
+            $request->merge(array('product_id' => $product->id));
+            $product->quantVar = 0; //aunq presenta una fila en la tabla variantes por defecto
+            $product->save();
+            $variant = $this->variantRepo->getModel()->where('product_id',$product->id)->first();
+            $managerVar = new VariantManager($variant,$request->only('sku','suppPri','markup','price','track','product_id'));
+            $managerVar->save();
+
+            //var_dump($request->input('presentations')); die();
+            $variant->presentation()->detach();
+            foreach($request->input('presentations') as $presentation){
+                //var_dump('o'); die();
+                $presentation['variant_id'] = $variant->id;
+                $presentation['presentation_id'] =  $presentation['id'];
+                $detpresRepo = new DetPresRepo();
+                //$oPres = $detpresRepo->getModel()->where('presentation_id',$presentation['presentation_id'])->where('variant_id',$presentation['variant_id'])->first();
+                $oPres = $detpresRepo->getModel();
+                $presManager = new DetPresManager($oPres,$presentation);
+                $presManager->save();
+            }
+            if($request->input('track') == 1) {
+                $variant->warehouse()->detach();
+                foreach ($request->input('stock') as $stock) {
+                    $stock['variant_id'] = $variant->id;
+                    $stockRepo = new StockRepo();
+                    //$oStock = $stockRepo->getModel()->where('variant_id',$stock['variant_id'])->where('warehouse_id',$stock['warehouse_id'])->first();
+                    $oStock = $stockRepo->getModel();
+                    $stockManager = new StockManager($oStock, $stock);
+                    $stockManager->save();
+                }
+            }
+
+        }
+        //================================./PROD SIN VARIANTES==============================//
+
+        //================================ADD IMAGE TO PROD==============================//
+
+        if($request->has('image') and substr($request->input('image'),5,5) === 'image'){
+            $image = $request->input('image');
+            $mime = $this->get_string_between($image,'/',';');
+            $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image));
+            Image::make($image)->resize(200,200)->save('images/products/'.$product->id.'.'.$mime);
+            $product->image='/images/products/'.$product->id.'.'.$mime;
+            $product->save();
         }
 
-        //Event::fire('update.customer',$customer->all());
-        return response()->json(['estado'=>true, 'nombre'=>$customer->nombre]);
+        //================================./ADD IMAGE TO PROD==============================//
+
+        return response()->json(['estado'=>true, 'nombres'=>$product->nombre]);
     }
 
-    public function destroy(Request $request)
+    /*public function destroy(Request $request)
     {
         $customer= $this->customerRepo->find($request->id);
         $customer->delete();
@@ -195,7 +304,28 @@ class ProductsController extends Controller
     {
         //$q = Input::get('q');
         $customers = $this->customerRepo->search($q);
+   public function selectProducts(){
+        $products = $this->productRepo->all();
+        return response()->json($products);
+    }
+    public function search($q)
+    {
+        //$q = Input::get('q');
+        $stations = $this->productRepo->search($q);
 
-        return response()->json($customers);
-    }*/
+        return response()->json($stations);
+    } 
+
+    /*fx ayuda para img*/
+    public function get_string_between($string, $start, $end){
+        $string = " ".$string;
+        $ini = strpos($string,$start);
+        if ($ini == 0) return "";
+        $ini += strlen($start);
+        $len = strpos($string,$end,$ini) - $ini;
+        return substr($string,$ini,$len);
+    }
+    /*./ fx ayuda para img*/
+
+
 }

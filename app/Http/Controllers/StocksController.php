@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller;
 
 use Salesfly\Salesfly\Repositories\StockRepo;
 use Salesfly\Salesfly\Managers\StockManager;
+use Salesfly\Salesfly\Entities\Stock;
 
 class StocksController extends Controller {
 
@@ -96,6 +97,17 @@ class StocksController extends Controller {
         $stock->delete();
         //Event::fire('update.stock',$stock->all());
         return response()->json(['estado'=>true, 'nombre'=>$stock->nombre]);
+    }
+
+    public function traerStock($product_id){
+        //$stock = $this->stockRepo->getModel()->with([])->get();
+        $stock = \DB::select( \DB::raw('SELECT variants.codigo, variants.sku, stock.stockActual, stock.warehouse_id, warehouses.nombre
+FROM products
+INNER JOIN variants ON products.id = variants.product_id
+INNER JOIN stock ON variants.id = stock.variant_id
+INNER JOIN warehouses ON stock.warehouse_id = warehouses.id
+WHERE products.id ='.$product_id.''));
+        return response()->json($stock);
     }
 
    

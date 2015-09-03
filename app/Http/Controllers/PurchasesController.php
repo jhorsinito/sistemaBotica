@@ -64,12 +64,13 @@ class PurchasesController extends Controller {
     public function paginatep(){
         $purchases = $this->purchaseRepo->paginar(15);
         return response()->json($purchases);
+        
     }
 
 
     public function form_create()
     {
-        return View('purchases.form_create');
+        return View('purchases.form_createPur');
     }
 
     public function form_edit()

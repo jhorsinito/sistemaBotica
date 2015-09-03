@@ -13,6 +13,9 @@
         "doctrine/dbal":"*",
         "barryvdh/laravel-debugbar": "^2.0",
         "cossou/jasperphp": "dev-master"
+        
+
+
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

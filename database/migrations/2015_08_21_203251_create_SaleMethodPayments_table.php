@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAddUniqueTable extends Migration
+class CreateSaleMethodPaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,11 @@ class CreateAddUniqueTable extends Migration
      */
     public function up()
     {
-        Schema::table('years', function ($table) {
-            $table->string('year',100)->unique()->change();
+        Schema::create('saleMethodPayments', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('nombre');
+            $table->string('descripcion');
+            $table->timestamps();
         });
     }
 
@@ -24,6 +27,6 @@ class CreateAddUniqueTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('saleMethodPayments');
     }
 }

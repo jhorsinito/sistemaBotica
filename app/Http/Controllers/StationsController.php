@@ -67,12 +67,10 @@ class StationsController extends Controller {
     public function edit(Request $request)
     {
         $station = $this->stationRepo->find($request->id);
-        //var_dump($station);
-        //die(); 
+
         $manager = new StationManager($station,$request->all());
         $manager->save();
 
-        //Event::fire('update.station',$station->all());
         return response()->json(['estado'=>true, 'nombre'=>$station->nombre]);
     }
 

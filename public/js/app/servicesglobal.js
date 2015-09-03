@@ -109,6 +109,22 @@
                 return deferred.promise;
             }
 
+
+            function reportPro(uri,id){
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/'+id);
+            }
+
+            function reportProWare(uri,idStore,idWerehouse,val){
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/misDatos/'+idStore+'/'+idWerehouse+'/'+val)
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
+
             function select(uri,select)
             {
                 var deferred = $q.defer();
@@ -130,7 +146,9 @@
                 search: search,
                 select:select,
                 byforeingKey: byforeingKey,
-                searchMes,searchMes
+                searchMes,searchMes,
+                reportPro,reportPro,
+                reportProWare,reportProWare
             }
         }])
         .factory('socketService', function ($rootScope) {

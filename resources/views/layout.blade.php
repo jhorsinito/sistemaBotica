@@ -19,6 +19,7 @@
     <!-- AdminLTE fonts OpenSans-->
     <link href="/css/fonts.css" rel="stylesheet" type="text/css" />
 
+    <link rel="stylesheet" href="/vendor/ngprogress/ngProgress.css">
 
      <!-- <link href="/vendor/angular-bootstrap/ui-bootstrap-csp.css" rel="stylesheet" type="text/css" /> -->
 
@@ -431,6 +432,7 @@
     <script src="/vendor/ng-phpdebugbar/ng-phpdebugbar.js"></script>
     <script src="/vendor/angucomplete/angucomplete.js"></script>
     <script src="/vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="/vendor/ngprogress/build/ngprogress.min.js"></script>
   <!-- endbower -->
   <!-- inject:js -->
     <script src="/js/app/routes.js"></script>
@@ -449,6 +451,16 @@
     <!-- endinject -->
     @section('js-customize')
     @show
+<script>
+
+$(document).ready(function(){
+    $("body").on("click", '#myTabs2',function(e){
+        //alert("The paragraph was clicked.");
+        e.preventDefault()
+                          $(this).tab('show')
+    });
+});
+</script>
 
   </body>
 </html>

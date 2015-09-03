@@ -135,6 +135,13 @@ class EmployeesController extends Controller {
 
         return response()->json($employees);
     }
+    public function searchVenta($q)
+    {
+        //$q = Input::get('q');
+        $employees = $this->employeeRepo->searchVenta($q);
+
+        return response()->json($employees);
+    }
 
     public function get_string_between($string, $start, $end){
         $string = " ".$string;

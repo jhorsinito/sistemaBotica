@@ -244,6 +244,11 @@
                     templateUrl:'/products/view-show',
                     controller: 'ProductController'
                 })
+                //-----------------------------------------------
+                .when('/variants/create/:product_id',{
+                    templateUrl: '/variants/form-create',
+                    controller: 'ProductController'
+                })
                 //-----------------------------------------
                 .when('/cashMonthlys', {
                     templateUrl: '/js/app/cashMonthlys/views/index.html',
@@ -273,6 +278,88 @@
                 .when('/practicas/edit/:id',{
                     templateUrl:'/practicas/form-edit',
                     controller: 'PracticaController'
+                })
+                //-------------------------------------------
+                //-----------------------------------------
+                .when('/promotions', {
+                    templateUrl: '/js/app/promotions/views/index.html',
+                    controller: 'PromotionController'
+                })
+                .when('/promotions/create', {
+                    templateUrl: '/promotions/form-create',
+                    controller: 'PromotionController'
+                })
+                .when('/promotions/edit/:id',{
+                    templateUrl:'/promotions/form-edit',
+                    controller: 'PromotionController'
+                })
+                //-------------------------------------------
+                //-----------------------------------------
+                .when('/cashHeaders', {
+                    templateUrl: '/js/app/cashHeaders/views/index.html',
+                    controller: 'CashHeadersController'
+                })
+                .when('/cashHeaders/create', {
+                    templateUrl: '/cashHeaders/form-create',
+                    controller: 'CashHeadersController'
+                })
+                .when('/cashHeaders/edit/:id',{
+                    templateUrl:'/cashHeaders/form-edit',
+                    controller: 'CashHeadersController'
+                })
+                //-------------------------------------------
+                //-----------------------------------------
+                .when('/cashes', {
+                    templateUrl: '/js/app/cashes/views/index.html',
+                    controller: 'CashesController'
+                })
+
+               
+                .when('/cashes/create', {
+                    templateUrl: '/cashes/form-create',
+                    controller: 'CashesController'
+                })
+                .when('/cashes/edit/:id',{
+                    templateUrl:'/cashes/form-edit',
+                    controller: 'CashesController'
+                })
+
+                //-------------------------------------------
+                //-----------------------------------------
+                .when('/detCashes', {
+                    templateUrl: '/js/app/detCashes/views/index.html',
+                    controller: 'DetCashesController'
+                })
+
+               
+                .when('/detCashes/create/:id', {
+                    templateUrl: '/detCashes/form-create',
+                    controller: 'DetCashesController'
+                })
+                .when('/detCashes/edit/:id',{
+                    templateUrl:'/detCashes/form-edit',
+                    controller: 'DetCashesController'
+                })
+                //-------------------------------------------
+                //-----------------------------------------
+                .when('/sales', {
+                    templateUrl: '/js/app/sales/views/index.html',
+                    controller: 'SaleController'
+                })
+
+               
+                .when('/sales/create', {
+                    templateUrl: '/sales/form-create',
+                    controller: 'SaleController'
+                })
+                .when('/sales/edit/:id',{
+                    templateUrl:'/sales/form-edit',
+                    controller: 'SaleController'
+                })
+                //-------------------------------------
+                .when('/reports', {
+                    templateUrl: '/js/app/reports/views/index.html',
+                    controller: 'ReportController'
                 })
                 .otherwise({
                     redirectTo: '/'
