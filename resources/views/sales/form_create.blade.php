@@ -1,11 +1,11 @@
  <section class="content-header">
           <h1>
-            Compra
+            Venta
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="/stores">Compra</li>
+            <li class="/stores">Venta</li>
             <li class="active">Crear</li>
           </ol>
 
@@ -18,7 +18,7 @@
 
           <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Crear Compra</h3>
+                  <h3 class="box-title">Crear Venta</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form name="storeCreateForm" role="form" novalidate>
@@ -37,7 +37,7 @@
             <div class="nav-tabs-custom" id="myTabs">
                 <ul class="nav nav-tabs">
                   <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Tab 1</a></li>
-                  <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Tab 2</a></li>
+                  <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false" ng-click="actualizarCaja()">Tab 2</a></li>
                   <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Tab 3</a></li>
                   
                 </ul>
@@ -51,20 +51,33 @@
                         <div class="box-header with-border" style="background-color: #D7EAE3; border-style: solid;
                               border-width: 2px; border-color: #C8D9F7; border-radius: 10px 10px 0px 0px;">
                           <div class="row">
-                            <div class="col-md-8" >
-                              <input type="text" ng-model="atributoSelected" placeholder="Buscar Producto" typeahead="atributo as atributo.NombreAtributos for atributo in getAtributos($viewValue)" 
+                            <div class="col-md-7" ng-show="skuestado">
+                              <input type="text" ng-model="varianteSkuSelected" placeholder="Buscar por SKU" ng-change="getvariantSKU()" class="form-control">
+                            </div>
+
+                            <div class="col-md-7" ng-show="!skuestado">
+                              <input  type="text" ng-model="atributoSelected" placeholder="Buscar por codigo" typeahead="atributo as atributo.NombreAtributos for atributo in getAtributos($viewValue)" 
                                     typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"/>
                             </div>
                             <div class="col-md-2" >
                               <a ng-click="open()" class="btn btn-default ng-binding">ADD</a>
                             </div>
-                            <div class="col-md-2" >
-                              <div class="form-group">
+                            <div class="col-md-3" >
+                            <div class="form-group">
                                 <input type="checkbox" name="estado" ng-model="base" ng-checked="base" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="baseestado()">
-                                <label for="estado">Base</label>
+                                <label for="estado">Base</label>                             
+                              
+                                <input type="checkbox" name="skuestado" ng-model="skuestado" ng-checked="skuestado" class="ng-valid ng-dirty ng-valid-parse ng-touched">
+                                <label for="estado">SKU</label>                             
                               </div>
                             </div>
-                           </div>    
+
+                            
+                            
+                            
+     
+                           </div> 
+ 
                         </div><!-- /.box-header -->
                         <div class="box-body" style="min-height: 400px; border-style: solid;
                                 border-width: 2px; border-color: #C8D9F7;" >
@@ -74,7 +87,7 @@
                               <td>
                                   <button data-toggle="popover" popover-template="dynamicPopover.templateUrl" type="button" class="btn btn-default">@{{compras[$index].cantidad}}</button>
                               </td>
-                              <td><a popover-template="dynamicPopover5.templateUrl" popover-trigger="mouseenter">@{{row.NombreAtributos}}</a></td>
+                              <td><a popover-template="dynamicPopover5.templateUrl" popover-trigger="mouseenter">@{{compras[$index].NombreAtributos}}</a></td>
                               <td>
                                   <button data-toggle="popover" popover-template="dynamicPopover1.templateUrl" type="button" class="btn btn-default">@{{compras[$index].precioVenta| number:2}}</button>
                               </td>
@@ -100,7 +113,7 @@
                                             typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"/>
                                     </div>
                                     <div>
-                                      <a class="btn btn-default ng-binding" data-toggle="modal" data-target="#miventana2">+</a>
+                                      <a class="btn btn-default ng-binding" data-toggle="modal" data-target="#miventana2"><span class="glyphicon glyphicon-plus"></span></a>
                                     </div>
                                 </tr>
                                 <tr>
@@ -130,7 +143,8 @@
                                     
                                     </div>
                                     <div class="col-md-5" >
-                                      <a class="btn btn-default ng-binding" data-toggle="modal" data-target="#miventana1" ng-click="pagar()">PAGAR</a>
+                                      <a ng-if="sale.montoTotal>0" class="btn btn-default ng-binding" data-toggle="modal" data-target="#miventana1" ng-click="pagar()">PAGAR</a>
+                                      <a ng-if="sale.montoTotal==0"class="btn btn-default ng-binding" ng-click="pagar()">PAGAR</a>
                                     </div>
                                   </div>
                                 </tr>
@@ -149,15 +163,15 @@
                                 <td>IGV</td>
                                 <td>@{{sale.igv | number:2}}</td>                    
                                 </tr> 
-                                <tr>
+                                <tr style="border-bottom: solid; border-width: medium;">
                                 <td>Descuento</td>
                                 <td>
                                   <button popover-template="dynamicPopover2.templateUrl" type="button" class="btn btn-default">@{{sale.descuento | number:2}}</button>
                                 </td>                    
                                 </tr> 
                                 <tr>
-                                <td >Total</td>
-                                <td ng-model="sale.montoTotal" >@{{sale.montoTotal | number:2}}</td>                    
+                                <td ><b>Total</b></td>
+                                <td ng-model="sale.montoTotal" ><b>@{{sale.montoTotal | number:2}}</b></td>                    
                                 </tr>                                   
                               </table>
                             </div>
@@ -201,31 +215,72 @@
                   </div><!-- /.tab-pane -->
 
                   <div class="tab-pane" id="tab_2">
-                    <div class="row">
-                    <div class="col-md-6">
+                    <table class="table table-bordered">
+                    <tr>
+                      <th style="width: 10px">#</th>
+                      <th>Fecha</th>
+                      <th>Hora</th>
+                      <th>Tipo</th>
+                      <th>Monto Caja</th>
+                      <th>S/.Tarjeta</th>
+                      <th>S/.Efectivo</th>
+                      <th>Monto Final</th>
+                      <th>Ver Venta</th>
+                    </tr>
+                    
+                    <tr ng-repeat="row in detCashes">
+                      <td>@{{$index + 1}}</td>
+                      <td>@{{row.fecha}}</td>
+                      <td>@{{row.hora}}</td>
+                      <td>@{{row.cash_motive.nombre}}</td>
+                      <td>@{{row.montoCaja}}</td>
+                      <td>@{{row.montoMovimientoTarjeta}}</td>
+                      <td>@{{row.montoMovimientoEfectivo}}</td>
+                      <td>@{{row.montoFinal}}</td>
+                      <td ng-if="row.cashMotive_id==1"><a href="/sales/edit/@{{row.observacion}}" target="_blank">ver venta</a></td>
+                      <td ng-if="row.cashMotive_id!=1">@{{row.observacion}}</td>
+                    </tr>                   
+                  </table>
+                  <div class="box-footer clearfix">
+                    <pagination total-items="totalItems1" ng-model="currentPage1" max-size="maxSize1" 
+                    class="pagination-sm no-margin pull-right" items-per-page="itemsperPage1" boundary-links="true" rotate="false" 
+                    num-pages="numPages1" ng-change="pageChanged1()"></pagination>
+                  </div>                    
+
+                  </div><!-- /.tab-pane -->
+
+                  <div class="tab-pane" id="tab_3">
+                  <div class="row">
+                    <div class="col-md-4">
                      <div class="form-group" >
                         <label for="year">Tienda</label>
-                        <select class="form-control" name="" ng-model="store.id" ng-options="item.id as item.nombreTienda for item in stores">
+                        <select ng-click="mostrarAlmacenCaja()" class="form-control" name="" ng-model="store.id" ng-options="item.id as item.nombreTienda for item in stores">
                           <option value="">--Elije Tienda--</option>
                         </select>
                       </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                     <div class="form-group" >
-                        <label for="year">Tienda</label>
+                        <label for="year">Almacen</label>
                         <select class="form-control" name="" ng-model="warehouse.id" ng-options="item.id as item.nombre for item in warehouses" ng-click="cargarAtributos()">
                           <option value="">--Elije Almacen--</option>
                         </select>
                       </div>
                     </div>
 
+
+                    <div class="col-md-4">
+                        <div class="form-group" >
+                          <label for="month">Caja</label>
+
+                          <select class="form-control" name="" ng-model="cash1.cashHeader_id" ng-options="item.id as item.nombre for item in cashHeaders">
+                          <option value="">--Elije Caja--</option>
+                          </select>
+                        </div>
+                      </div>
+
                     </div>
-
-                  </div><!-- /.tab-pane -->
-
-                  <div class="tab-pane" id="tab_3">
-                  <p>Hola 3 </p>
 
 
                   </div><!-- /.tab-pane -->
@@ -572,44 +627,75 @@
            <div  class="modal fade" id="miventana1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="ngenabled">
              <div  class="modal-dialog">
                   <div style="border-radius: 5px" class="modal-content">
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal" aria-hidden="ngenabled"> &times; </button>
-                          <h4 class="modal-title">Opciones Año</h4>
+                        <div class="modal-header" style="background-color: #0673B3; border-radius: 5px; color: #E2E2EC;">
+                    
+                          <h4 class="modal-title">Realizar Pago</h4>
                         </div>
                         <!--=================cueropo========================-->
                 <div class="modal-body">
               <div class="row" >
-                <div class="col-md-9"> 
+                <div class="col-md-5"> 
                   <table class="table table-bordered">
                     <tr>
                       <td>Cash</td>
                       <td>
                         <input type="number" class="form-control" name="cash" placeholder=""
-                          ng-model="pago.cash"></input>
+                          ng-model="pago.cash" ng-change="calcularVuelto()"></input>
                       </td>                    
                     </tr>
                     <tr>
 
                       <td>Tarjeta</td>
                       <td><input type="number" class="form-control" name="tarjeta" placeholder=""
-                          ng-model="pago.tarjeta"></input>
-                      </td> 
+                          ng-model="pago.tarjeta" ng-change="calcularVuelto()"></input>
+                      </td>
+                    </tr>
+                    <tr> 
+                      <td>
+                          
+                      </td>
                       <td>
                         <div class="btn-group">
                           <label class="btn btn-primary" ng-model="radioModel" btn-radio="'2'">Visa</label>
                           <label class="btn btn-primary" ng-model="radioModel" btn-radio="'3'">MasterCard</label>
-                        </div>
+                        </div>  
                       </td>                    
                     </tr>                                    
+                    <tr>
+                      <td></td>
+                      <td>
+                        <div class="form-group">
+                          <input type="checkbox" name="estado" ng-model="acuenta" ng-checked="acuenta" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="baseestado()">
+                          <label for="estado">Acuenta</label>
+                        </div>
+                      </td>
+                    </tr>
                   </table>
                 </div>
-                  <div class="col-md-3">
-                  <label>@{{sale.montoTotal}}</label> 
-                  
-                    <div class="form-group">
-                      <input type="checkbox" name="estado" ng-model="acuenta" ng-checked="acuenta" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="baseestado()">
-                      <label for="estado">Acuenta</label>
-                    </div>
+                  <div class="col-md-7">
+                    <table class="table table-bordered">
+                      <tr>
+                        <td>Sub Total</td>
+                        <td style="font-size:150%;">S/. @{{sale.montoBruto | number:2}}</td>                    
+                      </tr>
+                      <tr> 
+                        <td>IGV</td>
+                        <td style="font-size:150%;">S/. @{{sale.igv | number:2}}</td>                    
+                      </tr>
+                      <tr style="border-bottom: solid; border-width: medium;">
+                        <td>Descuento</td>
+                        <td style="font-size:150%;">S/. @{{sale.descuento | number:2}}</td>
+                      </tr>  
+                      <tr>
+                        <td><b>Total Pagar</b></td>
+                        <td><b  style="font-size:150%;">S/. @{{sale.montoTotal | number:2}}</b></td>                    
+                      </tr> 
+                      <tr>
+                        <td><b>Vuelto</b></td>
+                        <td><b style="font-size:150%;">S/. @{{sale.vuelto | number:2}}</b></td>                    
+                      </tr>                                   
+                    </table>
+
                 </div>
                 </div>
                    

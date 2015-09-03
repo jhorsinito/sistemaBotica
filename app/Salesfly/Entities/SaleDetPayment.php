@@ -7,6 +7,7 @@ class SaleDetPayment extends \Eloquent {
     
     protected $fillable = ['fecha',
     						'monto',
+    						'numCaja',
     						'salePayment_id', 
     						'saleMethodPayment_id'];
     public function saleMethodPayment(){

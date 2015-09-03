@@ -8,6 +8,7 @@ class SaleDetPaymentManager extends BaseManager {
         $rules = [ 
                     'fecha'=>'',
                     'monto'=>'',
+                    'numCaja'=>'',
             'salePayment_id' => '',
             'saleMethodPayment_id' => ''
                   ];

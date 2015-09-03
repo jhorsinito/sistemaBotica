@@ -131,18 +131,25 @@
                       <th style="width: 10px">#</th>
                       <th>Fecha</th>
                       <th>Hora</th>
+                      <th>Tipo</th>
                       <th>Monto Caja</th>
-                      <th>Monto Movimiento</th>
+                      <th>S/.Tarjeta</th>
+                      <th>S/.Efectivo</th>
                       <th>Monto Final</th>
+                      <th>Ver Venta</th>
                     </tr>
                     
                     <tr ng-repeat="row in detCashes">
                       <td>@{{$index + 1}}</td>
                       <td>@{{row.fecha}}</td>
                       <td>@{{row.hora}}</td>
+                      <td>@{{row.cash_motive.nombre}}</td>
                       <td>@{{row.montoCaja}}</td>
-                      <td>@{{row.montoMovimiento}}</td>
+                      <td>@{{row.montoMovimientoTarjeta}}</td>
+                      <td>@{{row.montoMovimientoEfectivo}}</td>
                       <td>@{{row.montoFinal}}</td>
+                      <td ng-if="row.cashMotive_id==1"><a href="/sales/edit/@{{row.observacion}}" target="_blank">ver venta</a></td>
+                      <td ng-if="row.cashMotive_id!=1">@{{row.observacion}}</td>
                     </tr>                   
                   </table>
                   <div class="box-footer clearfix">

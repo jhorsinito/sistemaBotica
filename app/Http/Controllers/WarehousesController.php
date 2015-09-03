@@ -46,7 +46,7 @@ class WarehousesController extends Controller {
     {
         return View('warehouses.form_edit');
     }
-
+ 
     public function create(Request $request)
     {
         $warehouses = $this->warehouseRepo->getModel();
@@ -104,6 +104,13 @@ class WarehousesController extends Controller {
     
     public function selectWarehouses(){
         $warehouses = $this->warehouseRepo->all();
+        return response()->json($warehouses); 
+    }
+    public function searchWere($q)
+    {
+        //$q = Input::get('q');
+        $warehouses = $this->warehouseRepo->searchWere($q);
+
         return response()->json($warehouses);
     }
 

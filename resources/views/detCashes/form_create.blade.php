@@ -31,7 +31,7 @@
 
 
                    <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group" ng-class="{true: 'has-error'}[ cashCreateForm.montoInicial.$error.required && cashCreateForm.$submitted || cashCreateForm.montoInicial.$dirty && cashCreateForm.montoInicial.$invalid]">
                           <label for="montoInicial">Monto Caja</label>
                           <input type="text" class="form-control ng-pristine ng-valid ng-touched" name="montoInicial" placeholder="0.00" ng-model="cash.montoBruto" ng-blur="calculateSuppPric()" step="0.1">
@@ -41,7 +41,7 @@
                          </div>
                       </div>
 
-                   <div class="col-md-6">
+                   <div class="col-md-4">
                         <div class="form-group" >
                           <label for="month">Tipo de Movimiento</label>
 
@@ -53,9 +53,9 @@
                         </div>
                       </div>
 
-                  </div>
+                  
 
-                   <div class="row">
+                   
                     <div class="col-md-4">
                      <div class="form-group" >
                         <label for="year">Movimiento</label>
@@ -64,10 +64,22 @@
                         </select>
                       </div>
                    </div>
+                   </div>
+                   <div class="row">
                    <div class="col-md-4">
                         <div class="form-group" ng-class="{true: 'has-error'}[ cashCreateForm.montoInicial.$error.required && cashCreateForm.$submitted || cashCreateForm.montoInicial.$dirty && cashCreateForm.montoInicial.$invalid]">
-                          <label for="montoInicial">Monto Movimiento</label>
-                          <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="montoInicial" placeholder="0.00" ng-model="detCash.montoMovimiento" ng-blur="calculate()" step="0.1">
+                          <label for="montoInicial">Movimiento Tarjeta</label>
+                          <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="montoInicial" placeholder="0.00" ng-model="detCash.montoMovimientoTarjeta" ng-blur="calculate()" step="0.1">
+                          <label ng-show="cashCreateForm.$submitted || cashCreateForm.montoInicial.$dirty && cashCreateForm.montoInicial.$invalid">
+                            <span ng-show="cashCreateForm.montoInicial.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                          </label>
+                         </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group" ng-class="{true: 'has-error'}[ cashCreateForm.montoInicial.$error.required && cashCreateForm.$submitted || cashCreateForm.montoInicial.$dirty && cashCreateForm.montoInicial.$invalid]">
+                          <label for="montoInicial">Movimiento Efectivo</label>
+                          <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="montoInicial" placeholder="0.00" ng-model="detCash.montoMovimientoEfectivo" ng-blur="calculate()" step="0.1">
                           <label ng-show="cashCreateForm.$submitted || cashCreateForm.montoInicial.$dirty && cashCreateForm.montoInicial.$invalid">
                             <span ng-show="cashCreateForm.montoInicial.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                           </label>

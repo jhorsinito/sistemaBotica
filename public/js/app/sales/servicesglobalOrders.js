@@ -131,6 +131,7 @@
 
             function reportProWare(uri,idStore,idWerehouse,val){
                 var deferred = $q.defer();
+                //alert(val);
                 $http.get('/api/'+uri+'/misDatos/'+idStore+'/'+idWerehouse+'/'+val)
                     .success(function (data) {
                         deferred.resolve(data);

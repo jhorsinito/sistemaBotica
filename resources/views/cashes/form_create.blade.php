@@ -31,17 +31,26 @@
 
 
                    <div class="row">
-                   <div class="col-md-6">
+                   <div class="col-md-4">
                         <div class="form-group" >
-                          <label for="month">Mes</label>
+                          <label for="month">Tienda</label>
+
+                          <select class="form-control" name="" ng-model="stores.id" ng-click="mostrarCajas()" ng-options="item.id as item.nombreTienda for item in stores">
+                          <option value="">--Elije Tienda--</option>
+                          </select>
+                        </div>
+                      </div>
+                   <div class="col-md-4">
+                        <div class="form-group" >
+                          <label for="month">Caja</label>
 
                           <select class="form-control" name="" ng-model="cash.cashHeader_id" ng-options="item.id as item.nombre for item in cashHeaders">
-                          <option value="">--Elije Mes--</option>
+                          <option value="">--Elije Caja--</option>
                           </select>
                         </div>
                       </div>
                     <!-- capo de Texto  Monto-->
-                      <div class="col-md-6">
+                      <div class="col-md-4">
                         <div class="form-group" ng-class="{true: 'has-error'}[ cashCreateForm.montoInicial.$error.required && cashCreateForm.$submitted || cashCreateForm.montoInicial.$dirty && cashCreateForm.montoInicial.$invalid]">
                           <label for="montoInicial">Monto Inicial</label>
                           <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="montoInicial" placeholder="0.00" ng-model="cash.montoInicial" ng-blur="calculateSuppPric()" step="0.1">
