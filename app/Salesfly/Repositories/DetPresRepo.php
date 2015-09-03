@@ -42,4 +42,10 @@ class DetPresRepo extends BaseRepo{
 
         return $detPres;
     }
+    public function listarVariantes($id){
+         $detPres=DetPres::join("variants","variants.id","=","detPres.variant_id")
+                          ->where("detPres.id","=",$id)->first();
+          return $detPres;
+    }
+     
 } 

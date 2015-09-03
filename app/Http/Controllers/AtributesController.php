@@ -23,7 +23,10 @@ class AtributesController extends Controller {
         $stores = alumno::all();
         return response()->json($stores);
     }
-
+    public function selectNumber($id,$tama){
+        $atributes = $this->atributRepo->eligirNumero($id,$tama);
+        return response()->json($atributes);
+    }
     public function index()
     {
 

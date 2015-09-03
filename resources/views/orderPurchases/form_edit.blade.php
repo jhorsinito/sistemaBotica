@@ -136,7 +136,7 @@
               <label>Producto</label>
                 
                <input typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Busca por producto" 
-          typeahead="product as product.proNombre+' /'+product.NombreAtributos for product in products | filter:$viewValue | limitTo:8" 
+          typeahead="product as product.proNombre+'/'+product.BraName+'/'+product.TName for product in products | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
           tooltip="Ingrese caracteres para busacar producto por nombre">
          
@@ -181,7 +181,7 @@
               </div> 
             </div> -->
 
-            <div class="col-md-4" ng-show="mostrarVariantes">
+            <div class="col-md-4" ng-show="false">
               <div class="form-group" >
                 <label for="Variante">Variante</label>
                 <select class="form-control"   ng-click="seleccionarDetPres()" ng-model="variants.id" ng-options="item.id as item.sku for item in variants">
@@ -319,6 +319,17 @@
             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
           </div><!-- /.box-tools -->
         </div><!-- /.box-header -->
+        <div class="row">
+                <div class="col-md-8">
+                </div>
+                <div class="col-md-4">
+                
+                        <div  class="form-group" >                            
+                            <input  type="checkbox"  name="variantes" ng-model="activarCasillas" />
+                            <span class="text-info"> <em>Agregar a Stock Parte del pedido!!</em></span>
+                        </div>
+                </div>
+         </div>
         <div  class="box-body" style="display: block;">
           <table  class="table table-bordered" id="tabla1">
             <tr>
@@ -327,11 +338,13 @@
               <th>Producto</th>
               <th>Variante </th>
               <th>Cantidad</th>
+              <th>Can Llegado</th>
               <th>Precio Producto</th>
               <th>Precio Compra</th>
               <th>Total Bruto</th>
               <th>Descuento</th>
               <th>SubTotal</th>
+              <th input style="width: 45px" ng-if="orderPurchase.estados==0" ng-show="activarCasillas">Cant. Llegada</th>
               <th ng-if="estados==true">Acciones</th>  
               <th ng-if="estados1==true">Confirmar</th>   
             </tr>
@@ -344,11 +357,13 @@
                       Equivalencia:@{{variants.equivalencia}} @{{presentation.shortname}}" 
                       ng-mouseover="popover(row)">@{{row.CodigoPCompra}}</a></td>
                       <td>@{{row.cantidad}}</td>
+                      <td>@{{row.Cantidad_Ll}}</td>
                       <td>S/.@{{row.preProducto}}</td>
                       <td>S/.@{{row.preCompra}}</td>
                       <td>S/.@{{row.montoBruto}}</td>
                       <td>@{{row.descuento}}%</td>
                       <td>S/.@{{row.montoTotal}}</td>
+                      <td ng-if="orderPurchase.estados==0" ng-show="activarCasillas"><input style="width: 45px" ng-model="row.cantidad_llegado" ng-blur="ActualizarPartStock(row,$index)"  type="number" placeholder="@{{row.cantidad}}" ></td>
                       <td ng-if="orderPurchase.estados==0" ng-show="estados"><button type="button" class="btn  btn-xs" ng-click="addCant(row,$index)">
                         <span class="glyphicon glyphicon-plus"></span>
                         <button type="button" class="btn btn-xs " ng-disabled="" ng-click="lessCant(row,$index)">
@@ -365,7 +380,13 @@
                     -->
                     </tr> 
           </table>
-            
+          <div class="row">
+            <div class="col-md-11">
+            </div>
+            <div ng-if="orderPurchase.estados==0" ng-show="activarCasillas" class="col-md-1">
+                    <a ng-click="ActualizarStock()" class="btn btn-primary btn-xs">Guardar</a>
+            </div>
+          </div>
 
         </div>
       </div>
@@ -401,22 +422,22 @@
           <div class="row">
                <div class="col-md-4">
                <label for="variantes">¿Pedido Atendido?</label>
-                      <div  class="form-group" >                            
-                            <input type="checkbox"  name="variantes" ng-model="orderPurchase.Estado" />
+                      <div   class="form-group" >                            
+                            <input ng-disabled="orderPurchase.cancelar" type="checkbox"  name="variantes" ng-model="orderPurchase.Estado" />
                             <span class="text-info"> <em> Seleccione si su pedido ha sido atendido.</em></span>
                         </div>
                 </div>
                 <div class="col-md-4">
                 <label for="cancelar">¿Cancelar Pedido?</label>
                         <div  class="form-group" >                            
-                            <input type="checkbox"  name="variantes" ng-model="orderPurchase.cancelar" />
+                            <input ng-disabled="orderPurchase.Estado" type="checkbox"  name="variantes" ng-model="orderPurchase.cancelar" />
                             <span class="text-info"> <em> Seleccione si desea cancelar pedido.</em></span>
                         </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group" >
                       <label for="descripcion">Numero de Factura</label>
-                      <input type="descripcion" class="form-control input-sm" name="descripcion" placeholder="Numero Factura"
+                      <input ng-disabled="orderPurchase.cancelar" type="descripcion" class="form-control input-sm" name="descripcion" placeholder="Numero Factura"
                       ng-model="orderPurchase.NumFactura" >
                       <span class="text-info"> <em> Ingrese el numero de factura para este pedido.</em></span>
                   </div>

@@ -8,15 +8,26 @@ use Illuminate\Routing\Controller;
 use Salesfly\Salesfly\Repositories\OrderPurchaseRepo;
 use Salesfly\Salesfly\Managers\OrderPurchaseManager;
 
+use Salesfly\Salesfly\Repositories\PendientAccountRepo;
+use Salesfly\Salesfly\Managers\PendientAccountManager;
+
+use Salesfly\Salesfly\Repositories\PaymentRepo;
+use Salesfly\Salesfly\Managers\PaymentManager;
+
+use Salesfly\Salesfly\Repositories\DetPaymentRepo;
+use Salesfly\Salesfly\Managers\DetPaymentManager;
 //use Intervention\Image\Facades\Image;
 
 class OrderPurchasesController extends Controller {
 
     protected $orderPurchaseRepo;
 
-    public function __construct(OrderPurchaseRepo $orderPurchaseRepo)
+    public function __construct(DetPaymentRepo $detPaymentRepo,PaymentRepo $paymentRepo,PendientAccountRepo $pendientAccountRepo, OrderPurchaseRepo $orderPurchaseRepo)
     {
         $this->orderPurchaseRepo = $orderPurchaseRepo;
+        $this->pendientAccountRepo=$pendientAccountRepo;
+        $this->paymentRepo=$paymentRepo;
+        $this->detPaymentRepo=$detPaymentRepo;
     }
 
     public function index()
@@ -68,6 +79,7 @@ class OrderPurchasesController extends Controller {
         $orderPurchase->save();
 
 
+
         return response()->json(['estado'=>true, 'nombres'=>$orderPurchase->nombres,'codigo'=>$orderPurchase->id,'warehouse_id'=>$orderPurchase->warehouses_id]);
     }
 
@@ -101,6 +113,37 @@ class OrderPurchasesController extends Controller {
         }
 
         $orderPurchase->save();
+        if($orderPurchase->Estado===2){
+                   $payment1 = $this->paymentRepo->paymentById($request->input('id'));
+                   $pendientAccount=$this->pendientAccountRepo->getModel();
+                   //$pendientAcc=$this->pendientAccountRepo->verSaldos($payment1->id);
+        if($payment1!=null){  
+                  $detPayment=$this->detPaymentRepo->verPagosAdelantados($payment1->id); 
+                if($detPayment!=null){
+                  foreach($detPayment as  $detPayment) {
+                     $SaldosTemporales =$this->pendientAccountRepo->find2($detPayment['Saldo_F']);
+                     if($SaldosTemporales!=null){
+                     $request->merge(['Saldo'=>$SaldosTemporales->Saldo+$detPayment['montoPagado']]);
+                     $request->merge(['orderPurchase_id'=>$SaldosTemporales->orderPurchase_id]);
+                     $request->merge(['supplier_id'=>$SaldosTemporales->supplier_id]);
+                     $insercount=new PendientAccountManager($SaldosTemporales,$request->all());
+                     $insercount->save();
+                     }else{
+                        $request->merge(['orderPurchase_id'=>$request->input('id')]);
+                        $request->merge(['Saldo'=>$payment1->Acuenta]);
+                        $insercount=new PendientAccountManager($pendientAccount,$request->all());
+                        $insercount->save();
+                     }
+                  }
+                  }else{   
+                  $request->merge(['orderPurchase_id'=>$request->input('id')]);
+                  $request->merge(['Saldo'=>$payment1->Acuenta]);
+                  $insercount=new PendientAccountManager($pendientAccount,$request->all());
+                  $insercount->save();
+                  $provicional=$request->idpayment;
+                }
+        }
+    }
 
         return response()->json(['estado'=>true, 'nombres'=>$orderPurchase->nombres]);
        

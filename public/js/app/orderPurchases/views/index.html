@@ -208,9 +208,12 @@
                       </td>
                     </tr>
                 </table>
-                  <div class="form-group" align="right">
+                  <div ng-hide="mostrarBtnGEd" class="form-group" >
                      <button class=" label-default" ng-click='createPayment(row)'>Agregar Pago</button>
                   </div>
+                  <div  ng-show="mostrarBtnGEd" class="form-group" >
+                    <button class=" label-default" type='submit' ng-click='editPayment()' >Edit Pago</button>  
+            </div>
               </div>
               <div class="col-md-8" align="center">
                 
@@ -227,6 +230,9 @@
                       <td>{{row.nameMethod}}</td>
                       <td>{{row.montoPagado}}</td>
                       <td ><span class="badge bg-blue">{{row.tipoPago}}</span></td> 
+                      <td><button type="button" class="btn btn-danger btn-xs"  ng-click="destroyPay(row)">
+                        <span class="glyphicon glyphicon-trash"></span></button>
+                     <a ng-click="editDetpayment(row)" class="btn btn-warning btn-xs">Edit</a></td>
                     </tr>
 
                   </table>

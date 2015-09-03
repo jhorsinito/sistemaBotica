@@ -9,15 +9,27 @@ use Salesfly\Salesfly\Repositories\DetailOrderPurchaseRepo;
 use Salesfly\Salesfly\Managers\DetailOrderPurchaseManager;
 use Salesfly\Salesfly\Repositories\OrderPurchaseRepo;
 use Salesfly\Salesfly\Managers\OrderPurchaseManager;
+
+use Salesfly\Salesfly\Repositories\PendientAccountRepo;
+use Salesfly\Salesfly\Managers\PendientAccountManager;
+
+use Salesfly\Salesfly\Repositories\PaymentRepo;
+use Salesfly\Salesfly\Managers\PaymentManager;
+use Salesfly\Salesfly\Repositories\DetPaymentRepo;
+use Salesfly\Salesfly\Managers\DetPaymentManager;
+
 class DetailOrderPurchasesController extends Controller {
 
     protected $detailOrderPurchaseRepo;
     protected $orderPurchaseRepo;
 
-    public function __construct(DetailOrderPurchaseRepo $detailOrderPurchaseRepo, OrderPurchaseRepo $orderPurchaseRepo)
+    public function __construct(PaymentRepo $paymentRepo,DetPaymentRepo $detPaymentRepo,PendientAccountRepo $pendientAccountRepo,DetailOrderPurchaseRepo $detailOrderPurchaseRepo, OrderPurchaseRepo $orderPurchaseRepo)
     {
         $this->detailOrderPurchaseRepo = $detailOrderPurchaseRepo;
         $this->orderPurchaseRepo = $orderPurchaseRepo;
+        $this->pendientAccountRepo=$pendientAccountRepo;
+        $this->paymentRepo = $paymentRepo;
+        $this->detPaymentRepo = $detPaymentRepo;
     }
 
 
@@ -53,7 +65,10 @@ class DetailOrderPurchasesController extends Controller {
     public function create(Request $request)
     {
   //-----------------------------------------------------
-  $var =$request->all();
+  $var =$request->detailOrderPurchases;
+  $montotot=$request->input('MontoTotal');
+  //$verDeudas=$this->pendientAccountRepo->verSaldos($request->input("supplier_id"));
+  //var_dump($request->input('id'));die();
   $detailOrderPurchaseRepox;
          
        foreach($var as $object){
@@ -64,8 +79,109 @@ class DetailOrderPurchasesController extends Controller {
            $detailOrderPurchaseRepox = null;
 
        }
+      $verDeudas=$this->pendientAccountRepo->verSaldos($request->input("supplier_id"));
+  //var_dump($verDeudas[0]->Saldo);die();
+      $SaldoAfavor=$request->input('SaldoUtilizado');
+      $provicional=null;
+      if($verDeudas!=null){
+        if($SaldoAfavor>0){
+        foreach($verDeudas as $verDeudas){
+         // $verDeudas=$this->pendientAccountRepo->verSaldos($request->input("supplier_id"));
+          
+         /* if($provicional==null){
+              $payment = $this->paymentRepo->getModel();
+              $request->merge(['MontoTotal'=>$montotot]);
+              $request->merge(['Acuenta'=>$verDeudas->Saldo]);
+              $request->merge(['orderPurchase_id'=>$request->input('id')]);
+              $salc=$request->input('MontoTotal')-$request->input('Acuenta');
+              $request->merge(['Saldo'=>$salc]);        
+              $manager = new PaymentManager($payment,$request->all());
+              $manager->save();
+              $provicional=$payment->id;
+            }*/
+           if($verDeudas->Saldo>0 && $SaldoAfavor<=$verDeudas->Saldo){
+              $var=$request->detPayments; 
+              if($provicional==null){
+              $payment = $this->paymentRepo->getModel();
+             // $request->merge(['MontoTotal'=>$montotot]);
+              $request->merge(['Acuenta'=>$SaldoAfavor]);
+              $request->merge(['orderPurchase_id'=>$request->input('id')]);
+              $salc=$request->input('MontoTotal')-$request->input('Acuenta');
+              $request->merge(['Saldo'=>$salc]);        
+              $manager = new PaymentManager($payment,$request->all());
+              $manager->save();
+              $provicional=$payment->id;
+            }else{
+              $saldos = $this->paymentRepo->find($provicional);
+             // $request->merge(['MontoTotal'=>$montotot]);
+              $request->merge(['Acuenta'=>$saldos->Acuenta+$SaldoAfavor]);
+              $request->merge(['orderPurchase_id'=>$request->input('id')]);
+              $salc=$request->input('MontoTotal')-$request->input('Acuenta');
+              $request->merge(['Saldo'=>$salc]);
+              $payment=new PaymentManager($saldos,$request->all());
+              $payment->save();
+            }             
+      // var_dump($var);die();
+              $detPayment = $this->detPaymentRepo->getModel();
+              $pendientAccountRepo = $this->pendientAccountRepo->getModel();
+              $request->merge(['tipoPago'=>'A']);
+              $request->merge(['payment_id'=>$provicional]);
+              $request->merge(['montoPagado'=>$SaldoAfavor]);
+              $request->merge(['methodPayment_id'=>4]);
+              $request->merge(['Saldo_F'=>$verDeudas->id]);
+              $insertDetP = new DetPaymentManager($detPayment,$request->all());
+              $insertDetP->save();
+              $request->merge(['Saldo'=>$verDeudas->Saldo-$SaldoAfavor]);
+              $request->merge(['orderPurchase_id'=>$verDeudas->orderPurchase_id]);
+              $request->merge(['supplier_id'=>$verDeudas->supplier_id]);
+              $updateSaldoF=new pendientAccountManager($verDeudas,$request->all());
+              $updateSaldoF->save();
+              break;
+              //$SaldoAfavor=$verDeudas->Saldo-$request->input('SaldoUtilizado');
+      }else{if($verDeudas->Saldo>0){
+         $var=$request->detPayments;              
+      // var_dump($var);die();
+              $SaldoAfavor=$SaldoAfavor-$verDeudas->Saldo;
+              if($provicional==null){
+              $payment = $this->paymentRepo->getModel();
+              //$request->merge(['MontoTotal'=>$montotot]);
+              $request->merge(['Acuenta'=> $SaldoAfavor]);
+              $request->merge(['orderPurchase_id'=>$request->input('id')]);
+              $salc=$request->input('MontoTotal')-$request->input('Acuenta');
+              $request->merge(['Saldo'=>$salc]);        
+              $manager = new PaymentManager($payment,$request->all());
+              $manager->save();
+              $provicional=$payment->id;
+            }else{
+              $saldos = $this->paymentRepo->fine($provicional);
+             // $request->merge(['MontoTotal'=>$montotot]);
+              $request->merge(['Acuenta'=>$saldos->Acuenta+ $SaldoAfavor]);
+              $request->merge(['orderPurchase_id'=>$request->input('id')]);
+              $salc=$request->input('MontoTotal')-$request->input('Acuenta');
+              $request->merge(['Saldo'=>$salc]);
+              $payment=new PaymentManager($saldos,$request->all());
+              $payment->save();
+            }
+              $detPayment = $this->detPaymentRepo->getModel();
+              $pendientAccountRepo = $this->pendientAccountRepo->getModel();
+              $request->merge(['tipoPago'=>'A']);
+              $request->merge(['payment_id'=>$provicional]);
+              $request->merge(['montoPagado'=>$verDeudas->Saldo]);
+              $request->merge(['methodPayment_id'=>4]);
+              $request->merge(['Saldo_F'=>$verDeudas->id]);
+              $insertDetP = new DetPaymentManager($detPayment,$request->all());
+              $insertDetP->save();
+              
+              $request->merge(['Saldo'=>0]);
+              $request->merge(['orderPurchase_id'=>$verDeudas->orderPurchase_id]);
+              $request->merge(['supplier_id'=>$verDeudas->supplier_id]);
+              $updateSaldoF=new pendientAccountManager($verDeudas,$request->all());
+              $updateSaldoF->save();
+      }
+     }
+    }}
       return response()->json(['estado'=>true]);
-    }
+    }}
     public function destroy(Request $request)
     {
       
@@ -99,6 +215,20 @@ class DetailOrderPurchasesController extends Controller {
         $detailOrderPurchaseRepox = null;
 
        }
+       $payment = $this->paymentRepo->getModel();
+        $payment1 = $this->paymentRepo->paymentById($request->input('id'));
+        
+        if($payment1==null){
+        }else{
+       // $request->merge(['MontoTotal'=>$request->input('MontoTotal')]);
+        $request->merge(['Acuenta'=>$payment1->Acuenta]);
+        $request->merge(['orderPurchase_id'=>$request->input('id')]);
+        $salc=$request->input('MontoTotal')-$request->input('Acuenta');
+        $request->merge(['Saldo'=>$salc]);  
+           $manager = new PaymentManager($payment1,$request->all());
+           $manager->save(); 
+           $provicional=$request->idpayment;
+        }
       return response()->json(['estado'=>true]);
     }
 

@@ -45,7 +45,26 @@ class VariantRepo extends BaseRepo{
                         ->select('presentation.shortname')->first();
         return $variants;
     } 
-    public function uatocomplit(){
+    public function selectByID($id,$var){
+        $variant=Variant::leftjoin('detAtr','detAtr.variant_id','=','variants.id')
+                          ->leftjoin('atributes','atributes.id','=','detAtr.atribute_id')
+                          ->where('variants.codigo','=',$id)->where('atributes.nombre','=',$var)
+                          ->select('atributes.shortname as nomCortoVar','detAtr.descripcion as valorDetAtr')->groupBy('detAtr.descripcion')->paginate();
+        return $variant;
+    }
+    public function selectTalla($id,$taco){
+         $variant=Variant::leftjoin('detAtr','detAtr.variant_id','=','variants.id')
+                          ->leftjoin('atributes','atributes.id','=','detAtr.atribute_id')
+                          ->where('variants.codigo','=',$id)->where('detAtr.descripcion','=',$taco)
+                          ->select(\DB::raw("variants.id as varCodigo,atributes.shortname as nomCortoVar,detAtr.descripcion as 
+                            valorDetAtr,(SELECT (detAtr.descripcion ) FROM variants
+                                INNER JOIN detAtr ON detAtr.variant_id = variants.id
+                                INNER JOIN atributes ON atributes.id = detAtr.atribute_id
+                                where variants.id=varCodigo and atributes.nombre='Talla'
+                                GROUP BY variants.codigo)as numTalla"))->paginate();
+        return $variant;
+    }
+    /*public function uatocomplit(){
        
         $variants=Variant::join('detAtr','variants.id','=','detAtr.variant_id')
                         ->join('products','products.id','=','variants.product_id')
@@ -56,7 +75,8 @@ class VariantRepo extends BaseRepo{
                                 where variants.id=varid
                                 GROUP BY variants.id) as NombreAtributos'))->groupBy('variants.id')->paginate(15);
         return $variants;
-    }   
+    } */
+
   
 
 }

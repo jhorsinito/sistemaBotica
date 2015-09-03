@@ -184,4 +184,18 @@ class ProductsController extends Controller
         $stations = Station::lists('nombre','id');
         return response()->json($stations);
     }
+    public function search($q)
+    {
+        //$q = Input::get('q');
+        $customers = $this->productRepo->search($q);
+
+        return response()->json($customers);
+    }
+   /*public function search($q)
+    {
+        //$q = Input::get('q');
+        $customers = $this->customerRepo->search($q);
+
+        return response()->json($customers);
+    }*/
 }

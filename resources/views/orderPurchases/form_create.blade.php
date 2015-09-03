@@ -180,7 +180,7 @@
               <label>Producto</label>
                 
                <input typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Locations loaded via $http" 
-          typeahead="product as product.proNombre+' /'+product.NombreAtributos for product in products | filter:$viewValue | limitTo:8" 
+          typeahead="product as product.proNombre+product.BraName+'/'+product.TName for product in products | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
            tooltip="Ingrese caracteres para busacar producto por nombre"
             >
@@ -192,7 +192,7 @@
             
         </div> 
             </div> 
-           <div class="col-md-4">
+           <!--<div class="col-md-4">
           <div class="input-group">
               <label>Variante</label>
                
@@ -207,19 +207,68 @@
            </div>
              
         </div> 
-      </div>
-      <div class="col-md-1">
+      </div>-->
+    <div class="col-md-2">
+           <div  ng-show="true">
+              <div class="form-group" >
+                <label for="Variante">Taco</label>
+                <select class="form-control"   ng-click="mostrarTallas(detailOrderPurchase.taco)" ng-model="detailOrderPurchase.taco" ng-options="item.valorDetAtr as item.nomCortoVar+': '+item.valorDetAtr for item in variants">
+                  <option value="">--Elija Num Taco--</option>
+                </select>
+                <!--@{{variants.varid}}-->
+                </div>
+            </div>
+            </div>
+      <!--<div class="col-md-1">
       <div class="input-group">
       <label></label><br/>
            <input type="checkbox" name="vehicle"  ng-click="llenar()" >Base<br>
       </div>
-    </div>
+    </div>-->
            
 
           </div>
-
+  <div class="row">
+  <div class="col-md-1">
+       </div>
+  <div class="col-md-10">
+  <div ng-if="detailOrderPurchase.taco>0"class="well well-lg">
+  <h2>Las Tallas Disponibles Para este Producto Son</h2>
+  <div class="row">
+       <div ng-repeat="item in atributes">
+       <div class="col-md-1">
+       </div>
+       <div class="col-md-2" >
+               <div class="input-group" ng-value="item.numTalla">
+                  <input  type="checkbox"  ng-model="cheked1"  />@{{item.numTalla}}
+                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.numTalla)" step="1" rquired>
+              </div>    
+       </div>
+      <!-- <div class="col-md-2" ng-if="$index>4 && $index<=9">
+             <div class="input-group" ng-value="item.valorDetAtr">
+                  <input  type="checkbox"   ng-model="cheked1" />@{{item.valorDetAtr}}
+                 <input ng-show="cheked1" type="number" style="width:40px"   placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.valorDetAtr)" step="1" rquired>
+               </div> 
+        </div>
+       <div class="col-md-2" ng-if="$index>9 && $index<=14">
+            <div class="input-group" ng-value="item.valorDetAtr">
+                  <input  type="checkbox" ng-model="cheked1" />@{{item.valorDetAtr}}
+                  <input ng-show="cheked1" type="number" style="width:40px" placeholder="0"  ng-model="cantidad" ng-blur="calCantidad(cantidad,item.valorDetAtr)" step="1" rquired>
+              </div>            
+        </div>
+       <div class="col-md-2" ng-if="$index>14 && $index<=19">
+              <div class="input-group" ng-value="item.valorDetAtr">
+                  <input  type="checkbox" ng-model="cheked1"  />@{{item.valorDetAtr}}
+                  <input ng-show="cheked1" type="number" style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.valorDetAtr)" step="1" rquired>
+              </div>            
+        </div> -->
+      </div>
+  </div>  
+  </div>
+  </div>
+</div>           
         
-           <!-------------------------------------------------------------------------->
+           <!--------------------------------------------------------------------------
           <div class="row">
            <div class="col-md-1">
            </div>
@@ -413,7 +462,15 @@
                 name="montoTotal" placeholder="0.00"  ng-disabled="product.hasVariants" ng-blur="calcularmontoBrutoF()" step="0.1">
               </div>
             </div>
+
       </div>
+      <div class="col-md-4"> 
+                <div class="form-group">
+                <label for="suppPric">Ingrese Saldo aUtilizar</label>
+                <input type="number" ng-model="orderPurchase.SaldoUtilizado" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
+                name="montoTotal" placeholder="0.00"  ng-disabled="product.hasVariants" ng-blur="calcularmontoBrutoF()" step="0.1">
+              </div>
+            </div>
 
 
         
