@@ -9,6 +9,7 @@ use Mockery\Matcher\Type;
 use Salesfly\Http\Requests;
 use Salesfly\Http\Controllers\Controller;
 
+use Salesfly\Salesfly\Entities\Product;
 use Salesfly\Salesfly\Managers\DetPresManager;
 use Salesfly\Salesfly\Managers\StockManager;
 use Salesfly\Salesfly\Repositories\DetPresRepo;
@@ -96,7 +97,8 @@ class ProductsController extends Controller
 
     public function create(Request $request)
     {
-        //var_dump($request->input('presentations')); die();
+        //$request->merge(array('sdf' => 'hola'));
+        //var_dump($request->all()); die();
         $product = $this->productRepo->getModel();
         $variant = $this->variantRepo->getModel();
         $detPres = $this->detPres->getModel();
@@ -121,6 +123,19 @@ class ProductsController extends Controller
         }elseif($request->input('hasVariants') === '0'){
             $managerPro->save();
             $request->merge(array('product_id' => $product->id));
+
+            if($request->input('autogenerado') === true) {
+                $sku = \DB::table('variants')->max('sku');
+                if (!empty($sku)) {
+                    $sku = $sku + 1;
+                } else {
+                    $sku = 1000; //inicializar el sku;
+                }
+                $request->merge(array('sku' => $sku));
+            }else{
+
+            }
+
             $product->quantVar = 0;
             $product->save();
             $managerVar = new VariantManager($variant,$request->only('sku','suppPri','markup','price','track','product_id'));
@@ -135,11 +150,13 @@ class ProductsController extends Controller
                     $presManager->save();
                 }
                 if($request->input('track') == 1) {
-                    foreach ($request->input('stock') as $stock) {
-                        $stock['variant_id'] = $variant->id;
-                        $oStock = new StockRepo();
-                        $stockManager = new StockManager($oStock->getModel(), $stock);
-                        $stockManager->save();
+                    if(!empty($request->input('stock'))) {
+                        foreach ($request->input('stock') as $stock) {
+                            $stock['variant_id'] = $variant->id;
+                            $oStock = new StockRepo();
+                            $stockManager = new StockManager($oStock->getModel(), $stock);
+                            $stockManager->save();
+                        }
                     }
                 }
 
@@ -208,6 +225,19 @@ class ProductsController extends Controller
         }elseif($request->input('hasVariants') === '0'){
             $managerPro->save();
             $request->merge(array('product_id' => $product->id));
+
+            if($request->input('autogenerado') === true) {
+                $sku = \DB::table('variants')->max('sku');
+                if (!empty($sku)) {
+                    $sku = $sku + 1;
+                } else {
+                    $sku = 1000; //inicializar el sku;
+                }
+                $request->merge(array('sku' => $sku));
+            }else{
+
+            }
+
             $product->quantVar = 0; //aunq presenta una fila en la tabla variantes por defecto
             $product->save();
             $variant = $this->variantRepo->getModel()->where('product_id',$product->id)->first();
@@ -257,21 +287,22 @@ class ProductsController extends Controller
         return response()->json(['estado'=>true, 'nombres'=>$product->nombre]);
     }
 
-    /*public function destroy(Request $request)
+    public function destroy(Request $request)
     {
-        $customer= $this->customerRepo->find($request->id);
-        $customer->delete();
+        //$customer= $this->productRepo->find($request->id);
+        $product = Product::find($request->proId);
+        $product->delete();
         //Event::fire('update.customer',$customer->all());
-        return response()->json(['estado'=>true, 'nombre'=>$customer->nombre]);
+        return response()->json(['estado'=>true, 'nombre'=>$product->nombre]);
     }
+    /*
+        public function search($q)
+        {
+            //$q = Input::get('q');
+            $customers = $this->customerRepo->search($q);
 
-    public function search($q)
-    {
-        //$q = Input::get('q');
-        $customers = $this->customerRepo->search($q);
-
-        return response()->json($customers);
-    }*/
+            return response()->json($customers);
+        }*/
     public function brands_select(){
         $brands = Brand::lists('nombre','id');
         return response()->json($brands);

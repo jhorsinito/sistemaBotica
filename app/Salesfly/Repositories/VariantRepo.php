@@ -10,6 +10,21 @@ class VariantRepo extends BaseRepo{
         return new Variant;
     }
 
+    public function find($id){
+        return Variant::find($id)->load(['detPre' => function ($query){
+            $query->join('presentation','presentation.id','=','detPres.presentation_id');
+            //$query->orderBy('id');
+        },'stock','product']);
+    }
+
+    public function getAttr($id){
+        return Variant::find($id)->load(['detAtr']);
+    }
+
+    public function findV($id){
+        return Variant::find($id);
+    }
+
   /* public function paginaterepo($c){
         //$warehouses = Warehouse::with('store')->paginate($c);
         $variants = Variant::with(array('product'=>function($query){
