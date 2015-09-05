@@ -27,10 +27,16 @@ angular.module('sales').controller('ModalInstanceCtrl', function ($scope,$log, $
   };
    $scope.AsignarCompra = function(row){
         //$log.log(row);
-        crudServiceOrders.setPres(row);
+        //alert("Equi : "+$scope.atributoSelected.equivalencia);
+        //alert("stok : "+$scope.atributoSelected.Stock);
+        if(row.equivalencia<row.Stock || row.equivalencia==row.Stock){
+          crudServiceOrders.setPres(row);
 
-        crudServiceOrders.AsignarCom();
-        $scope.cancel();
+          crudServiceOrders.AsignarCom();
+          $scope.cancel();
+        }else{
+          alert("STOK Insuficioente");
+        }
         //$log.log(row);
           //alert($scope.atributoSelected.NombreAtributos);
         //$scope.row1=row;

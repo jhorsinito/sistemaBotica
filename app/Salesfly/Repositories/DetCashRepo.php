@@ -12,10 +12,23 @@ class DetCashRepo extends BaseRepo{
 
     public function search($q)
     {
-        $detCashs =DetCash::where('cash_id','=', $q)
+        $detCashs =DetCash::with('cashMotive')
+                    ->where('cash_id','=', $q)
                     ->paginate(15);
         return $detCashs;
     }
+    public function searchSale($q)
+    {
+        $detCashs =DetCash::with('cashMotive')
+                        ->where('cash_id','=', $q)
+                        ->where('cashMotive_id','=','1')
+                    ->paginate(15);
+        return $detCashs;
+    } 
+    public function paginate($count){
+        $detCashs = DetCash::with('cashMotive');
+        return $detCashs->paginate($count);
+    } 
 
 
 }

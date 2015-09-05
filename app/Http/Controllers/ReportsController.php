@@ -86,6 +86,7 @@ class ReportsController extends Controller
     }
     public function reportProduct($id)
     {
+         return "hola";/*
                 //
         $database = \Config::get('database.connections.mysql');
         $time=time();
@@ -117,12 +118,39 @@ class ReportsController extends Controller
         readfile($output.'.'.$ext);*/
         //return "Hola";
         //return redirect('/report/'.$time.'_report4.'.$ext);
-        return '/report/'.$time.'_report4.'.$ext;
+        //return '/report/'.$time.'_report4.'.$ext;
         //return $id;
     }
+    public function reportTiket($id){
+
+             //return $id;
+        
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_tikets';
+        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/tikets.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['idVariante' => $id],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+    
+   
+        return '/report/'.$time.'_tikets.'.$ext;
+    }
+    
     public function reportProductWere($idStore,$idWerehouse)
     {
-                //
+           return "hola"+$idStore+" "+$idWerehouse;     /*
         $database = \Config::get('database.connections.mysql');
         $time=time();
         $output = public_path() . '/report/'.$time.'_reportProducts';
@@ -153,7 +181,7 @@ class ReportsController extends Controller
         readfile($output.'.'.$ext);
 
         */
-        return '/report/'.$time.'_reportProducts.'.$ext;
+       // return '/report/'.$time.'_reportProducts.'.$ext;
         
         //return $id;
     }

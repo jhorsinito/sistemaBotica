@@ -89,7 +89,7 @@ class EmployeesController extends Controller {
     public function edit(Request $request)
     {
        $employee = $this->employeeRepo->find($request->id);
-       
+       //var_dump($employee->all());die();
         $manager = new EmployeeManager($employee,$request->except('fechanac','imagen'));
         $manager->save();
         //------------------------------------------------

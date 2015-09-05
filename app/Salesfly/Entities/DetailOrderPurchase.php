@@ -5,14 +5,15 @@ class DetailOrderPurchase extends \Eloquent {
 
 	protected $table = 'detailOrderPurchases';
     
-    protected $fillable = ['descuento',
+    protected $fillable = ['producto','descuento',
     						'montoBruto',
     						'montoTotal',
     						'orderPurchases_id',
     						'detPres_id',
     						'preProducto',
     						'preCompra',
-    						'cantidad'
+    						'cantidad',
+                'Cantidad_Ll'
     						];
 
     public function detPres()

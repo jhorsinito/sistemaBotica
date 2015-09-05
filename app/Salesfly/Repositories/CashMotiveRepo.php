@@ -17,5 +17,12 @@ class CashMotiveRepo extends BaseRepo{
                     ->paginate(15);
         return $cashMotives;
     }
+    public function searchMotive($q)
+    {
+        $cashMotive =CashMotive::where('id','=', $q)
+                    //with(['customer','employee'])
+                    ->paginate(15);
+        return $cashMotive;
+    }
 
 } 

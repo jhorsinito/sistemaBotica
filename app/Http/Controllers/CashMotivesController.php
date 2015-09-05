@@ -22,7 +22,7 @@ class CashMotivesController extends Controller
         $cashMotive = $this->cashMotiveRepo->all();
         return response()->json($cashMotive);
     }
-    public function index()
+    public function index() 
     {
         //
     }
@@ -30,6 +30,13 @@ class CashMotivesController extends Controller
     {
         //$q = Input::get('q');
         $cashMotives = $this->cashMotiveRepo->search($q);
+
+        return response()->json($cashMotives);
+    }
+    public function searchMotive($q)
+    {
+        //$q = Input::get('q');
+        $cashMotives = $this->cashMotiveRepo->searchMotive($q);
 
         return response()->json($cashMotives);
     }

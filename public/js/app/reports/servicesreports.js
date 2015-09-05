@@ -139,6 +139,15 @@
                 });
                 return deferred.promise;
             }
+            function reportTikets(idvar){
+                var deferred = $q.defer();
+                var result = $http.post('/api/report/tiket/'+idvar);
+                                          //api/reports/tiket/
+                result.success(function(data){
+                        deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
 
             function select(uri,select)
             {
@@ -164,7 +173,8 @@
                 searchMes,searchMes,
                 reportPro,reportPro,
                 reportProWare,reportProWare,
-                searchWarehouses,searchWarehouses
+                searchWarehouses,searchWarehouses,
+                reportTikets: reportTikets
             }
         }])
         .factory('socketService', function ($rootScope) {

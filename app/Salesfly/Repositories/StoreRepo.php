@@ -27,7 +27,7 @@ class StoreRepo extends BaseRepo{
     }
     public function all(){
         //$stores = $this->storeRepo->all();
-        //return response()->json($stores);
+        //return response()->json($stores); 
         $stores = Store::all();
         return $stores;
     }

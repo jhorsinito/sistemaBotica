@@ -95,7 +95,7 @@ class StoresController extends Controller {
 
     public function selectStores(){
         $stores = $this->storeRepo->all();
-        return response()->json($stores);
+        return response()->json($stores); 
     }
 
     public function searchReport($q)

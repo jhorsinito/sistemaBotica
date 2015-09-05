@@ -16,6 +16,7 @@ class CreateSaleDetPaymentsTable extends Migration
             $table->increments('id');
             $table->dateTime('fecha');
             $table->decimal('monto',10,2);
+            $table->integer('numCaja');
             $table->integer('salePayment_id')->unsigned();
             $table->foreign('salePayment_id')->references('id')->on('salePayments');
             $table->integer('saleMethodPayment_id')->unsigned();

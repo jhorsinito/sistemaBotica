@@ -33,11 +33,17 @@ class CashHeadersController extends Controller
     {
         $cashHeader = $this->cashHeaderRepo->find($id);
         return response()->json($cashHeader);
-    }
+    } 
 
     public function search($q)
     {
         $cashHeaders = $this->cashHeaderRepo->search($q);
+
+        return response()->json($cashHeaders);
+    }
+    public function searchHeader($q)
+    {
+        $cashHeaders = $this->cashHeaderRepo->searchHeader($q);
 
         return response()->json($cashHeaders);
     }

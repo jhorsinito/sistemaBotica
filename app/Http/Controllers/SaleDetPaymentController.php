@@ -10,6 +10,12 @@ use Salesfly\Salesfly\Managers\SaleDetPaymentManager;
 use Salesfly\Salesfly\Repositories\SalePaymentRepo;
 use Salesfly\Salesfly\Managers\SalePaymentManager;
 
+use Salesfly\Salesfly\Repositories\CashRepo;
+use Salesfly\Salesfly\Managers\CashManager;
+
+use Salesfly\Salesfly\Repositories\DetCashRepo;
+use Salesfly\Salesfly\Managers\DetCashManager;
+
 class SaleDetPaymentController extends Controller {
 
     protected $saleDetPaymentRepo;
@@ -36,7 +42,40 @@ class SaleDetPaymentController extends Controller {
     //------------------------------------------------------
     public function create(Request $request)
     {
-        //var_dump($request->all());die();;
+        $temporal=$request->input("sale_id");
+        //---create movimiento---
+            $movimiento = $request->movimiento;
+            $detCashrepo;
+            $movimiento['observacion']=$temporal;
+            $detCashrepo = new DetCashRepo;
+            $movimientoSave=$detCashrepo->getModel();
+        
+            $insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
+            $insertarMovimiento->save();
+    //---Autualizar Caja---
+            
+            $cajaAct = $request->caja;
+            $temporal2=$cajaAct['id'];
+            $cashrepo;
+            //$movimiento['observacion']=$temporal;
+            $cashrepo = new CashRepo;
+            $cajaSave=$cashrepo->getModel();
+            //var_dump($cajaAct);die();
+            $cash1 = $cashrepo->find($cajaAct["id"]);
+
+
+        
+            //$insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
+            //$insertarMovimiento->save();
+
+            //$stores = $this->storeRepo->find($request->id);
+            //var_dump($cash1);die();
+
+            $manager1 = new CashManager($cash1,$cajaAct);
+            $manager1->save();
+            
+
+        //----------------
         
         $var=$request->detPayments;
         
@@ -57,7 +96,7 @@ class SaleDetPaymentController extends Controller {
         
         //$object["stockActual"]=$stockac->stockActual+($object["cantidad"]);
         $detPayment = $this->saleDetPaymentRepo->getModel();
-        
+        $detPayment['numCaja']=$temporal2;
 
 
         //$update = new PaymentManager($payment,$request->all());

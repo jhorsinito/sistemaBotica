@@ -5,6 +5,6 @@ class DetPayment extends \Eloquent {
 
 	protected $table = 'detPayments';
     
-    protected $fillable = ['fecha','payment_id','tipoPago','methodPayment_id','montoPagado'];
+    protected $fillable = ['fecha','payment_id','tipoPago','methodPayment_id','montoPagado','Saldo_F'];
 
 }

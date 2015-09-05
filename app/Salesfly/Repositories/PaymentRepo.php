@@ -9,11 +9,12 @@ class PaymentRepo extends BaseRepo{
     }
 
    public function paymentById($id){
-       $payment=Payment::where('payments.purchase_id','=',$id)->orWhere('payments.orderPurchase_id','=',$id)->first();
+       $payment=Payment::Where('payments.orderPurchase_id','=',$id)->first();
        return $payment;
    }
    public function payIDLocal($id){
        $payment=Payment::where('payments.orderPurchase_id','=',$id)->first();
        return $payment;
    }
+   
 } 

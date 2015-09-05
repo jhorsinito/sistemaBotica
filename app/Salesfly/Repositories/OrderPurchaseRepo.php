@@ -28,7 +28,7 @@ class OrderPurchaseRepo extends BaseRepo{
     public function paginar(){
     $purchases=OrderPurchase::join('suppliers','orderPurchases.supplier_id','=','suppliers.id')
                        ->join('warehouses','warehouses.id','=','orderPurchases.warehouses_id')
-                       ->select('orderPurchases.*','suppliers.id as supID','suppliers.empresa as empresa','warehouses.nombre as almacen')->orderBy('orderPurchases.id','asc')
+                       ->select('orderPurchases.*','suppliers.id as supID','suppliers.empresa as empresa','warehouses.nombre as almacen')->orderBy('orderPurchases.id','dsc')
                        ->paginate(15);
         return $purchases;
    }

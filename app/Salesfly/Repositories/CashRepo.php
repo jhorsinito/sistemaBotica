@@ -9,13 +9,15 @@ class CashRepo extends BaseRepo{
         
         return new Cash;
     }
-/*
+
     public function search($q)
     {
-        $materials =Cash::where('nombre','like', $q.'%')
+        if($q==0){
+            $q='%%';
+        }
+        $cashes =Cash::where('cashHeader_id','like', $q)
                     //with(['customer','employee'])
                     ->paginate(15);
-        return $materials;
+        return $cashes;
     }
-*/
 } 

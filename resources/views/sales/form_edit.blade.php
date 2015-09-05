@@ -163,7 +163,7 @@
                 <td >
 
                                <div  class="input-group">
-                                        <div class="input-group-addon">
+                                        <div class="input-group-addon"> 
                                               <i class="fa fa-calendar"></i>
                                         </div>
                                       <input  type="date"   class="form-control" name="fecha" ng-model="detPago.fecha" required>
@@ -200,6 +200,7 @@
                       <th>Fecha</th>
                       <th>Tipo de Pago</th>
                       <th>Monto Pagado</th>
+                      <th># Caja</th>
                       <th>Descartar</th>
                     </tr>
                     
@@ -208,6 +209,7 @@
                       <td>@{{row.fecha}}</td>
                       <td>@{{row.sale_method_payment.nombre}}</td>
                       <td>@{{row.monto}}</td>
+                      <td><a href="/cashes/edit/@{{row.numCaja}}" target="_blank">@{{row.numCaja}}</a></td>
                      <td><button type="button" class="btn btn-danger btn-xs"  ng-click="destroyPay(row)">
                         <span class="glyphicon glyphicon-trash"></span></td>
                     </tr>

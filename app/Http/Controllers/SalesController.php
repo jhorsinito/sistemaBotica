@@ -11,8 +11,14 @@ use Salesfly\Salesfly\Managers\SaleManager;
 use Salesfly\Salesfly\Repositories\DetSaleRepo;
 use Salesfly\Salesfly\Managers\DetSaleManager;
 
+use Salesfly\Salesfly\Repositories\CashRepo;
+use Salesfly\Salesfly\Managers\CashManager;
+
 use Salesfly\Salesfly\Managers\SalePaymentManager;
 use Salesfly\Salesfly\Repositories\SalePaymentRepo;
+
+use Salesfly\Salesfly\Managers\DetCashManager;
+use Salesfly\Salesfly\Repositories\DetCashRepo;
 
 use Salesfly\Salesfly\Managers\SaleDetPaymentManager;
 use Salesfly\Salesfly\Repositories\SaleDetPaymentRepo;
@@ -73,8 +79,8 @@ class SalesController extends Controller
         $payment = $request->salePayment;
         $saledetPayments = $request->saledetPayments;
 
-        $almacen_id=$request->input("idAlmacen");
-        $variante_id=$request->input("vari");
+        //$almacen_id=$var->input("idAlmacen");
+        //$variante_id=$var->input("vari");
         
         $manager = new SaleManager($orderSale,$request->all());
         $manager->save();
@@ -88,6 +94,38 @@ class SalesController extends Controller
         $orderSale->save();
 
         $temporal=$orderSale->id;
+
+        //---create movimiento---
+            $movimiento = $request->movimiento;
+            $detCashrepo;
+            $movimiento['observacion']=$temporal;
+            $detCashrepo = new DetCashRepo;
+            $movimientoSave=$detCashrepo->getModel();
+        
+            $insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
+            $insertarMovimiento->save();
+    //---Autualizar Caja---
+            
+            $cajaAct = $request->caja;
+            $cashrepo;
+            //$movimiento['observacion']=$temporal;
+            $cashrepo = new CashRepo;
+            $cajaSave=$cashrepo->getModel();
+            //var_dump($cajaAct);die();
+            $cash1 = $cashrepo->find($cajaAct["id"]);
+
+
+        
+            //$insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
+            //$insertarMovimiento->save();
+
+            //$stores = $this->storeRepo->find($request->id);
+            //var_dump($cash1);die();
+
+            $manager1 = new CashManager($cash1,$cajaAct);
+            $manager1->save();
+            
+
         //----------------
         $salePaymentrepo;
         $payment['sale_id']=$temporal;
@@ -130,19 +168,20 @@ class SalesController extends Controller
            //-------------------------------------
            
            $stockmodel = new StockRepo;
-                  $object['warehouse_id']=$almacen_id;
-                  $object["variant_id"]=$variante_id;
-                  $stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
-                  
+                  $object['warehouse_id']=$object['idAlmacen'];
+                  $object["variant_id"]=$object['vari'];
+                  $stockac=$stockmodel->encontrar($object["variant_id"],$object['warehouse_id']);
+                  //var_dump($stockac);die();
             if(!empty($stockac)){ 
                 //if($object["esbase"]==0){
-                  $object["stockActual"]=$stockac->stockActual+($object["cantidad"]);//*$object["equivalencia"]
+                  $object["stockActual"]=$stockac->stockActual-($object["cantidad"]);//*$object["equivalencia"]
+                  
                 //}else{
                   //$object["stockActual"]=$stockac->stockActual+$object["cantidad"];
                 //}
                   $manager = new StockManager($stockac,$object);
                   $manager->save();
-                  $stock=null;
+                  //$stock=null;
             }else{
                 
             }

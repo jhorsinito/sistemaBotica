@@ -12,6 +12,8 @@
                 $scope.cashMotive={};
                 $scope.date = new Date();
                 $scope.tipo;
+                $scope.detCash.montoMovimientoTarjeta=0;
+                $scope.detCash.montoMovimientoEfectivo=0;
 
                 //$scope.detCash.montoFinal=$scope.cash.montoBruto;
                 $scope.salir = function(){
@@ -40,10 +42,13 @@
                     }
 
                     if($scope.tipo=='+'){
-                        $scope.cash.ingresos=Number($scope.cash.ingresos)+Number($scope.detCash.montoMovimiento);
+                        $scope.cash.ingresos=Number($scope.cash.ingresos)+(Number($scope.detCash.montoMovimientoTarjeta)+Number($scope.detCash.montoMovimientoEfectivo));
+                        //$scope.cash.ingresos=Number($scope.cash.ingresos)+Number($scope.detCash.montoMovimiento);
                     }
                     else{
-                        $scope.cash.gastos=Number($scope.cash.gastos)+Number($scope.detCash.montoMovimiento);                    
+                        $scope.cash.gastos=Number($scope.cash.gastos)+(Number($scope.detCash.montoMovimientoTarjeta)+Number($scope.detCash.montoMovimientoEfectivo));
+
+                        //$scope.cash.gastos=Number($scope.cash.gastos)+Number($scope.detCash.montoMovimiento);                    
                     }
                     $scope.cash.montoBruto=$scope.detCash.montoFinal
 
@@ -77,7 +82,9 @@
                     crudService.search('cashMotives',$scope.tipo,1).then(function (data){
                         $scope.cashMotives = data.data;
                     });
-                    $scope.detCash.montoMovimiento=0;
+                    //$scope.detCash.montoMovimiento=0;
+                    $scope.detCash.montoMovimientoTarjeta=0;
+                    $scope.detCash.montoMovimientoEfectivo=0;
                     
                 };
 
@@ -94,12 +101,18 @@
                 };
                  $scope.calculate = function() {
                     alert($scope.tipo);
+                    
                     if($scope.tipo=='+'){
-                        $scope.detCash.montoFinal=Number($scope.cash.montoBruto)+Number($scope.detCash.montoMovimiento);
+                        if ($scope.detCash.montoMovimientoTarjeta==undefined) {$scope.detCash.montoMovimientoTarjeta=0};
+                        if ($scope.detCash.montoMovimientoEfectivo==undefined) {$scope.detCash.montoMovimientoEfectivo=0};
+                        $scope.detCash.montoFinal=Number($scope.cash.montoBruto)+(Number($scope.detCash.montoMovimientoTarjeta)+Number($scope.detCash.montoMovimientoEfectivo));
                     }
                     else{
-                        $scope.detCash.montoFinal=Number($scope.cash.montoBruto)-Number($scope.detCash.montoMovimiento);                    
+                        if ($scope.detCash.montoMovimientoTarjeta==NaN) {$scope.detCash.montoMovimientoTarjeta=0};
+                        if ($scope.detCash.montoMovimientoEfectivo==NaN) {$scope.detCash.montoMovimientoEfectivo=0};
+                        $scope.detCash.montoFinal=Number($scope.cash.montoBruto)-(Number($scope.detCash.montoMovimientoTarjeta)+Number($scope.detCash.montoMovimientoEfectivo));                    
                     }
+                    $log.log($scope.detCash);
                     
                 };
                 

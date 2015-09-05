@@ -12,15 +12,15 @@
 
                 return deferred.promise;
             }
-           /* function traerEliminar(id){
+            function eligirNumero(id,id2){
 
                 var deferred = $q.defer();
-                $http.get('api/detailOrderPurchases/Eliminar/'+id).success(function (data) {
+                $http.get('/api/atributes/selectNumber/'+id+'/'+id2).success(function (data) {
                     deferred.resolve(data);
                 });
 
                 return deferred.promise;
-            }*/
+            }
 
             function paginate(uri,page)
             {
@@ -35,6 +35,24 @@
             {
                 var deferred = $q.defer();
                 $http.get('/api/'+uri+'/paginatep/'+id).success(function (data) {
+                    deferred.resolve(data);
+                });
+
+                return deferred.promise;
+            }
+            function MostrarAtributos(id,vari)
+            {
+                var deferred = $q.defer();
+                $http.get('api/variants/paginatep/'+id+'/'+vari).success(function (data) {
+                    deferred.resolve(data);
+                });
+
+                return deferred.promise;
+            }
+             function MostrarTallas(id,taco)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/variants/selectTalla/'+id+'/'+taco).success(function (data) {
                     deferred.resolve(data);
                 });
 
@@ -170,7 +188,10 @@
                 //traerCodigo: traerCodigo,
                 traerEmpresa: traerEmpresa,
                 paginateDPedido: paginateDPedido,
-                autocomplit: autocomplit
+                autocomplit: autocomplit,
+                eligirNumero: eligirNumero,
+                MostrarAtributos: MostrarAtributos,
+                MostrarTallas: MostrarTallas
             }
         }])
         .factory('socketService', function ($rootScope) {

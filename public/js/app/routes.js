@@ -15,7 +15,11 @@
                     templateUrl:'/atributes/form-edit',
                     controller: 'AtributController'
                 })  
-                
+                //--------------------------------------------------------
+                .when('/reports', {
+                    templateUrl: '/js/app/reports/views/index.html',
+                    controller: 'ReportController'
+                })
                 //---------------------------------------------------------
                  .when('/purchases', {
                     templateUrl: '/js/app/purchases/views/index.html',

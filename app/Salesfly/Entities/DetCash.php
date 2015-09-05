@@ -8,10 +8,14 @@ class DetCash extends \Eloquent {
     protected $fillable = ['fecha',
     						'hora',
     						'montoCaja',
-    						'montoMovimiento',
+    						'montoMovimientoTarjeta',
+                            'montoMovimientoEfectivo',
     						'montoFinal',
     						'estado',
     						'observacion',
     						'cashMotive_id',
     						'cash_id'];
+    public function cashMotive(){
+        return $this->belongsTo('Salesfly\Salesfly\Entities\CashMotive','cashMotive_id');
+    }
 }

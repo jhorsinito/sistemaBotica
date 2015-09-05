@@ -17,7 +17,8 @@ class CreateDetCashTable extends Migration
             $table->date('fecha');
             $table->time('hora');
             $table->decimal('montoCaja',10,2);
-            $table->decimal('montoMovimiento',10,2);
+            $table->decimal('montoMovimientoTarjeta',10,2);
+            $table->decimal('montoMovimientoEfectivo',10,2);
             $table->decimal('montoFinal',10,2);
             $table->tinyInteger('estado');
             $table->string('observacion');

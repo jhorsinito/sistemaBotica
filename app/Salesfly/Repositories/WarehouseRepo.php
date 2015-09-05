@@ -23,6 +23,13 @@ class WarehouseRepo extends BaseRepo{
                     ->paginate(15);
         return $warehouses;
     }
+    public function searchWere($q)
+    {
+        $warehouses =Warehouse::where('store_id','=',$q)
+                    //->with(['customer','employee'])
+                    ->paginate(15);
+        return $warehouses;
+    }
 
     public function paginaterepo($c){
         //$warehouses = Warehouse::with('store')->paginate($c);

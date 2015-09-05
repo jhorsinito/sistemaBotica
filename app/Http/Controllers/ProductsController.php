@@ -80,6 +80,11 @@ class ProductsController extends Controller
         $products = $this->productRepo->misDatos($store, $were, $q);
         return response()->json($products);
     }
+    public function searchsku($store,$were,$q)
+    {
+        $products = $this->productRepo->searchsku($store, $were, $q);
+        return response()->json($products);
+    }
     public function favoritos($store,$were,$q){
         $products = $this->productRepo->favoritos($store,$were,$q);
         return response()->json($products);
@@ -319,7 +324,18 @@ class ProductsController extends Controller
         $stations = Station::lists('nombre','id');
         return response()->json($stations);
     }
-    public function selectProducts(){
+    public function search($q)
+    {
+        //$q = Input::get('q');
+        $customers = $this->productRepo->search($q);
+
+        return response()->json($customers);
+    }
+   /*public function search($q)
+    {
+        //$q = Input::get('q');
+        $customers = $this->customerRepo->search($q);
+   public function selectProducts(){
         $products = $this->productRepo->all();
         return response()->json($products);
     }
