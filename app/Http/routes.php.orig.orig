@@ -574,10 +574,12 @@ Route::get('api/saleMethodPayments/select','SaleMethodPaymentController@select')
 Route::post('api/saledetPayments/create',['as'=>'person_create', 'uses'=>'SaleDetPaymentController@create']);
 Route::get('api/saledetPayments/find/{id}',['as'=>'person_create', 'uses'=>'SaleDetPaymentController@find']);
 
+<<<<<<< HEAD
 
 Route::get('api/pendientAccounts/paginate/','PendientAccountsController@paginatep');
 
-Route::get('inventory',['as'=>'person','uses'=>'InventoryController@index']);
-
 Route::put('api/pendientAccounts/edit','PendientAccountsController@edit');
 Route::get('api/pendientAccounts/saldost/{id}','PendientAccountsController@verSaldosTotales');
+=======
+Route::get('inventory',['as'=>'person','uses'=>'InventoryController@index']);
+>>>>>>> 6be97849a5ed95bed7f3b8bd490ebdf6129bccec

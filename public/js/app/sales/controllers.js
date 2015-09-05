@@ -114,7 +114,7 @@
                         });
                     });    
                 }
-                $scope.createmovCaja = function(){
+                $scope.createmovCaja = function(tipo){
                     $scope.detCash={};
                     $scope.mostrarAlmacenCaja();
 
@@ -122,11 +122,18 @@
                     $scope.detCash.fecha=$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate();
                     $scope.detCash.hora=$scope.date.getHours()+':'+$scope.date.getMinutes()+':'+$scope.date.getSeconds();
                     $scope.detCash.montoCaja=$scope.cashfinal.montoBruto;
-                    $scope.detCash.cashMotive_id='1';
+                    
                     $scope.detCash.montoMovimientoTarjeta=Number($scope.pago.tarjeta);
                     $scope.detCash.montoMovimientoEfectivo=Number($scope.pago.cash);
                     $scope.detCash.montoFinal=Number($scope.detCash.montoCaja)+$scope.detCash.montoMovimientoTarjeta+$scope.detCash.montoMovimientoEfectivo;
-                    $scope.detCash.estado='1';
+                    $scope.detCash.estado='1'; 
+                    //alert(tipo);
+                    if(tipo=='credito'){
+                        $scope.detCash.cashMotive_id='14';    
+                    }else if(tipo=='contado'){
+                        $scope.detCash.cashMotive_id='1';   
+                    }
+                    
 
                     $scope.cashfinal.ingresos=Number($scope.cashfinal.ingresos)+Number($scope.detCash.montoMovimientoTarjeta)+Number($scope.detCash.montoMovimientoEfectivo); 
                     $scope.cashfinal.montoBruto=$scope.detCash.montoFinal;
@@ -138,7 +145,7 @@
                     $scope.sale.caja=$scope.cashfinal;
                 }
 
-                $scope. createorder = function(){
+                $scope. createorder = function(tipo){
 
                     crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
                         var canCashes=data.total;
@@ -149,7 +156,7 @@
                             $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
 
                         
-                            $scope.createmovCaja();
+                            $scope.createmovCaja(tipo);
                             //$log.log($scope.cashfinal);
                         
                             //$log.log($scope.sale);
@@ -350,7 +357,8 @@
                                 if ($scope.banderaPagosCash&&$scope.banderaPagosTarjeta) {
                                     $scope.sale.saledetPayments=$scope.saledetPayments;
                                     $scope.sale.salePayment=$scope.salePayment;
-                                    $scope.createorder();
+                                    var tipo='credito';
+                                    $scope.createorder(tipo);
                                 };
                                 }
                             $scope.banderaPagosTarjeta=true;
@@ -398,7 +406,8 @@
                                 $scope.sale.saledetPayments=$scope.saledetPayments;
                                 $scope.sale.salePayment=$scope.salePayment;
                                 //crear compra
-                                $scope.createorder();
+                                var tipo='contado';
+                                $scope.createorder(tipo);
                                 //$log.log($scope.sale);
                                 };
                                 $scope.banderaPagosTarjeta=true;

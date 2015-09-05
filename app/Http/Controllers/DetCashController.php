@@ -57,7 +57,7 @@ class DetCashController extends Controller
     {
         return View('detCashes.form_create');
     }
-    public function form_edit()
+    public function form_edit() 
     {
         return View('detCashes.form_edit');
     }
@@ -69,7 +69,7 @@ class DetCashController extends Controller
         $manager = new DetCashManager($detCash,$request->all());
         $manager->save();
 
-        return response()->json(['estado'=>true, 'nombre'=>$detCash->nombre]);
+        return response()->json(['estado'=>true, 'hora'=>$detCash->hora]);
     }
 
     public function store(Request $request)

@@ -40,15 +40,32 @@ class VariantsController extends Controller
     {
         return View('products.index');
     }
+    public function searchCodigo($q)
+    {
+        $variants = $this->variantRepo->searchCodigo($q);
 
+        return response()->json($variants);
+    }
     public function find($id)
     {
         $variants = $this->variantRepo->find($id);
         //var_dump($variants);die();
         return response()->json($variants);
     }
+        public function getAttr($id)
+    {
+        $variant = $this->variantRepo->getAttr($id);
+        return response()->json($variant);
+    }
     public function autocomplit($sku){
         $variants = $this->variantRepo->uatocomplit($sku);
+    {
+        $variant = $this->variantRepo->getAttr($id);
+        return response()->json($variant);
+    }
+
+    public function autocomplit(){
+        $variants = $this->variantRepo->uatocomplit();
         return response()->json($variants);
         
     }
@@ -81,6 +98,19 @@ class VariantsController extends Controller
 
 
         $variant = $this->variantRepo->getModel();
+
+
+            if($request->input('autogenerado') === true) {
+                $sku = \DB::table('variants')->max('sku');
+                if (!empty($sku)) {
+                    $sku = $sku + 1;
+                } else {
+                    $sku = 1000; //inicializar el sku;
+                }
+                $request->merge(array('sku' => $sku));
+            }else{
+
+            }
 
         $managerVar = new VariantManager($variant,$request->except('stock','detAtr','presentation_base_object','presentations'));
         $managerVar->save();
@@ -124,6 +154,76 @@ class VariantsController extends Controller
 
         //================================./VARIANTES==============================//
 
+
+    }
+
+    public function edit(Request $request){
+        //var_dump($request->all()); die();
+
+        $oProd = Product::find($request->input('product_id'));
+
+        //si viene el prod y ademas es prod con variantes
+        if(!empty($oProd) && $oProd->hasVariants == 1){
+
+
+            $variant = $this->variantRepo->findV($request->input('id'));
+
+
+            if($request->input('autogenerado') === true) {
+                $sku = \DB::table('variants')->max('sku');
+                if (!empty($sku)) {
+                    $sku = $sku + 1;
+                } else {
+                    $sku = 1000; //inicializar el sku;
+                }
+                $request->merge(array('sku' => $sku));
+            }else{
+
+            }
+
+            $managerVar = new VariantManager($variant,$request->except('stock','detAtr','presentation_base_object','presentations'));
+            $managerVar->save();
+
+            $oProd->quantVar = $oProd->quantVar + 1;
+            $oProd->save();
+
+
+            //================================ VARIANTES==============================//
+
+            $variant->presentation()->detach();
+            foreach($request->input('presentations') as $presentation){
+                $presentation['variant_id'] = $variant->id;
+                $presentation['presentation_id'] =  $presentation['id'];
+                $oPres = new DetPresRepo();
+                $presManager = new DetPresManager($oPres->getModel(),$presentation);
+                $presManager->save();
+            }
+
+            $variant->atributes()->detach();
+            foreach($request->input('detAtr') as $detAtr){
+                if(!empty($detAtr['descripcion'])){
+                    $detAtr['variant_id'] = $variant->id;
+                    $oDetAtr = new DetAtrRepo();
+                    $detAtrManager = new DetAtrManager($oDetAtr->getModel(),$detAtr);
+                    $detAtrManager->save();
+                }
+            }
+
+            if($request->input('track') == 1) {
+                $variant->warehouse()->detach();
+                foreach ($request->input('stock') as $stock) {
+                    $stock['variant_id'] = $variant->id;
+                    $oStock = new StockRepo();
+                    $stockManager = new StockManager($oStock->getModel(), $stock);
+                    $stockManager->save();
+                }
+            }
+            return response()->json(['estado'=>true, 'nombres'=>$variant->nombre]);
+        }else{
+            return response()->json(['estado'=>'Prod sin variantes']);
+        }
+
+        //================================./VARIANTES==============================//
 
     }
 

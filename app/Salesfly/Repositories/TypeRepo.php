@@ -16,5 +16,11 @@ class TypeRepo extends BaseRepo{
                     ->paginate(15);
         return $types;
     }
+    public function searchType($q)
+    {
+        $types =Ttype::select('id','nombre')
+                    ->get();
+        return $types;
+    }
 
 } 

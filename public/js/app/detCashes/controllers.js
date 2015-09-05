@@ -28,9 +28,10 @@
                         $scope.detCash.montoCaja=$scope.cash.montoBruto;
                         
                         crudService.create($scope.detCash, 'detCashes').then(function (data) {
-                           
-                            if (data['estado'] == true) {
-                                $scope.success = data['nombres'];
+                           $log.log($scope.detCash);
+                           $log.log(data);
+                            if (data['estado'] == true) { 
+                                //$scope.success = data['nombres'];
                                 alert('grabado correctamente');
                                 //$location.path('/detCashes');
 
@@ -52,13 +53,7 @@
                     }
                     $scope.cash.montoBruto=$scope.detCash.montoFinal
 
-                    crudService.update($scope.cash,'cashes').then(function(data)
-                        {
-                            if(data['estado'] == true){
-                                //alert('editado correctamente');
-                                
-                            }
-                        }); 
+                    crudService.update($scope.cash,'cashes'); 
                      $scope.rutaCash='/cashes/edit/'+$scope.cash.id;   
                 }
 

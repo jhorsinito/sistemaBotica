@@ -7,7 +7,7 @@ class VariantManager extends BaseManager{
     public function getRules(){
         $rules = [
             'codigo' => '',
-            'sku' => 'required',
+            'sku' => 'required|unique:variants,sku,'.$this->entity->id,
             'suppPri' => 'between:0,99999.99',
             'markup' => 'between:0,99999.99',
             'price' => 'between:0,99999.99',

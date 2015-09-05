@@ -253,6 +253,10 @@
                     templateUrl: '/variants/form-create',
                     controller: 'ProductController'
                 })
+                .when('/variants/edit/:id',{
+                    templateUrl: '/variants/form-edit',
+                    controller: 'ProductController'
+                })
                 //-----------------------------------------
                 .when('/cashMonthlys', {
                     templateUrl: '/js/app/cashMonthlys/views/index.html',
@@ -359,6 +363,13 @@
                 .when('/sales/edit/:id',{
                     templateUrl:'/sales/form-edit',
                     controller: 'SaleController'
+                })
+                //-------------------------------------
+                //-------------------------------------------
+                //-----------------------------------------
+                .when('/inventory', {
+                    templateUrl: '/js/app/inventory/views/index.html',
+                    controller: 'InventoryController'
                 })
                 //-------------------------------------
                 .when('/reports', {

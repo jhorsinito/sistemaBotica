@@ -270,8 +270,14 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <input class="form-control" name="sku" type="text" ng-model="product.sku" ng-disabled="product.hasVariants" ng-required="!product.hasVariants"/>
+                                            <input class="form-control" name="sku" type="text" ng-model="product.sku" ng-disabled="product.hasVariants || product.autogenerado" ng-required="!product.hasVariants && !product.autogenerado"/>
                                             <span style="color:#dd4b39;" ng-show="productCreateForm.sku.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <input type="checkbox" ng-model="product.autogenerado"> Autogenerado
                                         </div>
                                     </div>
                                 </div>

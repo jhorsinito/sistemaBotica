@@ -11,7 +11,7 @@
                 $scope.cashHeader={};
                 $scope.detCashes={};
                 $scope.buscar;
-                $scope.date = new Date();
+                $scope.date = new Date(); 
                 $scope.stores={};
                 $scope.bandera=true;
                 $scope.banderaAbrirCaja=false;
