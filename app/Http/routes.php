@@ -128,8 +128,10 @@ Route::get('api/variantsAllInventary/misDatos/{store?}/{were?}/{q?}',['as'=>'per
 //VARIANTS ROUTES
 Route::get('api/variants/variants/{id}',['as' => 'variants_byproduct_id', 'uses' => 'VariantsController@variants']);
 Route::get('api/variants/autocomplit/','VariantsController@autocomplit');
-Route::get('api/variants/variant/{id}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@variant']);
+Route::get('api/variants/paginatep/{id}/{var}','VariantsController@paginatep');
+Route::get('api/variants/selectTalla/{id}/{taco}','VariantsController@selectTalla');
 Route::get('api/variantname/search/{q?}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@searchCodigo']);
+
 //END VARIANTS ROUTES
 
 //Presentations routes
@@ -212,6 +214,7 @@ Route::put('api/atributes/edit',['as'=>'atribut_edit', 'uses'=>'AtributesControl
 Route::post('api/atributes/destroy',['as'=>'atribut_destroy', 'uses'=>'AtributesController@destroy']);
 Route::get('api/atributes/search/{q?}',['as'=>'atribut_search', 'uses'=>'AtributesController@search']);
 Route::get('api/atributes/find/{id}',['as'=>'atribut_find', 'uses'=>'AtributesController@find']);
+Route::get('api/atributes/selectNumber/{id}/{tama}',['as'=>'atribut_find', 'uses'=>'AtributesController@selectNumber']);
 
 Route::get('/joder','WarehousesController@all');
 //Route::controller('api/warehouses/','WarehousesController');
@@ -447,6 +450,13 @@ Route::post('api/detPayments/create','DetPaymentsController@create');
 Route::get('api/detPayments/paginate/','DetPaymentsController@paginatep');
 Route::get('api/detPayments/find/{id}','DetPaymentsController@find');
 
+Route::get('reports',['as'=>'person','uses'=>'ReportsController@index']);
+Route::post('api/reports/{id?}',['as'=>'person_search', 'uses'=>'ReportsController@reportProduct']);
+Route::post('api/reports/{idStore?}/{idWerwhaose?}',['as'=>'person_search', 'uses'=>'ReportsController@reportProductWere']);
+Route::post('api/report/tiket/{id?}',['as'=>'person_search', 'uses'=>'ReportsController@reportTiket']);
+
+Route::post('api/inputStocks/create','InputStocksController@create');
+Route::get('api/inputStocks/paginate/','InputStocksController@paginate');
 
 //-----------------------------Promociones---------------------------
 Route::get('promotions',['as'=>'person','uses'=>'PromotionsController@index']);

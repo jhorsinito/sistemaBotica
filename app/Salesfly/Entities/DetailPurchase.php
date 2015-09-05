@@ -5,7 +5,7 @@ class DetailPurchase extends \Eloquent {
 
 	protected $table = 'detailPurchases';
     
-    protected $fillable = ['descuento',
+    protected $fillable = ['producto','descuento',
     						'montoBruto',
     						'montoTotal',
     						'purchases_id',

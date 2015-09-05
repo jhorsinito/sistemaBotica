@@ -55,6 +55,26 @@ class PaymentsController extends Controller {
 
     public function edit(Request $request)
     {
+        $var=$request->detPayments;
+        $detPayment= $this->detPaymentRepo->find($request->detpId);
+        $detpay = new DetPaymentManager($detPayment,$var);
+        $detpay->save();
+        //$pagoTemporal=$detPayment->montoPagado;
+        //$detPayment->delete();
+        //$MontotalTemp=$request->input('MontoTotal');
+       // $AcuentaTemp=$request->input('Acuenta');
+        
+        //$request->merge(['Acuenta'=>$AcuentaTemp-$pagoTemporal]);
+        //$AcuentaTemp2=$request->input('Acuenta');
+        //$request->merge(['Saldo'=>$MontotalTemp-$AcuentaTemp2]);
+        //var_dump($request->all());die();
+        $payment = $this->paymentRepo->find($request->id);
+        $manager = new PaymentManager($payment,$request->all());
+        $manager->save();
+        return response()->json(['estado'=>true, 'nombre'=>$payment->nombre]); 
+    }
+  public function destroy(Request $request)
+    {
         
         $detPayment= $this->detPaymentRepo->find($request->detpId);
         $pagoTemporal=$detPayment->montoPagado;
@@ -71,5 +91,4 @@ class PaymentsController extends Controller {
         $manager->save();
         return response()->json(['estado'=>true, 'nombre'=>$payment->nombre]);
     }
- 
 }

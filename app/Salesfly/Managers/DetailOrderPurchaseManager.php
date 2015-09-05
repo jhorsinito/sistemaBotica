@@ -4,14 +4,16 @@ class DetailOrderPurchaseManager extends BaseManager {
 
     public function getRules()
     {
-        $rules = ['descuento'=> '',
+        $rules = ['producto'=>'',
+                   'descuento'=> '',
         			'montoBruto'=>'',
         			'montoTotal'=>'',
         			'detPres_id'=>'',
         			'orderPurchases_id'=>'',
                     'preProducto'=>'',
                     'preCompra'=>'',
-                    'cantidad'=>''
+                    'cantidad'=>'',
+                    'Cantidad_Ll'=>''
        				 ];
         return $rules;
     }

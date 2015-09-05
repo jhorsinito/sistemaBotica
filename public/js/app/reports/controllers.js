@@ -83,6 +83,21 @@
                         alert("Elija Tienda y Almacen");
                     }
                 };
+                $scope.idVariante;
+                $scope.reportTiket = function () {
+                  alert($scope.idVariante);
+                    if ($scope.idVariante != undefined) {
+                    crudReports.reportTikets($scope.idVariante).then(function(data){
+                        $scope.pdf1=data;
+                        alert("Reporte generado con Exito : ");
+                    });
+                    $scope.verdata1();
+                    $scope.storeSelected=undefined;
+                    $scope.warehouseSelected=undefined;
+                    }else{
+                        alert("Ingrese un codigo de ");
+                    }
+                };
                 //----------------------------------
                           
 

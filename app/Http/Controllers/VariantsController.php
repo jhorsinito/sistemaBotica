@@ -58,8 +58,8 @@ class VariantsController extends Controller
         
     }
 
-    public function paginatep(){ //->with(['store'])
-        $variants = $this->variantRepo->detPre();
+    public function paginatep($id,$var){ //->with(['store'])
+        $variants = $this->variantRepo->selectByID($id,$var);
         return response()->json($variants);
     }
 
@@ -138,7 +138,11 @@ class VariantsController extends Controller
         $variant = $this->variantRepo->findVariant($id);
         return response()->json($variant);
     }
-
+    public function selectTalla($id,$taco)
+    {
+        $variant = $this->variantRepo->selectTalla($id,$taco);
+        return response()->json($variant);
+    }
 
 
     public function variants($product_id){
