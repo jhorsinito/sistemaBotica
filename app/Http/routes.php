@@ -417,6 +417,7 @@ Route::get('api/variants/select','VariantsController@select');
 Route::get('api/variants/findVariant/{id}','VariantsController@findVariant');
 Route::get('api/variants/paginate/','VariantsController@paginatep');
 Route::get('api/variants/find/{id}','VariantsController@find');
+Route::get('api/variants/getAttr/{id}','VariantsController@getAttr');
 Route::put('api/variants/editFavorito/','VariantsController@editFavoritos');
 
 Route::post('api/detailOrderPurchases/create','DetailOrderPurchasesController@create');

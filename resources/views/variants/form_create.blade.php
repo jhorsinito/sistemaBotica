@@ -170,7 +170,7 @@
 
 
                         </div><!-- /.box -->
-                        form @{{ variantCreateForm.$error}}
+
                         <!--  =============================================================================INVENTARIOS===============================================================-->
                         <div class="box box-default" id="inventory">
                             <div class="box-header with-border">
@@ -189,8 +189,13 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <input class="form-control" name="sku" type="text" ng-model="variant.sku" required/>
+                                            <input class="form-control" name="sku" type="text" ng-model="variant.sku" ng-disabled="variant.autogenerado" ng-required="!variant.autogenerado"/>
                                             <span style="color:#dd4b39;" ng-show="variantCreateForm.sku.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <input type="checkbox" ng-model="variant.autogenerado"> Autogenerado
                                         </div>
                                     </div>
                                 </div>
@@ -267,7 +272,7 @@
 <!-- =============================Modal de Presentacion ================================ -->
 
 <div class="modal fade bs-example-modal-sm" id="presentation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-sm"  role="document">
+    <div class="modal-dialog modal-md"  role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -280,7 +285,7 @@
                             <select name="" ng-click="selectPres()" class="form-control" id="" ng-model="presentationSelect" ng-options="item as item.nombre+' / '+item.shortname+' / '+item.cant for item in presentations">
                                 <option value="">-- Elige Presentación--</option>
                             </select>
-                            @{{presentationSelect}}
+
                         </div>
                     </div>
                 </div>
@@ -303,7 +308,7 @@
                         </div>
                     </div>
                 </div>
-                @{{ presentation.markup}}
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
@@ -319,7 +324,7 @@
 <!-- =============================Modal CREATE de Presentacion ================================ -->
 
 <div class="modal fade bs-example-modal-sm" id="createpresentation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-sm"  role="document">
+    <div class="modal-dialog modal-md"  role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -329,7 +334,7 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <input type="text" class="form-control" name="preAdd.preBase_id" ng-model="variant.presentation_base">
+                        <input type="hidden" class="form-control" name="preAdd.preBase_id" ng-model="variant.presentation_base">
                         <div class="form-group" >
                             <label for="suppPric">Nombre</label>
                             <input type="text" class="form-control" name="nombre" placeholder="Docena" ng-model="preAdd.nombre">

@@ -249,6 +249,10 @@
                     templateUrl: '/variants/form-create',
                     controller: 'ProductController'
                 })
+                .when('/variants/edit/:id',{
+                    templateUrl: '/variants/form-edit',
+                    controller: 'ProductController'
+                })
                 //-----------------------------------------
                 .when('/cashMonthlys', {
                     templateUrl: '/js/app/cashMonthlys/views/index.html',

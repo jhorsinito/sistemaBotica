@@ -80,7 +80,7 @@
                                         </a></td>
                                     <td>@{{row.det_pre[0].price}}</td>
                                     <td>@{{row.stock[0].stockActual}}</td>
-                                    <td><a ng-click="editUser(row)" class="btn btn-warning btn-xs">Editar</a></td>
+                                    <td><a ng-click="editVariant(row)" class="btn btn-warning btn-xs">Editar</a></td>
                                     <td><a ng-click="" class="btn bg-purple-active color-palette btn-xs">Deshabilitar</a></td>
                                     <td><a ng-click="deleteUser(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
                                 </tr>

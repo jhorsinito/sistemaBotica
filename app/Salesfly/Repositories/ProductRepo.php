@@ -71,7 +71,10 @@ class ProductRepo extends BaseRepo{
                             ->select(\DB::raw('DISTINCT(products.id) as proId'),'products.codigo as proCodigo','products.nombre as proNombre',
                               'variants.suppPri as varPrice','variants.price as precioProducto',
                                'brands.nombre as braNombre','products.hasVariants as TieneVariante','products.hasVariants as proHasVar','types.nombre as typNombre','products.created_at as proCreado',
-                              'products.quantVar as proQuantvar',\DB::raw('(SELECT sum(stock.stockActual)
+                              \DB::raw('(select count(variants.id) from products inner join variants on products.id = variants.product_id
+where products.hasVariants = true
+and products.id = proId) as proQuantvar'),
+                                    \DB::raw('(SELECT sum(stock.stockActual)
 FROM products
 INNER JOIN variants ON products.id = variants.product_id
 INNER JOIN stock ON variants.id = stock.variant_id
