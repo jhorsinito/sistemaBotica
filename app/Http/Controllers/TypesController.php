@@ -91,4 +91,12 @@ class TypesController extends Controller {
 
         return response()->json($types);
     }
+
+    public function searchType($q)
+    {
+        //$q = Input::get('q');
+        $types = $this->typeRepo->searchType($q);
+
+        return response()->json($types);
+    }
 }

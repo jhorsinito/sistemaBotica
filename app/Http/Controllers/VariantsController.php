@@ -40,7 +40,12 @@ class VariantsController extends Controller
     {
         return View('products.index');
     }
+    public function searchCodigo($q)
+    {
+        $variants = $this->variantRepo->searchCodigo($q);
 
+        return response()->json($variants);
+    }
     public function find($id)
     {
         $variants = $this->variantRepo->find($id);

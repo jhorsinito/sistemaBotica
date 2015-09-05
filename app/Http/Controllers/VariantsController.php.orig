@@ -15,7 +15,7 @@ use Salesfly\Salesfly\Managers\VariantManager;
 use Salesfly\Salesfly\Entities\Variant;
 use Salesfly\Salesfly\Entities\Product;
 
-use Salesfly\Salesfly\Repositories\DetPresRepo;
+use Salesfly\Salesfly\Repositories\DetPresRepo; 
 use Salesfly\Salesfly\Managers\DetPresManager;
 
 use Salesfly\Salesfly\Repositories\AtributRepo;

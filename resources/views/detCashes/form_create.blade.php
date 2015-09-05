@@ -102,7 +102,7 @@
                     <div class="form-group" >
                       <label for="apellidos">Descripcion</label>
                       <textarea type="text" class="form-control" name="descripcion" placeholder="Descripcion"
-                      ng-model="detCash.descripcion"/>
+                      ng-model="detCash.observacion"/>
                      </div>
                     </div>
                   </div>
@@ -122,7 +122,7 @@
                   </div>
                                   
                   <div class="box-footer">
-                    <a ng-click="createcash()" ng-href="@{{rutaCash}}"  target="_self" type="submit" class="btn btn-primary">Crear</a>
+                    <a ng-if="cash.estado==1" ng-click="createcash()" ng-href="@{{rutaCash}}"  target="_self" type="submit" class="btn btn-primary">Crear</a>
                     <a ng-click="salir()"ng-href="@{{rutaCash}}" target="_self" class="btn btn-danger">Cancelar</a>
                   </div>
 

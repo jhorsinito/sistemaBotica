@@ -22,6 +22,7 @@ class DetCashRepo extends BaseRepo{
         $detCashs =DetCash::with('cashMotive')
                         ->where('cash_id','=', $q)
                         ->where('cashMotive_id','=','1')
+                        ->orWhere('cashMotive_id','=','14')
                     ->paginate(15);
         return $detCashs;
     } 

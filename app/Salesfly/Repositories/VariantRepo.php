@@ -10,7 +10,16 @@ class VariantRepo extends BaseRepo{
         return new Variant;
     }
 
-  /* public function paginaterepo($c){
+    public function searchCodigo($q)
+    {
+        $products =Variant::select('id','codigo')
+                    //with(['customer','employee'])
+                    ->groupBy('variants.codigo')
+                    ->get();
+        return $products;
+    }
+
+  /*public function paginaterepo($c){
         //$warehouses = Warehouse::with('store')->paginate($c);
         $variants = Variant::with(array('product'=>function($query){
             $query->select('id','nombre');

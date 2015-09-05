@@ -88,6 +88,10 @@ class ProductsController extends Controller
         $products = $this->productRepo->favoritos($store,$were,$q);
         return response()->json($products);
     } 
+    public function variantsAllInventary($store,$were,$q){
+        $products = $this->productRepo->variantsAllInventary($store,$were,$q);
+        return response()->json($products);
+    } 
 
     public function form_create()
     {
@@ -304,6 +308,13 @@ class ProductsController extends Controller
 
         return response()->json($stations);
     } 
+    public function searchProducts($q)
+    {
+        //$q = Input::get('q');
+        $products = $this->productRepo->searchProducts($q);
+
+        return response()->json($products);
+    }
 
     /*fx ayuda para img*/
     public function get_string_between($string, $start, $end){

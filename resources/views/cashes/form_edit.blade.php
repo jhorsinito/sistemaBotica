@@ -1,12 +1,12 @@
 <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Goastos Mensuales
+            Caja Diaria
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class=""><a href="/cashMonthlys">Gastos Mensuales</a> </li>
+            <li class=""><a href="/cashMonthlys">Caja Diaria</a> </li>
             <li class="active">Editar</li>
           </ol>
 
@@ -19,7 +19,7 @@
 
               <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Editar Gastos Mensuales</h3>
+                  <h3 class="box-title">Estado Caja # @{{cash.id}}</h3> 
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form name="cashCreateForm" role="form" novalidate>
@@ -33,12 +33,12 @@
                     <div class="col-md-1">
                     </div>
                       <div class="col-md-4">
-                        <a ng-click="rutaMovimiento()" ng-href="@{{rutaDetCash}}"  target="_self" type="submit" class="btn btn-primary" >Agregar Movimiento</a>
+                        <a ng-click="rutaMovimiento()" ng-href="@{{rutaDetCash}}"  target="_self" type="submit" class="btn btn-primary" ng-if="cash.estado==1">Agregar Movimiento</a>
                       </div>
                       <div class="col-md-1">
                     </div>
                       <div class="col-md-4">
-                        <a ng-click="cerrarCaja()"  type="submit" class="btn btn-primary" >Cerrar Caja</a>
+                        <a ng-click="cerrarCaja()"  type="submit" class="btn btn-primary" ng-if="cash.estado==1">Cerrar Caja</a>
                       </div>
                     </div>
 
@@ -57,7 +57,7 @@
 
                           <div class="form-group" ng-class="{true: 'has-error'}[ cashCreateForm.montoInicial.$error.required && cashCreateForm.$submitted || cashCreateForm.montoInicial.$dirty && cashCreateForm.montoInicial.$invalid]">
                             <label for="montoInicial">Monto Inicial</label>
-                            <input type="text" class="form-control ng-pristine ng-valid ng-touched" name="montoInicial" placeholder="0.00" ng-model="cash.montoInicial" ng-blur="calculateSuppPric()" step="0.1">
+                            <input ng-disabled="true" type="text" class="form-control ng-pristine ng-valid ng-touched" name="montoInicial" placeholder="0.00" ng-model="cash.montoInicial" ng-blur="calculateSuppPric()" step="0.1">
                             <label ng-show="cashCreateForm.$submitted || cashCreateForm.montoInicial.$dirty && cashCreateForm.montoInicial.$invalid">
                               <span ng-show="cashCreateForm.montoInicial.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                             </label>
@@ -65,7 +65,7 @@
 
                           <div class="form-group" ng-class="{true: 'has-error'}[ cashCreateForm.ingresos.$error.required && cashCreateForm.$submitted || cashCreateForm.ingresos.$dirty && cashCreateForm.ingresos.$invalid]">
                             <label for="ingresos">Monto Ingresos</label>
-                            <input type="text" class="form-control ng-pristine ng-valid ng-touched" name="ingresos" placeholder="0.00" ng-model="cash.ingresos" ng-blur="calculateSuppPric()" step="0.1">
+                            <input ng-disabled="true" type="text" class="form-control ng-pristine ng-valid ng-touched" name="ingresos" placeholder="0.00" ng-model="cash.ingresos" ng-blur="calculateSuppPric()" step="0.1">
                             <label ng-show="cashCreateForm.$submitted || cashCreateForm.ingresos.$dirty && cashCreateForm.ingresos.$invalid">
                               <span ng-show="cashCreateForm.ingresos.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                             </label>
@@ -73,7 +73,7 @@
 
                           <div class="form-group" ng-class="{true: 'has-error'}[ cashCreateForm.gastos.$error.required && cashCreateForm.$submitted || cashCreateForm.gastos.$dirty && cashCreateForm.gastos.$invalid]">
                             <label for="gastos">Monto Gastos</label>
-                            <input type="text" class="form-control ng-pristine ng-valid ng-touched" name="gastos" placeholder="0.00" ng-model="cash.gastos" ng-blur="calculateSuppPric()" step="0.1">
+                            <input ng-disabled="true" type="text" class="form-control ng-pristine ng-valid ng-touched" name="gastos" placeholder="0.00" ng-model="cash.gastos" ng-blur="calculateSuppPric()" step="0.1">
                             <label ng-show="cashCreateForm.$submitted || cashCreateForm.gastos.$dirty && cashCreateForm.gastos.$invalid">
                               <span ng-show="cashCreateForm.gastos.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                             </label>
@@ -98,13 +98,21 @@
 
                           <div class="form-group" ng-class="{true: 'has-error'}[ cashCreateForm.montoInicial.$error.required && cashCreateForm.$submitted || cashCreateForm.montoInicial.$dirty && cashCreateForm.montoInicial.$invalid]">
                             <label for="montoInicial">Monto Teorico</label>
-                            <input type="text" class="form-control ng-pristine ng-valid ng-touched" name="montoInicial" placeholder="0.00" ng-model="cash.montoBruto" ng-blur="calculateSuppPric()" step="0.1">
+                            <input ng-disabled="true" type="text" class="form-control ng-pristine ng-valid ng-touched" name="montoInicial" placeholder="0.00" ng-model="cash.montoBruto" ng-blur="calculateSuppPric()" step="0.1">
                             <label ng-show="cashCreateForm.$submitted || cashCreateForm.montoInicial.$dirty && cashCreateForm.montoInicial.$invalid">
                               <span ng-show="cashCreateForm.montoInicial.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                             </label>
                           </div>
 
-                          <div class="form-group" ng-class="{true: 'has-error'}[ cashCreateForm.ingresos.$error.required && cashCreateForm.$submitted || cashCreateForm.ingresos.$dirty && cashCreateForm.ingresos.$invalid]">
+                          <div ng-if="cash.estado!=1" class="form-group" ng-class="{true: 'has-error'}[ cashCreateForm.ingresos.$error.required && cashCreateForm.$submitted || cashCreateForm.ingresos.$dirty && cashCreateForm.ingresos.$invalid]">
+                            <label for="ingresos">Monto Real</label>
+                            <input ng-disabled="true" type="text" class="form-control ng-pristine ng-valid ng-touched" name="ingresos" placeholder="0.00" ng-model="cash.montoReal" ng-blur="calculardescuadre()" step="0.1">
+                            <label ng-show="cashCreateForm.$submitted || cashCreateForm.ingresos.$dirty && cashCreateForm.ingresos.$invalid">
+                              <span ng-show="cashCreateForm.ingresos.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                            </label>
+                          </div>
+
+                          <div ng-if="cash.estado==1" class="form-group" ng-class="{true: 'has-error'}[ cashCreateForm.ingresos.$error.required && cashCreateForm.$submitted || cashCreateForm.ingresos.$dirty && cashCreateForm.ingresos.$invalid]">
                             <label for="ingresos">Monto Real</label>
                             <input type="text" class="form-control ng-pristine ng-valid ng-touched" name="ingresos" placeholder="0.00" ng-model="cash.montoReal" ng-blur="calculardescuadre()" step="0.1">
                             <label ng-show="cashCreateForm.$submitted || cashCreateForm.ingresos.$dirty && cashCreateForm.ingresos.$invalid">
@@ -114,11 +122,13 @@
 
                           <div class="form-group" ng-class="{true: 'has-error'}[ cashCreateForm.gastos.$error.required && cashCreateForm.$submitted || cashCreateForm.gastos.$dirty && cashCreateForm.gastos.$invalid]">
                             <label for="gastos">Descuadre</label>
-                            <input type="text" class="form-control ng-pristine ng-valid ng-touched" name="gastos" placeholder="0.00" ng-model="cash.descuadre" ng-blur="calculateSuppPric()" step="0.1">
+                            <input ng-disabled="true" type="text" class="form-control ng-pristine ng-valid ng-touched" name="gastos" placeholder="0.00" ng-model="cash.descuadre" ng-blur="calculateSuppPric()" step="0.1">
                             <label ng-show="cashCreateForm.$submitted || cashCreateForm.gastos.$dirty && cashCreateForm.gastos.$invalid">
                               <span ng-show="cashCreateForm.gastos.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                             </label>
                           </div>
+
+
                      
                     
                         </div><!-- /.box-body -->
@@ -148,8 +158,8 @@
                       <td>@{{row.montoMovimientoTarjeta}}</td>
                       <td>@{{row.montoMovimientoEfectivo}}</td>
                       <td>@{{row.montoFinal}}</td>
-                      <td ng-if="row.cashMotive_id==1"><a href="/sales/edit/@{{row.observacion}}" target="_blank">ver venta</a></td>
-                      <td ng-if="row.cashMotive_id!=1">@{{row.observacion}}</td>
+                      <td ng-if="row.cashMotive_id==1 || row.cashMotive_id==13 || row.cashMotive_id==14"><a href="/sales/edit/@{{row.observacion}}" target="_blank">ver venta</a></td>
+                      <td ng-if="row.cashMotive_id!=1 && row.cashMotive_id!=13 && row.cashMotive_id!=14">@{{row.observacion}}</td>
                     </tr>                   
                   </table>
                   <div class="box-footer clearfix">

@@ -102,6 +102,7 @@ Route::put('api/products/edit',['as'=>'product_edit', 'uses'=>'ProductsControlle
 Route::post('api/products/destroy',['as'=>'product_destroy', 'uses'=>'ProductsController@destroy']);
 
 Route::get('api/products/search/{q?}',['as'=>'product_search', 'uses'=>'ProductsController@search']);
+Route::get('api/productName/search/{q?}',['as'=>'product_search', 'uses'=>'ProductsController@searchProducts']);
 
 Route::get('api/products/find/{id}',['as'=>'person_find', 'uses'=>'ProductsController@find']);
 Route::get('api/products/brands',['as' => 'products_brands_select','uses' => 'ProductsController@brands_select']);
@@ -119,6 +120,7 @@ Route::get('api/productsSearchsku/misDatos/{store?}/{were?}/{q?}',['as'=>'person
 Route::get('api/products/misDatos/{store?}/{were?}/{q?}',['as'=>'person_find', 'uses'=>'ProductsController@misDatos']);
 Route::get('api/productsVariantes/misDatos/{store?}/{were?}/{q?}',['as'=>'person_find', 'uses'=>'ProductsController@misDatosVariantes']);
 Route::get('api/productsFavoritos/misDatos/{store?}/{were?}/{q?}',['as'=>'person_find', 'uses'=>'ProductsController@favoritos']);
+Route::get('api/variantsAllInventary/misDatos/{store?}/{were?}/{q?}',['as'=>'person_find', 'uses'=>'ProductsController@variantsAllInventary']);
 //---------------------
  
 //END PRODUCTS ROUTES
@@ -127,6 +129,7 @@ Route::get('api/productsFavoritos/misDatos/{store?}/{were?}/{q?}',['as'=>'person
 Route::get('api/variants/variants/{id}',['as' => 'variants_byproduct_id', 'uses' => 'VariantsController@variants']);
 Route::get('api/variants/autocomplit/','VariantsController@autocomplit');
 Route::get('api/variants/variant/{id}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@variant']);
+Route::get('api/variantname/search/{q?}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@searchCodigo']);
 //END VARIANTS ROUTES
 
 //Presentations routes
@@ -189,6 +192,8 @@ Route::put('api/types/edit',['as'=>'type_edit', 'uses'=>'TypesController@edit'])
 Route::post('api/types/destroy',['as'=>'type_destroy', 'uses'=>'TypesController@destroy']);
 Route::get('api/types/search/{q?}',['as'=>'type_search', 'uses'=>'TypesController@search']);
 Route::get('api/types/find/{id}',['as'=>'type_find', 'uses'=>'TypesController@find']);
+
+Route::get('api/typeName/search/{q?}',['as'=>'type_search', 'uses'=>'TypesController@searchType']);
 /*
 Route::get('brands',['as'=>'brand','uses'=>'BrandsController@index']);
 Route::get('brands/create',['as'=>'brand_create','uses'=>'BrandsController@index']);
@@ -551,3 +556,5 @@ Route::get('api/SaleDetPayment/search/{id?}',['as'=>'person_search', 'uses'=>'Sa
 Route::get('api/saleMethodPayments/select','SaleMethodPaymentController@select');
 Route::post('api/saledetPayments/create',['as'=>'person_create', 'uses'=>'SaleDetPaymentController@create']);
 Route::get('api/saledetPayments/find/{id}',['as'=>'person_create', 'uses'=>'SaleDetPaymentController@find']);
+
+Route::get('inventory',['as'=>'person','uses'=>'InventoryController@index']);

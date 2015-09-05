@@ -353,6 +353,13 @@
                     controller: 'SaleController'
                 })
                 //-------------------------------------
+                //-------------------------------------------
+                //-----------------------------------------
+                .when('/inventory', {
+                    templateUrl: '/js/app/inventory/views/index.html',
+                    controller: 'InventoryController'
+                })
+                //-------------------------------------
                 .when('/reports', {
                     templateUrl: '/js/app/reports/views/index.html',
                     controller: 'ReportController'

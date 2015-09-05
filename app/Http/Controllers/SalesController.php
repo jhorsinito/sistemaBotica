@@ -172,13 +172,14 @@ class SalesController extends Controller
                   $object["variant_id"]=$object['vari'];
                   $stockac=$stockmodel->encontrar($object["variant_id"],$object['warehouse_id']);
                   //var_dump($stockac);die();
-            if(!empty($stockac)){ 
-                //if($object["esbase"]==0){
-                  $object["stockActual"]=$stockac->stockActual-($object["cantidad"]);//*$object["equivalencia"]
+            if(!empty($stockac)){
+             
+                if($object["equivalencia"]==null){
+                  $object["stockActual"]=$stockac->stockActual-($object["cantidad"]);//
                   
-                //}else{
-                  //$object["stockActual"]=$stockac->stockActual+$object["cantidad"];
-                //}
+                }else{
+                  $object["stockActual"]=$stockac->stockActual-($object["cantidad"]*$object["equivalencia"]);
+                }
                   $manager = new StockManager($stockac,$object);
                   $manager->save();
                   //$stock=null;
