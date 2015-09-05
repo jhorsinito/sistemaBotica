@@ -111,6 +111,7 @@ Route::get('api/products/stations',['as' => 'products_stations_select','uses' =>
 Route::get('products/show/{id?}',['as' => 'products_show_by_id','uses' => 'ProductsController@index']);
 Route::get('products/view-show','ProductsController@show');
 Route::get('api/products/autocomplit/','ProductsController@autocomplit');
+Route::get('api/products/autocomplit2/','ProductsController@getAutocomplit2');
 Route::get('api/products/select','ProductsController@selectProducts');
 
 
@@ -125,7 +126,7 @@ Route::get('api/productsFavoritos/misDatos/{store?}/{were?}/{q?}',['as'=>'person
 
 //VARIANTS ROUTES
 Route::get('api/variants/variants/{id}',['as' => 'variants_byproduct_id', 'uses' => 'VariantsController@variants']);
-Route::get('api/variants/autocomplit/','VariantsController@autocomplit');
+Route::get('api/variants/autocomplit/{sku}','VariantsController@autocomplit');
 Route::get('api/variants/paginatep/{id}/{var}','VariantsController@paginatep');
 Route::get('api/variants/selectTalla/{id}/{taco}','VariantsController@selectTalla');
 
@@ -400,6 +401,9 @@ Route::get('api/purchases/search/{q?}',['as'=>'person_search', 'uses'=>'Purchase
 Route::get('api/purchases/find/{id}',['as'=>'person_find', 'uses'=>'PurchasesController@find']);
 Route::get('api/purchases/mostrarCostos/{id}','PurchasesController@mostrarCostos');
 
+Route::get('purchases/showD','PurchasesController@index');
+Route::get('purchases/view-showD','PurchasesController@form_showD');
+
 //---------------------------------------------------------------------
 Route::get('variants/create/{product_id}',['as'=>'variant_create','uses'=>'VariantsController@index']);
 Route::get('variants/edit/{id?}', ['as' => 'variant_edit', 'uses' => 'VariantsController@index']);
@@ -414,7 +418,7 @@ Route::get('api/variants/paginate/','VariantsController@paginatep');
 Route::get('api/variants/find/{id}','VariantsController@find');
 Route::put('api/variants/editFavorito/','VariantsController@editFavoritos');
 
-Route::post('api/detailOrderPurchases/create','DetailOrderPurchasesController@create');
+Route::post('api/detilOrderPurchases/create','DetailOrderPurchasesController@create');
 Route::get('api/detailOrderPurchases/all/{estado}',['as'=>'person_all', 'uses'=>'DetailOrderPurchasesController@all']);
 Route::get('api/detailOrderPurchases/paginatep/{id}','DetailOrderPurchasesController@paginatep');
 Route::get('api/detailOrderPurchases/Eliminar/{id}','DetailOrderPurchasesController@Eliminar');
@@ -437,6 +441,7 @@ Route::post('api/payments/create','PaymentsController@create');
 Route::get('api/payments/find/{id}','PaymentsController@find');
 Route::post('api/payments/destroy','PaymentsController@destroy');
 Route::put('api/payments/edit/','PaymentsController@edit');
+Route::get('api/payments/select/{id}','PaymentsController@payIDLocal');
 
 Route::get('purchases/show/{id?}','PurchasesController@index');
 Route::get('purchases/view-show','PurchasesController@show');
@@ -452,6 +457,7 @@ Route::post('api/report/tiket/{id?}',['as'=>'person_search', 'uses'=>'ReportsCon
 
 Route::post('api/inputStocks/create','InputStocksController@create');
 Route::get('api/inputStocks/paginate/','InputStocksController@paginate');
+Route::get('api/inputStocks/find/{id}','InputStocksController@paginate2');
 
 //-----------------------------Promociones---------------------------
 Route::get('promotions',['as'=>'person','uses'=>'PromotionsController@index']);
@@ -561,3 +567,9 @@ Route::get('api/SaleDetPayment/search/{id?}',['as'=>'person_search', 'uses'=>'Sa
 Route::get('api/saleMethodPayments/select','SaleMethodPaymentController@select');
 Route::post('api/saledetPayments/create',['as'=>'person_create', 'uses'=>'SaleDetPaymentController@create']);
 Route::get('api/saledetPayments/find/{id}',['as'=>'person_create', 'uses'=>'SaleDetPaymentController@find']);
+
+
+Route::get('api/pendientAccounts/paginate/','PendientAccountsController@paginatep');
+
+Route::put('api/pendientAccounts/edit','PendientAccountsController@edit');
+Route::get('api/pendientAccounts/saldost/{id}','PendientAccountsController@verSaldosTotales');

@@ -30,12 +30,13 @@ class InputStocksController extends Controller
     protected $detPresRepo;
     protected $stockRepo;
 
-    public function __construct(StockRepo $stockRepo,DetPresRepo $detPresRepo,OrderPurchaseRepo $orderPurchaseRepo,DetailOrderPurchaseRepo $detailOrderPurchaseRepo,InputStockRepo $inputStockRepo){
+    public function __construct(HeadInputStockRepo $headInputStockRepo,StockRepo $stockRepo,DetPresRepo $detPresRepo,OrderPurchaseRepo $orderPurchaseRepo,DetailOrderPurchaseRepo $detailOrderPurchaseRepo,InputStockRepo $inputStockRepo){
         $this->inputStockRepo = $inputStockRepo;
         $this->detPresRepo = $detPresRepo;
         $this->stockRepo = $stockRepo;
         $this->orderPurchaseRepo = $orderPurchaseRepo;
         $this->detailOrderPurchaseRepo = $detailOrderPurchaseRepo;
+        $this->headInputStockRepo=$headInputStockRepo;
     }
     public function all(){
         return response()->json($this->equivRepo->all());
@@ -48,16 +49,27 @@ class InputStocksController extends Controller
 
     }
     public function paginate(){
-        $inputStock=$this->inputStockRepo->select();
+        $inputStock=$this->headInputStockRepo->select();
+        return response()->json($inputStock);
+    }
+    public function paginate2($id){
+        $inputStock=$this->inputStockRepo->selected($id);
         return response()->json($inputStock);
     }
     
     public function create(Request $request){
        $var =$request->detailOrderPurchases;
-        //var_dump($var);die();
+    //var_dump($request->input('id'));die();
+       $codigoHeadIS;
        $almacen_id=$request->input("warehouses_id");
        $queHacer=$request->input("eliminar");
+       $tipo=$request->input("tipo");
        if($queHacer===0){
+        $request->merge(["orderPurchase_id"=>$request->input('id')]);
+        $headInputStock = $this->headInputStockRepo->getModel();
+        $inserHeadInputStock = new HeadInputStockManager($headInputStock,$request->all());
+            $inserHeadInputStock->save();
+            $codigoHeadIS=$headInputStock->id;
        $orderPurchase = $this->orderPurchaseRepo->find($request->input('id'));
        $orderPurchase->detPres()->detach();
       
@@ -65,8 +77,9 @@ class InputStocksController extends Controller
       //  if($queHacer===0){
             //var_dump("hola");die();
         $detPres=$this->detPresRepo->listarVariantes($object['detPres_id']);
+
         $object["variant_id"]=$detPres->variant_id;
-        $object["orderPurchase_id"]=$request->input("id");
+        
         $object["warehouses_id"]=$request->input("warehouses_id");
         $object["descripcion"]="Ingreso por pedido";
         $detailOrderPurchaseRepox = new DetailOrderPurchaseRepo;
@@ -80,7 +93,7 @@ class InputStocksController extends Controller
         if(!empty($object["cantidad_llegado"])){
           
           if($object["cantidad_llegado"]>0){
-
+            $object['headInputStock_id']=$codigoHeadIS;
             $inserInputStock = new inputStockManager($inputStock,$object);
             $inserInputStock->save();
           
@@ -88,6 +101,67 @@ class InputStocksController extends Controller
 
         $stockmodel = new StockRepo;
                   $object['warehouse_id']=$almacen_id;
+                  $stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
+                  
+            if(!empty($stockac)){ 
+                if($object["esbase"]==0){
+                    if($tipo==="Salida"){
+                        $object["stockActual"]=$stockac->stockActual-($object["cantidad_llegado"]*$object["equivalencia"]);
+                    }else{
+                         $object["stockActual"]=$stockac->stockActual+($object["cantidad_llegado"]*$object["equivalencia"]);
+                     }
+                }else{
+                    if($tipo==="Salida"){
+                      $object["stockActual"]=$stockac->stockActual-$object["cantidad_llegado"];
+                    }else{
+                       $object["stockActual"]=$stockac->stockActual+$object["cantidad_llegado"]; 
+                    }
+                }
+                  $manager = new StockManager($stockac,$object);
+                  $manager->save();
+                  $stock=null;
+            }else{
+              if($tipo==="Salida"){
+                if($object["esbase"]==0)
+                {
+                    $object["stockActual"]=$object["cantidad_llegado"]*$object["equivalencia"];
+                }else{
+                    $object["stockActual"]=$object["cantidad_llegado"];
+                }
+            }
+                  $manager = new StockManager($stockmodel->getModel(),$object);
+                  $manager->save();
+                  $stockmodel = null;
+            }
+            $stockac=null;
+        }}
+
+       }}else{
+
+       //==========================================================0
+       //$inputStock = $this->inputStockRepo->getModel();
+       $headInputStock = $this->headInputStockRepo->getModel();
+          //var_dump($var);die();
+        //if(!empty($var["cantidad_llegado"])){
+            //var_dump($request->all());die();
+            $inserHeadInputStock = new HeadInputStockManager($headInputStock,$request->all());
+            $inserHeadInputStock->save();
+            $codigoHeadIS=$headInputStock->id;
+    foreach($var as $object){
+          $inputStock = $this->inputStockRepo->getModel();
+          //$inputStock = $this->inputStockRepo->getModel();
+        if(!empty($object["cantidad_llegado"])){
+          if($object["cantidad_llegado"]>0){
+            $object['warehouse_id']=$almacen_id;
+            $object['headInputStock_id']=$codigoHeadIS;
+            $inserInputStock = new InputStockManager($inputStock,$object);
+             
+            $inserInputStock->save();
+          //var_dump($object);die();
+        
+
+        $stockmodel = new StockRepo;
+                  //$var['warehouse_id']=$almacen_id;
                   $stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
                   
             if(!empty($stockac)){ 
@@ -111,49 +185,7 @@ class InputStocksController extends Controller
                   $stockmodel = null;
             }
             $stockac=null;
-        }}
-
-       }}else{
-
-       //==========================================================0
-       $inputStock = $this->inputStockRepo->getModel();
-          //var_dump($var);die();
-        if(!empty($var["cantidad_llegado"])){
-          
-          if($var["cantidad_llegado"]>0){
-            $var['warehouse_id']=$almacen_id;
-            $var['warehouses_id']=$almacen_id;
-            $inserInputStock = new inputStockManager($inputStock,$var);
-            $inserInputStock->save();
-          
-        
-
-        $stockmodel = new StockRepo;
-                  //$var['warehouse_id']=$almacen_id;
-                  $stockac=$stockmodel->encontrar($var["variant_id"],$almacen_id);
-                  
-            if(!empty($stockac)){ 
-                if($var["esbase"]==0){
-                  $var["stockActual"]=$stockac->stockActual+($var["cantidad_llegado"]*$var["equivalencia"]);
-                }else{
-                  $var["stockActual"]=$stockac->stockActual+$var["cantidad_llegado"];
-                }
-                  $manager = new StockManager($stockac,$var);
-                  $manager->save();
-                  $stock=null;
-            }else{
-                if($var["esbase"]==0)
-                {
-                    $var["stockActual"]=$var["cantidad_llegado"]*$var["equivalencia"];
-                }else{
-                    $var["stockActual"]=$var["cantidad_llegado"];
-                }
-                  $manager = new StockManager($stockmodel->getModel(),$var);
-                  $manager->save();
-                  $stockmodel = null;
-            }
-            $stockac=null;
-        }}}
+        }}}}
        ////======================================================00
        return response()->json(['estado'=>true]);
 

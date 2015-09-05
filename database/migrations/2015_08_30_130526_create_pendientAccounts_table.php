@@ -16,6 +16,7 @@ class CreatePendientAccountsTable extends Migration
             $table->increments('id');
             $table->decimal('Saldo',10,2);
             $table->tinyInteger('estado');
+            $table->datetime('fecha');
             $table->integer('orderPurchase_id')->unsigned();
             $table->foreign('orderPurchase_id')->references('id')->on('orderPurchases');
             $table->integer('supplier_id')->unsigned();

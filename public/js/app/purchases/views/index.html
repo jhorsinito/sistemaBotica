@@ -15,11 +15,11 @@
 
         <!-- Main content -->
         <section class="content">
-        <div class="row">
+        <!--<div class="row">
         <div class="col-md-12">
           <a href="/purchases/create" type="submit"  class="btn btn-primary pull-left">Add Purchases</a> 
           </div>
-        </div>
+        </div>-->
         </br>
           <div class="row">
             <div class="col-md-12">
@@ -56,10 +56,12 @@
                     </p>
                   </div>
               <div class="form-group">
-                  <button class=" label-default" data-toggle="modal" data-target="#miventana" >Crear Adelantos</button>
-              
-              
-                  <a class=" label-default" href="/purchases/create">Ver Entradas De Stock</a>
+                 <a target="_self" class="btn label-default" href="/orderPurchases/createP" >Crear Compra Directa</a>
+                  <a target="_self" class="btn label-default" href="/orderPurchases/create" >Crear Orden</a>
+                  <a target="_self" class="btn label-default" href="/orderPurchases" >Ver Listado de Ordenes</a>
+                 <a class="btn label-default" href="/purchases/create">Ver Entradas De Stock</a>
+                 <a class="btn label-default" href="/purchases/showD">Ver Saldos a favor</a>
+
               </div>
 
            <!-- <div class="form-group">
@@ -114,7 +116,7 @@
                       <td>{{row.fechaEntrega.substring(0,10)}}</td>
                       <td>{{row.empresa}}</td>
                       <td>{{row.almacen}}</td>
-                      <td><a ng-href="/orderPurchases/edit/{{row.orderPurchase_id}}">Ver Orden</a></td>
+                      <td><a target="_self" ng-href="/orderPurchases/edit/{{row.orderPurchase_id}}">Ver Orden</a></td>
                       <td>{{row.descuento}}</td>
                       <td>{{row.montoBruto}}</td>
                       <td>{{row.montoTotal}}</td>

@@ -12,8 +12,12 @@
                 $scope.detPayment={};
                 $scope.inputStocks=[];
                 $scope.inputStock={};
+                $scope.headInputStocks=[];
+                headInputStock={};
                 $scope.products=[];
                 $scope.product={};
+                $scope.pendientAccounts=[];
+                $scope.pendientAccount={};
                 //$scope.idProvicional;
                  $scope.totAnterior;
                 $scope.errors = null;
@@ -28,7 +32,12 @@
                 $scope.toggle = function () {
                     $scope.show = !$scope.show;
                 };
-
+                 $scope.pageChanged1 = function() {
+                        crudOPurchase.search('inputStocks',$scope.query,$scope.currentPage1).then(function (data){
+                        $scope.headInputStocks = data.data;
+                        $log.log($scope.headInputStocks);
+                    });
+                 }
                 $scope.pageChanged = function() {
                     if ($scope.query.length > 0) {
                         crudOPurchase.search('purchases',$scope.query,$scope.currentPage).then(function (data){
@@ -74,7 +83,7 @@
                     if($location.path() == '/purchases/show/'+$routeParams.id) {
                         //alert('ok');
 
-                        crudOPurchase.byId(id,'payments').then(function (data){
+                        crudOPurchase.select2('payments',id).then(function (data){
                             $scope.payment = data;
                              $scope.idProvicional=data.id;
                               $scope.totAnterior=data.Acuenta;
@@ -151,7 +160,9 @@
                        
                     });
 
-              
+                $scope.limpiarStocks=function(){
+                    $scope.inputStocks=[];
+                }
 
                 $scope.editCompra = function(row){
                     $location.path('/purchases/edit/'+row.id);
@@ -175,27 +186,78 @@
                 }
                     
                 };
-                if($location.path() == '/purchases/create') {
-                crudOPurchase.paginate('inputStocks',1).then(function (data) {
-                        $scope.inputStocks = data.data;
+                if($location.path() == '/purchases/showD') {
+                crudOPurchase.paginate('pendientAccounts',1).then(function (data) {
+                        $scope.pendientAccounts = data.data;
                         $scope.maxSize = 5;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                         $scope.itemsperPage = 15;
 
                     });
+            }
+                if($location.path() == '/purchases/create') {
+                crudOPurchase.paginate('inputStocks',1).then(function (data) {
+                        $scope.headInputStocks = data.data;
+                        $scope.maxSize1 = 5;
+                        $scope.totalItems1 = data.total;
+                        $scope.currentPage1 = data.current_page;
+                        $scope.itemsperPage1 = 15;
+
+                    });
                 crudOPurchase.select('warehouses','select').then(function(data){
                         $scope.warehouses = data;
                     });
-                crudOPurchase.autocomplit('products',1).then(function (data) {
+                crudOPurchase.autocomplit2('products',1).then(function (data) {
                         $scope.products = data.data;
                     });
                }
                $scope.mostrarCreate=false;
+               $scope.ver=function(){
+                $scope.mostrarCreate=!$scope.mostrarCreate;
+               }
+                $scope.ListarinputStocks=function(row){
+               crudOPurchase.byId(row.id,'inputStocks').then(function (data){
+                            $scope.inputStocks=data.data;
+              });
+            }
                //$scope.orderPurchase.eliminar=0;
+               $scope.verEdicion=false;
+               $scope.canselarEditDeudas=function(){
+                $scope.verEdicion=false;
+                   $scope.indexPirata=-1;
+               }
+               $scope.EditarDeudas=function(index){
+                    $scope.indexPirata=index;
+                    $scope.verEdicion=true;
+               }
+               $scope.ActualizarSaldo=function(row,nuevoSaldo){
+                    if(Number(row.Saldo) > nuevoSaldo){
+                      row.Saldo=row.Saldo-nuevoSaldo;
+                    }else{
+                        alert("ERROR: el Monto ingresado no debe superar la deuda");
+                    }
+               }
+               $scope.CuentasAFavor=function(row){
+
+                crudOPurchase.update(row, 'pendientAccounts').then(function (data) {
+                         
+                            if (data['estado'] == true) {
+                                alert('Cuenta Editada Correctamente');
+                                $scope.verEdicion=false;
+                                $scope.indexPirata=-1;
+                                //$location.path('/purchases/create');
+                            } else {
+                                $scope.errors = data;
+
+                            }
+                        });
+               }
+               $scope.sacarRowStock=function(index){
+                   $scope.inputStocks.splice(index,1);
+               }
+
                 $scope.verEntradasEstock=function(){
-                    $scope.mostrarCreate=!$scope.mostrarCreate;
-                    if($scope.mostrarCreate==false){
                      $scope.purchase.eliminar=1;
                      //$scope.inputStock.eliminar=1;
                      $scope.inputStock.variant_id=$scope.product.proId.varid;
@@ -210,9 +272,27 @@
 
                                    }); 
                      alert($scope.inputStock.nombre);
-                     $scope.purchase.detailOrderPurchases=$scope.inputStock;
+                     
                      $scope.inputStocks.push($scope.inputStock);
-                     crudOPurchase.create($scope.purchase, 'inputStocks').then(function (data) {
+                     $scope.inputStock={};
+                    /* crudOPurchase.create($scope.purchase, 'inputStocks').then(function (data) {
+                         
+                            if (data['estado'] == true) {
+                                alert('Stock registrado');
+                                $location.path('/purchases/create');
+                            } else {
+                                $scope.errors = data;
+
+                            }
+                        });*/
+                    });
+                    
+                 }
+                
+                $scope.crearEntradasEstock=function(){
+                    $scope.purchase.detailOrderPurchases=$scope.inputStocks;
+                    $scope.mostrarCreate=!$scope.mostrarCreate;
+                    crudOPurchase.create($scope.purchase, 'inputStocks').then(function (data) {
                          
                             if (data['estado'] == true) {
                                 alert('Stock registrado');
@@ -222,9 +302,6 @@
 
                             }
                         });
-                    });
-                    
-                 }
                 }
                 $scope.traerPayments=function(row){
                     alert(row.id);

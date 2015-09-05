@@ -134,36 +134,21 @@
             <div class="col-md-4">
           <div class="input-group">
               <label>Producto</label>
-                
-               <input typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Busca por producto" 
-          typeahead="product as product.proNombre+'/'+product.BraName+'/'+product.TName for product in products | filter:$viewValue | limitTo:8" 
+               <input typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Locations loaded via $http" 
+          typeahead="product as product.proNombre+'/'+product.BraName+'/'+product.TName+'/'+product.Mnombre for product in products | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
-          tooltip="Ingrese caracteres para busacar producto por nombre">
+           tooltip="Ingrese caracteres para busacar producto por codigo unico"
+            >
          
                     <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
             <div ng-show="noResults">
                     <i class="glyphicon glyphicon-remove"></i> No Results Found
            </div>
-             
-        </div> 
+            
+        </div>  
             </div> 
-      <div class="col-md-4">
-          <div class="input-group">
-              <label>Variante</label>
-               
-               <input typeahead-on-select="asignarProduc2()" type="text" ng-model="variant.sku" placeholder="Busca por producto" 
-          typeahead="variant as variant.sku for variant in variants | filter:$viewValue | limitTo:8"  
-          typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
-          tooltip="Ingrese caracteres para busacar producto por sku">
-         
-                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-            <div ng-show="noResults">
-                    <i class="glyphicon glyphicon-remove"></i> No Results Found
-           </div>
-             
-        </div> 
-      </div>
-      <div class="col-md-1">
+      
+      <!--<div class="col-md-1">
       <div class="input-group">
       <label></label><br/>
            <input type="checkbox" name="vehicle"  ng-click="llenar()" >Base<br>
@@ -180,20 +165,91 @@
                 </div>
               </div> 
             </div> -->
+            <div class="col-md-2">
+           <div  ng-show="true">
+              <div class="form-group" >
+                <label for="Variante">Taco</label>
+                <select class="form-control"   ng-click="mostrarTallas(detailOrderPurchase.taco)" ng-model="detailOrderPurchase.taco" ng-options="item.valorDetAtr as item.nomCortoVar+': '+item.valorDetAtr for item in variants">
+                  <option value="">--Elija Num Taco--</option>
+                </select>
+                <!--@{{variants.varid}}-->
+                </div>
+            </div>
+            </div>
+            <div class="col-md-4">
+            <label>@{{variant.codigo}}</label>
+            <input type="text" ng-keyup="TraerPorSku(variant.sku)" ng-model="variant.sku">
+          <!--<div class="input-group">
+              <label>Variante</label>
+               
+               <input typeahead-on-select="asignarProduc2()" ng-keyup="TraerPorSku(variant.sku)"type="text" ng-model="variant.sku" placeholder="Busca por producto" 
+          typeahead="variant as variant.sku for variant in variants | filter:$viewValue | limitTo:8"  
+          typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
+          tooltip="Ingrese caracteres para busacar producto por sku">
+         
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+            <div ng-show="noResults">
+                    <i class="glyphicon glyphicon-remove"></i> No Results Found
+           </div>
+             
+        </div> -->
+      </div>
 
-            <div class="col-md-4" ng-show="false">
+     <!--       <div class="col-md-4" ng-show="false">
               <div class="form-group" >
                 <label for="Variante">Variante</label>
                 <select class="form-control"   ng-click="seleccionarDetPres()" ng-model="variants.id" ng-options="item.id as item.sku for item in variants">
                   <option value="">--Elija Variante--</option>
                 </select>
-                <!--@{{variants.varid}}-->
+                <!--@{{variants.varid}}--
                 </div>
-            </div>
+            </div>-->
 
           </div>
+          <div class="row">
+  <div class="col-md-1">
+       </div>
+  <div class="col-md-10">
+  <div ng-hide="mostrarPresentacion" class="well well-lg">
+  <em>Las Tallas Disponibles Para este Producto Son</em>
+  <div class="row">
+       <div ng-repeat="item in atributes">
+       <div class="col-md-1">
+       </div>
+       <div class="col-md-2" >
+               <div class="input-group" ng-value="item.valorDetAtr">
+                 <!-- <input  type="checkbox"  ng-click="quitarTalla(item.numTalla,cheked1)" ng-model="cheked1"  />@{{item.numTalla}}
+                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.numTalla)" step="1" rquired>-->
+                  <input  type="checkbox"  ng-click="quitarTalla(item.valorDetAtr,cheked1)" ng-model="cheked1"  />@{{item.valorDetAtr}}
+                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(item.varSku,item.varCodigo,item.precioProducto,cantidad,item.valorDetAtr)" step="1" rquired>
+              
+              </div>    
+       </div>
+      <!-- <div class="col-md-2" ng-if="$index>4 && $index<=9">
+             <div class="input-group" ng-value="item.valorDetAtr">
+                  <input  type="checkbox"   ng-model="cheked1" />@{{item.valorDetAtr}}
+                 <input ng-show="cheked1" type="number" style="width:40px"   placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.valorDetAtr)" step="1" rquired>
+               </div> 
+        </div>
+       <div class="col-md-2" ng-if="$index>9 && $index<=14">
+            <div class="input-group" ng-value="item.valorDetAtr">
+                  <input  type="checkbox" ng-model="cheked1" />@{{item.valorDetAtr}}
+                  <input ng-show="cheked1" type="number" style="width:40px" placeholder="0"  ng-model="cantidad" ng-blur="calCantidad(cantidad,item.valorDetAtr)" step="1" rquired>
+              </div>            
+        </div>
+       <div class="col-md-2" ng-if="$index>14 && $index<=19">
+              <div class="input-group" ng-value="item.valorDetAtr">
+                  <input  type="checkbox" ng-model="cheked1"  />@{{item.valorDetAtr}}
+                  <input ng-show="cheked1" type="number" style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.valorDetAtr)" step="1" rquired>
+              </div>            
+        </div> -->
+      </div>
+  </div>  
+  </div>
+  </div>
+</div>    
 
-           <!-------------------------------------------------------------------------->
+           <!--------------------------------------------------------------------------
           <div class="row">
            <div class="col-md-1">
            </div>
@@ -336,7 +392,7 @@
               <th style="width: 10px">#</th>
 
               <th>Producto</th>
-              <th>Variante </th>
+              <th>Sku </th>
               <th>Cantidad</th>
               <th>Can Llegado</th>
               <th>Precio Producto</th>
@@ -352,7 +408,7 @@
                       <td>@{{$index + 1}}</td>
                       <td ng-hide="true">@{{row.orderPurchases_id}}</td>
                       <td ng-hide="true">@{{row.detPres_id}}</td>
-                      <td>@{{row.nombre}}</td>
+                      <td>@{{row.producto}}</td>
                       <td><a  popover-trigger="mouseenter" popover="Atributo:@{{variants.Atrdescri}}; Presentacion:@{{variants.nombre}}; 
                       Equivalencia:@{{variants.equivalencia}} @{{presentation.shortname}}" 
                       ng-mouseover="popover(row)">@{{row.CodigoPCompra}}</a></td>

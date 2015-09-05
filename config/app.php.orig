@@ -113,7 +113,7 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
-        Barryvdh\DomPDF\ServiceProvider::class,
+        //Barryvdh\DomPDF\ServiceProvider::class,
         Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
@@ -138,8 +138,11 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         'JasperPHP\JasperPHPServiceProvider',
+<<<<<<< HEAD
+=======
         //'Thujohn\Pdf\PdfServiceProvider',
         //'Vsmoraes\Pdf\PdfServiceProvider',
+>>>>>>> 73806af1fae5f8c9258280e7d143038ef2b59120
 
         /*
          * Application Service Providers...
@@ -152,11 +155,7 @@ return [
         /*
          * Customer Service Provider
          */
-<<<<<<< HEAD
-        //Reportico\Reportico\ReporticoServiceProvider::class,
-=======
-        //Barryvdh\Debugbar\ServiceProvider::class,
->>>>>>> 8ae069cf4eeae53a3308a11dfc0459fbf4983c9a
+        Barryvdh\Debugbar\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class
     ],
 
@@ -211,6 +210,7 @@ return [
 
         /*Custom aliases*/
         'Image'     => Intervention\Image\Facades\Image::class,
+        'Debugbar'  => Barryvdh\Debugbar\Facade::class
 
     ],
 

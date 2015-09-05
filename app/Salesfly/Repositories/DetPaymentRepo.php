@@ -16,9 +16,12 @@ class DetPaymentRepo extends BaseRepo{
         return $d && $d->format($format) == $date;
     }
     function mostrarDetPayment($id){
-        $detPayment=DetPayment::join("methodPayments","methodPayments.id","=","detPayments.methodPayment_id")->select("detPayments.*","methodPayments.nombre as nameMethod")->where('detPayments.payment_id','=',$id)->paginate(8);
+        $detPayment=DetPayment::leftjoin("methodPayments","methodPayments.id","=",
+            "detPayments.methodPayment_id")->select("detPayments.*",
+            "methodPayments.nombre as nameMethod")->where('detPayments.payment_id','=',$id)->paginate(8);
         return $detPayment;
     }
+
     function verPagosAdelantados($id){
        $detPayment=DetPayment::where("detPayments.payment_id","=",$id)->get();
        return $detPayment;

@@ -58,6 +58,15 @@
 
                 return deferred.promise;
             }
+             function MostrarTotalDeudas(id)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/pendientAccounts/saldost/'+id).success(function (data) {
+                    deferred.resolve(data);
+                });
+
+                return deferred.promise;
+            }
 
             function create(area,uri)
             {
@@ -174,6 +183,16 @@
 
                 return deferred.promise;
             }
+             function autocomplitVar(uri,sku)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/autocomplit/'+sku)
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
             return {
                 all: all,
                 paginate: paginate,
@@ -189,9 +208,11 @@
                 traerEmpresa: traerEmpresa,
                 paginateDPedido: paginateDPedido,
                 autocomplit: autocomplit,
+                autocomplitVar: autocomplitVar,
                 eligirNumero: eligirNumero,
                 MostrarAtributos: MostrarAtributos,
-                MostrarTallas: MostrarTallas
+                MostrarTallas: MostrarTallas,
+                MostrarTotalDeudas: MostrarTotalDeudas
             }
         }])
         .factory('socketService', function ($rootScope) {

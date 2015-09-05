@@ -103,6 +103,23 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
 
         return $products;
     }
+     public function Autocomplit2(){
+            $products = Product::leftjoin('variants','products.id','=','variants.product_id')
+                            ->leftjoin("detAtr","variants.id","=","detAtr.variant_id")
+                            ->leftjoin('brands','products.brand_id','=','brands.id')
+                            ->leftjoin('types','products.type_id','=','types.id')
+                            ->leftjoin('materials','materials.id','=','products.material_id')
+                            //->leftjoin('variants','products.id','=','variants.product_id')
+                            //->leftjoin("atributes","atributes.id","=","detAtr.atribute_id")
+                            ->select(\DB::raw('products.id as proId,brands.nombre as BraName,types.nombre as TName,products.codigo as proCodigo,products.nombre as proNombre,
+                              variants.id as varid,variants.sku as varcode,variants.suppPri as varPrice,variants.price as precioProducto,
+                               products.hasVariants as TieneVariante,products.created_at as proCreado,brands.id as BraID,materials.id as MId
+                              ,materials.nombre as Mnombre,variants.codigo as varCodigo,detAtr.descripcion as descripcion,products.quantVar as proQuantvar'))->groupBy('variants.id')
+                            ->paginate();
+
+
+        return $products;
+    }
    
     public function find($id){
         $oProduct = Product::find($id);

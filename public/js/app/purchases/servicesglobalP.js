@@ -138,10 +138,30 @@
 
                 return deferred.promise;
             }
+             function select2(uri,select)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/select/'+select)
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
               function autocomplit(uri)
             {
                 var deferred = $q.defer();
                 $http.get('/api/'+uri+'/autocomplit/')
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
+              function autocomplit2(uri)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/autocomplit2/')
                     .success(function (data) {
                         deferred.resolve(data);
                     });
@@ -163,7 +183,9 @@
                 //traerCodigo: traerCodigo,
                 traerEmpresa: traerEmpresa,
                 paginateDPedido: paginateDPedido,
-                autocomplit: autocomplit
+                autocomplit: autocomplit,
+                autocomplit2: autocomplit2,
+                select2: select2
             }
         }])
         .factory('socketService', function ($rootScope) {

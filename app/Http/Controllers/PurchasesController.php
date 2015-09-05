@@ -23,6 +23,9 @@ use Salesfly\Salesfly\Managers\DetPaymentManager;
 
 use Salesfly\Salesfly\Repositories\InputStockRepo;
 use Salesfly\Salesfly\Managers\InputStockManager;
+
+use Salesfly\Salesfly\Repositories\HeadInputStockRepo;
+use Salesfly\Salesfly\Managers\HeadInputStockManager;
 //use Intervention\Image\Facades\Image;
 
 class PurchasesController extends Controller {
@@ -34,7 +37,7 @@ class PurchasesController extends Controller {
         $this->purchaseRepo = $purchaseRepo;
     }*/
 
-    public function __construct(InputStockRepo $inputStockRepo,DetPaymentRepo $detPaymentRepo,PendientAccountRepo $pendientAccountRepo,PaymentRepo $paymentRepo,DetailPurchaseRepo $detailPurchaseRepo, PurchaseRepo $purchaseRepo,StockRepo $stockRepo)
+    public function __construct(HeadInputStockRepo $headInputStockRepo,InputStockRepo $inputStockRepo,DetPaymentRepo $detPaymentRepo,PendientAccountRepo $pendientAccountRepo,PaymentRepo $paymentRepo,DetailPurchaseRepo $detailPurchaseRepo, PurchaseRepo $purchaseRepo,StockRepo $stockRepo)
     {
         $this->detailPurchaseRepo = $detailPurchaseRepo;
         $this->purchaseRepo = $purchaseRepo;
@@ -43,6 +46,7 @@ class PurchasesController extends Controller {
         $this->pendientAccountRepo=$pendientAccountRepo;
         $this->detPaymentRepo=$detPaymentRepo;
         $this->inputStockRepo=$inputStockRepo;
+        $this->headInputStockRepo=$headInputStockRepo;
 
     }
 
@@ -66,11 +70,13 @@ class PurchasesController extends Controller {
         return response()->json($purchases);
         
     }
-
+   public function form_showD(){
+     return View('purchases.showD');
+   }
 
     public function form_create()
     {
-        return View('purchases.form_createPur');
+        return View('purchases.form_create');
     }
 
     public function form_edit()
@@ -82,12 +88,15 @@ class PurchasesController extends Controller {
         {
          // var_dump($request->all());die();
         $saldoTemp=0;
+        $codigoHeadIS=0;
         $purchase = $this->purchaseRepo->getModel();
         $payment = $this->paymentRepo->getModel();
         $pendientAccount=$this->pendientAccountRepo->getModel();
         $var = $request->detailOrderPurchases;
         $almacen_id=$request->input("warehouses_id");
-        //=============================Creando Purchase=============================
+        $codOrder=$request->input("orderPurchase_id");
+        $fechaActual=$request->input("fecha");
+        //=============================Creando compra =============================
        //var_dump($var); die();
         $manager = new PurchaseManager($purchase,$request->except('fechaEntrega'));
         $manager->save();
@@ -106,14 +115,14 @@ class PurchasesController extends Controller {
         $detailPurchaseRepox;
         $consulPayment=null;
         //$almacen_id=$request->input("warehouses_id");
-      //====================Creando Payment====================================
+      //====================Creando y actualizando pagos si que existe adelantos====================================
         if($request->input('compraDirecta')==1){
           $request->merge(["Acuenta"=>0]);
           $inserPay=new PaymentManager($payment,$request->all());
           $inserPay->save();
           
         }else{
-        $consulPayment=$this->paymentRepo->payIDLocal($purchase->orderPurchase_id);
+        $consulPayment=$this->paymentRepo->paymentById($purchase->orderPurchase_id);
         if($consulPayment==null){
           $request->merge(["Acuenta"=>0]);
           $inserPay=new PaymentManager($payment,$request->all());
@@ -130,11 +139,11 @@ class PurchasesController extends Controller {
               //$saldoTemp=$inserPay->Saldo;
         }
       }
-        ///==================================================================
+        ///==========================Registrando saldo Afavor ========================================
 
        if($request->input('Saldo')<0){
-          
-            $request->merge(['Saldo'=>$request->input('Saldo')*1]);
+           
+            $request->merge(['Saldo'=>$request->input('Saldo')*-1]);
             $insercount=new PendientAccountManager($pendientAccount,$request->all());
             $insercount->save();
              
@@ -148,7 +157,7 @@ class PurchasesController extends Controller {
           if($detPayment->Saldo_F!=null){
                $saldos=$this->pendientAccountRepo->find2($detPayment['Saldo_F']);
             if($saldos!=null){
-              if($saldos->Saldo==0){
+              if($saldos->Saldo==0){                
                  $request->merge(['Saldo'=>0]);
                  $request->merge(['estado'=>1]);
                  $request->merge(['orderPurchase_id'=>$saldos->orderPurchase_id]);
@@ -163,14 +172,16 @@ class PurchasesController extends Controller {
 
       //========================================================================
        foreach($var as $object){
-           $onject['orderPurchase_id']=$request->input("orderPurchase_id");
+        //========================insertDEtalles=========================
+           $object['orderPurchase_id']=$codOrder;
            $object['purchases_id'] = $temporal;
            $object['purchase_id']=$temporal;
+           $object['Fecha']=$fechaActual;
            $detailPurchaseRepox = new DetailPurchaseRepo;
            $insertar=new DetailPurchaseManager($detailPurchaseRepox->getModel(),$object);
            $insertar->save();
-          
            $detailPurchaseRepox = null;
+
            $stockmodel = new StockRepo;
                   $object['warehouse_id']=$almacen_id;
                   $object["variant_id"]=$object["Codigovar"];
@@ -178,11 +189,25 @@ class PurchasesController extends Controller {
                   if(!empty($object["Cantidad_Ll"])){
                   $cantidaCalculada=$object["cantidad"]-$object["Cantidad_Ll"];
                   }else{ $cantidaCalculada=$object["cantidad"];}
+        //======================Si Existe Stock Pendiente Por Agregar===============================
         if($cantidaCalculada>0){
           $inputStock = $this->inputStockRepo->getModel();
           $object["warehouses_id"]=$request->input("warehouses_id");
           $object["cantidad_llegado"]=$cantidaCalculada;
           $object['descripcion']='Entrada por compra';
+          $object['tipo']='Entrada';
+          //$request->merge(["orderPurchase_id"=>$request->input('id')]);
+          ////======================Registrando en notas de cabecera===============================
+               
+          if($codigoHeadIS===0 && $cantidaCalculada>0){
+               $headInputStock = $this->headInputStockRepo->getModel();
+              // var_dump($object);die();
+               $inserHeadInputStock = new HeadInputStockManager($headInputStock,$object);
+               $inserHeadInputStock->save();
+               $codigoHeadIS=$headInputStock->id;
+               }
+       ////======================Registrando en notas de detalles===============================
+              $object['headInputStock_id']=$codigoHeadIS;
               $inserInputStock = new inputStockManager($inputStock,$object);
               $inserInputStock->save();
             if(!empty($stockac)){ 
@@ -191,6 +216,7 @@ class PurchasesController extends Controller {
                 }else{
                   $object["stockActual"]=$stockac->stockActual+$cantidaCalculada;
                 }
+      //======================Actualizando stock si es que variante existe===============================
                   $manager = new StockManager($stockac,$object);
                   $manager->save();
                   $stock=null;
@@ -201,6 +227,7 @@ class PurchasesController extends Controller {
                 }else{
                     $object["stockActual"]=$cantidaCalculada;
                 }
+      //======================Registrando estock si es que variante no existe===============================
                   $manager = new StockManager($stockmodel->getModel(),$object);
                   $manager->save();
                   $stockmodel = null;
@@ -208,6 +235,7 @@ class PurchasesController extends Controller {
             $stockac=null;
          }
        }
+      //======================Creando reporte por cada linea de detalle de compra===============================
         $database = \Config::get('database.connections.mysql');
         $time=time();
         $output = public_path() . '/report/'.$time.'_tikets';        

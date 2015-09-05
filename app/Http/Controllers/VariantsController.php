@@ -47,8 +47,8 @@ class VariantsController extends Controller
         //var_dump($variants);die();
         return response()->json($variants);
     }
-    public function autocomplit(){
-        $variants = $this->variantRepo->uatocomplit();
+    public function autocomplit($sku){
+        $variants = $this->variantRepo->uatocomplit($sku);
         return response()->json($variants);
         
     }

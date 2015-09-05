@@ -326,6 +326,10 @@ class ProductsController extends Controller
         return substr($string,$ini,$len);
     }
     /*./ fx ayuda para img*/
-
+    public function getAutocomplit2(){
+        $product = $this->productRepo->Autocomplit2();
+        //sleep(5);
+        return response()->json($product);
+    }
 
 }

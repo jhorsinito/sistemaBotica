@@ -2,7 +2,7 @@
 namespace Salesfly\Salesfly\Repositories;
 use Salesfly\Salesfly\Entities\HeadInputStock;
 
-class HeadnputStockRepo extends BaseRepo{
+class HeadInputStockRepo extends BaseRepo{
     public function getModel()
     {
         return new HeadInputStock;

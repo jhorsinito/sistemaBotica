@@ -60,7 +60,7 @@
                 </div><!-- /.box-body -->
       <div class="box-body">
 <div class="row">
-     <div ng-if="payment.Saldo>0" class="col-md-6" align="center">
+     <div ng-enabled="payment.Saldo>0" class="col-md-6" align="center">
                  <div  class="form-group" >
                       <b>Agrega Pago</b>
                  </div>
@@ -153,8 +153,8 @@
         </div>
      
              
-                  <div class="box-footer">
-                    
+                   <div class="box-footer">
+                    <a href="/purchases" class="btn btn-danger">Salir</a>
                   </div>
                 </form>
               </div><!-- /.box -->

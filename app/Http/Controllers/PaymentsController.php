@@ -91,4 +91,8 @@ class PaymentsController extends Controller {
         $manager->save();
         return response()->json(['estado'=>true, 'nombre'=>$payment->nombre]);
     }
+    public function payIDLocal($id){
+        $payment = $this->paymentRepo->payIDLocal($id);
+        return response()->json($payment);
+    }
 }

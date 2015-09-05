@@ -60,7 +60,7 @@
            
           <div class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.empresa.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.empresa.$dirty && orderPurchaseCreateForm.empresa.$invalid]">
               <label>Proveedor: </label>
-              <div class="input-group" ng-hide="show">
+              <div class="input-group" ng-hide="show" style="width: 300px;">
               
                 
                <input typeahead-on-select="asignarEmpresa()" type="text" name="empresa" ng-model="orderPurchase.empresa" placeholder=" por Proveedor" 
@@ -141,7 +141,7 @@
             <!--===================================================================================-->
             
           <!--==================================================================================-->
-  <div ng-show="true"  class="box" name="DetalleOrden">
+  <div ng-show="show"  class="box" name="DetalleOrden">
         <div class="box box-default" id="box-addPro">
         <div class="box-header with-border">
           <h3 class="box-title">Agregar Producto</h3>
@@ -161,7 +161,7 @@
                <input typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Locations loaded via $http" 
           typeahead="product as product.proNombre+'/'+product.BraName+'/'+product.TName+'/'+product.Mnombre for product in products | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
-           tooltip="Ingrese caracteres para busacar producto por nombre"
+           tooltip="Ingrese caracteres para busacar producto por codigo unico"
             >
          
                     <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
@@ -253,15 +253,18 @@
        </div>
   <div class="col-md-10">
   <div ng-hide="mostrarPresentacion" class="well well-lg">
-  <h2>Las Tallas Disponibles Para este Producto Son</h2>
+  <em>Las Tallas Disponibles Para este Producto Son</em>
   <div class="row">
        <div ng-repeat="item in atributes">
        <div class="col-md-1">
        </div>
        <div class="col-md-2" >
-               <div class="input-group" ng-value="item.numTalla">
-                  <input  type="checkbox"  ng-click="quitarTalla(item.numTalla,cheked1)" ng-model="cheked1"  />@{{item.numTalla}}
-                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.numTalla)" step="1" rquired>
+               <div class="input-group" ng-value="item.valorDetAtr">
+                 <!-- <input  type="checkbox"  ng-click="quitarTalla(item.numTalla,cheked1)" ng-model="cheked1"  />@{{item.numTalla}}
+                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.numTalla)" step="1" rquired>-->
+                  <input  type="checkbox"  ng-click="quitarTalla(item.valorDetAtr,cheked1)" ng-model="cheked1"  />@{{item.valorDetAtr}}
+                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(item.varSku,item.varCodigo,item.precioProducto,cantidad,item.valorDetAtr)" step="1" rquired>
+              
               </div>    
        </div>
       <!-- <div class="col-md-2" ng-if="$index>4 && $index<=9">
@@ -421,7 +424,7 @@
               <th style="width: 10px">#</th>
 
               <th>Producto</th>
-              <th>Variante </th>
+              <th>Sku </th>
               <th>Cantidad</th>
               <th>Precio Producto</th>
               <th>Precio Compra</th>
@@ -435,7 +438,10 @@
                       <td ng-hide="true">@{{row.orderPurchases_id}}</td>
                       <td ng-hide="true">@{{row.detPres_id}}</td>
                       <td>@{{row.producto}}</td>
-                      <td>@{{row.codigoEspecifico}}</td>
+                      <!--<td>@{{row.codigoEspecifico}}</td>-->
+                      <td><a  popover-trigger="mouseenter" popover="Atributo:@{{variants.Atrdescri}}; Presentacion:@{{variants.nombre}}; 
+                      Equivalencia:@{{variants.equivalencia}} @{{presentation.shortname}}" 
+                      ng-mouseover="popover(row)">@{{row.CodigoPCompra}}</a></td>
                       <td>@{{row.cantidad}}</td>
                       <td>S/.@{{row.preProducto}}</td>
                       <td>S/.@{{row.preCompra}}</td>
@@ -484,13 +490,13 @@
             </div>
       </div>
       <div class="row">
-      <div class="col-md-4"> 
+      <!--<div class="col-md-4"> 
                 <div class="form-group">
                 <label for="suppPric">Ingrese Saldo aUtilizar</label>
                 <input type="number" ng-model="orderPurchase.SaldoUtilizado" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
                 name="montoTotal" placeholder="0.00"  ng-disabled="product.hasVariants" ng-blur="calcularmontoBrutoF()" step="0.1">
               </div>
-            </div>
+            </div>-->
         <div class="col-md-4">
                     <div class="form-group" >
                       <label for="descripcion">Numero de Factura</label>

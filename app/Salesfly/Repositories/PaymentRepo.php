@@ -13,7 +13,7 @@ class PaymentRepo extends BaseRepo{
        return $payment;
    }
    public function payIDLocal($id){
-       $payment=Payment::where('payments.orderPurchase_id','=',$id)->first();
+       $payment=Payment::where('payments.purchase_id','=',$id)->first();
        return $payment;
    }
    

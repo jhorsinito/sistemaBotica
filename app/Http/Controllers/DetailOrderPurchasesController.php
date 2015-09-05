@@ -106,7 +106,7 @@ class DetailOrderPurchasesController extends Controller {
              // $request->merge(['MontoTotal'=>$montotot]);
               $request->merge(['Acuenta'=>$SaldoAfavor]);
               $request->merge(['orderPurchase_id'=>$request->input('id')]);
-              $salc=$request->input('MontoTotal')-$request->input('Acuenta');
+              $salc=floatval($request->input('MontoTotal'))-$request->input('Acuenta');
               $request->merge(['Saldo'=>$salc]);        
               $manager = new PaymentManager($payment,$request->all());
               $manager->save();
@@ -116,7 +116,7 @@ class DetailOrderPurchasesController extends Controller {
              // $request->merge(['MontoTotal'=>$montotot]);
               $request->merge(['Acuenta'=>$saldos->Acuenta+$SaldoAfavor]);
               $request->merge(['orderPurchase_id'=>$request->input('id')]);
-              $salc=$request->input('MontoTotal')-$request->input('Acuenta');
+              $salc=floatval($request->input('MontoTotal'))-$request->input('Acuenta');
               $request->merge(['Saldo'=>$salc]);
               $payment=new PaymentManager($saldos,$request->all());
               $payment->save();
@@ -127,7 +127,7 @@ class DetailOrderPurchasesController extends Controller {
               $request->merge(['tipoPago'=>'A']);
               $request->merge(['payment_id'=>$provicional]);
               $request->merge(['montoPagado'=>$SaldoAfavor]);
-              $request->merge(['methodPayment_id'=>4]);
+              //$request->merge(['methodPayment_id'=>4]);
               $request->merge(['Saldo_F'=>$verDeudas->id]);
               $insertDetP = new DetPaymentManager($detPayment,$request->all());
               $insertDetP->save();
@@ -147,7 +147,7 @@ class DetailOrderPurchasesController extends Controller {
               //$request->merge(['MontoTotal'=>$montotot]);
               $request->merge(['Acuenta'=> $SaldoAfavor]);
               $request->merge(['orderPurchase_id'=>$request->input('id')]);
-              $salc=$request->input('MontoTotal')-$request->input('Acuenta');
+              $salc=floatval($request->input('MontoTotal'))-$request->input('Acuenta');
               $request->merge(['Saldo'=>$salc]);        
               $manager = new PaymentManager($payment,$request->all());
               $manager->save();
@@ -157,7 +157,7 @@ class DetailOrderPurchasesController extends Controller {
              // $request->merge(['MontoTotal'=>$montotot]);
               $request->merge(['Acuenta'=>$saldos->Acuenta+ $SaldoAfavor]);
               $request->merge(['orderPurchase_id'=>$request->input('id')]);
-              $salc=$request->input('MontoTotal')-$request->input('Acuenta');
+              $salc=floatval($request->input('MontoTotal'))-$request->input('Acuenta');
               $request->merge(['Saldo'=>$salc]);
               $payment=new PaymentManager($saldos,$request->all());
               $payment->save();

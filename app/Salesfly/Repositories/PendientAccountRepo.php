@@ -29,5 +29,15 @@ class PendientAccountRepo extends BaseRepo{
          $pendientAccount=PendientAccount::where("pendientAccounts.id","=",$id)->where("pendientAccounts.estado","=",0)->first();
        return $pendientAccount;
     }
-    
+    public function paginar(){
+    	$pendientAccount=PendientAccount::join("suppliers","suppliers.id","=","pendientAccounts.supplier_id")
+    	                                  ->select("pendientAccounts.*","suppliers.empresa")
+    	                                  ->paginate(15);
+    	return $pendientAccount;
+    }
+    public function verSaldosTotales($prov){
+    	$pendientAccount=PendientAccount::where("pendientAccounts.supplier_id","=",$prov)->where("pendientAccounts.estado","=",0)
+    	                                  ->select(\DB::raw("SUM(Saldo) as total"))->first();
+    	return $pendientAccount;
+    }
 }

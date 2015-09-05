@@ -148,14 +148,109 @@
                         //$scope.itemsperPage = 15;
                        
                     });
-                     /*crudPurchase.autocomplit('variants',1).then(function (data) {
-                        $scope.variants = data.data;
-                        //$scope.maxSize = 5;
-                        //$scope.totalItems = data.total;
-                        //$scope.currentPage = data.current_page;
-                        //$scope.itemsperPage = 15;
+                    $scope.TraerPorSku=function(sku){
+                        //alert("eecho"+sku);
+                     crudPurchase.autocomplitVar('variants',sku).then(function (data) {
+                        $scope.product.proId = data;
+                        //alert(data.varCodigo);
+                         });
+    if($scope.product.proId.varCodigo!=null){
+                      //  alert($scope.product.proId.varid);
+                        $scope.detailOrderPurchase.marca=$scope.product.proId.BraName;
+                        $scope.detailOrderPurchase.material=$scope.product.proId.Mnombre;
+                        $scope.detailOrderPurchase.tipo=$scope.product.proId.TName;
+                        $scope.detailOrderPurchase.proNombre=$scope.product.proId.proNombre;
+                       // alert($scope.product.proId.varid);
+                        $scope.codigoVarP=$scope.product.proId.varCodigo;
+                        $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
+                        $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
+                        $scope.detailOrderPurchase.codigoEspecifico=$scope.product.proId.varCodigo;
+                               $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
                        
-                    });*/
+                                crudPurchase.MostrarAtributos($scope.product.proId.varCodigo,'Taco').then(function (data) {
+                               $scope.variants=data.data;
+                               
+                                if($scope.variants[0]==null){
+                                    //   alert("Se cargaran las tallas")
+                                       crudPurchase.MostrarAtributos($scope.product.proId.varCodigo,'Talla').then(function (data) {
+                                       $scope.atributes=data.data;
+                                    if($scope.atributes[0]==null)
+                                    {
+                                                 //---------------------------------------------------------------
+                                        $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
+                                       // alert($scope.product.proId.proId+"jajjaj");
+                                        $scope.detailOrderPurchase.producto=$scope.detailOrderPurchase.proNombre+"/"+$scope.detailOrderPurchase.marca+"/"+
+                                        $scope.detailOrderPurchase.material+"/"+
+                                        $scope.detailOrderPurchase.tipo;
+                                        $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
+                                        $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
+                                         /*crudPurchase.paginateDPedido($scope.product.proId.proId,'variants').then(function (data) {
+                                                $scope.variants=data.data;
+                                                $scope.maxSize = 5;
+                                                $scope.totalItems = data.total;
+                                                $scope.currentPage = data.current_page;
+                                                $scope.itemsperPage = 15;
+                         
+                                         });*/
+                                       //$scope.mostrarPresentacion=false;
+                                       $scope.variant.sku=$scope.product.proId.varcode; 
+                                       $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
+                                       if($scope.master==false)
+                                       {
+                                           //alert($scope.master+"jajjaj");
+                                              $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
+                                              $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
+                                               crudPurchase.paginateDPedido($scope.product.proId.varid,'detpres').then(function (data) {
+                                              $scope.detPres=data.data;
+                                              $scope.maxSize = 5;
+                                              $scope.totalItems = data.total;
+                                              $scope.currentPage = data.current_page;
+                                              $scope.itemsperPage = 15;
+                         
+                                                 });
+                                                $scope.mostrarPresentacion=false;
+                                                $scope.variant.sku=$scope.product.proId.varcode;    
+
+                                        }else
+                                        {
+                                              // alert($scope.master);
+                                              $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
+                                              $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
+                                              crudPurchase.select('detpres',$scope.product.proId.varid).then(function (data) {
+                                    //$scope.detPres=data;
+                                   // alert(data.esbase);
+                                                    $scope.detailOrderPurchase.esbase=data.esbase;
+                                                    $scope.detailOrderPurchase.detPres_id=data.detpresen_id;
+                                                    $scope.detailOrderPurchase.preProducto=parseFloat(data.precioProduct);
+                                                    $scope.detailOrderPurchase.preCompra=parseFloat(data.precioProduct);
+                                             });
+                                 //$scope.mostrarPresentacion=false;
+                                            $scope.variant.sku=$scope.product.proId.varcode; 
+                                        }
+                      //---------------------------------------------------------
+                                      
+                                    }else{
+                                        $scope.mostrarPresentacion=false;
+                                    }
+                         
+                                  });
+                                  
+                              
+                                  }});
+                                
+                                  
+                                
+                                 crudPurchase.select('detpres',$scope.product.proId.varid).then(function (data) {
+                                    //$scope.detPres=data;
+                                   // alert(data.esbase);
+                                    $scope.detailOrderPurchase.esbase=data.esbase;
+                                    $scope.detailOrderPurchase.detPres_id=data.detpresen_id;
+                                    $scope.detailOrderPurchase.preProducto=parseFloat(data.precioProduct);
+                                    $scope.detailOrderPurchase.preCompra=parseFloat(data.precioProduct);
+                                  });
+                             }
+                    
+                 }
                       crudPurchase.paginate('suppliers',1).then(function (data) {
                         $scope.suppliers = data.data;
                         //$scope.maxSize = 5;
@@ -211,13 +306,13 @@
                       $scope.orderPurchase.montoBruto=$scope.orderPurchase.montoBruto - (parseFloat(total));
                       $scope.orderPurchase.montoTotal=parseFloat($scope.orderPurchase.montoBruto)-((parseFloat($scope.orderPurchase.montoBruto)*parseFloat($scope.orderPurchase.descuento))/100);
                     }
-                  $scope.llenar=function(){
+                 /* $scope.llenar=function(){
                     $scope.master= !$scope.master;
                     if($scope.master){
                     $scope.mostrarPresentacion=true;}
                     $scope.product.proId='';
                     $scope.variant.sku='';
-                  }
+                  }*/
                   $scope.chekedval;
                   $scope.item={};
                   $scope.jajjajaja;
@@ -229,12 +324,12 @@
                   
                   $scope.badera=true;
                   $scope.quitarTalla=function(talla,estado){
-                    alert(talla+"/"+estado);
+                    //alert(talla+"/"+estado);
                     if(estado==false){
                     var t=0;
                     for(var n=0;n<$scope.companies.length;n++){
                         t++;
-                        alert($scope.companies[n].talla);
+                        //alert($scope.companies[n].talla);
                         if($scope.companies[n].talla==('TL:'+String(talla))){
                             $scope.detailOrderPurchase.cantidad=$scope.detailOrderPurchase.cantidad-$scope.companies[n].cantidad;
                             $scope.n=$scope.detailOrderPurchase.cantidad;
@@ -246,23 +341,26 @@
                     }
                     $scope.companies.splice(t-1,1);
                 }
-                    alert("hola"+t);
+                   // alert("hola"+t);
                   }
-                  $scope.calCantidad=function(can,talla){
+                  $scope.calCantidad=function(sku,varCodigo,precioProducto,can,talla){
+                   // alert("hoye estamos llenado obcional"+sku);
+
                       if(can>0){
+                        $scope.company.producto=$scope.company.producto+"/TL:"+talla;
                      if($scope.companies[0]!=undefined){
                       for(var n=0;n<$scope.companies.length;n++){
                         if($scope.companies[n].talla==('TL:'+String(talla))){
                             $scope.detailOrderPurchase.cantidad=$scope.n-Number($scope.companies[n].cantidad);
                             $scope.n=Number($scope.detailOrderPurchase.cantidad);
-                            $scope.detailOrderPurchase.montoBruto=$scope.detailOrderPurchase.montoBruto-parseFloat(($scope.companies[n].cantidad * parseFloat($scope.companies[n].preProducto)).toFixed(2));
+                            $scope.detailOrderPurchase.montoBruto=$scope.detailOrderPurchase.montoBruto-parseFloat(($scope.companies[n].cantidad * precioProducto).toFixed(2));
                             $scope.detailOrderPurchase.montoTotal=$scope.detailOrderPurchase.montoBruto; 
                             $scope.companies[n].cantidad=can;
-                            $scope.companies[n].montoBruto=Number($scope.companies[n].preProducto)*Number(can);
+                            $scope.companies[n].montoBruto=Number(precioProducto)*Number(can);
                             $scope.companies[n].montoTotal=$scope.companies[n].montoBruto;
                             $scope.detailOrderPurchase.cantidad=Number(can)+$scope.n;
                             $scope.n=Number($scope.detailOrderPurchase.cantidad);
-                            $scope.detailOrderPurchase.montoBruto=$scope.detailOrderPurchase.montoBruto+parseFloat(($scope.companies[n].cantidad * parseFloat($scope.companies[n].preProducto)).toFixed(2));
+                            $scope.detailOrderPurchase.montoBruto=$scope.detailOrderPurchase.montoBruto+parseFloat(($scope.companies[n].cantidad * precioProducto).toFixed(2));
                             $scope.detailOrderPurchase.montoTotal=$scope.detailOrderPurchase.montoBruto; 
                      
                             $scope.badera=false;                      
@@ -276,12 +374,12 @@
                         $scope.detailOrderPurchase.tipo;
                       $scope.company.esbase=$scope.detailOrderPurchase.esbase;
                       $scope.company.detPres_id=$scope.detailOrderPurchase.detPres_id;
-                      $scope.company.Codigovar=$scope.detailOrderPurchase.Codigovar;
-                      $scope.company.CodigoPCompra=$scope.detailOrderPurchase.CodigoPCompra;
+                      $scope.company.Codigovar=varCodigo;
+                      $scope.company.CodigoPCompra=sku;
                       $scope.company.nombre=$scope.detailOrderPurchase.nombre;
-                      $scope.company.preCompra=$scope.detailOrderPurchase.preCompra;
+                      $scope.company.preCompra=precioProducto;
                       $scope.company.taco=$scope.detailOrderPurchase.taco;
-                      $scope.company.preProducto=$scope.detailOrderPurchase.preProducto;
+                      $scope.company.preProducto=precioProducto;
                       $scope.company.codigoEspecifico=$scope.detailOrderPurchase.codigoEspecifico;
                       $scope.company.cantidad=can;
                       $scope.company.orderPurchases_id=$scope.codigoTemporalP;                      
@@ -294,7 +392,7 @@
                       $scope.detailOrderPurchase.cantidad=Number(can)+$scope.n;
                       $scope.n=Number($scope.detailOrderPurchase.cantidad);
                       $scope.detailOrderPurchase.orderPurchases_id=$scope.codigoTemporalP;
-                      $scope.detailOrderPurchase.montoBruto=parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preProducto)).toFixed(2));
+                      $scope.detailOrderPurchase.montoBruto=parseFloat(($scope.detailOrderPurchase.cantidad * precioProducto).toFixed(2));
                       $scope.detailOrderPurchase.montoTotal=$scope.detailOrderPurchase.montoBruto; 
                       //$scope.detailOrderPurchases.push($scope.detailOrderPurchase); 
                      }
@@ -304,8 +402,9 @@
                   }
                   $scope.codigoVarP;
                   $scope.mostrarTallas=function(taco){
-                    alert($scope.codigoVarP+"/"+taco);
+                    //alert($scope.codigoVarP+"/el taco es/"+taco);
                     if(taco!=null){
+                    $scope.company.producto=$scope.company.producto+"/TC:"+taco;
                     crudPurchase.MostrarTallas($scope.codigoVarP,taco).then(function (data) {
                     $scope.atributes=data.data;
                          
@@ -316,13 +415,14 @@
                 }
                   }
                     $scope.mostrarPresentacion=true;
-                    
+                    $scope.tieneTaco=null;
                     $scope.asignarProduc1=function(){
-                        alert($scope.product.proId.varid);
+                       // alert($scope.product.proId.varid);
                         $scope.detailOrderPurchase.marca=$scope.product.proId.BraName;
                         $scope.detailOrderPurchase.material=$scope.product.proId.Mnombre;
                         $scope.detailOrderPurchase.tipo=$scope.product.proId.TName;
                         $scope.detailOrderPurchase.proNombre=$scope.product.proId.proNombre;
+                       // alert($scope.product.proId.varid);
                         $scope.codigoVarP=$scope.product.proId.varCodigo;
                         $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
                         $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
@@ -331,16 +431,77 @@
                        
                                 crudPurchase.MostrarAtributos($scope.product.proId.varCodigo,'Taco').then(function (data) {
                                $scope.variants=data.data;
+                               
+                                if($scope.variants[0]==null){
+                                      // alert("Se cargaran las tallas")
+                                       crudPurchase.MostrarAtributos($scope.product.proId.varCodigo,'Talla').then(function (data) {
+                                       $scope.atributes=data.data;
+                                    if($scope.atributes[0]==null)
+                                    {
+                                                 //---------------------------------------------------------------
+                                        $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
+                                       // alert($scope.product.proId.proId+"jajjaj");
+                                        $scope.detailOrderPurchase.producto=$scope.detailOrderPurchase.proNombre+"/"+$scope.detailOrderPurchase.marca+"/"+
+                                        $scope.detailOrderPurchase.material+"/"+
+                                        $scope.detailOrderPurchase.tipo;
+                                        $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
+                                        $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
+                                         /*crudPurchase.paginateDPedido($scope.product.proId.proId,'variants').then(function (data) {
+                                                $scope.variants=data.data;
+                                                $scope.maxSize = 5;
+                                                $scope.totalItems = data.total;
+                                                $scope.currentPage = data.current_page;
+                                                $scope.itemsperPage = 15;
+                         
+                                         });*/
+                                       //$scope.mostrarPresentacion=false;
+                                       $scope.variant.sku=$scope.product.proId.varcode; 
+                                       $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
+                                       if($scope.master==false)
+                                       {
+                                           //alert($scope.master+"jajjaj");
+                                              $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
+                                              $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
+                                               crudPurchase.paginateDPedido($scope.product.proId.varid,'detpres').then(function (data) {
+                                              $scope.detPres=data.data;
+                                              $scope.maxSize = 5;
+                                              $scope.totalItems = data.total;
+                                              $scope.currentPage = data.current_page;
+                                              $scope.itemsperPage = 15;
+                         
+                                                 });
+                                                $scope.mostrarPresentacion=false;
+                                                $scope.variant.sku=$scope.product.proId.varcode;    
+
+                                        }else
+                                        {
+                                              // alert($scope.master);
+                                              $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
+                                              $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
+                                              crudPurchase.select('detpres',$scope.product.proId.varid).then(function (data) {
+                                    //$scope.detPres=data;
+                                   // alert(data.esbase);
+                                                    $scope.detailOrderPurchase.esbase=data.esbase;
+                                                    $scope.detailOrderPurchase.detPres_id=data.detpresen_id;
+                                                    $scope.detailOrderPurchase.preProducto=parseFloat(data.precioProduct);
+                                                    $scope.detailOrderPurchase.preCompra=parseFloat(data.precioProduct);
+                                             });
+                                 //$scope.mostrarPresentacion=false;
+                                            $scope.variant.sku=$scope.product.proId.varcode; 
+                                        }
+                      //---------------------------------------------------------
+                                      
+                                    }else{
+                                        $scope.mostrarPresentacion=false;
+                                    }
                          
                                   });
-                                if($scope.variants==null){
-                                    alert("Se cargaran las tallas")
-                                  crudPurchase.MostrarTallas($scope.product.proId.varid,'Talla').then(function (data) {
-                                   $scope.atributes=data.data;
-                         
-                                  });
-                                  $scope.mostrarPresentacion=false;
-                                }
+                                  
+                              
+                                  }});
+                                
+                                  
+                                
                                  crudPurchase.select('detpres',$scope.product.proId.varid).then(function (data) {
                                     //$scope.detPres=data;
                                    // alert(data.esbase);
@@ -492,11 +653,12 @@
                          $scope.detailOrderPurchase.preProducto=parseFloat(row.precioCompra);
                          $scope.detailOrderPurchase.preCompra=parseFloat(row.precioCompra);
                          $scope.detailOrderPurchase.detPres_id=row.iddetalleP;
-                         alert(row.base);
+                        // alert(row.base);
                          $scope.detailOrderPurchase.esbase=row.base;
                          $scope.mostrarPresentacion=true;
                     }
                     $scope.AgregarProducto=function(){
+                    if( $scope.mostrarPresentacion==false){
                        $scope.cantRows=$scope.companies.length;
                        $scope.detailOrderPurchase.descuento=Number($scope.detailOrderPurchase.descuento)/Number($scope.cantRows);
                             
@@ -511,8 +673,16 @@
                         $scope.detailOrderPurchases.push($scope.companies[n]);
                       }
                       $scope.companies=[];
+                      $scope.detailOrderPurchase.cantidad=0;
+                      $scope.detailOrderPurchase.montoBruto=0;
+                      $scope.detailOrderPurchase.montoTotal=0;
+                      $scope.detailOrderPurchase.descuento=0;
+                      $scope.detailOrderPurchase.preCompra=0;
+                      $scope.n=0;
                       $scope.cheked2=false;
-                      /* if($scope.detailOrderPurchase.detPres_id>0){
+                      $scope.mostrarPresentacion=true;
+                  }else{
+                       if($scope.detailOrderPurchase.detPres_id>0){
                         if($scope.detailOrderPurchase.cantidad>1){
                         $scope.detailOrderPurchase.orderPurchases_id=$scope.codigoTemporalP;
                         $scope.detailOrderPurchases.push($scope.detailOrderPurchase);
@@ -530,7 +700,7 @@
                        alert("Por favor debe ingresar una cantidad mayor a cero para poder agregar pedido");
                     }
                     }else{ alert("!!Usted Debe seleccionar un producto y una presentacion para poder agregar!!");}
-                   */ }
+                 }}
                     $scope.ejemplo2=null;
                     $scope.estado_fin2=0;
                     $scope.ejemplo_de2=0;
@@ -631,7 +801,7 @@
                                  $scope.codigoTemporalP=(data['codigo']);
                                  $scope.orderPurchase.id=(data['codigo']);
                                 alert('Orden Creada correctamente');
-                                $scope.llenar();
+                                //$scope.llenar();
                                 $scope.Warehouses(data['warehouse_id']);
                         } else {
                                 $scope.errors = data;
@@ -645,8 +815,12 @@
                     }
                 }
                 $scope.Warehouses=function(id){
+                    //alert($scope.orderPurchase.supplier_id);
+                    crudPurchase.MostrarTotalDeudas($scope.orderPurchase.supplier_id).then(function (data) {
+                        $scope.orderPurchase.saldoDisponible=data.total;
+                    });
                     if(parseInt(id)> 0){
-
+                    
                     crudPurchase.byId(id,'warehouses').then(function (data) {
                         $scope.warehouses=data;
                     });}
@@ -743,7 +917,7 @@
                 $scope.CambiarEstado=function(){
                       $scope.estados=true;
                      $scope.estados1=false;
-                     $scope.llenar();
+                     //$scope.llenar();
                 }
                 $scope.CambiarEstado1=function(){
                       $scope.estados=false;
@@ -796,6 +970,7 @@
 
                 $scope.CrearCompra =function(){
                     $scope.orderPurchase.fechaEntrega=new Date();
+                    $scope.orderPurchase.fecha=new Date();
                     $scope.orderPurchase.orderPurchase_id=$scope.codigoTemporalP;
                     $scope.orderPurchase.detailOrderPurchases=$scope.detailOrderPurchases
                     $scope.orderPurchase.Saldo=$scope.orderPurchase.montoTotal;
@@ -842,13 +1017,17 @@
                 if(row.cantidad_llegado<=row.cantidad){
                     row.fecha=new Date();
                       row.Cantidad_Ll=Number(row.Cantidad_Ll)+row.cantidad_llegado;
+
                       $scope.detailOrderPurchases.splice(index,1,row);
                 }else{
                     row.cantidad_llegado=0;
                     alert("ERROR: La cantidad igresada no debe superar la cantidad real");
                 }
             }
+           
             $scope.ActualizarStock=function(){
+                $scope.orderPurchase.fecha=new Date();
+                $scope.orderPurchase.tipo="Entrada";
                 $scope.orderPurchase.eliminar=0;
                 $scope.orderPurchase.detailOrderPurchases=$scope.detailOrderPurchases;
                 crudPurchase.create($scope.orderPurchase, 'inputStocks').then(function (data) {
@@ -957,9 +1136,10 @@
                     
                            // alert($data.Acuenta);
                      if(data.id>0){   
-                     alert($scope.payment.id);   
-                     crudPurchase.byId($scope.payment.id,'detPayments').then(function (data) {
+                     alert("el codigo de pago es"+$scope.payment.id);   
+                    crudPurchase.byId($scope.payment.id,'detPayments').then(function (data) {
                         $scope.detPayments = data.data;
+
                         $scope.maxSize = 5;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
@@ -1021,14 +1201,14 @@
                 $scope.destroyPay = function(row){
                     $scope.payment.detpId=row.id;
                     $scope.detPayment.montoPagado=row.montoPagado;
-                    alert(row.montoPagado);
+                   // alert(row.montoPagado);
                     crudPurchase.destroy($scope.payment,'payments').then(function(data)
                     {
                         if(data['estado'] == true){
                             $scope.success = data['nombre'];
                             
                             alert('Eliminado Correctamente');
-                            alert($scope.totAnterior);
+                           // alert($scope.totAnterior);
                             $scope.payment.Acuenta=Number($scope.totAnterior)-Number($scope.detPayment.montoPagado);
                             $scope.payment.Saldo=(Number($scope.payment.MontoTotal)-Number($scope.payment.Acuenta)).toFixed(2);
                             $scope.payment.PorPagado=((Number($scope.payment.Acuenta)*100)/(Number($scope.payment.MontoTotal))).toFixed(2);
