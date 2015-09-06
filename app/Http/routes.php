@@ -128,7 +128,7 @@ Route::get('api/variantsAllInventary/misDatos/{store?}/{were?}/{q?}',['as'=>'per
 
 //VARIANTS ROUTES
 Route::get('api/variants/variants/{id}',['as' => 'variants_byproduct_id', 'uses' => 'VariantsController@variants']);
-Route::get('api/variants/autocomplit/{sku}','VariantsController@autocomplit');
+Route::get('api/variants/autocomplit/{sku}','VariantsController@traer_por_Sku');
 Route::get('api/variants/paginatep/{id}/{var}','VariantsController@paginatep');
 Route::get('api/variants/selectTalla/{id}/{taco}','VariantsController@selectTalla');
 Route::get('api/variantname/search/{q?}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@searchCodigo']);
@@ -424,7 +424,7 @@ Route::get('api/variants/find/{id}','VariantsController@find');
 Route::get('api/variants/getAttr/{id}','VariantsController@getAttr');
 Route::put('api/variants/editFavorito/','VariantsController@editFavoritos');
 
-Route::post('api/detilOrderPurchases/create','DetailOrderPurchasesController@create');
+Route::post('api/detailOrderPurchases/create','DetailOrderPurchasesController@create');
 Route::get('api/detailOrderPurchases/all/{estado}',['as'=>'person_all', 'uses'=>'DetailOrderPurchasesController@all']);
 Route::get('api/detailOrderPurchases/paginatep/{id}','DetailOrderPurchasesController@paginatep');
 Route::get('api/detailOrderPurchases/Eliminar/{id}','DetailOrderPurchasesController@Eliminar');
@@ -437,6 +437,7 @@ Route::get('api/detailPurchases/paginatep/{id?}','DetailPurchasesController@pagi
 Route::get('api/stocks/find/{id}/{id1}','StocksController@find');
 Route::put('api/stocks/edit/','StocksController@edit');
 Route::get('api/stocks/traerstock/{product_id}','StocksController@traerStock');
+Route::get('api/stocks/verStockActual/{var}/{almacen}','StocksController@verStockActual');
 
 Route::get('api/detpres/paginatep/{id}','DetPresController@paginatep');
 Route::get('api/detpres/find/{id}','DetPresController@find');

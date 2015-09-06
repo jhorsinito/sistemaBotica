@@ -76,7 +76,7 @@
                       <td>@{{$index + 1}}</td>
                       <td ng-hide="true">@{{row.purchases_id}}</td>
                       <td ng-hide="true">@{{row.detPres_id}}</td>
-                      <td>@{{row.nombre}}</td>
+                      <td>@{{row.producto}}</td>
                       <td>@{{row.CodigoPCompra}}</td>
                       <td>@{{row.cantidad}}</td>
                       <td>@{{row.preProducto}}</td>

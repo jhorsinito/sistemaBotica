@@ -132,10 +132,10 @@
          <div class="row">
              <div class="col-md-1"></div>
             <div class="col-md-4">
-          <div class="input-group">
+          <div class="input-group" style="width: 300px;">
               <label>Producto</label>
                <input typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Locations loaded via $http" 
-          typeahead="product as product.proNombre+'/'+product.BraName+'/'+product.TName+'/'+product.Mnombre for product in products | filter:$viewValue | limitTo:8" 
+          typeahead="product as product.proNombre+'('+product.BraName+'/'+product.TName+'/'+product.Mnombre+product.NombreAtributos+')' for product in products | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
            tooltip="Ingrese caracteres para busacar producto por codigo unico"
             >
@@ -165,8 +165,8 @@
                 </div>
               </div> 
             </div> -->
-            <div class="col-md-2">
-           <div  ng-show="true">
+            <div ng-hide="check" class="col-md-3">
+           
               <div class="form-group" >
                 <label for="Variante">Taco</label>
                 <select class="form-control"   ng-click="mostrarTallas(detailOrderPurchase.taco)" ng-model="detailOrderPurchase.taco" ng-options="item.valorDetAtr as item.nomCortoVar+': '+item.valorDetAtr for item in variants">
@@ -175,10 +175,12 @@
                 <!--@{{variants.varid}}-->
                 </div>
             </div>
+            
+            <div ng-show="check" class="col-md-3">
+            <label for="Variante">Busca Por Sku</label>
+            <div class="form-group">
+            <input type="text" ng-keyup="TraerPorSku(variant.sku)" class="form-control" ng-model="variant.sku">
             </div>
-            <div class="col-md-4">
-            <label>@{{variant.codigo}}</label>
-            <input type="text" ng-keyup="TraerPorSku(variant.sku)" ng-model="variant.sku">
           <!--<div class="input-group">
               <label>Variante</label>
                
@@ -194,6 +196,14 @@
              
         </div> -->
       </div>
+            <div class="col-md-3">
+               <em>¿POR SKU?</em>
+                      <div   class="form-group" >                            
+                            <input ng-disabled="orderPurchase.cancelar" type="checkbox"  name="variantes" ng-model="check" />
+                            
+                        </div>
+                </div>
+            
 
      <!--       <div class="col-md-4" ng-show="false">
               <div class="form-group" >
@@ -221,7 +231,7 @@
                  <!-- <input  type="checkbox"  ng-click="quitarTalla(item.numTalla,cheked1)" ng-model="cheked1"  />@{{item.numTalla}}
                   <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.numTalla)" step="1" rquired>-->
                   <input  type="checkbox"  ng-click="quitarTalla(item.valorDetAtr,cheked1)" ng-model="cheked1"  />@{{item.valorDetAtr}}
-                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(item.varSku,item.varCodigo,item.precioProducto,cantidad,item.valorDetAtr)" step="1" rquired>
+                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(item.detID,item.NombreAtributos,item.varSku,item.varCodigo,item.precioProducto,cantidad,item.valorDetAtr)" step="1" rquired>
               
               </div>    
        </div>
@@ -380,7 +390,7 @@
                 </div>
                 <div class="col-md-4">
                 
-                        <div  class="form-group" >                            
+                        <div  ng-show="MostrarEdcionStock" class="form-group" >                            
                             <input  type="checkbox"  name="variantes" ng-model="activarCasillas" />
                             <span class="text-info"> <em>Agregar a Stock Parte del pedido!!</em></span>
                         </div>
@@ -391,10 +401,11 @@
             <tr>
               <th style="width: 10px">#</th>
 
-              <th>Producto</th>
+              <th >Producto</th>
               <th>Sku </th>
               <th>Cantidad</th>
               <th>Can Llegado</th>
+              <th>Pendientes</th>
               <th>Precio Producto</th>
               <th>Precio Compra</th>
               <th>Total Bruto</th>
@@ -414,6 +425,7 @@
                       ng-mouseover="popover(row)">@{{row.CodigoPCompra}}</a></td>
                       <td>@{{row.cantidad}}</td>
                       <td>@{{row.Cantidad_Ll}}</td>
+                      <td>@{{row.pendiente}}</td>
                       <td>S/.@{{row.preProducto}}</td>
                       <td>S/.@{{row.preCompra}}</td>
                       <td>S/.@{{row.montoBruto}}</td>
@@ -483,7 +495,8 @@
                             <span class="text-info"> <em> Seleccione si su pedido ha sido atendido.</em></span>
                         </div>
                 </div>
-                <div class="col-md-4">
+
+                <div ng-show="MostrarCancelar" class="col-md-4">
                 <label for="cancelar">¿Cancelar Pedido?</label>
                         <div  class="form-group" >                            
                             <input ng-disabled="orderPurchase.Estado" type="checkbox"  name="variantes" ng-model="orderPurchase.cancelar" />
@@ -499,6 +512,15 @@
                   </div>
               </div>
           </div>
+          <div ng-show="orderPurchase.Estado" class="row">
+               <div ng-show="orderPurchase.Estado" class="col-md-4">
+                   <em>Observaciones .</em>
+                   <div class="form-group" >
+                        <textarea ng-model="orderPurchase.observacion" class="form-control input-lg">
+                         </textarea>
+                    </div>
+               </div> 
+           </div>  
           </div>
 
 

@@ -13,7 +13,8 @@ class DetailOrderPurchaseManager extends BaseManager {
                     'preProducto'=>'',
                     'preCompra'=>'',
                     'cantidad'=>'',
-                    'Cantidad_Ll'=>''
+                    'Cantidad_Ll'=>'',
+                    'pendiente'=>''
        				 ];
         return $rules;
     }
