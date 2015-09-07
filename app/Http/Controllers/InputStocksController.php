@@ -64,6 +64,9 @@ class InputStocksController extends Controller
        $almacen_id=$request->input("warehouses_id");
        $queHacer=$request->input("eliminar");
        $tipo=$request->input("tipo");
+       $tipo2="Salida";
+       $request->merge(['user_id'=>auth()->user()->id]);
+       //var_dump();die();
        if($queHacer===0){
         $request->merge(["orderPurchase_id"=>$request->input('id')]);
         $headInputStock = $this->headInputStockRepo->getModel();
@@ -102,36 +105,44 @@ class InputStocksController extends Controller
         $stockmodel = new StockRepo;
                   $object['warehouse_id']=$almacen_id;
                   $stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
-                  
+                  //var_dump($object["tipo"]);die();
             if(!empty($stockac)){ 
-                if($object["esbase"]==0){
-                    if($tipo==="Salida"){
+               /* if($object["esbase"]==0){
+                    if($object["tipo"]=="Salida"){
                         $object["stockActual"]=$stockac->stockActual-($object["cantidad_llegado"]*$object["equivalencia"]);
+                        var_dump("entre");
                     }else{
-                         $object["stockActual"]=$stockac->stockActual+($object["cantidad_llegado"]*$object["equivalencia"]);
+                        $object["stockActual"]=$stockac->stockActual+($object["cantidad_llegado"]*$object["equivalencia"]);
                      }
                 }else{
-                    if($tipo==="Salida"){
+                    if($object["tipo"]=="Salida"){
                       $object["stockActual"]=$stockac->stockActual-$object["cantidad_llegado"];
+                      var_dump("entre");
                     }else{
                        $object["stockActual"]=$stockac->stockActual+$object["cantidad_llegado"]; 
                     }
+                }*/
+                if($object["esbase"]==0){
+                  $object["stockActual"]=$stockac->stockActual+($object["cantidad_llegado"]*$object["equivalencia"]);
+                }else{
+                  $object["stockActual"]=$stockac->stockActual+$object["cantidad_llegado"];
                 }
                   $manager = new StockManager($stockac,$object);
                   $manager->save();
                   $stock=null;
             }else{
-              if($tipo==="Salida"){
+              if($tipo!=$tipo2){
                 if($object["esbase"]==0)
                 {
                     $object["stockActual"]=$object["cantidad_llegado"]*$object["equivalencia"];
                 }else{
                     $object["stockActual"]=$object["cantidad_llegado"];
                 }
-            }
+            
                   $manager = new StockManager($stockmodel->getModel(),$object);
                   $manager->save();
                   $stockmodel = null;
+                  }
             }
             $stockac=null;
         }}
@@ -165,15 +176,27 @@ class InputStocksController extends Controller
                   $stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
                   
             if(!empty($stockac)){ 
+                
                 if($object["esbase"]==0){
-                  $object["stockActual"]=$stockac->stockActual+($object["cantidad_llegado"]*$object["equivalencia"]);
+                    if($tipo==$tipo2){
+                        $object["stockActual"]=$stockac->stockActual-($object["cantidad_llegado"]*$object["equivalencia"]);
+                        var_dump("entre");
+                    }else{
+                        $object["stockActual"]=$stockac->stockActual+($object["cantidad_llegado"]*$object["equivalencia"]);
+                     }
                 }else{
-                  $object["stockActual"]=$stockac->stockActual+$object["cantidad_llegado"];
+                    if($tipo==$tipo2){
+                      $object["stockActual"]=$stockac->stockActual-$object["cantidad_llegado"];
+                      var_dump("entre");
+                    }else{
+                       $object["stockActual"]=$stockac->stockActual+$object["cantidad_llegado"]; 
+                    }
                 }
                   $manager = new StockManager($stockac,$object);
                   $manager->save();
                   $stock=null;
             }else{
+              if($tipo!=$tipo2){
                 if($object["esbase"]==0)
                 {
                     $object["stockActual"]=$object["cantidad_llegado"]*$object["equivalencia"];
@@ -183,7 +206,7 @@ class InputStocksController extends Controller
                   $manager = new StockManager($stockmodel->getModel(),$object);
                   $manager->save();
                   $stockmodel = null;
-            }
+            }}
             $stockac=null;
         }}}}
        ////======================================================00

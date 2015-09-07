@@ -41,6 +41,11 @@ class DetailOrderPurchaseRepo extends BaseRepo{
      ->get();
      return $detailOrderPurchase;
     }
+    public function Comprobar($idOreder){
+      $detailOrderPurchase=DetailOrderPurchase::where("detailOrderPurchases.orderPurchases_id","=",$idOreder)
+     ->get();
+     return $detailOrderPurchase;
+    }
 
     //public function Delete($)
 }

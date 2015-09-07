@@ -16,8 +16,8 @@ class HeadInputStockRepo extends BaseRepo{
         return $brands;
     }
     public function select(){
-       $headInputStock=HeadInputStock::join("warehouses","warehouses.id","=","headInputStocks.warehouses_id")
-                            ->select(\DB::raw("headInputStocks.*,warehouses.nombre"))
+       $headInputStock=HeadInputStock::join("warehouses","warehouses.id","=","headInputStocks.warehouses_id")->join('users','users.id','=','headInputStocks.user_id')
+                            ->select(\DB::raw("headInputStocks.*,warehouses.nombre,users.name as nombreUser"))
                             ->groupBy("headInputStocks.id")->paginate(15);
         return $headInputStock;
     }

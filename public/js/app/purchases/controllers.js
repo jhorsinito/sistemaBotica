@@ -211,16 +211,35 @@
                 crudOPurchase.autocomplit2('products',1).then(function (data) {
                         $scope.products = data.data;
                     });
+                $scope.purchase.fecha=new Date();
+                $scope.purchase.tipo="Entrada";
                }
                $scope.mostrarCreate=false;
                $scope.ver=function(){
-                $scope.mostrarCreate=!$scope.mostrarCreate;
+                   if ($scope.inputStocksCreateForm.$valid) {
+                   $scope.mostrarCreate=!$scope.mostrarCreate;
+                   }else{
+                    alert("Complete Todos los Campos");
+                   }
                }
+
                 $scope.ListarinputStocks=function(row){
-               crudOPurchase.byId(row.id,'inputStocks').then(function (data){
+                
+                crudOPurchase.byId(row.id,'inputStocks').then(function (data){
                             $scope.inputStocks=data.data;
-              });
-            }
+                });
+                }
+               $scope.verStockActual=function(){
+                if($scope.purchase.tipo=="Salida"){
+                   crudOPurchase.StockActual('stocks',$scope.product.proId.varid,$scope.purchase.warehouses_id).then(function (data){
+                            $scope.stock=data;
+                            if(data.stockActual<$scope.inputStock.cantidad_llegado || $scope.inputStock.cantidad_llegado<0){
+                                 alert("error esta cantidad es incorrecta no existe en stock");
+                                 $scope.inputStock.cantidad_llegado=0;
+                            }
+                   });
+                }
+               }
                //$scope.orderPurchase.eliminar=0;
                $scope.verEdicion=false;
                $scope.canselarEditDeudas=function(){
@@ -232,8 +251,11 @@
                     $scope.verEdicion=true;
                }
                $scope.ActualizarSaldo=function(row,nuevoSaldo){
-                    if(Number(row.Saldo) > nuevoSaldo){
+                    if(Number(row.Saldo) >= nuevoSaldo){
                       row.Saldo=row.Saldo-nuevoSaldo;
+                      if(row.Saldo==0){
+                        row.estado=1;
+                      }
                     }else{
                         alert("ERROR: el Monto ingresado no debe superar la deuda");
                     }
@@ -275,6 +297,7 @@
                      
                      $scope.inputStocks.push($scope.inputStock);
                      $scope.inputStock={};
+                     $scope.product.proId='';
                     /* crudOPurchase.create($scope.purchase, 'inputStocks').then(function (data) {
                          
                             if (data['estado'] == true) {
@@ -292,10 +315,15 @@
                 $scope.crearEntradasEstock=function(){
                     $scope.purchase.detailOrderPurchases=$scope.inputStocks;
                     $scope.mostrarCreate=!$scope.mostrarCreate;
+                     alert("sobre");
                     crudOPurchase.create($scope.purchase, 'inputStocks').then(function (data) {
-                         
+                         alert("debajo");
                             if (data['estado'] == true) {
-                                alert('Stock registrado');
+                                alert('Movimiento Registrado');
+                                $scope.purchase.warehouses_id='';   
+                                $scope.inputStocks=[];                             
+                                $scope.mostrarCreate=!$scope.mostrarCreate;
+                                $scope
                                 $location.path('/purchases/create');
                             } else {
                                 $scope.errors = data;
@@ -324,6 +352,7 @@
                           $scope.payment.PorPagado=((Number($scope.payment.Acuenta)*100)/(Number($scope.payment.MontoTotal))).toFixed(2);
                           $scope.random();
                     }else{
+                        alert($scope.totAnterior);
                           $scope.payment.Acuenta=Number($scope.totAnterior)+Number($scope.detPayment.montoPagado);
                           $scope.payment.Saldo=(Number($scope.payment.MontoTotal)-Number($scope.payment.Acuenta)).toFixed(2);
                           $scope.payment.PorPagado=((Number($scope.payment.Acuenta)*100)/(Number($scope.payment.MontoTotal))).toFixed(2);
@@ -352,9 +381,10 @@
                                 
                                 alert('grabado correctamente');
                                // $scope.detPayments={};
-                               $scope.totAnterior=data['montoP'];
-                               $scope.detPayment.methodPayment_id='';
-                               $scope.detPayment.montoPagado='';
+                               $scope.totAnterior=$scope.payment.Acuenta;
+                               $scope.detPayment={};
+                               $scope.detPayment.fecha=new Date();
+                               //$scope.detPayment.montoPagado='';
                                 $scope.paginateDetPay();
                                 //$location.path('/types');
 

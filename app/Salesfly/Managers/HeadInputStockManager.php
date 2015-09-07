@@ -5,7 +5,7 @@ class HeadInputStockManager extends BaseManager {
     public function getRules()
     {
         $rules = [              
-            'fecha'=>'','tipo'=>'','orderPurchase_id'=>'','purchase_id'=>'','warehouses_id'=>''
+            'fecha'=>'','tipo'=>'','orderPurchase_id'=>'','purchase_id'=>'','warehouses_id'=>'','user_id'=>''
                   ];
         return $rules;
     }}

@@ -11,6 +11,7 @@ class PurchaseManager extends BaseManager {
              'montoTotal'=>'',
              'orderPurchase_id'=>'',
              'warehouses_id'=>'',
-                    'supplier_id'=>''];
+                    'supplier_id'=>'',
+                    'observacion'=>''];
         return $rules;
     }}

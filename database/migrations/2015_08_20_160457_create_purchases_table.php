@@ -24,6 +24,7 @@ class CreatePurchasesTable extends Migration
             $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->integer('orderPurchase_id')->unsigned();
             $table->foreign('orderPurchase_id')->references('id')->on('orderPurchases');
+            $table->string('observacion',255);
             $table->timestamps();
         });
     }
