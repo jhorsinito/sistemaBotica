@@ -20,8 +20,10 @@ class CreateSalePaymentsTable extends Migration
             $table->tinyInteger('estado');
             //$table->integer('orderPurchase_id')->unsigned();
             //$table->foreign('orderPurchase_id')->references('id')->on('orderPurchases');
-            $table->integer('sale_id')->unsigned();
+            $table->integer('sale_id')->unsigned()->nullable();;
             $table->foreign('sale_id')->references('id')->on('sales');
+            $table->integer('orderSale_id')->unsigned()->nullable();;
+            $table->foreign('orderSale_id')->references('id')->on('orderSales');
             $table->integer('customer_id')->unsigned()->nullable();
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->timestamps();

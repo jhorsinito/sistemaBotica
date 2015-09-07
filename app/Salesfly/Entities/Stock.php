@@ -8,6 +8,8 @@ class Stock extends \Eloquent {
     protected $fillable = ['stockActual',
                             'stockMin',
                             'stockMinSoles',
+                            'stockPedidos',
+                            'stockSeparados',
                             'variant_id',
                             'warehouse_id'];
  public function variant()
