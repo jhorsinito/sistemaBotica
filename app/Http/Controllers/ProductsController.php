@@ -116,6 +116,8 @@ class ProductsController extends Controller
         if ($request->input('hasVariants') == 1) {}else{$request->merge(array('hasVariants' => '0'));};
         if ($request->input('track') == 1) {}else{$request->merge(array('track' => '0'));};
 
+        $request->merge(array('user_id' => Auth()->user()->id));
+        //var_dump($request->all());die();
         $managerPro = new ProductManager($product,$request->except('sku','suppPri','markup','price','track'));
         //================================PROD CON VARIANTES==============================//
         if($request->input('hasVariants') === true){
@@ -204,7 +206,7 @@ class ProductsController extends Controller
 
     public function edit(Request $request)
     {
-        //var_dump($request->all());die();
+
 
         //$customer = $this->customerRepo->find($request->id);
         //$manager = new CustomerManager($customer,$request->except('fechaNac'));
@@ -218,6 +220,8 @@ class ProductsController extends Controller
         if ($request->input('hasVariants') == 1) {}else{$request->merge(array('hasVariants' => '0'));};
         if ($request->input('track') == 1) {}else{$request->merge(array('track' => '0'));};
 
+        $request->merge(array('user_id' => Auth()->user()->id));
+        //var_dump($request->all());die();
         $managerPro = new ProductManager($product,$request->except('sku','suppPri','markup','price','track'));
         //================================PROD CON VARIANTES==============================//
         if($request->input('hasVariants') === true){
@@ -250,7 +254,7 @@ class ProductsController extends Controller
             $product->quantVar = 0; //aunq presenta una fila en la tabla variantes por defecto
             $product->save();
             $variant = $this->variantRepo->getModel()->where('product_id',$product->id)->first();
-            $managerVar = new VariantManager($variant,$request->only('sku','suppPri','markup','price','track','product_id'));
+            $managerVar = new VariantManager($variant,$request->only('sku','suppPri','markup','price','track','product_id','user_id'));
             $managerVar->save();
 
             //var_dump($request->input('presentations')); die();
