@@ -364,6 +364,22 @@
                     templateUrl:'/sales/form-edit',
                     controller: 'SaleController'
                 })
+                //-------------------------------------------
+                //-----------------------------------------
+                .when('/orderSales', {
+                    templateUrl: '/js/app/orderSales/views/index.html',
+                    controller: 'OrderSalesController'
+                })
+
+               
+                .when('/orderSales/create', {
+                    templateUrl: '/orderSales/form-create',
+                    controller: 'OrderSalesController'
+                })
+                .when('/orderSales/edit/:id',{
+                    templateUrl:'/orderSales/form-edit',
+                    controller: 'OrderSalesController'
+                })
                 //-------------------------------------
                 //-------------------------------------------
                 //-----------------------------------------

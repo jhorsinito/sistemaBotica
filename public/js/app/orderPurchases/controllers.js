@@ -152,105 +152,45 @@
                         //alert("eecho"+sku);
                      crudPurchase.autocomplitVar('variants',sku).then(function (data) {
                         $scope.product.proId = data;
-                        //alert(data.varCodigo);
-                         });
+                        alert(data.varCodigo);
+                         
     if($scope.product.proId.varCodigo!=null){
+
                       //  alert($scope.product.proId.varid);
-                        $scope.detailOrderPurchase.marca=$scope.product.proId.BraName;
-                        $scope.detailOrderPurchase.material=$scope.product.proId.Mnombre;
-                        $scope.detailOrderPurchase.tipo=$scope.product.proId.TName;
-                        $scope.detailOrderPurchase.proNombre=$scope.product.proId.proNombre;
+                        //$scope.detailOrderPurchase.marca=$scope.product.proId.BraName;
+                        //$scope.detailOrderPurchase.material=$scope.product.proId.Mnombre;
+                        //$scope.detailOrderPurchase.tipo=$scope.product.proId.TName;
+                        //$scope.detailOrderPurchase.proNombre=$scope.product.proId.proNombre;
                        // alert($scope.product.proId.varid);
                         $scope.codigoVarP=$scope.product.proId.varCodigo;
                         $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
                         $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
                         $scope.detailOrderPurchase.codigoEspecifico=$scope.product.proId.varCodigo;
-                               $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
+                               //$scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
                        
-                                crudPurchase.MostrarAtributos($scope.product.proId.varCodigo,'Taco').then(function (data) {
-                               $scope.variants=data.data;
-                               
-                                if($scope.variants[0]==null){
-                                    //   alert("Se cargaran las tallas")
-                                       crudPurchase.MostrarAtributos($scope.product.proId.varCodigo,'Talla').then(function (data) {
-                                       $scope.atributes=data.data;
-                                    if($scope.atributes[0]==null)
-                                    {
-                                                 //---------------------------------------------------------------
-                                        $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
-                                       // alert($scope.product.proId.proId+"jajjaj");
-                                        $scope.detailOrderPurchase.producto=$scope.detailOrderPurchase.proNombre+"/"+$scope.detailOrderPurchase.marca+"/"+
-                                        $scope.detailOrderPurchase.material+"/"+
-                                        $scope.detailOrderPurchase.tipo;
+                               $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
+                                      $scope.detailOrderPurchase.producto=$scope.product.proId.proNombre+"("+$scope.product.proId.BraName+"/"+
+                                        $scope.product.proId.Mnombre+"/"+
+                                        $scope.product.proId.TName+"/"+$scope.product.proId.NombreAtributos+")";
                                         $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
                                         $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
-                                         /*crudPurchase.paginateDPedido($scope.product.proId.proId,'variants').then(function (data) {
-                                                $scope.variants=data.data;
-                                                $scope.maxSize = 5;
-                                                $scope.totalItems = data.total;
-                                                $scope.currentPage = data.current_page;
-                                                $scope.itemsperPage = 15;
-                         
-                                         });*/
-                                       //$scope.mostrarPresentacion=false;
-                                       $scope.variant.sku=$scope.product.proId.varcode; 
+                                        //$scope.variant.sku=$scope.product.proId.varcode; 
+                                        $scope.detailOrderPurchase.detPres_id=$scope.product.proId.presid;
                                        $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
-                                       if($scope.master==false)
-                                       {
-                                           //alert($scope.master+"jajjaj");
+                                     $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
+                                              $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
+                                              $scope.detailOrderPurchase.preCompra=parseFloat($scope.product.proId.precioCompra);
+                                              $scope.detailOrderPurchase.preProducto=parseFloat($scope.product.proId.precioCompra);
+                                               alert($scope.detailOrderPurchase.preCompra);
+                                                //$scope.mostrarPresentacion=false;
+                                                $scope.variant.sku=$scope.product.proId.varcode; 
                                               $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
                                               $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
-                                               crudPurchase.paginateDPedido($scope.product.proId.varid,'detpres').then(function (data) {
-                                              $scope.detPres=data.data;
-                                              $scope.maxSize = 5;
-                                              $scope.totalItems = data.total;
-                                              $scope.currentPage = data.current_page;
-                                              $scope.itemsperPage = 15;
-                         
-                                                 });
-                                                $scope.mostrarPresentacion=false;
-                                                $scope.variant.sku=$scope.product.proId.varcode;    
-
-                                        }else
-                                        {
-                                              // alert($scope.master);
-                                              $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
-                                              $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
-                                              crudPurchase.select('detpres',$scope.product.proId.varid).then(function (data) {
-                                    //$scope.detPres=data;
-                                   // alert(data.esbase);
-                                                    $scope.detailOrderPurchase.esbase=data.esbase;
-                                                    $scope.detailOrderPurchase.detPres_id=data.detpresen_id;
-                                                    $scope.detailOrderPurchase.preProducto=parseFloat(data.precioProduct);
-                                                    $scope.detailOrderPurchase.preCompra=parseFloat(data.precioProduct);
-                                             });
-                                 //$scope.mostrarPresentacion=false;
-                                            $scope.variant.sku=$scope.product.proId.varcode; 
-                                        }
-                      //---------------------------------------------------------
-                                      
-                                    }else{
-                                        $scope.mostrarPresentacion=false;
-                                    }
-                         
-                                  });
-                                  
-                              
-                                  }});
-                                
-                                  
-                                
-                                 crudPurchase.select('detpres',$scope.product.proId.varid).then(function (data) {
-                                    //$scope.detPres=data;
-                                   // alert(data.esbase);
-                                    $scope.detailOrderPurchase.esbase=data.esbase;
-                                    $scope.detailOrderPurchase.detPres_id=data.detpresen_id;
-                                    $scope.detailOrderPurchase.preProducto=parseFloat(data.precioProduct);
-                                    $scope.detailOrderPurchase.preCompra=parseFloat(data.precioProduct);
-                                  });
-                             }
+                                        
                     
-                 }
+                 }else{
+                    alert("no coinsiden los resultados");
+                 }});}
                       crudPurchase.paginate('suppliers',1).then(function (data) {
                         $scope.suppliers = data.data;
                         //$scope.maxSize = 5;
@@ -343,7 +283,7 @@
                 }
                    // alert("hola"+t);
                   }
-                  $scope.calCantidad=function(sku,varCodigo,precioProducto,can,talla){
+                  $scope.calCantidad=function(detID,atributos,sku,varCodigo,precioProducto,can,talla){
                    // alert("hoye estamos llenado obcional"+sku);
 
                       if(can>0){
@@ -366,14 +306,12 @@
                             $scope.badera=false;                      
                         }
                       }}
-                      if( $scope.badera){
+                      if($scope.badera){
                       $scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preProducto).toFixed(2));
                       $scope.company.talla='TL:'+String(talla);
-                      $scope.company.producto=$scope.detailOrderPurchase.proNombre+"/"+$scope.detailOrderPurchase.marca+"/"+
-                        $scope.detailOrderPurchase.material+"/"+
-                        $scope.detailOrderPurchase.tipo;
+                      $scope.company.producto=$scope.detailOrderPurchase.proNombre+"("+atributos+")";
                       $scope.company.esbase=$scope.detailOrderPurchase.esbase;
-                      $scope.company.detPres_id=$scope.detailOrderPurchase.detPres_id;
+                      $scope.company.detPres_id=detID;
                       $scope.company.Codigovar=varCodigo;
                       $scope.company.CodigoPCompra=sku;
                       $scope.company.nombre=$scope.detailOrderPurchase.nombre;
@@ -382,6 +320,7 @@
                       $scope.company.preProducto=precioProducto;
                       $scope.company.codigoEspecifico=$scope.detailOrderPurchase.codigoEspecifico;
                       $scope.company.cantidad=can;
+                      $scope.company.pendiente=can;
                       $scope.company.orderPurchases_id=$scope.codigoTemporalP;                      
                       $scope.company.montoBruto=Number($scope.company.preProducto)*Number(can);
                       $scope.company.montoTotal=$scope.company.montoBruto;
@@ -441,9 +380,7 @@
                                                  //---------------------------------------------------------------
                                         $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
                                        // alert($scope.product.proId.proId+"jajjaj");
-                                        $scope.detailOrderPurchase.producto=$scope.detailOrderPurchase.proNombre+"/"+$scope.detailOrderPurchase.marca+"/"+
-                                        $scope.detailOrderPurchase.material+"/"+
-                                        $scope.detailOrderPurchase.tipo;
+                                        $scope.detailOrderPurchase.producto=$scope.detailOrderPurchase.proNombre+"("+$scope.product.proId.NombreAtributos+")";
                                         $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
                                         $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
                                          /*crudPurchase.paginateDPedido($scope.product.proId.proId,'variants').then(function (data) {
@@ -669,7 +606,7 @@
                             $scope.companies[n].descuento=$scope.detailOrderPurchase.descuento;
                         }
                         $scope.orderPurchase.montoBruto=Number($scope.orderPurchase.montoBruto)+Number($scope.companies[n].montoTotal);
-                        $scope.orderPurchase.montoTotal=Number($scope.orderPurchase.montoBruto);
+                        $scope.orderPurchase.montoTotal=parseFloat(($scope.orderPurchase.montoBruto - parseFloat(($scope.orderPurchase.montoBruto*$scope.orderPurchase.descuento)/100)).toFixed(2));
                         $scope.detailOrderPurchases.push($scope.companies[n]);
                       }
                       $scope.companies=[];
@@ -703,18 +640,18 @@
                  }}
                     $scope.ejemplo2=null;
                     $scope.estado_fin2=0;
-                    $scope.ejemplo_de2=0;
+                    $scope.ejemplo_de2=true;
                     $scope.calcularmontoBrutoF=function(){
                         if($scope.ejemplo2 != $scope.orderPurchase.montoTotal && $scope.estado_fin2 == $scope.orderPurchase.descuento){
                           $scope.orderPurchase.descuento=parseFloat(((($scope.orderPurchase.montoBruto - $scope.orderPurchase.montoTotal)/$scope.orderPurchase.montoBruto)*100).toFixed(2));
                           $scope.estado_fin2=$scope.orderPurchase.descuento;
-                          $scope.estado_fin2=false;
+                          $scope.ejemplo_de2=false;
                         }
-                        if($scope.estado_fin2 && $scope.estado_fin2 != $scope.orderPurchase.descuento){
+                        if($scope.ejemplo_de2 && $scope.estado_fin2 != $scope.orderPurchase.descuento){
                         $scope.orderPurchase.montoTotal=parseFloat(($scope.orderPurchase.montoBruto - parseFloat(($scope.orderPurchase.montoBruto*$scope.orderPurchase.descuento)/100)).toFixed(2));
                         $scope.ejemplo2=$scope.orderPurchase.montoTotal;
                         $scope.estado_fin2=$scope.orderPurchase.descuento;
-                        }else{$scope.estado_fin2=true;}
+                        }else{$scope.ejemplo_de2=true;}
                     }
                    
                     $scope.ejemplo=null;
@@ -723,7 +660,7 @@
                     $scope.calculateSuppPric=function()
                     {      $scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preProducto).toFixed(2));
                            $scope.detailOrderPurchase.montoBruto=parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preProducto)).toFixed(2));
-                           
+                           $scope.detailOrderPurchase.pendiente=$scope.detailOrderPurchase.cantidad;
                        if($scope.ejemplo != $scope.detailOrderPurchase.montoTotal && $scope.ejemplo_de == $scope.detailOrderPurchase.descuento){
                           $scope.detailOrderPurchase.descuento=parseFloat(((($scope.detailOrderPurchase.montoBruto - $scope.detailOrderPurchase.montoTotal)/$scope.detailOrderPurchase.montoBruto)*100).toFixed(2));
                            $scope.ejemplo_de=$scope.detailOrderPurchase.descuento;
@@ -887,7 +824,10 @@
                 };
 
                 $scope.updatePurchase = function(){
-                    
+                    $scope.orderPurchase.detailOrderPurchases=$scope.detailOrderPurchases;
+
+                    //$log.log($scope.orderPurchase);
+
                    if($scope.orderPurchase.cancelar){
                       $scope.orderPurchase.Estado=2;
                    }
@@ -917,9 +857,21 @@
                 $scope.CambiarEstado=function(){
                       $scope.estados=true;
                      $scope.estados1=false;
+                     $scope.MostrarEdcionStock=false;
                      //$scope.llenar();
                 }
+                $scope.MostrarCancelar=true;
+                $scope.MostrarEdcionStock=true;
                 $scope.CambiarEstado1=function(){
+                    for(var n=0;n<$scope.detailOrderPurchases.length;n++){
+                        if($scope.detailOrderPurchases[n].Cantidad_Ll>0){
+                           $scope.MostrarCancelar=false;
+                           //alert("oye ya cambie estado");
+                           break;
+                        }
+                    }
+                      $scope.orderPurchase.Estado=false;
+                      $scope.MostrarEdcionStock=false;
                       $scope.estados=false;
                       $scope.estados1=true;
                 }
@@ -972,7 +924,7 @@
                     $scope.orderPurchase.fechaEntrega=new Date();
                     $scope.orderPurchase.fecha=new Date();
                     $scope.orderPurchase.orderPurchase_id=$scope.codigoTemporalP;
-                    $scope.orderPurchase.detailOrderPurchases=$scope.detailOrderPurchases
+                    $scope.orderPurchase.detailOrderPurchases=$scope.detailOrderPurchases;
                     $scope.orderPurchase.Saldo=$scope.orderPurchase.montoTotal;
                     $scope.orderPurchases.push( $scope.orderPurchase);
                     if($scope.orderPurchase.Estado==1){
@@ -1015,9 +967,10 @@
             $scope.detailOrderPurchase.unidades;
             $scope.ActualizarPartStock=function(row,index){
                 if(row.cantidad_llegado<=row.cantidad){
-                    row.fecha=new Date();
+                    alert("oye que paso");
+                      row.fecha=new Date();
                       row.Cantidad_Ll=Number(row.Cantidad_Ll)+row.cantidad_llegado;
-
+                      row.pendiente=Number(row.cantidad)-row.Cantidad_Ll;
                       $scope.detailOrderPurchases.splice(index,1,row);
                 }else{
                     row.cantidad_llegado=0;

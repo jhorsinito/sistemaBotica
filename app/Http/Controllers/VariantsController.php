@@ -59,18 +59,16 @@ class VariantsController extends Controller
         $variant = $this->variantRepo->getAttr($id);
         return response()->json($variant);
     }
-    public function autocomplit1($sku)
-    {
+    /*public function autocomplit($sku){
         $variants = $this->variantRepo->uatocomplit($sku);
-        return response()->json($variants);
+    {*/
+   /* public function 
+        $variant = $this->variantRepo->getAttr($id);
+        return response()->json($variant);
     }
-    //{
-    //    $variant = $this->variantRepo->getAttr($id);
-    //    return response()->json($variant);
-    //}
-
-    public function autocomplit(){
-        $variants = $this->variantRepo->uatocomplit();
+*/
+    public function traer_por_Sku($sku){
+        $variants = $this->variantRepo->traer_por_Sku($sku);
         return response()->json($variants);
 
     }

@@ -26,6 +26,7 @@ class CreateDetailOrderPurchasesTable extends Migration
             $table->decimal('preCompra',10,2);
             $table->integer('cantidad');
             $table->integer('Cantidad_Ll');
+            $table->integer('pendiente');
             $table->timestamps();
         });
     }

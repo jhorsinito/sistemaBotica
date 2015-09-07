@@ -13,7 +13,8 @@ class DetailOrderPurchase extends \Eloquent {
     						'preProducto',
     						'preCompra',
     						'cantidad',
-                'Cantidad_Ll'
+                'Cantidad_Ll',
+                'pendiente'
     						];
 
     public function detPres()

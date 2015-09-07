@@ -65,7 +65,7 @@ class DetailOrderPurchasesController extends Controller {
     public function create(Request $request)
     {
   //-----------------------------------------------------
-  $var =$request->detailOrderPurchases;
+ /* $var =$request->detailOrderPurchases;
   $montotot=$request->input('MontoTotal');
   //$verDeudas=$this->pendientAccountRepo->verSaldos($request->input("supplier_id"));
   //var_dump($request->input('id'));die();
@@ -99,7 +99,7 @@ class DetailOrderPurchasesController extends Controller {
               $manager->save();
               $provicional=$payment->id;
             }*/
-           if($verDeudas->Saldo>0 && $SaldoAfavor<=$verDeudas->Saldo){
+          /* if($verDeudas->Saldo>0 && $SaldoAfavor<=$verDeudas->Saldo){
               $var=$request->detPayments; 
               if($provicional==null){
               $payment = $this->paymentRepo->getModel();
@@ -177,11 +177,13 @@ class DetailOrderPurchasesController extends Controller {
               $request->merge(['supplier_id'=>$verDeudas->supplier_id]);
               $updateSaldoF=new pendientAccountManager($verDeudas,$request->all());
               $updateSaldoF->save();
-      }
-     }
-    }}
+      }//fin else
+     }//fin segundo if
+    }//fin for
+  }//fin primer if
+}//fin if primeross
       return response()->json(['estado'=>true]);
-    }}
+    }*/
     public function destroy(Request $request)
     {
       

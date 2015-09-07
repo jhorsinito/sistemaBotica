@@ -1,11 +1,12 @@
 <?php
 namespace Salesfly\Salesfly\Managers;
-class SaleManager extends BaseManager {
+class OrderSaleManager extends BaseManager {
 
     public function getRules()
     {
         $rules = [              
             'fechaPedido'=> 'required',
+            'fechaEntrega'=>'',
             'montoTotal'=> '',
             'montoBruto'=> '',
             'descuento'=> '',

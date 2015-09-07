@@ -26,7 +26,7 @@
                                    <h3 class="box-title">Crear Pedido de Compras</h3>
                              </div><!-- /.box-header -->
                 <!-- form start -->
- <form name="orderPurchaseCreateForm" role="form" novalidate>
+ <form name="inputStocksCreateForm" role="form" novalidate>
             <div class="box-body" >
                   <div class="callout callout-danger" ng-show="errors">
                                                   <ul>
@@ -55,6 +55,7 @@
                       <th>Tipo</th>
                       <th>Numero de Orden</th>
                       <th>Numero de Compra</th>
+                      <th>Usuario</th>
                       <th>Almacen</th>
                       <th>Detalles</th>
                     </tr>
@@ -66,6 +67,7 @@
                       <td ng-if="row.tipo=='Salida'"><span class="badge bg-green">Salida</span></td> 
                       <td >@{{row.orderPurchase_id}}</td>
                       <td>@{{row.purchase_id}}</td>  
+                      <td>@{{row.nombreUser}}
                       <td>@{{row.nombre}}</td>
                       <td><button data-toggle="modal" ng-click="ListarinputStocks(row)" data-target="#ventanalista" class="btn btn-success btn-xs">Ver Detalles</button>
                       </td>
@@ -127,7 +129,7 @@
 <!--================Ventana Emergente Crear=================================-->
         <div class="container"  style="margin-top: 60px;">
            <div  class="modal fade" id="miventana1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="ngenabled">
-             <div  class="modal-dialog">
+             <div  class="modal-dialog modal-lg">
                <div style="border-radius: 5px" class="modal-content">
                  <div class="modal-header" style="border-radius: 5px" >
                    <button type="button"  class="close" data-dismiss="modal" aria-hidden="ngenabled"> &times; </button>
@@ -137,36 +139,83 @@
             <div class="row">
           <div class="col-md-1">
           </div>
-          <div ng-hide="mostrarCreate" class="col-md-1">
-                    <button ng-click="ver()"  class="btn btn-success btn-xs">Registrar Nuevo</button>
-           </div>
+          
   </div>          
-    <div ng-show="mostrarCreate" class="row">
+    <div  class="row">
           <div class="col-md-1">
           </div>
-          <div class="col-md-5">
-           <div  class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.fechaPedido.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.fechaPedido.$dirty && orderPurchaseCreateForm.fechaPedido.$invalid]">
+          <div class="col-md-4">
+           <div  class="form-group" ng-class="{true: 'has-error'}[ inputStocksCreateForm.fechaPedido.$error.required && inputStocksCreateForm.$submitted || inputStocksCreateForm.fechaPedido.$dirty && inputStocksCreateForm.fechaPedido.$invalid]">
                                 <label for="fechaPedido">Fecha  </label>
                             <div  class="input-group">
                                 <div class="input-group-addon">
                                       <i class="fa fa-calendar"></i>
                                 </div>
-                                  <input type="date" class="form-control"  name="fechaPedido" ng-model="purchase.fecha" >
+                                  <input ng-disabled="mostrarCreate" type="date" class="form-control"  name="fechaPedido" ng-model="purchase.fecha" required>
                             </div>
-                            <label ng-show="orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.fechaPedido.$dirty && orderPurchaseCreateForm.fechaPedido.$invalid">
-                            <span ng-show="orderPurchaseCreateForm.fechaPedido.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
+                            <label ng-show="inputStocksCreateForm.$submitted || inputStocksCreateForm.fechaPedido.$dirty && inputStocksCreateForm.fechaPedido.$invalid">
+                            <span ng-show="inputStocksCreateForm.fechaPedido.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
                             </label>
                              
                            
                       </div>
           </div>
           
-          <div class="col-md-5">
-          <div class="input-group">
+          <div class="col-md-3">
+          <div class="form-group" ng-class="{true: 'has-error'}[ inputStocksCreateForm.warehouse.$error.required && inputStocksCreateForm.$submitted || inputStocksCreateForm.warehouse.$dirty && inputStocksCreateForm.warehouse.$invalid]">
+                       <label for="Tienda">Almacen: </label>
+                       <select ng-disabled="mostrarCreate" class="form-control" name="warehouse" ng-click="seleccionarWarehouse()" ng-model="purchase.warehouses_id" ng-options="item.id as item.nombre for item in warehouses" required>
+                       <option value="">--Elija warehouses_id--</option>
+                       </select>
+                       <label ng-show="inputStocksCreateForm.$submitted || inputStocksCreateForm.warehouse.$dirty && inputStocksCreateForm.warehouse.$invalid">
+                                <span ng-show="inputStocksCreateForm.warehouse.$invalid"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                      </label>
+                       
+          </div>
+          
+      </div>
+       <div  class="col-md-3">
+                <div class="form-group" ng-class="{true: 'has-error'}[ inputStocksCreateForm.warehouse.$error.required && inputStocksCreateForm.$submitted || inputStocksCreateForm.warehouse.$dirty && inputStocksCreateForm.warehouse.$invalid]">
+                       <label for="Tienda">Tipo: </label>
+                       <select  ng-disabled="mostrarCreate" class="form-control"  name="warehouse"  ng-model="purchase.tipo"  required>
+                       <option value="Entrada" >Entrada</option>
+                       <option value="Salida">Salida</option>
+                       </select>
+                       <label ng-show="inputStocksCreateForm.$submitted || inputStocksCreateForm.warehouse.$dirty && inputStocksCreateForm.warehouse.$invalid">
+                                <span ng-show="inputStocksCreateForm.warehouse.$invalid"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                      </label>
+                       
+                    </div>
+          </div>
+          
+     </div>
+     <div  ng-hide="mostrarCreate" class="row">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-2">
+             <div ng-hide="false" class="col-md-1">
+                    <button ng-click="ver()" type="submit" class="btn btn-success btn-xs">Continuar</button>
+             </div>
+            </div>
+    </div>
+     <div  ng-show="mostrarCreate" class="row">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-2">
+          <div class="form-group" ng-class="{true: 'has-error'}[ TtypeCreateForm.nombre.$error.required && TtypeCreateForm.$submitted || TtypeCreateForm.nombre.$dirty && TtypeCreateForm.nombre.$invalid]">
+                      <label for="nombre">Cantidad</label>
+                      <input type="Number" class="form-control" name="nombre" placeholder="Nombre" ng-blur="verStockActual()" ng-model="inputStock.cantidad_llegado" required>
+                      <label ng-show="TtypeCreateForm.$submitted || TtypeCreateForm.nombre.$dirty && TtypeCreateForm.nombre.$invalid">
+                        <span ng-show="TtypeCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                      </label>
+                    </div>
+          </div>
+           <div class="col-md-3">
+                <div class="input-group">
               <label>Producto</label>
                 
                <input typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Locations loaded via $http" 
-               typeahead="product as product.proNombre+'/'+product.BraName+'/'+product.TName for product in products | filter:$viewValue | limitTo:8" 
+               typeahead="product as product.proNombre+'/'+product.BraName+'/'+product.TName+'/'+product.NombreAtributos for product in products | filter:$viewValue | limitTo:8" 
                typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
                tooltip="Ingrese caracteres para busacar producto por nombre"
             >
@@ -177,60 +226,19 @@
            </div>
             
         </div> 
-      </div>
-          
-     </div>
-     <div ng-show="mostrarCreate" class="row">
-          <div class="col-md-1">
           </div>
-          <div class="col-md-2">
-          <div class="form-group" ng-class="{true: 'has-error'}[ TtypeCreateForm.nombre.$error.required && TtypeCreateForm.$submitted || TtypeCreateForm.nombre.$dirty && TtypeCreateForm.nombre.$invalid]">
-                      <label for="nombre">Cantidad</label>
-                      <input type="Number" class="form-control" name="nombre" placeholder="Nombre" ng-model="inputStock.cantidad_llegado" required>
-                      <label ng-show="TtypeCreateForm.$submitted || TtypeCreateForm.nombre.$dirty && TtypeCreateForm.nombre.$invalid">
-                        <span ng-show="TtypeCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
-                      </label>
-                    </div>
-          </div>
-           <div class="col-md-4">
-                <div class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.warehouse.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.warehouse.$dirty && orderPurchaseCreateForm.warehouse.$invalid]">
-                       <label for="Tienda">Almacen: </label>
-                       <select  class="form-control" name="warehouse" ng-click="seleccionarWarehouse()" ng-model="purchase.warehouses_id" ng-options="item.id as item.nombre for item in warehouses" required>
-                       <option value="">--Elija warehouses_id--</option>
-                       </select>
-                       <label ng-show="orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.warehouse.$dirty && orderPurchaseCreateForm.warehouse.$invalid">
-                                <span ng-show="orderPurchaseCreateForm.warehouse.$invalid"><i class="fa fa-times-circle-o"></i>Requerido.</span>
-                      </label>
-                       
-                    </div>
-          </div>
-       <div class="col-md-4">
-                <div class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.warehouse.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.warehouse.$dirty && orderPurchaseCreateForm.warehouse.$invalid]">
-                       <label for="Tienda">Tipo: </label>
-                       <select  class="form-control" name="warehouse"  ng-model="purchase.tipo"  required>
-                       <option value="Entrada" ng-selected>Entrada</option>
-                       <option value="Salida">Salida</option>
-                       </select>
-                       <label ng-show="orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.warehouse.$dirty && orderPurchaseCreateForm.warehouse.$invalid">
-                                <span ng-show="orderPurchaseCreateForm.warehouse.$invalid"><i class="fa fa-times-circle-o"></i>Requerido.</span>
-                      </label>
-                       
-                    </div>
-          </div>
-          
-     </div>
-      <div ng-show="mostrarCreate" class="row">
-          <div class="col-md-1">
-          </div>
-          <div class="col-md-10">
+          <div class="col-md-5">
                     <div class="form-group" >
                       <label for="notas">Descripcion</label>
                       <textarea type="notas" class="form-control" name="notas" placeholder="Descripcion"
                       ng-model="inputStock.descripcion" rows="2" cols="50"></textarea>
                      </div>
           </div>
-    </div>
-    <div ng-show="mostrarCreate" class="row">
+      
+          
+     </div>
+      
+    <div  ng-show="mostrarCreate" class="row">
           <div class="col-md-1">
           </div>
           <div class="col-md-1">
@@ -238,7 +246,7 @@
            </div>
       </div>
       </br>
-           <div class="row">
+           <div ng-show="mostrarCreate" class="row">
           <div class="col-md-1">
           </div>
           <div class="col-md-10">

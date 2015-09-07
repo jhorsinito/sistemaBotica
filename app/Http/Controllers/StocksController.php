@@ -27,7 +27,10 @@ class StocksController extends Controller {
         //var_dump($stocks);
     }
 
-
+   public function verStockActual($vari,$almacen){
+       $stock = $this->stockRepo->encontrar($vari,$almacen);
+        return response()->json($stock);
+   }
     public function create(Request $request)
     {
         $stocks = $this->stockRepo->getModel();

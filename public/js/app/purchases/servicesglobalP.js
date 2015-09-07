@@ -168,7 +168,16 @@
 
                 return deferred.promise;
             }
+              function StockActual(uri,vari,alma)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/verStockActual/'+vari+"/"+alma)
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
 
+                return deferred.promise;
+            }
             return {
                 all: all,
                 paginate: paginate,
@@ -185,7 +194,8 @@
                 paginateDPedido: paginateDPedido,
                 autocomplit: autocomplit,
                 autocomplit2: autocomplit2,
-                select2: select2
+                select2: select2,
+                StockActual: StockActual
             }
         }])
         .factory('socketService', function ($rootScope) {
