@@ -1,10 +1,10 @@
 (function(){
-    angular.module('crud.services.orders',[])
-        .factory('crudServiceOrders',['$http', '$q','$location', function($http, $q,$location){
+    angular.module('crud.services.orderSales',[])
+        .factory('crudServiceOrderSales',['$http', '$q','$location', function($http, $q,$location){
 
-            $oPresentacion = {}; 
+            $oPresentacion = {};
 
-            function all(uri)
+            function all(uri) 
             {
                 var deferred = $q.defer();
                 $http.get('/api/'+uri+'/all')

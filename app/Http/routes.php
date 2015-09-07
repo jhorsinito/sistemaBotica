@@ -545,7 +545,7 @@ Route::get('api/detCashesSale/search/{q?}',['as'=>'person_search', 'uses'=>'DetC
 //-------------------------------------------------------------
 Route::get('api/cashMotives/select','CashMotivesController@select');
 Route::get('api/cashMotives/search/{q?}',['as'=>'person_search', 'uses'=>'CashMotivesController@search']);
-Route::get('api/cashMotive/search/{q?}',['as'=>'person_search', 'uses'=>'CashMotivesController@searchMotive']);
+Route::get('api/cashMotive/search/{q?}',['as'=>'person_search', 'uses'=>'CashMotivesController@searchMotive']); 
 
 //----------------------------------------------------------------------
 //-----------------------------Cashes---------------------------
@@ -581,3 +581,17 @@ Route::get('inventory',['as'=>'person','uses'=>'InventoryController@index']);
 
 Route::put('api/pendientAccounts/edit','PendientAccountsController@edit');
 Route::get('api/pendientAccounts/saldost/{id}','PendientAccountsController@verSaldosTotales');
+
+//-----------------------------Cashes---------------------------
+Route::get('orderSales',['as'=>'person','uses'=>'OrderSaleController@index']);
+Route::get('orderSales/create',['as'=>'person_create','uses'=>'OrderSaleController@index']);
+Route::get('orderSales/edit/{id?}', ['as' => 'person_edit', 'uses' => 'OrderSaleController@index']);
+Route::get('orderSales/form-create',['as'=>'person_form_create','uses'=>'OrderSaleController@form_create']);
+Route::get('orderSales/form-edit',['as'=>'person_form_edit','uses'=>'OrderSaleController@form_edit']);
+Route::get('api/orderSales/all',['as'=>'person_all', 'uses'=>'OrderSaleController@all']);
+Route::get('api/orderSales/paginate/',['as' => 'person_paginate', 'uses' => 'OrderSaleController@paginatep']);
+Route::post('api/orderSales/create',['as'=>'person_create', 'uses'=>'OrderSaleController@create']);
+Route::put('api/orderSales/edit',['as'=>'person_edit', 'uses'=>'OrderSaleController@edit']);
+Route::post('api/orderSales/destroy',['as'=>'person_destroy', 'uses'=>'OrderSaleController@destroy']);
+Route::get('api/orderSales/search/{q?}',['as'=>'person_search', 'uses'=>'OrderSaleController@search']);
+Route::get('api/orderSales/find/{id}',['as'=>'person_find', 'uses'=>'OrderSaleController@find']);

@@ -19,10 +19,19 @@
                 $scope.expenses = {};
                 $scope.expense = {};
                 $scope.year.year=2015;
+                //$scope.acumulado=0;
 
                 $scope.toggle = function () {
                     $scope.show = !$scope.show;
                 };
+                $scope.calcularAcumulado = function () {
+                    //alert($scope.cashMonthlys.length);
+                    $scope.acumulado=0;
+                    for (var i = $scope.cashMonthlys.length - 1; i >= 0; i--) {
+                        $scope.acumulado=$scope.acumulado+Number($scope.cashMonthlys[i].amount);
+                    };
+                };
+                
 
                 $scope.pageChanged = function() {
                     if ($scope.query.length > 0) {
@@ -64,7 +73,7 @@
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                         $scope.itemsperPage = 15;
-
+                         $scope.calcularAcumulado();
                     }); 
                     crudService.select('months','select').then(function (data) {
                         $scope.months = data;
@@ -83,7 +92,7 @@
                             //$scope.cashMonthly.expenseMonthlys_id=$scope.expenses[0].id;    
                         };
                     });
-
+                   
                 }
 
                 socket.on('cashMonthly.update', function (data) {
@@ -120,10 +129,11 @@
                     }
                     
                     crudService.searchMes('cashMonthlys',$scope.cashMonthly.months_id,$scope.cashMonthly.years_id,$scope.cashMonthly.expenseMonthlys_id,1).then(function (data){
-                        $log.log(data);
+                        //$log.log(data);
                         $scope.cashMonthlys = data.data;                 
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
+                        $scope.calcularAcumulado();
                     });     
                 }
 

@@ -1,12 +1,12 @@
 <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Ventas
+            Pedido Ventas
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Ventas</li>
+            <li class="active">Pedido Ventas</li>
           </ol>
 
           
@@ -18,7 +18,7 @@
         <section class="content">
         <div class="row">
         <div class="col-md-12">
-          <a href="/sales/create" type="submit" class="btn btn-primary pull-left">Realizar Venta</a> 
+          <a href="/orderSales/create" type="submit" class="btn btn-primary pull-left">Realizar Pedido Venta</a> 
           </div>
         </div>
         </br>
@@ -71,7 +71,7 @@
                       <th style="width: 40px">Detalle</th>
                     </tr>
                     
-                    <tr ng-repeat="row in orders">
+                    <tr ng-repeat="row in orderSales">
                       <td>{{$index + 1}}</td>
                       <td>{{row.fechaPedido}}</td>
                       <td>{{row.fechaAnulado}}</td>
