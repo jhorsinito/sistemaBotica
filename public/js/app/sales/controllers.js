@@ -464,9 +464,9 @@
                 $scope.varianteSkuSelected;
                 $scope.varianteSkuSelected1=undefined;
                 $scope.getvariantSKU = function(size) {
-                    if($scope.varianteSkuSelected.length <10){
+                    if($scope.varianteSkuSelected.length <4){
                         //alert("hola");
-                    }else if($scope.varianteSkuSelected.length==10){
+                    }else if($scope.varianteSkuSelected.length >= 4){
                         //alert("entre" + $scope.varianteSkuSelected);
                         crudServiceOrders.reportProWare('productsSearchsku',$scope.store.id,$scope.warehouse.id,$scope.varianteSkuSelected).then(function(data){    
                             $scope.varianteSkuSelected1={};
