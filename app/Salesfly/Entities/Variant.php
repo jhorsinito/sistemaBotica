@@ -12,11 +12,12 @@ class Variant extends \Eloquent {
                             'price',*/
                             'track',
                             'product_id',
-                            'observado',
+                            /*'observado',*/
                             'nota',
                             'image',
                             'category',
-                            'favorite'
+                            'favorite',
+                            'user_id'
                             ];
 
     public function atributes(){
@@ -41,5 +42,8 @@ class Variant extends \Eloquent {
     }
     public function warehouse(){
         return $this->belongsToMany('\Salesfly\Salesfly\Entities\Warehouse','stock');
+    }
+    public function user(){
+        return $this->belongsTo('\Salesfly\User');
     }
 }

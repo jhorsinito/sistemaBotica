@@ -38,28 +38,6 @@
                                         <span ng-show="variantCreateForm.codigo.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                                     </label>
                                 </div></div>
-
-                            <div class="col-md-4">
-                                <div class="form-group" ng-class="{true: 'has-error'}[ variantCreateForm.suppCode.$error.required && variantCreateForm.$submitted || variantCreateForm.suppCode.$dirty && variantCreateForm.suppCode.$invalid]">
-                                    <label for="suppCode">Código de Proveedor</label>
-                                    <input type="text" class="form-control" name="suppCode" placeholder="1000"
-                                           ng-model="variant.suppCode" required>
-                                    <label ng-show="variantCreateForm.$submitted || variantCreateForm.suppCode.$dirty && variantCreateForm.suppCode.$invalid">
-
-                                        <span ng-show="variantCreateForm.suppCode.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
-                                    </label>
-                                    <span class="text-info"> <em> Código del variante para el proveedor.</em></span>
-                                </div>
-                            </div></div>
-
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Imagen</label>
-                                    <input type="file" ng-model="variant.image" id="variantImage" name="variantImage"/>
-
-                                </div>
-                            </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Presentación Base:</label>
@@ -77,6 +55,19 @@
 
                                 </div></div>
 
+                                </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Imagen</label>
+                                    <input type="file" ng-model="variant.image" id="variantImage" name="variantImage"/>
+
+                                </div>
+                            </div>
+
+
+
 
                         </div>
                         <div class="row">
@@ -84,12 +75,8 @@
 
 
                         </div>
-                        <div class="form-group" >
-                            <label for="estado">¿Observado?</label>
-                            <input type="checkbox" name="estado" ng-model="variant.observado"/>
-                        </div>
-                        @{{variant.observado}}
-                        <div class="form-group" ng-show="variant.observado">
+
+                        <div class="form-group">
                             <label for="notas">Notas</label>
                       <textarea type="notas" class="form-control" name="notas" placeholder="..."
                                 ng-model="variant.nota" rows="4" cols="50"></textarea>

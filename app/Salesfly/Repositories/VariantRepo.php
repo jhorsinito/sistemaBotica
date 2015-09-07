@@ -29,9 +29,9 @@ class VariantRepo extends BaseRepo{
         return $products;
     }
 
-    public function findV($id){
-        return Variant::find($id);
-    }
+    //public function findV($id){
+    //    return Variant::find($id);
+    //}
 
   /*public function paginaterepo($c){
         //$warehouses = Warehouse::with('store')->paginate($c);

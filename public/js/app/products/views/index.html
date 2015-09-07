@@ -59,6 +59,7 @@
                       <th>Marca</th>
                       <th>Línea</th>
                         <th>Creado</th>
+                        <th>Por</th>
                         <th>Variantes</th>
                         <th>Stock</th>
                       <th style="width: 40px">Editar</th>
@@ -75,6 +76,7 @@
                       <td>{{row.braNombre}}</td>
                       <td>{{row.typNombre}}</td>
                         <td>{{row.proCreado}}</td>
+                        <td>{{row.userNombre}}</td>
                         <td>
                             <span ng-if="row.proHasVar == '1'">
                                         <span ng-if="row.proQuantvar == '0'">0</span>

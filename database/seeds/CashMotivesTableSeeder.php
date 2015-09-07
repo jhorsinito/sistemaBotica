@@ -72,5 +72,15 @@ class CashMotivesTableSeeder extends Seeder
             'observacion' => 'Gastos de Viáticos',
             'tipo' => '-'
         ]);
+        DB::table('cashMotives')->insert([
+            'nombre' => 'Pago crédito',
+            'observacion' => 'Pago crédito',
+            'tipo' => '+'
+        ]);
+        DB::table('cashMotives')->insert([
+            'nombre' => 'Venta crédito',
+            'observacion' => 'Venta crédito',
+            'tipo' => '+'
+        ]);
     }
 }

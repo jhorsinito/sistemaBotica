@@ -17,7 +17,7 @@
                 $scope.product = {};
                 $scope.variant = {};
                 $scope.product.track = true;
-                $scope.variant.track = false;
+                $scope.variant.track = true;
                 $scope.product.autogenerado = true;
                 $scope.variant.autogenerado = true;
                 //$scope.variant.detAtr = [];
@@ -63,6 +63,7 @@
                 de variants create
                  */
                 $scope.categories=[{id:1,nombre:'Dama'},{id:2,nombre:'Caballero'},{id:3,nombre:'Niño'},{id:4,nombre:'Niña'}];
+                $scope.variant.category= 1;
                 //$log.log($scope.category);
                 $scope.attributes = [];
                 /*
@@ -81,6 +82,12 @@
                     //alert('holi');
                     if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
                         $scope.presentation.price = $scope.presentation.suppPri + $scope.presentation.markup * $scope.presentation.suppPri / 100;
+                    }
+                };
+                $scope.calculatePrice = function() {
+                    //alert('holi');
+                    if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
+                        $scope.presentation.markup = ($scope.presentation.price - $scope.presentation.suppPri) * 100 / $scope.presentation.suppPri;
                     }
                 };
                 $scope.toggle = function () {
@@ -118,6 +125,9 @@
                                     $scope.product.track = (data.track == 1 ); //de variants
                                     $scope.product.presentations = data.det_pre;
                                     $scope.product.stock = data.stock;
+                                    crudService.all('warehouses').then(function (data){
+                                        $scope.warehouses = data;
+                                    });
                                     $scope.product.sku = data.sku;
                                     //alert(isEmpty(data.stock));
                                     if(isEmpty(data.stock)){
@@ -155,10 +165,7 @@
                         crudService.select('products', 'stations').then(function (data) {
                             $scope.stations = data;
                         });
-                        crudService.all('warehouses').then(function (data){
-                            $scope.warehouses = data;
 
-                        });
 
 
                     };
@@ -194,7 +201,7 @@
                             $scope.variant.observado = (data.observado == 1);
 
                             $scope.variant.product_id = data.product_id;
-
+                            $scope.variant.category = parseInt(data.category);
 
 
 
@@ -206,6 +213,11 @@
                             $scope.variant.track = (data.track == 1 ); //de variants
                             $scope.variant.presentations = data.det_pre;
                             $scope.variant.stock = data.stock;
+
+                            crudService.all('warehouses').then(function (data){
+                                $scope.warehouses = data;
+                            });
+
                             $scope.variant.sku = data.sku;
                             //$scope.variant.detAtrT = data.det_atr;
                             //for (i = 0; i < data.det_atr.length; i++) {
@@ -218,6 +230,7 @@
                                 //alert('holi');
                                 $scope.minNumber = null ;
                             }
+                            $scope.variant.autogenerado = false;
                                 //if ($scope.product.type) $scope.variant.codigo = $scope.product.codigo + $scope.product.type.nombre.charAt(0); else {
                                 //    $scope.variant.codigo = $scope.product.codigo;
                                 //}
@@ -238,9 +251,7 @@
                             //});
                         });
 
-                        crudService.all('warehouses').then(function (data){
-                            $scope.warehouses = data;
-                        });
+
                         crudService.all('atributes').then(function (data){
                             $scope.attributes = data.data;
                             $log.log($scope.attributes);
@@ -399,11 +410,12 @@
                 $scope.createVariant = function(){
 
                     if ($scope.variantCreateForm.$valid) {
-                        var f = document.getElementById('variantImage').files[0] ? document.getElementById('variantImage').files[0] : null;
+                        var fv = document.getElementById('variantImage').files[0] ? document.getElementById('variantImage').files[0] : null;
                         //alert(f);
-                        var r = new FileReader();
-                        r.onloadend = function(e) {
-                            $scope.product.image = e.target.result;
+                        var rv = new FileReader();
+                        rv.onloadend = function(e) {
+                            //alert('con img');
+                            $scope.variant.image = e.target.result;
 
                             $scope.variant.product_id = $scope.product.id;
                             crudService.create($scope.variant, 'variants').then(function (data) {
@@ -421,6 +433,7 @@
                         }
                         if(!document.getElementById('variantImage').files[0]){
                             //alert($scope.product.hasVariants);
+                            //alert('sin img');
                             $scope.variant.product_id = $scope.product.id;
                             crudService.create($scope.variant,'variants').then(function (data){
                                 if (data['estado'] == true) {
@@ -436,7 +449,7 @@
                         }
 
                         if(document.getElementById('variantImage').files[0]){
-                            r.readAsDataURL(f);
+                            rv.readAsDataURL(fv);
                         }
 
                     }
@@ -491,6 +504,11 @@
                 $scope.editProduct = function(row){
                     $location.path('/products/edit/'+row.proId);
                 };
+
+                $scope.editProductShow = function(product){
+                    //$log.log(product);
+                    $location.path('/products/edit/'+product.id);
+                }
 
                 $scope.updateProduct = function(){
                     //alert('ho');

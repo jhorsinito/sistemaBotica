@@ -27,6 +27,8 @@ use Salesfly\Salesfly\Managers\DetAtrManager;
 use Salesfly\Salesfly\Repositories\StockRepo;
 use Salesfly\Salesfly\Managers\StockManager;
 
+use Intervention\Image\Facades\Image;
+
 class VariantsController extends Controller
 {
     protected $variantRepo;
@@ -57,17 +59,20 @@ class VariantsController extends Controller
         $variant = $this->variantRepo->getAttr($id);
         return response()->json($variant);
     }
-    public function autocomplit($sku){
-        $variants = $this->variantRepo->uatocomplit($sku);
+    public function autocomplit1($sku)
     {
-        $variant = $this->variantRepo->getAttr($id);
-        return response()->json($variant);
+        $variants = $this->variantRepo->uatocomplit($sku);
+        return response()->json($variants);
     }
+    //{
+    //    $variant = $this->variantRepo->getAttr($id);
+    //    return response()->json($variant);
+    //}
 
     public function autocomplit(){
         $variants = $this->variantRepo->uatocomplit();
         return response()->json($variants);
-        
+
     }
 
     public function paginatep($id,$var){ //->with(['store'])
@@ -111,7 +116,7 @@ class VariantsController extends Controller
             }else{
 
             }
-
+            $request->merge(array('user_id' => Auth()->user()->id));
         $managerVar = new VariantManager($variant,$request->except('stock','detAtr','presentation_base_object','presentations'));
         $managerVar->save();
 
@@ -141,12 +146,33 @@ class VariantsController extends Controller
 
             if($request->input('track') == 1) {
                 foreach ($request->input('stock') as $stock) {
+                    if (isset($stock['stockActual']) && $stock['stockActual'] == null) $stock['stockActual'] = 0;
+                    if (isset($stock['stockMin']) && $stock['stockMin'] == null) $stock['stockMin'] = 0;
+                    if (isset($stock['stockMinSoles']) && $stock['stockMinSoles'] == null) $stock['stockMinSoles'] = 0;
                     $stock['variant_id'] = $variant->id;
                     $oStock = new StockRepo();
                     $stockManager = new StockManager($oStock->getModel(), $stock);
                     $stockManager->save();
                 }
             }
+
+            //================================ADD IMAGE TO VAR==============================//
+
+            if($request->has('image') and substr($request->input('image'),5,5) === 'image'){
+                $image = $request->input('image');
+                $mime = $this->get_string_between($image,'/',';');
+                $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image));
+                Image::make($image)->resize(200,200)->save('images/variants/'.$variant->id.'.'.$mime);
+                $variant->image='/images/variants/'.$variant->id.'.'.$mime;
+                $variant->save();
+            }else{
+                $variant->image='/images/variants/variant.png';
+                $variant->save();
+            }
+
+            //================================./ADD IMAGE TO VAR==============================//
+
+
             return response()->json(['estado'=>true, 'nombres'=>$variant->nombre]);
         }else{
             return response()->json(['estado'=>'Prod sin variantes']);
@@ -180,7 +206,7 @@ class VariantsController extends Controller
             }else{
 
             }
-
+            $request->merge(array('user_id' => Auth()->user()->id));
             $managerVar = new VariantManager($variant,$request->except('stock','detAtr','presentation_base_object','presentations'));
             $managerVar->save();
 
@@ -212,6 +238,9 @@ class VariantsController extends Controller
             if($request->input('track') == 1) {
                 $variant->warehouse()->detach();
                 foreach ($request->input('stock') as $stock) {
+                    if (isset($stock['stockActual']) && $stock['stockActual'] == null) $stock['stockActual'] = 0;
+                    if (isset($stock['stockMin']) && $stock['stockMin'] == null) $stock['stockMin'] = 0;
+                    if (isset($stock['stockMinSoles']) && $stock['stockMinSoles'] == null) $stock['stockMinSoles'] = 0;
                     $stock['variant_id'] = $variant->id;
                     $oStock = new StockRepo();
                     $stockManager = new StockManager($oStock->getModel(), $stock);
@@ -251,7 +280,7 @@ class VariantsController extends Controller
                 ->where('presentation.id',$product->presentation_base);
             },'stock' => function($query){
                 $query->where('warehouse_id',1);
-            }]);
+            },'user']);
             //echo 'hi';
 
         }else{
@@ -286,12 +315,23 @@ class VariantsController extends Controller
     {
         $vatiant = $this->variantRepo->find($request->id);
         //var_dump($vatiant);
-        //die(); 
+        //die();
         $manager = new VariantManager($vatiant,$request->all());
         $manager->save();
 
         //Event::fire('update.store',$store->all());
         return response()->json(['estado'=>true, 'nombre'=>$vatiant->nombreTienda]);
         }
+
+    /*fx ayuda para img*/
+    public function get_string_between($string, $start, $end){
+        $string = " ".$string;
+        $ini = strpos($string,$start);
+        if ($ini == 0) return "";
+        $ini += strlen($start);
+        $len = strpos($string,$end,$ini) - $ini;
+        return substr($string,$ini,$len);
+    }
+    /*./ fx ayuda para img*/
 
 }

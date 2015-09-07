@@ -23,6 +23,8 @@ class CreateVariantsTable extends Migration
             $table->boolean('track')->default(0); //si está trackeado para el stock
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
