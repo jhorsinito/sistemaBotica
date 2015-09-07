@@ -393,6 +393,24 @@
               
     </script>
 
+    <script type="text/ng-template" id="myPopoverTemplate5.html">
+      <div class="form-group">
+          <label>@{{dynamicPopover5.title}}</label>
+        </div>
+        <table class="table table-bordered">
+          <tr>
+          <th>Stock</th>
+          <th>@{{compras[$index].Stock}}</th>
+          </tr>
+          <tr></tr>
+          <th>precio</th>
+          <th>@{{compras[$index].precioProducto}}</th>
+          <tr></tr>
+        </table>
+          
+                 
+    </script>
+
 
     <script type="text/ng-template" id="myModalContent.html">
         <div class="modal-header">
@@ -428,3 +446,279 @@
             <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
         </div>
     </script>
+
+
+    <!-- =========================================Ventana Agregar Año=================================-->
+         <div class="container"  style="margin-top: 60px;">
+           <div  class="modal fade" id="miventana2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="ngenabled">
+             <div  class="modal-dialog">
+                  <div style="border-radius: 5px" class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="ngenabled"> &times; </button>
+                          <h4 class="modal-title">Opciones Año</h4>
+                        </div>
+                        <form name="customerCreateForm" role="form" novalidate> 
+                        <!--=================cueropo========================-->
+                        <div class="modal-body">
+                   <div class="row" >
+                    <div class="col-md-6">
+                      <div class="form-group" ng-class="{true: 'has-error'}[ customerCreateForm.nombres.$error.required && customerCreateForm.$submitted || customerCreateForm.nombres.$dirty && customerCreateForm.nombres.$invalid]">
+                      <label for="nombres">Nombres</label>
+                      <input type="text" class="form-control" name="nombres" placeholder="Nombres" ng-model="customer.nombres" required>
+                      <label ng-show="customerCreateForm.$submitted || customerCreateForm.nombres.$dirty && customerCreateForm.nombres.$invalid">
+                        <span ng-show="customerCreateForm.nombres.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                      </label>
+                    </div>
+                    </div>
+                    <div class="col-md-6">
+                    <div class="form-group" ng-class="{true: 'has-error'}[ customerCreateForm.apellidos.$error.required && customerCreateForm.$submitted || customerCreateForm.apellidos.$dirty && customerCreateForm.apellidos.$invalid]">
+                      <label for="apellidos">Apellidos</label>
+                      <input type="text" class="form-control" name="apellidos" placeholder="Apellidos"
+                      ng-model="customer.apellidos" required>
+                      <label ng-show="customerCreateForm.$submitted || customerCreateForm.apellidos.$dirty && customerCreateForm.apellidos.$invalid">
+
+                        <span ng-show="customerCreateForm.apellidos.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                       </label>
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="row" >
+                    <div class="col-md-6">
+                    <div class="form-group" >
+                      <label for="apellidos">Empresa / Razón Social</label>
+                      <input type="text" class="form-control" name="empresa" placeholder="empresa"
+                      ng-model="customer.empresa">
+                     </div>
+                     </div>
+                     <div class="col-md-6">
+                    <div class="form-group" >
+                      <label for="direccFiscal">Dirección Fiscal</label>
+                      <input type="text" class="form-control" name="direccFiscal" placeholder="dirección fiscal"
+                      ng-model="customer.direccFiscal">
+                     </div>
+                     </div>
+                     </div>
+
+                    <div class="row" >
+                    <div class="col-md-3"> 
+                    <div class="form-group" >
+                      <label for="ruc">RUC</label>
+                      <input type="text" class="form-control" name="ruc" placeholder="ruc"
+                      ng-model="customer.ruc">
+                     </div>
+                     </div>
+                     <div class="col-md-3"> 
+                    <div class="form-group" >
+                      <label for="codigo">Código de Cliente</label>
+                      <input type="text" class="form-control" name="codigo" placeholder="codigo de cliente"
+                      ng-model="customer.codigo">
+                     </div>
+                     </div>
+
+                    <div class="col-md-6"> 
+                    <div class="form-group" ng-class="{true: 'has-error'}[ customerCreateForm.fechaNac.$error.required && customerCreateForm.$submitted || customerCreateForm.fechaNac.$dirty && customerCreateForm.fechaNac.$invalid]">
+                    <label for="fechaNac">Fecha de Nac.</label>
+                                        <div class="input-group">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                          </div>
+                      <input type="date" class="form-control" name="fechaNac" ng-model="customer.fechaNac">
+                      <label ng-show="customerCreateForm.$submitted || customerCreateForm.fechaNac.$dirty && customerCreateForm.fechaNac.$invalid">
+                                              <span ng-show="customerCreateForm.fechaNac.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
+                                            </label>
+                      </div>
+                     </div>
+                     </div>
+                     </div>
+                     <div class="row" >
+                     <div class="col-md-4"> 
+                      <div class="form-group">
+                                            <label>Género</label>
+                                            <select name="genero" class="form-control" ng-model="customer.genero">
+                                             <option value="">-- elige género --</option>
+                                             <option value="M">Masculino</option>
+                                             <option value="F">Femenino</option>
+
+                                            </select>
+                      </div>
+                      </div>
+
+                    <div class="col-md-4">  
+                    <div class="form-group" >
+                      <label for="fijo">Teléfono fijo</label>
+                      <input type="text" class="form-control" name="fijo" placeholder="###"
+                      ng-model="customer.fijo">
+                     </div>
+                     </div>
+
+                     <div class="col-md-4"> 
+                    <div class="form-group" >
+                      <label for="movil">Teléfono movil</label>
+                      <input type="text" class="form-control" name="movil" placeholder="###"
+                      ng-model="customer.movil">
+                     </div>
+                     </div>
+                     </div>
+
+                    <div class="row" >
+                     <div class="col-md-4">  
+                    <div class="form-group" >
+                      <label for="email">Email</label>
+                      <input type="email" class="form-control" name="email" placeholder="###"
+                      ng-model="customer.email">
+                     </div>
+                     </div>
+                     <div class="col-md-4">  
+                    <div class="form-group" >
+                      <label for="website">Página Web</label>
+                      <input type="text" class="form-control" name="website" placeholder="###"
+                      ng-model="customer.website">
+                     </div>
+                     </div>
+                     <div class="col-md-4">  
+                    <div class="form-group" >
+                      <label for="direccContac">Dirección de Contacto</label>
+                      <input type="text" class="form-control" name="direccContac" placeholder="###"
+                      ng-model="customer.direccContac">
+                     </div>
+                     </div>
+                     </div>
+
+                    <div class="row" >
+                     <div class="col-md-3"> 
+                    <div class="form-group" >
+                      <label for="distrito">Distrito</label>
+                      <input type="text" class="form-control" name="distrito" placeholder="Chiclayo"
+                      ng-model="customer.distrito">
+                     </div>
+                     </div>
+                     <div class="col-md-3"> 
+                    <div class="form-group" >
+                      <label for="provincia">Provincia</label>
+                      <input type="text" class="form-control" name="provincia" placeholder="Chiclayo"
+                      ng-model="customer.provincia">
+                     </div>
+                     </div>
+                     <div class="col-md-3"> 
+                    <div class="form-group" >
+                      <label for="departamento">Departamento</label>
+                      <input type="text" class="form-control" name="departamento" placeholder="Lambayeque"
+                      ng-model="customer.departamento">
+                     </div>
+                     </div>
+                     <div class="col-md-3"> 
+                    <div class="form-group" >
+                      <label for="pais">País</label>
+                      <input type="text" class="form-control" name="pais" placeholder="Perú"
+                      ng-model="customer.pais">
+                     </div>
+                     </div>
+                     </div>
+                    <div class="form-group" >
+                      <label for="notas">Notas</label>
+                      <input type="notas" class="form-control" name="notas" placeholder="..."
+                      ng-model="customer.notas"></input>
+                     </div>
+                      </div>
+                        <!--================================================-->
+                        <div class="modal-footer" >
+                          <button type="submit" class="btn btn-primary" ng-click="createCustomer()">Crear</button>
+                          <a  class="btn btn-danger" data-dismiss="modal" aria-hidden="ngenabled">Salir</a>
+                      </div>
+                    </form>
+                  </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- =========================================Ventana Agregar Año=================================-->
+         <div class="container"  style="margin-top: 60px;">
+           <div  class="modal fade" id="miventana1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="ngenabled">
+             <div  class="modal-dialog">
+                  <div style="border-radius: 5px" class="modal-content">
+                        <div class="modal-header" style="background-color: #0673B3; border-radius: 5px; color: #E2E2EC;">
+                    
+                          <h4 class="modal-title">Realizar Pago</h4>
+                        </div>
+                        <!--=================cueropo========================-->
+                <div class="modal-body">
+              <div class="row" >
+                <div class="col-md-5"> 
+                  <table class="table table-bordered">
+                    <tr>
+                      <td>Cash</td>
+                      <td>
+                        <input type="number" class="form-control" name="cash" placeholder=""
+                          ng-model="pago.cash" ng-change="calcularVuelto()"></input>
+                      </td>                    
+                    </tr>
+                    <tr>
+
+                      <td>Tarjeta</td>
+                      <td><input type="number" class="form-control" name="tarjeta" placeholder=""
+                          ng-model="pago.tarjeta" ng-change="calcularVuelto()"></input>
+                      </td>
+                    </tr>
+                    <tr> 
+                      <td>
+                          
+                      </td>
+                      <td>
+                        <div class="btn-group">
+                          <label class="btn btn-primary" ng-model="radioModel" btn-radio="'2'">Visa</label>
+                          <label class="btn btn-primary" ng-model="radioModel" btn-radio="'3'">MasterCard</label>
+                        </div>  
+                      </td>                    
+                    </tr>                                    
+                    <tr>
+                      <td></td>
+                      <td>
+                        <div class="form-group">
+                          <input type="checkbox" name="estado" ng-model="acuenta" ng-checked="acuenta" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="baseestado()">
+                          <label for="estado">Acuenta</label>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                  <div class="col-md-7">
+                    <table class="table table-bordered">
+                      <tr>
+                        <td>Sub Total</td>
+                        <td style="font-size:150%;">S/. @{{sale.montoBruto | number:2}}</td>                    
+                      </tr>
+                      <tr> 
+                        <td>IGV</td>
+                        <td style="font-size:150%;">S/. @{{sale.igv | number:2}}</td>                    
+                      </tr>
+                      <tr style="border-bottom: solid; border-width: medium;">
+                        <td>Descuento</td>
+                        <td style="font-size:150%;">S/. @{{sale.descuento | number:2}}</td>
+                      </tr>  
+                      <tr>
+                        <td><b>Total Pagar</b></td>
+                        <td><b  style="font-size:150%;">S/. @{{sale.montoTotal | number:2}}</b></td>                    
+                      </tr> 
+                      <tr>
+                        <td><b>Vuelto</b></td>
+                        <td><b style="font-size:150%;">S/. @{{sale.vuelto | number:2}}</b></td>                    
+                      </tr>                                   
+                    </table>
+
+                </div>
+                </div>
+                   
+                </div>
+
+                        <!--================================================-->
+                        <div class="modal-footer" >
+                          <button type="submit" class="btn btn-primary" ng-click="realizarPago()">Cobrar</button>
+                          <a  class="btn btn-danger" data-dismiss="modal" aria-hidden="ngenabled">Salir</a>
+                      </div>
+                    </form>
+                  </div>
+              </div>
+            </div>
+          </div>

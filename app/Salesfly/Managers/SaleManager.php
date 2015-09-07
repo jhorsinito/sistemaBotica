@@ -1,6 +1,6 @@
 <?php
 namespace Salesfly\Salesfly\Managers;
-class OrderSaleManager extends BaseManager {
+class SaleManager extends BaseManager {
 
     public function getRules()
     {

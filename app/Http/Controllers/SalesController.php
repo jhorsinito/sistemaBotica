@@ -70,7 +70,7 @@ class SalesController extends Controller
         return View('sales.form_edit');
     }
 
-    public function create(Request $request)
+    public function create(Request $request) 
         {
         $orderSale = $this->saleRepo->getModel();
 

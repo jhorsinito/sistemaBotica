@@ -9,6 +9,8 @@ class StockManager extends BaseManager {
             'stockActual'=>'between:0,9999999999.00',
             'stockMin'=>'between:0,9999999999.00',
             'stockMinSoles'=>'between:0,9999999999.00',
+            'stockPedidos'=>'between:0,9999999999.00',
+            'stockSeparados'=>'between:0,9999999999.00',
             'variant_id'=>'required',
             'warehouse_id'=>'required'
         ];
