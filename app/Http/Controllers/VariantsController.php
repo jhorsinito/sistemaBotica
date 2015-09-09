@@ -92,6 +92,7 @@ class VariantsController extends Controller
 
     public function create(Request $request)
     {
+        \DB::beginTransaction();
         //var_dump($request->all()); die();
 
         $oProd = Product::find($request->input('product_id'));
@@ -178,7 +179,7 @@ class VariantsController extends Controller
 
             //================================./ADD IMAGE TO VAR==============================//
 
-
+            \DB::commit();
             return response()->json(['estado'=>true, 'nombres'=>$variant->nombre]);
         }else{
             return response()->json(['estado'=>'Prod sin variantes']);
@@ -190,6 +191,7 @@ class VariantsController extends Controller
     }
 
     public function edit(Request $request){
+        \DB::beginTransaction();
         //var_dump($request->all()); die();
 
         $oProd = Product::find($request->input('product_id'));
@@ -274,6 +276,7 @@ class VariantsController extends Controller
                     }
                 //}
             }
+            \DB::commit();
             return response()->json(['estado'=>true, 'nombres'=>$variant->nombre]);
         }else{
             return response()->json(['estado'=>'Prod sin variantes']);
@@ -305,6 +308,7 @@ class VariantsController extends Controller
     }
 
     public function disablevar($id){
+        \DB::beginTransaction();
         //print_r($id); die();
         $variant = Variant::find($id);
         $estado = $variant->estado;
@@ -314,6 +318,7 @@ class VariantsController extends Controller
             $variant->estado = 1;
         }
         $variant->save();
+        \DB::commit();
         return response()->json(['estado'=>true]);
     }
 

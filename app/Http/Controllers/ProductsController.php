@@ -107,6 +107,7 @@ class ProductsController extends Controller
 
     public function create(Request $request)
     {
+        \DB::beginTransaction();
         //$request->merge(array('sdf' => 'hola'));
         //var_dump($request->all()); die();
         $product = $this->productRepo->getModel();
@@ -201,7 +202,7 @@ class ProductsController extends Controller
         }
 
         //================================./ADD IMAGE TO PROD==============================//
-
+        \DB::commit();
         return response()->json(['estado'=>true, 'nombres'=>$product->nombre]);
     }
 
@@ -219,7 +220,7 @@ class ProductsController extends Controller
 
     public function edit(Request $request)
     {
-
+        \DB::beginTransaction();
 
         //$customer = $this->customerRepo->find($request->id);
         //$manager = new CustomerManager($customer,$request->except('fechaNac'));
@@ -323,6 +324,7 @@ class ProductsController extends Controller
 
         //================================./ADD IMAGE TO PROD==============================//
 
+        \DB::commit();
         return response()->json(['estado'=>true, 'nombres'=>$product->nombre]);
     }
 
@@ -347,14 +349,24 @@ class ProductsController extends Controller
 
     public function disableprod($proId){
         //print_r($proId);
+        \DB::beginTransaction();
         $product = Product::find($proId);
         $estado = $product->estado;
-        if($estado == 1){
-            $product->estado = 0;
-        }else{
-            $product->estado = 1;
+        if($product->hasVariant == 0) {
+            $variant = $product->variant;
+            if ($estado == 1) {
+                $product->estado = 0;
+                $variant->estado = 0;
+
+            } else {
+                $product->estado = 1;
+                $variant->estado = 1;
+            }
         }
         $product->save();
+        //die();
+        $variant->save();
+        \DB::commit();
         return response()->json(['estado'=>true]);
     }
 
