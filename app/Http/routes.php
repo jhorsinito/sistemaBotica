@@ -100,6 +100,7 @@ Route::get('api/products/pag',['as' => 'prod_pag', 'uses' => 'ProductsController
 Route::post('api/products/create',['as'=>'product_create', 'uses'=>'ProductsController@create']);
 Route::put('api/products/edit',['as'=>'product_edit', 'uses'=>'ProductsController@edit']);
 Route::post('api/products/destroy',['as'=>'product_destroy', 'uses'=>'ProductsController@destroy']);
+Route::get('api/products/disableprod/{id}',['as'=>'product_disabled', 'uses'=>'ProductsController@disableprod']);
 
 Route::get('api/products/search/{q?}',['as'=>'product_search', 'uses'=>'ProductsController@search']);
 Route::get('api/productName/search/{q?}',['as'=>'product_search', 'uses'=>'ProductsController@searchProducts']);
@@ -425,6 +426,7 @@ Route::get('api/variants/paginate/','VariantsController@paginatep');
 Route::get('api/variants/find/{id}','VariantsController@find');
 Route::get('api/variants/getAttr/{id}','VariantsController@getAttr');
 Route::put('api/variants/editFavorito/','VariantsController@editFavoritos');
+Route::get('api/variants/disablevar/{id}',['as'=>'variant_disabled', 'uses'=>'VariantsController@disablevar']);
 
 Route::post('api/detailOrderPurchases/create','DetailOrderPurchasesController@create');
 Route::get('api/detailOrderPurchases/all/{estado}',['as'=>'person_all', 'uses'=>'DetailOrderPurchasesController@all']);

@@ -81,6 +81,7 @@
                     @if(!empty(Auth()->user()))
                       {{Auth()->user()->name}}
                       <small>Miembro desde {{Auth()->user()->created_at}}</small>
+                    <p class="text-muted text-center">{{Auth()->user()->email}}</p>
                       @else
                         Not user
                         <small>Miembro desde --</small>
@@ -137,80 +138,66 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">Navegación</li>
-            <li class="treeview active">
+            <li><a href="/"><i class="fa fa-home"></i> <span>Home</span></a></li>
+            <li class="treeview">
               <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
+                <i class="fa fa-wrench"></i>
+                <span>Configuración</span>
+                <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li class=""><a href="/"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-
+                <li class=""><a href="/users" ><i class="fa fa-circle-o"></i>Usuarios</a></li>
+                <li class=""><a href="/employees" ><i class="fa fa-circle-o"></i>Empleados</a></li>
+                  <li><a href="/stores"><i class="fa fa-circle-o"></i>Tienda </a></li>
+                <li><a href="/warehouses"><i class="fa fa-circle-o"></i>Almacenes </a></li>
               </ul>
             </li>
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-files-o"></i>
-                <span>Clientes</span>
+                <i class="fa fa-barcode"></i>
+                <span>Productos</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li class="active"><a href="/customers" ><i class="fa fa-circle-o"></i>Clientes</a></li>
+                <li class=""><a href="/products" ><i class="fa fa-circle-o"></i>Productos</a></li>
+                <li class=""><a href="/purchases" ><i class="fa fa-circle-o"></i>Control de Stock</a></li>
+                <li class=""><a href="/brands" ><i class="fa fa-circle-o"></i>Marcas</a></li>
+                <li><a href="/types"><i class="fa fa-circle-o"></i>Líneas </a></li>
+                <li><a href="/materials"><i class="fa fa-circle-o"></i>Materiales </a></li>
+                <li><a href="/stations"><i class="fa fa-circle-o"></i>Estaciones </a></li>
+                <li><a href="/atributes"><i class="fa fa-circle-o"></i>Atributos </a></li>
+                <li><a href="/suppliers"><i class="fa fa-circle-o"></i>Proveedores </a></li>
               </ul>
             </li>
             <li class="">
-                          <a href="/employees">
-                            <i class="fa fa-th"></i> <span>Vendedores</span> <small class="label pull-right bg-green">new</small>
+                          <a href="/sales/create">
+                            <i class="fa fa-shopping-cart"></i> <span>Vender!</span>
                           </a>
              </li>
-             <li class="">
-                    <a href="/users">
-                        <i class="fa fa-th"></i> <span>Usuarios</span> <small class="label pull-right bg-green">new</small>
-                   </a>
-              </li>
-              <li class="">
-                   <a href="/warehouses">
-                       <i class="fa fa-th"></i> <span>Almacenes</span> <small class="label pull-right bg-green">new</small>
-                    </a>
-               </li>
-               <li class="">
-                                  <a href="/types">
-                                      <i class="fa fa-th"></i> <span>Categorías</span> <small class="label pull-right bg-green">new</small>
-                                   </a>
-                              </li>
-                 <li class="">
-                                                  <a href="/materials">
-                                                      <i class="fa fa-th"></i> <span>Materiales</span> <small class="label pull-right bg-green">new</small>
-                                                   </a>
-                                              </li>
-                 <li class="">
-                                                                  <a href="/products">
-                                                                      <i class="fa fa-th"></i> <span>Productos</span> <small class="label pull-right bg-green">new</small>
-                                                                   </a>
-                                                              </li>
-                  <li class="">
-                                                                   <a href="/stations">
-                                                                       <i class="fa fa-th"></i> <span>Estaciones</span> <small class="label pull-right bg-green">new</small>
-                                                                    </a>
-                                                               </li>
-                     <li class="">
-                                                                      <a href="/brands">
-                                                                          <i class="fa fa-th"></i> <span>Marcas</span> <small class="label pull-right bg-green">new</small>
-                                                                       </a>
-                                                                  </li>
-                     <li class="">
-                             <a href="/atributes">
-                                 <i class="fa fa-th"></i> <span>Atributos</span> <small class="label pull-right bg-green">new</small>
-                             </a>
-                       </li>
-                    <li class="">
-                                                <a href="/stores">
-                                                    <i class="fa fa-th"></i> <span>Tienda</span> <small class="label pull-right bg-green">new</small>
-                                                </a>
-                                          </li>
-                <li class="">
-                                                                <a href="/suppliers">
-                                                                    <i class="fa fa-th"></i> <span>Proveedores</span> <small class="label pull-right bg-green">new</small>
-                                                                </a>
-                                                          </li>
+            <li class="">
+              <a href="/customers">
+                <i class="fa fa-users"></i> <span>Clientes</span>
+              </a>
+            </li>
+
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-bar-chart-o"></i>
+                <span>Reportes</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li class=""><a href="#" ><i class="fa fa-circle-o"></i>Reporte de Ventas</a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Inventario </a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Pagos a Proveedores </a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Cajas </a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Ventas por Vendedores </a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Movimientos de Almacén </a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Productos por llegar </a></li>
+              </ul>
+            </li>
+
+
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -221,6 +208,108 @@
                     <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
             @yield('content')
+
+
+        @if(Request::is('/'))
+
+          <section class="content-header">
+            <h1>
+              ¡Empezando!
+              <small>Version 2.0</small>
+            </h1>
+            <ol class="breadcrumb">
+              <li class="active"><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+
+            </ol>
+          </section>
+        <section class="content">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="box">
+                <div class="box-header with-border">
+                  <h3 class="box-title">SalesFly</h3>
+                  <div class="box-tools pull-right">
+                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    <div class="btn-group">
+                      <button class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown"><i class="fa fa-wrench"></i></button>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                      </ul>
+                    </div>
+                    <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                  <div class="row">
+                    <div class="col-md-8 col-md-offset-0">
+                        <h4>Completa los primeros pasos para poder empezar a descubrir SalesFly o mira el video de la derecha y
+                        aprenda como hacer su primera venta con los productos de demostración que hemos añadido para usted. </h4>
+                    </div>
+
+                  </div><!-- /.row -->
+                  <div class="row">
+                    <div class="col-md-8">
+
+                      <div class="box box-default collapsed-box">
+                        <div class="box-header with-border">
+                          <h3 class="box-title">1. Añade tus productos</h3>
+                          <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                          </div><!-- /.box-tools -->
+                        </div><!-- /.box-header -->
+                        <div class="box-body">
+                          Puedes agregar manualmente tus productos. Te hemos puesto productos de ejemplo.
+                        </div><!-- /.box-body -->
+
+                      </div><!-- /.box -->
+                    </div>
+                  </div>
+                </div><!-- ./box-body -->
+                <div class="box-footer">
+                  <div class="row">
+                    <div class="col-sm-3 col-xs-6">
+                      <div class="description-block border-right">
+                        <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
+                        <h5 class="description-header">$35,210.43</h5>
+                        <span class="description-text">TOTAL REVENUE</span>
+                      </div><!-- /.description-block -->
+                    </div><!-- /.col -->
+                    <div class="col-sm-3 col-xs-6">
+                      <div class="description-block border-right">
+                        <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
+                        <h5 class="description-header">$10,390.90</h5>
+                        <span class="description-text">TOTAL COST</span>
+                      </div><!-- /.description-block -->
+                    </div><!-- /.col -->
+                    <div class="col-sm-3 col-xs-6">
+                      <div class="description-block border-right">
+                        <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
+                        <h5 class="description-header">$24,813.53</h5>
+                        <span class="description-text">TOTAL PROFIT</span>
+                      </div><!-- /.description-block -->
+                    </div><!-- /.col -->
+                    <div class="col-sm-3 col-xs-6">
+                      <div class="description-block">
+                        <span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>
+                        <h5 class="description-header">1200</h5>
+                        <span class="description-text">GOAL COMPLETIONS</span>
+                      </div><!-- /.description-block -->
+                    </div>
+                  </div><!-- /.row -->
+                </div><!-- /.box-footer -->
+              </div><!-- /.box -->
+            </div><!-- /.col -->
+          </div>
+        </section>
+          @endif
+
+
+
+
         </div>
   <!-- END Content Wrapper. Contains page content -->
 

@@ -21,8 +21,8 @@
    <!-- Tabs within a box -->
    <div class="nav-tabs-custom" align="" id="my_tab">
                 <ul class="nav nav-tabs pull-right">
-                  <li class="active"><a href="#i" data-toggle="tab">Area</a></li>
-                  <li><a ng-model="checked" href="#e" data-toggle="tab">Datos</a></li>
+                  <li class="active"><a href="#i" data-toggle="tab">General</a></li>
+                  <li><a ng-model="checked" href="#e" data-toggle="tab">Ubicación</a></li>
                   <li class="pull-left header"><i class="fa fa-inbox"></i> Crear Empleados</li>
                 </ul>
                 

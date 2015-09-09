@@ -54,6 +54,13 @@
                             <div class="box-header">
                               <h3 class="box-title">Stock de Variantes</h3>
                             </div><!-- /.box-header -->
+                <div class="callout callout-info"  ng-show="variant.id > 0">
+                    <h4>¿ Estás seguro que deseas eliminar a "@{{variant.codigo}}" ?</h4>
+                    <p>
+                        <button type="button" class="btn btn-danger" ng-click="destroyVariant()">Si</button>
+                        <button type="button" class="btn btn-default" ng-click="cancelVariant()">No</button>
+                    </p>
+                </div>
                             <div class="box-body no-padding">
                               <table class="table table-striped">
                                 <tbody><tr>
@@ -83,8 +90,16 @@
                                     <td>@{{row.det_pre[0].price}}</td>
                                     <td>@{{row.stock[0].stockActual}}</td>
                                     <td><a ng-click="editVariant(row)" class="btn btn-warning btn-xs">Editar</a></td>
-                                    <td><a ng-click="" class="btn bg-purple-active color-palette btn-xs">Deshabilitar</a></td>
-                                    <td><a ng-click="deleteUser(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
+                                    <td>
+                                        <span ng-if="row.estado == 1">
+                            <a ng-click="disableVariant(row)" class="btn bg-purple-active color-palette btn-xs">Desactivar</a>
+                        </span>
+                            <span ng-if="row.estado == 0">
+                            <a ng-click="disableVariant(row)" class="btn bg-purple-active color-palette btn-xs">Activar</a>
+                        </span>
+
+                                    </td>
+                                    <td><a ng-click="deleteVariant(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
                                 </tr>
 
 

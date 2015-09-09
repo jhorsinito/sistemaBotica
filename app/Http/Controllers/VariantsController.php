@@ -149,8 +149,16 @@ class VariantsController extends Controller
                     if (isset($stock['stockMinSoles']) && $stock['stockMinSoles'] == null) $stock['stockMinSoles'] = 0;
                     $stock['variant_id'] = $variant->id;
                     $oStock = new StockRepo();
-                    $stockManager = new StockManager($oStock->getModel(), $stock);
-                    $stockManager->save();
+                    $obj = $oStock->getModel()->where('variant_id',$stock['variant_id'])->where('warehouse_id',$stock['warehouse_id'])->first();
+
+                    if(!isset($obj->id)){
+                        $stockManager = new StockManager($oStock->getModel(), $stock);
+                        $stockManager->save();
+                    }else{
+                        $stockManager = new StockManager($obj, $stock);
+                        $stockManager->save();
+                    }
+
                 }
             }
 
@@ -234,16 +242,37 @@ class VariantsController extends Controller
             }
 
             if($request->input('track') == 1) {
-                $variant->warehouse()->detach();
-                foreach ($request->input('stock') as $stock) {
-                    if (isset($stock['stockActual']) && $stock['stockActual'] == null) $stock['stockActual'] = 0;
-                    if (isset($stock['stockMin']) && $stock['stockMin'] == null) $stock['stockMin'] = 0;
-                    if (isset($stock['stockMinSoles']) && $stock['stockMinSoles'] == null) $stock['stockMinSoles'] = 0;
-                    $stock['variant_id'] = $variant->id;
-                    $oStock = new StockRepo();
-                    $stockManager = new StockManager($oStock->getModel(), $stock);
-                    $stockManager->save();
-                }
+                //if (empty($variant->warehouse())) {
+                    //var_dump( $variant->stock ); die();
+                    //$variant->warehouse()->detach();
+                    foreach ($request->input('stock') as $stock) {
+                        if (isset($stock['stockActual']) && $stock['stockActual'] == null) $stock['stockActual'] = 0;
+                        if (isset($stock['stockMin']) && $stock['stockMin'] == null) $stock['stockMin'] = 0;
+                        if (isset($stock['stockMinSoles']) && $stock['stockMinSoles'] == null) $stock['stockMinSoles'] = 0;
+                        $stock['variant_id'] = $variant->id;
+
+
+
+                        $oStock = new StockRepo();
+
+                        //var_dump($stock['variant_id']);
+                        //var_dump($stock['warehouse_id']);
+
+                        $obj = $oStock->getModel()->where('variant_id',$stock['variant_id'])->where('warehouse_id',$stock['warehouse_id'])->first();
+
+                        if(!isset($obj->id)){
+                            $stockManager = new StockManager($oStock->getModel(), $stock);
+                            $stockManager->save();
+                        }else{
+                            $stockManager = new StockManager($obj, $stock);
+                            $stockManager->save();
+                        }
+
+                        //print_r($obj->id); die();
+
+
+                    }
+                //}
             }
             return response()->json(['estado'=>true, 'nombres'=>$variant->nombre]);
         }else{
@@ -252,6 +281,40 @@ class VariantsController extends Controller
 
         //================================./VARIANTES==============================//
 
+    }
+
+    public function destroy(Request $request)
+    {
+        //$customer= $this->productRepo->find($request->id);
+
+        \DB::beginTransaction();
+        $variant = Variant::find($request->id);
+        $product = Product::find($variant->product_id);
+        if($product->hasVariants == 1) {
+            //$variant = Variant::where('product_id', $product->id)->first();
+            $variant->warehouse()->detach();
+            $variant->presentation()->detach();
+            $variant->atributes()->detach();
+            $variant->delete();
+            //die();
+            //$product->delete();
+            //Event::fire('update.customer',$customer->all());
+            \DB::commit();
+        }
+        return response()->json(['estado'=>true, 'nombre'=>$product->nombre]);
+    }
+
+    public function disablevar($id){
+        //print_r($id); die();
+        $variant = Variant::find($id);
+        $estado = $variant->estado;
+        if($estado == 1){
+            $variant->estado = 0;
+        }else{
+            $variant->estado = 1;
+        }
+        $variant->save();
+        return response()->json(['estado'=>true]);
     }
 
 

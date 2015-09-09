@@ -13,10 +13,39 @@ class ProductRepo extends BaseRepo{
 
     public function search($q)
     {
-        $promotion =Product::select('id','nombre','codigo','estado')->where('nombre','like', $q.'%')
-                    //with(['customer','employee'])
-                    ->paginate(15);
-        return $promotion;
+        //$promotion =Product::select('id','nombre','codigo','estado')->where('nombre','like', $q.'%')
+        //            //with(['customer','employee'])
+        //            ->paginate(15);
+        //return $promotion;
+        $products = Product::leftjoin('brands','products.brand_id','=','brands.id')
+            ->leftjoin('types','products.type_id','=','types.id')
+            ->leftjoin('variants','products.id','=','variants.product_id')
+            ->leftjoin('detPres','variants.id','=','detPres.variant_id')
+            ->leftjoin('presentation','detPres.presentation_id','=','presentation.id')
+            ->leftjoin('stock','stock.variant_id','=','variants.id')
+            ->leftjoin('users','users.id','=','products.user_id')
+            ->select(\DB::raw('DISTINCT(products.id) as proId'),'products.codigo as proCodigo','products.nombre as proNombre',
+                'variants.suppPri as varPrice','variants.price as precioProducto','users.name as userNombre','products.estado as proEstado',
+                'brands.nombre as braNombre','products.hasVariants as TieneVariante','products.hasVariants as proHasVar','types.nombre as typNombre','products.created_at as proCreado',
+                \DB::raw('(select count(variants.id) from products inner join variants on products.id = variants.product_id
+where products.hasVariants = true
+and products.id = proId) as proQuantvar'),
+                \DB::raw('(SELECT sum(stock.stockActual)
+FROM products
+INNER JOIN variants ON products.id = variants.product_id
+INNER JOIN stock ON variants.id = stock.variant_id
+WHERE products.id = proId) as stoStockActual'),
+                \DB::raw('( SELECT detPres.price
+FROM products
+INNER JOIN variants ON products.id = variants.product_id
+INNER JOIN detPres ON variants.id = detPres.variant_id
+INNER JOIN presentation ON detPres.presentation_id = presentation.id
+WHERE products.presentation_base = presentation.id and products.id = proId and products.hasVariants = false ) as detPresPri'))
+            //->having()
+            ->groupBy('products.id')
+            ->where('products.nombre','like',$q.'%')
+            ->paginate(15);
+        return $products;
     }
     public function searchProducts($q)
     {
@@ -70,7 +99,7 @@ class ProductRepo extends BaseRepo{
                             ->leftjoin('stock','stock.variant_id','=','variants.id')
                             ->leftjoin('users','users.id','=','products.user_id')
                             ->select(\DB::raw('DISTINCT(products.id) as proId'),'products.codigo as proCodigo','products.nombre as proNombre',
-                              'variants.suppPri as varPrice','variants.price as precioProducto','users.name as userNombre',
+                              'variants.suppPri as varPrice','variants.price as precioProducto','users.name as userNombre','products.estado as proEstado',
                                'brands.nombre as braNombre','products.hasVariants as TieneVariante','products.hasVariants as proHasVar','types.nombre as typNombre','products.created_at as proCreado',
                               \DB::raw('(select count(variants.id) from products inner join variants on products.id = variants.product_id
 where products.hasVariants = true
@@ -187,7 +216,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->leftjoin('stores','stores.id','=','warehouses.store_id')
                             ->leftjoin('presentation as T1','T1.id','=','products.presentation_base')
                             ->leftjoin('equiv','equiv.preFin_id','=','T1.id')
-                            ->join('detPres','detPres.variant_id','=','variants.id')             
+                            ->join('detPres','detPres.variant_id','=','variants.id')
                             ->join('presentation as T2','T2.id','=','detPres.presentation_id')
                             ->select(\DB::raw('variants.sku as SKU ,detPres.id as detPre_id,products.nombre as NombreProducto,materials.nombre as Material,
                               warehouses.nombre as Almacen,stock.stockActual as Stock,detPres.price as precioProducto,
