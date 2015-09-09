@@ -183,7 +183,7 @@ class DetailOrderPurchasesController extends Controller {
   }//fin primer if
 }//fin if primeross
       return response()->json(['estado'=>true]);
-    }*/
+    }*/}
     public function destroy(Request $request)
     {
       

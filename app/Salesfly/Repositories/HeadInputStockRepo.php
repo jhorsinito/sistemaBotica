@@ -16,8 +16,12 @@ class HeadInputStockRepo extends BaseRepo{
         return $brands;
     }
     public function select(){
-       $headInputStock=HeadInputStock::join("warehouses","warehouses.id","=","headInputStocks.warehouses_id")->join('users','users.id','=','headInputStocks.user_id')
-                            ->select(\DB::raw("headInputStocks.*,warehouses.nombre,users.name as nombreUser"))
+       $headInputStock=HeadInputStock::join("warehouses","warehouses.id","=","headInputStocks.warehouses_id")
+                                     ->join('users','users.id','=','headInputStocks.user_id')
+                            ->select(\DB::raw("headInputStocks.*,headInputStocks.warehouDestino_id as destWareh,warehouses.nombre,users.name as nombreUser ,(SELECT (warehouses.nombre ) FROM headInputStocks
+                                INNER JOIN warehouses ON headInputStocks.warehouDestino_id = warehouses.id
+                                where warehouses.id=destWareh
+                                GROUP BY warehouses.id)as nomAlmacen2"))
                             ->groupBy("headInputStocks.id")->paginate(15);
         return $headInputStock;
     }

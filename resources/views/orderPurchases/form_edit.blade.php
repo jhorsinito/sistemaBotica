@@ -231,7 +231,7 @@
                  <!-- <input  type="checkbox"  ng-click="quitarTalla(item.numTalla,cheked1)" ng-model="cheked1"  />@{{item.numTalla}}
                   <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.numTalla)" step="1" rquired>-->
                   <input  type="checkbox"  ng-click="quitarTalla(item.valorDetAtr,cheked1)" ng-model="cheked1"  />@{{item.valorDetAtr}}
-                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(item.detID,item.NombreAtributos,item.varSku,item.varCodigo,item.precioProducto,cantidad,item.valorDetAtr)" step="1" rquired>
+                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(item.detID,item.esBase,item.NombreAtributos,item.varSku,item.varCodigo,item.precioProducto,cantidad,item.valorDetAtr)" step="1" rquired>
               
               </div>    
        </div>
@@ -388,7 +388,7 @@
         <div class="row">
                 <div class="col-md-8">
                 </div>
-                <div class="col-md-4">
+                <div ng-show="orderPurchase.estados==0" class="col-md-4">
                 
                         <div  ng-show="MostrarEdcionStock" class="form-group" >                            
                             <input  type="checkbox"  name="variantes" ng-model="activarCasillas" />
@@ -420,8 +420,9 @@
                       <td ng-hide="true">@{{row.orderPurchases_id}}</td>
                       <td ng-hide="true">@{{row.detPres_id}}</td>
                       <td>@{{row.producto}}</td>
-                      <td><a  popover-trigger="mouseenter" popover="Atributo:@{{variants.Atrdescri}}; Presentacion:@{{variants.nombre}}; 
-                      Equivalencia:@{{variants.equivalencia}} @{{presentation.shortname}}" 
+                      <td><a  popover-trigger="mouseenter" popover="Presentacion:@{{variants.nombre}}; 
+                      Equivalencia:@{{variants.equivalencia}} @{{presentation.shortname}};Pr:@{{variants.Pnombre}};Mr:@{{variants.Bnombre}}
+                      ;Tp:@{{variants.Tnombre}};Mt:@{{variants.Mnombre}}" 
                       ng-mouseover="popover(row)">@{{row.CodigoPCompra}}</a></td>
                       <td>@{{row.cantidad}}</td>
                       <td>@{{row.Cantidad_Ll}}</td>

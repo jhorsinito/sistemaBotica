@@ -509,6 +509,7 @@ Route::post('api/cashHeaders/destroy',['as'=>'person_destroy', 'uses'=>'CashHead
 Route::get('api/cashHeaders/search/{q?}',['as'=>'person_search', 'uses'=>'CashHeadersController@search']);
 Route::get('api/cashHeaders/find/{id}',['as'=>'person_find', 'uses'=>'CashHeadersController@find']);
 Route::get('api/cashHeaders/select','CashHeadersController@select');
+Route::get('api/cashHeaders/cajasActivas','CashHeadersController@cajasActivas');
 Route::get('api/searchHeaders/search/{q?}',['as'=>'person_search', 'uses'=>'CashHeadersController@searchHeader']);
 //Route::get('api/cashHeaders/mostrarCostos/{id}','PromotionsController@mostrarCostos');
 

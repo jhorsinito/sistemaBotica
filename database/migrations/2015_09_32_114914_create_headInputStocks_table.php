@@ -22,6 +22,8 @@ class CreateHeadInputStocksTable extends Migration
             $table->foreign('purchase_id')->references('id')->on('purchases');
             $table->integer('warehouses_id')->unsigned();
             $table->foreign('warehouses_id')->references('id')->on('warehouses');
+            $table->integer('warehouDestino_id')->unsigned();
+            $table->foreign('warehouDestino_id')->references('id')->on('warehouses');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

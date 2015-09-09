@@ -2,13 +2,14 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="tikets" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3f4560c7-1096-4986-9810-0ee6edc1fab2">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="85"/>
 	<parameter name="idVariante" class="java.lang.String"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["/usr/share/nginx/html/salesfly/public/report/"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="cantidad" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select count(*) as total,variants.id as Idvar,products.modelo,variants.codigo,(select GROUP_CONCAT((CONCAT(atributes.nombre,"/",detAtr.descripcion)) SEPARATOR "-") from detAtr left join atributes on atributes.id=detAtr.atribute_id where detAtr.variant_id=Idvar and atributes.nombre='Taco' )as Taco,(select GROUP_CONCAT((CONCAT(atributes.nombre,"/",detAtr.descripcion)) SEPARATOR "-") from detAtr left join atributes on atributes.id=detAtr.atribute_id where detAtr.variant_id=Idvar and atributes.nombre='Talla' )as Talla from detPres inner join variants on variants.id=detPres.variant_id inner join products on products.id=variants.product_id left join detAtr on detAtr.variant_id=variants.id left join atributes on atributes.id=detAtr.atribute_id inner join detailPurchases on detPres.id=detailPurchases.detPres_id where detailPurchases.purchases_id=$P{idVariante} group by detAtr.id]]>
+		<![CDATA[select count(*) as total,variants.id as Idvar,products.modelo,variants.codigo,(select GROUP_CONCAT((CONCAT(atributes.nombre,"/",detAtr.descripcion)) SEPARATOR "-") from detAtr left join atributes on atributes.id=detAtr.atribute_id where detAtr.variant_id=Idvar and atributes.nombre='Taco' )as Taco,(select GROUP_CONCAT((CONCAT(atributes.nombre,"/",detAtr.descripcion)) SEPARATOR "-") from detAtr left join atributes on atributes.id=detAtr.atribute_id where detAtr.variant_id=Idvar and atributes.nombre='Talla' )as Talla from detPres inner join variants on variants.id=detPres.variant_id inner join products on products.id=variants.product_id left join detAtr on detAtr.variant_id=variants.id left join atributes on atributes.id=detAtr.atribute_id inner join detailPurchases on detPres.id=detailPurchases.detPres_id where detailPurchases.purchases_id=$P{idVariante} group by variants.id]]>
 	</queryString>
 	<field name="total" class="java.lang.Long">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -54,6 +55,7 @@
 	</columnHeader>
 	<detail>
 		<band height="115">
+			<printWhenExpression><![CDATA[boolean($F{total}>10)]]></printWhenExpression>
 			<rectangle>
 				<reportElement x="10" y="10" width="217" height="97" uuid="8e0f22e6-9982-4cb1-94da-8d7147d632d9"/>
 			</rectangle>

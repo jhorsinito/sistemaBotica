@@ -93,9 +93,11 @@ class PurchasesController extends Controller {
         $payment = $this->paymentRepo->getModel();
         $pendientAccount=$this->pendientAccountRepo->getModel();
         $var = $request->detailOrderPurchases;
+        //var_dump($var);
         $almacen_id=$request->input("warehouses_id");
         $codOrder=$request->input("orderPurchase_id");
         $fechaActual=$request->input("fecha");
+        //var_dump($fechaActual);die();
         //=============================Creando compra =============================
        //var_dump($var); die();
         $manager = new PurchaseManager($purchase,$request->except('fechaEntrega'));
@@ -177,6 +179,7 @@ class PurchasesController extends Controller {
            $object['purchases_id'] = $temporal;
            $object['purchase_id']=$temporal;
            $object['Fecha']=$fechaActual;
+           //var_dump($object);die();
            $detailPurchaseRepox = new DetailPurchaseRepo;
            $insertar=new DetailPurchaseManager($detailPurchaseRepox->getModel(),$object);
            $insertar->save();
@@ -201,18 +204,24 @@ class PurchasesController extends Controller {
                
           if($codigoHeadIS===0 && $cantidaCalculada>0){
                $headInputStock = $this->headInputStockRepo->getModel();
-              // var_dump($object);die();
+              //var_dump($object);die();
                $object["user_id"]=auth()->user()->id;
                $inserHeadInputStock = new HeadInputStockManager($headInputStock,$object);
                $inserHeadInputStock->save();
                $codigoHeadIS=$headInputStock->id;
                }
-       ////======================Registrando en notas de detalles===============================
+       ////======================Registrando en notas de detalles===============================cantidad_llegado
+              if(!empty($object["equivalencia"])){
+                if($object["equivalencia"]>0){
+                  $object["cantidad_llegado"]=$object["cantidad_llegado"]*$object["equivalencia"];
+                }
+              }
               $object['headInputStock_id']=$codigoHeadIS;
               $inserInputStock = new inputStockManager($inputStock,$object);
               $inserInputStock->save();
             if(!empty($stockac)){ 
                 if($object["esbase"]==0){
+                  //var_dump($object);die();
                   $object["stockActual"]=$stockac->stockActual+($cantidaCalculada*$object["equivalencia"]);
                 }else{
                   $object["stockActual"]=$stockac->stockActual+$cantidaCalculada;
@@ -244,6 +253,18 @@ class PurchasesController extends Controller {
         
         \JasperPHP::process(
             public_path() . '/report/tikets.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['idVariante' => $temporal],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        \JasperPHP::process(
+            public_path() . '/report/CodigoBarras.jasper', 
             $output, 
             array($ext),
             //array(),

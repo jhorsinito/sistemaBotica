@@ -16,6 +16,10 @@ class CashHeadersController extends Controller
     {
         $this->cashHeaderRepo = $cashHeaderRepo;
     }
+    public function cajasActivas(){
+        $cashHeaders = $this->cashHeaderRepo->cajasActivas();
+        return response()->json($cashHeaders);
+    }
 
     public function all()
     {
