@@ -114,7 +114,7 @@
              <div class="col-md-4">
                 <div class="form-group" ng-class="{true: 'has-error'}[ paymentCreateForm.warehouse.$error.required && paymentCreateForm.$submitted || paymentCreateForm.warehouse.$dirty && paymentCreateForm.warehouse.$invalid]">
                        
-                       <select ng-hide="show" ng-click="TraerSales(item.cashID)" class="form-control" name="warehouse"  ng-model="detPayment.cashe_id" ng-options="item.id as item.nombre for item in cashHeaders" required>
+                       <select ng-hide="show" ng-click="TraerSales(item.nombre)" class="form-control" name="warehouse"  ng-model="detPayment.cashe_id" ng-options="item.id as item.nombre for item in cashHeaders" required>
                        <option value="">--Elija Caja--</option>
                        </select>
                        <label ng-show="paymentCreateForm.$submitted || paymentCreateForm.warehouse.$dirty && paymentCreateForm.warehouse.$invalid">
