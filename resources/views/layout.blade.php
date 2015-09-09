@@ -174,6 +174,19 @@
                             <i class="fa fa-shopping-cart"></i> <span>Vender!</span>
                           </a>
              </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-calculator"></i>
+                <span>Cajas</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li class=""><a href="/cashHeaders" ><i class="fa fa-circle-o"></i>Cajas</a></li>
+                <li class=""><a href="/cashMonthlys" ><i class="fa fa-circle-o"></i>Gastos de Caja Mensual</a></li>
+                <li class=""><a href="/cashes" ><i class="fa fa-circle-o"></i>Ver Cajas Abiertas</a></li>
+
+              </ul>
+            </li>
             <li class="">
               <a href="/customers">
                 <i class="fa fa-users"></i> <span>Clientes</span>

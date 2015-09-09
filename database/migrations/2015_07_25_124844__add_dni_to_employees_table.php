@@ -14,7 +14,7 @@ class AddDniToEmployeesTable extends Migration
     {
         Schema::table('employees', function (Blueprint $table) {
             //
-            $table->char('dni',8); //1-> activo, 0 -> no activo;
+            $table->char('dni',8)->unique();
         });
     }
 
@@ -27,7 +27,7 @@ class AddDniToEmployeesTable extends Migration
     {
         Schema::table('employees', function (Blueprint $table) {
             //
-            $table->dropColumn('dni'); //1-> activo, 0 -> no activo;
+            $table->dropColumn('dni');
         });
     }
 }

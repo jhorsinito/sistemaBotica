@@ -8,7 +8,7 @@ class EmployeeManager extends BaseManager {
         $rules = [  
                     'nombres'=>'required',
                             'apellidos'=>'required',
-                            'codigo'=>'required',
+                            'codigo'=>'required|unique:employees,codigo,'.$this->entity->id,
                             'fechanac'=>'',
                             'fijo'=>'',
                             'movil'=>'',
@@ -24,7 +24,7 @@ class EmployeeManager extends BaseManager {
                             'pais'=>'',
                             'notas'=>'',
                             'estado'=>'',
-                            'dni'=>'required'
+                            'dni'=>'required|unique:employees,dni,'.$this->entity->id,
                   ];
         return $rules;
     }

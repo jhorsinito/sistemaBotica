@@ -14,16 +14,16 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
          
-        //$this->call(StoreTableSeeder::class);
-         //$this->call(RoleTableSeeder::class);
-         //$this->call(UserTableSeeder::class);
-         //$this->call(monthTableSeeder::class);
-         //$this->call(PresentationTableSeeder::class);
-         //$this->call(methodPaymentsTableSeeder::class);
-         //$this->call(AtributeTableSeeder::class);
-         //$this->call(StationTableSeeder::class);
-         //$this->call(SaleMethodPaymentTableSeeder::class);
-        $this->call(CashMotivesTableSeeder::class);
+         $this->call(StoreTableSeeder::class);
+         $this->call(RoleTableSeeder::class);
+         $this->call(UserTableSeeder::class);
+         $this->call(monthTableSeeder::class);
+         $this->call(PresentationTableSeeder::class);
+         $this->call(methodPaymentsTableSeeder::class);
+         $this->call(AtributeTableSeeder::class);
+         $this->call(StationTableSeeder::class);
+         $this->call(SaleMethodPaymentTableSeeder::class);
+        //$this->call(CashMotivesTableSeeder::class);
         Model::reguard();
     }
 }
