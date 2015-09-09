@@ -35,7 +35,7 @@
                     <div class="col-md-3">
                       <label>Busqueda por Año</label>
                         <select class="form-control" name="" ng-model="cashMonthly.years_id" ng-options="item.id as item.year for item in years" ng-click="buscarTodo()">
-                        <option value="">--</option>
+                        <option value="">Todos</option>
                       </select>
 
                     </div>
@@ -45,7 +45,7 @@
                           <label for="month">Buscar por Mes</label>
 
                           <select class="form-control" name="" ng-model="cashMonthly.months_id" ng-options="item.id as item.month for item in months"  ng-click="buscarTodo()">
-                          <option value="">--</option>
+                          <option value="">Todos</option>
                           </select>                          
                         </div>
                       </div>
@@ -56,11 +56,17 @@
                          <label for="expense">Buscar por Concepto</label>
 
                           <select class="form-control" name="" ng-model="cashMonthly.expenseMonthlys_id" ng-options="item.id as item.name for item in expenses" ng-click="buscarTodo()">
-                          <option value="">--</option>
+                          <option value="">Todos</option>
                           </select>
                           
                           </div>
                           </div>
+                      <div class="col-md-3">
+                        <div class="form-group" >
+                          <label for="amount">Monto Acumulado</label>
+                          <input type="acumulado" class="form-control" name="acumulado" ng-disabled="true" ng-model="acumulado">
+                      </div> 
+                      </div>
 
                   </div>
                   

@@ -6,6 +6,7 @@ class SaleManager extends BaseManager {
     {
         $rules = [              
             'fechaPedido'=> 'required',
+            'fechaEntrega'=>'',
             'montoTotal'=> '',
             'montoBruto'=> '',
             'descuento'=> '',

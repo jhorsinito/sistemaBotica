@@ -15,6 +15,7 @@ class AddFieldsToVariants extends Migration
         Schema::table('variants', function (Blueprint $table) {
             //
             $table->string('codigo')->nullable()->after('id');
+            $table->boolean('estado'); //false..deshabilitado, true habilitado , puede ser comprado o vendido
             $table->boolean('observado')->nullable();
             $table->text('nota')->nullable();
             $table->text('image')->nullable();

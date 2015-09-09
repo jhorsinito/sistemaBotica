@@ -1,6 +1,5 @@
-
 <?php
-namespace Salesfly\Salesfly\Repositories;
+namespace Salesfly\Salesfly\Repositories; 
 use Salesfly\Salesfly\Entities\Month;
 
 class MonthRepo extends BaseRepo{

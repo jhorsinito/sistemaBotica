@@ -22,24 +22,24 @@
                 $scope.createcash = function(){
 
                     if ($scope.cashCreateForm.$valid) {
-                        $scope.detCash.cash_id=$scope.cash.id;
-                        $scope.detCash.fecha=$scope.date.getFullYear()+'-'+$scope.date.getMonth()+'-'+$scope.date.getDay();
-                        $scope.detCash.hora=$scope.date.getHours()+':'+$scope.date.getMinutes()+':'+$scope.date.getSeconds();
-                        $scope.detCash.montoCaja=$scope.cash.montoBruto;
+                            $scope.detCash.cash_id=$scope.cash.id;
+                            $scope.detCash.fecha=$scope.date.getFullYear()+'-'+$scope.date.getMonth()+'-'+$scope.date.getDay();
+                            $scope.detCash.hora=$scope.date.getHours()+':'+$scope.date.getMinutes()+':'+$scope.date.getSeconds();
+                            $scope.detCash.montoCaja=$scope.cash.montoBruto;
                         
-                        crudService.create($scope.detCash, 'detCashes').then(function (data) {
-                           $log.log($scope.detCash);
-                           $log.log(data);
-                            if (data['estado'] == true) { 
-                                //$scope.success = data['nombres'];
-                                alert('grabado correctamente');
-                                //$location.path('/detCashes');
+                            crudService.create($scope.detCash, 'detCashes').then(function (data) {
+                            //$log.log($scope.detCash);
+                            //$log.log(data);
+                                if (data['estado'] == true) { 
+                                    //$scope.success = data['nombres'];
+                                    alert('grabado correctamente');
+                                    //$location.path('/detCashes');
 
-                            } else {
-                                $scope.errors = data;
+                                } else {
+                                    $scope.errors = data;
 
-                            }
-                        });
+                                }
+                            });
                     }
 
                     if($scope.tipo=='+'){
@@ -95,8 +95,12 @@
                     }
                 };
                  $scope.calculate = function() {
-                    alert($scope.tipo);
-                    
+                    //alert($scope.tipo);
+                    if($scope.detCash.montoMovimientoEfectivo+$scope.detCash.montoMovimientoTarjeta>$scope.cash.montoBruto && $scope.tipo=='-'){
+                        alert("Monto Insuficiente");
+                        $scope.detCash.montoMovimientoEfectivo=0;
+                        $scope.detCash.montoMovimientoTarjeta=0;
+                    }else{
                     if($scope.tipo=='+'){
                         if ($scope.detCash.montoMovimientoTarjeta==undefined) {$scope.detCash.montoMovimientoTarjeta=0};
                         if ($scope.detCash.montoMovimientoEfectivo==undefined) {$scope.detCash.montoMovimientoEfectivo=0};
@@ -108,6 +112,7 @@
                         $scope.detCash.montoFinal=Number($scope.cash.montoBruto)-(Number($scope.detCash.montoMovimientoTarjeta)+Number($scope.detCash.montoMovimientoEfectivo));                    
                     }
                     $log.log($scope.detCash);
+                    }
                     
                 };
                 

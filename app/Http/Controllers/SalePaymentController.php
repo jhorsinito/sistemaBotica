@@ -24,4 +24,11 @@ class SalePaymentController extends Controller {
 
         return response()->json($detOrder);
     }
+    public function searchPaymentOrder($id)
+    {
+        //$q = Input::get('q');
+        $detOrder = $this->salePaymentRepo->searchPaymentOrder($id);
+
+        return response()->json($detOrder);
+    }
 }

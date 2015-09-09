@@ -149,7 +149,9 @@
                 </div><!-- /.box-body -->
       <div class="box-body">
 <div class="row">
-     <div  class="col-md-6" align="center">
+      <div  class="col-md-6" align="center" ng-if="payment[0].Saldo==0">
+      </div>
+     <div  class="col-md-6" align="center"ng-if="payment[0].Saldo!=0">
                  <div  class="form-group" >
                       <b>Agrega Pago</b>
                  </div>
@@ -190,6 +192,9 @@
               </td>
               </tr>
             </table>
+            <div class="form-group" >
+                    <button class=" label-default" type='submit' ng-click='createdetPayment()' >Registrar Pago</button>  
+                  </div>
         </div>
         <div class="col-md-6" align="center">
             <div class="form-group">
@@ -226,10 +231,7 @@
                 </div>
             </div>
       </div>
-            <div class="form-group" >
-                    <button class=" label-default" type='submit' ng-click='createdetPayment()' >Registrar Pago</button>  
-                  </div> 
-        </div>
+
      
              
                   <div class="box-footer">
@@ -247,7 +249,7 @@
           
 
         
-                   <a href="/orders" class="btn btn-success btn-xs">Regresar</a>
+                   <a href="/sales" class="btn btn-success btn-xs">Regresar</a>
                   </div>
                 </form>
               </div><!-- /.box -->

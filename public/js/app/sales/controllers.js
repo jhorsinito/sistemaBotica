@@ -5,7 +5,7 @@
                 
                 $scope.errors = null;
                 $scope.success;
-                $scope.query = '';
+                $scope.query = ''; 
                 /*
 
                 $scope.orders = [];
@@ -190,15 +190,20 @@
                     });
                 }
                 $scope.actualizarCaja= function(){
-                    crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,1).then(function (data){
-                                    $scope.detCashes = data.data;
-                                    $scope.maxSize1 = 5;
-                                        $scope.totalItems1 = data.total;
-                                        $scope.currentPage1 = data.current_page;
-                                        $scope.itemsperPage1 = 15;
-
-                                        //$log.log($scope.detCashes);
-                                    });
+                    //$log.log($scope.cashfinal);
+                    $scope.detCashes={};
+                    if ($scope.cashfinal.estado == 0) {       
+                        //alert("Caja Cerrada");
+                    }else{
+                        crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,1).then(function (data){
+                            $scope.detCashes = data.data;
+                            $scope.maxSize1 = 5;
+                            $scope.totalItems1 = data.total;
+                            $scope.currentPage1 = data.current_page;
+                            $scope.itemsperPage1 = 15;
+                        });
+                    }
+                        
                 }
                 $scope.pageChanged1 = function() {
                     if ($scope.query.length > 0) {
@@ -459,14 +464,21 @@
                 $scope.varianteSkuSelected;
                 $scope.varianteSkuSelected1=undefined;
                 $scope.getvariantSKU = function(size) {
-                    if($scope.varianteSkuSelected.length <10){
+                    if($scope.varianteSkuSelected.length <4){
                         //alert("hola");
-                    }else if($scope.varianteSkuSelected.length==10){
-                        alert("entre" + $scope.varianteSkuSelected);
+                    }else if($scope.varianteSkuSelected.length >= 4){
+                        //alert("entre" + $scope.varianteSkuSelected);
                         crudServiceOrders.reportProWare('productsSearchsku',$scope.store.id,$scope.warehouse.id,$scope.varianteSkuSelected).then(function(data){    
                             $scope.varianteSkuSelected1={};
                             $scope.varianteSkuSelected1=data;
-                            $scope.Jalar(size);                                                          
+                            //$log.log($scope.varianteSkuSelected1);
+
+                            if ($scope.varianteSkuSelected1[0].Stock>0) { 
+                                $scope.Jalar(size);
+                            }else{
+                                alert("STOCK INSUFICIENTE");
+                                $scope.varianteSkuSelected=undefined;
+                            }                                                          
                         });
                     }
                 };
@@ -521,7 +533,7 @@
                 $scope.getAtributos = function(val) {
                   return crudServiceOrders.reportProWare('products',$scope.store.id,$scope.warehouse.id,val).then(function(response){
                     return response.map(function(item){
-                        $log.log(item);
+                        //$log.log(item);
                       return item;
                     });
                   });
@@ -621,21 +633,26 @@
                                         $scope.detPago.salePayment_id=$scope.payment[0].id;
 
                                         $scope.pagoCredito.detPayments=$scope.detPago;
-                                        //$log.log($scope.pagoCredito);
-                                        $log.log($scope.pagoCredito);
+                                        //--------------
+                                        crudServiceOrders.byId($scope.pagoCredito.sale_id,'sales').then(function (data) {
+                                                $scope.saleCredito=data;
+                                                
+                                                $scope.pagoCredito.sale=$scope.saleCredito;
+                                                $log.log($scope.pagoCredito);
 
-                                        crudServiceOrders.create($scope.pagoCredito, 'saledetPayments').then(function (data) {
+                                            crudServiceOrders.create($scope.pagoCredito, 'saledetPayments').then(function (data) {
                           
-                                            if (data['estado'] == true) {
+                                                if (data['estado'] == true) {
                                 
-                                                alert('grabado correctamente');
-                                                $scope.paginateDetPay($scope.detPago.salePayment_id);
-                                                $scope.pagoCredito={};
-                                                $scope.detPago={};
-                                            } else {
-                                                $scope.errors = data;
+                                                    alert('grabado correctamente');
+                                                    $scope.paginateDetPay($scope.detPago.salePayment_id);
+                                                    $scope.pagoCredito={};
+                                                    $scope.detPago={};
+                                                } else {
+                                                    $scope.errors = data;
 
-                                            }
+                                                }
+                                            });
                                         });
                                     }else{
                                         alert("Pago mayor a la deuda");
@@ -816,7 +833,7 @@
                      title1: 'Descuento'
                      };
 
-                     $scope.dynamicPopover5 = {
+                     $scope.dynamicPopover5 = { 
                      content: 'Hello, World!',
                      templateUrl: 'myPopoverTemplate5.html',
                      title: 'Datos'
@@ -854,20 +871,24 @@
                                         $scope.favoritos=data;
                                     });
                             $scope.atributoSelected=row;
-                            if ($scope.atributoSelected.NombreAtributos!=undefined) {        
-                                $scope.atributoSelected.cantidad=1;
-                                $scope.atributoSelected.descuento=0;
-                                $scope.atributoSelected.subTotal=$scope.atributoSelected.cantidad*Number($scope.atributoSelected.precioProducto);
-                                $scope.atributoSelected.precioVenta=Number($scope.atributoSelected.precioProducto);
+                            if ($scope.atributoSelected.NombreAtributos!=undefined) {
+                                if ($scope.atributoSelected.Stock>0) {         
+                                    $scope.atributoSelected.cantidad=1;
+                                    $scope.atributoSelected.descuento=0;
+                                    $scope.atributoSelected.subTotal=$scope.atributoSelected.cantidad*Number($scope.atributoSelected.precioProducto);
+                                    $scope.atributoSelected.precioVenta=Number($scope.atributoSelected.precioProducto);
                     
-                                $scope.compras.push($scope.atributoSelected);  
+                                    $scope.compras.push($scope.atributoSelected);  
 
-                                $scope.sale.montoTotal=$scope.sale.montoTotalSinDescuento+$scope.atributoSelected.subTotal;
-                                $scope.recalcularCompra();
+                                    $scope.sale.montoTotal=$scope.sale.montoTotalSinDescuento+$scope.atributoSelected.subTotal;
+                                    $scope.recalcularCompra();
 
-                                //$scope.sale.montoTotalSinDescuento=$scope.sale.montoTotal;
-                                //$scope.sale.montoBruto=Number($scope.sale.montoTotal)/1.18;
-                                //$scope.sale.igv=$scope.sale.montoTotal-$scope.sale.montoBruto;
+                                    //$scope.sale.montoTotalSinDescuento=$scope.sale.montoTotal;
+                                    //$scope.sale.montoBruto=Number($scope.sale.montoTotal)/1.18;
+                                    //$scope.sale.igv=$scope.sale.montoTotal-$scope.sale.montoBruto;
+                                }else{
+                                    alert("STOCK INSUFICIENTE");
+                                }
                             }else{
                                 alert("Seleccione Producto Correctamente");
                                 $scope.atributoSelected=undefined;
@@ -1043,6 +1064,7 @@
                 {
                     crudServiceOrders.byId(id,'sales').then(function (data) {
                         $scope.order1 = data;
+                        $log.log($scope.order1)
 
                         crudServiceOrders.search('DetSales',$scope.order1.id,1).then(function (data){
                             $scope.detOrders = data.data;
@@ -1050,7 +1072,7 @@
                         });
                         crudServiceOrders.search('salePayment',$scope.order1.id,1).then(function (data){
                             $scope.payment = data.data;
-                            //$log.log($scope.payment);
+                            $log.log($scope.payment);
                             crudServiceOrders.search('SaleDetPayment',$scope.payment[0].id,1).then(function (data){
                                 $scope.detPayments = data.data;
                                 //$log.log(data);

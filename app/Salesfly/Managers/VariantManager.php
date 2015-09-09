@@ -13,11 +13,12 @@ class VariantManager extends BaseManager{
             'price' => 'between:0,99999.99',
             'track' => 'required|boolean',
             'product_id' => 'required|integer',
-            'observado' => 'boolean',
+            /*'observado' => 'boolean',*/
             'nota' => '',
             'image' => '',
             'category' => 'integer',
-            'favorite'=>'boolean'
+            'favorite'=>'boolean',
+            'user_id' => 'required|integer'
         ];
         return $rules;
     }

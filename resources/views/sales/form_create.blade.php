@@ -639,14 +639,14 @@
                     <tr>
                       <td>Cash</td>
                       <td>
-                        <input type="number" class="form-control" name="cash" placeholder=""
+                        <input type="number" class="form-control" name="cash" placeholder="" min="0.00"
                           ng-model="pago.cash" ng-change="calcularVuelto()"></input>
                       </td>                    
                     </tr>
                     <tr>
 
                       <td>Tarjeta</td>
-                      <td><input type="number" class="form-control" name="tarjeta" placeholder=""
+                      <td><input type="number" class="form-control" name="tarjeta" placeholder="" min="0.00"
                           ng-model="pago.tarjeta" ng-change="calcularVuelto()"></input>
                       </td>
                     </tr>

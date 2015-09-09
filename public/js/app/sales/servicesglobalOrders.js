@@ -2,7 +2,7 @@
     angular.module('crud.services.orders',[])
         .factory('crudServiceOrders',['$http', '$q','$location', function($http, $q,$location){
 
-            $oPresentacion = {};
+            $oPresentacion = {}; 
 
             function all(uri)
             {

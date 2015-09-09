@@ -20,7 +20,9 @@ class Product extends Model
                             'material_id',
                             'station_id',
                             'estado',
-                            'presentation_base'
+                            'modelo',
+                            'presentation_base',
+                            'user_id'
                             ];
     public function brand(){
         return $this->belongsTo('Salesfly\Salesfly\Entities\Brand');
@@ -48,7 +50,9 @@ class Product extends Model
     public function presentation(){
         return $this->hasMany('Salesfly\Salesfly\Entities\Presentation');
     }
-    
+    //public function warehouses(){
+    //    return $this->hasManyThrough('App\Post', 'App\User', 'country_id', 'user_id');
+    //}
     /*
      * Fx para presentations
      */

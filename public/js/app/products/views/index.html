@@ -59,10 +59,11 @@
                       <th>Marca</th>
                       <th>Línea</th>
                         <th>Creado</th>
+                        <th>Por</th>
                         <th>Variantes</th>
                         <th>Stock</th>
                       <th style="width: 40px">Editar</th>
-                        <th>Desactivar</th>
+                        <th>Estado</th>
                       <th style="width: 40px">Eliminar</th>
                     </tr>
                     
@@ -75,6 +76,7 @@
                       <td>{{row.braNombre}}</td>
                       <td>{{row.typNombre}}</td>
                         <td>{{row.proCreado}}</td>
+                        <td>{{row.userNombre}}</td>
                         <td>
                             <span ng-if="row.proHasVar == '1'">
                                         <span ng-if="row.proQuantvar == '0'">0</span>
@@ -87,7 +89,15 @@
                         <td> <button popover-placement="bottom" popover-template="stockTemplate" type="button" class="btn btn-default btn-xs" ng-click="showStock(row.proId)">{{row.stoStockActual}}</button>
                         </td>
                       <td><a ng-click="editProduct(row)" class="btn btn-warning btn-xs">Editar</a></td>
-                        <td><a ng-click="disableProduct(row)" class="btn bg-purple-active color-palette btn-xs">Desactivar</a></td>
+                        <td>
+                            <span ng-if="row.proEstado == 1">
+                            <a ng-click="disableProduct(row)" class="btn bg-purple-active color-palette btn-xs">Desactivar</a>
+                        </span>
+                            <span ng-if="row.proEstado == 0">
+                            <a ng-click="disableProduct(row)" class="btn bg-purple-active color-palette btn-xs">Activar</a>
+                        </span>
+
+                        </td>
                       <td><a ng-click="deleteProduct(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
 
                     </tr>
