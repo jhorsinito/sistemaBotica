@@ -11,7 +11,7 @@
 |
 */
 
-\Debugbar::disable();
+//\Debugbar::disable();
 
 Route::get('/', 'Layout\LayoutController@index');
 
@@ -553,7 +553,7 @@ Route::get('api/cashMotive/search/{q?}',['as'=>'person_search', 'uses'=>'CashMot
 //----------------------------------------------------------------------
 //-----------------------------Cashes---------------------------
 Route::get('sales',['as'=>'person','uses'=>'SalesController@index']);
-Route::get('sales/create',['as'=>'person_create','uses'=>'SalesController@index']);
+Route::get('sales/create/',['as'=>'person_create','uses'=>'SalesController@index']);
 Route::get('sales/edit/{id?}', ['as' => 'person_edit', 'uses' => 'SalesController@index']);
 Route::get('sales/form-create',['as'=>'person_form_create','uses'=>'SalesController@form_create']);
 Route::get('sales/form-edit',['as'=>'person_form_edit','uses'=>'SalesController@form_edit']);
@@ -571,7 +571,9 @@ Route::get('api/detpresPresentation/search/{id?}',['as'=>'person_search', 'uses'
 
 Route::get('api/DetSales/search/{id?}',['as'=>'person_search', 'uses'=>'DetSalesController@searchDetalle']);
 Route::get('api/salePayment/search/{id?}',['as'=>'person_search', 'uses'=>'SalePaymentController@searchPayment']);
+Route::get('api/salePaymentOrder/search/{id?}',['as'=>'person_search', 'uses'=>'SalePaymentController@searchPaymentOrder']);
 Route::get('api/SaleDetPayment/search/{id?}',['as'=>'person_search', 'uses'=>'SaleDetPaymentController@searchDetalle']);
+Route::get('api/DetOrderSales/search/{id?}',['as'=>'person_search', 'uses'=>'DetOrderSalesController@searchDetalle']);
 //Route::get('api/stores/select','StoresController@selectStores');
 Route::get('api/saleMethodPayments/select','SaleMethodPaymentController@select');
 Route::post('api/saledetPayments/create',['as'=>'person_create', 'uses'=>'SaleDetPaymentController@create']);

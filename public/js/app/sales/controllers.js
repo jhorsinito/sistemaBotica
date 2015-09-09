@@ -1064,6 +1064,7 @@
                 {
                     crudServiceOrders.byId(id,'sales').then(function (data) {
                         $scope.order1 = data;
+                        $log.log($scope.order1)
 
                         crudServiceOrders.search('DetSales',$scope.order1.id,1).then(function (data){
                             $scope.detOrders = data.data;

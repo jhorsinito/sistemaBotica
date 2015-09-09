@@ -14,7 +14,7 @@
 
         <section class="content">
         <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12"> 
 
           <div class="box box-primary">
                 <div class="box-header with-border">
@@ -249,7 +249,7 @@
           
 
         
-                   <a href="/sales" class="btn btn-success btn-xs">Regresar</a>
+                   <a href="/orderSales" class="btn btn-success btn-xs">Regresar</a>
                   </div>
                 </form>
               </div><!-- /.box -->
