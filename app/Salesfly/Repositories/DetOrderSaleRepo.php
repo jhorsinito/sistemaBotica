@@ -17,26 +17,28 @@ class DetOrderSaleRepo extends BaseRepo{
                     ->paginate(15);
         return $detSales;
     }
-    public function searchDetalle($id)
+    */
+    public function searchDetalle($id) 
     {
         //$detOrders = \DB::table('detOrders')->leftjoin('detPres','detOrders.detPre_id','=','detPres.id')
-        $detSales =\DB::table('detSales')->leftjoin("detPres","detPres.id","=","detSales.detPre_id")
+        $detOrderSales =\DB::table('detOrderSales')->leftjoin("detPres","detPres.id","=","detOrderSales.detPre_id")
                     ->leftjoin("variants","variants.id","=","detPres.variant_id")
                     ->leftjoin("products","products.id","=","variants.product_id")
                     ->leftjoin("presentation","presentation.id","=","detPres.presentation_id")
                     ->leftjoin("equiv","equiv.preFin_id","=","presentation.id")
                     
-                    ->select(\DB::raw('detSales.*, products.nombre as nameProducto, presentation.nombre as presentacion ,variants.id as vari , (SELECT GROUP_CONCAT(atributes.nombre SEPARATOR "-") FROM variants
+                    ->select(\DB::raw('detOrderSales.*, products.nombre as nameProducto, presentation.nombre as presentacion ,variants.id as vari , 
+                         (SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /") FROM variants
                                 INNER JOIN detAtr ON detAtr.variant_id = variants.id
                                 INNER JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=vari
                                 GROUP BY variants.id) as NombreAtributos'))
 
-                    ->where('sale_id','=', $id.'%')
+                    ->where('orderSale_id','=', $id.'%')
                              
                     //with(['customer','employee'])
                     ->paginate(15);
-        return $detSales;
+        return $detOrderSales;
     }
-    */
+    
 } 

@@ -231,7 +231,10 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->where('stores.id','=',$store)
                             ->where('warehouses.id','=',$were)
                             ->where('variants.codigo','like', $q.'%')
-                            //->where('variants.codigo','like', $q.'%')
+                            ->where('T2.base','=','1')
+                            ->orWhere('stores.id','=',$store)
+                            ->where('warehouses.id','=',$were)
+                            ->where('products.nombre','like', $q.'%')
                             ->where('T2.base','=','1')
                             ->groupBy('variants.id')
                             ->get();

@@ -41,6 +41,7 @@
                 $scope.saledetPayments=[];
                 $scope.saledetPayment={};
                 $scope.date = new Date();
+                $scope.payment={};
             }
             $scope.inicializar();
                 
@@ -53,6 +54,7 @@
                     if ($scope.query.length > 0) {
                         crudServiceOrderSales.search('orderSales',$scope.query,$scope.currentPage).then(function (data){
                         $scope.orderSales = data.data;
+
                     });
                     }else{
                         crudServiceOrderSales.paginate('orderSales',$scope.currentPage).then(function (data) {
@@ -67,7 +69,27 @@
                 if(id)
                 {
                     crudServiceOrderSales.byId(id,'orderSales').then(function (data) {
-                        $scope.orderSale = data;
+                        $scope.order1 = data;
+                        $log.log($scope.order1);
+
+                       crudServiceOrderSales.search('DetOrderSales',$scope.order1.id,1).then(function (data){
+                           $scope.detOrders = data.data;
+                          //$log.log($scope.detOrders); 
+                          //alert("Hola");
+                        });
+                        crudServiceOrderSales.search('salePaymentOrder',$scope.order1.id,1).then(function (data){
+                            $scope.payment = data.data;
+                            //$log.log($scope.payment);
+                            //$log.log($scope.payment);
+                            crudServiceOrderSales.search('SaleDetPayment',$scope.payment[0].id,1).then(function (data){
+                                $scope.detPayments = data.data;
+                                //$log.log(data);
+                            });
+                        });
+                    });
+                    crudServiceOrderSales.select('saleMethodPayments','select').then(function (data) {                        
+                        $scope.saleMethodPayments = data;
+
                     });
                 }else{
                     crudServiceOrderSales.paginate('orderSales',1).then(function (data) {
@@ -76,7 +98,7 @@
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                         $scope.itemsperPage = 15;
-
+                        $log.log($scope.orderSales);
                     });
 
                     crudServiceOrderSales.select('stores','select').then(function (data) {                        
@@ -465,6 +487,7 @@
                     if($scope.pago.tarjeta>0 || $scope.pago.cash>0){
                         if($scope.acuenta){
                             //Inicia Pago Credito 
+                            alert("Credito");
                             if($scope.customersSelected==undefined){
                                 alert("Elija Cliente");
                             }else{
@@ -513,6 +536,7 @@
                            //Termina Pago Credito 
                         }else{
                             //Inicio Pago Contado 
+                            alert("Contado");
                             if($scope.customersSelected==undefined){
                                 alert("Elija Cliente");
                             }else{
@@ -653,6 +677,10 @@
                         });
                     });    
                 }
+
+                $scope.editorder = function(row){
+                    $location.path('/orderSales/edit/'+row.id);
+                };
 
 
                 
