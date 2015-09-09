@@ -550,7 +550,7 @@
 
                 $scope.deleteProduct = function(row){
                     $scope.product = row;
-                    $log.log($scope.product);
+                    //$log.log($scope.product);
                 }
 
                 $scope.cancelProduct = function(){
@@ -572,6 +572,50 @@
                     });
                 }
 
+                $scope.deleteVariant = function(row){
+                    $scope.variant = row;
+                    //$log.log($scope.product);
+                }
+                $scope.cancelVariant = function(){
+                    $scope.variant = {};
+                }
+                $scope.destroyVariant = function(){
+                    crudService.destroy($scope.variant,'variants').then(function(data)
+                    {
+                        if(data['estado'] == true){
+                            $scope.success = data['nombre'];
+                            $scope.variant = {};
+                            //alert('hola');
+                            $route.reload();
+
+                        }else{
+                            $scope.errors = data;
+                        }
+                    });
+                }
+
+                $scope.disableProduct = function(row){
+                    //$log.log(row);
+                    crudService.byforeingKey('products','disableprod',row.proId).then(function(data)
+                    {
+                        if(data['estado'] == true){
+                            $route.reload();
+                        }else{
+                            alert('No se pudo cambiar el estado');
+                        }
+                    });
+                }
+
+                $scope.disableVariant = function(row){
+                    crudService.byforeingKey('variants','disablevar',row.id).then(function(data)
+                    {
+                        if(data['estado'] == true){
+                            $route.reload();
+                        }else{
+                            alert('No se pudo cambiar el estado');
+                        }
+                    });
+                }
                 /*
                 fx de variants
                  */

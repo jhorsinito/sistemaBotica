@@ -10,6 +10,7 @@ use Salesfly\Http\Requests;
 use Salesfly\Http\Controllers\Controller;
 
 use Salesfly\Salesfly\Entities\Product;
+use Salesfly\Salesfly\Entities\Variant;
 use Salesfly\Salesfly\Managers\DetPresManager;
 use Salesfly\Salesfly\Managers\StockManager;
 use Salesfly\Salesfly\Repositories\DetPresRepo;
@@ -106,6 +107,7 @@ class ProductsController extends Controller
 
     public function create(Request $request)
     {
+        \DB::beginTransaction();
         //$request->merge(array('sdf' => 'hola'));
         //var_dump($request->all()); die();
         $product = $this->productRepo->getModel();
@@ -149,7 +151,7 @@ class ProductsController extends Controller
 
             $product->quantVar = 0;
             $product->save();
-            $managerVar = new VariantManager($variant,$request->only('sku','suppPri','markup','price','track','product_id'));
+            $managerVar = new VariantManager($variant,$request->only('sku','suppPri','markup','price','track','product_id','codigo','user_id'));
             $managerVar->save();
 
 
@@ -163,10 +165,22 @@ class ProductsController extends Controller
                 if($request->input('track') == 1) {
                     if(!empty($request->input('stock'))) {
                         foreach ($request->input('stock') as $stock) {
+                            if (isset($stock['stockActual']) && $stock['stockActual'] == null) $stock['stockActual'] = 0;
+                            if (isset($stock['stockMin']) && $stock['stockMin'] == null) $stock['stockMin'] = 0;
+                            if (isset($stock['stockMinSoles']) && $stock['stockMinSoles'] == null) $stock['stockMinSoles'] = 0;
                             $stock['variant_id'] = $variant->id;
-                            $oStock = new StockRepo();
-                            $stockManager = new StockManager($oStock->getModel(), $stock);
-                            $stockManager->save();
+                            $stockRepo = new StockRepo();
+                            $obj = $stockRepo->getModel()->where('variant_id',$stock['variant_id'])->where('warehouse_id',$stock['warehouse_id'])->first();
+
+                            if(!isset($obj->id)){
+                                $stockManager = new StockManager($stockRepo->getModel(), $stock);
+                                $stockManager->save();
+                            }else{
+                                $stockManager = new StockManager($obj, $stock);
+                                $stockManager->save();
+                            }
+                            //$stockManager = new StockManager($oStock->getModel(), $stock);
+                            //$stockManager->save();
                         }
                     }
                 }
@@ -188,7 +202,7 @@ class ProductsController extends Controller
         }
 
         //================================./ADD IMAGE TO PROD==============================//
-
+        \DB::commit();
         return response()->json(['estado'=>true, 'nombres'=>$product->nombre]);
     }
 
@@ -206,7 +220,7 @@ class ProductsController extends Controller
 
     public function edit(Request $request)
     {
-
+        \DB::beginTransaction();
 
         //$customer = $this->customerRepo->find($request->id);
         //$manager = new CustomerManager($customer,$request->except('fechaNac'));
@@ -270,14 +284,27 @@ class ProductsController extends Controller
                 $presManager->save();
             }
             if($request->input('track') == 1) {
-                $variant->warehouse()->detach();
+                //$variant->warehouse()->detach();
                 foreach ($request->input('stock') as $stock) {
+                    if (isset($stock['stockActual']) && $stock['stockActual'] == null) $stock['stockActual'] = 0;
+                    if (isset($stock['stockMin']) && $stock['stockMin'] == null) $stock['stockMin'] = 0;
+                    if (isset($stock['stockMinSoles']) && $stock['stockMinSoles'] == null) $stock['stockMinSoles'] = 0;
                     $stock['variant_id'] = $variant->id;
                     $stockRepo = new StockRepo();
                     //$oStock = $stockRepo->getModel()->where('variant_id',$stock['variant_id'])->where('warehouse_id',$stock['warehouse_id'])->first();
-                    $oStock = $stockRepo->getModel();
+                    $obj = $stockRepo->getModel()->where('variant_id',$stock['variant_id'])->where('warehouse_id',$stock['warehouse_id'])->first();
+
+                    if(!isset($obj->id)){
+                        $stockManager = new StockManager($stockRepo->getModel(), $stock);
+                        $stockManager->save();
+                    }else{
+                        $stockManager = new StockManager($obj, $stock);
+                        $stockManager->save();
+                    }
+                    /*$oStock = $stockRepo->getModel();
                     $stockManager = new StockManager($oStock, $stock);
                     $stockManager->save();
+                    */
                 }
             }
 
@@ -297,17 +324,53 @@ class ProductsController extends Controller
 
         //================================./ADD IMAGE TO PROD==============================//
 
+        \DB::commit();
         return response()->json(['estado'=>true, 'nombres'=>$product->nombre]);
     }
 
     public function destroy(Request $request)
     {
         //$customer= $this->productRepo->find($request->id);
+
+        \DB::beginTransaction();
         $product = Product::find($request->proId);
-        $product->delete();
-        //Event::fire('update.customer',$customer->all());
+        if($product->hasVariants == 0) {
+            $variant = Variant::where('product_id', $product->id)->first();
+            $variant->warehouse()->detach();
+            $variant->presentation()->detach();
+            $variant->delete();
+            //die();
+            $product->delete();
+            //Event::fire('update.customer',$customer->all());
+            \DB::commit();
+        }
         return response()->json(['estado'=>true, 'nombre'=>$product->nombre]);
     }
+
+    public function disableprod($proId){
+        //print_r($proId);
+        \DB::beginTransaction();
+        $product = Product::find($proId);
+        $estado = $product->estado;
+        if($product->hasVariant == 0) {
+            $variant = $product->variant;
+            if ($estado == 1) {
+                $product->estado = 0;
+                $variant->estado = 0;
+
+            } else {
+                $product->estado = 1;
+                $variant->estado = 1;
+            }
+        }
+        $product->save();
+        //die();
+        $variant->save();
+        \DB::commit();
+        return response()->json(['estado'=>true]);
+    }
+
+
     /*
         public function search($q)
         {

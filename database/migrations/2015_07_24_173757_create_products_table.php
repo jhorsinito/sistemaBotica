@@ -15,8 +15,8 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->string('codigo'); //Identificador único para este producto.
-            $table->string('suppCode'); //code para comprar
+            $table->string('codigo')->unique(); //Identificador único para este producto.
+            $table->string('suppCode')->unique(); //code para comprar
             $table->string('descripcion')->nullable();
             $table->text('image')->nullable();
             $table->boolean('hasVariants'); //graba si el producto presenta variantes!! false no true si

@@ -50,7 +50,9 @@ class Product extends Model
     public function presentation(){
         return $this->hasMany('Salesfly\Salesfly\Entities\Presentation');
     }
-    
+    //public function warehouses(){
+    //    return $this->hasManyThrough('App\Post', 'App\User', 'country_id', 'user_id');
+    //}
     /*
      * Fx para presentations
      */
