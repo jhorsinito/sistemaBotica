@@ -16,12 +16,14 @@ class CreateHeadInputStocksTable extends Migration
             $table->increments('id');
             $table->datetime('Fecha');
             $table->string('tipo');
-            $table->integer('orderPurchase_id')->unsigned();
+            $table->integer('orderPurchase_id')->unsigned()->nullable();
             $table->foreign('orderPurchase_id')->references('id')->on('orderPurchases');
-            $table->integer('purchase_id')->unsigned();
+            $table->integer('purchase_id')->unsigned()->nullable();
             $table->foreign('purchase_id')->references('id')->on('purchases');
             $table->integer('warehouses_id')->unsigned();
             $table->foreign('warehouses_id')->references('id')->on('warehouses');
+            $table->integer('warehouDestino_id')->unsigned()->nullable();
+            $table->foreign('warehouDestino_id')->references('id')->on('warehouses');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

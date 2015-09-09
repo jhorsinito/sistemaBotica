@@ -60,7 +60,10 @@
                 </div><!-- /.box-body -->
       <div class="box-body">
 <div class="row">
+
      <div ng-enabled="payment.Saldo>0" class="col-md-6" align="center">
+     <div class="row">
+           <div class="col-md-12">
                  <div  class="form-group" >
                       <b>Agrega Pago</b>
                  </div>
@@ -105,7 +108,25 @@
               </td>
               </tr>
             </table>
+          </div>
         </div>
+        <div class="row">
+             <div class="col-md-4">
+                <div class="form-group" ng-class="{true: 'has-error'}[ paymentCreateForm.warehouse.$error.required && paymentCreateForm.$submitted || paymentCreateForm.warehouse.$dirty && paymentCreateForm.warehouse.$invalid]">
+                       
+                       <select ng-hide="show" ng-click="TraerSales(item.nombre)" class="form-control" name="warehouse"  ng-model="detPayment.cashe_id" ng-options="item.id as item.nombre for item in cashHeaders" required>
+                       <option value="">--Elija Caja--</option>
+                       </select>
+                       <label ng-show="paymentCreateForm.$submitted || paymentCreateForm.warehouse.$dirty && paymentCreateForm.warehouse.$invalid">
+                                <span ng-show="paymentCreateForm.warehouse.$invalid"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                </label>
+                </div>
+            </div>
+            <label>@{{cashHeaders.montoUsable}}</label>
+        </div>
+      </div>
+        
+
         <div class="col-md-6" align="center">
             <div class="form-group">
               <b>Pagos Realizados</b>
@@ -134,14 +155,13 @@
                     
                     
                   </table>
-                  <div class="box-footer clearfix">
+                
+                   <div class="box-footer clearfix">
                   <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" 
-                  class="pagination-sm no-margin pull-right" items-per-page="itemsperPage" boundary-links="true" 
-                  rotate="false" num-pages="numPages" ng-change="pageChanged()"></pagination>
-
-
-
-                </div>
+                  class="pagination-sm no-margin pull-right" items-per-page="itemsperPage" 
+                  boundary-links="true" rotate="false" num-pages="numPages" 
+                  ng-change="pagechan3()"></pagination>
+               </div> 
             </div>
       </div>
             <div ng-hide="mostrarBtnGEd" class="form-group" >

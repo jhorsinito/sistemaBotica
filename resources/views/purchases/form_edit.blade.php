@@ -44,7 +44,9 @@
                          </div>
                           <div  class="input-group">
                                <label>Orden de Pedido:</label>
-                               <spam><a target="_self" ng-href="/orderPurchases/edit/@{{purchases.orderPurchase_id}}">ver Orden de Pedido</a></spam>
+                               <spam ng-if="purchases.orderPurchase_id>0"><a   target="_self" ng-href="/orderPurchases/edit/@{{purchases.orderPurchase_id}}">ver Orden de Pedido</a></spam>
+                               <spam ng-if="purchases.orderPurchase_id==null">No Cuenta con orden de Pedido</spam>
+                         
                          </div>
     </div>   
 

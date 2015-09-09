@@ -18,9 +18,9 @@ class CreatePaymentsTable extends Migration
             $table->decimal('MontoTotal',10,2);
             $table->decimal('Acuenta',10,2);
             $table->decimal('Saldo',10,2);
-            $table->integer('orderPurchase_id')->unsigned();
+            $table->integer('orderPurchase_id')->unsigned()->nullable();
             $table->foreign('orderPurchase_id')->references('id')->on('orderPurchases');
-            $table->integer('purchase_id')->unsigned();
+            $table->integer('purchase_id')->unsigned()->nullable();
             $table->foreign('purchase_id')->references('id')->on('purchases');
             $table->integer('supplier_id')->unsigned();
             $table->foreign('supplier_id')->references('id')->on('suppliers');

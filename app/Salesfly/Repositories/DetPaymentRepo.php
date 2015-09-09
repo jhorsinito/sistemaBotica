@@ -18,7 +18,7 @@ class DetPaymentRepo extends BaseRepo{
     function mostrarDetPayment($id){
         $detPayment=DetPayment::leftjoin("methodPayments","methodPayments.id","=",
             "detPayments.methodPayment_id")->select("detPayments.*",
-            "methodPayments.nombre as nameMethod")->where('detPayments.payment_id','=',$id)->paginate(8);
+            "methodPayments.nombre as nameMethod")->where('detPayments.payment_id','=',$id)->paginate(5);
         return $detPayment;
     }
 

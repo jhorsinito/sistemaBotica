@@ -18,6 +18,8 @@
                 $scope.product={};
                 $scope.pendientAccounts=[];
                 $scope.pendientAccount={};
+                $scope.cashHeaders=[];
+                $scope.cashHeader={};
                 //$scope.idProvicional;
                  $scope.totAnterior;
                 $scope.errors = null;
@@ -25,6 +27,7 @@
                 $scope.query = '';
                 $scope.stores;
                 $scope.purchase.store_id='1';
+                $scope.date=new Date();
                 //------------------------------------------------
             
                 //-------------------------------------------------
@@ -32,12 +35,17 @@
                 $scope.toggle = function () {
                     $scope.show = !$scope.show;
                 };
-                 $scope.pageChanged1 = function() {
-                        crudOPurchase.search('inputStocks',$scope.query,$scope.currentPage1).then(function (data){
-                        $scope.headInputStocks = data.data;
-                        $log.log($scope.headInputStocks);
-                    });
-                 }
+                $scope.pagechan3=function(){
+                    alert(idobcional);
+                    crudOPurchase.byId(idobcional,'detPayments',$scope.currentPage).then(function (data) {
+                            $scope.detPayments = data.data;
+                        });
+                }
+                $scope.pagechan2=function(){
+                    crudOPurchase.paginate('inputStocks',$scope.currentPage).then(function (data) {
+                            $scope.headInputStocks = data.data;
+                        });
+                }
                 $scope.pageChanged = function() {
                     if ($scope.query.length > 0) {
                         crudOPurchase.search('purchases',$scope.query,$scope.currentPage).then(function (data){
@@ -52,6 +60,7 @@
 
 
                 var id = $routeParams.id;
+                var idobcional;
 
                 if(id)
                 {
@@ -66,6 +75,7 @@
                             }
                         }
                         $scope.purchases = data;
+                        alert( $scope.purchases.orderPurchase_id);
                         $scope.purchase.montoBruto=parseFloat(data.montoBruto);
                         $scope.purchase.montoTotal=parseFloat(data.montoTotal);
                         $scope.purchase.descuento=parseFloat(data.descuento); 
@@ -91,8 +101,9 @@
                               $scope.payment.PorPagado=((Number($scope.payment.Acuenta)*100)/(Number($scope.payment.MontoTotal))).toFixed(2);
                              }else{$scope.payment.PorPagado=0;}
                              $scope.random();
-                           //  alert(data.id);
-                        crudOPurchase.byId($scope.payment.id,'detPayments').then(function (data) {
+                             idobcional=$scope.payment.id;
+                          //alert($scope.payment.id);
+                        crudOPurchase.byId($scope.payment.id,'detPayments',1).then(function (data) {
                         $scope.detPayments = data.data;
                         $scope.maxSize = 5;
                         $scope.totalItems = data.total;
@@ -117,6 +128,10 @@
                         $scope.currentPage = data.current_page;
                         $scope.itemsperPage = 15;
 
+                    });
+                         crudOPurchase.listaCashes('cashHeaders').then(function (data) {
+                        $scope.cashHeaders = data;
+                        
                     });
 
                       $scope.detPayment.fecha=new Date();
@@ -199,10 +214,10 @@
                 if($location.path() == '/purchases/create') {
                 crudOPurchase.paginate('inputStocks',1).then(function (data) {
                         $scope.headInputStocks = data.data;
-                        $scope.maxSize1 = 5;
-                        $scope.totalItems1 = data.total;
-                        $scope.currentPage1 = data.current_page;
-                        $scope.itemsperPage1 = 15;
+                        $scope.maxSize = 5;
+                        $scope.totalItems = data.total;
+                        $scope.currentPage = data.current_page;
+                        $scope.itemsperPage = 15;
 
                     });
                 crudOPurchase.select('warehouses','select').then(function(data){
@@ -278,39 +293,72 @@
                $scope.sacarRowStock=function(index){
                    $scope.inputStocks.splice(index,1);
                }
-
-                $scope.verEntradasEstock=function(){
+               $scope.verEntradasEstock=function(){
                      $scope.purchase.eliminar=1;
                      //$scope.inputStock.eliminar=1;
+                     if ($scope.inputStocksBodyCreateForm.$valid) {
+                     if(parseInt($scope.inputStock.warehouses_id)!=parseInt($scope.inputStock.warehouDestino_id)){
                      $scope.inputStock.variant_id=$scope.product.proId.varid;
                      $scope.inputStock.codigo=$scope.product.proId.varCodigo;
                      crudOPurchase.select('detpres',$scope.product.proId.varid).then(function (data) {
                                     $scope.inputStock.esbase=data.esbase;
                                     $scope.inputStock.detPres_id=data.detpresen_id;
-                                    //$scope.inputStock.preProducto=parseFloat(data.precioProduct);
-                                    //$scope.inputStock.preCompra=parseFloat(data.precioProduct);
-                                     crudOPurchase.byId($scope.inputStock.warehouses_id,'warehouses').then(function (data) {
+                                    crudOPurchase.byId($scope.inputStock.warehouses_id,'warehouses').then(function (data) {
                                      $scope.inputStock.nombre=data.nombre;
 
                                    }); 
-                     alert($scope.inputStock.nombre);
+                    // alert($scope.inputStock.nombre);
                      
                      $scope.inputStocks.push($scope.inputStock);
                      $scope.inputStock={};
                      $scope.product.proId='';
-                    /* crudOPurchase.create($scope.purchase, 'inputStocks').then(function (data) {
-                         
-                            if (data['estado'] == true) {
-                                alert('Stock registrado');
-                                $location.path('/purchases/create');
-                            } else {
-                                $scope.errors = data;
-
-                            }
-                        });*/
+                    
                     });
+                 }else{
+                    alert("Error no se Puede Seleccionar dos Almacenes Iguales")
+                 }
+                    }else{alert("complete los campos");}
+                 }
+
+                $scope.searchSkuEstock=function(sku){
+                     $scope.purchase.eliminar=1;
+                      crudOPurchase.autocomplitVar('variants',sku).then(function (data) {
+                        $scope.product.proId = data;
+                        alert(data.varCodigo);
+            /*if($scope.product.proId.varCodigo!=null){
+                     //$scope.inputStock.eliminar=1;
+                     if(parseInt($scope.inputStock.warehouses_id)!=parseInt($scope.inputStock.warehouDestino_id)){
+                     $scope.inputStock.variant_id=$scope.product.proId.varid;
+                     $scope.inputStock.codigo=$scope.product.proId.varCodigo;
+                     crudOPurchase.select('detpres',$scope.product.proId.varid).then(function (data) {
+                                    $scope.inputStock.esbase=data.esbase;
+                                    $scope.inputStock.detPres_id=data.detpresen_id;
+                                    crudOPurchase.byId($scope.inputStock.warehouses_id,'warehouses').then(function (data) {
+                                     $scope.inputStock.nombre=data.nombre;
+
+                                   }); 
+                    // alert($scope.inputStock.nombre);
+                     
+                     //$scope.inputStocks.push($scope.inputStock);
+                     //$scope.inputStock={};
+                     //$scope.product.proId='';
+                    
+                    });
+                 }else{
+                    alert("Error no se Puede Seleccionar dos Almacenes Iguales")
+                 }}*/});
                     
                  }
+                $scope.nuevo=function(){
+                    $scope.mostrarCreate=false;
+                     $scope.purchase.tipo="Entrada";
+                    $scope.purchase.warehouses_id=''; 
+                    $scope.purchase.warehouDestino_id='';
+                    $scope.inputStock.cantidad_llegado='';
+                    $scope.product.proId='';
+                    $scope.inputStock.descripcion='';
+                    $scope.inputStocks=[];
+                }
                 
                 $scope.crearEntradasEstock=function(){
                     $scope.purchase.detailOrderPurchases=$scope.inputStocks;
@@ -320,9 +368,10 @@
                          alert("debajo");
                             if (data['estado'] == true) {
                                 alert('Movimiento Registrado');
-                                $scope.purchase.warehouses_id='';   
+                                $scope.purchase.warehouses_id=''; 
+                                $scope.purchase.warehouDestino_id='';  
                                 $scope.inputStocks=[];                             
-                                $scope.mostrarCreate=!$scope.mostrarCreate;
+                                $scope.mostrarCreate=false;
                                 $scope
                                 $location.path('/purchases/create');
                             } else {
@@ -340,6 +389,47 @@
                     });
                     $location.path('/purchases/create');
                 }
+        ///caja no es mia XD -------------------------------------------------------------------
+                $scope.cajas={};
+                $scope.TraerSales=function(id){
+                    alert("hola"+id);
+                     crudOPurchase.byId(id,'cashes').then(function (data) {
+                       $scope.cajas=data;
+                        alert(data.id);
+                    });
+                }
+                $scope.createmovCaja = function(tipo){
+                    $scope.detCash={};
+                   // $scope.mostrarAlmacenCaja();
+                   
+                    $scope.detCash.cash_id=$scope.cashfinal.id; 
+                    $scope.detCash.fecha=$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate();
+                    $scope.detCash.hora=$scope.date.getHours()+':'+$scope.date.getMinutes()+':'+$scope.date.getSeconds();
+                    $scope.detCash.montoCaja=$scope.cashfinal.montoBruto;
+                    
+                    $scope.detCash.montoMovimientoTarjeta=0;
+                    $scope.detCash.montoMovimientoEfectivo=Number($scope.pago.cash);
+                    $scope.detCash.montoFinal=Number($scope.detCash.montoCaja)+$scope.detCash.montoMovimientoTarjeta+$scope.detCash.montoMovimientoEfectivo;
+                    $scope.detCash.estado='1'; 
+                    //alert(tipo);
+                    if(tipo=='credito'){
+                        $scope.detCash.cashMotive_id='14';    
+                    }else if(tipo=='contado'){
+                        $scope.detCash.cashMotive_id='1';   
+                    }
+                    
+
+                    $scope.cashfinal.ingresos=Number($scope.cashfinal.ingresos)+Number($scope.detCash.montoMovimientoTarjeta)+Number($scope.detCash.montoMovimientoEfectivo); 
+                    $scope.cashfinal.montoBruto=$scope.detCash.montoFinal;
+                    //////////////////////////////////////////////
+
+                    $scope.sale.fechaPedido=$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate()+' '+$scope.date.getHours()+':'+$scope.date.getMinutes()+':'+$scope.date.getSeconds();
+                    $scope.sale.detOrders=$scope.compras;
+                    $scope.sale.movimiento=$scope.detCash; 
+                    $scope.sale.caja=$scope.cashfinal;
+                }
+
+    ///---------------------------------------------------------------------------------
 
                 $scope.recalPayments=function(){
                     //alert($scope.payment.MontoTotal);

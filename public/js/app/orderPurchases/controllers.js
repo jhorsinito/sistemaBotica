@@ -154,7 +154,8 @@
                         $scope.product.proId = data;
                         alert(data.varCodigo);
                          
-    if($scope.product.proId.varCodigo!=null){
+             if($scope.product.proId.varCodigo!=null){
+
 
                       //  alert($scope.product.proId.varid);
                         //$scope.detailOrderPurchase.marca=$scope.product.proId.BraName;
@@ -166,16 +167,17 @@
                         $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
                         $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
                         $scope.detailOrderPurchase.codigoEspecifico=$scope.product.proId.varCodigo;
+                        $scope.detailOrderPurchase.esbase=$scope.product.proId.esBase;
+                        $scope.detailOrderPurchase.equivalecia=$scope.product.proId.equivalecia;
                                //$scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
                        
                                $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
-                                      $scope.detailOrderPurchase.producto=$scope.product.proId.proNombre+"("+$scope.product.proId.BraName+"/"+
-                                        $scope.product.proId.Mnombre+"/"+
-                                        $scope.product.proId.TName+"/"+$scope.product.proId.NombreAtributos+")";
+                                      $scope.detailOrderPurchase.producto=$scope.product.proId.proNombre+"("+$scope.product.proId.NombreAtributos+")";
                                         $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
                                         $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
                                         //$scope.variant.sku=$scope.product.proId.varcode; 
                                         $scope.detailOrderPurchase.detPres_id=$scope.product.proId.presid;
+                                        alert("codigo det Pres"+$scope.detailOrderPurchase.detPres_id);
                                        $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
                                      $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
                                               $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
@@ -283,8 +285,8 @@
                 }
                    // alert("hola"+t);
                   }
-                  $scope.calCantidad=function(detID,atributos,sku,varCodigo,precioProducto,can,talla){
-                   // alert("hoye estamos llenado obcional"+sku);
+                  $scope.calCantidad=function(detID,esBase,atributos,sku,varCodigo,precioProducto,can,talla,equivalecia){
+                   alert("hoye estamos llenado obcional"+equivalecia);
 
                       if(can>0){
                         $scope.company.producto=$scope.company.producto+"/TL:"+talla;
@@ -312,6 +314,10 @@
                       $scope.company.producto=$scope.detailOrderPurchase.proNombre+"("+atributos+")";
                       $scope.company.esbase=$scope.detailOrderPurchase.esbase;
                       $scope.company.detPres_id=detID;
+                      $scope.company.equivalencia=parseFloat(equivalecia);
+                      alert($scope.company.detPres_id);
+                      $scope.company.esbase=esBase;
+                      alert($scope.company.esbase);
                       $scope.company.Codigovar=varCodigo;
                       $scope.company.CodigoPCompra=sku;
                       $scope.company.nombre=$scope.detailOrderPurchase.nombre;
@@ -600,6 +606,7 @@
                        $scope.detailOrderPurchase.descuento=Number($scope.detailOrderPurchase.descuento)/Number($scope.cantRows);
                             
                       for(var n=0;n<$scope.companies.length;n++){
+                          $scope.companies[n].Fecha=new Date();
                         if($scope.detailOrderPurchase.descuento>0){
                             $scope.companies[n].preCompra=parseFloat(($scope.companies[n].preCompra - (($scope.companies[n].preCompra * $scope.detailOrderPurchase.descuento ) / 100)).toFixed(2));
                             $scope.companies[n].montoTotal=Number($scope.companies[n].cantidad)*$scope.companies[n].preCompra;
@@ -753,6 +760,7 @@
                 }
                 $scope.Warehouses=function(id){
                     //alert($scope.orderPurchase.supplier_id);
+            if($scope.orderPurchaseCreateForm.$valid){
                     crudPurchase.MostrarTotalDeudas($scope.orderPurchase.supplier_id).then(function (data) {
                         $scope.orderPurchase.saldoDisponible=data.total;
                     });
@@ -775,15 +783,16 @@
                     $scope.mm1=$scope.orderPurchase.fechaPedido.getMonth();
                     $scope.yyyy1=$scope.orderPurchase.fechaPedido.getFullYear();
                      if($scope.dd<10){$scope.dd="0"+$scope.dd;} else{$scope.dd=$scope.dd;}
-                     if($scope.mm<10){$scope.mm="0"+(parseInt($scope.mm)+1);}else{$scope.mm=$scope.mm;}
+                     if($scope.mm<10){$scope.mm="0"+(parseInt($scope.mm)+1);}else{$scope.mm=$scope.mm+1;}
                      $scope.orderPurchase.fechaPrevist=$scope.dd+"-"+$scope.mm+"-"+$scope.yyyy;
                      if($scope.dd1<10){$scope.dd1="0"+$scope.dd1;} else{$scope.dd1=$scope.dd1;}
-                     if($scope.mm<10){$scope.mm1="0"+(parseInt($scope.mm1)+1);}else{$scope.mm1=$scope.mm1;}
+                     if($scope.mm1<=9){$scope.mm1="0"+(parseInt($scope.mm1)+1);}else{$scope.mm1=$scope.mm1+1;}
                      $scope.orderPurchase.fechaPedid=$scope.dd1+"-"+$scope.mm1+"-"+$scope.yyyy1;
                      $scope.activEstados=false;
                     $scope.toggle();
                    
                 }
+              }
                 
              
                  $scope.DcreatePurchase = function(){
@@ -902,6 +911,7 @@
                 }
                 $scope.CrearCompraDirecta =function(){
                     $scope.orderPurchase.compraDirecta=1;
+                    $scope.orderPurchase.fecha=new Date();
                     $scope.orderPurchase.fechaEntrega=$scope.orderPurchase.fechaPedido;
                     $scope.orderPurchase.detailOrderPurchases=$scope.detailOrderPurchases
                     $scope.orderPurchase.Saldo=$scope.orderPurchase.montoTotal;

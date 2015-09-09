@@ -22,7 +22,7 @@ class CreatePurchasesTable extends Migration
             $table->foreign('warehouses_id')->references('id')->on('warehouses');
             $table->integer('supplier_id')->unsigned();
             $table->foreign('supplier_id')->references('id')->on('suppliers');
-            $table->integer('orderPurchase_id')->unsigned();
+            $table->integer('orderPurchase_id')->unsigned()->nullable();
             $table->foreign('orderPurchase_id')->references('id')->on('orderPurchases');
             $table->string('observacion',255);
             $table->timestamps();

@@ -19,9 +19,9 @@ class CreateDetPaymentsTable extends Migration
             $table->char('tipoPago',1);
             $table->integer('payment_id')->unsigned();
             $table->foreign('payment_id')->references('id')->on('payments');
-            $table->integer('methodPayment_id')->unsigned();
+            $table->integer('methodPayment_id')->unsigned()->nullable();
             $table->foreign('methodPayment_id')->references('id')->on('methodPayments');
-            $table->integer('Saldo_F')->unsigned();
+            $table->integer('Saldo_F')->unsigned()->nullable();
             $table->foreign('Saldo_F')->references('id')->on('pendientAccounts');
             $table->timestamps();
         });
