@@ -178,7 +178,7 @@
                <div class="col-md-6">
                      <div class="form-group" >
                       <label for="fijo">Twitter </label>
-                      <input type="email" class="form-control" name="fijo" placeholder="###"
+                      <input type="text" class="form-control" name="fijo" placeholder="@User"
                       ng-model="employee.twitter">
                      </div>
               </div>

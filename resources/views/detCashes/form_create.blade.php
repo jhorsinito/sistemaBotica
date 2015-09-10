@@ -122,8 +122,8 @@
                   </div>
                                   
                   <div class="box-footer">
-                    <a ng-if="cash.estado==1" ng-click="createcash()" ng-href="@{{rutaCash}}"  target="_self" type="submit" class="btn btn-primary">Crear</a>
-                    <a ng-click="salir()"ng-href="@{{rutaCash}}" target="_self" class="btn btn-danger">Cancelar</a>
+                    <a ng-if="cash.estado==1" ng-click="createcash()" type="submit" class="btn btn-primary">Crear</a>
+                    <a ng-click="salir()" ng-href="@{{rutaCash}}" target="_self" class="btn btn-danger">Cancelar</a>
                   </div>
 
                 </form>

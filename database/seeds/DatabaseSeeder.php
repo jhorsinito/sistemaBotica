@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
          $this->call(AtributeTableSeeder::class);
          $this->call(StationTableSeeder::class);
          $this->call(SaleMethodPaymentTableSeeder::class);
-        $this->call(CashMotivesTableSeeder::class);
+        //$this->call(CashMotivesTableSeeder::class);
         Model::reguard();
     }
 }

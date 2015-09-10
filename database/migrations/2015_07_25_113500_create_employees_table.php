@@ -16,13 +16,16 @@ class CreateEmployeesTable extends Migration
             $table->increments('id');
             $table->string('nombres');
             $table->string('apellidos');
-            $table->string('codigo');
-            $table->date('fechanac');
+            $table->string('codigo')->unique();
+            $table->dateTime('fechanac');
+            //$table->string('dni');
             $table->string('fijo');
             $table->string('movil');
             $table->string('email');
             $table->text('imagen');
+            $table->string('website');
             $table->char('genero',1);
+            //$table->boolean('estado');
             $table->string('direccioncontacto');
             $table->string('twitter');
             $table->string('distrito');

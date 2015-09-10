@@ -32,6 +32,7 @@
                         deferred.resolve(data);
                     }).error(function(data)
                 {
+                    //$log.log(data);
                     alert('No se puede Agregar');
                 });
                 //    .error(function (data) //add for user , error send by 422 status

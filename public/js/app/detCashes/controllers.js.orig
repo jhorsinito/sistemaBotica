@@ -64,7 +64,12 @@
 
 
 
+<<<<<<< HEAD
+                    crudService.update($scope.cash,'cashes'); 
+                     //$scope.rutaCash='/cashes/edit/'+$scope.cash.id;   
+=======
 
+>>>>>>> d8b48ede77c278f85a17e6f0fe94098e2e53e1ac
                 }
 
                 $scope.toggle = function () {
