@@ -68,7 +68,7 @@ class DetCashController extends Controller
         $manager = new DetCashManager($detCash,$request->all());
         $manager->save();
 
-        return response()->json(['estado'=>true, 'hora'=>$detCash->hora]);
+        return response()->json(['estado'=>true]);
     }
 
     public function store(Request $request)

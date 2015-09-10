@@ -1,7 +1,7 @@
 (function(){
     angular.module('detCashes.controllers',[])
-        .controller('DetCashesController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log',
-            function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log){
+        .controller('DetCashesController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log','$window',
+            function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log,$window){
                 $scope.detCashes = [];
                 $scope.detCash={};
                 $scope.errors = null;
@@ -32,7 +32,27 @@
                             //$log.log(data);
                                 if (data['estado'] == true) { 
                                     //$scope.success = data['nombres'];
-                                    alert('grabado correctamente');
+
+                                    if($scope.tipo=='+'){
+                                        $scope.cash.ingresos=Number($scope.cash.ingresos)+(Number($scope.detCash.montoMovimientoTarjeta)+Number($scope.detCash.montoMovimientoEfectivo));
+                                        //$scope.cash.ingresos=Number($scope.cash.ingresos)+Number($scope.detCash.montoMovimiento);
+                                    }
+                                    else{
+                                        $scope.cash.gastos=Number($scope.cash.gastos)+(Number($scope.detCash.montoMovimientoTarjeta)+Number($scope.detCash.montoMovimientoEfectivo));
+
+                                        //$scope.cash.gastos=Number($scope.cash.gastos)+Number($scope.detCash.montoMovimiento);
+                                    }
+                                    $scope.cash.montoBruto=$scope.detCash.montoFinal
+
+                                    crudService.update($scope.cash,'cashes').then(function(data){
+                                        alert('grabado correctamente');
+                                        //$scope.rutaCash='/cashes/edit/'+$scope.cash.id;
+                                        //$location.path('/cashes/edit/'+$scope.cash.id);
+                                        $window.location.href = '/cashes/edit/'+$scope.cash.id;
+                                    });
+
+
+
                                     //$location.path('/detCashes');
 
                                 } else {
@@ -42,19 +62,9 @@
                             });
                     }
 
-                    if($scope.tipo=='+'){
-                        $scope.cash.ingresos=Number($scope.cash.ingresos)+(Number($scope.detCash.montoMovimientoTarjeta)+Number($scope.detCash.montoMovimientoEfectivo));
-                        //$scope.cash.ingresos=Number($scope.cash.ingresos)+Number($scope.detCash.montoMovimiento);
-                    }
-                    else{
-                        $scope.cash.gastos=Number($scope.cash.gastos)+(Number($scope.detCash.montoMovimientoTarjeta)+Number($scope.detCash.montoMovimientoEfectivo));
 
-                        //$scope.cash.gastos=Number($scope.cash.gastos)+Number($scope.detCash.montoMovimiento);                    
-                    }
-                    $scope.cash.montoBruto=$scope.detCash.montoFinal
 
-                    crudService.update($scope.cash,'cashes'); 
-                     $scope.rutaCash='/cashes/edit/'+$scope.cash.id;   
+
                 }
 
                 $scope.toggle = function () {

@@ -131,7 +131,7 @@ Route::get('api/variantsAllInventary/misDatos/{store?}/{were?}/{q?}',['as'=>'per
 Route::get('api/variants/variant/{id}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@variant']);
 Route::get('api/variants/variants/{id}',['as' => 'variants_byproduct_id', 'uses' => 'VariantsController@variants']);
 Route::get('api/variants/autocomplit/{sku}','VariantsController@traer_por_Sku');
-//Route::get('api/variants/autocomplit/{sku}','VariantsController@autocomplit1');
+//cd Route::get('api/variants/autocomplit/{sku}','VariantsController@autocomplit1');
 Route::get('api/variants/paginatep/{id}/{var}','VariantsController@paginatep');
 Route::get('api/variants/selectTalla/{id}/{taco}','VariantsController@selectTalla');
 Route::get('api/variantname/search/{q?}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@searchCodigo']);
