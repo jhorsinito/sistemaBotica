@@ -67,14 +67,7 @@
                    </div>
                    <div class="row">
                    <div class="col-md-4">
-                        <div class="form-group" ng-class="{true: 'has-error'}[ cashCreateForm.montoInicial.$error.required && cashCreateForm.$submitted || cashCreateForm.montoInicial.$dirty && cashCreateForm.montoInicial.$invalid]">
-                          <label for="montoInicial">Movimiento Tarjeta</label>
-                          <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="montoInicial" placeholder="0.00" ng-model="detCash.montoMovimientoTarjeta" ng-blur="calculate()" step="0.1">
-                          <label ng-show="cashCreateForm.$submitted || cashCreateForm.montoInicial.$dirty && cashCreateForm.montoInicial.$invalid">
-                            <span ng-show="cashCreateForm.montoInicial.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
-                          </label>
-                         </div>
-                      </div>
+
 
                       <div class="col-md-4">
                         <div class="form-group" ng-class="{true: 'has-error'}[ cashCreateForm.montoInicial.$error.required && cashCreateForm.$submitted || cashCreateForm.montoInicial.$dirty && cashCreateForm.montoInicial.$invalid]">
@@ -122,8 +115,8 @@
                   </div>
                                   
                   <div class="box-footer">
-                    <a ng-if="cash.estado==1" ng-click="createcash()" ng-href="@{{rutaCash}}"  target="_self" type="submit" class="btn btn-primary">Crear</a>
-                    <a ng-click="salir()"ng-href="@{{rutaCash}}" target="_self" class="btn btn-danger">Cancelar</a>
+                    <a ng-if="cash.estado==1" ng-click="createcash()" type="submit" class="btn btn-primary">Crear</a>
+                    <a ng-click="salir()" ng-href="@{{rutaCash}}" target="_self" class="btn btn-danger">Cancelar</a>
                   </div>
 
                 </form>

@@ -381,7 +381,7 @@
                             alert("Contado");
                             //if (true) {};
                             $scope.salePayment.estado=0;
-                            $scope.sale.estado=0;
+                            $scope.sale.estado=1;
                             if ($scope.radioModel!=undefined && $scope.pago.tarjeta==0) {
                                 alert("Elija monto Pago Tarjeta");
                             }else if($scope.radioModel!=undefined && $scope.pago.tarjeta>0){

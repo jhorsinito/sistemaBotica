@@ -4,7 +4,7 @@
             function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log,$window){
                 $scope.detCashes = [];
                 $scope.detCash={};
-                $scope.errors = null; 
+                $scope.errors = null;
                 $scope.cash={};
                 $scope.success;
                 $scope.query = '';
@@ -34,11 +34,11 @@
                                     //$scope.success = data['nombres'];
 
                                     if($scope.tipo=='+'){
-                                        $scope.cash.ingresos=Number($scope.cash.ingresos)+Number($scope.detCash.montoMovimientoEfectivo);
+                                        $scope.cash.ingresos=Number($scope.cash.ingresos)+(Number($scope.detCash.montoMovimientoTarjeta)+Number($scope.detCash.montoMovimientoEfectivo));
                                         //$scope.cash.ingresos=Number($scope.cash.ingresos)+Number($scope.detCash.montoMovimiento);
                                     }
                                     else{
-                                        $scope.cash.gastos=Number($scope.cash.gastos)+Number($scope.detCash.montoMovimientoEfectivo);
+                                        $scope.cash.gastos=Number($scope.cash.gastos)+(Number($scope.detCash.montoMovimientoTarjeta)+Number($scope.detCash.montoMovimientoEfectivo));
 
                                         //$scope.cash.gastos=Number($scope.cash.gastos)+Number($scope.detCash.montoMovimiento);
                                     }
@@ -64,7 +64,12 @@
 
 
 
+<<<<<<< HEAD
+                    crudService.update($scope.cash,'cashes'); 
+                     //$scope.rutaCash='/cashes/edit/'+$scope.cash.id;   
+=======
 
+>>>>>>> d8b48ede77c278f85a17e6f0fe94098e2e53e1ac
                 }
 
                 $scope.toggle = function () {
@@ -88,7 +93,7 @@
                         $scope.cashMotives = data.data;
                     });
                     //$scope.detCash.montoMovimiento=0;
-                    //////$scope.detCash.montoMovimientoTarjeta=0;
+                    $scope.detCash.montoMovimientoTarjeta=0;
                     $scope.detCash.montoMovimientoEfectivo=0;
                     
                 };
@@ -106,20 +111,20 @@
                 };
                  $scope.calculate = function() {
                     //alert($scope.tipo);
-                    if($scope.detCash.montoMovimientoEfectivo>$scope.cash.montoBruto && $scope.tipo=='-'){
+                    if($scope.detCash.montoMovimientoEfectivo+$scope.detCash.montoMovimientoTarjeta>$scope.cash.montoBruto && $scope.tipo=='-'){
                         alert("Monto Insuficiente");
                         $scope.detCash.montoMovimientoEfectivo=0;
-                        ///////////$scope.detCash.montoMovimientoTarjeta=0;
+                        $scope.detCash.montoMovimientoTarjeta=0;
                     }else{
                     if($scope.tipo=='+'){
-                        ////////if ($scope.detCash.montoMovimientoTarjeta==undefined) {$scope.detCash.montoMovimientoTarjeta=0};
+                        if ($scope.detCash.montoMovimientoTarjeta==undefined) {$scope.detCash.montoMovimientoTarjeta=0};
                         if ($scope.detCash.montoMovimientoEfectivo==undefined) {$scope.detCash.montoMovimientoEfectivo=0};
-                        $scope.detCash.montoFinal=Number($scope.cash.montoBruto)+Number($scope.detCash.montoMovimientoEfectivo);
+                        $scope.detCash.montoFinal=Number($scope.cash.montoBruto)+(Number($scope.detCash.montoMovimientoTarjeta)+Number($scope.detCash.montoMovimientoEfectivo));
                     }
                     else{
-                        /////////if ($scope.detCash.montoMovimientoTarjeta==NaN) {$scope.detCash.montoMovimientoTarjeta=0};
+                        if ($scope.detCash.montoMovimientoTarjeta==NaN) {$scope.detCash.montoMovimientoTarjeta=0};
                         if ($scope.detCash.montoMovimientoEfectivo==NaN) {$scope.detCash.montoMovimientoEfectivo=0};
-                        $scope.detCash.montoFinal=Number($scope.cash.montoBruto)-Number($scope.detCash.montoMovimientoEfectivo);                    
+                        $scope.detCash.montoFinal=Number($scope.cash.montoBruto)-(Number($scope.detCash.montoMovimientoTarjeta)+Number($scope.detCash.montoMovimientoEfectivo));                    
                     }
                     $log.log($scope.detCash);
                     }

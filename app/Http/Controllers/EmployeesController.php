@@ -49,6 +49,7 @@ class EmployeesController extends Controller {
 
     public function create(Request $request)
     {
+        //var_dump($request->all()); die();
         $employee = $this->employeeRepo->getModel();
        
         $manager = new EmployeeManager($employee,$request->except('fechanac','imagen'));
@@ -100,10 +101,6 @@ class EmployeesController extends Controller {
             $imagen = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagen));
             Image::make($imagen)->resize(200,200)->save('images/employees/'.$employee->id.'.'.$mime);
             $employee->imagen='/images/employees/'.$employee->id.'.'.$mime;
-            $employee->save();
-        }
-        else{
-            $employee->imagen='/images/employees/default.jpg';
             $employee->save();
         }
         //-------------------------------------------------

@@ -42,7 +42,9 @@
                         $log.log(data);
                         if(data.fechanac != null) {
                             if (data.fechanac.length > 0) {
-                                data.fechanac = new Date(data.fechanac);
+                                $log.log(data.fechanac);
+                                //data.fechanac = new Date(data.fechanac);
+                                //data.employee.fechanac = new Date(data.fechanac);
                             }
                         }
                        
@@ -117,7 +119,7 @@
                         var r = new FileReader();
                         r.onloadend = function(e) {
                             $scope.employee.imagen = e.target.result;
-                       alert("aqui estoy");
+                                alert("aqui estoy");
                            crudService.create($scope.employee, 'employees').then(function (data) {
                            
                             if (data['estado'] == true) {
@@ -160,18 +162,51 @@
                 };
 
                 $scope.updateEmployee = function(){
-                   if ($scope.employeeCreateForm.$valid) {
-                        crudService.update($scope.employee,'employees').then(function(data)
-                        {
-                            if(data['estado'] == true){
-                                $scope.success = data['nombres'];
-                                alert('editado correctamente');
-                                $location.path('/employees');
-                            }else{
-                                $scope.errors =data;
-                            }
-                        });
+
+                    if ($scope.employeeCreateForm.$valid){
+                        var f = document.getElementById('employeeImage').files[0] ? document.getElementById('employeeImage').files[0] : null;
+                        //alert(f);
+
+                        var r = new FileReader();
+                        r.onloadend = function(e) {
+                            $scope.employee.imagen = e.target.result;
+                            alert("aqui estoy");
+                            crudService.update($scope.employee, 'employees').then(function (data) {
+
+                                if (data['estado'] == true) {
+                                    $scope.success = data['nombres'];
+                                    alert('Editado correctamente');
+                                    $location.path('/employees');
+
+                                } else {
+                                    $scope.errors = data;
+
+                                }
+                            });
+                        }
+                        if(!document.getElementById('employeeImage').files[0]){
+
+                            crudService.update($scope.employee, 'employees').then(function (data) {
+
+                                if (data['estado'] == true) {
+                                    $scope.success = data['nombres'];
+                                    alert('Editado correctamente');
+                                    $location.path('/employees');
+
+                                } else {
+                                    $scope.errors = data;
+
+                                }
+                            });}
+
+                        if(document.getElementById('employeeImage').files[0]){
+                            r.readAsDataURL(f);
+                        }
+
                     }
+
+
+
                 };
 
                 $scope.deleteEmployee = function(row){
@@ -229,13 +264,13 @@
                         var r = new FileReader();
                         r.onloadend = function(e) {
                             $scope.employee.imagen = e.target.result;
-                       alert("aqui estoy");
+                       //alert("aqui estoy");
                            crudService.create($scope.employee, 'employees').then(function (data) {
                            
                             if (data['estado'] == true) {
                                 $scope.success = data['nombres'];
                                 alert('editado correctamente');
-                                $location.path('/employees');
+                                //$location.path('/employees');
 
                             } else {
                                 $scope.errors = data;
@@ -245,11 +280,11 @@
                         }
                         if(!document.getElementById('employeeImage').files[0]){
                         crudService.create($scope.employee, 'employees').then(function (data) {
-                           
+                            //alert("aqui estoy!!");
                             if (data['estado'] == true) {
                                 $scope.success = data['nombres'];
                                 alert('editado correctamente');
-                                $location.path('/employees');
+                                //$location.path('/employees');
 
                             } else {
                                 $scope.errors = data;

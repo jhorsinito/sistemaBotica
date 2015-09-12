@@ -14,7 +14,7 @@ class AddEstadoToEmployeesTable extends Migration
     {
         Schema::table('employees', function (Blueprint $table) {
             //
-            $table->tinyInteger('estado'); //1-> activo, 0 -> no activo;
+            $table->boolean('estado'); //1-> activo, 0 -> no activo;
         });
     }
 

@@ -533,7 +533,7 @@
                                 }
                                 $scope.banderaPagosTarjeta=true;
                             }
-                           //Termina Pago Credito 
+                           //Termina Pago Credito  
                         }else{
                             //Inicio Pago Contado 
                             alert("Contado");
