@@ -68,7 +68,7 @@
                   <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" 
                   class="pagination-sm no-margin pull-right" items-per-page="itemsperPage" 
                   boundary-links="true" rotate="false" num-pages="numPages" 
-                  ng-change="pageChanged()"></pagination>
+                  ng-change="pagechan4()"></pagination>
                   </div>
               </div>
           </div>

@@ -36,7 +36,7 @@ class CashHeaderRepo extends BaseRepo{
     public function cajasActivas(){
         $cashHeaders =CashHeader::join('cashes','cashes.cashHeader_id','=','cashHeaders.id')
                                   ->where('cashes.estado','=',1)
-                                  ->select('cashHeaders.*','cashes.id as cashID','cashes.montoReal as montoUsable')
+                                  ->select('cashHeaders.*','cashes.id as cashID','cashes.montoBruto as montoUsable')
                     ->get();
         return $cashHeaders;
     }

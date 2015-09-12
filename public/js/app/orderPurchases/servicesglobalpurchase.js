@@ -193,6 +193,16 @@
 
                 return deferred.promise;
             }
+            function listaCashes(uri)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/cashHeaders/cajasActivas')
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
             return {
                 all: all,
                 paginate: paginate,
@@ -212,7 +222,8 @@
                 eligirNumero: eligirNumero,
                 MostrarAtributos: MostrarAtributos,
                 MostrarTallas: MostrarTallas,
-                MostrarTotalDeudas: MostrarTotalDeudas
+                MostrarTotalDeudas: MostrarTotalDeudas,
+                listaCashes: listaCashes
             }
         }])
         .factory('socketService', function ($rootScope) {

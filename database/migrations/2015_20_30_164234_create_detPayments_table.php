@@ -23,6 +23,10 @@ class CreateDetPaymentsTable extends Migration
             $table->foreign('methodPayment_id')->references('id')->on('methodPayments');
             $table->integer('Saldo_F')->unsigned()->nullable();
             $table->foreign('Saldo_F')->references('id')->on('pendientAccounts');
+            $table->integer('detCash_id')->unsigned()->nullable();
+            $table->foreign('detCash_id')->references('id')->on('detCash');
+            $table->integer('cashMonthly_id')->unsigned()->nullable();
+            $table->foreign('cashMonthly_id')->references('id')->on('cashMonthlys');
             $table->timestamps();
         });
     }

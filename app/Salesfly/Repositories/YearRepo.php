@@ -27,4 +27,8 @@ class YearRepo extends BaseRepo{
         $expenseMonthly = Year::where('id','=',$id)->first();
         return $expenseMonthly;
     }
+    public function findID($año){
+        $year = Year::where('year','=',$año)->first();
+        return $year;
+    }
 } 

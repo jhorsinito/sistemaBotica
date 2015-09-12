@@ -471,7 +471,7 @@
             <div class="col-md-4"> 
               <div class="form-group">
                 <label for="suppPric">Monto Bruto</label>
-                <input type="number" ng-model="orderPurchase.montoBruto" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
+                <input type="number" ng-disabled="true" ng-model="orderPurchase.montoBruto" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
                 name="montoBruto" placeholder="0.00"  ng-disabled="product.hasVariants" ng-blur="calcularmontoBrutoF()" step="0.1">
               </div>
             </div>
