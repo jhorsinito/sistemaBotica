@@ -772,10 +772,10 @@
                 }
 
                 $scope.deletePres = function($index){
-                    if($location.path() != '/variants/create/'+$routeParams.product_id) {
+                    if($location.path() != '/variants/create/'+$routeParams.product_id && $location.path() != '/variants/edit/'+$routeParams.id) {
                         $scope.product.presentations.splice($index, 1);
                     }
-                    if($location.path() == '/variants/create/'+$routeParams.product_id) {
+                    if($location.path() == '/variants/create/'+$routeParams.product_id || $location.path() == '/variants/edit/'+$routeParams.id) {
                         $scope.variant.presentations.splice($index, 1);
                     }
                 }
