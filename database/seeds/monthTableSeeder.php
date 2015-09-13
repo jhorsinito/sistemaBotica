@@ -14,41 +14,65 @@ class monthTableSeeder extends Seeder
         //
 
 
-            DB::table('months')->insert([
-            'month' => 'Enero'
+        DB::table('months')->insert([
+            'month' => 'Enero',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('months')->insert([
-            'month' => 'Febrero'
+            'month' => 'Febrero',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('months')->insert([
-            'month' => 'Marzo'
+            'month' => 'Marzo',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('months')->insert([
-            'month' => 'Abril'
+            'month' => 'Abril',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('months')->insert([
-            'month' => 'Mayo'
+            'month' => 'Mayo',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('months')->insert([
-            'month' => 'Junio'
+            'month' => 'Junio',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('months')->insert([
-            'month' => 'Julio'
+            'month' => 'Julio',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('months')->insert([
-            'month' => 'Agosto'
+            'month' => 'Agosto',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('months')->insert([
-            'month' => 'Setiembre'
+            'month' => 'Setiembre',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('months')->insert([
-            'month' => 'Octubre'
+            'month' => 'Octubre',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('months')->insert([
-            'month' => 'Noviembre'
+            'month' => 'Noviembre',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('months')->insert([
-            'month' => 'Diciembre'
+            'month' => 'Diciembre',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
 
     }

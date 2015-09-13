@@ -31,4 +31,5 @@
             }
         };
     });
+    app.value('trouble', {});
 })(window.angular);

@@ -14,11 +14,15 @@ class methodPaymentsTableSeeder extends Seeder
         //
         DB::table('methodPayments')->insert([
             'nombre' => 'Cheque',
-            'descripcion' => 'pago por cheque'
+            'descripcion' => 'pago por cheque',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('methodPayments')->insert([
             'nombre' => 'Cash',
-            'descripcion' => 'pago al contado'
+            'descripcion' => 'pago al contado',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
     }
 }

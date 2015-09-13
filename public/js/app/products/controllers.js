@@ -1,7 +1,7 @@
 (function(){
     angular.module('products.controllers',[])
-        .controller('ProductController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log','ngProgressFactory','$rootScope',
-            function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log,ngProgressFactory,$rootScope){
+        .controller('ProductController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log','ngProgressFactory','$rootScope','trouble',
+            function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log,ngProgressFactory,$rootScope,trouble){
                 $scope.progressbar = ngProgressFactory.createInstance();
                 /*$rootScope.$on('$routeChangeStart', function(ev,data) {
                     $scope.progressbar.start();
@@ -646,16 +646,17 @@
                     }
                 }
 
-                $scope.trouble;
+                //var trouble;
                 $scope.asignarDescr = function(index){
                     //$log.log($scope.trouble);
 
-                    if(typeof ($scope.trouble) == 'undefined'){
-                        //alert('holi');
+                    if(isEmpty(trouble)){
+                        //alert('arriba');
                         crudService.byforeingKey('variants','getAttr',$routeParams.id).then(function(data){
-                            //$scope.trouble = data.det_atr;
+                            trouble = data.det_atr;
+                            $log.log(trouble);
 
-                            var isCool = $.grep(data.det_atr, function (e) {
+                            var isCool = $.grep(trouble, function (e) {
                                 return e.atribute_id == $scope.variant.detAtr[index].atribute_id;
                             });
                             //$log.log(isCool[0].descripcion);
@@ -664,8 +665,8 @@
                             }
                         })
                     }else{
-                            //alert('entro');
-                            var isCool = $.grep($scope.trouble, function (e) {
+                            alert('abajo');
+                            var isCool = $.grep(trouble, function (e) {
                                 return e.atribute_id == $scope.variant.detAtr[index].atribute_id;
                             });
                             //$log.log(isCool[0].descripcion);

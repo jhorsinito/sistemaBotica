@@ -9,7 +9,7 @@ class PaymentManager extends BaseManager {
             'montoTotal'=>'',
             'Acuenta'=>'',
             'Saldo'=>'',
-            'estado'=>'',
+            //'estado'=>'',
             'orderPurchase_id'=>'',
             'purchase_id'=>'',
             'supplier_id'=>''
