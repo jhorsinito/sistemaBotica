@@ -231,7 +231,7 @@ class VariantsController extends Controller
 
                 $oPres = new DetPresRepo();
                 //$oStock = $stockRepo->getModel()->where('variant_id',$stock['variant_id'])->where('warehouse_id',$stock['warehouse_id'])->first();
-                $obj = $oPres->getModel()->where('variant_id',$presentation['variant_id'])->where('warehouse_id',$presentation['presentation_id'])->first();
+                $obj = $oPres->getModel()->where('variant_id',$presentation['variant_id'])->where('presentation_id',$presentation['presentation_id'])->first();
 
                 if(!isset($obj->id)){
                     $presManager = new DetPresManager($oPres->getModel(), $presentation);
