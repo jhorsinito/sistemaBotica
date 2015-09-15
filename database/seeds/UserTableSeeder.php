@@ -12,15 +12,15 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         //
-
-
             DB::table('users')->insert([
                 'name' => 'Javier Jesús Alvarez Montenegro',
                 'email' => 'jalvarez@honeysoft.pe',
                 'password' => bcrypt('root'),
                 'estado' => 1,
                 'role_id' => 1,
-                'store_id' => 1
+                'store_id' => 1,
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
             ]);
 
             DB::table('users')->insert([
@@ -29,7 +29,9 @@ class UserTableSeeder extends Seeder
                 'password' => bcrypt('123456'),
                 'estado' => 1,
                 'role_id' => 1,
-                'store_id' => 1
+                'store_id' => 1,
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
             ]);
             DB::table('users')->insert([
                 'name' => 'Cristobal Ramirez Cabrera',
@@ -37,7 +39,9 @@ class UserTableSeeder extends Seeder
                 'password' => bcrypt('123456'),
                 'estado' => 1,
                 'role_id' => 1,
-                'store_id' => 1
+                'store_id' => 1,
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
             ]);
 
 

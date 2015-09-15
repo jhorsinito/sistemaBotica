@@ -15,72 +15,100 @@ class CashMotivesTableSeeder extends Seeder
         DB::table('cashMotives')->insert([
             'nombre' => 'Ventas',
             'observacion' => 'Ventas del día',
-            'tipo' => '+'
+            'tipo' => '+',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('cashMotives')->insert([
             'nombre' => 'Préstamos',
             'observacion' => 'Ingreso por Préstamos',
-            'tipo' => '+'
+            'tipo' => '+',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('cashMotives')->insert([
             'nombre' => 'Ingresos Varios',
             'observacion' => 'Ingresos Varios',
-            'tipo' => '+'
+            'tipo' => '+',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('cashMotives')->insert([
             'nombre' => 'Devoluciones',
             'observacion' => 'Ingresos por Devoluciones',
-            'tipo' => '+'
+            'tipo' => '+',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('cashMotives')->insert([
             'nombre' => 'Saldo Anterior',
             'observacion' => 'Ingreso por Saldo Anterior',
-            'tipo' => '+'
+            'tipo' => '+',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('cashMotives')->insert([
             'nombre' => 'Fondo de Caja',
             'observacion' => 'Ingreso por Fondo de Caja',
-            'tipo' => '+'
+            'tipo' => '+',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('cashMotives')->insert([
             'nombre' => 'Compras',
             'observacion' => 'Pagos de Compras',
-            'tipo' => '-'
+            'tipo' => '-',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('cashMotives')->insert([
             'nombre' => 'Créditos',
             'observacion' => 'Pagos de Créditos',
-            'tipo' => '-'
+            'tipo' => '-',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('cashMotives')->insert([
             'nombre' => 'Adelanto Personal',
             'observacion' => 'Adelanto al personal',
-            'tipo' => '-'
+            'tipo' => '-',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('cashMotives')->insert([
             'nombre' => 'Pago Proveedores',
             'observacion' => 'Pagos de Proveedores',
-            'tipo' => '-'
+            'tipo' => '-',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('cashMotives')->insert([
             'nombre' => 'Gastos Varios',
             'observacion' => 'Gastos Varios',
-            'tipo' => '-'
+            'tipo' => '-',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('cashMotives')->insert([
             'nombre' => 'Viáticos',
             'observacion' => 'Gastos de Viáticos',
-            'tipo' => '-'
+            'tipo' => '-',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('cashMotives')->insert([
             'nombre' => 'Pago crédito',
             'observacion' => 'Pago crédito',
-            'tipo' => '+'
+            'tipo' => '+',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('cashMotives')->insert([
             'nombre' => 'Venta crédito',
             'observacion' => 'Venta crédito',
-            'tipo' => '+'
+            'tipo' => '+',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
     }
 }

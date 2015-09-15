@@ -14,6 +14,18 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
          
+<<<<<<< HEAD
+        $this->call(StoreTableSeeder::class);
+         $this->call(RoleTableSeeder::class);
+         $this->call(UserTableSeeder::class);
+         $this->call(monthTableSeeder::class);
+         $this->call(PresentationTableSeeder::class);
+         $this->call(methodPaymentsTableSeeder::class);
+         $this->call(AtributeTableSeeder::class);
+         //$this->call(StationTableSeeder::class);
+         $this->call(SaleMethodPaymentTableSeeder::class);
+         $this->call(CashMotivesTableSeeder::class);
+=======
         /*$this->call(StoreTableSeeder::class);
         $this->call(RoleTableSeeder::class);
         $this->call(UserTableSeeder::class);
@@ -30,6 +42,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CustomerTableSeeder::class);
         $this->call(SupplierTableSeeder::class);
         $this->call(EmployeeTableSeeder::class);
+>>>>>>> 6aa53947f40322acde958aefcd45006f29c075ed
         Model::reguard();
     }
 }

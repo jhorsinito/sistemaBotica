@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class StoreTableSeeder extends Seeder
+class MaterialTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,8 +12,10 @@ class StoreTableSeeder extends Seeder
     public function run()
     {
         //
-        DB::table('stores')->insert([
-            'nombreTienda' => 'Sucursal Principal',
+        DB::table('materials')->insert([
+            'nombre' => 'tílde',
+            'shortname' => 'powerío',
+            'descripcion' => 'hoó',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);
