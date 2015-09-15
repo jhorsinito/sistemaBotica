@@ -857,7 +857,7 @@
 
                 /*
 
-                Agregar Marca, Linea, Station, MAterial
+                Agregar Marca, Linea, Station, MAterial, Atributo
 
                  */
                 $scope.addBrand = function (size) {
@@ -956,6 +956,38 @@
 
                     });
                 };
+
+                $scope.addAttribute = function (size) {
+
+                    var modalInstance = $modal.open({
+                        animation: false,
+                        templateUrl: 'myModalContent5.html',
+                        controller: 'ModalInstanceCtrl5',
+                        size: 'sm',
+                        /*resolve: {
+                         items: function () {
+                         return $scope.items;
+                         }
+                         }*/
+                    });
+
+                    modalInstance.result.then(function (selectedItem) {
+                        //$scope.selected = selectedItem;
+                    }, function () {
+                        //$log.info('Modal dismissed at: ' + new Date());
+                        crudService.all('atributes').then(function (data){
+                            $scope.attributes = data.data;
+                            //$log.log($scope.attributes);
+                        })
+
+                    });
+                };
+
+                $scope.opcAtr = [];
+                $scope.opcAtr[1] = ['NEGRO','BLANCO','ROJO','AZUL','MARRÓN','VINO','NUDE','BEIGE','TURQUESA'];
+                $scope.opcAtr[2] = ['18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45'];
+                $scope.opcAtr[3] = ['3CM','5CM','7CM','9CM','12CM','13CM','15CM','18CM','20CM'];
+                $scope.opcAtr[4] = ['CUERO LISO','CUERO GAMUZA','CUERO CHAROL','SINTÉTICO LISO','SINTÉTICO GAMUZA','SINTÉTICO CHAROL','TELA'];
 
                 /*
                 Fin de add

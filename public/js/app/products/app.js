@@ -133,4 +133,32 @@
             $modalInstance.dismiss('cancel');
         };
     });
+    angular.module('ui.bootstrap').controller('ModalInstanceCtrl5', function ($scope, $modalInstance, crudService) {
+
+
+
+        $scope.createAttribute = function () {
+            //alert('hola');
+            //return false;
+            if ($scope.atributCreateForm.$valid) {
+                crudService.create($scope.atribut, 'atributes').then(function (data) {
+
+                    if (data['estado'] == true) {
+                        $scope.success = data['nombres'];
+                        alert('grabado correctamente');
+                        $modalInstance.dismiss('cancel');
+                        //$location.path('/atributes');
+
+                    } else {
+                        $scope.errors = data;
+
+                    }
+                });
+            }
+        };
+
+        $scope.cancelAttribute = function () {
+            $modalInstance.dismiss('cancel');
+        };
+    });
 })(window.angular);

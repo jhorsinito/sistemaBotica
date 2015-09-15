@@ -91,15 +91,18 @@
                                 </div><!-- /.box-tools -->
                             </div><!-- /.box-header -->
                             <div class="box-body">
-                                <input type="search" ng-model="qA" placeholder="filtrar atributo..." aria-label="filtrar atributo" />
-                                <div class="row" ng-repeat="row in attributes | filter:qA" ng-init="variant.detAtr[$index].atribute_id = row.id">
+                                <!--<input type="search" ng-model="qA" placeholder="filtrar atributo..." aria-label="filtrar atributo" />-->
+                                <p class="text-light-blue"><button class="btn btn-xs btn-info btn-flat" ng-click="addAttribute()">Añadir Atributo</button></p>
+                                <p class="text-light-blue"><em>Los Atributos permiten diferenciar las variantes de cada producto. Se puede agregar Atributos a su gusto.</em></p>
+
+                                <div class="row" ng-repeat="row in attributes" ng-init="variant.detAtr[$index].atribute_id = row.id">
                                     <div class="col-md-2">
                                         <input type="hidden" ng-model="variant.detAtr[$index].atribute_id">
                                         <label for="">@{{ row.nombre }}</label>
 
                                     </div>
                                     <div class="col-md-3">
-                                        <input type="text" class="form-control" ng-model="variant.detAtr[$index].descripcion"  ng-keyup="capAttr(row.id)">
+                                        <input type="text" class="form-control" ng-model="variant.detAtr[$index].descripcion"  ng-keyup="capAttr(row.id)" typeahead="state for state in opcAtr[row.id] | filter:$viewValue | limitTo:8">
                                     </div>
                                 </div>
 
@@ -350,3 +353,53 @@
 </div>
 
 <!-- ======================================================================================== -->
+
+<!-- =============================Modal de Atributo ================================ -->
+<script type="text/ng-template" id="myModalContent5.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Crear Atributo</h3>
+    </div>
+    <div class="modal-body">
+
+
+        <form name="atributCreateForm" role="form" novalidate>
+            <div class="box-body">
+                <div class="callout callout-danger" ng-show="errors">
+                    <ul>
+                        <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
+                    </ul>
+                </div>
+
+                <div class="form-group" ng-class="{true: 'has-error'}[ atributCreateForm.nombre.$error.required && atributCreateForm.$submitted || atributCreateForm.nombre.$dirty && atributCreateForm.nombre.$invalid]">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" placeholder="Nombre" ng-model="atribut.nombre" required>
+                    <label ng-show="atributCreateForm.$submitted || atributCreateForm.nombre.$dirty && atributCreateForm.nombre.$invalid">
+                        <span ng-show="atributCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                    </label>
+                </div>
+                <div class="form-group" ng-class="{true: 'has-error'}[ atributCreateForm.shortname.$error.required && atributCreateForm.$submitted || atributCreateForm.shortname.$dirty && atributCreateForm.shortname.$invalid]">
+                    <label for="nombre">ShortName</label>
+                    <input type="text" class="form-control" name="shortname" placeholder="ShortName" ng-model="atribut.shortname" required>
+                    <label ng-show="atributCreateForm.$submitted || atributCreateForm.shortname.$dirty && atributCreateForm.shortname.$invalid">
+                        <span ng-show="atributCreateForm.shortname.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                    </label>
+                </div>
+                <div class="form-group" >
+                    <label for="descripcion">Descripcion</label>
+                      <textarea type="descripcion" class="form-control" name="descripcion" placeholder="Descripcion"
+                                ng-model="atribut.descripcion" rows="4" cols="50"></textarea>
+                </div>
+
+            </div><!-- /.box-body -->
+
+        </form>
+
+
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="createAttribute()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancelAttribute()">Cancelar</button>
+    </div>
+</script>
+<!-- =============================END Modal de Atributo ================================ -->

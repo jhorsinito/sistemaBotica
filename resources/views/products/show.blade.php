@@ -36,10 +36,11 @@
                   <div class="col-md-8">
                       <b>Descripción:</b> @{{ product.descripcion }} <br/> <br/>
             ------------------------------------------------------------------------------------------------------------------------------------<br/>
-                      <b>Código de Producto</b>: @{{product.codigo}}<br/>
+                      <b>SKU</b>: @{{variant.sku}}<br/>
             <b>Marca:</b> @{{ product.brand.nombre }} <br/> <br/>
             <b>Línea:</b> @{{ product.type.nombre }} <br/> <br/>
             <b>Código Único de Producto:</b> @{{ product.codigo }}<br/> <br/>
+                      <b>Código de Proveedor:</b> @{{ product.suppCode }} <br/>
             <b>Estación:</b> @{{ product.station.nombre }} <br/> <br/>
                       <b>Modelo:</b> @{{ product.modelo }}
 
@@ -82,7 +83,7 @@
                                     <td>@{{$index + 1}}</td>
                                     <td>@{{ row.codigo }}</td>
                                     <td>@{{ row.sku }}</td>
-                                    <td><a ng-href="/variant/show/@{{row.id}}">@{{row.product.nombre}}
+                                    <td><a ng-href="/variants/edit/@{{row.id}}">@{{row.product.nombre}}
                                             <span ng-repeat="row2 in row.det_atr ">
                                         / @{{row2.descripcion}}
                                     </span>
@@ -163,8 +164,8 @@
                               <tr ng-repeat="row in variant.stock">
                                   <td>@{{$index + 1}}</td>
                                   <td>@{{row.nombre}}</td>
-                                  <td>@{{row.codigo}}</td>
-                                  <td>@{{row.sku}}</td>
+                                  <td>@{{product.codigo}}</td>
+                                  <td>@{{variant.sku}}</td>
                                   <td>@{{row.stockActual}}</td>
                                   <td>@{{row.stockPorLlegar}}</td>
                               </tr>
