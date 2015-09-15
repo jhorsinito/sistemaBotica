@@ -178,10 +178,10 @@
 
                 return deferred.promise;
             }
-              function listaCashes(uri)
+              function listaCashes(uri,id)
             {
                 var deferred = $q.defer();
-                $http.get('/api/cashHeaders/cajasActivas')
+                $http.get('/api/cashHeaders/cajasActivas/'+id)
                     .success(function (data) {
                         deferred.resolve(data);
                     });

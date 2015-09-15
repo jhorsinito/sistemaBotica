@@ -20,11 +20,14 @@ use Salesfly\Salesfly\Repositories\CashMonthlyRepo;
 use Salesfly\Salesfly\Managers\CashMonthlyManager;
 
 use Salesfly\Salesfly\Repositories\YearRepo;
+
+use Salesfly\Salesfly\Repositories\PendientAccountRepo;
+use Salesfly\Salesfly\Managers\PendientAccountManager;
 class PaymentsController extends Controller {
 
     protected $paymentRepo;
 
-     public function __construct(YearRepo $yearRepo,CashMonthlyRepo $cashMonthlyRepo,CashRepo $cashRepo,DetCashRepo $detCashRepo,DetPaymentRepo $detPaymentRepo,PaymentRepo $paymentRepo)
+     public function __construct(PendientAccountRepo $pendientAccountRepo,YearRepo $yearRepo,CashMonthlyRepo $cashMonthlyRepo,CashRepo $cashRepo,DetCashRepo $detCashRepo,DetPaymentRepo $detPaymentRepo,PaymentRepo $paymentRepo)
     {
         $this->detPaymentRepo = $detPaymentRepo;
         $this->paymentRepo=$paymentRepo;
@@ -32,11 +35,13 @@ class PaymentsController extends Controller {
         $this->cashRepo=$cashRepo;
         $this->cashMonthlyRepo=$cashMonthlyRepo;
         $this->yearRepo=$yearRepo;
+        $this->pendientAccountRepo=$pendientAccountRepo;
     }
 
 
     public function create(Request $request)
     {
+       // var_dump($request->all());die();
         //var_dump($request->all());die();
        /* $var=$request->detPayments;
       // var_dump($var);die();
@@ -59,7 +64,7 @@ class PaymentsController extends Controller {
         $insertDetP->save();*/
         //****************************************
           $var=$request->detPayments;
-        //var_dump($var);die();
+      // var_dump($request->all());die();
         $payment = $this->paymentRepo->getModel();
         $detPayment = $this->detPaymentRepo->getModel();
         $cashMonthly=$this->cashMonthlyRepo->getModel();
@@ -68,7 +73,10 @@ class PaymentsController extends Controller {
         //var_dump($request->input('id'));
         $provicional;
         if($request->idpayment==null){
-        $manager = new PaymentManager($payment,$request->all());
+        //var_dump("hhola si soy nuevo");
+        //var_dump($request->all());
+        //die();
+        $manager = new PaymentManager($payment,$request->except("purchase_id"));
         $manager->save();
         $provicional=$payment->id;
         }else{
@@ -79,6 +87,7 @@ class PaymentsController extends Controller {
         }
         $var['tipoPago']='A';
         $var['payment_id']=$provicional;
+
        /* $detcash = new DetCashManager($detCash,$request->all());
         $detcash->save();
         $var['detCash_id']=$detCash->id;
@@ -124,7 +133,7 @@ class PaymentsController extends Controller {
     //var_dump($año["id"]);die();
     $request->merge(["years_id"=>$año->id]);
     $request->merge(["amount"=>$var["montoPagado"]]);
-    $request->merge(['descripcion'=>"Pago a Proveedores"]);
+    //$request->merge(['descripcion'=>"Pago a Proveedores"]);
     $request->merge(['expenseMonthlys_id'=>1]);
     $cashMontl = new CashMonthlyManager($cashMonthly,$request->all());
     $cashMontl->save();
@@ -147,17 +156,36 @@ class PaymentsController extends Controller {
     {
         $var=$request->detPayments;
         $detPayment= $this->detPaymentRepo->find($request->detpId);
+         $pagoTemporal=$detPayment->montoPagado;
         $detpay = new DetPaymentManager($detPayment,$var);
         $detpay->save();
-        $pagoTemporal=$detPayment->montoPagado;
+       
        
         $payment = $this->paymentRepo->find($request->id);
         $manager = new PaymentManager($payment,$request->only("Acuenta","Saldo"));
         $manager->save();
         //=======================================================
+        //var_dump($request->input('Saldo_F'));die();
+        if(intval($request->input('Saldo_F'))>0){
+                    //var_dump($request->input("fecha"));die();
+                     $SaldosTemporales =$this->pendientAccountRepo->find2($detPayment['Saldo_F']);
+                     if($SaldosTemporales!=null){
+                      //  var_dump($SaldosTemporales->Saldo);die();
+                     $request->merge(['Saldo'=>floatval($SaldosTemporales->Saldo)+floatval($pagoTemporal)]);
+                     $request->merge(['Saldo'=>floatval($request->input('Saldo'))-floatval($detPayment['montoPagado'])]);
+                     //var_dump($request->input("Saldo"));die();
+                     $request->merge(['orderPurchase_id'=>$SaldosTemporales->orderPurchase_id]);
+                      $request->merge(['supplier_id'=>$SaldosTemporales->supplier_id]);
+                     $request->merge(['estado'=>0]);
+                     $request->merge(["fecha"=>$SaldosTemporales->fecha]);
+                     $insercount=new PendientAccountManager($SaldosTemporales,$request->all());
+                     $insercount->save();
+                    }
+                 
+        }
        
         
-      
+      //=====================================================================
         
         //$provicional;
  if(intval($request->input('detCash_id'))>0){
@@ -173,27 +201,23 @@ class PaymentsController extends Controller {
         //var_dump(floatval($totalCajaACtual));die();
         //$request->merge(["montoBruto"=>floatval($request->input('montoCaja')-floatval($pagoTemporal)])
         $request->merge(['montoFinal'=>floatval($request->input('montoCaja'))-floatval($totalCajaACtual)]);
-        $request->merge(['montoBruto'=>$request->input("montoFinal")]);
+        $request->merge(['montoBruto'=>floatval($request->input("montoFinal"))]);
        // var_dump(floatval($request->input('montoBruto')));die();
         $request->merge(["gastos"=>floatval($cash->gastos)-floatval($pagoTemporal)]);
         $request->merge(["gastos"=>floatval($request->input("gastos")+floatval($var["montoPagado"]))]);
-        //var_dump($request->all());die();
+       // var_dump($request->all());
              $request->merge(['fecha'=>$detCash->fecha]);
              $request->merge(['montoMovimientoTarjeta'=>0]);
              $request->merge(['hora'=>$detCash->hora]);
              $request->merge(['estado'=>1]);
              $request->merge(['cashMotive_id'=>$detCash->cashMotive_id]);
-            // $request->merge(['hora'=>$detCash->hora]);
-        
+          //   var_dump($request->all());die();
         $detcash = new DetCashManager($detCash,$request->all());
         $detcash->save();
-             $request->merge(["gastos"=>floatval($cash->gastos)]);
-             //$request->merge(["gastos"=>floatval($cash->gastos)+floatval($var["montoPagado"])]);
-             $request->merge(['fechaInicio'=>$cash->fechaInicio]);
+            $request->merge(['fechaInicio'=>$cash->fechaInicio]);
              $request->merge(['fechaFin'=>$cash->fechaFin]);
              $request->merge(['montoInicial'=>$cash->montoInicial]);
              $request->merge(['ingresos'=>$cash->ingresos]);
-             //$request->merge(['montoBruto'=>$cash->montoBruto]);
              $request->merge(['montoReal'=>$cash->montoReal]);
              $request->merge(['descuadre'=>$cash->descuadre]);
              $request->merge(['estado'=>$cash->estado]);

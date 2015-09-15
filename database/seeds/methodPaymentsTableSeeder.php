@@ -19,7 +19,19 @@ class methodPaymentsTableSeeder extends Seeder
             'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('methodPayments')->insert([
-            'nombre' => 'Cash',
+            'nombre' => 'Contado',
+            'descripcion' => 'pago al contado',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('methodPayments')->insert([
+            'nombre' => 'Tarjeta',
+            'descripcion' => 'pago al contado',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('methodPayments')->insert([
+            'nombre' => 'Deuda',
             'descripcion' => 'pago al contado',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")

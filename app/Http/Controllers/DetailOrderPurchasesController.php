@@ -206,6 +206,7 @@ class DetailOrderPurchasesController extends Controller {
 
     public function edit(Request $request)
     {
+       \DB::beginTransaction();
        $var=$request->detailOrderPurchases;//->except($request->detailOrderPurchases["id"]);
        $orderPurchase = $this->orderPurchaseRepo->find($request->input('id'));
        $orderPurchase = $this->orderPurchaseRepo->find($request->id);
@@ -245,6 +246,7 @@ class DetailOrderPurchasesController extends Controller {
            $manager->save(); 
            $provicional=$request->idpayment;
         }
+       \DB::commit(); 
       return response()->json(['estado'=>true]);
     }
 

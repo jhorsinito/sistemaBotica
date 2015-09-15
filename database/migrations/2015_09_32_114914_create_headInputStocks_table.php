@@ -14,7 +14,7 @@ class CreateHeadInputStocksTable extends Migration
     {
         Schema::create('headInputStocks', function (Blueprint $table) {
             $table->increments('id');
-            $table->datetime('Fecha');
+            $table->timestamp('Fecha');
             $table->string('tipo');
             $table->integer('orderPurchase_id')->unsigned()->nullable();
             $table->foreign('orderPurchase_id')->references('id')->on('orderPurchases');

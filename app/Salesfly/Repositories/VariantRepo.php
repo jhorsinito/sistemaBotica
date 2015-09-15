@@ -62,40 +62,33 @@ class VariantRepo extends BaseRepo{
                         ->join('presentation','detPres.presentation_id','=','presentation.id')
                         ->leftjoin('equiv','equiv.preFin_id','=','presentation.id')
                        ->where('detPres.id','=',$id)
-        ->select(\DB::raw('variants.*,detAtr.descripcion as Atrdescri,presentation.nombre,
+        ->select(\DB::raw('variants.*,detAtr.descripcion as Atrdescri,presentation.nombre as PRename,
             equiv.cant as equivalencia,equiv.preBase_id as base,products.nombre as Pnombre,brands.nombre as Bnombre
                             ,types.nombre as Tnombre,materials.nombre as Mnombre'))->groupBy('variants.id')->first();
-       $variants->preBase=Variant::join('detPres','detPres.variant_id','=','variants.id')
-                        ->join('presentation','detPres.presentation_id','=','presentation.id')
-                        ->leftjoin('equiv','equiv.preFin_id','=','presentation.id')
-                        ->where('presentation.id','=',$variants->base)
-                        ->select('presentation.shortname')->first();
+       
         return $variants;
     } 
     public function selectByID($id,$var){
         $variant=Variant::leftjoin('detAtr','detAtr.variant_id','=','variants.id')
                           ->leftjoin('atributes','atributes.id','=','detAtr.atribute_id')
-                          ->join('detPres','detPres.variant_id','=','variants.id')
-                          ->join('presentation','detPres.presentation_id','=','presentation.id')
+                          //->join('detPres','detPres.variant_id','=','variants.id')
+                          //->join('presentation','detPres.presentation_id','=','presentation.id')
                           ->where('variants.codigo','=',$id)->where('atributes.nombre','=',$var)
-                          ->select(\DB::raw('variants.sku as varSku,detPres.id as detID,variants.id as varCodigo,variants.suppPri as precioProducto,
+                          ->select(\DB::raw('variants.sku as varSku,variants.id as varCodigo,
                             atributes.shortname as nomCortoVar,detAtr.descripcion as valorDetAtr,(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR "/") FROM variants
                                 INNER JOIN detAtr ON detAtr.variant_id = variants.id
                                 INNER JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=varCodigo
-                                GROUP BY variants.id) as NombreAtributos,presentation.id as preID,presentation.base as esBase,(SELECT (equiv.cant ) FROM presentation
-                                LEFT JOIN equiv ON equiv.preFin_id = presentation.id
-                                where presentation.id=preID and presentation.base=0
-                                GROUP BY equiv.id)as equivalencia'))->groupBy('detAtr.descripcion')->paginate();
+                                GROUP BY variants.id) as NombreAtributos'))->groupBy('detAtr.descripcion')->paginate();
         return $variant;
     }
     public function selectTalla($id,$taco){
          $variant=Variant::leftjoin('detAtr','detAtr.variant_id','=','variants.id')
                           ->leftjoin('atributes','atributes.id','=','detAtr.atribute_id')
-                          ->join('detPres','detPres.variant_id','=','variants.id')
-                          ->join('presentation','detPres.presentation_id','=','presentation.id')
+                          //->join('detPres','detPres.variant_id','=','variants.id')
+                          //->join('presentation','detPres.presentation_id','=','presentation.id')
                           ->where('variants.codigo','=',$id)->where('detAtr.descripcion','=',$taco)
-                          ->select(\DB::raw("variants.sku as varSku,detPres.id as detID,variants.id as varCodigo,detPres.suppPri as precioProducto,
+                          ->select(\DB::raw("variants.sku as varSku,variants.id as varCodigo,
                             atributes.shortname as nomCortoVar,(SELECT (detAtr.descripcion ) FROM variants
                                 INNER JOIN detAtr ON detAtr.variant_id = variants.id
                                 INNER JOIN atributes ON atributes.id = detAtr.atribute_id
@@ -104,10 +97,7 @@ class VariantRepo extends BaseRepo{
                                 INNER JOIN detAtr ON detAtr.variant_id = variants.id
                                 INNER JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=varCodigo
-                                GROUP BY variants.id) as NombreAtributos,presentation.id as preID,presentation.base as esBase,(SELECT (equiv.cant ) FROM presentation
-                                LEFT JOIN equiv ON equiv.preFin_id = presentation.id
-                                where presentation.id=preID and presentation.base=0
-                                GROUP BY equiv.id)as equivalencia"))->paginate();
+                                GROUP BY variants.id) as NombreAtributos"))->paginate();
         return $variant;
     }
     public function traer_por_Sku($sku){
@@ -115,24 +105,21 @@ class VariantRepo extends BaseRepo{
         $variants=Variant::join('detAtr','variants.id','=','detAtr.variant_id')
                         ->join('products','products.id','=','variants.product_id')
                         ->leftjoin('brands','products.brand_id','=','brands.id')
-                        ->join('detPres','detPres.variant_id','=','variants.id')
-                        ->join('presentation','detPres.presentation_id','=','presentation.id')
+                        //->join('detPres','detPres.variant_id','=','variants.id')
+                        //->join('presentation','detPres.presentation_id','=','presentation.id')
                         ->leftjoin('types','products.type_id','=','types.id')
                         ->leftjoin('materials','materials.id','=','products.material_id')
                         ->where('variants.sku','=',$sku)
                             //->leftjoin('variants','products.id','=','variants.product_id')
                             //->leftjoin("atributes","atributes.id","=","detAtr.atribute_id")
-                            ->select(\DB::raw('products.id as proId,detPres.id as presid,detPres.suppPri as precioCompra,brands.nombre as BraName,types.nombre as TName,products.codigo as proCodigo,products.nombre as proNombre,
+                            ->select(\DB::raw('products.id as proId,brands.nombre as BraName,types.nombre as TName,products.codigo as proCodigo,products.nombre as proNombre,
                               variants.id as varid,variants.sku as varcode,variants.suppPri as varPrice,variants.price as precioProducto,
                                products.hasVariants as TieneVariante,products.created_at as proCreado,brands.id as BraID,materials.id as MId
                               ,materials.nombre as Mnombre,variants.codigo as varCodigo,detAtr.descripcion as descripcion,products.quantVar as proQuantvar,(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR "/") FROM variants
                                 INNER JOIN detAtr ON detAtr.variant_id = variants.id
                                 INNER JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=varid
-                                GROUP BY variants.id) as NombreAtributos,presentation.id as preID,presentation.base as esBase,(SELECT (equiv.cant ) FROM presentation
-                                LEFT JOIN equiv ON equiv.preFin_id = presentation.id
-                                where presentation.id=preID and presentation.base=0
-                                GROUP BY equiv.id)as equivalencia'))->groupBy('variants.id')
+                                GROUP BY variants.id) as NombreAtributos'))->groupBy('variants.id')
                             ->first();
         /*->select(\DB::raw('variants.*,variants.id as varid,products.nombre as nombre,detAtr.descripcion as descripcion,
             (SELECT GROUP_CONCAT(detAtr.descripcion SEPARATOR "-") FROM variants
@@ -141,6 +128,29 @@ class VariantRepo extends BaseRepo{
                                 where variants.id=varid
                                 GROUP BY variants.id) as NombreAtributos'))->groupBy('variants.id')->paginate(15);*/
         return $variants;
+    } 
+    public function Paginar_por_Variante(){
+       
+        $variants=Variant::join('detAtr','variants.id','=','detAtr.variant_id')
+                        ->join('products','products.id','=','variants.product_id')
+                        ->leftjoin('brands','products.brand_id','=','brands.id')
+                        //->join('detPres','detPres.variant_id','=','variants.id')
+                        //->join('presentation','detPres.presentation_id','=','presentation.id')
+                        ->leftjoin('types','products.type_id','=','types.id')
+                        ->leftjoin('materials','materials.id','=','products.material_id')
+                        //->where('variants.sku','=',$sku)
+                            //->leftjoin('variants','products.id','=','variants.product_id')
+                            //->leftjoin("atributes","atributes.id","=","detAtr.atribute_id")
+                            ->select(\DB::raw('products.id as proId,brands.nombre as BraName,types.nombre as TName,products.codigo as proCodigo,products.nombre as proNombre,
+                              variants.id as varid,variants.sku as varcode,variants.suppPri as varPrice,variants.price as precioProducto,
+                               products.hasVariants as TieneVariante,products.created_at as proCreado,brands.id as BraID,materials.id as MId
+                              ,materials.nombre as Mnombre,variants.codigo as varCodigo,detAtr.descripcion as descripcion,products.quantVar as proQuantvar,(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR "/") FROM variants
+                                INNER JOIN detAtr ON detAtr.variant_id = variants.id
+                                INNER JOIN atributes ON atributes.id = detAtr.atribute_id
+                                where variants.id=varid
+                                GROUP BY variants.id) as NombreAtributos'))->groupBy('variants.id')
+                            ->get();
+     return $variants;
     } 
 
   

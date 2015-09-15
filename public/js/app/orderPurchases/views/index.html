@@ -96,7 +96,7 @@
                       <td>{{row.descuento}}</td>
                       <td>{{row.montoBruto}}</td>
                       <td>{{row.montoTotal}}</td>
-                      <td ng-if="row.Estado==0"><button class=" label-default" ng-click='payments(row)' data-toggle="modal" data-target="#miventana">Adelanto</button></td>
+                      <td ng-if="row.Estado==0"><button class=" label-default" ng-click="VerAdelantos(row.id)">Adelanto</button></td>
                       <td ng-if="row.Estado!=0">------</td>
                       <td ng-if="row.Estado==0"><a  class="btn btn-success btn-xs">Pendiente</a></td>
                       <td ng-if="row.Estado==1"><a  class="btn btn-default btn-xs">Atendido</a></td>
@@ -200,7 +200,7 @@
                     <tr>
                       <td>
                          <div class="form-group" ng-class="{true: 'has-error'}[ paymentCreateForm.montoPagando.$error.required && paymentCreateForm.$submitted || paymentCreateForm.montoPagando.$dirty && paymentCreateForm.montoPagando.$invalid]" >
-                          <input type="number" class="form-control" ng-model='detPayment.montoPagado' ng-blur='recalPayments()' name="montoPagando" placeholder="0.00"  step="0.1" required>
+                          <input ng-enabled="false" type="number" class="form-control" ng-model='detPayment.montoPagado' ng-blur='recalPayments()' name="montoPagando" placeholder="0.00"  step="0.1" required>
                           <label ng-show="paymentCreateForm.$submitted || paymentCreateForm.montoPagando.$dirty && paymentCreateForm.montoPagando.$invalid">
                                 <span ng-show="paymentCreateForm.montoPagando.$invalid"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                          </label>
@@ -272,12 +272,13 @@
                     </tr>
                     
                     <tr ng-repeat="row in detPayments">
-                      <td ng-hide="true">@{{row.id}}</td>
+                      <td ng-hide="true">{{row.Saldo_F}}</td>
+                      <td ng-hide="true">{{row.id}}</td>
                       <td ng-hide="true">{{row.cashID}}</td>
                       <td>{{row.fecha}}</td>
                       <td ng-if="row.nameMethod!=null">{{row.nameMethod}}</td>
-                      <td ng-if="row.detCash_id>0">{{row.detCash_id}}</td>
-                      <td ng-if="row.cashMonthly_id>0">{{row.cashMonthly_id}}</td>
+                      <td ng-if="row.detCash_id>0">{{row.nombre}}</td>
+                      <td ng-if="row.cashMonthly_id>0">Caja Mensual</td>
                       <td>{{row.montoPagado}}</td>
                       <td ><span class="badge bg-blue">{{row.tipoPago}}</span></td> 
                       <td><button type="button" class="btn btn-danger btn-xs"  ng-click="destroyPay(row)">
