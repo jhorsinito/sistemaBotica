@@ -54,6 +54,11 @@ class VariantsController extends Controller
         //var_dump($variants);die();
         return response()->json($variants);
     }
+    public function  Paginar_por_Variante(){
+        $variants=$this->variantRepo->Paginar_por_Variante();
+        return response()->json($variants);
+    }
+
         public function getAttr($id)
     {
         $variant = $this->variantRepo->getAttr($id);

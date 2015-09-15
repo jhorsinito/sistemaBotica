@@ -49,14 +49,18 @@
                     <tr ng-repeat="row in pendientAccounts">
                       <td>@{{$index + 1}}</td>
                       <td >@{{row.empresa}}</td>
-                      <td ><label style="width: 50px">@{{row.Saldo}}</label>
-                      <input ng-if="indexPirata==$index" ng-show="verEdicion" ng-model="nuevoSaldo" type="number" ng-blur="ActualizarSaldo(row,nuevoSaldo)" style="width: 50px"></td>
-                      <td>@{{row.fecha}}</td> 
+                      
+                     <td ><label style="width: 50px">@{{row.Saldo}}</label>
+                      <input ng-if="indexPirata==$index" ng-show="verEdicion" ng-model="row.nuevoSaldo" type="number" ng-blur="ActualizarSaldo(row,row.nuevoSaldo)" style="width: 50px">
+                      <select ng-if="indexPirata==$index" ng-show="verEdicion" class="form-control"  ng-model="row.cash_id" style="width: 100px" ng-options="item.cashID as item.nombre for item in cashHeaders" >
+                       <option value="">Elija Caja</option>
+                       </select></td>
+                      <td>@{{row.created_at}}</td> 
                       <td ng-if="row.estado==0"><span class="badge bg-red">Pendiente</span></td> 
                       <td ng-if="row.estado==1"><span class="badge bg-green">Pagada</span></td> 
                       <td>@{{row.orderPurchase_id}}</td>
                       <td><a  ng-hide="indexPirata==$index" type="submit" ng-click="EditarDeudas($index)" class="btn btn-success btn-xs">Editar</a>
-                          <a  ng-if="indexPirata==$index" ng-show="verEdicion" type="submit" ng-click="CuentasAFavor(row)" class="btn btn-info btn-xs">Guardar</a>
+                          <a  ng-if="indexPirata==$index" type="submit" ng-show="verEdicion" type="submit" ng-click="CuentasAFavor(row)" class="btn btn-info btn-xs">Guardar</a>
                           <a  ng-if="indexPirata==$index" ng-show="verEdicion" type="submit" ng-click="canselarEditDeudas()" class="btn btn-danger btn-xs">Cancelar</a>
                  
                  </td>

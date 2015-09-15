@@ -21,12 +21,14 @@ use Salesfly\Salesfly\Managers\CashMonthlyManager;
 
 use Salesfly\Salesfly\Repositories\YearRepo;
 
+use Salesfly\Salesfly\Repositories\PendientAccountRepo;
+use Salesfly\Salesfly\Managers\PendientAccountManager;
 
 class DetPaymentsController extends Controller {
 
     protected $detPaymentRepo;
 
-    public function __construct(YearRepo $yearRepo,CashMonthlyRepo $cashMonthlyRepo,CashRepo $cashRepo,DetCashRepo $detCashRepo,DetPaymentRepo $detPaymentRepo,PaymentRepo $paymentRepo)
+    public function __construct(PendientAccountRepo $pendientAccountRepo,YearRepo $yearRepo,CashMonthlyRepo $cashMonthlyRepo,CashRepo $cashRepo,DetCashRepo $detCashRepo,DetPaymentRepo $detPaymentRepo,PaymentRepo $paymentRepo)
     {
         $this->detPaymentRepo = $detPaymentRepo;
         $this->paymentRepo=$paymentRepo;
@@ -34,6 +36,7 @@ class DetPaymentsController extends Controller {
         $this->cashRepo=$cashRepo;
         $this->cashMonthlyRepo=$cashMonthlyRepo;
         $this->yearRepo=$yearRepo;
+        $this->pendientAccountRepo=$pendientAccountRepo;
     }
 
     public function paginatep(){
@@ -54,8 +57,14 @@ class DetPaymentsController extends Controller {
         $update = new PaymentManager($payment,$request->only("Acuenta","Saldo"));
         $update->save();
         $var['tipoPago']='P';
-        
-        
+        $verDeudas=$this->pendientAccountRepo->verSaldos($request->input("supplier_id"));
+        /*if($request->input("methodPayment_id")==4){
+              $request->merge(['Saldo'=>$verDeudas->Saldo-$SaldoAfavor]);
+              $request->merge(['orderPurchase_id'=>$verDeudas->orderPurchase_id]);
+              $request->merge(['supplier_id'=>$verDeudas->supplier_id]);
+              $updateSaldoF=new pendientAccountManager($verDeudas,$request->all());
+              $updateSaldoF->save();
+        }*/
         
      if(intval($request->input('cash_id'))>0){
         //var_dump("hola");die();
@@ -82,7 +91,7 @@ class DetPaymentsController extends Controller {
     //var_dump($año["id"]);die();
     $request->merge(["years_id"=>$año->id]);
     $request->merge(["amount"=>$var["montoPagado"]]);
-    $request->merge(['descripcion'=>"Pago a Proveedores"]);
+    //$request->merge(['descripcion'=>"Pago a Proveedores"]);
     $request->merge(['expenseMonthlys_id'=>1]);
     $cashMontl = new CashMonthlyManager($cashMonthly,$request->all());
     $cashMontl->save();

@@ -38,7 +38,10 @@ class OrderPurchasesController extends Controller {
     {
         return View('orderPurchases.index');
     }
-  
+      public function show()
+    {
+        return View('orderPurchases.show');
+    }
     public function all($estado)
     {
         $orderPurchases = $this->orderPurchaseRepo->searchEstados($estado);
@@ -68,7 +71,9 @@ class OrderPurchasesController extends Controller {
 
     public function create(Request $request)
     {
-        $orderPurchase = $this->orderPurchaseRepo->getModel();       
+        \DB::beginTransaction();
+        $orderPurchase = $this->orderPurchaseRepo->getModel();   
+         //var_dump($request->input('montoTotal'));die();    
         $manager = new OrderPurchaseManager($orderPurchase,$request->except('fechaPedido','fechaPrevista'));
         $manager->save();
        if($this->orderPurchaseRepo->validateDate(substr($request->input('fechaPedido'),0,10)) and $this->orderPurchaseRepo->validateDate(substr($request->input('fechaPrevista'),0,10)) ){
@@ -79,11 +84,11 @@ class OrderPurchasesController extends Controller {
             $orderPurchase->fechaPedido = null;
              $orderPurchase->fechaPrevista = null;
         }
-
+        
         $orderPurchase->save();
 
 
-
+       \DB::commit(); 
         return response()->json(['estado'=>true, 'nombres'=>$orderPurchase->nombres,'codigo'=>$orderPurchase->id,'warehouse_id'=>$orderPurchase->warehouses_id]);
     }
 
@@ -99,8 +104,9 @@ class OrderPurchasesController extends Controller {
 
     public function edit(Request $request)
     {
+        \DB::beginTransaction();
         $var=$request->input('detailOrderPurchases');
-        //var_dump($request->fecha);die();
+       //var_dump($request->input('montoTotal'));die();    
        $orderPurchase = $this->orderPurchaseRepo->find($request->id);
        if($request->Estado == 0){
         $manager = new OrderPurchaseManager($orderPurchase,$request->except('fechaPedido','fechaPrevista'));
@@ -194,10 +200,10 @@ class OrderPurchasesController extends Controller {
           
          /* if($provicional==null){
               $payment = $this->paymentRepo->getModel();
-              $request->merge(['MontoTotal'=>$montotot]);
+              $request->merge(['montoTotal'=>$montotot]);
               $request->merge(['Acuenta'=>$verDeudas->Saldo]);
               $request->merge(['orderPurchase_id'=>$request->input('id')]);
-              $salc=$request->input('MontoTotal')-$request->input('Acuenta');
+              $salc=$request->input('montoTotal')-$request->input('Acuenta');
               $request->merge(['Saldo'=>$salc]);        
               $manager = new PaymentManager($payment,$request->all());
               $manager->save();
@@ -207,20 +213,22 @@ class OrderPurchasesController extends Controller {
               $var=$request->detPayments; 
               if($provicional==null){
               $payment = $this->paymentRepo->getModel();
-             // $request->merge(['MontoTotal'=>$montotot]);
+             // $request->merge(['montoTotal'=>$montotot]);
               $request->merge(['Acuenta'=>$SaldoAfavor]);
               $request->merge(['orderPurchase_id'=>$request->input('id')]);
-              $salc=floatval($request->input('MontoTotal'))-$request->input('Acuenta');
+              $salc=floatval($request->input('montoTotal'))-floatval($request->input('Acuenta'));
+              //var_dump($request->input('montoTotal'));die();
               $request->merge(['Saldo'=>$salc]);        
               $manager = new PaymentManager($payment,$request->all());
               $manager->save();
               $provicional=$payment->id;
             }else{
               $saldos = $this->paymentRepo->find($provicional);
-             // $request->merge(['MontoTotal'=>$montotot]);
+             // $request->merge(['montoTotal'=>$montotot]);
               $request->merge(['Acuenta'=>$saldos->Acuenta+$SaldoAfavor]);
               $request->merge(['orderPurchase_id'=>$request->input('id')]);
-              $salc=floatval($request->input('MontoTotal'))-floatval($request->input('Acuenta'));
+              $salc=floatval($request->input('montoTotal'))-floatval($request->input('Acuenta'));
+              //var_dump($request->input('montoTotal'));die();
               $request->merge(['Saldo'=>$salc]);
               $payment=new PaymentManager($saldos,$request->all());
               $payment->save();
@@ -231,7 +239,7 @@ class OrderPurchasesController extends Controller {
               $request->merge(['tipoPago'=>'A']);
               $request->merge(['payment_id'=>$provicional]);
               $request->merge(['montoPagado'=>$SaldoAfavor]);
-              //$request->merge(['methodPayment_id'=>4]);
+              $request->merge(['methodPayment_id'=>4]);
               $request->merge(['Saldo_F'=>$verDeudas->id]);
               $insertDetP = new DetPaymentManager($detPayment,$request->all());
               $insertDetP->save();
@@ -248,20 +256,22 @@ class OrderPurchasesController extends Controller {
               $SaldoAfavor=$SaldoAfavor-$verDeudas->Saldo;
               if($provicional==null){
               $payment = $this->paymentRepo->getModel();
-              //$request->merge(['MontoTotal'=>$montotot]);
+              //$request->merge(['montoTotal'=>$montotot]);
               $request->merge(['Acuenta'=> $SaldoAfavor]);
               $request->merge(['orderPurchase_id'=>$request->input('id')]);
-              $salc=floatval($request->input('MontoTotal'))-$request->input('Acuenta');
+              $salc=floatval($request->input('montoTotal'))-$request->input('Acuenta');
+              //var_dump($request->input('montoTotal'));die();
               $request->merge(['Saldo'=>$salc]);        
               $manager = new PaymentManager($payment,$request->all());
               $manager->save();
               $provicional=$payment->id;
             }else{
               $saldos = $this->paymentRepo->fine($provicional);
-             // $request->merge(['MontoTotal'=>$montotot]);
+             // $request->merge(['montoTotal'=>$montotot]);
               $request->merge(['Acuenta'=>$saldos->Acuenta+ $SaldoAfavor]);
               $request->merge(['orderPurchase_id'=>$request->input('id')]);
-              $salc=floatval($request->input('MontoTotal'))-$request->input('Acuenta');
+              $salc=floatval($request->input('montoTotal'))-$request->input('Acuenta');
+              //var_dump($request->input('montoTotal'));die();
               $request->merge(['Saldo'=>$salc]);
               $payment=new PaymentManager($saldos,$request->all());
               $payment->save();
@@ -318,7 +328,7 @@ class OrderPurchasesController extends Controller {
                 }
         }
     }
-
+        \DB::commit(); 
         return response()->json(['estado'=>true, 'nombres'=>$orderPurchase->nombres]);
        
        

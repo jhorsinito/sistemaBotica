@@ -94,6 +94,7 @@ class PurchasesController extends Controller {
     public function create(Request $request)
         {
          // var_dump($request->all());die();
+    \DB::beginTransaction();
         $saldoTemp=0;
         $codigoHeadIS=0;
         $purchase = $this->purchaseRepo->getModel();
@@ -120,11 +121,13 @@ class PurchasesController extends Controller {
         $orderPurchase->save();
                    $payment1 = $this->paymentRepo->paymentById($request->input('id'));
                    $pendientAccount=$this->pendientAccountRepo->getModel();
+
                    //$pendientAcc=$this->pendientAccountRepo->verSaldos($payment1->id);
               if($payment1!=null){  
                   $detPayment=$this->detPaymentRepo->verPagosAdelantados($payment1->id); 
                 if($detPayment!=null){
                   foreach($detPayment as  $detPayment) {
+                    $request->merge(["estado"=>0]);
                      $SaldosTemporales =$this->pendientAccountRepo->find2($detPayment['Saldo_F']);
                      if($SaldosTemporales!=null){
                      $request->merge(['Saldo'=>$SaldosTemporales->Saldo+$detPayment['montoPagado']]);
@@ -183,6 +186,7 @@ class PurchasesController extends Controller {
             $object1["montoTotal"]=floatval($object1["montoBruto"])-((floatval($object1["montoBruto"])*floatval($object1["descuento"]))/100);
         }else{
             //var_dump("dos".$object1["cantidad1"]);die();
+          
             if($object1["Cantidad_Ll"]=='0' && $object1["montoBruto"]=='0'){
               $object1["Cantidad_Ll"]=0;
               $object1["pendiente"]=$object1["cantidad"];
@@ -190,6 +194,8 @@ class PurchasesController extends Controller {
               $object1["montoTotal"]=floatval($object1["montoBruto"])-((floatval($object1["montoBruto"])*floatval($object1["descuento"]))/100);
             }else{
                 if($object1["Cantidad_Ll"]>0){
+                     $object1["Cantidad_Ll"]=$object1["cantidad"];
+                     $object1["pendiente"]=0;
                      $object1["montoBruto"]=floatval($object1["cantidad"])*floatval($object1["preProducto"]);
                      $object1["montoTotal"]=floatval($object1["montoBruto"])-((floatval($object1["montoBruto"])*floatval($object1["descuento"]))/100);
                 }else{  
@@ -199,8 +205,8 @@ class PurchasesController extends Controller {
                      $object1["montoTotal"]=floatval($object1["montoBruto"])-((floatval($object1["montoBruto"])*floatval($object1["descuento"]))/100);
             }
           }
-        }
         
+        }
         ////if($hola->cantidad1!=null){
         ////    $object1["Cantidad_Ll"]=$hola->Cantidad_Ll;
         ////    $object1["pendiente"]=$hola->pendiente;
@@ -210,12 +216,14 @@ class PurchasesController extends Controller {
         ////    $object1["pendiente"]=0;
         ////}
         //var_dump($hola['Cantidad_Ll']);die();
-        
+        if(floatval($object1["preCompra"])>0){
+           
         $detailOrderPurchaseRepox = new DetailOrderPurchaseRepo;
         $insertar=new DetailOrderPurchaseManager($detailOrderPurchaseRepox->getModel(),$object1);
         $insertar->save();
         $detailOrderPurchaseRepox = null;
         //$n++;
+      }
        }
    } }
         //==============================================================================
@@ -245,14 +253,14 @@ class PurchasesController extends Controller {
       //====================Creando y actualizando pagos si que existe adelantos====================================
         if($request->input('compraDirecta')==1){
           $request->merge(["Acuenta"=>0]);
-          $inserPay=new PaymentManager($payment,$request->except("estado"));
+          $inserPay=new PaymentManager($payment,$request->all());
           $inserPay->save();
           
         }else{
         $consulPayment=$this->paymentRepo->paymentById($purchase->orderPurchase_id);
         if($consulPayment==null){
           $request->merge(["Acuenta"=>0]);
-          $inserPay=new PaymentManager($payment,$request->except("estado"));
+          $inserPay=new PaymentManager($payment,$request->all());
           $inserPay->save();
           //------------------------------------
           
@@ -261,7 +269,7 @@ class PurchasesController extends Controller {
 
               $request->merge(["Acuenta"=>$consulPayment->Acuenta]);
               $request->merge(["Saldo"=>(floatval($request->input("montoTotal"))-floatval($request->input("Acuenta")))]);
-              $inserPay=new PaymentManager($consulPayment,$request->except("estado"));
+              $inserPay=new PaymentManager($consulPayment,$request->all());
               $inserPay->save();
               //$saldoTemp=$inserPay->Saldo;
         }
@@ -271,6 +279,7 @@ class PurchasesController extends Controller {
        if($request->input('Saldo')<0){
            
             $request->merge(['Saldo'=>$request->input('Saldo')*-1]);
+            //$request->merge(["estado"=>0]);
             $insercount=new PendientAccountManager($pendientAccount,$request->except("estado"));
             $insercount->save();
              
@@ -289,7 +298,7 @@ class PurchasesController extends Controller {
                  $request->merge(['estado'=>1]);
                  $request->merge(['orderPurchase_id'=>$saldos->orderPurchase_id]);
                  $request->merge(['supplier_id'=>$saldos->supplier_id]);
-                 $insercount=new PendientAccountManager($saldos,$request->except("estado"));
+                 $insercount=new PendientAccountManager($saldos,$request->all());
                  $insercount->save();
               }
             }
@@ -306,40 +315,55 @@ class PurchasesController extends Controller {
            $object['purchases_id'] = $temporal;
            $object['purchase_id']=$temporal;
            $object['Fecha']=$fechaActual;
+           $object['warehouse_id']=$almacen_id;
+           $object["variant_id"]=$object["Codigovar"];
+           $stockmodel = new StockRepo;
+           $stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
            if($request->input('estado')==1){
-           if(!empty($object["cantidad1"])){
-            $object["cantidad"]=$object["Cantidad_Ll"];
-           }else{
-            if($object["Cantidad_Ll"]==0 && $object["montoBruto"]==0){
+                if(!empty($object["cantidad1"])){
                    $object["cantidad"]=$object["Cantidad_Ll"];
-            }else{
-              if(floatval($object["Cantidad_Ll"])>0){
-                   $object["cantidad"]=$object["Cantidad_Ll"]; 
-              }else{
-                  $object["cantidad"]=$object["cantidad"];
+                }else{
+                  if($object["preCompra"]==0){
+                          $object["cantidad"]=$object["cantidad"];
+                    }else{
+                          if($object["Cantidad_Ll"]==0 && $object["montoBruto"]==0)
+                          {
+                             $object["cantidad"]=$object["Cantidad_Ll"];
+                          }else{
+                           //if(floatval($object["Cantidad_Ll"])>0){
+                           //   $object["cantidad"]=$object["Cantidad_Ll"]; 
+                           //}else{
+                             $object["cantidad"]=$object["cantidad"];
+                           //}
+                      }
                 }
-            }
            }
            //***************************************************
-            $stockmodel = new StockRepo;
-                  $object['warehouse_id']=$almacen_id;
-                  $object["variant_id"]=$object["Codigovar"];
-                  $stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
+           // $stockmodel = new StockRepo;
+                  //$object['warehouse_id']=$almacen_id;
+                  //$object["variant_id"]=$object["Codigovar"];
+                  //$stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
                   if(!empty($object["cantidad1"])){
-                  $cantidaCalculada=floatval($object["cantidad1"]);
-                  }else{ if($object["Cantidad_Ll"]==0 && $object["montoBruto"]==0){
-                          $cantidaCalculada=0;
-                     }else{
-                    $cantidaCalculada=floatval($object["cantidad"])-floatval($object["Cantidad_Ll"]);
-                     }
+                      $cantidaCalculada=floatval($object["cantidad1"]);
+                  }else{ 
+                    if($object["preCompra"]==0){
+                          $cantidaCalculada=floatval($object["cantidad"]);
+                    }else{
+                         if($object["Cantidad_Ll"]==0 && $object["montoBruto"]==0){
+                               $cantidaCalculada=0;
+                          }else{
+                         $cantidaCalculada=floatval($object["cantidad"])-floatval($object["Cantidad_Ll"]);
+                          }
+                    }
                   }
-      //******************************************
+      //*****************ssss*************************
            }else{
               $stockmodel = new StockRepo;
               $object['warehouse_id']=$almacen_id;
               $object["variant_id"]=$object["Codigovar"];
               $cantidaCalculada=$object["cantidad"];
            }
+           //$object["cantidad"]=$cantidaCalculada;
            if(intval($object["cantidad"]>0)){
            //var_dump($object);die();
            $detailPurchaseRepox = new DetailPurchaseRepo;
@@ -405,6 +429,12 @@ class PurchasesController extends Controller {
          }
        }
       //======================Creando reporte por cada linea de detalle de compra===============================
+      
+}
+      \DB::commit();
+     return response()->json(['estado'=>true, 'nombres'=>$purchase->nombres]);
+    }
+    public function reportes(){
         $database = \Config::get('database.connections.mysql');
         $time=time();
         $output = public_path() . '/report/'.$time.'_tikets';        
@@ -434,10 +464,7 @@ class PurchasesController extends Controller {
             false,
             false
         )->execute();
-}
-     return response()->json(['estado'=>true, 'nombres'=>$purchase->nombres]);
     }
-
     public function find($id)
     {
         $purchase = $this->purchaseRepo->select($id);
@@ -450,6 +477,7 @@ class PurchasesController extends Controller {
 
     public function edit(Request $request)
     {
+      \DB::beginTransaction();
        $purchase = $this->purchaseRepo->find($request->id);
 
         $manager = new PurchaseManager($purchase,$request->except('fechaEntrega'));
@@ -462,7 +490,7 @@ class PurchasesController extends Controller {
         }
 
         $purchase->save();
-
+        \DB::commit();
         return response()->json(['estado'=>true, 'nombres'=>$purchase->nombres]);
        
        

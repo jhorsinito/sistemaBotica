@@ -59,7 +59,8 @@ class InputStocksController extends Controller
     
     public function create(Request $request){
        $var =$request->detailOrderPurchases;
-    //var_dump($request->input('id'));die();
+       $request->merge(["Fecha"=>$request->fecha]);
+    //var_dump($request->input("Fecha"));die();
        $codigoHeadIS;
        $almacen_id=$request->input("warehouses_id");
        $almacen_Destino=$request->input("warehouDestino_id");
