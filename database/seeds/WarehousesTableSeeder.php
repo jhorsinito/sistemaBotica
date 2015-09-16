@@ -13,7 +13,7 @@ class WarehousesTableSeeder extends Seeder
     {
         //
         DB::table('warehouses')->insert([
-            'nombre' => 'Almacen Central',
+            'nombre' => 'Almacén Central',
             'shortname' => 'AC',
             'descripcion' => 'Almacen Central del la Tienda creado por defecto',
             'capacidad' => '100',

@@ -276,7 +276,7 @@
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 
                           </div><!-- /.box-tools -->
-                          <button type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Producto</button>
+                          <a href="/products/create" type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Producto</a>
                         </div><!-- /.box-header -->
                         <div class="box-body">
                           Puedes agregar manualmente tus productos. Te hemos puesto productos de ejemplo.
@@ -296,7 +296,7 @@
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
 
                           </div><!-- /.box-tools -->
-                          <button type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Cliente</button>
+                          <a href="/customers/create" type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Cliente</a>
                         </div><!-- /.box-header -->
                         <div class="box-body">
                           Puedes agregar manualmente tus productos. Te hemos puesto productos de ejemplo.
@@ -316,7 +316,7 @@
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
 
                           </div><!-- /.box-tools -->
-                          <button type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Empleado!</button>
+                          <a href="/employees/create" type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Empleado!</a>
                         </div><!-- /.box-header -->
                         <div class="box-body">
                           Puedes agregar manualmente tus productos. Te hemos puesto productos de ejemplo.
