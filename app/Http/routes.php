@@ -571,6 +571,8 @@ Route::post('api/sales/destroy',['as'=>'person_destroy', 'uses'=>'SalesControlle
 Route::get('api/sales/search/{q?}',['as'=>'person_search', 'uses'=>'SalesController@search']);
 Route::get('api/sales/find/{id}',['as'=>'person_find', 'uses'=>'SalesController@find']);
 
+Route::post('api/ordsales/create',['as'=>'person_create', 'uses'=>'SalesController@createSale']);
+
 
 
 Route::get('api/detpresPresentation/search/{id?}',['as'=>'person_search', 'uses'=>'DetPresController@searchPresentations']);

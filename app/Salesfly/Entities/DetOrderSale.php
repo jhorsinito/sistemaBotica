@@ -12,5 +12,7 @@ class DetOrderSale extends \Eloquent {
     						'subTotal',
     						'estado',
     						'orderSale_id',
+    						'canPendiente',
+							'canEntregado',
     						'detPre_id'];
 }

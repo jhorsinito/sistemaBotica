@@ -17,6 +17,9 @@ class CreateDetOrderSalesTable extends Migration
             $table->decimal('precioProducto',10,2);
             $table->decimal('precioVenta',10,2);
             $table->decimal('cantidad',10,2);
+            $table->decimal('canPendiente',10,2);
+            $table->decimal('canEntregado',10,2);
+            $table->decimal('parteEntregado',10,2);
             $table->decimal('descuento',10,2);
             $table->decimal('subTotal',10,2);
             $table->tinyInteger('estado');

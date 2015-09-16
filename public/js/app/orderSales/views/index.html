@@ -65,7 +65,7 @@
                       <th>Fecha Anulado</th>
                       <th>Total</th>                                             
                       <th>Cliente</th>
-                      <th>Vendedor</th>
+                      <th>Vendedort</th>
                       <th>Estado Pago</th>
                       <th>Estado Venta</th>
                       <th style="width: 40px">Detalle</th>
@@ -78,7 +78,7 @@
                       <td>{{row.montoTotal}}</td>                      
                       <td>{{row.customer.nombres+' '+row.customer.apellidos+' - '+row.customer.empresa}}</td>
                       <td>{{row.employee.nombres+' '+row.employee.apellidos}}</td>
-                      <td>{{row.estado==1? 'Pendiente':'Terminado'}}</td>
+                      <td>{{row.estado==1? 'Por Entregar':'Entregado'}}</td>
                       <td>{{row.estadoPago==1? 'Credito':'Contado'}}</td>
                       <td><a ng-click="editorder(row)" class="btn btn-warning btn-xs">Ver</a></td>
                       

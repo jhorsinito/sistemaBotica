@@ -12,7 +12,7 @@
           
         </section>
 
-        <section class="content">
+        <section class="content"> 
         <div class="row">
         <div class="col-md-12">
 
@@ -52,7 +52,7 @@
                               border-width: 2px; border-color: #C8D9F7; border-radius: 10px 10px 0px 0px;">
                           <div class="row">
                             <div class="col-md-7" ng-show="skuestado">
-                              <input type="text" ng-model="varianteSkuSelected" placeholder="Buscar por SKU" ng-change="getvariantSKU()" class="form-control">
+                              <input type="text" ng-model="varianteSkuSelected" placeholder="Buscar por SKU" ng-enter="getvariantSKU()" class="form-control">
                             </div>
 
                             <div class="col-md-7" ng-show="!skuestado">
@@ -96,7 +96,7 @@
                               <span class="glyphicon glyphicon-trash"></span>
                               </td>                    
                             </tr>                                    
-                          </table>
+                          </table> 
     
                         </div><!-- /.box-body -->
 
@@ -652,7 +652,7 @@
                     </tr>
                     <tr> 
                       <td>
-                          
+                          <a class="btn btn-success btn-xs" ng-click="limpiartipoTarjeta()">Nada</a> 
                       </td>
                       <td>
                         <div class="btn-group">

@@ -23,6 +23,9 @@ class CreateSalesTable extends Migration
 
             $table->integer('employee_id')->unsigned()->nullable();
             $table->foreign('employee_id')->references('id')->on('employees');
+
+            $table->integer('orderSale_id')->unsigned()->nullable();;
+            $table->foreign('orderSale_id')->references('id')->on('orderSales');
             $table->timestamps();
         });
     }
