@@ -42,6 +42,12 @@
                                <label>Fecha de Venta:</label>
                                <spam>@{{order1.fechaPedido}}</spam>
                          </div>
+
+                         <div  class="input-group" ng-if="order1.orderSale_id!=null">
+                               <label>verOrder:</label>
+                               <a href='orderSales/edit/@{{order1.orderSale_id}}' target="_blank">ver Orden</a>
+                         </div>
+
                          <div>
                          <label>Venta</label>
                           <div class="row">
@@ -108,8 +114,8 @@
         </div>
       </div>
   <!-- ==========================================================================================-->
-       <section class="content">
-        <div class="row">
+       <section class="content"ng-if="order1.orderSale_id==null">
+        <div class="row" >
         <div class="col-md-12">
 
           <div class="box box-primary">
@@ -148,7 +154,7 @@
                   
                 </div><!-- /.box-body -->
       <div class="box-body">
-<div class="row">
+<div class="row" >
       <div  class="col-md-6" align="center" ng-if="payment[0].Saldo==0">
       </div>
      <div  class="col-md-6" align="center"ng-if="payment[0].Saldo!=0">

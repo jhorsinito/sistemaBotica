@@ -15,7 +15,8 @@ class SaleManager extends BaseManager {
             'employee_id'=> '',
             'customer_id'=> '',
             'igv'=> '',
-            'notas'=> ''
+            'notas'=> '',
+            'orderSale_id'=> ''
                   ];
         return $rules;
     }} 

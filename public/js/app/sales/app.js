@@ -6,8 +6,23 @@
         'sales.controllers',
         'crud.services.orders',
         'routes',
-        'ui.bootstrap' 
+        'ui.bootstrap'
+        //'sales.directives' 
     ]);
+
+    app.directive('ngEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.ngEnter);
+                });
+ 
+                event.preventDefault();
+            }
+        });
+    };
+});
 
 angular.module('sales').controller('ModalInstanceCtrl', function ($scope,$log, $modalInstance,presentations,crudServiceOrders) {
 	$scope.presentations = presentations;

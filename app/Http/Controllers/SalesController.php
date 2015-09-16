@@ -8,6 +8,12 @@ use Illuminate\Routing\Controller;
 use Salesfly\Salesfly\Repositories\SaleRepo;
 use Salesfly\Salesfly\Managers\SaleManager;
 
+use Salesfly\Salesfly\Repositories\OrderSaleRepo;
+use Salesfly\Salesfly\Managers\OrderSaleManager;
+
+use Salesfly\Salesfly\Repositories\DetOrderSaleRepo;
+use Salesfly\Salesfly\Managers\DetOrderSaleManager;
+
 use Salesfly\Salesfly\Repositories\DetSaleRepo;
 use Salesfly\Salesfly\Managers\DetSaleManager;
 
@@ -192,6 +198,86 @@ class SalesController extends Controller
      return response()->json(['estado'=>true, 'nombres'=>$orderSale->nombres]);
     }
 
+
+    public function createSale(Request $request) 
+        {
+          
+          //---------------------- 
+          $orderRepo;
+            $orderRepo = new OrderSaleRepo;
+            $cajaSave=$orderRepo->getModel();
+            $cash1 = $orderRepo->find($request->id);
+
+            $manager1 = new OrderSaleManager($cash1,$request->all());
+            $manager1->save();
+        //---------------------
+        $var = $request->detOrders;
+        $request->merge(array('estado' => '0'));
+        //$request->merge(array('estado' => '0'));
+        $orderSale = $this->saleRepo->getModel();
+        $manager = new SaleManager($orderSale,$request->all());
+        $manager->save();
+ 
+        $orderSale->save();
+        $temporal=$orderSale->id;
+        
+          //----------------------      
+
+        $detOrderrepox;
+         
+       foreach($var as $object){
+          //------Actualizar pedido------
+          //$cajaAct = $request->caja;
+          //var_dump($object);die();
+            $saleDet;
+            $saleDet = new DetOrderSaleRepo;
+            //$object=$saleDet->getModel();
+
+            $saled = $saleDet->find($object['id'] );
+            //var_dump($saled);die();
+
+            $manager2 = new DetOrderSaleManager($saled,$object);
+            $manager2->save();
+          //-----------------------------
+           $object['sale_id'] = $temporal;
+           $object['cantidad'] = $object['parteEntregado'];
+
+           //$object['cantidad'] = $object['parteEntregado'];
+
+           $detOrderrepox = new DetSaleRepo;
+
+           $insertar=new DetSaleManager($detOrderrepox->getModel(),$object);
+           if($object['parteEntregado']>0){$insertar->save();}
+           
+          
+           $detOrderrepox = null;
+
+           //-------------------------------------
+           
+           $stockmodel = new StockRepo;
+                  $object['warehouse_id']=$object['idAlmacen'];
+                  $object["variant_id"]=$object['vari'];
+                  $stockac=$stockmodel->encontrar($object["variant_id"],$object['warehouse_id']);
+                  //var_dump($stockac);die();
+            if(!empty($stockac)){
+             
+                if($object["equivalencia"]==null){
+                  $object["stockActual"]=$stockac->stockActual-($object["cantidad"]);//
+                  
+                }else{
+                  $object["stockActual"]=$stockac->stockActual-($object["cantidad"]*$object["equivalencia"]);
+                }
+                  $manager = new StockManager($stockac,$object);
+                  $manager->save();
+                  //$stock=null;
+            }else{
+                
+            }
+            $stockac=null;
+            //-----------------------------------------------------
+       }
+     return response()->json(['estado'=>true, 'nombres'=>$orderSale->nombres]);
+    }
     public function store(Request $request)
     {
         //

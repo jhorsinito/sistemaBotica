@@ -24,10 +24,10 @@
                 <form name="purchaseCreateForm" role="form" novalidate>
                   <div class="box-body">
                   <div class="callout callout-danger" ng-show="errors">
-                                                  <ul>
-                                              <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
-                                              </ul>
-                                       </div>
+                    <ul>
+                      <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
+                    </ul> 
+                  </div>
                                     
  <div class="box">  
                        <div  class="input-group">
@@ -44,7 +44,7 @@
                          </div>
                          <div>
                          <label>Venta</label>
-                          <div class="row">
+                          <div class="row" >
                             <div class="col-md-8">
                               <table  class="table table-bordered" id="tabla1">
                                 <td><label>Monto Venta</label></td> <td>@{{order1.montoTotal}}</td>
@@ -53,6 +53,14 @@
                                 <td><label>Descuento</label></td> <td>@{{order1.descuento+'%'}}</td>
                               </table>
                             </div> 
+                          </div>
+                          <div class="row" ng-show="banderaMostrarEntrega">
+                          <div class="col-md-8">
+                          <div class="form-group" >
+                                <input type="checkbox" name="estado" ng-model="atenderOrder" ng-checked="atenderOrder" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="atenderOrderEstado()">
+                                <label for="estado">Atender Orden</label> 
+                          </div>
+                          </div>
                           </div>
                            
                          </div>
@@ -78,8 +86,11 @@
               <th>Precio Producto</th>
               <th>Precio Venta </th>
               <th>Cantidad</th>
+              <th>Entregados</th>
+              <th>Pendientes</th>
               <th>Descuento</th>
               <th>Total</th>
+              <th ng-if="atenderOrder">Cant. Llegada</th>
 
 
               
@@ -94,8 +105,11 @@
                       <td>@{{row.precioProducto}}</td>
                       <td>@{{row.precioVenta}}</td>
                       <td>@{{row.cantidad}}</td>
+                      <td>@{{row.canEntregado}}</td>
+                      <td>@{{row.canPendiente}}</td>
                       <td>@{{row.descuento}}</td>
                       <td>@{{row.subTotal}}</td>
+                      <td ng-if="atenderOrder"><input style="width: 45px" ng-model="row.parteEntregado" string-to-number ng-blur="ActualizarPartStock(row,$index)" type="number" placeholder="@{{row.canPendiente}}" ></td>
 
                       
                       <!--<td><a ng-click="sacarRow(row.index,row.montoTotal)" class="btn btn-warning btn-xs">Sacar</a></td>
@@ -103,8 +117,27 @@
                     -->
                     </tr> 
           </table>
+          <br>
+          <div class="row" ng-if="atenderOrder">
+            <div class="col-md-4">
+              <div class="form-group" >
+                <select ng-click="mostrarAlmacenCaja()" class="form-control" name="" ng-model="store.id" ng-options="item.id as item.nombreTienda for item in stores">
+                  <option value="">--Elije Tienda--</option>
+                </select>
+              </div>
+            </div>
 
-
+            <div class="col-md-4">
+                    <div class="form-group" >
+                        <select class="form-control" name="" ng-model="warehouse.id" ng-options="item.id as item.nombre for item in warehouses" ng-click="cargarAtributos()">
+                          <option value="">--Elije Almacen--</option>
+                        </select>
+                      </div>
+            </div>
+            <div>
+              <button class=" label-default" type='submit'  ng-click="crearCompra()">Registrar Entrega</button>  
+            </div>
+          </div>
         </div>
       </div>
   <!-- ==========================================================================================-->

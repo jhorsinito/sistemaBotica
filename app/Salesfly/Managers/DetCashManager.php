@@ -12,7 +12,7 @@ class DetCashManager extends BaseManager{
             'montoMovimientoTarjeta' => '',
             'montoMovimientoEfectivo' => '',
             'montoFinal' => 'required',
-            'estado' => 'required',
+            'estado' => '',
             'observacion' => '',
             'cashMotive_id' => 'required',
             'cash_id' => 'required'           
