@@ -114,7 +114,7 @@
                                     </div>
                                 </div>
 
-                                @{{ variant.detAtr }}
+
 
                             </div><!-- /.box-body -->
 
@@ -218,7 +218,7 @@
                                                                                                     <div class="form-group" >
                                                                                                         <label for=""></label>
                                                                                                         <h5>@{{ row.nombre }}</h5>
-                                                                                                        <input type="text" class="" ng-model="variant.stock[$index].warehouse_id" ng-init="variant.stock[$index].warehouse_id = row.id"/>
+                                                                                                        <input type="hidden" class="" ng-model="variant.stock[$index].warehouse_id" ng-init="variant.stock[$index].warehouse_id = row.id"/>
 
                                                                                                     </div></div>
 
@@ -241,7 +241,7 @@
                                                                                                     </div>
                                                                                                 </div>
                                                                                                  </span>
-                                        @{{variant.stock[0].warehouse_id}}
+
 
                                     </div>
                                 </div>
@@ -257,7 +257,7 @@
                     </div><!-- /.box-body -->
 
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary" ng-click="updateVariant()">Crear</button>
+                        <button type="submit" class="btn btn-primary" ng-click="updateVariant()">Editar</button>
                         <a href="/products/show/@{{product.id}}" class="btn btn-danger">Cancelar</a>
                     </div>
                 </form>

@@ -41,7 +41,7 @@
                     </tr>
                     
                     <tr >
-                      <td>@{{payment.NumFactura}}</td>
+                      <td>@{{payment.tipoDoc}}-@{{payment.NumFactura}}</td>
                       <td>@{{payment.MontoTotal}}</td>
                       <td>@{{payment.Acuenta}}</td>
                       <td>@{{payment.Saldo}}</td>
@@ -71,7 +71,7 @@
                     <tr>
                       <th style="width: 100px">Fecha</th>
                       <th style="width: 200px">Metodo de Pago</th>
-                      <th style="width: 150px">Monto Pagado</th>
+                      <th style="width: 150px" ng-disabled="detPayment.methodPayment_id>0 || detPayment.cashe_id>0 || payment.cajamensual==true">Monto Pagado</th>
                     </tr>
                 <tr >
                 <td >
@@ -80,7 +80,7 @@
                                         <div class="input-group-addon">
                                               <i class="fa fa-calendar"></i>
                                         </div>
-                                      <input  type="date"   class="form-control" name="fecha" ng-model="detPayment.fecha" required>
+                                      <input  ng-disabled="payment.Saldo<=0" type="date"   class="form-control" name="fecha" ng-model="detPayment.fecha" required>
                                    </div>   
                                 
                      
@@ -88,7 +88,7 @@
               <td >
                <div class="form-group" ng-class="{true: 'has-error'}[ paymentCreateForm.warehouse.$error.required && paymentCreateForm.$submitted || paymentCreateForm.warehouse.$dirty && paymentCreateForm.warehouse.$invalid]">
                        
-                       <select ng-hide="show" class="form-control" name="warehouse" ng-click="" ng-model="detPayment.methodPayment_id" ng-options="item.id as item.nombre for item in methodPayments" required>
+                       <select ng-disabled="payment.Saldo<=0 || detPayment.cashe_id>0 || payment.cajamensual==true" ng-hide="show" class="form-control" name="warehouse" ng-click="" ng-model="detPayment.methodPayment_id" ng-options="item.id as item.nombre for item in methodPayments" >
                        <option value="">--Elija Modo de Pago--</option>
                        </select>
                        <label ng-show="paymentCreateForm.$submitted || paymentCreateForm.warehouse.$dirty && paymentCreateForm.warehouse.$invalid">
@@ -98,8 +98,8 @@
                  
               </td>
               <td>
-                     <div class="form-group" ng-class="{true: 'has-error'}[ paymentCreateForm.montoPagando.$error.required && paymentCreateForm.$submitted || paymentCreateForm.montoPagando.$dirty && paymentCreateForm.montoPagando.$invalid]" >
-                       <input type="number" class="form-control" ng-model='detPayment.montoPagado' ng-blur='recalPayments()' name="montoPagando" placeholder="0.00"  step="0.1" required>
+                     <div ng-disabled="payment.Saldo>0 || detPayment.methodPayment_id>0 || detPayment.cashe_id>0 || payment.cajamensual==true" class="form-group" ng-class="{true: 'has-error'}[ paymentCreateForm.montoPagando.$error.required && paymentCreateForm.$submitted || paymentCreateForm.montoPagando.$dirty && paymentCreateForm.montoPagando.$invalid]" >
+                       <input ng-disabled="!detPayment.cashe_id && !payment.cajamensual && !detPayment.methodPayment_id" type="number" class="form-control" ng-model='detPayment.montoPagado' ng-blur='recalPayments()' name="montoPagando" placeholder="0.00"  step="0.1" required>
                       <label ng-show="paymentCreateForm.$submitted || paymentCreateForm.montoPagando.$dirty && paymentCreateForm.montoPagando.$invalid">
                                 <span ng-show="paymentCreateForm.montoPagando.$invalid"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>
@@ -111,18 +111,33 @@
           </div>
         </div>
         <div class="row">
-             <div class="col-md-4">
+             <div ng-hide="payment.cajamensual" class="col-md-3">
                 <div class="form-group" ng-class="{true: 'has-error'}[ paymentCreateForm.warehouse.$error.required && paymentCreateForm.$submitted || paymentCreateForm.warehouse.$dirty && paymentCreateForm.warehouse.$invalid]">
-                       
-                       <select ng-hide="show" ng-click="TraerSales(item.nombre)" class="form-control" name="warehouse"  ng-model="detPayment.cashe_id" ng-options="item.id as item.nombre for item in cashHeaders" required>
+                       <label>Pagar Con Caja</label>
+                       <select  ng-disabled="payment.Saldo<=0 || detPayment.methodPayment_id>0 || check==true || payment.cajamensual==true" ng-click="TraerSales(detPayment.cashe_id)" class="form-control" name="warehouse"  ng-model="detPayment.cashe_id" ng-options="item.id as item.nombre for item in cashHeaders" >
                        <option value="">--Elija Caja--</option>
                        </select>
                        <label ng-show="paymentCreateForm.$submitted || paymentCreateForm.warehouse.$dirty && paymentCreateForm.warehouse.$invalid">
                                 <span ng-show="paymentCreateForm.warehouse.$invalid"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
                 </div>
+                <label>@{{cashes.montoBruto}}</label>
             </div>
-            <label>@{{cashHeaders.montoUsable}}</label>
+            
+          <div class="col-md-3">
+                      <div   class="form-group" >                            
+                            <input ng-disabled="payment.Saldo<=0 ||  detPayment.methodPayment_id>0 || check==true || detPayment.cashe_id>0 " type="checkbox"  ng-click="cashmontly()" name="variantes" ng-model="payment.cajamensual" />
+                            <span class="text-info"> <em>Pagar con caja mensual</em></span>
+                        </div>
+          </div>
+          <div ng-show="payment.cajamensual" class="col-md-5">
+                   <em>Descripcion .</em>
+                   <div class="form-group" >
+                        <textarea ng-model="payment.descripcion" class="form-control input-lg">
+                         </textarea>
+                    </div>
+        </div>
+         
         </div>
       </div>
         
@@ -142,14 +157,17 @@
                     
                     <tr ng-repeat="row in detPayments">
                       <td ng-hide="true">@{{row.id}}</td>
+                      <td ng-hide="true">@{{row.cashID}}</td>
                       <td>@{{row.fecha}}</td>
-                      <td>@{{row.nameMethod}}</td>
+                      <td ng-if="row.nameMethod!=null">@{{row.nameMethod}}</td>
+                      <td ng-if="row.detCash_id>0">@{{row.nombre}}</td>
+                      <td ng-if="row.cashMonthly_id>0">caja Mensual</td>
                       <td>@{{row.montoPagado}}</td>
                       <td ng-if="row.tipoPago=='A'"><span class="badge bg-blue">@{{row.tipoPago}}</span></td> 
                       <td ng-if="row.tipoPago=='P'"><span class="badge bg-green">@{{row.tipoPago}}</span></td> 
-                     <td><button type="button" class="btn btn-danger btn-xs"  ng-click="destroyPay(row)">
+                     <td><button ng-Disabled="payment.Saldo<=0" type="button" class="btn btn-danger btn-xs"  ng-click="destroyPay(row)">
                         <span class="glyphicon glyphicon-trash"></span></button>
-                     <a ng-click="editDetpayment(row)" class="btn btn-warning btn-xs">Edit</a></td>
+                     <a ng-Disabled="payment.Saldo<=0" ng-click="editDetpayment(row)" ng-model="checked" class="btn btn-warning btn-xs">Edit</a></td>
                     </tr>
 
                     

@@ -5,11 +5,12 @@ class PaymentManager extends BaseManager {
     public function getRules()
     {
         $rules = [   
-            'NumFactura'=>'',           
+            'NumFactura'=>'', 
+            'NumSerie'=>'',
+            'tipoDoc'=>'',          
             'montoTotal'=>'',
             'Acuenta'=>'',
             'Saldo'=>'',
-            'estado'=>'',
             'orderPurchase_id'=>'',
             'purchase_id'=>'',
             'supplier_id'=>''

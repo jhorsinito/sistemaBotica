@@ -13,23 +13,31 @@ class AtributeTableSeeder extends Seeder
     {
         DB::table('atributes')->insert([
             'nombre' => 'Color',
-            'shortname' => 'COL',
-            'descripcion' => ''
+            'shortname' => 'CL',
+            'descripcion' => '',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('atributes')->insert([
             'nombre' => 'Talla',
-            'shortname' => 'TAL',
-            'descripcion' => ''
+            'shortname' => 'TL',
+            'descripcion' => '',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('atributes')->insert([
             'nombre' => 'Taco',
-            'shortname' => 'TAC',
-            'descripcion' => ''
+            'shortname' => 'TC',
+            'descripcion' => '',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('atributes')->insert([
             'nombre' => 'Material',
-            'shortname' => 'MAT',
-            'descripcion' => ''
+            'shortname' => 'MT',
+            'descripcion' => '',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
     }
 }

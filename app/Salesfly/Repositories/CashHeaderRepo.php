@@ -33,11 +33,21 @@ class CashHeaderRepo extends BaseRepo{
         $cashHeaders = CashHeader::with('store');
         return $cashHeaders->paginate($count);
     }
-    public function cajasActivas(){
+    public function cajasActivas($alm){
         $cashHeaders =CashHeader::join('cashes','cashes.cashHeader_id','=','cashHeaders.id')
-                                  ->where('cashes.estado','=',1)
-                                  ->select('cashHeaders.*','cashes.id as cashID','cashes.montoReal as montoUsable')
+                                  ->join('stores','stores.id','=','cashHeaders.store_id')
+                                  ->join('warehouses','warehouses.store_id','=','stores.id')
+                                  ->where('cashes.estado','=',1)->where('warehouses.id','=',$alm)
+                                  ->select('cashHeaders.*','cashes.id as cashID','cashes.montoBruto as montoUsable')
+                                  ->groupBy('cashHeaders.id')
                     ->get();
+        return $cashHeaders;
+    }
+    public function cajas(){
+         $cashHeaders = CashHeader::join('cashes','cashes.cashHeader_id','=','cashHeaders.id')
+                                   ->where('cashes.estado','=',1)
+                                   ->select('cashHeaders.*','cashes.id as cashID','cashes.montoBruto as montoUsable')
+                                   ->groupBy('cashHeaders.id')->get();
         return $cashHeaders;
     }
 } 

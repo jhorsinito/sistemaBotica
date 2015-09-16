@@ -41,4 +41,5 @@ class CashMonthlyRepo extends BaseRepo{
         $cashMonthlys = CashMonthly::with('year','month','expenseMonthly');
         return $cashMonthlys->paginate($count);
     }
+    
 } 

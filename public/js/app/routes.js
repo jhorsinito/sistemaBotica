@@ -50,6 +50,10 @@
                     templateUrl:'/orderPurchases/form-create',
                     controller: 'OrderPurchaseController'
                 })
+                .when('/orderPurchases/show/:id',{
+                    templateUrl:'/orderPurchases/view-show',
+                    controller: 'OrderPurchaseController'
+                })
                 .when('/orderPurchases/edit/:id',{
                     templateUrl:'/orderPurchases/form-edit',
                     controller: 'OrderPurchaseController'

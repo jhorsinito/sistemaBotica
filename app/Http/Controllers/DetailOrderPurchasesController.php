@@ -206,9 +206,24 @@ class DetailOrderPurchasesController extends Controller {
 
     public function edit(Request $request)
     {
+       \DB::beginTransaction();
        $var=$request->detailOrderPurchases;//->except($request->detailOrderPurchases["id"]);
        $orderPurchase = $this->orderPurchaseRepo->find($request->input('id'));
+       $orderPurchase = $this->orderPurchaseRepo->find($request->id);
+       
+        $manager = new OrderPurchaseManager($orderPurchase,$request->except('fechaPedido','fechaPrevista'));
+        $manager->save();
+  
+       if($this->orderPurchaseRepo->validateDate(substr($request->input('fechaPedido'),0,10)) and $this->orderPurchaseRepo->validateDate(substr($request->input('fechaPrevista'),0,10))){
+            $orderPurchase->fechaPedido = substr($request->input('fechaPedido'),0,10);
+             $orderPurchase->fechaPrevista = substr($request->input('fechaPrevista'),0,10);
+        }else{
+           
+            $orderPurchase->fechaPedido = null;
+             $orderPurchase->fechaPrevista = null;
+        }
 
+        $orderPurchase->save();
        $orderPurchase->detPres()->detach();
        foreach($var as $object){
         $detailOrderPurchaseRepox = new DetailOrderPurchaseRepo;
@@ -231,6 +246,7 @@ class DetailOrderPurchasesController extends Controller {
            $manager->save(); 
            $provicional=$request->idpayment;
         }
+       \DB::commit(); 
       return response()->json(['estado'=>true]);
     }
 

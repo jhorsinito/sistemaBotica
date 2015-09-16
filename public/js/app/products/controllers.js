@@ -1,7 +1,7 @@
 (function(){
     angular.module('products.controllers',[])
-        .controller('ProductController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log','ngProgressFactory','$rootScope',
-            function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log,ngProgressFactory,$rootScope){
+        .controller('ProductController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log','ngProgressFactory','$rootScope','trouble','$modal',
+            function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log,ngProgressFactory,$rootScope,trouble,$modal){
                 $scope.progressbar = ngProgressFactory.createInstance();
                 /*$rootScope.$on('$routeChangeStart', function(ev,data) {
                     $scope.progressbar.start();
@@ -174,6 +174,14 @@
                         //alert('ok');
                         crudService.byId(id,'products').then(function (data){
                             $scope.product = data;
+                            if($scope.product.hasVariants == 0){
+                                crudService.byforeingKey('variants','variant',$scope.product.id).then(function(data){
+                                    $scope.variant = data;
+                                    $log.log('Variants,Variant:');
+                                    $log.log($scope.variant);
+                                })
+
+                            }
                         });
                         $scope.variants = [];
                         crudService.byforeingKey('variants','variants',id). then(function(data)
@@ -646,16 +654,17 @@
                     }
                 }
 
-                $scope.trouble;
+                //var trouble;
                 $scope.asignarDescr = function(index){
                     //$log.log($scope.trouble);
 
-                    if(typeof ($scope.trouble) == 'undefined'){
-                        //alert('holi');
+                    if(isEmpty(trouble)){
+                        //alert('arriba');
                         crudService.byforeingKey('variants','getAttr',$routeParams.id).then(function(data){
-                            //$scope.trouble = data.det_atr;
+                            trouble = data.det_atr;
+                            $log.log(trouble);
 
-                            var isCool = $.grep(data.det_atr, function (e) {
+                            var isCool = $.grep(trouble, function (e) {
                                 return e.atribute_id == $scope.variant.detAtr[index].atribute_id;
                             });
                             //$log.log(isCool[0].descripcion);
@@ -664,8 +673,8 @@
                             }
                         })
                     }else{
-                            //alert('entro');
-                            var isCool = $.grep($scope.trouble, function (e) {
+                            //alert('abajo');
+                            var isCool = $.grep(trouble, function (e) {
                                 return e.atribute_id == $scope.variant.detAtr[index].atribute_id;
                             });
                             //$log.log(isCool[0].descripcion);
@@ -771,10 +780,10 @@
                 }
 
                 $scope.deletePres = function($index){
-                    if($location.path() != '/variants/create/'+$routeParams.product_id) {
+                    if($location.path() != '/variants/create/'+$routeParams.product_id && $location.path() != '/variants/edit/'+$routeParams.id) {
                         $scope.product.presentations.splice($index, 1);
                     }
-                    if($location.path() == '/variants/create/'+$routeParams.product_id) {
+                    if($location.path() == '/variants/create/'+$routeParams.product_id || $location.path() == '/variants/edit/'+$routeParams.id) {
                         $scope.variant.presentations.splice($index, 1);
                     }
                 }
@@ -845,6 +854,112 @@
                         $scope.stockVariants = data;
                     })
                 }
+
+                /*
+
+                Agregar Marca, Linea, Station, MAterial
+
+                 */
+                $scope.addBrand = function (size) {
+
+                    var modalInstance = $modal.open({
+                        animation: false,
+                        templateUrl: 'myModalContent.html',
+                        controller: 'ModalInstanceCtrl',
+                        size: 'sm',
+                        /*resolve: {
+                            items: function () {
+                                return $scope.items;
+                            }
+                        }*/
+                    });
+
+                    modalInstance.result.then(function (selectedItem) {
+                        //$scope.selected = selectedItem;
+                    }, function () {
+                        //$log.info('Modal dismissed at: ' + new Date());
+                        crudService.select('products', 'brands').then(function (data) {
+                            $scope.brands = data;
+                        });
+
+                    });
+                };
+                $scope.addLine = function (size) {
+
+                    var modalInstance = $modal.open({
+                        animation: false,
+                        templateUrl: 'myModalContent2.html',
+                        controller: 'ModalInstanceCtrl2',
+                        size: 'sm',
+                        /*resolve: {
+                         items: function () {
+                         return $scope.items;
+                         }
+                         }*/
+                    });
+
+                    modalInstance.result.then(function (selectedItem) {
+                        //$scope.selected = selectedItem;
+                    }, function () {
+                        //$log.info('Modal dismissed at: ' + new Date());
+                        crudService.select('products', 'types').then(function (data) {
+                            $scope.types = data;
+                        });
+
+                    });
+                };
+                $scope.addMaterial = function (size) {
+
+                    var modalInstance = $modal.open({
+                        animation: false,
+                        templateUrl: 'myModalContent3.html',
+                        controller: 'ModalInstanceCtrl3',
+                        size: 'sm',
+                        /*resolve: {
+                         items: function () {
+                         return $scope.items;
+                         }
+                         }*/
+                    });
+
+                    modalInstance.result.then(function (selectedItem) {
+                        //$scope.selected = selectedItem;
+                    }, function () {
+                        //$log.info('Modal dismissed at: ' + new Date());
+                        crudService.select('products', 'materials').then(function (data) {
+                            $scope.materials = data;
+                        });
+
+                    });
+                };
+                $scope.addStation = function (size) {
+
+                    var modalInstance = $modal.open({
+                        animation: false,
+                        templateUrl: 'myModalContent4.html',
+                        controller: 'ModalInstanceCtrl4',
+                        size: 'sm',
+                        /*resolve: {
+                         items: function () {
+                         return $scope.items;
+                         }
+                         }*/
+                    });
+
+                    modalInstance.result.then(function (selectedItem) {
+                        //$scope.selected = selectedItem;
+                    }, function () {
+                        //$log.info('Modal dismissed at: ' + new Date());
+                        crudService.select('products', 'stations').then(function (data) {
+                            $scope.stations = data;
+                        });
+
+                    });
+                };
+
+                /*
+                Fin de add
+                 */
 
                 function isEmpty(obj) {
                     return Object.keys(obj).length === 0;

@@ -5,6 +5,6 @@ class Payment extends \Eloquent {
 
 	protected $table = 'payments';
     
-    protected $fillable = ['NumFactura','montoTotal','Acuenta','Saldo','estado','orderPurchase_id','purchase_id','supplier_id'];
+    protected $fillable = ['NumFactura','NumSerie','tipoDoc','montoTotal','Acuenta','Saldo','orderPurchase_id','purchase_id','supplier_id'];
 
 }

@@ -10,7 +10,9 @@ class DetPaymentManager extends BaseManager {
             'tipoPago'=>'',
             'methodPayment_id'=>'',
             'montoPagado'=>'',
-            'Saldo_F'=>''
+            'Saldo_F'=>'',
+            'detCash_id'=>'',
+            'cashMonthly_id'=>''
                   ];
         return $rules;
     }}

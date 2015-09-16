@@ -38,7 +38,10 @@ class OrderPurchasesController extends Controller {
     {
         return View('orderPurchases.index');
     }
-  
+      public function show()
+    {
+        return View('orderPurchases.show');
+    }
     public function all($estado)
     {
         $orderPurchases = $this->orderPurchaseRepo->searchEstados($estado);
@@ -68,7 +71,9 @@ class OrderPurchasesController extends Controller {
 
     public function create(Request $request)
     {
-        $orderPurchase = $this->orderPurchaseRepo->getModel();       
+        \DB::beginTransaction();
+        $orderPurchase = $this->orderPurchaseRepo->getModel();   
+         //var_dump($request->input('montoTotal'));die();    
         $manager = new OrderPurchaseManager($orderPurchase,$request->except('fechaPedido','fechaPrevista'));
         $manager->save();
        if($this->orderPurchaseRepo->validateDate(substr($request->input('fechaPedido'),0,10)) and $this->orderPurchaseRepo->validateDate(substr($request->input('fechaPrevista'),0,10)) ){
@@ -79,11 +84,11 @@ class OrderPurchasesController extends Controller {
             $orderPurchase->fechaPedido = null;
              $orderPurchase->fechaPrevista = null;
         }
-
+        
         $orderPurchase->save();
 
 
-
+       \DB::commit(); 
         return response()->json(['estado'=>true, 'nombres'=>$orderPurchase->nombres,'codigo'=>$orderPurchase->id,'warehouse_id'=>$orderPurchase->warehouses_id]);
     }
 
@@ -99,6 +104,9 @@ class OrderPurchasesController extends Controller {
 
     public function edit(Request $request)
     {
+        \DB::beginTransaction();
+        $var=$request->input('detailOrderPurchases');
+       //var_dump($request->input('montoTotal'));die();    
        $orderPurchase = $this->orderPurchaseRepo->find($request->id);
        if($request->Estado == 0){
         $manager = new OrderPurchaseManager($orderPurchase,$request->except('fechaPedido','fechaPrevista'));
@@ -119,30 +127,67 @@ class OrderPurchasesController extends Controller {
         $orderPurchase->save();
         $verSiExiste=$this->detailOrderPurchaseRepo->Comprobar($request->id);
 
-        $var=$request->detailOrderPurchases;//->except($request->detailOrderPurchases["id"]);
+        //$n=0;
+        //->except($request->detailOrderPurchases["id"]);
        //$orderPurchase = $this->orderPurchaseRepo->find($request->input('id'));
+//==================================Actualizando Detallles==========================
     if(!empty($verSiExiste[0])){
         //var_dump("no deve entrar");die();
-       $orderPurchase->detPres()->detach();
-       foreach($var as $object){
-        $object["pendiente"]=0;
-        $object["Cantidad_Ll"]=$object["cantidad"];
+      $orderPurchase->detPres()->detach();
+       foreach($var as $object1){
+        //$hola=$var[$n];
+        if(!empty($object1["cantidad1"])){
+            //var_dump("holay".$object1["cantidad1"]);die();
+            //$object1["cantidad"]=$object1["Cantidad_Ll"];
+            //$object1["pendiente"]=$object1["pendiente"];
+            $object1["montoBruto"]=floatval($object1["cantidad"])*floatval($object1["preProducto"]);
+            $object1["montoTotal"]=floatval($object1["montoBruto"])-((floatval($object1["montoBruto"])*floatval($object1["descuento"]))/100);
+        }else{
+            //var_dump("dos".$object1["cantidad1"]);die();
+            if($object1["Cantidad_Ll"]=='0' && $object1["montoBruto"]=='0'){
+              $object1["Cantidad_Ll"]=0;
+              $object1["pendiente"]=$object1["cantidad"];
+              $object1["montoBruto"]=floatval($object1["cantidad"])*floatval($object1["preProducto"]);
+              $object1["montoTotal"]=floatval($object1["montoBruto"])-((floatval($object1["montoBruto"])*floatval($object1["descuento"]))/100);
+            }else{
+                if($object1["Cantidad_Ll"]>0){
+                     $object1["montoBruto"]=floatval($object1["cantidad"])*floatval($object1["preProducto"]);
+                     $object1["montoTotal"]=floatval($object1["montoBruto"])-((floatval($object1["montoBruto"])*floatval($object1["descuento"]))/100);
+                }else{  
+                     $object1["Cantidad_Ll"]=$object1["cantidad"];
+                     $object1["pendiente"]=0;
+                     $object1["montoBruto"]=floatval($object1["cantidad"])*floatval($object1["preProducto"]);
+                     $object1["montoTotal"]=floatval($object1["montoBruto"])-((floatval($object1["montoBruto"])*floatval($object1["descuento"]))/100);
+            }
+          }
+        }
+        
+        ////if($hola->cantidad1!=null){
+        ////    $object1["Cantidad_Ll"]=$hola->Cantidad_Ll;
+        ////    $object1["pendiente"]=$hola->pendiente;
+        ////    
+        ////}else{
+        ////    $object1["Cantidad_Ll"]=$object1["cantidad"];
+        ////    $object1["pendiente"]=0;
+        ////}
+        //var_dump($hola['Cantidad_Ll']);die();
+        
         $detailOrderPurchaseRepox = new DetailOrderPurchaseRepo;
-        $insertar=new DetailOrderPurchaseManager($detailOrderPurchaseRepox->getModel(),$object);
+        $insertar=new DetailOrderPurchaseManager($detailOrderPurchaseRepox->getModel(),$object1);
         $insertar->save();
         $detailOrderPurchaseRepox = null;
-
-       }
-   }else{
-    foreach($var as $object){
-
-           $detailOrderPurchaseRepox = new DetailOrderPurchaseRepo;
-           $insertar=new DetailOrderPurchaseManager($detailOrderPurchaseRepox->getModel(),$object);
-           $insertar->save();
-           $detailOrderPurchaseRepox = null;
-
+        //$n++;
        }
    }
+  else{
+   foreach($var as $object){
+   
+          $detailOrderPurchaseRepox = new DetailOrderPurchaseRepo;
+          $insertar=new DetailOrderPurchaseManager($detailOrderPurchaseRepox->getModel(),$object);
+          $insertar->save();
+          $detailOrderPurchaseRepox = null;
+      }
+  }
        //*************************************************************************************
            $verDeudas=$this->pendientAccountRepo->verSaldos($request->input("supplier_id"));
   //var_dump($verDeudas[0]->Saldo);die();
@@ -155,10 +200,10 @@ class OrderPurchasesController extends Controller {
           
          /* if($provicional==null){
               $payment = $this->paymentRepo->getModel();
-              $request->merge(['MontoTotal'=>$montotot]);
+              $request->merge(['montoTotal'=>$montotot]);
               $request->merge(['Acuenta'=>$verDeudas->Saldo]);
               $request->merge(['orderPurchase_id'=>$request->input('id')]);
-              $salc=$request->input('MontoTotal')-$request->input('Acuenta');
+              $salc=$request->input('montoTotal')-$request->input('Acuenta');
               $request->merge(['Saldo'=>$salc]);        
               $manager = new PaymentManager($payment,$request->all());
               $manager->save();
@@ -168,20 +213,22 @@ class OrderPurchasesController extends Controller {
               $var=$request->detPayments; 
               if($provicional==null){
               $payment = $this->paymentRepo->getModel();
-             // $request->merge(['MontoTotal'=>$montotot]);
+             // $request->merge(['montoTotal'=>$montotot]);
               $request->merge(['Acuenta'=>$SaldoAfavor]);
               $request->merge(['orderPurchase_id'=>$request->input('id')]);
-              $salc=floatval($request->input('MontoTotal'))-$request->input('Acuenta');
+              $salc=floatval($request->input('montoTotal'))-floatval($request->input('Acuenta'));
+              //var_dump($request->input('montoTotal'));die();
               $request->merge(['Saldo'=>$salc]);        
               $manager = new PaymentManager($payment,$request->all());
               $manager->save();
               $provicional=$payment->id;
             }else{
               $saldos = $this->paymentRepo->find($provicional);
-             // $request->merge(['MontoTotal'=>$montotot]);
+             // $request->merge(['montoTotal'=>$montotot]);
               $request->merge(['Acuenta'=>$saldos->Acuenta+$SaldoAfavor]);
               $request->merge(['orderPurchase_id'=>$request->input('id')]);
-              $salc=floatval($request->input('MontoTotal'))-$request->input('Acuenta');
+              $salc=floatval($request->input('montoTotal'))-floatval($request->input('Acuenta'));
+              //var_dump($request->input('montoTotal'));die();
               $request->merge(['Saldo'=>$salc]);
               $payment=new PaymentManager($saldos,$request->all());
               $payment->save();
@@ -192,7 +239,7 @@ class OrderPurchasesController extends Controller {
               $request->merge(['tipoPago'=>'A']);
               $request->merge(['payment_id'=>$provicional]);
               $request->merge(['montoPagado'=>$SaldoAfavor]);
-              //$request->merge(['methodPayment_id'=>4]);
+              $request->merge(['methodPayment_id'=>4]);
               $request->merge(['Saldo_F'=>$verDeudas->id]);
               $insertDetP = new DetPaymentManager($detPayment,$request->all());
               $insertDetP->save();
@@ -209,20 +256,22 @@ class OrderPurchasesController extends Controller {
               $SaldoAfavor=$SaldoAfavor-$verDeudas->Saldo;
               if($provicional==null){
               $payment = $this->paymentRepo->getModel();
-              //$request->merge(['MontoTotal'=>$montotot]);
+              //$request->merge(['montoTotal'=>$montotot]);
               $request->merge(['Acuenta'=> $SaldoAfavor]);
               $request->merge(['orderPurchase_id'=>$request->input('id')]);
-              $salc=floatval($request->input('MontoTotal'))-$request->input('Acuenta');
+              $salc=floatval($request->input('montoTotal'))-$request->input('Acuenta');
+              //var_dump($request->input('montoTotal'));die();
               $request->merge(['Saldo'=>$salc]);        
               $manager = new PaymentManager($payment,$request->all());
               $manager->save();
               $provicional=$payment->id;
             }else{
               $saldos = $this->paymentRepo->fine($provicional);
-             // $request->merge(['MontoTotal'=>$montotot]);
+             // $request->merge(['montoTotal'=>$montotot]);
               $request->merge(['Acuenta'=>$saldos->Acuenta+ $SaldoAfavor]);
               $request->merge(['orderPurchase_id'=>$request->input('id')]);
-              $salc=floatval($request->input('MontoTotal'))-$request->input('Acuenta');
+              $salc=floatval($request->input('montoTotal'))-$request->input('Acuenta');
+              //var_dump($request->input('montoTotal'));die();
               $request->merge(['Saldo'=>$salc]);
               $payment=new PaymentManager($saldos,$request->all());
               $payment->save();
@@ -279,7 +328,7 @@ class OrderPurchasesController extends Controller {
                 }
         }
     }
-
+        \DB::commit(); 
         return response()->json(['estado'=>true, 'nombres'=>$orderPurchase->nombres]);
        
        

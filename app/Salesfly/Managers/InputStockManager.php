@@ -5,7 +5,7 @@ class InputStockManager extends BaseManager {
     public function getRules()
     {
         $rules = [              
-            'cantidad_llegado'=>'','descripcion'=>'','variant_id'=>'','headInputStock_id'=>''
+            'cantidad_llegado'=>'required','descripcion'=>'','variant_id'=>'required','headInputStock_id'=>'required'
                   ];
         return $rules;
     }}

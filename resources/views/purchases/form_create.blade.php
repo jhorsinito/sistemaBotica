@@ -211,7 +211,7 @@
           <div class="col-md-2">
           <div class="form-group" ng-class="{true: 'has-error'}[ inputStocksBodyCreateForm.nombre.$error.required && inputStocksBodyCreateForm.$submitted || inputStocksBodyCreateForm.nombre.$dirty && inputStocksBodyCreateForm.nombre.$invalid]">
                       <label for="nombre">Cantidad</label>
-                      <input type="Number" class="form-control" name="nombre" placeholder="Nombre" ng-blur="verStockActual()" ng-model="inputStock.cantidad_llegado" required>
+                      <input ng-disabled="!product.proId" type="Number" class="form-control" name="nombre" placeholder="Nombre" ng-blur="verStockActual()" ng-model="inputStock.cantidad_llegado" required>
                       <label ng-show="inputStocksBodyCreateForm.$submitted || inputStocksBodyCreateForm.nombre.$dirty && inputStocksBodyCreateForm.nombre.$invalid">
                         <span ng-show="inputStocksBodyCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>
@@ -274,7 +274,7 @@
         <div ng-show="check" class="col-md-3">
             <label for="Variante">Busca Por Sku</label>
             <div class="form-group">
-            <input type="text" ng-keyup="searchSkuEstock(variant.sku)" class="form-control" ng-model="variant.sku">
+            <input type="text" ng-enter="searchSkuEstock(variant.sku)" class="form-control" placeholder="Ingrse Sku" ng-model="variant.sku">
             </div>
             </div>
             <div class="col-md-3">

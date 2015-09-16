@@ -8,13 +8,21 @@ use Illuminate\Routing\Controller;
 use Salesfly\Salesfly\Repositories\PendientAccountRepo;
 use Salesfly\Salesfly\Managers\PendientAccountManager;
 
+use Salesfly\Salesfly\Repositories\DetCashRepo;
+use Salesfly\Salesfly\Managers\DetCashManager;
+
+use Salesfly\Salesfly\Repositories\CashRepo;
+use Salesfly\Salesfly\Managers\CashManager;
+
 class PendientAccountsController extends Controller
 {
     protected $pendientAccountRepo;
 
-    public function __construct(PendientAccountRepo $pendientAccountRepo)
+    public function __construct(DetCashRepo $detCashRepo,CashRepo $cashRepo,PendientAccountRepo $pendientAccountRepo)
     {
         $this->pendientAccountRepo = $pendientAccountRepo;
+        $this->detCashRepo=$detCashRepo;
+        $this->cashRepo=$cashRepo;
     }
 
     
@@ -44,11 +52,41 @@ class PendientAccountsController extends Controller
     }
     public function edit(Request $request)
     {
+        //var_dump($request->all());die();
         $pendientAccount = $this->pendientAccountRepo->find($request->id);
-
-        $manager = new PendientAccountManager($pendientAccount,$request->all());
+        $cash =$this->cashRepo->find($request->input('cash_id'));
+        //var_dump($request->input('cash_id'));die();
+        $detCash=$this->detCashRepo->getModel();
+        $manager = new PendientAccountManager($pendientAccount,$request->except("fecha"));
         $manager->save();
-
+        if(!empty( $cash)){
+        //===============================================================
+        $request->merge(["montoMovimientoTarjeta"=>0]);
+        $request->merge(["montoMovimientoEfectivo"=>$request->input("nuevoSaldo")]);
+        $request->merge(["estado"=>1]);
+        $request->merge(["observacion"=>"ingreso por pago de saldos anteriores"]);
+        $request->merge(["cashMotive_id"=>5]);
+        $request->merge(["montoCaja"=>$cash->montoBruto]);
+        $request->merge(["montoFinal"=>floatval($cash->montoBruto)-floatval($request->input("nuevoSaldo"))]);
+        $detcash = new DetCashManager($detCash,$request->all());
+        $detcash->save();
+        $var['detCash_id']=$detCash->id;
+             $request->merge(["gastos"=>$cash->gastos]);
+             $request->merge(['fechaInicio'=>$cash->fechaInicio]);
+             $request->merge(['fechaFin'=>$cash->fechaFin]);
+             $request->merge(['montoInicial'=>$cash->montoInicial]);
+             $request->merge(['ingresos'=>floatval($cash->ingresos)+floatval($request->input("nuevoSaldo"))]);
+             $request->merge(['montoBruto'=>floatval($cash->montoBruto)+floatval($request->input("nuevoSaldo"))]);
+             $request->merge(['montoReal'=>$cash->montoReal]);
+             $request->merge(['descuadre'=>$cash->descuadre]);
+             //$request->merge(['estado'=>$cash->estado]);
+             $request->merge(['notas'=>$cash->notas]);
+             $request->merge(['cashHeader_id'=>$cash->cashHeader_id]);
+             //$var["methodPayment_id"]=null;
+        $cashr = new CashManager($cash,$request->all());
+        $cashr->save();
+    }
+        //===============================================================
         return response()->json(['estado'=>true]);
     }
     public function verSaldosTotales($id){

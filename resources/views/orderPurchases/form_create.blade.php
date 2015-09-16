@@ -175,14 +175,18 @@
         <form name="detailOrderPurchaseCreateForm" role="form" novalidate> 
           <div class="row">
              <div class="col-md-1"></div>
-            <div class="col-md-4">
+             <div class="col-md-4">
           <div class="input-group" style="width: 300px;">
               <label>Producto</label>
-                
-               <input typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Locations loaded via $http" 
+               <input ng-hide="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Buscar por codigo especifico" 
           typeahead="product as product.proNombre+'('+product.BraName+'/'+product.TName+'/'+product.Mnombre+product.NombreAtributos+')' for product in products | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
-           tooltip="Ingrese caracteres para busacar producto por nombre"
+           tooltip="Ingrese caracteres para busacar producto por codigo unico"
+            >
+             <input ng-show="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Buscar por Variante" 
+          typeahead="variant as variant.proNombre+'('+variant.BraName+'/'+variant.TName+'/'+variant.Mnombre+variant.NombreAtributos+')' for variant in variants1 | filter:$viewValue | limitTo:8" 
+          typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
+           tooltip="Ingrese caracteres para busacar producto por codigo unico"
             >
          
                     <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
@@ -191,7 +195,7 @@
            </div>
             
         </div> 
-            </div> 
+            </div>
            <!--<div class="col-md-4">
           <div class="input-group">
               <label>Variante</label>
@@ -208,7 +212,7 @@
              
         </div> 
       </div>-->
-    <div ng-hide="check" class="col-md-3">
+    <div ng-hide="check || check1" class="col-md-3">
            
               <div class="form-group" >
                 <label for="Variante">Taco</label>
@@ -220,15 +224,23 @@
             </div>
             
             <div ng-show="check" class="col-md-3">
-            <label for="Variante">Busca Por Sku</label>
-            <div class="form-group">
-            <input type="text" ng-keyup="TraerPorSku(variant.sku)" class="form-control" ng-model="variant.sku">
+                  <label for="Variante">Busca Por Sku</label>
+                  <div class="form-group">
+                  <input type="text" ng-enter="TraerPorSku(variant.sku)" class="form-control" placeholder="Ingresa Sku" ng-model="variant.sku">
+                  </div>
             </div>
-            </div>
-            <div class="col-md-3">
+             
+            <div class="col-md-1">
                <em>¿POR SKU?</em>
                       <div   class="form-group" >                            
                             <input ng-disabled="orderPurchase.cancelar" type="checkbox"  name="variantes" ng-model="check" />
+                            
+                        </div>
+                </div>
+            <div class="col-md-1">
+               <em>¿Busca Normal?</em>
+                      <div   class="form-group" >                            
+                            <input  type="checkbox"   name="variantes" ng-model="check1" />
                             
                         </div>
                 </div>
@@ -246,7 +258,7 @@
        </div>
   <div class="col-md-10">
   <div ng-hide="mostrarPresentacion" class="well well-lg">
-  <h2>Las Tallas Disponibles Para este Producto Son</h2>
+   <em>Las Tallas Disponibles Para este Producto Son</em>
   <div class="row">
        <div ng-repeat="item in atributes">
        <div class="col-md-1">
@@ -256,7 +268,7 @@
                  <!-- <input  type="checkbox"  ng-click="quitarTalla(item.numTalla,cheked1)" ng-model="cheked1"  />@{{item.numTalla}}
                   <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.numTalla)" step="1" rquired>-->
                   <input  type="checkbox"  ng-click="quitarTalla(item.valorDetAtr,cheked1)" ng-model="cheked1"  />@{{item.valorDetAtr}}
-                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(item.detID,item.esBase,item.NombreAtributos,item.varSku,item.varCodigo,item.precioProducto,cantidad,item.valorDetAtr)" step="1" rquired>
+                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(item.NombreAtributos,item.varSku,item.varCodigo,cantidad,item.valorDetAtr)" step="1" rquired>
               
               </div>    
        </div>
@@ -285,14 +297,14 @@
   </div>
 </div>           
         
-           <!--------------------------------------------------------------------------
+           <!---------------------------------------------------------------------------->
           <div class="row">
            <div class="col-md-1">
            </div>
            <div class="col-md-10">
              <hr>
           
-            <div collapse="mostrarPresentacion">
+            <div  collapse="mostrardetalles">
           <div class="well well-lg">
                  <div align="center"><h3>Seleccione Una Presentacion</h3></div> 
 
@@ -335,7 +347,7 @@
             <div class="col-md-2"> 
                 <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.cantidad.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.cantidad.$dirty && detailOrderPurchaseCreateForm.cantidad.$invalid]">
                 <label for="cantidad">Cantidad</label>
-                <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="cantidad" id="cantidad" placeholder="0.00" ng-model="detailOrderPurchase.cantidad" ng-blur="calculateSuppPric()" step="0.1" rquired>
+                <input ng-disabled="activarCampCantidad" type="number" class="form-control ng-pristine ng-valid ng-touched" name="cantidad" id="cantidad" placeholder="0.00" ng-model="detailOrderPurchase.cantidad" ng-blur="calculateSuppPric()" step="0.1" rquired>
                 <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.cantidad.$dirty && detailOrderPurchaseCreateForm.cantidad.$invalid">
                   <span ng-show="detailOrderPurchaseCreateForm.cantidad.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
@@ -346,7 +358,7 @@
                <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.preCompra.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.preCompra.$dirty && detailOrderPurchaseCreateForm.preCompra.$invalid]">
                 <label for="preCompra">Precio </label>
 
-                <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="preCompra" placeholder="0.00" ng-model="detailOrderPurchase.preCompra" ng-blur="calculateSuppPric()" step="0.1">
+                <input ng-disabled="true" type="number" class="form-control ng-pristine ng-valid ng-touched" name="preCompra" placeholder="0.00" ng-model="detailOrderPurchase.preCompra" ng-blur="calculateSuppPric()" step="0.1">
                 <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.preCompra.$dirty && detailOrderPurchaseCreateForm.preCompra.$invalid">
                   <span ng-show="detailOrderPurchaseCreateForm.preCompra.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
@@ -357,7 +369,7 @@
             <div class="col-md-2"> 
                 <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.montoBruto.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.montoBruto.$dirty && detailOrderPurchaseCreateForm.montoBruto.$invalid]">
                 <label for="montoBruto">Total Bruto</label>
-                <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="montoBruto" placeholder="0.00" ng-model="detailOrderPurchase.montoBruto" ng-blur="calculateSuppPric()" step="0.1">
+                <input ng-disabled="true" type="number" class="form-control ng-pristine ng-valid ng-touched" name="montoBruto" placeholder="0.00" ng-model="detailOrderPurchase.montoBruto" ng-blur="calculateSuppPric()" step="0.1">
                 <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.montoBruto.$dirty && detailOrderPurchaseCreateForm.montoBruto.$invalid">
                   <span ng-show="detailOrderPurchaseCreateForm.montoBruto.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
@@ -368,7 +380,7 @@
                 <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.descuento.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.descuento.$dirty && detailOrderPurchaseCreateForm.descuento.$invalid]">
                 <label for="descuento">Descuento % </label>
 
-                <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="descuento" placeholder="0.00" ng-model="detailOrderPurchase.descuento" ng-blur="calculateSuppPric()" step="0.1">
+                <input ng-disabled="activarCampCantidad" type="number" class="form-control ng-pristine ng-valid ng-touched" name="descuento" placeholder="0.00" ng-model="detailOrderPurchase.descuento" ng-blur="calculateSuppPric()" step="0.1">
                 <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.descuento.$dirty && detailOrderPurchaseCreateForm.descuento.$invalid">
                   <span ng-show="detailOrderPurchaseCreateForm.descuento.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
@@ -433,7 +445,7 @@
                       <td ng-hide="true">@{{row.detPres_id}}</td>
                       <td>@{{row.producto}}</td>
                       <!--<td>@{{row.CodigoPCompra}}</td>-->
-                      <td><a  popover-trigger="mouseenter" popover="Presentacion:@{{variants.nombre}}; 
+                      <td><a  popover-trigger="mouseenter" popover="Presentacion:@{{variants.PRename}}; 
                       Equivalencia:@{{variants.equivalencia}} @{{presentation.shortname}};Pr:@{{variants.Pnombre}};Mr:@{{variants.Bnombre}}
                       ;Tp:@{{variants.Tnombre}};Mt:@{{variants.Mnombre}}" 
                       ng-mouseover="popover(row)">@{{row.CodigoPCompra}}</a></td>
@@ -471,7 +483,7 @@
             <div class="col-md-4"> 
               <div class="form-group">
                 <label for="suppPric">Monto Bruto</label>
-                <input type="number" ng-model="orderPurchase.montoBruto" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
+                <input type="number" ng-disabled="true" ng-model="orderPurchase.montoBruto" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
                 name="montoBruto" placeholder="0.00"  ng-disabled="product.hasVariants" ng-blur="calcularmontoBrutoF()" step="0.1">
               </div>
             </div>
@@ -492,8 +504,8 @@
       <div class="col-md-2">
                 <div class="form-group">
                 <label for="suppPric">Ingrese Saldo aUtilizar</label>
-                <input type="number" ng-model="orderPurchase.SaldoUtilizado" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
-                name="montoTotal" placeholder="0.00"  ng-disabled="product.hasVariants" ng-blur="calcularmontoBrutoF()" step="0.1">
+                <input ng-Disabled="orderPurchase.saldoDisponible<=0" type="number" ng-model="orderPurchase.SaldoUtilizado" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
+                name="montoTotal" placeholder="0.00"  ng-disabled="product.hasVariants" ng-blur="validadSaldoUtilizable()" step="0.1">
               </div>
             </div>
       </div>

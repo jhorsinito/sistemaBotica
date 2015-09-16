@@ -8,7 +8,7 @@ class PendientAccountManager extends BaseManager {
             'Saldo'=>'',
             'estado'=>'',
             'orderPurchase_id'=>'',
-            'supplier_id'=>'',
+            'supplier_id'=>'required',
             'fecha'=>''
                   ];
         return $rules;

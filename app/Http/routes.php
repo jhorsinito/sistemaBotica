@@ -131,7 +131,7 @@ Route::get('api/variantsAllInventary/misDatos/{store?}/{were?}/{q?}',['as'=>'per
 Route::get('api/variants/variant/{id}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@variant']);
 Route::get('api/variants/variants/{id}',['as' => 'variants_byproduct_id', 'uses' => 'VariantsController@variants']);
 Route::get('api/variants/autocomplit/{sku}','VariantsController@traer_por_Sku');
-//cd Route::get('api/variants/autocomplit/{sku}','VariantsController@autocomplit1');
+Route::get('api/variants/Paginar_por_Variante','VariantsController@Paginar_por_Variante');
 Route::get('api/variants/paginatep/{id}/{var}','VariantsController@paginatep');
 Route::get('api/variants/selectTalla/{id}/{taco}','VariantsController@selectTalla');
 Route::get('api/variantname/search/{q?}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@searchCodigo']);
@@ -392,6 +392,8 @@ Route::get('orderPurchases/createDetalle/{id?}', ['as' => 'person_edit', 'uses' 
 Route::get('orderPurchases/form-createDetalle',['as'=>'atribut_form_create','uses'=>'OrderPurchasesController@createDetalle']);
 Route::get('orderPurchases/form-createP','OrderPurchasesController@form_createP');
 Route::get('orderPurchases/createP','OrderPurchasesController@index');
+Route::get('orderPurchases/show/{id?}','OrderPurchasesController@index');
+Route::get('orderPurchases/view-show','OrderPurchasesController@show');
 
 
 
@@ -513,8 +515,9 @@ Route::post('api/cashHeaders/destroy',['as'=>'person_destroy', 'uses'=>'CashHead
 Route::get('api/cashHeaders/search/{q?}',['as'=>'person_search', 'uses'=>'CashHeadersController@search']);
 Route::get('api/cashHeaders/find/{id}',['as'=>'person_find', 'uses'=>'CashHeadersController@find']);
 Route::get('api/cashHeaders/select','CashHeadersController@select');
-Route::get('api/cashHeaders/cajasActivas','CashHeadersController@cajasActivas');
+Route::get('api/cashHeaders/cajasActivas/{alma}','CashHeadersController@cajasActivas');
 Route::get('api/searchHeaders/search/{q?}',['as'=>'person_search', 'uses'=>'CashHeadersController@searchHeader']);
+Route::get('/api/cashHeaders/autocomplit2/','CashHeadersController@caja');
 //Route::get('api/cashHeaders/mostrarCostos/{id}','PromotionsController@mostrarCostos');
 
 //-----------------------------Cashes---------------------------

@@ -268,20 +268,31 @@ class ProductsController extends Controller
             $product->quantVar = 0; //aunq presenta una fila en la tabla variantes por defecto
             $product->save();
             $variant = $this->variantRepo->getModel()->where('product_id',$product->id)->first();
-            $managerVar = new VariantManager($variant,$request->only('sku','suppPri','markup','price','track','product_id','user_id'));
+            $managerVar = new VariantManager($variant,$request->only('sku','suppPri','markup','price','track','codigo','product_id','user_id'));
             $managerVar->save();
 
             //var_dump($request->input('presentations')); die();
-            $variant->presentation()->detach();
+            //$variant->presentation()->detach();
             foreach($request->input('presentations') as $presentation){
                 //var_dump('o'); die();
                 $presentation['variant_id'] = $variant->id;
                 $presentation['presentation_id'] =  $presentation['id'];
-                $detpresRepo = new DetPresRepo();
+                /*$detpresRepo = new DetPresRepo();
                 //$oPres = $detpresRepo->getModel()->where('presentation_id',$presentation['presentation_id'])->where('variant_id',$presentation['variant_id'])->first();
                 $oPres = $detpresRepo->getModel();
                 $presManager = new DetPresManager($oPres,$presentation);
-                $presManager->save();
+                $presManager->save();*/
+                $oPres = new DetPresRepo();
+                //$oStock = $stockRepo->getModel()->where('variant_id',$stock['variant_id'])->where('warehouse_id',$stock['warehouse_id'])->first();
+                $obj = $oPres->getModel()->where('variant_id',$presentation['variant_id'])->where('presentation_id',$presentation['presentation_id'])->first();
+
+                if(!isset($obj->id)){
+                    $presManager = new DetPresManager($oPres->getModel(), $presentation);
+                    $presManager->save();
+                }else{
+                    $presManager = new DetPresManager($obj, $presentation);
+                    $presManager->save();
+                }
             }
             if($request->input('track') == 1) {
                 //$variant->warehouse()->detach();

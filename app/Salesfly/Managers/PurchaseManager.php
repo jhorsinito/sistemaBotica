@@ -6,12 +6,12 @@ class PurchaseManager extends BaseManager {
     {
         $rules = [
             'fechaEntrega'=>'',
-             'descuento'=>'',
-             'montoBruto'=>'',
-             'montoTotal'=>'',
+             'descuento'=>'between:0,9999999999.00',
+             'montoBruto'=>'between:0,9999999999.00',
+             'montoTotal'=>'between:0,9999999999.00',
              'orderPurchase_id'=>'',
-             'warehouses_id'=>'',
-                    'supplier_id'=>'',
+             'warehouses_id'=>'required',
+                    'supplier_id'=>'required',
                     'observacion'=>''];
         return $rules;
     }}

@@ -193,6 +193,26 @@
 
                 return deferred.promise;
             }
+            function listaCashes(uri,alm)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/cashHeaders/cajasActivas/'+alm)
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
+            function paginatVariants(uri)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/Paginar_por_Variante')
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
             return {
                 all: all,
                 paginate: paginate,
@@ -212,7 +232,9 @@
                 eligirNumero: eligirNumero,
                 MostrarAtributos: MostrarAtributos,
                 MostrarTallas: MostrarTallas,
-                MostrarTotalDeudas: MostrarTotalDeudas
+                MostrarTotalDeudas: MostrarTotalDeudas,
+                listaCashes: listaCashes,
+                paginatVariants: paginatVariants
             }
         }])
         .factory('socketService', function ($rootScope) {

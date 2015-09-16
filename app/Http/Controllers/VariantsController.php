@@ -54,6 +54,11 @@ class VariantsController extends Controller
         //var_dump($variants);die();
         return response()->json($variants);
     }
+    public function  Paginar_por_Variante(){
+        $variants=$this->variantRepo->Paginar_por_Variante();
+        return response()->json($variants);
+    }
+
         public function getAttr($id)
     {
         $variant = $this->variantRepo->getAttr($id);
@@ -224,13 +229,26 @@ class VariantsController extends Controller
 
             //================================ VARIANTES==============================//
 
-            $variant->presentation()->detach();
+            //$variant->presentation()->detach();
             foreach($request->input('presentations') as $presentation){
                 $presentation['variant_id'] = $variant->id;
                 $presentation['presentation_id'] =  $presentation['id'];
+
                 $oPres = new DetPresRepo();
-                $presManager = new DetPresManager($oPres->getModel(),$presentation);
-                $presManager->save();
+                //$oStock = $stockRepo->getModel()->where('variant_id',$stock['variant_id'])->where('warehouse_id',$stock['warehouse_id'])->first();
+                $obj = $oPres->getModel()->where('variant_id',$presentation['variant_id'])->where('presentation_id',$presentation['presentation_id'])->first();
+
+                if(!isset($obj->id)){
+                    $presManager = new DetPresManager($oPres->getModel(), $presentation);
+                    $presManager->save();
+                }else{
+                    $presManager = new DetPresManager($obj, $presentation);
+                    $presManager->save();
+                }
+
+
+                //$presManager = new DetPresManager($oPres->getModel(),$presentation);
+                //$presManager->save();
             }
 
             $variant->atributes()->detach();
@@ -372,11 +390,15 @@ class VariantsController extends Controller
             $product = $oProduct->variant->load(['detPre' => function ($query){
                 $query->join('presentation','presentation.id','=','detPres.presentation_id');
                 //$query->orderBy('id');
-            },'stock','product']);
+            },'stock' => function($q){
+                $q->join('warehouses','warehouses.id','=','stock.warehouse_id');
+            },'product']);
+            //print_r('hoho'); die;
         }
 
         return response()->json($product);
     }
+
     public function editFavoritos(Request $request)
     {
         $vatiant = $this->variantRepo->find($request->id);
