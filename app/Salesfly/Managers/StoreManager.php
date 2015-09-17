@@ -13,6 +13,7 @@ class StoreManager extends BaseManager {
                     'distrito'=>'',
                     'provincia'=>'',
                     'departamento'=>'',
+                    'pais' => '',
                     'email'=>'',
                     'website'=>''                    
                   ];

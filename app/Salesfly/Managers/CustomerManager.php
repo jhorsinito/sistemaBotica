@@ -8,22 +8,22 @@ class CustomerManager extends BaseManager {
         $rules = [  
                     'nombres'=>'required',
                     'apellidos'=>'required',
-            'empresa' => '',
-            'direccFiscal' => '',
-            'ruc'=> '',
-            'codigo' => '',
-            'fechaNac' => '',
-            'genero'=> '',
-            'fijo'=> '',
-            'movil'=> '',
-            'email'=> '',
-            'website'=> '',
-            'direccContac'=> '',
-            'distrito'=> '',
-            'provincia'=> '',
-            'departamento'=> '',
-            'pais'=> '',
-            'notas'=> ''
+                    'empresa' => '',
+                    'direccFiscal' => '',
+                    'ruc'=> '',
+                    'codigo' => 'required|unique:customers,codigo,'.$this->entity->id,
+                    'fechaNac' => '',
+                    'genero'=> '',
+                    'fijo'=> '',
+                    'movil'=> '',
+                    'email'=> '',
+                    'website'=> '',
+                    'direccContac'=> '',
+                    'distrito'=> '',
+                    'provincia'=> '',
+                    'departamento'=> '',
+                    'pais'=> '',
+                    'notas'=> ''
                   ];
         return $rules;
     }

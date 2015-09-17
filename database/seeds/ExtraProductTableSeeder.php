@@ -13,30 +13,30 @@ class ExtraProductTableSeeder extends Seeder
     {
         //
         DB::table('brands')->insert([
-            'nombre' => 'Marca Generica',
+            'nombre' => 'Marca Genérica',
             'shortname' => 'GE',
-            'descripcion' => 'Marca generica creada por defecto',
+            'descripcion' => 'Marca genérica creada por defecto',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('types')->insert([
-            'nombre' => 'Linea Generica',
+            'nombre' => 'Línea Genérica',
             'shortname' => 'GE',
-            'descripcion' => 'Linea generica creada por defecto',
+            'descripcion' => 'Línea genérica creada por defecto',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('materials')->insert([
-            'nombre' => 'Material Generico',
+            'nombre' => 'Material Genérico',
             'shortname' => 'GE',
-            'descripcion' => 'Material generico creada por defecto',
+            'descripcion' => 'Material genérico creada por defecto',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('stations')->insert([
-            'nombre' => 'Estacion Generica',
+            'nombre' => 'Estación Genérica',
             'shortname' => 'GE',
-            'descripcion' => 'Estacion generica creada por defecto',
+            'descripcion' => 'Estación genérica creada por defecto',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);

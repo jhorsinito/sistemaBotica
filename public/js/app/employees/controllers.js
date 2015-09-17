@@ -42,8 +42,9 @@
                         $log.log(data);
                         if(data.fechanac != null) {
                             if (data.fechanac.length > 0) {
+
+                                data.fechanac = new Date(data.fechanac);
                                 $log.log(data.fechanac);
-                                //data.fechanac = new Date(data.fechanac);
                                 //data.employee.fechanac = new Date(data.fechanac);
                             }
                         }

@@ -144,7 +144,7 @@
                             </tr>
                             <tr ng-repeat="row in variants">
                                 <td>{{$index + 1}}</td>
-                                <td><a ng-href="/variant/show/{{row.id}}">{{row.product.nombre}}
+                                <td><a href="/variants/edit/{{row.id}}">{{row.product.nombre}}
                                     <span ng-repeat="row2 in row.det_atr ">
                                         / {{row2.descripcion}}
                                     </span>

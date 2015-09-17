@@ -15,7 +15,7 @@ class EmployeeTableSeeder extends Seeder
         DB::table('employees')->insert([
             'nombres' => 'Empleado',
             'apellidos' => 'Ejemplo',
-            'direccioncontacto' => 'Direccion de Empleado Ejemplo',
+            'direccioncontacto' => 'Dirección de Empleado Ejemplo',
             'dni' => '44226644',
             'codigo' => '001',
             'distrito' => 'Chiclayo',

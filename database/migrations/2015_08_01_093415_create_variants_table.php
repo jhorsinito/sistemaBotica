@@ -16,7 +16,7 @@ class CreateVariantsTable extends Migration
         Schema::create('variants', function (Blueprint $table) {
             $table->increments('id');
             //$table->string('nombre');
-            $table->integer('sku'); //en base de datos poner inicio a 1000, true de increments
+            $table->bigInteger('sku'); //en base de datos poner inicio a 1000, true de increments
             $table->decimal('suppPri',10,2)->default(0); //promedio
             $table->decimal('markup',10,2)->default(0); //porcentaje % promedio
             $table->decimal('price',10,2)->default(0); // promedio

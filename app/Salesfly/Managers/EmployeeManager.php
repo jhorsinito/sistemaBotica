@@ -6,7 +6,7 @@ class EmployeeManager extends BaseManager {
     public function getRules()
     {
         $rules = [  
-                    'nombres'=>'required',
+                            'nombres'=>'required',
                             'apellidos'=>'required',
                             'codigo'=>'required|unique:employees,codigo,'.$this->entity->id,
                             'fechanac'=>'',
