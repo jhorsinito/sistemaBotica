@@ -83,14 +83,13 @@
               <th>Producto</th>
               <th>Atributos</th>
               <th>Presentacion</th>
-              <th>Precio Producto</th>
               <th>Precio Venta </th>
+              <th>Descuento</th>
               <th>Cantidad</th>
               <th>Entregados</th>
               <th>Pendientes</th>
-              <th>Descuento</th>
-              <th>Total</th>
               <th ng-if="atenderOrder">Cant. Llegada</th>
+              <th ng-if="atenderOrder">Cancelar</th>
 
 
               
@@ -98,19 +97,17 @@
             <tr  ng-repeat="row in detOrders">
                       <td>@{{$index + 1}}</td>
                       <td>@{{row.nameProducto}}</td>
-                      <td>@{{row.NombreAtributos}}</td>
+                      <td><a popover-template="dynamicPopover5.templateUrl" popover-trigger="mouseenter">@{{row.NombreAtributos}}</a></td>
                       <td>@{{row.presentacion}}</td>
                       <td ng-hide="true">@{{row.purchases_id}}</td>
                       <td ng-hide="true">@{{row.detPres_id}}</td>
-                      <td>@{{row.precioProducto}}</td>
                       <td>@{{row.precioVenta}}</td>
+                      <td>@{{row.descuento}}</td>
                       <td>@{{row.cantidad}}</td>
                       <td>@{{row.canEntregado}}</td>
                       <td>@{{row.canPendiente}}</td>
-                      <td>@{{row.descuento}}</td>
-                      <td>@{{row.subTotal}}</td>
-                      <td ng-if="atenderOrder"><input style="width: 45px" ng-model="row.parteEntregado" string-to-number ng-blur="ActualizarPartStock(row,$index)" type="number" placeholder="@{{row.canPendiente}}" ></td>
-
+                      <td ng-if="atenderOrder"><input style="width: 45px" ng-disabled="row.estad" ng-model="row.parteEntregado" string-to-number ng-blur="ActualizarPartStock(row,$index)" type="number" placeholder="@{{row.canPendiente}}" ></td>          
+                      <td ng-if="atenderOrder"><input type="checkbox" ng-disabled="row.estad1" ng-click="cancelOrderProduc(row,$index)" name="estado" ng-model="row.estad" ng-checked="row.estad" class="ng-valid ng-dirty ng-valid-parse ng-touched"></td>
                       
                       <!--<td><a ng-click="sacarRow(row.index,row.montoTotal)" class="btn btn-warning btn-xs">Sacar</a></td>
                       <td><a ng-click="EditarDetalles(row,row.index)" data-target="#miventanaEditRow" data-toggle="modal" class="btn btn-warning btn-xs">Edit</a></td>
@@ -290,3 +287,32 @@
               </div>
               </div><!-- /.row -->
               </section><!-- /.content -->
+
+
+
+
+              <script type="text/ng-template" id="myPopoverTemplate5.html">
+      <div class="form-group">
+          <label>@{{dynamicPopover5.title}}</label>
+        </div>
+        <table class="table table-bordered">
+          <tr>
+          <th>Stock</th>
+          <th>@{{detOrders[$index].stock}}</th>
+          </tr>
+          <tr>
+          <th>Pedidos</th>
+          <th>@{{detOrders[$index].pedidos}}</th>
+          </tr>
+          <tr>
+          <th>Separados</th>
+          <th>@{{detOrders[$index].separados}}</th>
+          </tr>
+          <tr></tr>
+          <th>precio</th>
+          <th>@{{detOrders[$index].precioProducto}}</th>
+          <tr></tr>
+        </table>
+          
+                 
+    </script>

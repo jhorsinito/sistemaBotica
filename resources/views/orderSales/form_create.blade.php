@@ -402,6 +402,14 @@
           <th>Stock</th>
           <th>@{{compras[$index].Stock}}</th>
           </tr>
+          <tr>
+          <th>Pedidos</th>
+          <th>@{{compras[$index].stockPedidos}}</th>
+          </tr>
+          <tr>
+          <th>Separados</th>
+          <th>@{{compras[$index].stockSeparados}}</th>
+          </tr>
           <tr></tr>
           <th>precio</th>
           <th>@{{compras[$index].precioProducto}}</th>

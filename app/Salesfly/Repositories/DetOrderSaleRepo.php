@@ -30,6 +30,7 @@ class DetOrderSaleRepo extends BaseRepo{
                     
                     ->select(\DB::raw('detOrderSales.*, products.nombre as nameProducto, presentation.nombre as presentacion ,variants.id as vari ,equiv.cant as equivalencia,
                             stock.stockActual as stock, stock.stockPedidos as pedidos,stock.stockSeparados as separados,
+                            stock.id as idStock,
                          (SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /") FROM variants
                                 INNER JOIN detAtr ON detAtr.variant_id = variants.id
                                 INNER JOIN atributes ON atributes.id = detAtr.atribute_id

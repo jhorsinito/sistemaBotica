@@ -583,6 +583,8 @@ Route::get('api/salePaymentOrder/search/{id?}',['as'=>'person_search', 'uses'=>'
 Route::get('api/SaleDetPayment/search/{id?}',['as'=>'person_search', 'uses'=>'SaleDetPaymentController@searchDetalle']);
 Route::get('api/DetOrderSales/search/{id?}',['as'=>'person_search', 'uses'=>'DetOrderSalesController@searchDetalle']);
 //Route::get('api/stores/select','StoresController@selectStores');
+Route::put('api/DetOrderSales/edit',['as'=>'person_edit', 'uses'=>'DetOrderSalesController@edit']);
+
 Route::get('api/saleMethodPayments/select','SaleMethodPaymentController@select');
 Route::post('api/saledetPayments/create',['as'=>'person_create', 'uses'=>'SaleDetPaymentController@create']);
 Route::get('api/saledetPayments/find/{id}',['as'=>'person_create', 'uses'=>'SaleDetPaymentController@find']);

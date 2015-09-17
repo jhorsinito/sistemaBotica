@@ -185,6 +185,7 @@ class SalesController extends Controller
                   
                 }else{
                   $object["stockActual"]=$stockac->stockActual-($object["cantidad"]*$object["equivalencia"]);
+                  
                 }
                   $manager = new StockManager($stockac,$object);
                   $manager->save();
@@ -224,7 +225,7 @@ class SalesController extends Controller
           //----------------------      
 
         $detOrderrepox;
-         
+        $montoventa=0;
        foreach($var as $object){
           //------Actualizar pedido------
           //$cajaAct = $request->caja;
@@ -232,7 +233,7 @@ class SalesController extends Controller
             $saleDet;
             $saleDet = new DetOrderSaleRepo;
             //$object=$saleDet->getModel();
-
+            
             $saled = $saleDet->find($object['id'] );
             //var_dump($saled);die();
 
@@ -241,9 +242,8 @@ class SalesController extends Controller
           //-----------------------------
            $object['sale_id'] = $temporal;
            $object['cantidad'] = $object['parteEntregado'];
-
-           //$object['cantidad'] = $object['parteEntregado'];
-
+           $object['subTotal'] = $object['precioVenta']*$object['parteEntregado'];
+           $montoventa=$montoventa+$object['subTotal'];
            $detOrderrepox = new DetSaleRepo;
 
            $insertar=new DetSaleManager($detOrderrepox->getModel(),$object);
@@ -262,10 +262,12 @@ class SalesController extends Controller
             if(!empty($stockac)){
              
                 if($object["equivalencia"]==null){
+                  $object["stockPedidos"]=$stockac->stockPedidos-($object["cantidad"]);
                   $object["stockActual"]=$stockac->stockActual-($object["cantidad"]);//
                   
                 }else{
                   $object["stockActual"]=$stockac->stockActual-($object["cantidad"]*$object["equivalencia"]);
+                  $object["stockPedidos"]=$stockac->stockPedidos-($object["cantidad"]*$object["equivalencia"]);
                 }
                   $manager = new StockManager($stockac,$object);
                   $manager->save();
@@ -276,6 +278,16 @@ class SalesController extends Controller
             $stockac=null;
             //-----------------------------------------------------
        }
+            $subTotal=$montoventa/1.18;
+            $montoIgv=$montoventa-$subTotal;
+
+            $request->merge(array('montoTotal' => $montoventa));
+            $request->merge(array('igv' => $montoIgv));
+            $request->merge(array('montoBruto' => $subTotal));
+
+            $sales=$this->saleRepo->find($temporal);
+            $manager = new SaleManager($sales,$request->all());
+            $manager->save();
      return response()->json(['estado'=>true, 'nombres'=>$orderSale->nombres]);
     }
     public function store(Request $request)
