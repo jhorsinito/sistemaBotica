@@ -22,9 +22,9 @@
    <!-- Tabs within a box -->
    <div class="nav-tabs-custom" align="" id="my_tab">
                 <ul class="nav nav-tabs pull-right">
-                  <li class="active"><a href="#i" data-toggle="tab">Area</a></li>
-                  <li><a ng-model="checked" href="#e" data-toggle="tab">Datos</a></li>
-                  <li class="pull-left header"><i class="fa fa-inbox"></i> Editar Suppliers</li>
+                  <li class="active"><a href="#i" data-toggle="tab" class="xlf">Area</a></li>
+                  <li><a ng-model="checked" href="#e" data-toggle="tab" class="xlf">Datos</a></li>
+                  <li class="pull-left header"><i class="fa fa-inbox" ></i> Editar Suppliers</li>
                 </ul>
                 
                   <div class="tab-content no-padding">
@@ -183,7 +183,7 @@
                      
                     <div class="form-group" >
                       <label for="fijo">Twitter </label>
-                      <input type="email" class="form-control" name="fijo" placeholder="###"
+                      <input type="text" class="form-control" name="fijo" placeholder="###"
                       ng-model="supplier.twitter">
                      </div>
                   </div>
@@ -202,8 +202,8 @@
    </div>
    <div class="box-footer">
                     <button type="submit" class="btn btn-primary" ng-click="updateSupplier()">Modificar</button>
-                    <!--<a href="/suppliers" class="btn btn-danger">Cancelar</a>-->
-                     <input type="button" class="btn btn-danger" value="Cancel"onclick="location='/suppliers'"/>
+                    <a href="/suppliers" class="btn btn-danger">Cancelar</a>
+                     <!--<input type="button" class="btn btn-danger" value="Cancel"onclick="location='/suppliers'"/>-->
                   </div>
    </form>
    </section>
@@ -250,15 +250,15 @@
   </div>
   <div class="box-footer">
                     <button type="submit" class="btn btn-primary" ng-click="updateSupplier()">Modificar</button>
-                    <!--<a href="/suppliers" class="btn btn-danger">Cancelar</a>-->
-                    <input type="button" class="btn btn-danger" value="Cancel"onclick="location='/suppliers'"/>
+                    <a href="/suppliers" class="btn btn-danger">Cancelar</a>
+                    <!--<input type="button" class="btn btn-danger" value="Cancel"onclick="location='/suppliers'"/>-->
                   </div>
   </section>
                   
                 </div>
                 </div><!-- /.nav-tabs-custom -->
                     <script type="text/javascript">
-$('#my_tab a').click(function (e) {
+$('#my_tab .xlf').click(function (e) {
   e.preventDefault();
   $(this).tab('show');
 });

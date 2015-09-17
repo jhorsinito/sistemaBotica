@@ -32,7 +32,7 @@
                 $scope.types = {};
                 $scope.stations = {};
                 $scope.product.estado = true;
-                $scope.product.hasVariants = false;
+                $scope.product.hasVariants = true;
 
                 $scope.presentation = {};
                 $scope.presentations = [];

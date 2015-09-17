@@ -13,9 +13,9 @@ class WarehousesTableSeeder extends Seeder
     {
         //
         DB::table('warehouses')->insert([
-            'nombre' => 'Almac�n Central',
+            'nombre' => 'Almacén Central',
             'shortname' => 'AC',
-            'descripcion' => 'Almacen Central del la Tienda creado por defecto',
+            'descripcion' => 'Almacén Central del la Tienda creado por defecto',
             'capacidad' => '100',
             'store_id' => 1,
             'created_at' => date("Y-m-d H:i:s"),

@@ -27,9 +27,9 @@ class DatabaseSeeder extends Seeder
         $this->call(WarehousesTableSeeder::class);
         $this->call(CashHeaderTableSeeder::class);
         $this->call(CashTableSeeder::class);
-        //$this->call(CustomerTableSeeder::class);
-        //$this->call(SupplierTableSeeder::class);
-        //$this->call(EmployeeTableSeeder::class);
+        $this->call(CustomerTableSeeder::class);
+        $this->call(SupplierTableSeeder::class);
+        $this->call(EmployeeTableSeeder::class);
         Model::reguard();
     }
 }

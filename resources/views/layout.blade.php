@@ -240,7 +240,7 @@
             <div class="col-md-12">
               <div class="box">
                 <div class="box-header with-border">
-                  <h3 class="box-title">SalesFly</h3>
+                  <h3 class="box-title"><i class="fa fa-home"></i> SalesFly</h3>
                   <div class="box-tools pull-right">
                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     <div class="btn-group">
@@ -260,7 +260,7 @@
                   <div class="row">
                     <div class="col-md-8 col-md-offset-0">
                         <h4>Completa los primeros pasos para poder empezar a descubrir SalesFly o mira el video de la derecha y
-                        aprenda como hacer su primera venta con los productos de demostración que hemos añadido para usted. </h4>
+                        aprenda como hacer tu primera venta con los productos de demostración que hemos añadido para usted. </h4>
                     </div>
 
                   </div><!-- /.row -->

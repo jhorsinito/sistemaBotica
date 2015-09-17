@@ -21,8 +21,8 @@
    <!-- Tabs within a box -->
    <div class="nav-tabs-custom" align="" id="my_tab">
                 <ul class="nav nav-tabs pull-right">
-                  <li class="active"><a href="#i" data-toggle="tab">General</a></li>
-                  <li><a ng-model="checked" href="#e" data-toggle="tab">Ubicación</a></li>
+                  <li class="active"><a href="#i" data-toggle="tab" class="xlf">General</a></li>
+                  <li><a ng-model="checked" href="#e" data-toggle="tab" class="xlf">Ubicación</a></li>
                   <li class="pull-left header"><i class="fa fa-inbox"></i> Crear Empleados</li>
                 </ul>
                 
@@ -199,8 +199,8 @@
     </div>
      <div class="box-footer">
                     <button type="submit" class="btn btn-primary" aling="left" ng-click="createEmployee()">Crear</button>
-                    <!--<a href="employees" class="btn btn-danger">Cancelar</a>-->
-                    <input type="button" class="btn btn-danger" value="Cancel"onclick="location='/employees'"/>
+                    <a href="/employees" class="btn btn-danger">Cancelar</a>
+                    <!--<input type="button" class="btn btn-danger" value="Cancel"onclick="location='/employees'"/>-->
                   </div>
     </form>
                
@@ -252,8 +252,8 @@
   
   <div class="box-footer" aling="right">
                     <button type="submit" class="btn btn-primary" ng-click="createEmployee()">Crear</button>
-                    <!--<a href="/employees" class="btn btn-danger">Cancelar</a>-->
-                     <input type="button" class="btn btn-danger" value="Cancel"onclick="location='/employees'"/>
+                    <a href="/employees" class="btn btn-danger">Cancelar</a>
+                    <!-- <input type="button" class="btn btn-danger" value="Cancel"onclick="location='/employees'"/>-->
                   </div>
   
   </section>
@@ -267,7 +267,7 @@
                 </div>
                 </div><!-- /.nav-tabs-custom -->
                     <script type="text/javascript">
-$('#my_tab a').click(function (e) {
+$('#my_tab .xlf').click(function (e) {
   e.preventDefault();
   $(this).tab('show');
 });

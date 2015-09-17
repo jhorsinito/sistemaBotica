@@ -14,6 +14,7 @@ class Store extends \Eloquent {
                     'distrito',
                     'provincia',
                     'departamento',
+                    'pais',
                     'email',
                     'website'];
     public function warehouses()

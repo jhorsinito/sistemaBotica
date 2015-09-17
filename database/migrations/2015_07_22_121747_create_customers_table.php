@@ -18,12 +18,12 @@ class CreateCustomersTable extends Migration
             $table->string('apellidos');
             $table->string('empresa');
             $table->string('direccFiscal');
-            $table->integer('ruc');
-            $table->string('codigo');
+            $table->string('ruc');
+            $table->string('codigo')->unique();
             $table->dateTime('fechaNac');
             $table->char('genero',1);
-            $table->integer('fijo');
-            $table->integer('movil');
+            $table->string('fijo');
+            $table->string('movil');
             $table->string('email');
             $table->text('website');
             $table->string('direccContac');
