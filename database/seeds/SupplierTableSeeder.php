@@ -15,10 +15,10 @@ class SupplierTableSeeder extends Seeder
         DB::table('suppliers')->insert([
             'nombres' => 'Proveedor',
             'apellidos' => 'Ejemplo',
-            'direccontacto' => 'Direccion de Contacto Ejemplo',
+            'direccontacto' => 'Dirección de Contacto Ejemplo',
             'empresa' => 'Empresa Proveedor Ejemplo',
             'codigo' => '001',
-            'direccionfiscal' => 'Direccion Fiscal Ejemplo',
+            'direccionfiscal' => 'Dirección Fiscal Ejemplo',
             'ruc' => '20561102911',
             'distrito' => 'Chiclayo',
             'provincia' => 'Chiclayo',

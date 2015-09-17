@@ -7,7 +7,7 @@
                 $scope.orderSale = {};
                 $scope.errors = null; 
                 $scope.success;
-                $scope.query = '';
+                $scope.query = ''; 
                 $scope.store={};
                 $scope.warehouse={};
                 $scope.warehouse.id='1';
@@ -42,10 +42,19 @@
                 $scope.saledetPayment={};
                 $scope.date = new Date();
                 $scope.payment={};
+
+                $scope.cantEntregada=0;
+                $scope.detOrdersFijo={};
+                $scope.entregado=0;
+                $scope.banderaMostrarEntrega=false;
             }
             $scope.inicializar();
                 
-
+                $scope.estadoMostrarEntrega = function () {
+                    if ($scope.order1.estado!=0) {$scope.banderaMostrarEntrega=true;}else{
+                        $scope.banderaMostrarEntrega=false;
+                    }
+                };
                 $scope.toggle = function () {
                     $scope.show = !$scope.show;
                 };
@@ -61,6 +70,7 @@
                             $scope.orderSales = data.data;
                         });
                     }
+
                 };
 
 
@@ -70,11 +80,13 @@
                 {
                     crudServiceOrderSales.byId(id,'orderSales').then(function (data) {
                         $scope.order1 = data;
-                        $log.log($scope.order1);
+                        //$log.log($scope.order1);
+                        $scope.estadoMostrarEntrega();
 
                        crudServiceOrderSales.search('DetOrderSales',$scope.order1.id,1).then(function (data){
                            $scope.detOrders = data.data;
-                          //$log.log($scope.detOrders); 
+                           $scope.detOrdersFijo = data.data;
+                          $log.log($scope.detOrders); 
                           //alert("Hola");
                         });
                         crudServiceOrderSales.search('salePaymentOrder',$scope.order1.id,1).then(function (data){
@@ -91,6 +103,15 @@
                         $scope.saleMethodPayments = data;
 
                     });
+                    crudServiceOrderSales.select('stores','select').then(function (data) {                        
+                        $scope.stores = data;
+
+                    });
+                    crudServiceOrderSales.search('warehousesStore',$scope.store.id,1).then(function (data){
+                        $scope.warehouses=data.data;
+                    });
+
+                    $scope.atenderOrder=false;
                 }else{
                     crudServiceOrderSales.paginate('orderSales',1).then(function (data) {
                         $scope.orderSales = data.data;
@@ -98,7 +119,7 @@
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                         $scope.itemsperPage = 15;
-                        $log.log($scope.orderSales);
+                        //$log.log($scope.orderSales);
                     });
 
                     crudServiceOrderSales.select('stores','select').then(function (data) {                        
@@ -167,6 +188,150 @@
                     templateUrl: 'myPopoverTemplate6.html',
                     title: 'Notas',
                 };
+                //$scope.estadoOrderProduc=1;
+                $scope.cancelOrderProduc = function(row,$index) {
+                    $scope.detOrders[$index].parteEntregado=0;
+                    //ActualizarPartStock();
+                    $scope.detOrders[$index].canEntregado=Number($scope.detOrdersFijo[$index].canEntregado)+Number($scope.detOrders[$index].parteEntregado);
+                    $scope.detOrders[$index].canPendiente =$scope.detOrdersFijo[$index].cantidad-$scope.detOrders[$index].canEntregado;
+                    $log.log(row);
+                };
+                $scope.atenderOrderEstado = function(row) {
+                    for (var i = $scope.detOrders.length - 1; i >= 0; i--) {
+                            if ($scope.detOrders[i].estado==0) {
+                                $scope.detOrders[i].estad=false;
+                            }else{
+                                $scope.detOrders[i].estad=true;
+                            }
+
+                            if ($scope.detOrders[i].estado==1 && $scope.detOrders[i].canPendiente==0){
+                                $scope.detOrders[i].estad1=true;
+                                //alert("wwwwwwww"+$scope.detOrders[i].cantidad);
+                            }else{
+                                $scope.detOrders[i].estad1=false; 
+                            }
+                        }; 
+                }
+                $scope.ActualizarPartStock= function(row,$index) {
+                   //alert($scope.detOrdersFijo[$index].canEntregado);
+                   
+                   
+                   crudServiceOrderSales.byId(id,'orderSales').then(function (data) {
+                        $scope.order1 = data;
+                       crudServiceOrderSales.search('DetOrderSales',$scope.order1.id,1).then(function (data){
+                           $scope.detOrdersFijo = data.data;
+
+                   if (Number($scope.detOrders[$index].parteEntregado)>Number($scope.detOrdersFijo[$index].canPendiente)) {
+                        $scope.detOrders[$index].canEntregado=$scope.detOrdersFijo[$index].canEntregado;
+                        $scope.detOrders[$index].canPendiente =$scope.detOrdersFijo[$index].canPendiente;
+                        $scope.detOrders[$index].parteEntregado=0.00;
+                        alert("Excede cantidad");
+                   }else{
+                        alert($scope.detOrdersFijo[$index].canEntregado);
+                        $scope.detOrders[$index].canEntregado=Number($scope.detOrdersFijo[$index].canEntregado)+Number($scope.detOrders[$index].parteEntregado);
+                        $scope.detOrders[$index].canPendiente =$scope.detOrdersFijo[$index].cantidad-$scope.detOrders[$index].canEntregado;
+                        if ($scope.detOrders[$index].canPendiente==0) {
+                            $scope.detOrders[$index].estado=1;
+                        }else{
+                            $scope.detOrders[$index].estado=0;
+                        }
+                   }
+
+                   //$log.log($scope.detOrdersFijo);
+                   $log.log($scope.detOrders);
+                        });
+                    });
+                   //alert($scope.detOrders[$index].precioVenta*$scope.detOrders[$index].canEntregado);
+                }
+                $scope.crearCompra = function() {
+                    $scope.banderaEstadoOrderSale=true;
+                    $scope.banderaStokPedidos=true;
+                    $scope.banderaCancel=false;
+                    $scope.montoPagoCompra=0;
+                    $scope.totalParteEntrega=0;
+                    $scope.createCompra={};
+                    $scope.order1.orderSale_id=id;
+                    
+                    
+                    
+                    $scope.createCompra=$scope.order1;
+
+                        for (var i = $scope.detOrders.length - 1; i >= 0; i--) {
+                            //------------------------------------------------
+                            if ($scope.detOrders[i].estad==true && $scope.detOrders[i].estado==0) {
+                                $scope.detOrders[i].estado=1;
+                                crudServiceOrderSales.update($scope.detOrders[i],'DetOrderSales').then(function (data){
+                                })
+                                //$scope.totalParteEntrega=1;
+                                $scope.banderaCancel=true;
+                            }
+                            if ($scope.detOrders[i].estad==false && $scope.detOrders[i].estado==1) {
+                                $scope.detOrders[i].estado=0;
+                                crudServiceOrderSales.update($scope.detOrders[i],'DetOrderSales').then(function (data){
+                                })
+                                $scope.banderaCancel=true;
+                            }
+
+                            //------------------------------------------------
+                            $scope.detOrders[i].idAlmacen=$scope.warehouse.id;
+                            $scope.montoPagoCompra=$scope.montoPagoCompra+($scope.detOrders[i].precioVenta*$scope.detOrders[i].canEntregado);
+                            $scope.totalParteEntrega+=Number($scope.detOrders[i].parteEntregado);
+                            if ($scope.detOrders[i].estado==0) {$scope.banderaEstadoOrderSale=false;};
+                            if (($scope.detOrders[i].stock-$scope.detOrders[i].separados)<$scope.detOrders[i].parteEntregado) {
+                                $scope.banderaStokPedidos=false;
+                            };
+                            
+                        }; 
+                        //alert($scope.banderaStokPedidos);
+
+                        if ($scope.banderaEstadoOrderSale) {
+                            $scope.order1.estado=0;   
+                        };
+                        //$log.log($scope.order1.estado);
+                        if ($scope.banderaStokPedidos==false) {
+                            alert("STOCK INSUFICIENTE");
+                        }else{
+                            if ($scope.montoPagoCompra>$scope.payment[0].Acuenta) {
+                                alert("PAGO INSUFICIENTE");
+                            }else if($scope.totalParteEntrega==0){
+                                if ($scope.banderaCancel) {
+                                    crudServiceOrderSales.byId(id,'orderSales').then(function (data) {
+                                            $scope.order1 = data;
+                                            $scope.estadoMostrarEntrega();
+                                            crudServiceOrderSales.search('DetOrderSales',$scope.order1.id,1).then(function (data){
+                                                $scope.detOrders = data.data;
+                                            });
+                                        });
+                                        $scope.atenderOrder=false;
+                                }else{
+                                    alert("Ingrese cantidad entrega");
+                                }
+                            }else{
+                                $scope.createCompra.detOrders=$scope.detOrders;
+                                //$scope.createCompra.payment=$scope.payment;
+                                //$log.log($scope.createCompra);
+                                $log.log($scope.createCompra);
+                                
+                                crudServiceOrderSales.create($scope.createCompra, 'ordsales').then(function (data) {
+                                       
+                                    if (data['estado'] == true) {
+                                        //$scope.success = data['nombres'];
+                                    alert('grabado correctamente');  
+                                        crudServiceOrderSales.byId(id,'orderSales').then(function (data) {
+                                            $scope.order1 = data;
+                                            $scope.estadoMostrarEntrega();
+                                            crudServiceOrderSales.search('DetOrderSales',$scope.order1.id,1).then(function (data){
+                                                $scope.detOrders = data.data;
+                                            });
+                                        });
+                                        $scope.atenderOrder=false;                  
+                                    } else {
+                                        $scope.errors = data;
+                                    }
+                                });
+                            }
+                        }
+                }
                 $scope.atributoSelected=undefined;
                 $scope.getAtributos = function(val) {
                   return crudServiceOrderSales.reportProWare('products',$scope.store.id,$scope.warehouse.id,val).then(function(response){
@@ -548,7 +713,7 @@
                                 alert("Pago menor a la compra");
                             }else{
                                 $scope.salePayment.estado=0;
-                                $scope.sale.estado=0;
+                                $scope.sale.estado=1;
                                 if ($scope.radioModel!=undefined && $scope.pago.tarjeta==0) {
                                     alert("Elija monto Pago Tarjeta");
                                 }else if($scope.radioModel!=undefined && $scope.pago.tarjeta>0){
@@ -610,7 +775,7 @@
                             for (var i = 0; i < $scope.sale.saledetPayments.length; i++) {
                                 $scope.sale.saledetPayments[i].numCaja=$scope.detCash.cash_id;
                             };
-                            $log.log($scope.sale);
+                            $log.log($scope.sale); 
                              crudServiceOrderSales.create($scope.sale, 'orderSales').then(function (data) {
                            
                                     if (data['estado'] == true) {
@@ -656,6 +821,9 @@
                     //////////////////////////////////////////////
 
                     $scope.sale.fechaPedido=$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate()+' '+$scope.date.getHours()+':'+$scope.date.getMinutes()+':'+$scope.date.getSeconds();
+                    for (var i = $scope.compras.length - 1; i >= 0; i--) {
+                        $scope.compras[i].canPendiente=$scope.compras[i].cantidad;
+                    };
                     $scope.sale.detOrders=$scope.compras;
                     $scope.sale.movimiento=$scope.detCash; 
                     $scope.sale.caja=$scope.cashfinal;

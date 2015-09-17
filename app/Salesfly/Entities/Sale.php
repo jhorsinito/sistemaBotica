@@ -14,7 +14,8 @@ class Sale extends \Eloquent {
     						'employee_id',
     						'estado',
     						'igv',
-    						'notas']; 
+    						'notas',
+                            'orderSale_id']; 
 
     public function customer(){
         return $this->belongsTo('Salesfly\Salesfly\Entities\Customer','customer_id');

@@ -240,7 +240,7 @@
             <div class="col-md-12">
               <div class="box">
                 <div class="box-header with-border">
-                  <h3 class="box-title">SalesFly</h3>
+                  <h3 class="box-title"><i class="fa fa-home"></i> SalesFly</h3>
                   <div class="box-tools pull-right">
                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     <div class="btn-group">
@@ -260,7 +260,7 @@
                   <div class="row">
                     <div class="col-md-8 col-md-offset-0">
                         <h4>Completa los primeros pasos para poder empezar a descubrir SalesFly o mira el video de la derecha y
-                        aprenda como hacer su primera venta con los productos de demostración que hemos añadido para usted. </h4>
+                        aprenda como hacer tu primera venta con los productos de demostración que hemos añadido para usted. </h4>
                     </div>
 
                   </div><!-- /.row -->
@@ -276,7 +276,7 @@
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 
                           </div><!-- /.box-tools -->
-                          <button type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Producto</button>
+                          <a href="/products/create" type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Producto</a>
                         </div><!-- /.box-header -->
                         <div class="box-body">
                           Puedes agregar manualmente tus productos. Te hemos puesto productos de ejemplo.
@@ -296,7 +296,7 @@
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
 
                           </div><!-- /.box-tools -->
-                          <button type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Cliente</button>
+                          <a href="/customers/create" type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Cliente</a>
                         </div><!-- /.box-header -->
                         <div class="box-body">
                           Puedes agregar manualmente tus productos. Te hemos puesto productos de ejemplo.
@@ -316,7 +316,7 @@
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
 
                           </div><!-- /.box-tools -->
-                          <button type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Empleado!</button>
+                          <a href="/employees/create" type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Empleado!</a>
                         </div><!-- /.box-header -->
                         <div class="box-body">
                           Puedes agregar manualmente tus productos. Te hemos puesto productos de ejemplo.

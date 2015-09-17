@@ -17,11 +17,11 @@ class CreateSuppliersTable extends Migration
             $table->string('nombres');
             $table->string('apellidos');
             $table->string('empresa');
-            $table->string('codigo');
+            $table->string('codigo')->unique();
             $table->string('direccionfiscal');
             $table->string('ruc');
             $table->string('numcuenta');
-            $table->date('fechanac');
+            $table->dateTime('fechanac');
             $table->string('fijo');
             $table->string('movl');
             $table->string('email');

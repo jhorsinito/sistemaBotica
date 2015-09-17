@@ -17,7 +17,7 @@ class OrderSaleRepo extends BaseRepo{
         return $sale;
     }
     public function paginate($count){
-        $sale = OrderSale::leftjoin('salePayments','salePayments.sale_id','=','orderSales.id')
+        $sale = OrderSale::leftjoin('salePayments','salePayments.orderSale_id','=','orderSales.id')
                         ->select('orderSales.*','salePayments.estado as estadoPago')
                         ->with('customer','employee');
         return $sale->paginate($count);

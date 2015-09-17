@@ -36,10 +36,11 @@
                   <div class="col-md-8">
                       <b>Descripción:</b> @{{ product.descripcion }} <br/> <br/>
             ------------------------------------------------------------------------------------------------------------------------------------<br/>
-                      <b>Código de Producto</b>: @{{product.codigo}}<br/>
+                      <b>SKU</b>: @{{variant.sku}}<br/>
             <b>Marca:</b> @{{ product.brand.nombre }} <br/> <br/>
             <b>Línea:</b> @{{ product.type.nombre }} <br/> <br/>
             <b>Código Único de Producto:</b> @{{ product.codigo }}<br/> <br/>
+                      <b>Código de Proveedor:</b> @{{ product.suppCode }} <br/>
             <b>Estación:</b> @{{ product.station.nombre }} <br/> <br/>
                       <b>Modelo:</b> @{{ product.modelo }}
 
@@ -50,6 +51,8 @@
                       <img class="pull-right img-thumbnail" ng-src="@{{product.image}}" alt=""/>
                   </div>
               </div>
+
+              <span ng-if="product.hasVariants == '1'">
             <div class="box">
                             <div class="box-header">
                               <h3 class="box-title">Stock de Variantes</h3>
@@ -80,7 +83,7 @@
                                     <td>@{{$index + 1}}</td>
                                     <td>@{{ row.codigo }}</td>
                                     <td>@{{ row.sku }}</td>
-                                    <td><a ng-href="/variant/show/@{{row.id}}">@{{row.product.nombre}}
+                                    <td><a ng-href="/variants/edit/@{{row.id}}">@{{row.product.nombre}}
                                             <span ng-repeat="row2 in row.det_atr ">
                                         / @{{row2.descripcion}}
                                     </span>
@@ -107,6 +110,73 @@
                               </tbody></table>
                             </div><!-- /.box-body -->
                           </div>
+
+                  </span>
+              <span ng-if="product.hasVariants == '0'">
+                <br>
+                  <div class="box">
+                      <div class="box-header">
+                          <h3 class="box-title">Presentaciones</h3>
+
+                      </div><!-- /.box-header -->
+                      <div class="box-body table-responsive no-padding">
+                          <table class="table table-hover">
+                      <tbody><tr>
+                          <th>#</th>
+                          <th>Presentación</th>
+                          <th>Precio de Proveedor</th>
+                          <th>% de Utilidad</th>
+                          <th>Precio de Venta</th>
+
+                      </tr>
+                      <tr ng-repeat="row in variant.det_pre">
+                          <td>@{{$index + 1}}</td>
+                          <td>@{{row.nombre}}</td>
+                          <td>@{{row.suppPri}}</td>
+                          <td>@{{row.markup}}</td>
+
+                          <td>@{{row.price}}</td>
+
+                      </tr>
+
+
+
+                      </tbody></table>
+                      </div><!-- /.box-body -->
+                  </div>
+
+
+                  <div class="box">
+                      <div class="box-header">
+                          <h3 class="box-title">Stock</h3>
+
+                      </div><!-- /.box-header -->
+                      <div class="box-body table-responsive no-padding">
+                          <table class="table table-hover">
+                              <tbody><tr>
+                                  <th>#</th>
+                                  <th>Almacén</th>
+                                  <th>Ćodigo</th>
+                                  <th>SKU</th>
+                                  <th>Stock Actual</th>
+                                  <th>Stock por llegar</th>
+                              </tr>
+                              <tr ng-repeat="row in variant.stock">
+                                  <td>@{{$index + 1}}</td>
+                                  <td>@{{row.nombre}}</td>
+                                  <td>@{{product.codigo}}</td>
+                                  <td>@{{variant.sku}}</td>
+                                  <td>@{{row.stockActual}}</td>
+                                  <td>@{{row.stockPorLlegar}}</td>
+                              </tr>
+
+
+
+                              </tbody></table>
+                      </div><!-- /.box-body -->
+                  </div>
+
+                  </span>
 
           </div><!-- /.box-body -->
           <div class="box-footer">

@@ -1,7 +1,7 @@
 (function(){
     angular.module('products.controllers',[])
-        .controller('ProductController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log','ngProgressFactory','$rootScope','trouble',
-            function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log,ngProgressFactory,$rootScope,trouble){
+        .controller('ProductController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log','ngProgressFactory','$rootScope','trouble','$modal',
+            function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log,ngProgressFactory,$rootScope,trouble,$modal){
                 $scope.progressbar = ngProgressFactory.createInstance();
                 /*$rootScope.$on('$routeChangeStart', function(ev,data) {
                     $scope.progressbar.start();
@@ -32,7 +32,7 @@
                 $scope.types = {};
                 $scope.stations = {};
                 $scope.product.estado = true;
-                $scope.product.hasVariants = false;
+                $scope.product.hasVariants = true;
 
                 $scope.presentation = {};
                 $scope.presentations = [];
@@ -174,6 +174,14 @@
                         //alert('ok');
                         crudService.byId(id,'products').then(function (data){
                             $scope.product = data;
+                            if($scope.product.hasVariants == 0){
+                                crudService.byforeingKey('variants','variant',$scope.product.id).then(function(data){
+                                    $scope.variant = data;
+                                    $log.log('Variants,Variant:');
+                                    $log.log($scope.variant);
+                                })
+
+                            }
                         });
                         $scope.variants = [];
                         crudService.byforeingKey('variants','variants',id). then(function(data)
@@ -665,7 +673,7 @@
                             }
                         })
                     }else{
-                            alert('abajo');
+                            //alert('abajo');
                             var isCool = $.grep(trouble, function (e) {
                                 return e.atribute_id == $scope.variant.detAtr[index].atribute_id;
                             });
@@ -846,6 +854,144 @@
                         $scope.stockVariants = data;
                     })
                 }
+
+                /*
+
+                Agregar Marca, Linea, Station, MAterial, Atributo
+
+                 */
+                $scope.addBrand = function (size) {
+
+                    var modalInstance = $modal.open({
+                        animation: false,
+                        templateUrl: 'myModalContent.html',
+                        controller: 'ModalInstanceCtrl',
+                        size: 'sm',
+                        /*resolve: {
+                            items: function () {
+                                return $scope.items;
+                            }
+                        }*/
+                    });
+
+                    modalInstance.result.then(function (selectedItem) {
+                        //$scope.selected = selectedItem;
+                    }, function () {
+                        //$log.info('Modal dismissed at: ' + new Date());
+                        crudService.select('products', 'brands').then(function (data) {
+                            $scope.brands = data;
+                        });
+
+                    });
+                };
+                $scope.addLine = function (size) {
+
+                    var modalInstance = $modal.open({
+                        animation: false,
+                        templateUrl: 'myModalContent2.html',
+                        controller: 'ModalInstanceCtrl2',
+                        size: 'sm',
+                        /*resolve: {
+                         items: function () {
+                         return $scope.items;
+                         }
+                         }*/
+                    });
+
+                    modalInstance.result.then(function (selectedItem) {
+                        //$scope.selected = selectedItem;
+                    }, function () {
+                        //$log.info('Modal dismissed at: ' + new Date());
+                        crudService.select('products', 'types').then(function (data) {
+                            $scope.types = data;
+                        });
+
+                    });
+                };
+                $scope.addMaterial = function (size) {
+
+                    var modalInstance = $modal.open({
+                        animation: false,
+                        templateUrl: 'myModalContent3.html',
+                        controller: 'ModalInstanceCtrl3',
+                        size: 'sm',
+                        /*resolve: {
+                         items: function () {
+                         return $scope.items;
+                         }
+                         }*/
+                    });
+
+                    modalInstance.result.then(function (selectedItem) {
+                        //$scope.selected = selectedItem;
+                    }, function () {
+                        //$log.info('Modal dismissed at: ' + new Date());
+                        crudService.select('products', 'materials').then(function (data) {
+                            $scope.materials = data;
+                        });
+
+                    });
+                };
+                $scope.addStation = function (size) {
+
+                    var modalInstance = $modal.open({
+                        animation: false,
+                        templateUrl: 'myModalContent4.html',
+                        controller: 'ModalInstanceCtrl4',
+                        size: 'sm',
+                        /*resolve: {
+                         items: function () {
+                         return $scope.items;
+                         }
+                         }*/
+                    });
+
+                    modalInstance.result.then(function (selectedItem) {
+                        //$scope.selected = selectedItem;
+                    }, function () {
+                        //$log.info('Modal dismissed at: ' + new Date());
+                        crudService.select('products', 'stations').then(function (data) {
+                            $scope.stations = data;
+                        });
+
+                    });
+                };
+
+                $scope.addAttribute = function (size) {
+
+                    var modalInstance = $modal.open({
+                        animation: false,
+                        templateUrl: 'myModalContent5.html',
+                        controller: 'ModalInstanceCtrl5',
+                        size: 'sm',
+                        /*resolve: {
+                         items: function () {
+                         return $scope.items;
+                         }
+                         }*/
+                    });
+
+                    modalInstance.result.then(function (selectedItem) {
+                        //$scope.selected = selectedItem;
+                    }, function () {
+                        //$log.info('Modal dismissed at: ' + new Date());
+                        crudService.all('atributes').then(function (data){
+                            $scope.attributes = data.data;
+                            //$log.log($scope.attributes);
+                        })
+
+                    });
+                };
+
+                $scope.opcAtr = [];
+                $scope.opcAtr[1] = ['NEGRO','BLANCO','ROJO','AZUL','MARRÓN','VINO','NUDE','BEIGE','TURQUESA'];
+                $scope.opcAtr[2] = ['18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45'];
+                $scope.opcAtr[3] = ['3CM','5CM','7CM','9CM','12CM','13CM','15CM','18CM','20CM'];
+                $scope.opcAtr[4] = ['CUERO LISO','CUERO GAMUZA','CUERO CHAROL','SINTÉTICO LISO','SINTÉTICO GAMUZA','SINTÉTICO CHAROL','TELA'];
+
+                /*
+                Fin de add
+                 */
 
                 function isEmpty(obj) {
                     return Object.keys(obj).length === 0;

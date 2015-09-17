@@ -83,7 +83,7 @@
                                 $location.path('/customers');
 
                             } else {
-                                $scope.errors = data.responseJSON;
+                                $scope.errors = data;
 
                             }
                         });

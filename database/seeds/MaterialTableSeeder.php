@@ -12,12 +12,12 @@ class MaterialTableSeeder extends Seeder
     public function run()
     {
         //
-        DB::table('materials')->insert([
-            'nombre' => 'tílde',
-            'shortname' => 'powerío',
-            'descripcion' => 'hoó',
+        /*DB::table('materials')->insert([
+            'nombre' => 'tï¿½lde',
+            'shortname' => 'powerï¿½o',
+            'descripcion' => 'hoï¿½',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
-        ]);
+        ]);*/
     }
 }

@@ -392,11 +392,15 @@ class VariantsController extends Controller
             $product = $oProduct->variant->load(['detPre' => function ($query){
                 $query->join('presentation','presentation.id','=','detPres.presentation_id');
                 //$query->orderBy('id');
-            },'stock','product']);
+            },'stock' => function($q){
+                $q->join('warehouses','warehouses.id','=','stock.warehouse_id');
+            },'product']);
+            //print_r('hoho'); die;
         }
 
         return response()->json($product);
     }
+
     public function editFavoritos(Request $request)
     {
         $vatiant = $this->variantRepo->find($request->id);

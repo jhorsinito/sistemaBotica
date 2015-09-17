@@ -12,6 +12,8 @@ class DetOrderSaleManager extends BaseManager {
             'subTotal'=> '',
             'estado'=> '',
             'orderSale_id'=> '',
+            'canPendiente'=> '',
+            'canEntregado'=> '',
             'detPre_id'=> ''];
         return $rules;
     }}

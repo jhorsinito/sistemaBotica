@@ -6,10 +6,10 @@ class SupplierManager extends BaseManager {
     public function getRules()
     {
         $rules = [  
-                    'nombres'=>'required',
+                            'nombres'=>'required',
                             'apellidos'=>'required',
                             'empresa'=>'required',
-                            'codigo'=>'required',
+                            'codigo'=>'required|unique:suppliers,codigo,'.$this->entity->id,
                             'direccionfiscal'=>'',
                             'ruc'=>'',
                             'numcuenta'=>'',

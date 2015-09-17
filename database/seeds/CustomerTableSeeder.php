@@ -15,15 +15,15 @@ class CustomerTableSeeder extends Seeder
         DB::table('customers')->insert([
             'nombres' => 'Cliente',
             'apellidos' => 'Ejemplo',
-            'direccContac' => 'Direccion de Cliente Ejemplo',
+            'direccContac' => 'Dirección de Cliente Ejemplo',
             'empresa' => 'Empresa Cliente Ejemplo',
             'codigo' => '001',
-            'direccFiscal' => 'Direccion Fiscal Ejemplo',
+            'direccFiscal' => 'Dirección Fiscal Ejemplo',
             'ruc' => '10166324507',
             'distrito' => 'Chiclayo',
             'provincia' => 'Chiclayo',
             'departamento' => 'Lambayeque',
-            'pais' => 'Peru',
+            'pais' => 'Perú',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);

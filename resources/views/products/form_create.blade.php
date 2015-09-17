@@ -89,29 +89,30 @@
                    <div class="row">
                     <div class="col-md-3">
                           <div class="form-group">
-                                                <label>Marca</label>
+                                                <label>Marca <a class="btn btn-xs btn-info btn-flat" ng-click="addBrand()">+</a></label>
                                                 <select name="brand" class="form-control" ng-model="product.brand_id" ng-options="k as v for (k, v) in brands">
                                                  <option value="">--Elige Marca--</option>
+                                                    <option value="">+Agrega Marca</option>
                                                 </select>
-                                                @{{ product.brand_id }}
+
                           </div></div>
                            <div class="col-md-3">
                             <div class="form-group">
-                                                <label>Línea</label>
+                                                <label>Línea <a class="btn btn-xs btn-info btn-flat" ng-click="addLine()">+</a></label>
                                                 <select name="ttype" class="form-control" ng-model="product.type_id" ng-options="k as v for (k, v) in types">
                                                  <option value="">--Elige Línea--</option>
                                                 </select>
                           </div></div>
                            <div class="col-md-3">
                             <div class="form-group">
-                                                <label>Material</label>
+                                                <label>Material <a class="btn btn-xs btn-info btn-flat" ng-click="addMaterial()">+</a></label>
                                                 <select name="material" class="form-control" ng-model="product.material_id" ng-options="k as v for (k, v) in materials">
                                                  <option value="">--Elige Material--</option>
                                                 </select>
                           </div></div>
                            <div class="col-md-3">
                             <div class="form-group">
-                                                <label>Estación</label>
+                                                <label>Estación <a class="btn btn-xs btn-info btn-flat" ng-click="addStation()">+</a></label>
                                                 <select name="station" class="form-control" ng-model="product.station_id" ng-options="k as v for (k, v) in stations">
                                                  <option value="">--Elige Estación--</option>
                                                 </select>
@@ -309,7 +310,7 @@
                                                                                                         </div>
                                                                                                 </div>
                                                                                                  </span>
-                                                                                                 @{{product.stock[0].warehouse_id}}
+
 
                                                                                              </div>
                                                                                            </div>
@@ -432,3 +433,206 @@
 </div>
 
 <!-- ======================================================================================== -->
+
+<!-- =============================Modal de Brand ================================ -->
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Crear Marca</h3>
+    </div>
+    <div class="modal-body">
+
+
+        <form name="brandCreateForm" role="form" novalidate>
+            <div class="box-body">
+                <div class="callout callout-danger" ng-show="errors">
+                    <ul>
+                        <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
+                    </ul>
+                </div>
+
+                <div class="form-group" ng-class="{true: 'has-error'}[ brandCreateForm.nombre.$error.required && brandCreateForm.$submitted || brandCreateForm.nombre.$dirty && brandCreateForm.nombre.$invalid]">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" placeholder="Nombre" ng-model="brand.nombre" required>
+                    <label ng-show="brandCreateForm.$submitted || brandCreateForm.nombre.$dirty && brandCreateForm.nombre.$invalid">
+                        <span ng-show="brandCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                    </label>
+                </div>
+                <div class="form-group" ng-class="{true: 'has-error'}[ brandCreateForm.shortname.$error.required && brandCreateForm.$submitted || brandCreateForm.shortname.$dirty && brandCreateForm.shortname.$invalid]">
+                    <label for="shortname">ShortName</label>
+                    <input type="text" class="form-control" name="shortname" placeholder="ShortName" ng-model="brand.shortname" required>
+                    <label ng-show="brandCreateForm.$submitted || brandCreateForm.shortname.$dirty && brandCreateForm.shortname.$invalid">
+                        <span ng-show="brandCreateForm.shortname.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                    </label>
+                </div>
+                <div class="form-group" >
+                    <label for="notas">Descripcion</label>
+                      <textarea type="notas" class="form-control" name="notas" placeholder="Descripcion"
+                                ng-model="brand.descripcion" rows="4" cols="50"></textarea>
+                </div>
+
+            </div><!-- /.box-body -->
+
+        </form>
+
+
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="createBrand()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancelBrand()">Cancelar</button>
+    </div>
+</script>
+<!-- =============================END Modal de Brand ================================ -->
+
+<!-- =============================Modal de Linea ================================ -->
+<script type="text/ng-template" id="myModalContent2.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Crear Línea</h3>
+    </div>
+    <div class="modal-body">
+
+
+        <form name="TtypeCreateForm" role="form" novalidate>
+            <div class="box-body">
+                <div class="callout callout-danger" ng-show="errors">
+                    <ul>
+                        <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
+                    </ul>
+                </div>
+
+                <div class="form-group" ng-class="{true: 'has-error'}[ TtypeCreateForm.nombre.$error.required && TtypeCreateForm.$submitted || TtypeCreateForm.nombre.$dirty && TtypeCreateForm.nombre.$invalid]">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" placeholder="Nombre" ng-model="Ttype.nombre" required>
+                    <label ng-show="TtypeCreateForm.$submitted || TtypeCreateForm.nombre.$dirty && TtypeCreateForm.nombre.$invalid">
+                        <span ng-show="TtypeCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                    </label>
+                </div>
+                <div class="form-group" ng-class="{true: 'has-error'}[ TtypeCreateForm.shortname.$error.required && TtypeCreateForm.$submitted || TtypeCreateForm.shortname.$dirty && TtypeCreateForm.shortname.$invalid]">
+                    <label for="nombre">ShortName</label>
+                    <input type="text" class="form-control" name="shortname" placeholder="Nombre" ng-model="Ttype.shortname" required>
+                    <label ng-show="TtypeCreateForm.$submitted || TtypeCreateForm.shortname.$dirty && TtypeCreateForm.shortname.$invalid">
+                        <span ng-show="TtypeCreateForm.shortname.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                    </label>
+                </div>
+                <div class="form-group" >
+                    <label for="descripcion">Descripcion</label>
+                      <textarea type="descripcion" class="form-control" name="descripcion" placeholder="Decripcion"
+                                ng-model="Ttype.descripcion" rows="4" cols="50"></textarea>
+                </div>
+
+            </div><!-- /.box-body -->
+
+
+        </form>
+
+
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="createLine()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancelLine()">Cancelar</button>
+    </div>
+</script>
+<!-- =============================END Modal de Linea ================================ -->
+
+<!-- =============================Modal de Material ================================ -->
+<script type="text/ng-template" id="myModalContent3.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Crear Material</h3>
+    </div>
+    <div class="modal-body">
+
+
+        <form name="materialCreateForm" role="form" novalidate>
+            <div class="box-body">
+                <div class="callout callout-danger" ng-show="errors">
+                    <ul>
+                        <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
+                    </ul>
+                </div>
+
+                <div class="form-group" ng-class="{true: 'has-error'}[ materialCreateForm.nombre.$error.required && materialCreateForm.$submitted || materialCreateForm.nombre.$dirty && materialCreateForm.nombre.$invalid]">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" placeholder="Nombre" ng-model="material.nombre" required>
+                    <label ng-show="materialCreateForm.$submitted || materialCreateForm.nombre.$dirty && materialCreateForm.nombre.$invalid">
+                        <span ng-show="materialCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                    </label>
+                </div>
+                <div class="form-group" ng-class="{true: 'has-error'}[ materialCreateForm.shortname.$error.required && materialCreateForm.$submitted || materialCreateForm.shortname.$dirty && materialCreateForm.shortname.$invalid]">
+                    <label for="shortname">ShortName</label>
+                    <input type="text" class="form-control" name="shortname" placeholder="ShortName" ng-model="material.shortname" required>
+                    <label ng-show="materialCreateForm.$submitted || materialCreateForm.shortname.$dirty && materialCreateForm.shortname.$invalid">
+                        <span ng-show="materialCreateForm.shortname.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                    </label>
+                </div>
+                <div class="form-group" >
+                    <label for="notas">Descripcion</label>
+                      <textarea type="notas" class="form-control" name="notas" placeholder="Descripcion"
+                                ng-model="material.descripcion" rows="4" cols="50"></textarea>
+                </div>
+
+            </div><!-- /.box-body -->
+
+
+        </form>
+
+
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="createMaterial()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancelMaterial()">Cancelar</button>
+    </div>
+</script>
+<!-- =============================END Modal de Material ================================ -->
+
+<!-- =============================Modal de Material ================================ -->
+<script type="text/ng-template" id="myModalContent4.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Crear Estación</h3>
+    </div>
+    <div class="modal-body">
+
+
+        <form name="stationCreateForm" role="form" novalidate>
+            <div class="box-body">
+                <div class="callout callout-danger" ng-show="errors">
+                    <ul>
+                        <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
+                    </ul>
+                </div>
+
+                <div class="form-group" ng-class="{true: 'has-error'}[ stationCreateForm.nombre.$error.required && stationCreateForm.$submitted || stationCreateForm.nombre.$dirty && stationCreateForm.nombre.$invalid]">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" placeholder="Nombre" ng-model="station.nombre" required>
+                    <label ng-show="stationCreateForm.$submitted || stationCreateForm.nombre.$dirty && stationCreateForm.nombre.$invalid">
+                        <span ng-show="stationCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                    </label>
+                </div>
+                <div class="form-group" ng-class="{true: 'has-error'}[ stationCreateForm.shortname.$error.required && stationCreateForm.$submitted || stationCreateForm.shortname.$dirty && stationCreateForm.shortname.$invalid]">
+                    <label for="shortname">ShortName</label>
+                    <input type="text" class="form-control" name="shortname" placeholder="ShortName" ng-model="station.shortname" required>
+                    <label ng-show="stationCreateForm.$submitted || stationCreateForm.shortname.$dirty && stationCreateForm.shortname.$invalid">
+                        <span ng-show="stationCreateForm.shortname.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                    </label>
+                </div>
+                <div class="form-group" >
+                    <label for="notas">Descripcion</label>
+                      <textarea type="notas" class="form-control" name="notas" placeholder="Descripcion"
+                                ng-model="station.descripcion" rows="4" cols="50"></textarea>
+                </div>
+
+            </div><!-- /.box-body -->
+
+
+        </form>
+
+
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="createStation()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancelStation()">Cancelar</button>
+    </div>
+</script>
+<!-- =============================END Modal de Estación ================================ -->

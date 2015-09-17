@@ -14,6 +14,7 @@
                 $scope.tipo;
                 $scope.detCash.montoMovimientoTarjeta=0;
                 $scope.detCash.montoMovimientoEfectivo=0;
+                $scope.banderaMovimiento=true;
 
                 //$scope.detCash.montoFinal=$scope.cash.montoBruto;
                 $scope.salir = function(){
@@ -84,6 +85,11 @@
                     
                 };
                  $scope.cargarTipo = function () {
+                    if($scope.tipo==""){
+                        $scope.banderaMovimiento=true;  
+                        $scope.detCash.cashMotive_id=undefined;
+                        $scope.cashMotives=undefined; 
+                    }
                     crudService.search('cashMotives',$scope.tipo,1).then(function (data){
                         $scope.cashMotives = data.data;
                     });
@@ -125,6 +131,15 @@
                     }
                     
                 };
+                $scope.estadoMovimiento = function() {
+                    //alert($scope.detCash.cashMotive_id);
+                    if($scope.detCash.cashMotive_id!=undefined){
+                        $scope.banderaMovimiento=false;     
+                    }else{
+                        $scope.banderaMovimiento=true;    
+                    }
+                    
+                }
                 
 
 
