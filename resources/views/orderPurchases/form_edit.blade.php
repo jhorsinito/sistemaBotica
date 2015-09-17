@@ -1,12 +1,12 @@
 <section class="content-header">
           <h1>
-            Editar Ordenes de Cedidos
+            Editar Ordenes de Compras
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="/stores">Editar Ordenes de Cedido</li>
-            <li class="active">Crear</li>
+            <li><a href="/orderPurchases"><i class="fa fa-dashboard"></i>Orden de Compras</a></li>
+            
           </ol>
 
           
@@ -142,12 +142,12 @@
           <div class="input-group" style="width: 300px;">
               <label>Producto</label>
                <input ng-hide="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Buscar por codigo especifico" 
-          typeahead="product as product.proNombre+'('+product.BraName+'/'+product.TName+'/'+product.Mnombre+product.NombreAtributos+')' for product in products | filter:$viewValue | limitTo:8" 
+          typeahead="product as product.proNombre+'('+(product.BraName==null ? '': product.BraName+'/')+(product.TName==null ? '' : product.TName+'/')+(product.Mnombre==null ? '':product.Mnombre+'/')+(product.NombreAtributos==null ? '':product.NombreAtributos)+')' for product in products | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
            tooltip="Ingrese caracteres para busacar producto por codigo unico"
             >
              <input ng-show="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Busqueda por varinates" 
-          typeahead="variant as variant.proNombre+'('+variant.BraName+'/'+variant.TName+'/'+variant.Mnombre+variant.NombreAtributos+')' for variant in variants1 | filter:$viewValue | limitTo:8" 
+          typeahead="variant as variant.proNombre+'('+(product.BraName==null ? '': product.BraName+'/')+(product.TName==null ? '' : product.TName+'/')+(product.Mnombre==null ? '':product.Mnombre+'/')+(product.NombreAtributos==null ? '':product.NombreAtributos)+')' for variant in variants1 | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
            tooltip="Ingrese caracteres para busacar producto por codigo unico"
             >
@@ -539,7 +539,7 @@
         <div class="col-md-2">
                <em>¿agregar documento?</em>
                       <div   class="form-group" >                            
-                            <input  type="checkbox"   name="variantes" ng-model="checkfinal" />
+                            <input  type="checkbox"   name="variantes" ng-click="LimpiarDetdoc()" ng-model="checkfinal" />
                             
                         </div>
                 </div>

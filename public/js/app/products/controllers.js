@@ -509,7 +509,7 @@
                     //$log.log(product);
                     $location.path('/products/edit/'+product.id);
                 }
-
+                  
                 $scope.updateProduct = function(){
                     //alert('ho');
                     if ($scope.productCreateForm.$valid) {

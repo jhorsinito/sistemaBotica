@@ -133,7 +133,7 @@ class PaymentsController extends Controller {
     //var_dump($año["id"]);die();
     $request->merge(["years_id"=>$año->id]);
     $request->merge(["amount"=>$var["montoPagado"]]);
-    //$request->merge(['descripcion'=>"Pago a Proveedores"]);
+    $request->merge(['descripcion'=>"Pago a Proveedores"]);
     $request->merge(['expenseMonthlys_id'=>1]);
     $cashMontl = new CashMonthlyManager($cashMonthly,$request->all());
     $cashMontl->save();
@@ -245,7 +245,7 @@ if(intval($request->input('cashMonthly_id'))>0){
     }
   public function destroy(Request $request)
     {
-        
+        //var_dump($request->all());die();
         $detPayment=$this->detPaymentRepo->find($request->detpId);
         $pagoTemporal=$detPayment->montoPagado;
         $detPayment->delete();
@@ -259,6 +259,23 @@ if(intval($request->input('cashMonthly_id'))>0){
         $payment = $this->paymentRepo->find($request->id);
         $manager = new PaymentManager($payment,$request->only("Acuenta","Saldo"));
         $manager->save();
+        if(intval($request->input('Saldo_F'))>0){
+                    //var_dump($request->input("fecha"));die();
+                     $SaldosTemporales =$this->pendientAccountRepo->find2($request->input('Saldo_F'));
+                     if($SaldosTemporales!=null){
+                      //  var_dump($SaldosTemporales->Saldo);die();
+                     $request->merge(['Saldo'=>floatval($SaldosTemporales->Saldo)+floatval($pagoTemporal)]);
+                     //$request->merge(['Saldo'=>floatval($request->input('Saldo'))-floatval($detPayment['montoPagado'])]);
+                     //var_dump($request->input("Saldo"));die();
+                     $request->merge(['orderPurchase_id'=>$SaldosTemporales->orderPurchase_id]);
+                      $request->merge(['supplier_id'=>$SaldosTemporales->supplier_id]);
+                     $request->merge(['estado'=>0]);
+                     $request->merge(["fecha"=>$SaldosTemporales->fecha]);
+                     $insercount=new PendientAccountManager($SaldosTemporales,$request->all());
+                     $insercount->save();
+                    }
+                 
+        }
         // var_dump($request->input("detCash_id"));die();
         if(intval($request->input('detCash_id'))==true){
             
@@ -267,9 +284,9 @@ if(intval($request->input('cashMonthly_id'))>0){
             $cash=$this->cashRepo->find($detcash->cash_id);
             //var_dump($cash['id']);die();
             
-            $request->merge(["gastos"=>floatval($cash->gastos)-floatval($pagoTemporal)]);
-            $request->merge(['montoBruto'=>floatval($cash->montoBruto)+floatval($pagoTemporal)]);
-            $request->merge(['fechaInicio'=>$cash->fechaInicio]);
+             $request->merge(["gastos"=>floatval($cash->gastos)-floatval($pagoTemporal)]);
+             $request->merge(['montoBruto'=>floatval($cash->montoBruto)+floatval($pagoTemporal)]);
+             $request->merge(['fechaInicio'=>$cash->fechaInicio]);
              $request->merge(['fechaFin'=>$cash->fechaFin]);
              $request->merge(['montoInicial'=>$cash->montoInicial]);
              $request->merge(['ingresos'=>$cash->ingresos]);

@@ -52,10 +52,9 @@ class PendientAccountsController extends Controller
     }
     public function edit(Request $request)
     {
-        //var_dump($request->all());die();
+        \DB::beginTransaction();
         $pendientAccount = $this->pendientAccountRepo->find($request->id);
         $cash =$this->cashRepo->find($request->input('cash_id'));
-        //var_dump($request->input('cash_id'));die();
         $detCash=$this->detCashRepo->getModel();
         $manager = new PendientAccountManager($pendientAccount,$request->except("fecha"));
         $manager->save();
@@ -67,7 +66,7 @@ class PendientAccountsController extends Controller
         $request->merge(["observacion"=>"ingreso por pago de saldos anteriores"]);
         $request->merge(["cashMotive_id"=>5]);
         $request->merge(["montoCaja"=>$cash->montoBruto]);
-        $request->merge(["montoFinal"=>floatval($cash->montoBruto)-floatval($request->input("nuevoSaldo"))]);
+        $request->merge(["montoFinal"=>floatval($cash->montoBruto)+floatval($request->input("nuevoSaldo"))]);
         $detcash = new DetCashManager($detCash,$request->all());
         $detcash->save();
         $var['detCash_id']=$detCash->id;
@@ -79,12 +78,11 @@ class PendientAccountsController extends Controller
              $request->merge(['montoBruto'=>floatval($cash->montoBruto)+floatval($request->input("nuevoSaldo"))]);
              $request->merge(['montoReal'=>$cash->montoReal]);
              $request->merge(['descuadre'=>$cash->descuadre]);
-             //$request->merge(['estado'=>$cash->estado]);
              $request->merge(['notas'=>$cash->notas]);
              $request->merge(['cashHeader_id'=>$cash->cashHeader_id]);
-             //$var["methodPayment_id"]=null;
         $cashr = new CashManager($cash,$request->all());
         $cashr->save();
+         \DB::commit();
     }
         //===============================================================
         return response()->json(['estado'=>true]);

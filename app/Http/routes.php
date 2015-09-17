@@ -134,6 +134,8 @@ Route::get('api/variants/autocomplit/{sku}','VariantsController@traer_por_Sku');
 Route::get('api/variants/Paginar_por_Variante','VariantsController@Paginar_por_Variante');
 Route::get('api/variants/paginatep/{id}/{var}','VariantsController@paginatep');
 Route::get('api/variants/selectTalla/{id}/{taco}','VariantsController@selectTalla');
+Route::get('api/variants/selectStocksTalla/{id}/{taco}/{alma}','VariantsController@selectStocksTalla');
+
 Route::get('api/variantname/search/{q?}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@searchCodigo']);
 
 //END VARIANTS ROUTES
