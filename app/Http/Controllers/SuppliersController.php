@@ -46,7 +46,20 @@ class SuppliersController extends Controller {
 
     public function create(Request $request)
     {
-         $supplier = $this->supplierRepo->getModel();
+        $supplier = $this->supplierRepo->getModel();
+        //===================autogenerado========================//
+
+        if($request->input('autogenerado') === true) {
+            $codigo = \DB::table('suppliers')->max('codigo');
+            if (!empty($codigo)) {
+                $codigo = $codigo + 1;
+            } else {
+                $codigo = 1; //inicializar el sku;
+            }
+            $request->merge(array('codigo' => $codigo));
+        }else{
+
+        }
        
         $manager = new SupplierManager($supplier,$request->except('fechanac'));
         
@@ -70,7 +83,20 @@ class SuppliersController extends Controller {
 
     public function edit(Request $request)
     {
-         $supplier = $this->supplierRepo->find($request->id);
+        $supplier = $this->supplierRepo->find($request->id);
+        //===================autogenerado========================//
+
+        if($request->input('autogenerado') === true) {
+            $codigo = \DB::table('suppliers')->max('codigo');
+            if (!empty($codigo)) {
+                $codigo = $codigo + 1;
+            } else {
+                $codigo = 1; //inicializar el sku;
+            }
+            $request->merge(array('codigo' => $codigo));
+        }else{
+
+        }
         $manager = new SupplierManager($supplier,$request->except('fechanac'));
         $manager->save();
         if($this->supplierRepo->validateDate(substr($request->input('fechanac'),0,10))){

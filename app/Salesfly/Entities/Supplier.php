@@ -11,6 +11,7 @@ class Supplier extends \Eloquent {
     						'codigo',
     						'direccionfiscal',
     						'ruc',
+							'dni',
     						'numcuenta',
     						'fechanac',
     						'fijo',

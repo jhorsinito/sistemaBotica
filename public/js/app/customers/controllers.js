@@ -7,6 +7,7 @@
                 $scope.generos = [{name:'Masculino'},{name:'Femenino'}];
                 $scope.errors = null;
                 $scope.success;
+                $scope.customer.autogenerado = true;
                 $scope.query = '';
 
                 $scope.toggle = function () {
@@ -39,6 +40,7 @@
                         }
 
                         $scope.customer = data;
+                        $scope.customer.autogenerado = false;
                     });
                 }else{
                     crudService.paginate('customers',1).then(function (data) {

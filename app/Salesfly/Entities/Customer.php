@@ -10,6 +10,7 @@ class Customer extends \Eloquent {
     						'empresa',
     						'direccFiscal',
     						'ruc',
+							'dni',
     						'codigo',
     						'fechaNac',
     						'genero',

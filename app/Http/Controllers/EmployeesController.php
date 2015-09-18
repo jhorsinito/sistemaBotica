@@ -51,6 +51,22 @@ class EmployeesController extends Controller {
     {
         //var_dump($request->all()); die();
         $employee = $this->employeeRepo->getModel();
+
+        //===================autogenerado========================//
+
+        if($request->input('autogenerado') === true) {
+            $codigo = \DB::table('employees')->max('codigo');
+            if (!empty($codigo)) {
+                $codigo = $codigo + 1;
+            } else {
+                $codigo = 1; //inicializar el sku;
+            }
+            $request->merge(array('codigo' => $codigo));
+        }else{
+
+        }
+
+        //================fin auto==============================//
        
         $manager = new EmployeeManager($employee,$request->except('fechanac','imagen'));
         $manager->save();
@@ -91,6 +107,21 @@ class EmployeesController extends Controller {
     {
        $employee = $this->employeeRepo->find($request->id);
        //var_dump($employee->all());die();
+        //===================autogenerado========================//
+
+        if($request->input('autogenerado') === true) {
+            $codigo = \DB::table('employees')->max('codigo');
+            if (!empty($codigo)) {
+                $codigo = $codigo + 1;
+            } else {
+                $codigo = 1; //inicializar el sku;
+            }
+            $request->merge(array('codigo' => $codigo));
+        }else{
+
+        }
+
+        //================fin auto==============================//
         $manager = new EmployeeManager($employee,$request->except('fechanac','imagen'));
         $manager->save();
         //------------------------------------------------
@@ -111,6 +142,22 @@ class EmployeesController extends Controller {
         }else{
             $employee->fechanac = null;
         }
+
+        //===================autogenerado========================//
+
+        if($request->input('autogenerado') === true) {
+            $codigo = \DB::table('employees')->max('codigo');
+            if (!empty($codigo)) {
+                $codigo = $codigo + 1;
+            } else {
+                $codigo = 1; //inicializar el sku;
+            }
+            $request->merge(array('codigo' => $codigo));
+        }else{
+
+        }
+
+        //================fin auto==============================//
 
         $employee->save();
 

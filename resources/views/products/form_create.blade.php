@@ -274,13 +274,16 @@
 
                                                                                              <span class="text-info"> <em> </em></span>
 
-                                                                                             <div class="row" ng-show="product.track && !product.hasVariants">
+                                                                                             <div class="" ng-show="product.track && !product.hasVariants">
 
-                                                                                              <div class="row">
-                                                                                                        <div class="col-md-12">
-                                                                                                            Buscar Almacén: <input ng-model="query">
-                                                                                                            </div>
-                                                                                              </div>
+                                                                                                 <div class="box-tools">
+                                                                                                     <div class="input-group" style="width: 150px;">
+                                                                                                         <input type="text" name="table_search" class="form-control input-sm pull-right" placeholder="Search" ng-model="query">
+                                                                                                         <div class="input-group-btn">
+                                                                                                             <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                                                                                                         </div>
+                                                                                                     </div>
+                                                                                                 </div>
 
                                                                                                 <span ng-repeat="row in warehouses | filter:query">
                                                                                                 <div class="col-md-5">

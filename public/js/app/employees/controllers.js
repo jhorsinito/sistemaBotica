@@ -13,6 +13,7 @@
                 $scope.ngenabled=true;
                 $scope.employeecost={};
                 $scope.employeecosts;
+                $scope.employee.autogenerado = true;
                 $scope.query = '';
                 $scope.employee.estado=1;
                 $scope.toggle = function () {
@@ -51,6 +52,7 @@
                        
 
                         $scope.employee = data;
+                        $scope.employee.autogenerado = false;
                     });
                     
                 }else{

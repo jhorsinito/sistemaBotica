@@ -6,6 +6,7 @@
                 $scope.supplier = {};
                 $scope.errors = null;
                 $scope.success;
+                $scope.supplier.autogenerado = true;
                 $scope.query = '';
 
                 $scope.toggle = function () {
@@ -39,6 +40,7 @@
                         }
 
                         $scope.supplier = data;
+                        $scope.supplier.autogenerado = false;
                     });
                 }else{
                    crudService.paginate('suppliers',1).then(function (data) {
