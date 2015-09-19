@@ -17,7 +17,7 @@ class CustomerTableSeeder extends Seeder
             'apellidos' => 'Ejemplo',
             'direccContac' => 'Dirección de Cliente Ejemplo',
             'empresa' => 'Empresa Cliente Ejemplo',
-            'codigo' => '001',
+            'codigo' => 1,
             'direccFiscal' => 'Dirección Fiscal Ejemplo',
             'ruc' => '10166324507',
             'distrito' => 'Chiclayo',
