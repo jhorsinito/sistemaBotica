@@ -109,13 +109,21 @@
                       ng-model="employee.direccioncontacto">
                      </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
     <div class="form-group" >
                       <label for="apellidos">Codigo</label>
-                      <input type="text" class="form-control" name="empresa" placeholder="Codigo"
-                      ng-model="employee.codigo">
+                      <input type="text" class="form-control" name="codigo" placeholder="Codigo"
+                      ng-model="employee.codigo" ng-disabled="employee.autogenerado" ng-required="!employee.autogenerado">
+        <span style="color:#dd4b39;" ng-show="employeeCreateForm.codigo.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+
                      </div>
     </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="apellidos">Autogenerado</label><br>
+                <input type="checkbox" ng-model="employee.autogenerado"> Cód. gen.
+            </div>
+        </div>
     </div>
     <div class="row">
 
@@ -189,8 +197,8 @@
               </div>
                <div class="col-md-6">
                      <div class="form-group" >
-                      <label for="codigo">Telefono Movil</label>
-                      <input type="text" class="form-control" name="codigo" placeholder="Telfono Movil"
+                      <label for="movil">Telefono Movil</label>
+                      <input type="text" class="form-control" name="movil" placeholder="Telfono Movil"
                       ng-model="employee.movil">
                      </div>
               </div>

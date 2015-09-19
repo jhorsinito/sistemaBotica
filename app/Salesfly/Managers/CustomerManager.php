@@ -11,6 +11,7 @@ class CustomerManager extends BaseManager {
                     'empresa' => '',
                     'direccFiscal' => '',
                     'ruc'=> '',
+                    'dni' => '',
                     'codigo' => 'required|unique:customers,codigo,'.$this->entity->id,
                     'fechaNac' => '',
                     'genero'=> '',

@@ -62,45 +62,57 @@
                        </label>
                     </div>
             </div>
-            <div class="col-md-4"> 
-                    <div class="form-group" >
-                      <label for="apellidos">Empresa</label>
-                      <input type="text" class="form-control" name="empresa" placeholder="Empresa"
-                      ng-model="supplier.empresa">
-                     </div>
-            </div>
+    <div class="col-md-4">
+        <div class="form-group" ng-class="{true: 'has-error'}[ supplierCreateForm.empresa.$error.required && supplierCreateForm.$submitted || supplierCreateForm.empresa.$dirty && supplierCreateForm.empresa.$invalid]">
+            <label for="apellidos">Nombre de Empresa</label>
+            <input type="text" class="form-control" name="empresa" placeholder="nombre de empresa"
+                   ng-model="supplier.empresa" required>
+            <label ng-show="supplierCreateForm.$submitted || supplierCreateForm.empresa.$dirty && supplierCreateForm.empresa.$invalid">
+
+                <span ng-show="supplierCreateForm.empresa.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+            </label>
+        </div>
+    </div>
   </div>
 
   <div class="row">
 
-  <div class="col-md-4"> 
-                    <div class="form-group" >
-                      <label for="apellidos">Codigo</label>
-                      <input type="text" class="form-control" name="empresa" placeholder="Codigo"
-                      ng-model="supplier.codigo">
-                     </div>
-      </div>
+
       <div class="col-md-4"> 
                      <div class="form-group" >
-                      <label for="apellidos">Direccion Fiscal</label>
-                      <input type="text" class="form-control" name="empresa" placeholder="Direccion Fiscal"
+                      <label for="direccionfiscal">Direccion Fiscal</label>
+                      <input type="text" class="form-control" name="direccionfiscal" placeholder="Direccion Fiscal"
                       ng-model="supplier.direccionfiscal">
                      </div>
     </div>
     <div class="col-md-4"> 
                      <div class="form-group" >
-                      <label for="apellidos">Ruc</label>
-                      <input type="text" class="form-control" name="empresa" placeholder="Ruc"
+                      <label for="ruc">Ruc</label>
+                      <input type="text" class="form-control" name="ruc" placeholder="Ruc"
                       ng-model="supplier.ruc">
                      </div>
         </div>
+      <div class="col-md-2">
+          <div class="form-group" >
+              <label for="codigo">Código de Proveedor</label>
+              <input type="text" class="form-control" name="codigo" placeholder="codigo de proveedor"
+                     ng-model="supplier.codigo" ng-disabled="supplier.autogenerado" ng-required="!supplier.autogenerado">
+              <span style="color:#dd4b39;" ng-show="supplierCreateForm.codigo.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+          </div>
+      </div>
+      <div class="col-md-2">
+          <div class="form-group">
+              <label for="apellidos">Autogenerado</label><br>
+              <input type="checkbox" ng-model="supplier.autogenerado"> Cód. gen.
+          </div>
+      </div>
 </div>
 <div class="row">
 
   <div class="col-md-4"> 
                      <div class="form-group" >
-                      <label for="apellidos">Numero Cuenta</label>
-                      <input type="text" class="form-control" name="empresa" placeholder="Numero Cuenta"
+                      <label for="numcuenta">Numero Cuenta</label>
+                      <input type="text" class="form-control" name="numcuenta" placeholder="Numero Cuenta"
                       ng-model="supplier.numcuenta">
                      </div>
   </div>
@@ -144,6 +156,13 @@
                       ng-model="supplier.direccontacto">
                      </div>
         </div>
+    <div class="col-md-4">
+        <div class="form-group" >
+            <label for="dni">DNI</label>
+            <input type="text" class="form-control" name="dni" placeholder="8 dígitos"
+                   ng-model="supplier.dni">
+        </div>
+    </div>
 </div>
 <div class="">
                 <hr>
@@ -164,8 +183,8 @@
             </div>     
             <div class="col-md-6">       
                       <div class="form-group" >
-                      <label for="codigo">Telefono Movil</label>
-                      <input type="text" class="form-control" name="codigo" placeholder="Telfono Movil"
+                      <label for="movl">Telefono Movil</label>
+                      <input type="text" class="form-control" name="movl" placeholder="Telfono Movil"
                       ng-model="supplier.movl">
                      </div>
            </div>

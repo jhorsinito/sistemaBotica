@@ -55,8 +55,17 @@
               <span ng-if="product.hasVariants == '1'">
             <div class="box">
                             <div class="box-header">
-                              <h3 class="box-title">Stock de Variantes</h3>
-                            </div><!-- /.box-header -->
+                              <h3 class="box-title">Stock de Variantes  </h3>
+
+                                <div class="box-tools">
+                                    <div class="input-group" style="width: 150px;">
+                                        <input type="text" ng-model="searchText" name="table_search" class="form-control input-sm pull-right" placeholder="Buscar">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                 </div><!-- /.box-header -->
                 <div class="callout callout-info"  ng-show="variant.id > 0">
                     <h4>¿ Estás seguro que deseas eliminar a "@{{variant.codigo}}" ?</h4>
                     <p>
@@ -78,7 +87,7 @@
                                     <th >Opción</th>
                                     <th >Eliminar</th>
                                 </tr>
-                                <tr ng-repeat="row in variants">
+                                <tr ng-repeat="row in variants | filter:searchText">
 
                                     <td>@{{$index + 1}}</td>
                                     <td>@{{ row.codigo }}</td>

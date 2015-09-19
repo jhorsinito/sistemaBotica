@@ -17,7 +17,7 @@ class SupplierTableSeeder extends Seeder
             'apellidos' => 'Ejemplo',
             'direccontacto' => 'Dirección de Contacto Ejemplo',
             'empresa' => 'Empresa Proveedor Ejemplo',
-            'codigo' => '001',
+            'codigo' => 1,
             'direccionfiscal' => 'Dirección Fiscal Ejemplo',
             'ruc' => '20561102911',
             'distrito' => 'Chiclayo',
