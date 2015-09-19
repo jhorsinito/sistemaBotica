@@ -11,7 +11,7 @@
 
           
         </section>
-
+ 
         <section class="content">
         <div class="row">
         <div class="col-md-12"> 
@@ -55,13 +55,22 @@
                             </div> 
                           </div>
                           <div class="row" ng-show="banderaMostrarEntrega">
-                          <div class="col-md-8">
+                          <div class="col-md-3">
                           <div class="form-group" >
                                 <input type="checkbox" name="estado" ng-model="atenderOrder" ng-checked="atenderOrder" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="atenderOrderEstado()">
                                 <label for="estado">Atender Orden</label> 
                           </div>
                           </div>
+
+                          <div class="col-md-3">
+                          <div class="form-group" >
+                                <input type="checkbox" name="estado" ng-model="cancelPedido" ng-checked="cancelPedido" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="canPedido()">
+                                <label for="estado">Cancelar Pedido</label> 
                           </div>
+                          </div>
+                          
+                          </div>
+                          <label ng-show="banderaDevolucion">Se Generara devolucion por el Saldo del Pedido</label>
                            
                          </div>
                           
@@ -96,8 +105,8 @@
             </tr>
             <tr  ng-repeat="row in detOrders">
                       <td>@{{$index + 1}}</td>
-                      <td>@{{row.nameProducto}}</td>
-                      <td><a popover-template="dynamicPopover5.templateUrl" popover-trigger="mouseenter">@{{row.NombreAtributos}}</a></td>
+                      <td><a popover-template="dynamicPopover5.templateUrl" popover-trigger="mouseenter">@{{row.nameProducto}}</td>
+                      <td>@{{row.NombreAtributos}}</a></td>
                       <td>@{{row.presentacion}}</td>
                       <td ng-hide="true">@{{row.purchases_id}}</td>
                       <td ng-hide="true">@{{row.detPres_id}}</td>
@@ -106,7 +115,7 @@
                       <td>@{{row.cantidad}}</td>
                       <td>@{{row.canEntregado}}</td>
                       <td>@{{row.canPendiente}}</td>
-                      <td ng-if="atenderOrder"><input style="width: 45px" ng-disabled="row.estad" ng-model="row.parteEntregado" string-to-number ng-blur="ActualizarPartStock(row,$index)" type="number" placeholder="@{{row.canPendiente}}" ></td>          
+                      <td ng-if="atenderOrder"><input style="width: 45px" ng-disabled="row.estad" ng-model="row.parteEntregado" string-to-number ng-change="ActualizarPartStock(row,$index)" type="number" placeholder="@{{row.canPendiente}}" ></td>          
                       <td ng-if="atenderOrder"><input type="checkbox" ng-disabled="row.estad1" ng-click="cancelOrderProduc(row,$index)" name="estado" ng-model="row.estad" ng-checked="row.estad" class="ng-valid ng-dirty ng-valid-parse ng-touched"></td>
                       
                       <!--<td><a ng-click="sacarRow(row.index,row.montoTotal)" class="btn btn-warning btn-xs">Sacar</a></td>
@@ -135,8 +144,30 @@
               <button class=" label-default" type='submit'  ng-click="crearCompra()">Registrar Entrega</button>  
             </div>
           </div>
+
+          
+          <div class="row">
+          <div class="col-md-2" ALIGN=RIGHT>
+            <label>Monto Entregado </label>
+          </div>
+            <div class="col-md-2">
+              <div class="form-group" >
+                <input type="text" ng-disabled="true" ng-model="montoAcuenta" class="form-control ng-pristine ng-valid ng-touched">
+              </div>
+            </div>
+            <div class="col-md-2" ALIGN=RIGHT>
+            <label>Saldo Del Pedido </label>
+          </div>
+            <div class="col-md-2">
+                    <div class="form-group" >
+                        <input type="text" ng-disabled="true" ng-model="montosaldo" class="form-control ng-pristine ng-valid ng-touched">
+                      </div>
+            </div>
+          </div>
         </div>
       </div>
+
+
   <!-- ==========================================================================================-->
        <section class="content">
         <div class="row">
@@ -279,6 +310,7 @@
           
 
         
+                   <a class="btn btn-success btn-xs" ng-show="banderaModificar" ng-click="grabarCanPedido()">Modificar</a>
                    <a href="/orderSales" class="btn btn-success btn-xs">Regresar</a>
                   </div>
                 </form>
@@ -295,24 +327,25 @@
       <div class="form-group">
           <label>@{{dynamicPopover5.title}}</label>
         </div>
-        <table class="table table-bordered">
-          <tr>
-          <th>Stock</th>
-          <th>@{{detOrders[$index].stock}}</th>
-          </tr>
-          <tr>
-          <th>Pedidos</th>
-          <th>@{{detOrders[$index].pedidos}}</th>
-          </tr>
-          <tr>
-          <th>Separados</th>
-          <th>@{{detOrders[$index].separados}}</th>
-          </tr>
-          <tr></tr>
-          <th>precio</th>
-          <th>@{{detOrders[$index].precioProducto}}</th>
-          <tr></tr>
-        </table>
-          
+
+        <div>
+        <label>Stock : </label>
+        <label>@{{detOrders[$index].stock}}</label>
+        </div>
+
+        <div>
+        <label>Pedidos : </label>
+        <label>@{{detOrders[$index].pedidos}}</label>
+        </div>
+
+        <div>
+        <label>Separados : </label>
+        <label>@{{detOrders[$index].separados}}</label>
+        </div>
+
+        <div>
+        <label>precio : </label>
+        <label>@{{detOrders[$index].precioProducto}}</label>
+        </div>
                  
     </script>

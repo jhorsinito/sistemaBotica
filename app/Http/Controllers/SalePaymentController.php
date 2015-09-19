@@ -31,4 +31,13 @@ class SalePaymentController extends Controller {
 
         return response()->json($detOrder);
     }
+    public function edit(Request $request)
+    {
+        //var_dump($request->all());die();
+        $payment = $this->salePaymentRepo->find($request->id);
+        $manager = new SalePaymentManager($payment,$request->all());
+        $manager->save();
+
+        return response()->json(['estado'=>true, 'nombre'=>$payment->nombre]);
+    }
 }

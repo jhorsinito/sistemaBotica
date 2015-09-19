@@ -588,7 +588,7 @@ Route::put('api/DetOrderSales/edit',['as'=>'person_edit', 'uses'=>'DetOrderSales
 Route::get('api/saleMethodPayments/select','SaleMethodPaymentController@select');
 Route::post('api/saledetPayments/create',['as'=>'person_create', 'uses'=>'SaleDetPaymentController@create']);
 Route::get('api/saledetPayments/find/{id}',['as'=>'person_create', 'uses'=>'SaleDetPaymentController@find']);
-
+Route::put('api/SalePayment/edit','SalePaymentController@edit');
 
 Route::get('api/pendientAccounts/paginate/','PendientAccountsController@paginatep');
 

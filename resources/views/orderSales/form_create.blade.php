@@ -12,7 +12,7 @@
           
         </section>
 
-        <section class="content">
+        <section class="content"> 
         <div class="row">
         <div class="col-md-12">
 
@@ -43,7 +43,29 @@
                 </ul>
                 <div class="tab-content">
                   <div class="tab-pane active" id="tab_1">
+                    
+                      <div class="row">
+                        <div class="col-md-3">
 
+                            <div class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.fechaPedido.$error.required &amp;&amp; orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.fechaPedido.$dirty &amp;&amp; orderPurchaseCreateForm.fechaPedido.$invalid]">
+                                <label for="fechaPedido">Fecha Entrega: </label>
+                            <div ng-hide="show" class="input-group">
+                                <div class="input-group-addon">
+                                      <i class="fa fa-calendar"></i>
+                                </div>
+                                  <input type="date" class="form-control ng-pristine ng-valid ng-touched" name="fechaPedido" ng-model="sale.fechaEntrega">
+                                </div>
+                            <label ng-show="orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.fechaPedido.$dirty &amp;&amp; orderPurchaseCreateForm.fechaPedido.$invalid" class="ng-hide">
+                            <span ng-show="orderPurchaseCreateForm.fechaPedido.$invalid" class="ng-hide"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
+                            </label>
+                             
+                             <div ng-show="show" class="input-group ng-hide">
+                               <spam class="ng-binding"></spam>
+                    </div> 
+                      </div>  
+                      
+                    </div>
+                    </div>
 
                     <div class="row">
                       <div class="col-md-6" >
