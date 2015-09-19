@@ -8,7 +8,7 @@
             <li class="/stores">Pedido Venta</li>
             <li class="active">Crear</li>
           </ol>
-
+ 
           
         </section>
 

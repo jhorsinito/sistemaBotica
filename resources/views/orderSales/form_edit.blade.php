@@ -165,11 +165,14 @@
             </div>
           </div>
         </div>
+        <div class="overlay" ng-class="{ 'hidden': !cancelPedido}">
+                                                                    </div>
       </div>
 
 
   <!-- ==========================================================================================-->
        <section class="content">
+       <section class="box box-default"  id="price">
         <div class="row">
         <div class="col-md-12">
 
@@ -206,10 +209,10 @@
                     
                     
                   </table>
-                  
-                </div><!-- /.box-body -->
-      <div class="box-body">
-<div class="row">
+                </div>
+            </div><!-- /.box-body -->
+            <div class="box-body">
+        <div class="row">
       <div  class="col-md-6" align="center" ng-if="payment[0].Saldo==0">
       </div>
      <div  class="col-md-6" align="center"ng-if="payment[0].Saldo!=0">
@@ -290,8 +293,8 @@
 
 
                 </div>
-            </div>
-      </div>
+                </div>
+                </div>
 
      
              
@@ -299,18 +302,25 @@
                     
                   </div>
                 </form>
+
               </div><!-- /.box -->
+
 
               </div>
               </div><!-- /.row -->
+
+              <div class="overlay" ng-class="{ 'hidden': !cancelPedido}">
+                                                                    </div>
+   
+              </section>
               </section><!-- /.content -->
 
               <!-- ======================================================================= -->
-
+        
           
 
         
-                   <a class="btn btn-success btn-xs" ng-show="banderaModificar" ng-click="grabarCanPedido()">Modificar</a>
+                   <a href="/orderSales" class="btn btn-success btn-xs" ng-show="banderaModificar" ng-click="grabarCanPedido()">Modificar</a>
                    <a href="/orderSales" class="btn btn-success btn-xs">Regresar</a>
                   </div>
                 </form>

@@ -179,10 +179,10 @@ public function create(Request $request) {
     {
         $varDetOrders = $request->detOrder;
         $varPayment = $request->payment;
-
-        //---create movimiento---
-            $movimiento = $request->movimiento;
-            var_dump($request->detOrder);die();
+        $movimiento = $request->movimiento;
+        if ($movimiento['montoMovimientoEfectivo']>0) {
+            //---create movimiento--- 
+            //var_dump($request->movimiento);die();
             $detCashrepo;
             $movimiento['observacion']="temporal";
             $detCashrepo = new DetCashRepo;
@@ -202,6 +202,14 @@ public function create(Request $request) {
             $manager1->save();
         //----------------
 
+            $salePaymentRepo;
+        $salePaymentRepo = new SalePaymentRepo;
+        $payment = $salePaymentRepo->find($varPayment['id']);
+        $manager = new SalePaymentManager($payment,$varPayment);
+        $manager->save();
+
+        }
+        
         $detOrderSaleRepo;
         foreach($varDetOrders as $object){
             $detOrderSaleRepo = new DetOrderSaleRepo;
@@ -229,11 +237,7 @@ public function create(Request $request) {
         $manager = new OrderSaleManager($orderSale,$request->all());
         $manager->save();
 
-        $salePaymentRepo;
-        $salePaymentRepo = new SalePaymentRepo;
-        $payment = $salePaymentRepo->find($varPayment['id']);
-        $manager = new SalePaymentManager($payment,$varPayment);
-        $manager->save();
+        
 
 
 
