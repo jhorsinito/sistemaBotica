@@ -138,22 +138,22 @@
 
                 return deferred.promise;
             }
-            function getTallas(id,taco,almacen){
+            function getTallas(id,uri,taco,almacen){
                 var deferred = $q.defer();
-                $http.get('/api/variants/selectStocksTalla/'+id+'/'+taco+'/'+almacen)
+                $http.get('/api/variants/'+uri+'/'+id+'/'+taco+'/'+almacen)
                     .success(function (data) {
                         deferred.resolve(data);
                     });
 
                 return deferred.promise;
             }
-            function setAtrib(atri){
-                $atributes=atri;
-                 var deferred = $q.defer();
-                $http.get('/api/cashes/search/1000000000')
+            function setAtrib(id,almacen){
+                var deferred = $q.defer();
+                $http.get('/api/variants/selectStocksTallaSinTaco/'+id+'/'+almacen)
                     .success(function (data) {
                         deferred.resolve(data);
                     });
+
                 return deferred.promise;
             }
              function select2(uri,select)
@@ -234,7 +234,15 @@
 
                 return deferred.promise;
             }
+            function Reportes(id,uri)
+            {
+                var deferred = $q.defer();
+                $http.post('/api/'+uri+'/create/'+id).success(function (data) {
+                    deferred.resolve(data);
+                });
 
+                return deferred.promise;
+            }
             return {
                 all: all,
                 paginate: paginate,
@@ -257,7 +265,9 @@
                 autocomplitVar: autocomplitVar,
                 MostrarAtributos: MostrarAtributos,
                 MostrarTallas: MostrarTallas,
-               getTallas: getTallas
+               getTallas: getTallas,
+               setAtrib: setAtrib,
+               Reportes: Reportes
             }
         }])
         .factory('socketService', function ($rootScope) {

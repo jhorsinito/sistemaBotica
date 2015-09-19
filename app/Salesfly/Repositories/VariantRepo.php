@@ -112,7 +112,32 @@ class VariantRepo extends BaseRepo{
                           //->join('presentation','detPres.presentation_id','=','presentation.id')
                           ->where('variants.codigo','=',$id)->where('detAtr.descripcion','=',$taco)
                           ->select(\DB::raw("stock.stockActual as stock,variants.sku as varSku,variants.id as varCodigo,products.hasVariants as TieneVariante,variants.codigo as variantCondigo,
-                            atributes.shortname as nomCortoVar,(SELECT (stock.stockActual ) FROM variants
+                            atributes.shortname as nomCortoVar,(SELECT (detAtr.descripcion ) FROM variants
+                                INNER JOIN detAtr ON detAtr.variant_id = variants.id
+                                INNER JOIN atributes ON atributes.id = detAtr.atribute_id
+                                where variants.id=varCodigo and atributes.nombre='Talla'
+                                GROUP BY variants.id)as valorDetAtr,(SELECT (stock.stockActual ) FROM variants
+                                INNER JOIN stock ON stock.variant_id = variants.id
+                                INNER JOIN warehouses ON warehouses.id = stock.warehouse_id
+                                where variants.id=varCodigo and warehouses.id=$almac
+                                GROUP BY stock.id)as stockActual"))
+                          ->groupBy('variants.id')->paginate();
+        return $variant;
+    }
+      public function selectStocksTallaSinTaco($id,$almac){
+         $variant=Variant::leftjoin('detAtr','detAtr.variant_id','=','variants.id')
+                          ->leftjoin('atributes','atributes.id','=','detAtr.atribute_id')
+                          ->join('products','products.id','=','variants.product_id')
+                          ->leftjoin('stock','stock.variant_id','=','variants.id')
+                          //->join('detPres','detPres.variant_id','=','variants.id')
+                          //->join('presentation','detPres.presentation_id','=','presentation.id')
+                          ->where('variants.codigo','=',$id)->where('atributes.nombre','=','Talla')
+                          ->select(\DB::raw("stock.stockActual as stock,variants.sku as varSku,variants.id as varCodigo,products.hasVariants as TieneVariante,variants.codigo as variantCondigo,
+                            atributes.shortname as nomCortoVar,(SELECT (detAtr.descripcion ) FROM variants
+                                INNER JOIN detAtr ON detAtr.variant_id = variants.id
+                                INNER JOIN atributes ON atributes.id = detAtr.atribute_id
+                                where variants.id=varCodigo and atributes.nombre='Talla'
+                                GROUP BY variants.id)as valorDetAtr,(SELECT (stock.stockActual ) FROM variants
                                 INNER JOIN stock ON stock.variant_id = variants.id
                                 INNER JOIN warehouses ON warehouses.id = stock.warehouse_id
                                 where variants.id=varCodigo and warehouses.id=$almac
@@ -122,7 +147,7 @@ class VariantRepo extends BaseRepo{
     }
     public function traer_por_Sku($sku){
        
-        $variants=Variant::join('detAtr','variants.id','=','detAtr.variant_id')
+        $variants=Variant::leftjoin('detAtr','variants.id','=','detAtr.variant_id')
                         ->join('products','products.id','=','variants.product_id')
                         ->leftjoin('brands','products.brand_id','=','brands.id')
                         //->join('detPres','detPres.variant_id','=','variants.id')
@@ -151,7 +176,7 @@ class VariantRepo extends BaseRepo{
     } 
     public function Paginar_por_Variante(){
        
-       $variants=Variant::join('detAtr','variants.id','=','detAtr.variant_id')
+       $variants=Variant::leftjoin('detAtr','variants.id','=','detAtr.variant_id')
                         ->join('products','products.id','=','variants.product_id')
                         ->leftjoin('brands','products.brand_id','=','brands.id')
                         //->join('detPres','detPres.variant_id','=','variants.id')

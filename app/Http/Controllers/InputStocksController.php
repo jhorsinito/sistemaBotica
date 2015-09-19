@@ -75,7 +75,11 @@ class InputStocksController extends Controller
        if($queHacer===0){
         $request->merge(["orderPurchase_id"=>$request->input('id')]);
         $headInputStock = $this->headInputStockRepo->getModel();
+        if(!empty($request->input('warehouDestino_id'))){
         $inserHeadInputStock = new HeadInputStockManager($headInputStock,$request->all());
+      }else{
+        $inserHeadInputStock = new HeadInputStockManager($headInputStock,$request->except('warehouDestino_id'));
+      }
             $inserHeadInputStock->save();
             $codigoHeadIS=$headInputStock->id;
        $orderPurchase = $this->orderPurchaseRepo->find($request->input('id'));

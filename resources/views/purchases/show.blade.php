@@ -154,7 +154,7 @@
                       <th>Descartar</th>
                     </tr>
                     
-                    <tr ng-repeat="row in detPayments">
+                    <tr  ng-repeat="row in detPayments">
                       <td ng-hide="true">@{{row.id}}</td>
                       <td ng-hide="true">@{{row.cashID}}</td>
                       <td>@{{row.updated_at}}</td>
@@ -164,7 +164,7 @@
                       <td>@{{row.montoPagado}}</td>
                       <td ng-if="row.tipoPago=='A'"><span class="badge bg-blue">@{{row.tipoPago}}</span></td> 
                       <td ng-if="row.tipoPago=='P'"><span class="badge bg-green">@{{row.tipoPago}}</span></td> 
-                     <td><button ng-Disabled="payment.Saldo<=0" type="button" class="btn btn-danger btn-xs"  ng-click="destroyPay(row)">
+                     <td><button ng-Disabled="payment.Saldo<=0 || row.tipoPago=='A'"  type="button" class="btn btn-danger btn-xs"  ng-click="destroyPay(row)">
                         <span class="glyphicon glyphicon-trash"></span></button>
                      <a ng-Disabled="payment.Saldo<=0" ng-click="editDetpayment(row)" ng-model="checked" class="btn btn-warning btn-xs">Edit</a></td>
                     </tr>
@@ -172,7 +172,7 @@
                     
                     
                   </table>
-                
+
                    <div class="box-footer clearfix">
                   <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" 
                   class="pagination-sm no-margin pull-right" items-per-page="itemsperPage" 

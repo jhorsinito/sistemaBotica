@@ -101,8 +101,8 @@
                       <th style="width: 10px">#</th>
                       <th>Fecha Entrega</th>
                       <th>Proveedor</th>
-                      <th>Alamcen</th>
-                      <th>Orden Purchase</th>
+                      <th>Almacen</th>
+                      <th>Orden de Compra</th>
                       <th>Descuento</th>
                       <th>Monto Bruto</th>
                       <th>Monto Total</th>
@@ -121,9 +121,9 @@
                       <td>{{row.descuento}}</td>
                       <td>{{row.montoBruto}}</td>
                       <td>{{row.montoTotal}}</td>
-                      <td ng-if="row.saldo>0"><a ng-href="/purchases/show/{{row.id}}">Pagar</a>
+                      <td ng-if="row.saldo>0"><a  class="btn btn-primary btn-xs" ng-href="/purchases/show/{{row.id}}">Pagar</a>
                       </td>
-                      <td ng-if="row.saldo<=0"><a ng-href="/purchases/show/{{row.id}}">Ver Pagos</a>
+                      <td ng-if="row.saldo<=0"><a class="btn btn-primary btn-xs" ng-href="/purchases/show/{{row.id}}">Ver Pagos</a>
                       </td>
                       <td><a ng-click="editCompra(row)" class="btn btn-success btn-xs">Ver Detalles</a></td>
                                         

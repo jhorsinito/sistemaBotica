@@ -457,36 +457,49 @@ class PurchasesController extends Controller {
       //\DB::commit();
      return response()->json(['estado'=>true, 'nombres'=>$purchase->nombres]);
     }
-    public function reportes(){
+    public function reportes($id){
+    // var_dump($id);die();
         $database = \Config::get('database.connections.mysql');
         $time=time();
-        $output = public_path() . '/report/'.$time.'_tikets';        
+        $output = public_path() . '/report/'.$time.'_Tiket';        
         $ext = "pdf";
         
         \JasperPHP::process(
-            public_path() . '/report/tikets.jasper', 
+            public_path() . '/report/Tiket.jasper', 
             $output, 
             array($ext),
             //array(),
             //while($i<=3){};
-            ['idVariante' => $temporal],//Parametros
+            ['idVariante'=>$id],//Parametros
               
             $database,
             false,
             false
         )->execute();
+        return response()->json(['estado'=>true]);
+   
+    }
+     public function reportesCod($id){
+     // var_dump("hola commd");die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_CodigoBarras';        
+        $ext = "pdf";
+        
         \JasperPHP::process(
             public_path() . '/report/CodigoBarras.jasper', 
             $output, 
             array($ext),
             //array(),
             //while($i<=3){};
-            ['idVariante' => $temporal],//Parametros
+            ['VarCode'=>$id],//Parametros
               
             $database,
             false,
             false
         )->execute();
+        return response()->json(['estado'=>true]);
+   
     }
     public function find($id)
     {

@@ -307,18 +307,20 @@
                $scope.companies=[];
                $scope.company={};
                $scope.badera=true;
-               $scope.calCantidad=function(stockActual,atributos,sku,varCodigo,can,talla,TieneVariante){
-                        alert(varCodigo);
+               $scope.calCantidad=function(stockActual,atributos,sku,varCodigo,can,talla){
+                //item.NombreAtributos,item.varSku,item.varCodigo,cantidad,item.valorDetAtr,item.TieneVariante
+                       // alert(talla);
                         if(can>0 && $scope.purchase.tipo=='Entrada'){
                     
-                         $scope.badera=true;
+                         
                          if($scope.companies[0]!=undefined){
                              for(var n=0;n<$scope.companies.length;n++){
                                  if($scope.companies[n].talla==talla){
                                  $scope.companies[n].cantidad_llegado=can;
                                  $scope.badera=false;                      
                                }
-                             }}
+                             }
+                         }
                      if($scope.badera==true){
                        
                     $scope.company.variant_id=varCodigo;
@@ -342,12 +344,14 @@
                              $scope.badera=true;
                              if($scope.companies[0]!=undefined){
                              for(var n=0;n<$scope.companies.length;n++){
+                                //alert("jsdjdskdsk"+$scope.companies[n].talla+"--->"+talla);
                                  if($scope.companies[n].talla==talla){
                                   $scope.companies[n].cantidad_llegado=can;
                                    $scope.badera=false;                      
                                }
                              }}
                     if($scope.badera==true){
+                       // alert("hey ahora jsdkd");
                     $scope.company.variant_id=varCodigo;
                      crudOPurchase.select('detpres',varCodigo).then(function (data) {
                                    $scope.company.codigo=data.codigo;
@@ -355,7 +359,7 @@
                                    $scope.company.detPres_id=data.detpresen_id;
                                    $scope.company.cantidad_llegado=can;
                                    $scope.company.talla=talla;
-                                   
+                                   $log.log($scope.company);
                     $scope.companies.push($scope.company);
                     $scope.company={};
                                     
@@ -370,14 +374,30 @@
                          }
                      }
                   }
+                   $scope.quitarTalla=function(talla,estado){
+                    //alert(estado);
+                    if(estado==false){
+                    var t=0;
+                    for(var n=0;n<$scope.companies.length;n++){
+                        t++;
+                        //alert($scope.companies[n].talla+"-->"+talla);
+                        if($scope.companies[n].talla==talla){
+                           $scope.companies.splice(t-1,1);
+                            break;
+                        }
+                    }
+                    
+                }
+                   // alert("hola"+t);
+                  }
                $scope.codigoVarP;
                $scope.CantidaStock='';
                $scope.obcionales=[];
                $scope.obcional={};
                $scope.mostrarTallas=function(taco){
-                    alert($scope.codigoVarP);
+                    //alert($scope.codigoVarP);
                     if(taco!=null){
-                    crudOPurchase.getTallas($scope.codigoVarP,taco,$scope.purchase.warehouses_id).then(function (data) {
+                    crudOPurchase.getTallas($scope.codigoVarP,"selectStocksTalla",taco,$scope.purchase.warehouses_id).then(function (data) {
                           $scope.atributes=data.data;
                     });
                     $scope.mostrarPresentacion=false;
@@ -386,15 +406,18 @@
                 }
                   }
                $scope.mostrarPresentacion=true;
+               $scope.Listo=true;
                 $scope.asignarProduc1=function(){
+                    $scope.inputStock.CantidaStock='';
                     $scope.codigoVarP=$scope.product.proId.varCodigo;
+                    //alert($scope.product.proId.varid);
                      crudOPurchase.MostrarAtributos($scope.product.proId.varCodigo,'Taco').then(function (data) {
                               $scope.variants=data.data;
                                 //alert("Estoy Buscando Taco");
-                              //if($scope.variants.length>0){$scope.Listo=false;}else{$scope.activarCampCantidad=false;}
+                              if($scope.variants.length>0){$scope.Listo=true;$scope.inputStock.cantidad_llegado='';}
                               if($scope.variants[0]==null)
                               {
-                                       crudOPurchase.MostrarAtributos($scope.product.proId.varCodigo,'Talla').then(function (data) 
+                                       crudOPurchase.setAtrib($scope.product.proId.varCodigo,$scope.purchase.warehouses_id).then(function (data) 
                                        {
                                               //alert("Estoy Buscando Talla");
                                               $scope.atributes=data.data;
@@ -402,9 +425,18 @@
                                               //alert($scope.atributes.length);
                                               if($scope.atributes[0]==null)
                                               {
+                                                 crudOPurchase.StockActual('stocks',$scope.product.proId.varid,$scope.purchase.warehouses_id).then(function (data){
+                                                        $scope.stock=data;
+                                                        $scope.inputStock.CantidaStock=data.stockActual;
+                            
+                                                 });
+                                                $scope.Listo=false;
                                                 $scope.activarCampCantidad=true;
                                                  //---------------------------------------------------------------
                                                }else{
+                                                  $scope.Listo=true;
+                                                  $scope.inputStock.CantidaStock='';
+                                                  $scope.inputStock.cantidad_llegado='';
                                                   $scope.mostrarPresentacion=false;
                                                }
                          
@@ -419,16 +451,29 @@
                $scope.verEntradasEstock=function(){
                     $scope.purchase.eliminar=1;
                   if( $scope.mostrarPresentacion==false ){
-                    $log.log($scope.companies);
+                    //$log.log("///////////////////////////");
+                    //$log.log($scope.companies);
+                     if(parseInt($scope.purchase.warehouses_id)!=parseInt($scope.purchase.warehouDestino_id)){
+                       if($scope.companies[0]!=null && $scope.inputStock.descripcion!=null){
                         for(var n=0;n<$scope.companies.length;n++){
-                            alert($scope.companies[n].cantidad);
+                            //alert($scope.companies[n].cantidad);
                             $scope.companies[n].descripcion=$scope.inputStock.descripcion;
                             $scope.inputStocks.push($scope.companies[n]);
                          }
                          $scope.mostrarPresentacion=true;
+                         $scope.product.proId='';
+                         $scope.inputStock.CantidaStock='';
+                         $scope.detailOrderPurchase.taco='';
+                     }else{
+                        alert('Es necesario una cantidad o descripcion');
+                     }
+                    }else{
+                       alert("en una transferencia no debe seleccionar dos almacenes iguales??"); 
+                    }
                   }else{
                     if ($scope.inputStocksBodyCreateForm.$valid) {
-                    alert($scope.purchase.warehouDestino_id);
+                    if($scope.inputStock.descripcion!=null){
+                    //alert($scope.purchase.warehouDestino_id);
                     if(parseInt($scope.purchase.warehouses_id)!=parseInt($scope.purchase.warehouDestino_id)){
                     $scope.inputStock.variant_id=$scope.product.proId.varid;
                     $scope.inputStock.codigo=$scope.product.proId.varCodigo;
@@ -449,17 +494,32 @@
                  }else{
                     alert("Error no se Puede Seleccionar dos Almacenes Iguales")
                  }
+             }else{
+                alert("Es necesario una descripcion");
+             }
                     }else{alert("complete los campos");}
                  }}
-
+                $scope.soloFinta=function(){
+                if($scope.check==true){
+                    $scope.Listo=true;
+                    $scope.mostrarPresentacion=true;
+                    $scope.product.proId='';
+                    $scope.inputStock.cantidad_llegado='';
+                }
+                }
                 $scope.searchSkuEstock=function(sku){
                      $scope.purchase.eliminar=1;
                       crudOPurchase.autocomplitVar('variants',sku).then(function (data) {
                         $scope.product.proId = data;
-                        if(data==null){
+                        if($scope.product.proId.varid==null){
                             alert('No se a Encontrado Producto');
                             $scope.variant.sku='';
+                             $scope.inputStock.CantidaStock='';
+                             $scope.Listo=true;
                         }else{
+                            $scope.Listo=false;
+                            $scope.inputStock.cantidad='';
+                            $scope.inputStock.CantidaStock='';
                             crudOPurchase.StockActual('stocks',$scope.product.proId.varid,$scope.purchase.warehouses_id).then(function (data){
                             $scope.stock=data;
                             $scope.inputStock.CantidaStock=data.stockActual;
@@ -478,12 +538,45 @@
              });
                     
                  }
+                $scope.GenerrarReport=function(){
+                    //$log.log($routeParams.id);
+                    var id=$routeParams.id;
+                     crudOPurchase.Reportes(id,'TiketReport').then(function (data) {
+                        // alert("debajo");
+                            if (data['estado'] == true) {
+                                alert('Reporte Generado');
+                               // $location.path('/purchases/create');
+                            } else {
+                                $scope.errors = data;
+
+                            }
+                        });
+                }
+                $scope.GenerrarReportCod=function(){
+                    //$log.log($routeParams.id);
+                     crudOPurchase.Reportes($routeParams.id,'CodReport').then(function (data) {
+                        // alert("debajo");
+                            if (data['estado'] == true) {
+                                alert('Reorte Generado');
+                               // $location.path('/purchases/create');
+                            } else {
+                                $scope.errors = data;
+
+                            }
+                        });
+                }
                 $scope.nuevo=function(){
                     $scope.mostrarCreate=false;
+                    $scope.check=false;
+                    $scope.Listo=true;
                     $scope.purchase.tipo="Entrada";
                     $scope.purchase.warehouses_id=''; 
                     $scope.purchase.warehouDestino_id='';
                     $scope.inputStock.cantidad_llegado='';
+                    $scope.inputStock.cantidad='';
+                    $scope.inputStock.CantidaStock='';
+                    $scope.mostrarPresentacion=true;
+                    $scope.detailOrderPurchase.taco='';
                     $scope.product.proId='';
                     $scope.inputStock.descripcion='';
                     $scope.inputStocks=[];
@@ -601,6 +694,7 @@
                     });
                 }
                 $scope.destroyPay = function(row){
+                  if(confirm("Esta segura de querer eliminara este pago!!!") == true){
                     $scope.payment.detpId=row.id;
                     $scope.payment.cashMonthly_id=row.cashMonthly_id;
                     $scope.payment.detCash_id=row.detCash_id;
@@ -615,11 +709,14 @@
                         }
                     });
                 }
+            }
                 $scope.PagoAnterior;
                 $scope.mostrarBtnGEd=false;
                  $scope.check=false;
+                 $scope.filaenEdicion=false;
                 $scope.editDetpayment=function(row){
                     $scope.check=true;
+                    $scope.filaenEdicion=true;
                     if(row.cashMonthly_id>0){
                         $scope.payment.cajamensual=true;
                         $scope.payment.cashMonthly_id=row.cashMonthly_id;

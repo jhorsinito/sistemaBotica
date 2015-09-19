@@ -211,7 +211,7 @@
           <div class="col-md-2">
           <div class="form-group" ng-class="{true: 'has-error'}[ inputStocksBodyCreateForm.nombre.$error.required && inputStocksBodyCreateForm.$submitted || inputStocksBodyCreateForm.nombre.$dirty && inputStocksBodyCreateForm.nombre.$invalid]">
                       <label for="nombre">Cantidad</label>
-                      <input ng-disabled="!product.proId" type="Number" class="form-control" name="nombre" placeholder="Nombre" ng-blur="verStockActual()" ng-model="inputStock.cantidad_llegado" required>
+                      <input ng-disabled="Listo" type="Number" class="form-control" name="nombre" placeholder="Nombre" ng-blur="verStockActual()" ng-model="inputStock.cantidad_llegado" required>
                       <label ng-show="inputStocksBodyCreateForm.$submitted || inputStocksBodyCreateForm.nombre.$dirty && inputStocksBodyCreateForm.nombre.$invalid">
                         <span ng-show="inputStocksBodyCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>
@@ -221,10 +221,10 @@
                 <div class="input-group">
                 <div class="form-group" ng-class="{true: 'has-error'}[ inputStocksBodyCreateForm.empresa.$error.required && inputStocksBodyCreateForm.$submitted || inputStocksBodyCreateForm.empresa.$dirty && inputStocksBodyCreateForm.empresa.$invalid]">
               
-              <label>Producto(Stock Actual:</label>
+              <label>Producto(Stock Actual:@{{inputStock.CantidaStock}})</label>
                 
-               <input typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId"  name="empresa" placeholder="Locations loaded via $http" 
-               typeahead="product as product.proNombre+'/'+product.BraName+'/'+product.TName+'/'+product.NombreAtributos for product in products | filter:$viewValue | limitTo:8" 
+               <input ng-Disabled="check" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId"  name="empresa" placeholder="Locations loaded via $http" 
+               typeahead="product as product.proNombre+'('+(product.BraName==null ? '': product.BraName+'/')+(product.TName==null ? '' : product.TName+'/')+(product.Mnombre==null ? '':product.Mnombre+'/')+(product.NombreAtributos==null ? '':product.NombreAtributos)+')' for product in products | filter:$viewValue | limitTo:8" 
                typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
                tooltip="Ingrese caracteres para busacar producto por nombre"
             required >
@@ -240,23 +240,30 @@
         </div> 
         </div>
           </div>
-          <div ng-hide="false" class="col-md-2">
+          <div ng-hide="check" class="col-md-2">
            
               <div class="form-group" >
                 <label for="Variante">Taco</label>
-                <select class="form-control"   ng-click="mostrarTallas(detailOrderPurchase.taco)" ng-model="detailOrderPurchase.taco" ng-options="item.valorDetAtr as item.nomCortoVar+': '+item.valorDetAtr for item in variants">
+                <select ng-Disabled="!Listo" class="form-control"   ng-click="mostrarTallas(detailOrderPurchase.taco)" ng-model="detailOrderPurchase.taco" ng-options="item.valorDetAtr as item.nomCortoVar+': '+item.valorDetAtr for item in variants">
                   <option value="">--Elija Num Taco--</option>
                 </select>
                 <!--@{{variants.varid}}-->
                 </div>
             </div>
-          <div class="col-md-5">
-                    <div class="form-group" >
-                      <label for="notas">Descripcion</label>
-                      <textarea type="notas" class="form-control" name="notas" placeholder="Descripcion"
-                      ng-model="inputStock.descripcion" rows="2" cols="50"></textarea>
-                     </div>
-          </div>
+             <div ng-show="check" class="col-md-3">
+            <label for="Variante">Busca Por Sku</label>
+            <div class="form-group">
+            <input type="text" ng-enter="searchSkuEstock(variant.sku)" class="form-control" placeholder="Ingrse Sku" ng-model="variant.sku">
+            </div>
+            </div>
+            <div class="col-md-3">
+               <em>¿POR SKU?</em>
+                      <div   class="form-group" >                            
+                            <input  ng-click="soloFinta()" type="checkbox"  name="variantes" ng-model="check" />
+                            
+                        </div>
+                </div>
+          
       
           
      </div>
@@ -308,19 +315,14 @@
                        
           </div>
         </div>
-        <div ng-show="check" class="col-md-3">
-            <label for="Variante">Busca Por Sku</label>
-            <div class="form-group">
-            <input type="text" ng-enter="searchSkuEstock(variant.sku)" class="form-control" placeholder="Ingrse Sku" ng-model="variant.sku">
-            </div>
-            </div>
-            <div class="col-md-3">
-               <em>¿POR SKU?</em>
-                      <div   class="form-group" >                            
-                            <input ng-disabled="orderPurchase.cancelar" type="checkbox"  name="variantes" ng-model="check" />
-                            
-                        </div>
-                </div>
+        <div class="col-md-5">
+                    <div class="form-group" >
+                      <label for="notas">Descripcion</label>
+                      <textarea type="notas" class="form-control" name="notas" placeholder="Descripcion"
+                      ng-model="inputStock.descripcion" rows="2" cols="50"></textarea>
+                     </div>
+          </div>
+       
     </div>
       
     <div  ng-show="mostrarCreate" class="row">

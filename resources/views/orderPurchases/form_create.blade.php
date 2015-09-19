@@ -177,13 +177,13 @@
              <div class="col-md-4">
           <div class="input-group" style="width: 300px;">
               <label>Producto</label>
-               <input ng-hide="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Buscar por codigo especifico" 
+               <input ng-disabled="check" ng-hide="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Buscar por codigo especifico" 
           typeahead="product as product.proNombre+'('+(product.BraName==null ? '': product.BraName+'/')+(product.TName==null ? '' : product.TName+'/')+(product.Mnombre==null ? '':product.Mnombre+'/')+(product.NombreAtributos==null ? '':product.NombreAtributos)+')' for product in products | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
            tooltip="Ingrese caracteres para busacar producto por codigo unico"
             >
              <input ng-show="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Buscar por Variante" 
-          typeahead="variant as variant.proNombre+'('+(product.BraName==null ? '': product.BraName+'/')+(product.TName==null ? '' : product.TName+'/')+(product.Mnombre==null ? '':product.Mnombre+'/')+(product.NombreAtributos==null ? '':product.NombreAtributos)+')' for variant in variants1 | filter:$viewValue | limitTo:8" 
+          typeahead="variant as variant.proNombre+'('+(variant.BraName==null ? '': variant.BraName+'/')+(variant.TName==null ? '' : variant.TName+'/')+(variant.Mnombre==null ? '':variant.Mnombre+'/')+(variant.NombreAtributos==null ? '':variant.NombreAtributos)+')' for variant in variants1 | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
            tooltip="Ingrese caracteres para busacar producto por codigo unico"
             >
@@ -232,14 +232,14 @@
             <div class="col-md-1">
                <em>¿POR SKU?</em>
                       <div   class="form-group" >                            
-                            <input ng-disabled="orderPurchase.cancelar" type="checkbox"  name="variantes" ng-model="check" />
+                            <input ng-disabled="check1" type="checkbox"  name="variantes" ng-model="check" />
                             
                         </div>
                 </div>
             <div class="col-md-1">
                <em>¿Busca Normal?</em>
                       <div   class="form-group" >                            
-                            <input  type="checkbox"   name="variantes" ng-model="check1" />
+                            <input  ng-disabled="check" type="checkbox"   name="variantes" ng-model="check1" />
                             
                         </div>
                 </div>
@@ -407,9 +407,9 @@
           </div><!-- /.box-tools -->
         </div><!-- /.box-header -->
         <div class="box-body" style="display: block;">
-          <table class="table table-bordered" id="tabla1">
-            <tr>
-              <th style="width: 10px">#</th>
+          <table class="table-resposive table-bordered" id="tabla1">
+            <tr style="height: 40px">
+              <th style="height: 20px">#</th>
 
               <th>Producto</th>
               <th>Sku </th>
@@ -421,7 +421,7 @@
               <th>SubTotal</th>
               <th>Acciones</th>     
             </tr>
-            <tr  ng-repeat="row in detailOrderPurchases " >
+            <tr  style="height: 40px" ng-repeat="row in detailOrderPurchases " >
                       <td>@{{$index + 1}}</td>
                       <td ng-hide="true">@{{row.orderPurchases_id}}</td>
                       <td ng-hide="true">@{{row.detPres_id}}</td>

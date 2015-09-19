@@ -86,6 +86,10 @@ class VariantsController extends Controller
      $variants = $this->variantRepo->selectStocksTalla($id,$var,$almac);
         return response()->json($variants);
   }
+  public function selectStocksTallaSinTaco($id,$almac){
+    $variants = $this->variantRepo->selectStocksTallaSinTaco($id,$almac);
+        return response()->json($variants);
+  }
     public function form_create()
     {
         //$product = Product::find($product_id);
