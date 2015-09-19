@@ -352,5 +352,24 @@ class OrderPurchasesController extends Controller {
 
         return response()->json($orderPurchases);
     }
+    public function reports($request){
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_tikets';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/tikets.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['idVariante' => $request->id],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+    }
 
 }

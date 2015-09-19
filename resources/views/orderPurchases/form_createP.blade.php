@@ -4,13 +4,13 @@
         <!--================================================================================-->
         <section class="content-header">
           <h1>
-            Orden de Compras
+            Crear Compra Directa
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="/stores">Orden de Compras</li>
-            <li class="active">Crear</li>
+           <li><a href="/orderPurchases"><i class="fa fa-dashboard"></i>Orden de Compras</a></li>
+            
           </ol>
 
           
@@ -23,7 +23,7 @@
 
 <div class="box box-primary" >
                              <div class="box-header with-border">
-                                   <h3 class="box-title">Crear Pedido de Compras</h3>
+                                   <h3 class="box-title">Crear Compra Directa</h3>
                              </div><!-- /.box-header -->
                 <!-- form start -->
  <form name="orderPurchaseCreateForm" role="form" novalidate>
@@ -160,13 +160,13 @@
             <div class="col-md-4">
           <div class="input-group" style="width: 300px;">
               <label>Producto</label>
-               <input ng-hide="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Locations loaded via $http" 
-          typeahead="product as product.proNombre+'('+product.BraName+'/'+product.TName+'/'+product.Mnombre+product.NombreAtributos+')' for product in products | filter:$viewValue | limitTo:8" 
+               <input ng-disabled="check" ng-hide="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Locations loaded via $http" 
+          typeahead="product as product.proNombre+'('+(product.BraName==null ? '': product.BraName+'/')+(product.TName==null ? '' : product.TName+'/')+(product.Mnombre==null ? '':product.Mnombre+'/')+(product.NombreAtributos==null ? '':product.NombreAtributos)+')' for product in products | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
            tooltip="Ingrese caracteres para busacar producto por codigo unico"
             >
              <input ng-show="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Locations loaded via $http" 
-          typeahead="variant as variant.proNombre+'('+variant.BraName+'/'+variant.TName+'/'+variant.Mnombre+variant.NombreAtributos+')' for variant in variants1 | filter:$viewValue | limitTo:8" 
+          typeahead="variant as variant.proNombre+'('+(variant.BraName==null ? '': variant.BraName+'/')+(variant.TName==null ? '' : variant.TName+'/')+(variant.Mnombre==null ? '':variant.Mnombre+'/')+(variant.NombreAtributos==null ? '':variant.NombreAtributos)+')' for variant in variants1 | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
            tooltip="Ingrese caracteres para busacar producto por codigo unico"
             >
@@ -200,14 +200,14 @@
             <div class="col-md-1">
                <em>¿POR SKU?</em>
                       <div   class="form-group" >                            
-                            <input  type="checkbox"  name="variantes" ng-model="check" />
+                            <input  ng-disabled="check1" type="checkbox"  name="variantes" ng-model="check" />
                             
                         </div>
                 </div>
             <div class="col-md-1">
                <em>¿Busca Normal?</em>
                       <div   class="form-group" >                            
-                            <input  type="checkbox"   name="variantes" ng-model="check1" />
+                            <input  ng-disabled="check" type="checkbox"   name="variantes" ng-model="check1" />
                             
                         </div>
                 </div>
@@ -292,7 +292,7 @@
                  <!-- <input  type="checkbox"  ng-click="quitarTalla(item.numTalla,cheked1)" ng-model="cheked1"  />@{{item.numTalla}}
                   <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.numTalla)" step="1" rquired>-->
                   <input  type="checkbox"  ng-click="quitarTalla(item.valorDetAtr,cheked1)" ng-model="cheked1"  />@{{item.valorDetAtr}}
-                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(item.NombreAtributos,item.varSku,item.varCodigo,cantidad,item.valorDetAtr)" step="1" rquired>
+                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(item.NombreAtributos,item.varSku,item.varCodigo,cantidad,item.valorDetAtr,item.TieneVariante)" step="1" rquired>
               
               </div>    
        </div>
@@ -448,8 +448,8 @@
           </div><!-- /.box-tools -->
         </div><!-- /.box-header -->
         <div class="box-body" style="display: block;">
-          <table class="table table-bordered" id="tabla1">
-            <tr>
+          <table class="table-resposive table-bordered" id="tabla1">
+            <tr style="height: 40px">
               <th style="width: 10px">#</th>
 
               <th>Producto</th>
@@ -462,7 +462,7 @@
               <th>SubTotal</th>
               <th>Acciones</th>     
             </tr>
-            <tr  ng-repeat="row in detailOrderPurchases track by $index" >
+            <tr style="height: 40px" ng-repeat="row in detailOrderPurchases track by $index" >
                       <td>@{{$index + 1}}</td>
                       <td ng-hide="true">@{{row.orderPurchases_id}}</td>
                       <td ng-hide="true">@{{row.detPres_id}}</td>
@@ -524,7 +524,7 @@
         <div class="col-md-2">
                <em>¿agregar documento?</em>
                       <div   class="form-group" >                            
-                            <input  type="checkbox"   name="variantes" ng-model="checkfinal" />
+                            <input  type="checkbox"   name="variantes" ng-click="LimpiarDetdoc()" ng-model="checkfinal" />
                             
                         </div>
                 </div>

@@ -16,7 +16,7 @@ class CreateEmployeesTable extends Migration
             $table->increments('id');
             $table->string('nombres');
             $table->string('apellidos');
-            $table->string('codigo')->unique();
+            $table->integer('codigo')->unique();
             $table->dateTime('fechanac');
             //$table->string('dni');
             $table->string('fijo');

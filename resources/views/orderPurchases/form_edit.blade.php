@@ -1,12 +1,12 @@
 <section class="content-header">
           <h1>
-            Editar Ordenes de Cedidos
+            Editar Ordenes de Compras
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="/stores">Editar Ordenes de Cedido</li>
-            <li class="active">Crear</li>
+            <li><a href="/orderPurchases"><i class="fa fa-dashboard"></i>Orden de Compras</a></li>
+            
           </ol>
 
           
@@ -109,7 +109,7 @@
       </div>
 </div>
 <div ng-if="orderPurchase.estados==0" class="col-md-4">
-      <a ng-click="CambiarEstado()"  class="btn btn-default btn-xs">Editar Detalles</a>
+      <a ng-disabled="ActivarEdicion" ng-click="CambiarEstado()"  class="btn btn-default btn-xs">Editar Detalles</a>
       <a ng-click="CambiarEstado1()" ng-model="yes" class="btn btn-default btn-xs">Cambiar Estados </a>
 </div>
 </div>
@@ -141,13 +141,13 @@
              <div class="col-md-4">
           <div class="input-group" style="width: 300px;">
               <label>Producto</label>
-               <input ng-hide="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Buscar por codigo especifico" 
-          typeahead="product as product.proNombre+'('+product.BraName+'/'+product.TName+'/'+product.Mnombre+product.NombreAtributos+')' for product in products | filter:$viewValue | limitTo:8" 
+               <input ng-disabled="check" ng-hide="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Buscar por codigo especifico" 
+          typeahead="product as product.proNombre+'('+(product.BraName==null ? '': product.BraName+'/')+(product.TName==null ? '' : product.TName+'/')+(product.Mnombre==null ? '':product.Mnombre+'/')+(product.NombreAtributos==null ? '':product.NombreAtributos)+')' for product in products | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
            tooltip="Ingrese caracteres para busacar producto por codigo unico"
             >
              <input ng-show="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Busqueda por varinates" 
-          typeahead="variant as variant.proNombre+'('+variant.BraName+'/'+variant.TName+'/'+variant.Mnombre+variant.NombreAtributos+')' for variant in variants1 | filter:$viewValue | limitTo:8" 
+          typeahead="variant as variant.proNombre+'('+(variant.BraName==null ? '': variant.BraName+'/')+(variant.TName==null ? '' : variant.TName+'/')+(variant.Mnombre==null ? '':variant.Mnombre+'/')+(variant.NombreAtributos==null ? '':variant.NombreAtributos)+')' for variant in variants1 | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
            tooltip="Ingrese caracteres para busacar producto por codigo unico"
             >
@@ -211,14 +211,14 @@
             <div class="col-md-1">
                <em>¿POR SKU?</em>
                       <div   class="form-group" >                            
-                            <input ng-disabled="orderPurchase.cancelar" type="checkbox"  name="variantes" ng-model="check" />
+                            <input ng-disabled="check1" ng-disabled="orderPurchase.cancelar" ng-click="ActiBuscSku()" type="checkbox"  name="variantes" ng-model="check" />
                             
                         </div>
                 </div>
             <div class="col-md-1">
                <em>¿Busca Normal?</em>
                       <div   class="form-group" >                            
-                            <input  type="checkbox"   ng-click="editCamEstadosJ()" ng-model="check1" />
+                            <input  ng-disabled="check" type="checkbox"   ng-click="editCamEstadosJ()" ng-model="check1" />
                             
                         </div>
                 </div>
@@ -415,8 +415,9 @@
                 </div>
          </div>
         <div  class="box-body" style="display: block;">
-          <table  class="table table-bordered" id="tabla1">
-            <tr>
+         <form name="comprovar" role="form" novalidate>
+          <table  class="table-resposive table-bordered" id="tabla1">
+            <tr style="height: 40px">
               <th style="width: 10px">#</th>
 
               <th style="width: 100px">Producto</th>
@@ -433,7 +434,7 @@
               <th ng-if="estados==true">Acciones</th>  
               <th ng-if="estados1==true">Confirmar</th>   
             </tr>
-            <tr  ng-repeat="row in detailOrderPurchases">
+            <tr style="height: 40px" ng-repeat="row in detailOrderPurchases">
                       <td>@{{$index + 1}}</td>
                       <td ng-hide="true">@{{row.orderPurchases_id}}</td>
                       <td ng-hide="true">@{{row.detPres_id}}</td>
@@ -456,7 +457,7 @@
                         <button type="button" class="btn btn-xs " ng-disabled="" ng-click="lessCant(row,$index)">
                         <span type="button" class="glyphicon glyphicon-minus"></span><button type="button" class="btn btn-danger btn-xs"  ng-click="sacarRow($index,row.montoTotal)">
                         <span class="glyphicon glyphicon-trash"></span></td>
-                      <td ng-if="orderPurchase.estados==0" ng-show="estados1" alingn="center"><input style="width: 45px" ng-model="row.cantidad1" ng-blur="ComprovarCantidad(row,$index)"  type="number" placeholder="@{{row.cantidad}}" ></td>
+                      <td ng-if="orderPurchase.estados==0" ng-show="estados1" alingn="center"><input style="width: 45px" ng-model="row.cantidad1" ng-blur="ComprovarCantidad(row,$index)"  type="number" placeholder="@{{row.cantidad}}" required></td>
                       <!--
                       <td ng-if="orderPurchase.estados==0" ng-show="estados" ><a data-target="#miventanaEditRow" ng-click="EditarDetalles(row,$index)" data-toggle="modal" class="btn btn-warning btn-xs" href="" ><i class="fa fa-fw fa-pencil"></i></a>
                           <a  class="btn btn-danger btn-xs" ng-click="sacarRow($index,row.montoTotal)"><i class="fa fa-fw fa-trash"></i></a>
@@ -467,6 +468,7 @@
                     -->
                     </tr> 
           </table>
+        </form>
           <div class="row">
             <div class="col-md-11">
             </div>
@@ -539,7 +541,7 @@
         <div class="col-md-2">
                <em>¿agregar documento?</em>
                       <div   class="form-group" >                            
-                            <input  type="checkbox"   name="variantes" ng-model="checkfinal" />
+                            <input  type="checkbox"   name="variantes" ng-click="LimpiarDetdoc()" ng-model="checkfinal" />
                             
                         </div>
                 </div>
@@ -565,7 +567,7 @@
           <div class="col-md-3">
                <div class="form-group" >
                 <label for="tipo">Tipo documento</label>
-                <select class="form-control" ng-model="orderPurchase.tipoDoc" >
+                <select class="form-control"  ng-model="orderPurchase.tipoDoc" >
                         <option value="F">Factura</option>
                         <option value="B">Boleta</option>
                         <option value="T">Tique</option>
@@ -585,7 +587,7 @@
                   <div class="row">
                     <div class="col-md-11">
                     <button ng-if="orderPurchase.estados==0" ng-show="estados" type="submit" class="btn btn-primary" ng-click="updateDPurchase()">Guardar Cambios</button>
-                    <button ng-if="orderPurchase.estados==0" ng-show="estados1" type="submit" class="btn btn-primary" ng-click="CrearCompra()">Guardar Cambios E</button>
+                    <button ng-if="orderPurchase.estados==0" ng-show="estados1" type="submit" class="btn btn-primary" ng-click="CrearCompra()">Guardar Cambios</button>
                     <a ng-if="orderPurchase.estados==0" ng-show="estados" href="/orderPurchases" class="btn btn-danger">Cancelar</a>
                     <a ng-if="orderPurchase.estados==0" ng-show="estados1" href="/orderPurchases" class="btn btn-danger">Cancelar</a>
                     <a ng-if="orderPurchase.estados==1" href="/orderPurchases" class="btn btn-success btn-xs">Regresar</a>

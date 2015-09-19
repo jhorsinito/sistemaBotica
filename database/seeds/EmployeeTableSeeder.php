@@ -17,7 +17,7 @@ class EmployeeTableSeeder extends Seeder
             'apellidos' => 'Ejemplo',
             'direccioncontacto' => 'Dirección de Empleado Ejemplo',
             'dni' => '44226644',
-            'codigo' => '001',
+            'codigo' => 1,
             'distrito' => 'Chiclayo',
             'provincia' => 'Chiclayo',
             'departamento' => 'Lambayeque',

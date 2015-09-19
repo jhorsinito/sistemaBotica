@@ -19,7 +19,8 @@ class CreateCustomersTable extends Migration
             $table->string('empresa');
             $table->string('direccFiscal');
             $table->string('ruc');
-            $table->string('codigo')->unique();
+            $table->string('dni'); //no unique porque no se puede poner vacio en dos filas y no es necesario para ser agregado.
+            $table->integer('codigo')->unique();
             $table->dateTime('fechaNac');
             $table->char('genero',1);
             $table->string('fijo');

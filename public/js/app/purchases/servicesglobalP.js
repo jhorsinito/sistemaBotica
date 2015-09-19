@@ -1,7 +1,7 @@
 (function(){
     angular.module('crudOPurchases.services',[])
         .factory('crudOPurchase',['$http', '$q','$location', function($http, $q,$location){
-
+             $atributes={};
             function all(uri,estado)
             {
                 var deferred = $q.defer();
@@ -138,6 +138,24 @@
 
                 return deferred.promise;
             }
+            function getTallas(id,uri,taco,almacen){
+                var deferred = $q.defer();
+                $http.get('/api/variants/'+uri+'/'+id+'/'+taco+'/'+almacen)
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
+            function setAtrib(id,almacen){
+                var deferred = $q.defer();
+                $http.get('/api/variants/selectStocksTallaSinTaco/'+id+'/'+almacen)
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
              function select2(uri,select)
             {
                 var deferred = $q.defer();
@@ -198,6 +216,33 @@
 
                 return deferred.promise;
             }
+             function MostrarAtributos(id,vari)
+            {
+                var deferred = $q.defer();
+                $http.get('api/variants/paginatep/'+id+'/'+vari).success(function (data) {
+                    deferred.resolve(data);
+                });
+
+                return deferred.promise;
+            }
+             function MostrarTallas(id,taco)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/variants/selectTalla/'+id+'/'+taco).success(function (data) {
+                    deferred.resolve(data);
+                });
+
+                return deferred.promise;
+            }
+            function Reportes(id,uri)
+            {
+                var deferred = $q.defer();
+                $http.post('/api/'+uri+'/create/'+id).success(function (data) {
+                    deferred.resolve(data);
+                });
+
+                return deferred.promise;
+            }
             return {
                 all: all,
                 paginate: paginate,
@@ -217,7 +262,12 @@
                 select2: select2,
                 StockActual: StockActual,
                 listaCashes: listaCashes,
-                autocomplitVar: autocomplitVar
+                autocomplitVar: autocomplitVar,
+                MostrarAtributos: MostrarAtributos,
+                MostrarTallas: MostrarTallas,
+               getTallas: getTallas,
+               setAtrib: setAtrib,
+               Reportes: Reportes
             }
         }])
         .factory('socketService', function ($rootScope) {

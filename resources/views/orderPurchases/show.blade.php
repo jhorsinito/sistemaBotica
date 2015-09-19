@@ -1,12 +1,11 @@
 <section class="content-header">
           <h1>
-            Tipos
+            Adelantos Proveedores
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="/types">Tipos</li>
-            <li class="active">Crear</li>
+            <li><a href="/orderPurchases"><i class="fa fa-dashboard"></i>Orden de Compras</a></li>
           </ol>
 
           
@@ -18,7 +17,7 @@
 
           <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Crear Tipos</h3>
+                  <h3 class="box-title">Crear Adelantos</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form name="paymentCreateForm" role="form" novalidate>
@@ -130,13 +129,13 @@
                             <span class="text-info"> <em>Pagar con caja mensual</em></span>
                         </div>
           </div>
-          <div ng-show="payment.cajamensual" class="col-md-5">
+         <!-- <div ng-show="payment.cajamensual" class="col-md-5">
                    <em>Descripcion .</em>
                    <div class="form-group" >
                         <textarea ng-model="payment.descripcion" class="form-control input-lg">
                          </textarea>
                     </div>
-        </div>
+        </div>-->
          
         </div>
       </div>
@@ -158,7 +157,8 @@
                     <tr ng-repeat="row in detPayments">
                       <td ng-hide="true">@{{row.id}}</td>
                       <td ng-hide="true">@{{row.cashID}}</td>
-                      <td>@{{row.fecha}}</td>
+                      <td ng-hide="true">@{{row.Saldo_F}}</td>
+                      <td>@{{row.updated_at}}</td>
                       <td ng-if="row.nameMethod!=null">@{{row.nameMethod}}</td>
                       <td ng-if="row.detCash_id>0">@{{row.nombre}}</td>
                       <td ng-if="row.cashMonthly_id>0">caja Mensual</td>
@@ -192,7 +192,7 @@
      
              
                    <div class="box-footer">
-                    <a href="/purchases" class="btn btn-danger">Salir</a>
+                    <a href="/orderPurchases" class="btn btn-danger">Salir</a>
                   </div>
                 </form>
               </div><!-- /.box -->

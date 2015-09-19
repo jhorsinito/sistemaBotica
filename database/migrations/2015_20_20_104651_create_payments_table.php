@@ -15,6 +15,8 @@ class CreatePaymentsTable extends Migration
           Schema::create('payments', function (Blueprint $table) {
             $table->increments('id');
             $table->string('NumFactura');
+            $table->string('NumSerie');
+            $table->char('tipoDoc',1);
             $table->decimal('MontoTotal',10,2);
             $table->decimal('Acuenta',10,2);
             $table->decimal('Saldo',10,2);

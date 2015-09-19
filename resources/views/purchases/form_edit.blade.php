@@ -1,12 +1,11 @@
 <section class="content-header">
           <h1>
-            Compras
+            Detalle De Compra
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="/compras">Compras</li>
-            <li class="active">Ver</li>
+            <li><a href="/purchases"><i class="fa fa-dashboard"></i>compras</a></li>
           </ol>
 
           
@@ -18,7 +17,7 @@
 
           <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Compras</h3>
+                  <h3 class="box-title">Detalle De Compra</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form name="purchaseCreateForm" role="form" novalidate>
@@ -123,8 +122,8 @@
             </div>
           </div>
           
-
-        
+                   <button ng-click="GenerrarReportCod()" type="submit" class="btn btn-primary btn-xs">Generar Reportes de Sku</button>
+                   <button ng-click="GenerrarReport()" type="submit" class="btn btn-primary btn-xs">Generar Reportes de Tocket</button>
                    <a href="/purchases" class="btn btn-success btn-xs">Regresar</a>
                   </div>
                 </form>

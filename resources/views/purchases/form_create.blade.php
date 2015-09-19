@@ -4,13 +4,13 @@
         <!--================================================================================-->
         <section class="content-header">
           <h1>
-            Orden de Compras
+            Movimientos de Almacen 
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="/stores">Orden de Compras</li>
-            <li class="active">Crear</li>
+            <li><a href="/purchases"><i class="fa fa-dashboard"></i>compras</a></li>
+            
           </ol>
 
           
@@ -23,7 +23,7 @@
 
 <div class="box box-primary" >
                              <div class="box-header with-border">
-                                   <h3 class="box-title">Crear Pedido de Compras</h3>
+                                   <h3 class="box-title">Movimientos de Almacen</h3>
                              </div><!-- /.box-header -->
                 <!-- form start -->
  <form name="inputStocksCreateForm" role="form" novalidate>
@@ -167,8 +167,8 @@
           <div  class="col-md-3">
           <div class="form-group" ng-class="{true: 'has-error'}[ inputStocksCreateForm.warehouse.$error.required && inputStocksCreateForm.$submitted || inputStocksCreateForm.warehouse.$dirty && inputStocksCreateForm.warehouse.$invalid]">
                        <label for="Tienda">Almacen: </label>
-                       <select ng-disabled="mostrarCreate" class="form-control" name="warehouse" ng-click="seleccionarWarehouse()" ng-model="purchase.warehouses_id" ng-options="item.id as item.nombre for item in warehouses" required>
-                       <option value="">--Elija warehouses_id--</option>
+                       <select ng-disabled="mostrarCreate" class="form-control" name="warehouse"  ng-model="purchase.warehouses_id" ng-options="item.id as item.nombre for item in warehouses" required>
+                       <option value="">--Elija almacen--</option>
                        </select>
                        <label ng-show="inputStocksCreateForm.$submitted || inputStocksCreateForm.warehouse.$dirty && inputStocksCreateForm.warehouse.$invalid">
                                 <span ng-show="inputStocksCreateForm.warehouse.$invalid"><i class="fa fa-times-circle-o"></i>Requerido.</span>
@@ -211,7 +211,7 @@
           <div class="col-md-2">
           <div class="form-group" ng-class="{true: 'has-error'}[ inputStocksBodyCreateForm.nombre.$error.required && inputStocksBodyCreateForm.$submitted || inputStocksBodyCreateForm.nombre.$dirty && inputStocksBodyCreateForm.nombre.$invalid]">
                       <label for="nombre">Cantidad</label>
-                      <input ng-disabled="!product.proId" type="Number" class="form-control" name="nombre" placeholder="Nombre" ng-blur="verStockActual()" ng-model="inputStock.cantidad_llegado" required>
+                      <input ng-disabled="Listo" type="Number" class="form-control" name="nombre" placeholder="Nombre" ng-blur="verStockActual()" ng-model="inputStock.cantidad_llegado" required>
                       <label ng-show="inputStocksBodyCreateForm.$submitted || inputStocksBodyCreateForm.nombre.$dirty && inputStocksBodyCreateForm.nombre.$invalid">
                         <span ng-show="inputStocksBodyCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>
@@ -221,13 +221,14 @@
                 <div class="input-group">
                 <div class="form-group" ng-class="{true: 'has-error'}[ inputStocksBodyCreateForm.empresa.$error.required && inputStocksBodyCreateForm.$submitted || inputStocksBodyCreateForm.empresa.$dirty && inputStocksBodyCreateForm.empresa.$invalid]">
               
-              <label>Producto</label>
+              <label>Producto(Stock Actual:@{{inputStock.CantidaStock}})</label>
                 
-               <input typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId"  name="empresa" placeholder="Locations loaded via $http" 
-               typeahead="product as product.proNombre+'/'+product.BraName+'/'+product.TName+'/'+product.NombreAtributos for product in products | filter:$viewValue | limitTo:8" 
+               <input ng-Disabled="check" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId"  name="empresa" placeholder="Locations loaded via $http" 
+               typeahead="product as product.proNombre+'('+(product.BraName==null ? '': product.BraName+'/')+(product.TName==null ? '' : product.TName+'/')+(product.Mnombre==null ? '':product.Mnombre+'/')+(product.NombreAtributos==null ? '':product.NombreAtributos)+')' for product in products | filter:$viewValue | limitTo:8" 
                typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
                tooltip="Ingrese caracteres para busacar producto por nombre"
             required >
+            
          
                     <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
             <div ng-show="noResults">
@@ -239,16 +240,59 @@
         </div> 
         </div>
           </div>
-          <div class="col-md-5">
-                    <div class="form-group" >
-                      <label for="notas">Descripcion</label>
-                      <textarea type="notas" class="form-control" name="notas" placeholder="Descripcion"
-                      ng-model="inputStock.descripcion" rows="2" cols="50"></textarea>
-                     </div>
-          </div>
+          <div ng-hide="check" class="col-md-2">
+           
+              <div class="form-group" >
+                <label for="Variante">Taco</label>
+                <select ng-Disabled="!Listo" class="form-control"   ng-click="mostrarTallas(detailOrderPurchase.taco)" ng-model="detailOrderPurchase.taco" ng-options="item.valorDetAtr as item.nomCortoVar+': '+item.valorDetAtr for item in variants">
+                  <option value="">--Elija Num Taco--</option>
+                </select>
+                <!--@{{variants.varid}}-->
+                </div>
+            </div>
+             <div ng-show="check" class="col-md-3">
+            <label for="Variante">Busca Por Sku</label>
+            <div class="form-group">
+            <input type="text" ng-enter="searchSkuEstock(variant.sku)" class="form-control" placeholder="Ingrse Sku" ng-model="variant.sku">
+            </div>
+            </div>
+            <div class="col-md-3">
+               <em>¿POR SKU?</em>
+                      <div   class="form-group" >                            
+                            <input  ng-click="soloFinta()" type="checkbox"  name="variantes" ng-model="check" />
+                            
+                        </div>
+                </div>
+          
       
           
      </div>
+       <div class="row">
+  <div class="col-md-1">
+       </div>
+  <div class="col-md-10">
+  <div ng-hide="mostrarPresentacion" class="well well-lg">
+   <em>Las Tallas Disponibles Para este Producto Son</em>
+  <div class="row">
+       <div ng-repeat="item in atributes">
+       <div class="col-md-1">
+       </div>
+       <div class="col-md-2" >
+               <div class="input-group" ng-value="item.valorDetAtr">
+                 <!-- <input  type="checkbox"  ng-click="quitarTalla(item.numTalla,cheked1)" ng-model="cheked1"  />@{{item.numTalla}}
+                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.numTalla)" step="1" rquired>-->
+                  <input  type="checkbox"  ng-click="quitarTalla(item.valorDetAtr,cheked1)" ng-model="cheked1"  />@{{item.valorDetAtr}}
+                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(item.stockActual,item.NombreAtributos,item.varSku,item.varCodigo,cantidad,item.valorDetAtr)" step="1" rquired>
+                  <em>Stock:@{{item.stockActual}}</em>
+              </div>    
+       </div>
+       
+     
+      </div>
+  </div>  
+  </div>
+  </div>
+</div>  
      <div ng-show="mostrarCreate" class="row">
         <div class="col-md-1">
         </div>
@@ -262,7 +306,7 @@
         <div ng-if="purchase.tipo=='Transferencia'" class="col-md-3">
           <div class="form-group" ng-class="{true: 'has-error'}[ inputStocksCreateForm.warehouse.$error.required && inputStocksCreateForm.$submitted || inputStocksCreateForm.warehouse.$dirty && inputStocksCreateForm.warehouse.$invalid]">
                        <label for="Tienda">Alamcen Destino: </label>
-                       <select  class="form-control" name="warehouse" ng-click="seleccionarWarehouse()" ng-model="purchase.warehouDestino_id" ng-options="item.id as item.nombre for item in warehouses" required>
+                       <select  class="form-control" name="warehouse"  ng-model="purchase.warehouDestino_id" ng-options="item.id as item.nombre for item in warehouses" required>
                        <option value="">--Elija warehouses_id--</option>
                        </select>
                        <label ng-show="inputStocksCreateForm.$submitted || inputStocksCreateForm.warehouse.$dirty && inputStocksCreateForm.warehouse.$invalid">
@@ -271,19 +315,14 @@
                        
           </div>
         </div>
-        <div ng-show="check" class="col-md-3">
-            <label for="Variante">Busca Por Sku</label>
-            <div class="form-group">
-            <input type="text" ng-enter="searchSkuEstock(variant.sku)" class="form-control" placeholder="Ingrse Sku" ng-model="variant.sku">
-            </div>
-            </div>
-            <div class="col-md-3">
-               <em>¿POR SKU?</em>
-                      <div   class="form-group" >                            
-                            <input ng-disabled="orderPurchase.cancelar" type="checkbox"  name="variantes" ng-model="check" />
-                            
-                        </div>
-                </div>
+        <div class="col-md-5">
+                    <div class="form-group" >
+                      <label for="notas">Descripcion</label>
+                      <textarea type="notas" class="form-control" name="notas" placeholder="Descripcion"
+                      ng-model="inputStock.descripcion" rows="2" cols="50"></textarea>
+                     </div>
+          </div>
+       
     </div>
       
     <div  ng-show="mostrarCreate" class="row">

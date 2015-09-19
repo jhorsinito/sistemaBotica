@@ -1,12 +1,11 @@
 <section class="content-header">
           <h1>
-            Tipos
+            Pago a Proveedores
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="/types">Tipos</li>
-            <li class="active">Crear</li>
+            <li><a href="/purchases"><i class="fa fa-dashboard"></i>compras</a></li>
           </ol>
 
           
@@ -18,7 +17,7 @@
 
           <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Crear Tipos</h3>
+                  <h3 class="box-title">Pago a Proveedores</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form name="paymentCreateForm" role="form" novalidate>
@@ -130,13 +129,13 @@
                             <span class="text-info"> <em>Pagar con caja mensual</em></span>
                         </div>
           </div>
-          <div ng-show="payment.cajamensual" class="col-md-5">
+          <!--<div ng-show="payment.cajamensual" class="col-md-5">
                    <em>Descripcion .</em>
                    <div class="form-group" >
                         <textarea ng-model="payment.descripcion" class="form-control input-lg">
                          </textarea>
                     </div>
-        </div>
+        </div>-->
          
         </div>
       </div>
@@ -155,17 +154,17 @@
                       <th>Descartar</th>
                     </tr>
                     
-                    <tr ng-repeat="row in detPayments">
+                    <tr  ng-repeat="row in detPayments">
                       <td ng-hide="true">@{{row.id}}</td>
                       <td ng-hide="true">@{{row.cashID}}</td>
-                      <td>@{{row.fecha}}</td>
+                      <td>@{{row.updated_at}}</td>
                       <td ng-if="row.nameMethod!=null">@{{row.nameMethod}}</td>
                       <td ng-if="row.detCash_id>0">@{{row.nombre}}</td>
                       <td ng-if="row.cashMonthly_id>0">caja Mensual</td>
                       <td>@{{row.montoPagado}}</td>
                       <td ng-if="row.tipoPago=='A'"><span class="badge bg-blue">@{{row.tipoPago}}</span></td> 
                       <td ng-if="row.tipoPago=='P'"><span class="badge bg-green">@{{row.tipoPago}}</span></td> 
-                     <td><button ng-Disabled="payment.Saldo<=0" type="button" class="btn btn-danger btn-xs"  ng-click="destroyPay(row)">
+                     <td><button ng-Disabled="payment.Saldo<=0 || row.tipoPago=='A'"  type="button" class="btn btn-danger btn-xs"  ng-click="destroyPay(row)">
                         <span class="glyphicon glyphicon-trash"></span></button>
                      <a ng-Disabled="payment.Saldo<=0" ng-click="editDetpayment(row)" ng-model="checked" class="btn btn-warning btn-xs">Edit</a></td>
                     </tr>
@@ -173,7 +172,7 @@
                     
                     
                   </table>
-                
+
                    <div class="box-footer clearfix">
                   <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" 
                   class="pagination-sm no-margin pull-right" items-per-page="itemsperPage" 

@@ -102,6 +102,7 @@ class PurchasesController extends Controller {
         $pendientAccount=$this->pendientAccountRepo->getModel();
         $var = $request->detailOrderPurchases;
         //var_dump($request->input('estado'));
+       // var_dump($var);die();
       //==================================Cancelar Factura
       if($request->input('estado')==2){
              //var_dump("hola");die();
@@ -178,7 +179,10 @@ class PurchasesController extends Controller {
       $orderPurchase->detPres()->detach();
        foreach($var as $object1){
         //$hola=$var[$n];
-        if(!empty($object1["cantidad1"])){
+        //$object[]
+        $object1["Cantidad_Ll"]=$object1["cantidad1"];
+        $object1["pendiente"]=floatval($object1["cantidad"])-floatval($object1["cantidad1"]);
+       /*if(!empty($object1["cantidad1"])){
             //var_dump("holay".$object1["cantidad1"]);die();
             //$object1["cantidad"]=$object1["Cantidad_Ll"];
             //$object1["pendiente"]=$object1["pendiente"];
@@ -206,7 +210,7 @@ class PurchasesController extends Controller {
             }
           }
         
-        }
+        }*/
         ////if($hola->cantidad1!=null){
         ////    $object1["Cantidad_Ll"]=$hola->Cantidad_Ll;
         ////    $object1["pendiente"]=$hola->pendiente;
@@ -225,6 +229,7 @@ class PurchasesController extends Controller {
         //$n++;
       }
        }
+    //   var_dump($var);die();
    } }
         //==============================================================================
         $almacen_id=$request->input("warehouses_id");
@@ -250,64 +255,10 @@ class PurchasesController extends Controller {
         $detailPurchaseRepox;
         $consulPayment=null;
         //$almacen_id=$request->input("warehouses_id");
-      //====================Creando y actualizando pagos si que existe adelantos====================================
-        if($request->input('compraDirecta')==1){
-          $request->merge(["Acuenta"=>0]);
-          $inserPay=new PaymentManager($payment,$request->all());
-          $inserPay->save();
-          
-        }else{
-        $consulPayment=$this->paymentRepo->paymentById($purchase->orderPurchase_id);
-        if($consulPayment==null){
-          $request->merge(["Acuenta"=>0]);
-          $inserPay=new PaymentManager($payment,$request->all());
-          $inserPay->save();
-          //------------------------------------
-          
-
-        }else{
-
-              $request->merge(["Acuenta"=>$consulPayment->Acuenta]);
-              $request->merge(["Saldo"=>(floatval($request->input("montoTotal"))-floatval($request->input("Acuenta")))]);
-              $inserPay=new PaymentManager($consulPayment,$request->all());
-              $inserPay->save();
-              //$saldoTemp=$inserPay->Saldo;
-        }
-      }
-        ///==========================Registrando saldo Afavor ========================================
-
-       if($request->input('Saldo')<0){
-           
-            $request->merge(['Saldo'=>$request->input('Saldo')*-1]);
-            //$request->merge(["estado"=>0]);
-            $insercount=new PendientAccountManager($pendientAccount,$request->except("estado"));
-            $insercount->save();
-             
-        }
-       if($consulPayment!=null){
-        $detPayment=$this->detPaymentRepo->verPagosAdelantados($consulPayment->id);
-          if($detPayment!=null){       
-          
-          foreach($detPayment as $detPayment){
-
-          if($detPayment->Saldo_F!=null){
-               $saldos=$this->pendientAccountRepo->find2($detPayment['Saldo_F']);
-            if($saldos!=null){
-              if($saldos->Saldo==0){                
-                 $request->merge(['Saldo'=>0]);
-                 $request->merge(['estado'=>1]);
-                 $request->merge(['orderPurchase_id'=>$saldos->orderPurchase_id]);
-                 $request->merge(['supplier_id'=>$saldos->supplier_id]);
-                 $insercount=new PendientAccountManager($saldos,$request->all());
-                 $insercount->save();
-              }
-            }
-            }
-          }
-       }}
-
+     
+      
       //========================================================================
-
+       $total=0;
        foreach($var as $object){
         
         //========================insertDEtalles=========================
@@ -320,7 +271,13 @@ class PurchasesController extends Controller {
            $stockmodel = new StockRepo;
            $stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
            if($request->input('estado')==1){
-                if(!empty($object["cantidad1"])){
+           // var_dump($object1["cantidad1"]);
+                $object["cantidad"]=$object["cantidad1"];
+                $object["montoBruto"]=floatval($object["cantidad1"])*floatval($object["preProducto"]);
+                $object["montoTotal"]=floatval($object["cantidad1"])*floatval($object["preCompra"]);
+                $total=$total+$object["montoTotal"];
+             //  var_dump($object["cantidad"]);
+                /*if(!empty($object["cantidad1"])){
                    $object["cantidad"]=$object["Cantidad_Ll"];
                 }else{
                   if($object["preCompra"]==0){
@@ -337,14 +294,16 @@ class PurchasesController extends Controller {
                            //}
                       }
                 }
-           }
+           }**/
            //***************************************************
            // $stockmodel = new StockRepo;
                   //$object['warehouse_id']=$almacen_id;
                   //$object["variant_id"]=$object["Codigovar"];
                   //$stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
+               $cantidaCalculada=floatval($object["cantidad1"])-floatval($object["Cantidad_Ll"]);
+                  /*
                   if(!empty($object["cantidad1"])){
-                      $cantidaCalculada=floatval($object["cantidad1"]);
+                      $cantidaCalculada=floatval($object["cantidad1"])-floatval($object["Cantidad_Ll"]);
                   }else{ 
                     if($object["preCompra"]==0){
                           $cantidaCalculada=floatval($object["cantidad"]);
@@ -355,7 +314,7 @@ class PurchasesController extends Controller {
                          $cantidaCalculada=floatval($object["cantidad"])-floatval($object["Cantidad_Ll"]);
                           }
                     }
-                  }
+                  }*/
       //*****************ssss*************************
            }else{
               $stockmodel = new StockRepo;
@@ -371,10 +330,19 @@ class PurchasesController extends Controller {
            $insertar->save();
            $detailPurchaseRepox = null;
          }
-          
-           
+        if($request->input('estado')==1){
+          $purchase1 = $this->purchaseRepo->find($temporal);
+          $request->merge(['montoBruto'=>floatval($total)]);
+          if(!empty($purchase1->descuento)){
+          $request->merge(['montoTotal'=>floatval($total)-((floatval($total)*floatval($purchase1->descuento))/100)]);
+        }else{
+          $request->merge(['montoTotal'=>floatval($total)]);
+        }
+          $manager = new PurchaseManager($purchase1,$request->except('fechaEntrega'));
+          $manager->save();
        
-        // }
+         }
+
         //======================Si Existe Stock Pendiente Por Agregar===============================
         if($cantidaCalculada>0){
           $inputStock = $this->inputStockRepo->getModel();
@@ -429,41 +397,109 @@ class PurchasesController extends Controller {
          }
        }
       //======================Creando reporte por cada linea de detalle de compra===============================
-      
+       //====================Creando y actualizando pagos si que existe adelantos====================================
+        if($request->input('compraDirecta')==1){
+          $request->merge(["Acuenta"=>0]);
+          $inserPay=new PaymentManager($payment,$request->all());
+          $inserPay->save();
+          
+        }else{
+        $consulPayment=$this->paymentRepo->paymentById($purchase->orderPurchase_id);
+        if($consulPayment==null){
+          $request->merge(["Acuenta"=>0]);
+          $inserPay=new PaymentManager($payment,$request->all());
+          $inserPay->save();
+          //------------------------------------
+          
+
+        }else{
+
+              $request->merge(["Acuenta"=>$consulPayment->Acuenta]);
+              $request->merge(["Saldo"=>(floatval($request->input("montoTotal"))-floatval($request->input("Acuenta")))]);
+              $inserPay=new PaymentManager($consulPayment,$request->all());
+              $inserPay->save();
+              //$saldoTemp=$inserPay->Saldo;
+        }
+      }
+      if($request->input('Saldo')<0){
+           
+            $request->merge(['Saldo'=>$request->input('Saldo')*-1]);
+            //$request->merge(["estado"=>0]);
+            $insercount=new PendientAccountManager($pendientAccount,$request->except("estado"));
+            $insercount->save();
+             
+        }
+       if($consulPayment!=null){
+        $detPayment=$this->detPaymentRepo->verPagosAdelantados($consulPayment->id);
+          if($detPayment!=null){       
+          
+          foreach($detPayment as $detPayment){
+
+          if($detPayment->Saldo_F!=null){
+               $saldos=$this->pendientAccountRepo->find2($detPayment['Saldo_F']);
+            if($saldos!=null){
+              if($saldos->Saldo==0){                
+                 $request->merge(['Saldo'=>0]);
+                 $request->merge(['estado'=>1]);
+                 $request->merge(['orderPurchase_id'=>$saldos->orderPurchase_id]);
+                 $request->merge(['supplier_id'=>$saldos->supplier_id]);
+                 $insercount=new PendientAccountManager($saldos,$request->all());
+                 $insercount->save();
+              }
+            }
+            }
+          }
+       }}
+
+        ///==========================Registrando saldo Afavor ========================================
+
 }
       \DB::commit();
      return response()->json(['estado'=>true, 'nombres'=>$purchase->nombres]);
     }
-    public function reportes(){
+    public function reportes($id){
+    // var_dump($id);die();
         $database = \Config::get('database.connections.mysql');
         $time=time();
-        $output = public_path() . '/report/'.$time.'_tikets';        
+        $output = public_path() . '/report/'.$time.'_Tiket';        
         $ext = "pdf";
         
         \JasperPHP::process(
-            public_path() . '/report/tikets.jasper', 
+            public_path() . '/report/Tiket.jasper', 
             $output, 
             array($ext),
             //array(),
             //while($i<=3){};
-            ['idVariante' => $temporal],//Parametros
+            ['idVariante'=>$id],//Parametros
               
             $database,
             false,
             false
         )->execute();
+        return response()->json(['estado'=>true]);
+   
+    }
+     public function reportesCod($id){
+     // var_dump("hola commd");die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_CodigoBarras';        
+        $ext = "pdf";
+        
         \JasperPHP::process(
             public_path() . '/report/CodigoBarras.jasper', 
             $output, 
             array($ext),
             //array(),
             //while($i<=3){};
-            ['idVariante' => $temporal],//Parametros
+            ['VarCode'=>$id],//Parametros
               
             $database,
             false,
             false
         )->execute();
+        return response()->json(['estado'=>true]);
+   
     }
     public function find($id)
     {

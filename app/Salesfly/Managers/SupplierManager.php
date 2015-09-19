@@ -12,6 +12,7 @@ class SupplierManager extends BaseManager {
                             'codigo'=>'required|unique:suppliers,codigo,'.$this->entity->id,
                             'direccionfiscal'=>'',
                             'ruc'=>'',
+                            'dni' =>'',
                             'numcuenta'=>'',
                             'fechanac'=>'',
                             'fijo'=>'',

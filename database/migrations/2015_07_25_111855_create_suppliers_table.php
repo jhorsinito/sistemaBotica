@@ -17,9 +17,10 @@ class CreateSuppliersTable extends Migration
             $table->string('nombres');
             $table->string('apellidos');
             $table->string('empresa');
-            $table->string('codigo')->unique();
+            $table->integer('codigo')->unique();
             $table->string('direccionfiscal');
             $table->string('ruc');
+            $table->string('dni'); //no unique porque no se puede poner vacio en dos filas y no es necesario para ser agregado.
             $table->string('numcuenta');
             $table->dateTime('fechanac');
             $table->string('fijo');

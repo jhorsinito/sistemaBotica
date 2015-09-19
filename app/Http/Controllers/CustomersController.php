@@ -51,6 +51,22 @@ class CustomersController extends Controller {
     public function create(Request $request)
     {
         $customer = $this->customerRepo->getModel();
+
+        //===================autogenerado========================//
+
+        if($request->input('autogenerado') === true) {
+            $codigo = \DB::table('customers')->max('codigo');
+            if (!empty($codigo)) {
+                $codigo = $codigo + 1;
+            } else {
+                $codigo = 1; //inicializar el sku;
+            }
+            $request->merge(array('codigo' => $codigo));
+        }else{
+
+        }
+
+        //================fin auto==============================//
         //var_dump($request->all());
         //die();
         //print($customer); die();
@@ -86,6 +102,21 @@ class CustomersController extends Controller {
     public function edit(Request $request)
     {
         $customer = $this->customerRepo->find($request->id);
+        //===================autogenerado========================//
+
+        if($request->input('autogenerado') === true) {
+            $codigo = \DB::table('customers')->max('codigo');
+            if (!empty($codigo)) {
+                $codigo = $codigo + 1;
+            } else {
+                $codigo = 1; //inicializar el sku;
+            }
+            $request->merge(array('codigo' => $codigo));
+        }else{
+
+        }
+
+        //================fin auto==============================//
         //var_dump($request->except('fechaNac'));
         //die();
         $manager = new CustomerManager($customer,$request->except('fechaNac'));
