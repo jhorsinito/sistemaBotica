@@ -107,6 +107,7 @@
                        //$scope.detPayment.fecha=new Date();
                 }
                 if($location.path() == '/orderPurchases/edit/'+$routeParams.id) {
+
                     crudPurchase.byId(id,'orderPurchases').then(function (data) {
                         $scope.orderPurchase = data;
                         $scope.codigoTemporalP=data.id;
@@ -649,6 +650,8 @@
                           $scope.orderPurchase.NumFactura='';
                           $scope.orderPurchase.NumSerie='';
                           $scope.orderPurchase.tipoDoc='';
+                        }else{
+                            $scope.orderPurchase.tipoDoc='F';
                         }
                     }
                     $scope.seleccionarDetPres=function(){
@@ -1114,10 +1117,38 @@
 
                 $scope.CrearCompra =function(){
                     //alert($scope.detailOrderPurchases.length);
+                if($scope.orderPurchase.cancelar){
+                    if(confirm("Esta seguro de querer cancelar esta orden!!!") == true){
+                                  $scope.orderPurchase.fechaEntrega=new Date();
+                                  $scope.orderPurchase.fecha=new Date();
+                                  $scope.orderPurchase.estado=1;
+                                  $scope.orderPurchase.orderPurchase_id=$scope.codigoTemporalP;
+                                  $scope.orderPurchase.detailOrderPurchases=$scope.detailOrderPurchases;
+
+                                  $scope.orderPurchase.Saldo=$scope.orderPurchase.montoTotal;
+                                  $scope.orderPurchases.push( $scope.orderPurchase);
+                                  //if($scope.orderPurchase.cancelar){
+                                    $scope.orderPurchase.Estado=2;
+                                    $scope.orderPurchase.estado=2;
+                                 //}
+                                  
+                                   crudPurchase.create($scope.orderPurchase, 'purchases').then(function (data) {
+                                       
+                                          if (data['estado'] == true) {
+                                              alert('Orden Cancelada');
+                                              $location.path('/orderPurchases');
+                                          } else {
+                                              $scope.errors = data;
+                                                        }
+                                      });
+                               }
+                              
+                }else{
                     $scope.tot=$scope.detailOrderPurchases.length;
                     for(var n=0;n<$scope.detailOrderPurchases.length;n++){
                         //alert(n);
                         //alert($scope.tot);
+
                         if($scope.detailOrderPurchases[n].cantidad1==undefined){
                             alert("por favor confirmar todas las filas!!");
                             break;
@@ -1151,7 +1182,7 @@
                                }
                              }
                          }
-                     }
+                     }}
                    /*
                     $scope.orderPurchase.fechaEntrega=new Date();
                     $scope.orderPurchase.fecha=new Date();

@@ -567,7 +567,7 @@
           <div class="col-md-3">
                <div class="form-group" >
                 <label for="tipo">Tipo documento</label>
-                <select class="form-control" ng-model="orderPurchase.tipoDoc" >
+                <select class="form-control"  ng-model="orderPurchase.tipoDoc" >
                         <option value="F">Factura</option>
                         <option value="B">Boleta</option>
                         <option value="T">Tique</option>
@@ -587,7 +587,7 @@
                   <div class="row">
                     <div class="col-md-11">
                     <button ng-if="orderPurchase.estados==0" ng-show="estados" type="submit" class="btn btn-primary" ng-click="updateDPurchase()">Guardar Cambios</button>
-                    <button ng-if="orderPurchase.estados==0" ng-show="estados1" type="submit" class="btn btn-primary" ng-click="CrearCompra()">Guardar Cambios E</button>
+                    <button ng-if="orderPurchase.estados==0" ng-show="estados1" type="submit" class="btn btn-primary" ng-click="CrearCompra()">Guardar Cambios</button>
                     <a ng-if="orderPurchase.estados==0" ng-show="estados" href="/orderPurchases" class="btn btn-danger">Cancelar</a>
                     <a ng-if="orderPurchase.estados==0" ng-show="estados1" href="/orderPurchases" class="btn btn-danger">Cancelar</a>
                     <a ng-if="orderPurchase.estados==1" href="/orderPurchases" class="btn btn-success btn-xs">Regresar</a>

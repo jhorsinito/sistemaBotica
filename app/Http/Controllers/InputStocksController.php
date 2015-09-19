@@ -58,6 +58,7 @@ class InputStocksController extends Controller
     }
     
     public function create(Request $request){
+       \DB::beginTransaction();
        $var =$request->detailOrderPurchases;
        $request->merge(["Fecha"=>$request->fecha]);
     //var_dump($request->input("Fecha"));die();
@@ -263,6 +264,7 @@ class InputStocksController extends Controller
             //fin actualiza Stock---------------------------------------------------
             $stockac=null;
         }}}}
+        \DB::commit();
        ////======================================================00
        return response()->json(['estado'=>true]);
 
