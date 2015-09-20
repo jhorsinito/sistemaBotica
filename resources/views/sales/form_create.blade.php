@@ -263,7 +263,7 @@
                     <div class="col-md-4">
                     <div class="form-group" >
                         <label for="year">Almacen</label>
-                        <select class="form-control" name="" ng-model="warehouse.id" ng-options="item.id as item.nombre for item in warehouses" ng-click="cargarAtributos()">
+                        <select class="form-control" name="" ng-model="warehouse.id" ng-options="item.id as item.nombre for item in warehouses">
                           <option value="">--Elije Almacen--</option>
                         </select>
                       </div>

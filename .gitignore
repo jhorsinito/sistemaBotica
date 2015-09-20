@@ -3,7 +3,7 @@
 #add for me
 /public/node_modules
 /public/vendor
-/public/report/*
+#/public/report/*
 /public/images/employees/*
 /public/images/products/*
 /public/images/users/*

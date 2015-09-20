@@ -78,7 +78,7 @@ public function create(Request $request) {
         }*/ 
         $orderSale->save();
 
-        $temporal=$orderSale->id;
+        $temporal=$orderSale->id; 
 
         //---create movimiento---
             $movimiento = $request->movimiento;
@@ -167,27 +167,6 @@ public function create(Request $request) {
         $material = $this->orderSaleRepo->find($id);
         return response()->json($material);
     }
-/*
-    public function edit(Request $request)
-    {
-        $material = $this->orderSaleRepo->find($request->id);
-        //var_dump($material);
-        //die(); 
-        $manager = new MaterialManager($material,$request->all());
-        $manager->save();
-
-        //Event::fire('update.material',$material->all());
-        return response()->json(['estado'=>true, 'nombre'=>$material->nombre]);
-    }
-
-    public function destroy(Request $request)
-    {
-        $material= $this->orderSaleRepo->find($request->id);
-        $material->delete();
-        //Event::fire('update.material',$material->all());
-        return response()->json(['estado'=>true, 'nombre'=>$material->nombre]);
-    }
-    */
 
     public function search($q)
     {
@@ -195,5 +174,73 @@ public function create(Request $request) {
         $orderSales = $this->orderSaleRepo->search($q);
 
         return response()->json($orderSales);
+    } 
+    public function edit(Request $request)
+    {
+        $varDetOrders = $request->detOrder;
+        $varPayment = $request->payment;
+        $movimiento = $request->movimiento;
+        if ($movimiento['montoMovimientoEfectivo']>0) {
+            //---create movimiento--- 
+            //var_dump($request->movimiento);die();
+            $detCashrepo;
+            $movimiento['observacion']="temporal";
+            $detCashrepo = new DetCashRepo;
+            $movimientoSave=$detCashrepo->getModel();
+        
+            $insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
+            $insertarMovimiento->save();
+    //---Autualizar Caja---
+            
+            $cajaAct = $request->caja;
+            $cashrepo;
+            $cashrepo = new CashRepo;
+            $cajaSave=$cashrepo->getModel();
+            $cash1 = $cashrepo->find($cajaAct["id"]);
+
+            $manager1 = new CashManager($cash1,$cajaAct);
+            $manager1->save();
+        //----------------
+
+            $salePaymentRepo;
+        $salePaymentRepo = new SalePaymentRepo;
+        $payment = $salePaymentRepo->find($varPayment['id']);
+        $manager = new SalePaymentManager($payment,$varPayment);
+        $manager->save();
+
+        }
+        
+        $detOrderSaleRepo;
+        foreach($varDetOrders as $object){
+            $detOrderSaleRepo = new DetOrderSaleRepo;
+
+            $detorderSale = $detOrderSaleRepo->find($object['id']);
+            $manager = new DetOrderSaleManager($detorderSale,$object);
+            $manager->save();
+
+            $stokRepo;
+            $stokRepo = new StockRepo;
+            $cajaSave=$stokRepo->getModel();
+            $stockOri = $stokRepo->find($object['id']);
+
+            $stock = $stokRepo->find($object['idStock']);
+            if ($object['estad']==true) {
+                $stock->stockPedidos= $stock->stockPedidos-$object['canPendiente'];
+            }else{
+                $stock->stockPedidos= $stock->stockPedidos+$object['canPendiente'];
+            }
+
+            $stock->save();
+        }
+
+        $orderSale = $this->orderSaleRepo->find($request->id);
+        $manager = new OrderSaleManager($orderSale,$request->all());
+        $manager->save();
+
+        
+
+
+
+        return response()->json(['estado'=>true, 'nombre'=>$orderSale->nombre]);
     }
 }
