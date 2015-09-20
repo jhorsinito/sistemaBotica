@@ -23,7 +23,7 @@ class CustomerTableSeeder extends Seeder
             'distrito' => 'Chiclayo',
             'provincia' => 'Chiclayo',
             'departamento' => 'Lambayeque',
-            'pais' => 'Perú',
+            'pais' => 'Peru',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);

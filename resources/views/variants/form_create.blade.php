@@ -195,11 +195,14 @@
 
                                     <span class="text-info"> <em> </em></span>
 
-                                    <div class="row" ng-show="variant.track">
+                                    <div class="" ng-show="variant.track">
 
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                Buscar Almacén: <input type="search"  ng-model="query" placeholder="buscar..." aria-label="buscar">
+                                        <div class="box-tools">
+                                            <div class="input-group" style="width: 150px;">
+                                                <input type="text" name="table_search" class="form-control input-sm pull-right" placeholder="Search" ng-model="query">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -231,7 +234,7 @@
                                                                                                     </div>
                                                                                                 </div>
                                                                                                  </span>
-                                        @{{variant.stock[0].warehouse_id}}
+
 
                                     </div>
                                 </div>

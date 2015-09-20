@@ -180,18 +180,20 @@
                 <tbody><tr>
                     <th>#</th>
                     <th>Almacén</th>
-                    <th>Ćodigo</th>
-                    <th>SKU</th>
                     <th>Stock Actual</th>
                     <th>Stock por llegar</th>
+                    <th>Ćodigo</th>
+                    <th>SKU</th>
+
                 </tr>
                 <tr ng-repeat="row in stockVariants">
                     <td>{{$index + 1}}</td>
                     <td>{{row.nombre}}</td>
-                    <td>{{row.codigo}}</td>
-                    <td>{{row.sku}}</td>
                     <td>{{row.stockActual}}</td>
                     <td>{{row.stockPorLlegar}}</td>
+                    <td>{{row.codigo}}</td>
+                    <td>{{row.sku}}</td>
+
                 </tr>
 
 
@@ -200,3 +202,10 @@
         </div><!-- /.box-body -->
     </div>
 </script>
+
+<style>
+.popover {
+min-width: 400px;
+width: auto;
+}
+</style>
