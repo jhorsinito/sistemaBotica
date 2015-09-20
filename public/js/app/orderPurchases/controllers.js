@@ -321,7 +321,7 @@
                 }*/
                   
                 $scope.sacarRow=function(index,total){
-                    if(confirm("Esta segura de querer eliminara este Producto de la lista!!!") == true){
+                    if(confirm("Esta segura de querer eliminar este Producto de la lista!!!") == true){
                       $scope.detailOrderPurchases.splice(index,1);
                       $scope.orderPurchase.montoBruto=parseFloat((parseFloat($scope.orderPurchase.montoBruto) - parseFloat(total)).toFixed(2));
                       $scope.orderPurchase.montoTotal=parseFloat((parseFloat($scope.orderPurchase.montoBruto)-((parseFloat($scope.orderPurchase.montoBruto)*parseFloat($scope.orderPurchase.descuento))/100)).toFixed(2));
@@ -1520,7 +1520,7 @@ $scope.recalPayments=function(){
                       $scope.mostrarBtnGEd=false;
                 }
                 $scope.destroyPay = function(row){
-                    if(confirm("Esta segura de querer eliminara este pago!!!") == true){
+                    if(confirm("Esta segura de querer eliminar este pago!!!") == true){
                     $scope.payment.detpId=row.id;
                     $scope.payment.Saldo_F=row.Saldo_F;
                     //$scope.detPayment.montoPagado=row.montoPagado;
