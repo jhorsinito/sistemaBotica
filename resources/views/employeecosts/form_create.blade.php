@@ -57,6 +57,11 @@
                       ng-model="employeecost.pasajes" >
                      </div>
                      <div class="form-group" >
+                      <label for="descripcion">Descuento</label>
+                      <input type="text" class="form-control" name="descripcion" placeholder="Total"
+                      ng-model="employeecost.total">
+                     </div>
+                     <div class="form-group" >
                       <label for="descripcion">Total</label>
                       <input type="text" class="form-control" name="descripcion" placeholder="Total"
                       ng-model="employeecost.total">

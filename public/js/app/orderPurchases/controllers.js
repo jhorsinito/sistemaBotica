@@ -650,6 +650,7 @@
                           $scope.orderPurchase.NumFactura='';
                           $scope.orderPurchase.NumSerie='';
                           $scope.orderPurchase.tipoDoc='';
+                          $scope.orderPurchase.tipoDoc='';
                         }else{
                             $scope.orderPurchase.tipoDoc='F';
                         }

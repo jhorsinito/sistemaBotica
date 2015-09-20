@@ -11,6 +11,7 @@ class EmployeecostManager extends BaseManager {
                     'seguro'=>'',
                     'menu'=>'',
                     'pasajes'=>'',
+                    'descuento'=>'',
                     'total'=>'',
                     'employee_id'=>''
                   ];
