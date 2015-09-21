@@ -694,7 +694,7 @@
                     });
                 }
                 $scope.destroyPay = function(row){
-                  if(confirm("Esta segura de querer eliminara este pago!!!") == true){
+                  if(confirm("Esta segura de querer eliminar este pago!!!") == true){
                     $scope.payment.detpId=row.id;
                     $scope.payment.cashMonthly_id=row.cashMonthly_id;
                     $scope.payment.detCash_id=row.detCash_id;

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Tiket" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b415bce5-dbb5-4d78-a1f0-81c7cccfaa54">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idVariante" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select variants.id as Idvar,products.modelo,variants.codigo,products.image,(select GROUP_CONCAT((CONCAT(atributes.nombre,"/",detAtr.descripcion)) SEPARATOR "-") from detAtr left join atributes on atributes.id=detAtr.atribute_id where detAtr.variant_id=Idvar and atributes.nombre='Taco' )as Taco,(select GROUP_CONCAT((CONCAT(atributes.nombre,"/",detAtr.descripcion)) SEPARATOR "-") from detAtr left join atributes on atributes.id=detAtr.atribute_id where detAtr.variant_id=Idvar and atributes.nombre='Talla' )as Talla from detPres inner join variants on variants.id=detPres.variant_id inner join detailPurchases on detailPurchases.detPres_id=detPres.id inner join purchases on purchases.id=detailPurchases.purchases_id inner join products on products.id=variants.product_id left join detAtr on detAtr.variant_id=variants.id left join atributes on atributes.id=detAtr.atribute_id where purchases.id=$P{idVariante} group by Idvar]]>
+	</queryString>
+	<field name="Idvar" class="java.lang.Long"/>
+	<field name="modelo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="codigo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="image" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Taco" class="java.lang.String"/>
+	<field name="Talla" class="java.lang.String"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="1"/>
+	</title>
+	<pageHeader>
+		<band/>
+	</pageHeader>
+	<columnHeader>
+		<band/>
+	</columnHeader>
+	<detail>
+		<band height="124">
+			<rectangle>
+				<reportElement x="17" y="12" width="217" height="97" uuid="0a6ef1e1-e908-4086-b64b-63a23f5dee4d"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="68" y="83" width="111" height="20" uuid="2aa1ed10-66f4-434a-8b8d-485f9cf900ff"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{modelo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="32" y="19" width="111" height="20" uuid="cd014187-f6ee-4f2f-bf29-4f8e15a6215e"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="31" y="52" width="111" height="20" uuid="3caa0c2d-97b1-4961-bf08-5c2e04ecb121"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Taco}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="155" y="24" width="79" height="20" uuid="c8e2c71d-65a4-4d86-95a8-c4bcecc9374e"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Talla}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="234" y="12" width="100" height="97" uuid="0f96609c-08d6-43d3-8bab-64d812bbf0f8"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="31" y="83" width="37" height="20" uuid="9b702ada-f887-4e35-972b-598af8f4b17b"/>
+				<text><![CDATA[MOD:]]></text>
+			</staticText>
+			<image>
+				<reportElement x="234" y="12" width="100" height="97" uuid="0459eea6-7a56-42fb-9526-9ee401cde13e"/>
+				<imageExpression><![CDATA["/usr/share/nginx/html/salesfly/public/"+$F{image}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band/>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

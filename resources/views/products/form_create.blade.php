@@ -147,7 +147,7 @@
                                           </div><!-- /.box-body -->
                                         </div><!-- /.box -->
 <!--  =============================================================================PRESENTACIONES===============================================================-->
-<div class="box box-default" id="price">
+<div class="box box-default" id="price" ng-hide="product.hasVariants">
                                                                     <div class="box-header with-border">
                                                                       <h3 class="box-title">Presentaciones del Producto     </h3>
                                                                         <button class="btn btn-xs btn-info btn-flat" data-toggle="modal" data-target="#presentation" ng-click="traerPres(product.presentation_base)" ng-disabled="enabled_presentation_button" >Añadir Presentación</button>
@@ -241,7 +241,7 @@
 
 <!--  =============================================================================FIN PRECIO DEL PRODUCTO.. ya no se usa===============================================================-->
 <!--  =============================================================================INVENTARIOS===============================================================-->
-                         <div class="box box-default" id="inventory">
+                         <div class="box box-default" id="inventory" ng-hide="product.hasVariants">
                                                                    <div class="box-header with-border">
                                                                      <h3 class="box-title">Inventario</h3>
                                                                      <div class="box-tools pull-right">

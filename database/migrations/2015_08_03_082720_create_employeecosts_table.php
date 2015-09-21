@@ -19,6 +19,7 @@ class CreateEmployeecostsTable extends Migration
             $table->decimal('seguro',10,2);
             $table->decimal('menu',10,2);
             $table->decimal('pasajes',10,2);
+            $table->decimal('descuento',10,2);
             $table->decimal('total',10,2);
             $table->integer('employee_id')->unsigned();
             $table->foreign('employee_id')->references('id')->on('employees');
