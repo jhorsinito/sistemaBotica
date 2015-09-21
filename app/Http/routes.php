@@ -556,6 +556,7 @@ Route::get('api/detCashes/search/{q?}',['as'=>'person_search', 'uses'=>'DetCashC
 Route::get('api/detCashes/find/{id}',['as'=>'person_find', 'uses'=>'DetCashController@find']);
 
 Route::get('api/detCashesSale/search/{q?}',['as'=>'person_search', 'uses'=>'DetCashController@searchSale']);
+Route::get('api/detCashesOrderSale/search/{q?}',['as'=>'person_search', 'uses'=>'DetCashController@searchOrderSale']);
 //-------------------------------------------------------------
 Route::get('api/cashMotives/select','CashMotivesController@select');
 Route::get('api/cashMotives/search/{q?}',['as'=>'person_search', 'uses'=>'CashMotivesController@search']);
@@ -593,6 +594,7 @@ Route::put('api/DetOrderSales/edit',['as'=>'person_edit', 'uses'=>'DetOrderSales
 Route::get('api/saleMethodPayments/select','SaleMethodPaymentController@select');
 Route::post('api/saledetPayments/create',['as'=>'person_create', 'uses'=>'SaleDetPaymentController@create']);
 Route::get('api/saledetPayments/find/{id}',['as'=>'person_create', 'uses'=>'SaleDetPaymentController@find']);
+Route::get('api/saledetPayments/paginate/',['as' => 'person_paginate', 'uses' => 'SaleDetPaymentController@paginatep']);
 Route::put('api/SalePayment/edit','SalePaymentController@edit');
 
 Route::get('api/pendientAccounts/paginate/','PendientAccountsController@paginatep');

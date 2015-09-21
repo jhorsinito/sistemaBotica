@@ -19,6 +19,9 @@ use Salesfly\Salesfly\Managers\DetCashManager;
 use Salesfly\Salesfly\Repositories\SaleRepo;
 use Salesfly\Salesfly\Managers\SaleManager;
 
+use Salesfly\Salesfly\Repositories\OrderSaleRepo;
+use Salesfly\Salesfly\Managers\OrderSaleManager;
+
 class SaleDetPaymentController extends Controller {
 
     protected $saleDetPaymentRepo;
@@ -32,6 +35,10 @@ class SaleDetPaymentController extends Controller {
 
 
 
+    public function paginatep(){
+        $persons = $this->saleDetPaymentRepo->paginate(5);
+        return response()->json($persons);
+    }
     
 
     public function searchDetalle($id)
@@ -45,9 +52,46 @@ class SaleDetPaymentController extends Controller {
     //------------------------------------------------------
     public function create(Request $request)
     {
-        //var_dump($request->input("Saldo"));die();
+        //var_dump($request->detPayments);die();
         $saldo=$request->input("Saldo");
-        $temporal=$request->input("orderSale_id");
+        if ($request->input("tipo")=='order') {
+            
+            $var1=$request->sale;
+            
+
+            $saleTemporal=$var1["id"];
+
+            $salerepo;
+
+            $salerepo = new OrderSaleRepo;
+            $saleSave=$salerepo->getModel();
+
+            $saleEdit = $saleSave->find($saleTemporal);
+            //var_dump($saleEdit);die();
+            if($saldo=='0'){$var1['estado']='0';}
+            $manager = new OrderSaleManager($saleEdit,$var1);
+            $manager->save();
+
+            $temporal=$request->input("orderSale_id");
+        }else if ($request->input("tipo")=='sale') {
+            $var2=$request->sale;
+            
+            $saleTemporal1=$var2["id"];
+
+            $order;
+
+            $order = new  SaleRepo;
+            $orderSave=$order->getModel();
+
+            $orderEdit = $orderSave->find($saleTemporal1);
+            //var_dump($orderEdit);die();
+            if($saldo=='0'){$var2['estado']='0';}
+            $manager = new SaleManager($orderEdit,$var2);
+            $manager->save();   
+
+            $temporal=$request->input("sale_id");
+        }
+        
         //---create movimiento---
             $movimiento = $request->movimiento;
             $detCashrepo;
@@ -97,20 +141,8 @@ class SaleDetPaymentController extends Controller {
         $manager->save();
 
         //------------------------------------
-
-        $var1=$request->sale;
+        //var_dump($grabar);die();
         
-        $saleTemporal=$var1["id"];
-
-        $salerepo;
-
-        $salerepo = new SaleRepo;
-        $saleSave=$salerepo->getModel();
-
-        $saleEdit = $saleSave->find($saleTemporal);
-        if($saldo=='0'){$var1['estado']='0';}
-        $manager = new SaleManager($saleEdit,$var1);
-        $manager->save();
 
         //------------------------------------
 
@@ -118,8 +150,9 @@ class SaleDetPaymentController extends Controller {
         $detPayment = $this->saleDetPaymentRepo->getModel();
         $detPayment['numCaja']=$temporal2;
 
+        $grabar=$request->detPayments;
 
-        $manager = new SaleDetPaymentManager($detPayment,$request->detPayments);
+        $manager = new SaleDetPaymentManager($detPayment,$grabar);
         $manager->save();
        /* if($this->detPaymentRepo->validateDate(substr($request->exedetPayments['fecha'],0,10))){
             $request->detPayments['fecha'] = substr($request->detPayments['fecha'],0,10);
