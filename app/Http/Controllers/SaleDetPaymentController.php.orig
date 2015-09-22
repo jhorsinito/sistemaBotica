@@ -54,6 +54,7 @@ class SaleDetPaymentController extends Controller {
     {
         //var_dump($request->detPayments);die();
         $saldo=$request->input("Saldo");
+<<<<<<< HEAD
         if ($request->input("tipo")=='order') {
             
             $var1=$request->sale;
@@ -92,6 +93,9 @@ class SaleDetPaymentController extends Controller {
             $temporal=$request->input("sale_id");
         }
         
+=======
+        $temporal=$request->input("sale_id");
+>>>>>>> 788c8c5373cd064f1fbe1ad9280ed031fa6eaa45
         //---create movimiento---
             $movimiento = $request->movimiento;
             $detCashrepo;

@@ -14,7 +14,7 @@
 
         <section class="content"> 
         <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12"> 
 
           <div class="box box-primary">
                 <div class="box-header with-border">
@@ -45,6 +45,7 @@
                   <div class="tab-pane active" id="tab_1">
                     
                       <div class="row">
+                      
                         <div class="col-md-3">
 
                             <div class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.fechaPedido.$error.required &amp;&amp; orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.fechaPedido.$dirty &amp;&amp; orderPurchaseCreateForm.fechaPedido.$invalid]">
@@ -73,16 +74,13 @@
                         <div class="box-header with-border" style="background-color: #D7EAE3; border-style: solid;
                               border-width: 2px; border-color: #C8D9F7; border-radius: 10px 10px 0px 0px;">
                           <div class="row">
-                            <div class="col-md-7" ng-show="skuestado">
-                              <input type="text" ng-model="varianteSkuSelected" placeholder="Buscar por SKU" ng-change="getvariantSKU()" class="form-control">
+                            <div class="col-md-9" ng-show="skuestado">
+                              <input type="text" ng-model="varianteSkuSelected" placeholder="Buscar por SKU" ng-enter="getvariantSKU()" class="form-control">
                             </div>
 
-                            <div class="col-md-7" ng-show="!skuestado">
-                              <input  type="text" ng-model="atributoSelected" placeholder="Buscar por codigo" typeahead="atributo as atributo.NombreAtributos for atributo in getAtributos($viewValue)" 
+                            <div class="col-md-9" ng-show="!skuestado">
+                              <input  type="text" ng-model="atributoSelected" ng-enter="open()" placeholder="Buscar por codigo" typeahead="atributo as atributo.NombreAtributos for atributo in getAtributos($viewValue)" 
                                     typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"/>
-                            </div>
-                            <div class="col-md-2" >
-                              <a ng-click="open()" class="btn btn-default ng-binding">ADD</a>
                             </div>
                             <div class="col-md-3" >
                             <div class="form-group">
@@ -98,7 +96,7 @@
                             
                             
      
-                           </div> 
+                           </div>
  
                         </div><!-- /.box-header -->
                         <div class="box-body" style="min-height: 400px; border-style: solid;
@@ -132,7 +130,7 @@
                                   <div class="row">
                                     <div class="col-md-10" >
                                       <input type="text" ng-model="customersSelected" placeholder="Buscar Cliente" typeahead="atributo as atributo.busqueda for atributo in getcustomers($viewValue)" 
-                                            typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"/>
+                                            typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" ng-enter="selecionarCliente()"/>
                                     </div>
                                     <div>
                                       <a class="btn btn-default ng-binding" data-toggle="modal" data-target="#miventana2"><span class="glyphicon glyphicon-plus"></span></a>
@@ -143,11 +141,11 @@
                                     <a ng-if="sale.cliente!=undefined"type="button" class="glyphicon glyphicon-remove-sign " ng-click="deleteCliente()"></a>
                                     @{{sale.cliente!=undefined? sale.cliente:'--No hay cliente seleccionado--'}}
                                   </div>
-                                </tr>
+                                </tr> 
                                 <tr>
                                   <div>
                                     <input type="text" ng-model="employeeSelected" placeholder="Buscar Vendedor" typeahead="atributo as atributo.busqueda for atributo in getemployee($viewValue)" 
-                                            typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"/>
+                                            typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" ng-enter="selecionarVendedor()"/>
                                   </div>
                                 </tr>
                                <tr>
@@ -165,8 +163,8 @@
                                     
                                     </div>
                                     <div class="col-md-5" >
-                                      <a ng-if="sale.montoTotal>0" class="btn btn-default ng-binding" data-toggle="modal" data-target="#miventana1" ng-click="pagar()">PAGAR</a>
-                                      <a ng-if="sale.montoTotal==0"class="btn btn-default ng-binding" ng-click="pagar()">PAGAR</a>
+                                      <a ng-if="sale.montoTotal>0 && sale.fechaEntrega!=undefined" class="btn btn-default ng-binding" data-toggle="modal" data-target="#miventana1" ng-click="pagar()">PAGAR</a>
+                                      <a ng-if="sale.montoTotal==0 || sale.fechaEntrega==undefined"class="btn btn-default ng-binding" ng-click="pagar()">PAGAR</a>
                                     </div>
                                   </div>
                                 </tr>
@@ -240,8 +238,8 @@
                       <td>@{{row.montoMovimientoTarjeta}}</td>
                       <td>@{{row.montoMovimientoEfectivo}}</td>
                       <td>@{{row.montoFinal}}</td>
-                      <td ng-if="row.cashMotive_id==1 || row.cashMotive_id==14"><a href="/sales/edit/@{{row.observacion}}" target="_blank">ver venta</a></td>
-                      <td ng-if="row.cashMotive_id!=1 && row.cashMotive_id!=14">@{{row.observacion}}</td>
+                      <td ng-if="row.cashMotive_id==15 || row.cashMotive_id==16"><a href="/orderSales/edit/@{{row.observacion}}" target="_blank">ver pedido</a></td>
+                      <td ng-if="row.cashMotive_id!=15 && row.cashMotive_id!=16">@{{row.observacion}}</td>
                     </tr>                   
                   </table>
                   <div class="box-footer clearfix">
@@ -328,7 +326,7 @@
           <label>@{{dynamicPopover.title}}</label>
           <div class="row" >
           <div class="col-md-9">
-            <input type="number" ng-model="compras[$index].cantidad" ng-change="calcularmontos($index)" class="form-control">
+            <input type="number" min="0"ng-model="compras[$index].cantidad" ng-change="calcularmontos($index)" class="form-control">
             </div>
             <button type="button" class="btn btn-xs" ng-click="aumentarCantidad($index)">
             <span type="button" class="glyphicon glyphicon-plus"></span></button>
@@ -362,7 +360,7 @@
             <label>@{{dynamicPopover1.title}}</label>
             <div class="row" >
             <div class="col-md-9">
-            <input type="number" ng-change="calcularmontos($index)" ng-model="compras[$index].precioVenta" class="form-control">
+            <input type="number" min="0" ng-change="calcularmontos($index)" ng-model="compras[$index].precioVenta" class="form-control">
           </div>
          <button type="button" class="btn btn-xs" ng-click="aumentarPrecio($index)">
           <span type="button" class="glyphicon glyphicon-plus"></span></button>
@@ -400,7 +398,7 @@
             <label>@{{dynamicPopover2.title}}</label>
             <div class="row" >
             <div class="col-md-8">
-            <input type="number" ng-model="sale.montoTotal" ng-change="keyUpTotalPedido()" class="form-control">
+            <input type="number" min="0" ng-model="sale.montoTotal" ng-change="keyUpTotalPedido()" class="form-control">
           </div>
          <button type="button" class="btn btn-xs" ng-click="aumentarTotalPedido()">
           <span type="button" class="glyphicon glyphicon-plus"></span></button>
@@ -419,24 +417,28 @@
       <div class="form-group">
           <label>@{{dynamicPopover5.title}}</label>
         </div>
-        <table class="table table-bordered">
-          <tr>
-          <th>Stock</th>
-          <th>@{{compras[$index].Stock}}</th>
-          </tr>
-          <tr>
-          <th>Pedidos</th>
-          <th>@{{compras[$index].stockPedidos}}</th>
-          </tr>
-          <tr>
-          <th>Separados</th>
-          <th>@{{compras[$index].stockSeparados}}</th>
-          </tr>
-          <tr></tr>
-          <th>precio</th>
-          <th>@{{compras[$index].precioProducto}}</th>
-          <tr></tr>
-        </table>
+
+        <div>
+        <label>Stock : </label>
+        <label>@{{compras[$index].Stock}}</label>
+        </div>
+
+        <div>
+        <label>Pedidos : </label>
+        <label>@{{compras[$index].stockPedidos}}</label>
+        </div>
+
+        <div>
+        <label>Separados : </label>
+        <label>@{{compras[$index].stockSeparados}}</label>
+        </div>
+
+        <div>
+        <label>precio : </label>
+        <label>@{{compras[$index].precioProducto}}</label>
+        </div>
+
+
           
                  
     </script>
@@ -531,7 +533,7 @@
                      </div>
 
                     <div class="row" >
-                    <div class="col-md-3"> 
+                    <div class="col-md-6"> 
                     <div class="form-group" >
                       <label for="ruc">RUC</label>
                       <input type="text" class="form-control" name="ruc" placeholder="ruc"
@@ -539,14 +541,23 @@
                      </div>
                      </div>
                      <div class="col-md-3"> 
-                    <div class="form-group" >
-                      <label for="codigo">Código de Cliente</label>
-                      <input type="text" class="form-control" name="codigo" placeholder="codigo de cliente"
-                      ng-model="customer.codigo">
-                     </div>
-                     </div>
+                        <div class="form-group" >
+                                      <label for="codigo">Código de Cliente</label>
+                                      <input type="text" class="form-control" name="codigo" placeholder="codigo de cliente"
+                                             ng-model="customer.codigo" ng-disabled="customer.autogenerado" ng-required="!customer.autogenerado">
+                                      <span style="color:#dd4b39;" ng-show="customerCreateForm.codigo.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                  </div>
+                      </div>
 
-                    <div class="col-md-6"> 
+                        <div class="col-md-3">
+                                  <div class="form-group">
+                                      <label for="apellidos">Autogenerado</label><br>
+                                      <input type="checkbox" ng-model="customer.autogenerado"> Cód. gen.
+                                  </div>
+                              </div>
+                    </div>
+                    <div class="row" >
+                    <div class="col-md-5"> 
                     <div class="form-group" ng-class="{true: 'has-error'}[ customerCreateForm.fechaNac.$error.required && customerCreateForm.$submitted || customerCreateForm.fechaNac.$dirty && customerCreateForm.fechaNac.$invalid]">
                     <label for="fechaNac">Fecha de Nac.</label>
                                         <div class="input-group">
@@ -560,9 +571,7 @@
                       </div>
                      </div>
                      </div>
-                     </div>
-                     <div class="row" >
-                     <div class="col-md-4"> 
+                     <div class="col-md-3"> 
                       <div class="form-group">
                                             <label>Género</label>
                                             <select name="genero" class="form-control" ng-model="customer.genero">
@@ -573,6 +582,25 @@
                                             </select>
                       </div>
                       </div>
+                      <div class="col-md-4">
+            <div class="form-group" >
+                <label for="dni">DNI</label>
+                <input type="text" class="form-control" name="dni" placeholder="8 dígitos"
+                       ng-model="customer.dni">
+            </div>
+        </div>
+                     </div>
+
+
+                     <div class="">
+                          <hr>
+                          <button type="button" class="btn btn-default" ng-click="toggle()">Mostrar Formulario de Contacto</button>
+                          <hr>
+                      </div>
+
+                <div ng-show="show" >
+                     <div class="row" >
+                     
 
                     <div class="col-md-4">  
                     <div class="form-group" >
@@ -651,6 +679,7 @@
                       ng-model="customer.notas"></input>
                      </div>
                       </div>
+                  </div>
                         <!--================================================-->
                         <div class="modal-footer" >
                           <button type="submit" class="btn btn-primary" ng-click="createCustomer()">Crear</button>
@@ -680,20 +709,20 @@
                     <tr>
                       <td>Cash</td>
                       <td>
-                        <input type="number" class="form-control" name="cash" placeholder=""
+                        <input type="number" min="0.00"class="form-control" name="cash" placeholder=""
                           ng-model="pago.cash" ng-change="calcularVuelto()"></input>
                       </td>                    
                     </tr>
                     <tr>
 
                       <td>Tarjeta</td>
-                      <td><input type="number" class="form-control" name="tarjeta" placeholder=""
+                      <td><input type="number" min="0.00"class="form-control" name="tarjeta" placeholder=""
                           ng-model="pago.tarjeta" ng-change="calcularVuelto()"></input>
                       </td>
                     </tr>
                     <tr> 
                       <td>
-                          
+                          <a class="btn btn-success btn-xs" ng-click="limpiartipoTarjeta()">Clear</a>   
                       </td>
                       <td>
                         <div class="btn-group">

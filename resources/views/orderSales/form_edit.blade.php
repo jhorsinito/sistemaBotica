@@ -9,7 +9,6 @@
             <li class="active">Ver</li>
           </ol>
 
-          
         </section>
  
         <section class="content">
@@ -115,7 +114,7 @@
                       <td>@{{row.cantidad}}</td>
                       <td>@{{row.canEntregado}}</td>
                       <td>@{{row.canPendiente}}</td>
-                      <td ng-if="atenderOrder"><input style="width: 45px" ng-disabled="row.estad" ng-model="row.parteEntregado" string-to-number ng-change="ActualizarPartStock(row,$index)" type="number" placeholder="@{{row.canPendiente}}" ></td>          
+                      <td ng-if="atenderOrder"><input style="width: 45px" ng-disabled="row.estad" ng-model="row.parteEntregado" string-to-number ng-change="ActualizarPartStock(row,$index)" type="number" min="0" placeholder="@{{row.canPendiente}}" ></td>          
                       <td ng-if="atenderOrder"><input type="checkbox" ng-disabled="row.estad1" ng-click="cancelOrderProduc(row,$index)" name="estado" ng-model="row.estad" ng-checked="row.estad" class="ng-valid ng-dirty ng-valid-parse ng-touched"></td>
                       
                       <!--<td><a ng-click="sacarRow(row.index,row.montoTotal)" class="btn btn-warning btn-xs">Sacar</a></td>
@@ -203,7 +202,7 @@
                       <td>@{{row.Saldo}}</td>
                       <td>@{{row.sale_id}}</td>  
                       
-              <td><progressbar animate="false" value="dynamic" type="success"><b>10%</b></progressbar></td>
+              <td><progressbar class="progress-striped active" value="row.PorPagado" type="@{{type}}">@{{row.PorPagado}}%</progressbar></progressbar></td>
 
                     </tr>
                     
@@ -213,9 +212,9 @@
             </div><!-- /.box-body -->
             <div class="box-body">
         <div class="row">
-      <div  class="col-md-6" align="center" ng-if="payment[0].Saldo==0">
+      <div  class="col-md-6" align="center" ng-if="payment[0].Saldo<=0">
       </div>
-     <div  class="col-md-6" align="center"ng-if="payment[0].Saldo!=0">
+     <div  class="col-md-6" align="center"ng-if="payment[0].Saldo>0">
                  <div  class="form-group" >
                       <b>Agrega Pago</b>
                  </div>
@@ -251,7 +250,7 @@
               </td>
               <td>
                      <div class="form-group" >
-                       <input type="number" class="form-control" ng-model='detPago.monto' ng-blur='recalPayments()' name="markup" placeholder="0.00"  step="0.1">
+                       <input type="number" class="form-control" ng-model='detPago.monto' ng-blur='recalPayments()' name="markup" placeholder="0.00"  step="0.1" min="0">
                      </div>
               </td>
               </tr>
@@ -269,7 +268,8 @@
                       <th>Fecha</th>
                       <th>Tipo de Pago</th>
                       <th>Monto Pagado</th>
-                      <th># Caja</th>
+                      <th>Tipo Pago</th>
+                      <th>Caja</th>
                       <th>Descartar</th>
                     </tr>
                     
@@ -278,6 +278,8 @@
                       <td>@{{row.fecha}}</td>
                       <td>@{{row.sale_method_payment.nombre}}</td>
                       <td>@{{row.monto}}</td>
+                      <td ng-if="row.tipoPago=='P'"><span class="badge bg-blue">@{{row.tipoPago}}</span></td> 
+                      <td ng-if="row.tipoPago=='C'"><span class="badge bg-green">@{{row.tipoPago}}</span></td>
                       <td><a href="/cashes/edit/@{{row.numCaja}}" target="_blank">@{{row.numCaja}}</a></td>
                      <td><button type="button" class="btn btn-danger btn-xs"  ng-click="destroyPay(row)">
                         <span class="glyphicon glyphicon-trash"></span></td>
@@ -288,7 +290,7 @@
                   <div class="box-footer clearfix">
                   <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" 
                   class="pagination-sm no-margin pull-right" items-per-page="itemsperPage" boundary-links="true" 
-                  rotate="false" num-pages="numPages" ng-change="pageChanged()"></pagination>
+                  rotate="false" num-pages="numPages" ng-change="pagechan2()"></pagination>
 
 
 

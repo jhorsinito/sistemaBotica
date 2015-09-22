@@ -44,7 +44,7 @@ angular.module('sales').controller('ModalInstanceCtrl', function ($scope,$log, $
         //$log.log(row);
         //alert("Equi : "+$scope.atributoSelected.equivalencia);
         //alert("stok : "+$scope.atributoSelected.Stock);
-        if(row.equivalencia<row.Stock || row.equivalencia==row.Stock){
+        if(row.equivalencia<(row.Stock-row.stockPedidos-row.stockSeparados) || row.equivalencia==(row.Stock-row.stockPedidos-row.stockSeparados)){
           crudServiceOrders.setPres(row);
 
           crudServiceOrders.AsignarCom();

@@ -9,6 +9,7 @@ class SaleDetPaymentManager extends BaseManager {
                     'fecha'=>'',
                     'monto'=>'',
                     'numCaja'=>'',
+                    'tipoPago'=>'',
             'salePayment_id' => '',
             'saleMethodPayment_id' => ''
                   ];

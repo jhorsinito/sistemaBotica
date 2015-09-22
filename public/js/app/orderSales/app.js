@@ -8,6 +8,19 @@
         'routes',
         'ui.bootstrap' 
     ]);
+    app.directive('ngEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.ngEnter);
+                });
+ 
+                event.preventDefault();
+            }
+        });
+    };
+});
     app.directive('stringToNumber', function() {
         return {
             require: 'ngModel',
@@ -42,14 +55,14 @@
         //$log.log(row);
         //alert("Equi : "+$scope.atributoSelected.equivalencia);
         //alert("stok : "+$scope.atributoSelected.Stock);
-        if(row.equivalencia<row.Stock || row.equivalencia==row.Stock){
-          crudServiceOrders.setPres(row);
+        //if(row.equivalencia<row.Stock || row.equivalencia==row.Stock){
+          crudServiceOrderSales.setPres(row);
 
-          crudServiceOrders.AsignarCom();
+          crudServiceOrderSales.AsignarCom();
           $scope.cancel();
-        }else{
-          alert("STOK Insuficioente");
-        }
+        //}else{
+          //alert("STOK Insuficioente");
+        //}
         //$log.log(row);
           //alert($scope.atributoSelected.NombreAtributos);
         //$scope.row1=row;
