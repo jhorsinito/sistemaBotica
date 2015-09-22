@@ -234,15 +234,15 @@
 
                 return deferred.promise;
             }
-            function Reportes(id,uri)
+            function Reportes(area,uri)
             {
                 var deferred = $q.defer();
-                $http.post('/api/'+uri+'/create/'+id).success(function (data) {
+                $http.post('/api/'+uri+'/create/',area).success(function (data) {
                     deferred.resolve(data);
                 });
-
                 return deferred.promise;
             }
+            //'/api/'+uri+'/create/'+id+'/'+can
             return {
                 all: all,
                 paginate: paginate,

@@ -244,7 +244,7 @@
            
               <div class="form-group" >
                 <label for="Variante">Taco</label>
-                <select ng-Disabled="!Listo" class="form-control"   ng-click="mostrarTallas(detailOrderPurchase.taco)" ng-model="detailOrderPurchase.taco" ng-options="item.valorDetAtr as item.nomCortoVar+': '+item.valorDetAtr for item in variants">
+                <select ng-Disabled="!Listo" class="form-control"   ng-change="mostrarTallas(detailOrderPurchase.taco)" ng-model="detailOrderPurchase.taco" ng-options="item.valorDetAtr as item.nomCortoVar+': '+item.valorDetAtr for item in variants">
                   <option value="">--Elija Num Taco--</option>
                 </select>
                 <!--@{{variants.varid}}-->

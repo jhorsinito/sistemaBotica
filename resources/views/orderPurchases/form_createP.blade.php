@@ -109,7 +109,7 @@
           <div class="col-md-3">
                    <div class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.warehouse.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.warehouse.$dirty && orderPurchaseCreateForm.warehouse.$invalid]">
                        <label for="Tienda">Almacen: </label>
-                       <select ng-hide="show" class="form-control" name="warehouse" ng-click="seleccionarWarehouse()" ng-model="orderPurchase.warehouses_id" ng-options="item.id as item.nombre for item in warehouses" required>
+                       <select ng-hide="show" class="form-control" name="warehouse" ng-change="seleccionarWarehouse()" ng-model="orderPurchase.warehouses_id" ng-options="item.id as item.nombre for item in warehouses" required>
                        <option value="">--Elija warehouses_id--</option>
                        </select>
                        <label ng-show="orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.warehouse.$dirty && orderPurchaseCreateForm.warehouse.$invalid">
@@ -161,7 +161,7 @@
           <div class="input-group" style="width: 300px;">
               <label>Producto</label>
                <input ng-disabled="check" ng-hide="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Locations loaded via $http" 
-          typeahead="product as product.proNombre+'('+(product.BraName==null ? '': product.BraName+'/')+(product.TName==null ? '' : product.TName+'/')+(product.Mnombre==null ? '':product.Mnombre+'/')+(product.NombreAtributos==null ? '':product.NombreAtributos)+')' for product in products | filter:$viewValue | limitTo:8" 
+          typeahead="product as product.proNombre+'('+(product.BraName==null ? '': product.BraName+'/')+(product.TName==null ? '' : product.TName+'/')+(product.Mnombre==null ? '':product.Mnombre)+')' for product in products | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
            tooltip="Ingrese caracteres para busacar producto por codigo unico"
             >
@@ -184,7 +184,7 @@
            
               <div class="form-group" >
                 <label for="Variante">Taco</label>
-                <select class="form-control"   ng-click="mostrarTallas(detailOrderPurchase.taco)" ng-model="detailOrderPurchase.taco" ng-options="item.valorDetAtr as item.nomCortoVar+': '+item.valorDetAtr for item in variants">
+                <select class="form-control"   ng-change="mostrarTallas(detailOrderPurchase.taco)" ng-model="detailOrderPurchase.taco" ng-options="item.valorDetAtr as item.nomCortoVar+': '+item.valorDetAtr for item in variants">
                   <option value="">--Elija Num Taco--</option>
                 </select>
                 <!--@{{variants.varid}}-->
