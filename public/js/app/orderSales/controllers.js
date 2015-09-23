@@ -1211,12 +1211,12 @@
 
                 $scope.destroyPay = function(row){
                   if(confirm("Esta segura de querer eliminar este pago!!!") == true){
-                    $scope.payment[0].detpId=row.id;
-                    $scope.payment[0].cashMonthly_id=row.cashMonthly_id;
+                    $scope.payment[0].detpayment_id=row.id;
+                    //$scope.payment[0].cashMonthly_id=row.cashMonthly_id;
                     $scope.payment[0].detCash_id=row.detCash_id;
                     $log.log($scope.payment);
                     ssssss
-                    crudOPurchase.destroy($scope.payment,'payments').then(function(data)
+                    crudServiceOrderSales.destroy($scope.payment[0],'salePayment').then(function(data)
                     {
                         if(data['estado'] == true){
                             $scope.success = data['nombre'];

@@ -11,7 +11,8 @@ class SaleDetPaymentManager extends BaseManager {
                     'numCaja'=>'',
                     'tipoPago'=>'',
             'salePayment_id' => '',
-            'saleMethodPayment_id' => ''
+            'saleMethodPayment_id' => '',
+            'detCash_id'=> ''
                   ];
         return $rules;
     }

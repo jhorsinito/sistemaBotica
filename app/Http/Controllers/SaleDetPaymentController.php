@@ -121,29 +121,17 @@ class SaleDetPaymentController extends Controller {
         
             $insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
             $insertarMovimiento->save();
-    //---Autualizar Caja---
             
+            $detCash_id=$movimientoSave->id;
+    //---Autualizar Caja---   
             $cajaAct = $request->caja;
             $temporal2=$cajaAct['id'];
             $cashrepo;
-            //$movimiento['observacion']=$temporal;
             $cashrepo = new CashRepo;
             $cajaSave=$cashrepo->getModel();
-            //var_dump($cajaAct);die();
             $cash1 = $cashrepo->find($cajaAct["id"]);
-
-
-        
-            //$insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
-            //$insertarMovimiento->save();
-
-            //$stores = $this->storeRepo->find($request->id);
-            //var_dump($cash1);die();
-
             $manager1 = new CashManager($cash1,$cajaAct);
             $manager1->save();
-            
-
         //----------------
         
         $var=$request->detPayments;
@@ -171,7 +159,7 @@ class SaleDetPaymentController extends Controller {
         $detPayment['numCaja']=$temporal2;
 
         $grabar=$request->detPayments;
-
+        $detPayment['detCash_id']=$detCash_id;
         $manager = new SaleDetPaymentManager($detPayment,$grabar);
         $manager->save();
        /* if($this->detPaymentRepo->validateDate(substr($request->exedetPayments['fecha'],0,10))){

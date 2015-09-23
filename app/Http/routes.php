@@ -413,7 +413,7 @@ Route::post('api/purchases/destroy',['as'=>'person_destroy', 'uses'=>'PurchasesC
 Route::get('api/purchases/search/{q?}',['as'=>'person_search', 'uses'=>'PurchasesController@search']);
 Route::get('api/purchases/find/{id}',['as'=>'person_find', 'uses'=>'PurchasesController@find']);
 Route::get('api/purchases/mostrarCostos/{id}','PurchasesController@mostrarCostos');
-Route::post('api/TiketReport/create/','PurchasesController@reportes');
+Route::post('api/TiketReport/create/{id}','PurchasesController@reportes');
 Route::post('api/CodReport/create/{id}','PurchasesController@reportesCod');
 
 Route::get('purchases/showD','PurchasesController@index');
@@ -457,7 +457,7 @@ Route::get('api/detpres/{id}','DetPresController@select');
 Route::get('api/equivs/find/{id}','EquivController@find');
 Route::post('api/payments/create','PaymentsController@create');
 Route::get('api/payments/find/{id}','PaymentsController@find');
-Route::post('api/payments/destroy','PaymentsController@destroy');
+Route::post('api/payments/destroy','PaymentsController@destroy'); 
 Route::put('api/payments/edit/','PaymentsController@edit');
 Route::get('api/payments/select/{id}','PaymentsController@payIDLocal');
 
@@ -590,7 +590,7 @@ Route::get('api/salePayment/search/{id?}',['as'=>'person_search', 'uses'=>'SaleP
 Route::get('api/salePaymentOrder/search/{id?}',['as'=>'person_search', 'uses'=>'SalePaymentController@searchPaymentOrder']);
 Route::get('api/salePaymentSeparate/search/{id?}',['as'=>'person_search', 'uses'=>'SalePaymentController@searchPaymentSeparate']);
 Route::get('api/SaleDetPayment/search/{id?}',['as'=>'person_search', 'uses'=>'SaleDetPaymentController@searchDetalle']);
-
+Route::post('api/salePayment/destroy','SalePaymentController@destroy'); 
 
 Route::get('api/saleMethodPayments/select','SaleMethodPaymentController@select');
 Route::post('api/saledetPayments/create',['as'=>'person_create', 'uses'=>'SaleDetPaymentController@create']);
