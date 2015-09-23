@@ -413,7 +413,7 @@ Route::post('api/purchases/destroy',['as'=>'person_destroy', 'uses'=>'PurchasesC
 Route::get('api/purchases/search/{q?}',['as'=>'person_search', 'uses'=>'PurchasesController@search']);
 Route::get('api/purchases/find/{id}',['as'=>'person_find', 'uses'=>'PurchasesController@find']);
 Route::get('api/purchases/mostrarCostos/{id}','PurchasesController@mostrarCostos');
-Route::post('api/TiketReport/create/','PurchasesController@reportes');
+Route::post('api/TiketReport/create/{id}','PurchasesController@reportes');
 Route::post('api/CodReport/create/{id}','PurchasesController@reportesCod');
 
 Route::get('purchases/showD','PurchasesController@index');
@@ -554,6 +554,7 @@ Route::put('api/detCashes/edit',['as'=>'person_edit', 'uses'=>'DetCashController
 Route::post('api/detCashes/destroy',['as'=>'person_destroy', 'uses'=>'DetCashController@destroy']);
 Route::get('api/detCashes/search/{q?}',['as'=>'person_search', 'uses'=>'DetCashController@search']);
 Route::get('api/detCashes/find/{id}',['as'=>'person_find', 'uses'=>'DetCashController@find']);
+Route::get('api/detCashes/compCajaActiva/{id}','DetCashController@compCajaActiva');
 
 Route::get('api/detCashesSale/search/{q?}',['as'=>'person_search', 'uses'=>'DetCashController@searchSale']);
 Route::get('api/detCashesOrderSale/search/{q?}',['as'=>'person_search', 'uses'=>'DetCashController@searchOrderSale']);

@@ -1507,6 +1507,9 @@ $scope.recalPayments=function(){
                             }
                         });}
                 }
+                $scope.cancelarEditPayment=function(){
+                    $route.reload();
+                }
                 $scope.paginateDetPay=function(){
                     $scope.detPayment.fecha=new Date();
                       crudPurchase.byId($scope.payment.id,'detPayments').then(function (data) {
@@ -1520,6 +1523,47 @@ $scope.recalPayments=function(){
                       $scope.mostrarBtnGEd=false;
                 }
                 $scope.destroyPay = function(row){
+                    //alert(row.detCash_id);
+                    if(row.detCash_id!=null){
+                    //alert(row.detCash_id);
+                    crudPurchase.comprovarCaja(row.detCash_id).then(function(data){
+                        //alert(data.estado);
+                        if(data.estado==1){
+                           if(confirm("Esta segura de querer eliminar este pago!!!") == true){
+                    $scope.payment.detpId=row.id;
+                    $scope.payment.Saldo_F=row.Saldo_F;
+                    //$scope.detPayment.montoPagado=row.montoPagado;
+                   // alert(row.montoPagado);
+                  // alert(row.id);
+                   $scope.payment.detpId=row.id;
+                    $scope.payment.cashMonthly_id=row.cashMonthly_id;
+                   // $scope.Payment.cash_id=parseInt(row.cashID);
+                    $scope.payment.detCash_id=row.detCash_id;
+                    crudPurchase.destroy($scope.payment,'payments').then(function(data)
+                    {
+                        if(data['estado'] == true){
+                            $scope.success = data['nombre'];
+                            
+                            alert('Eliminado Correctamente');
+                           // alert($scope.totAnterior);
+                            $scope.payment.Acuenta=Number($scope.totAnterior)-Number($scope.detPayment.montoPagado);
+                            $scope.payment.Saldo=(Number($scope.payment.MontoTotal)-Number($scope.payment.Acuenta)).toFixed(2);
+                            $scope.payment.PorPagado=((Number($scope.payment.Acuenta)*100)/(Number($scope.payment.MontoTotal))).toFixed(2);
+                            $scope.totAnterior=$scope.payment.Acuenta;
+                            $scope.detPayment = {};
+                            //$route.reload();
+                            //$scope.paginateDetPay();
+                            $route.reload();
+                        }else{
+                            $scope.errors = data;
+                        }
+                    });
+                  }
+                        }else{
+                            alert("zorry Usted no puede eliminar un pago de una caja cerrada");
+                        }
+                    });
+                }else{
                     if(confirm("Esta segura de querer eliminar este pago!!!") == true){
                     $scope.payment.detpId=row.id;
                     $scope.payment.Saldo_F=row.Saldo_F;
@@ -1550,6 +1594,7 @@ $scope.recalPayments=function(){
                         }
                     });
                   }
+              }
                 }
                 $scope.PagoAnterior;
                 $scope.mostrarBtnGEd=false;
@@ -1571,6 +1616,35 @@ $scope.recalPayments=function(){
                      }
                  $scope.check=false;
                 $scope.editDetpayment=function(row){
+                    //alert(row.detCash_id);
+                   if(row.detCash_id!=null){
+                    //alert(row.cashID);
+                    crudPurchase.comprovarCaja(row.detCash_id).then(function(data){
+                        //alert(data.estado);
+                        if(data.estado==1){
+                                 $scope.check=true;
+                                 if(row.cashMonthly_id>0){
+                                     $scope.payment.cajamensual=true;
+                                     $scope.payment.cashMonthly_id=row.cashMonthly_id;
+                                 }else{
+                                     $scope.payment.cajamensual=false;
+                                 }
+                                 $scope.payment.Saldo_F=row.Saldo_F;
+                                 $scope.payment.detpId=row.id;
+                                 $scope.detPayment.cashe_id=row.cashID;
+                                 $scope.payment.cash_id=$scope.detPayment.cashe_id;
+                                 $scope.payment.detCash_id=row.detCash_id;
+                                 $scope.detPayment.oldPay=row.montoPagado;
+                                 $scope.PagoAnterior=row.montoPagado;
+                                 $scope.detPayment.fecha=new Date(row.fecha);
+                                 $scope.detPayment.methodPayment_id=row.methodPayment_id;
+                                 $scope.detPayment.montoPagado=(parseFloat(row.montoPagado));
+                                 $scope.mostrarBtnGEd=true;
+                        }else{
+                            alert("Error la caja con que se Adelanto ya esta cerrada por ende no se puede registrar los cambios");
+                        }
+                    });
+                   }else{
                    $scope.check=true;
                     if(row.cashMonthly_id>0){
                         $scope.payment.cajamensual=true;
@@ -1589,6 +1663,7 @@ $scope.recalPayments=function(){
                     $scope.detPayment.methodPayment_id=row.methodPayment_id;
                     $scope.detPayment.montoPagado=(parseFloat(row.montoPagado));
                     $scope.mostrarBtnGEd=true;
+                }
                 }
                 
                 $scope.editPayment = function(){

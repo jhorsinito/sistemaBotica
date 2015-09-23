@@ -43,6 +43,13 @@ class DetCashRepo extends BaseRepo{
         $detCashs = DetCash::with('cashMotive');
         return $detCashs->paginate($count);
     } 
+    public function compCajaActiva($id){
+        $detCashs = DetCash::join('cashes','cashes.id','=','detCash.cash_id')
+                          ->where('detCash.id','=',$id)
+                          ->select('cashes.estado')
+        ->first();
+        return $detCashs;
+    }
 
 
 }

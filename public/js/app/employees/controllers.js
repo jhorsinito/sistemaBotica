@@ -82,13 +82,30 @@
                              $scope.ngenabled=true;
                             $scope.mostraragregar=false;
                             $scope.mostrarver=true;
-                            $scope.employeecost.SueldoFijo=parseFloat($scope.employeecost.SueldoFijo);
-                            $scope.employeecost.seguro=parseFloat($scope.employeecost.seguro);
-                            $scope.employeecost.menu=parseFloat($scope.employeecost.menu);
-                            $scope.employeecost.pasajes=parseFloat($scope.employeecost.pasajes);
-                            $scope.employeecost.descuento=parseFloat($scope.employeecost.descuento);
+                            if($scope.employeecost.SueldoFijo!=null)
+                                {$scope.employeecost.SueldoFijo=parseFloat($scope.employeecost.SueldoFijo);
+                                }else{$scope.employeecost.SueldoFijo=0;}
+                            if($scope.employeecost.seguro!=null)
+                                {$scope.employeecost.seguro=parseFloat($scope.employeecost.seguro);
+                                }else{$scope.employeecost.seguro=0;}
+                            if($scope.employeecost.menu!=null)
+                                {$scope.employeecost.menu=parseFloat($scope.employeecost.menu);
+                                }else{$scope.employeecost.menu=0;}
+                            if($scope.employeecost.pasajes!=null)
+                                {$scope.employeecost.pasajes=parseFloat($scope.employeecost.pasajes);
+                                }else{$scope.employeecost.pasajes=0;}
+                            if($scope.employeecost.descuento!=null)
+                                {$scope.employeecost.descuento=parseFloat($scope.employeecost.descuento);
+                                }else{$scope.employeecost.descuento=0;}
+                            if($scope.employeecost.total!=null)
+                                {$scope.employeecost.total=parseFloat($scope.employeecost.total);
+                                }else{$scope.employeecost.total=0;}
+                           // $scope.employeecost.seguro=parseFloat($scope.employeecost.seguro);
+                            //$scope.employeecost.menu=parseFloat($scope.employeecost.menu);
+                            //$scope.employeecost.pasajes=parseFloat($scope.employeecost.pasajes);
+                           // $scope.employeecost.descuento=parseFloat($scope.employeecost.descuento);
                             $scope.employeecost.comisiones=parseFloat($scope.employeecost.comisiones);
-                            $scope.employeecost.total=parseFloat($scope.employeecost.total);
+                            //$scope.employeecost.total=parseFloat($scope.employeecost.total);
 
                        }else{
                             $scope.mostraragregar=true;
@@ -186,7 +203,7 @@
                         var r = new FileReader();
                         r.onloadend = function(e) {
                             $scope.employee.imagen = e.target.result;
-                            alert("aqui estoy");
+                           // alert("aqui estoy");
                             crudService.update($scope.employee, 'employees').then(function (data) {
 
                                 if (data['estado'] == true) {
@@ -350,7 +367,7 @@
                     $scope.ngenabled=true;
                 }
                 $scope.CalcCostos=function(){
-                    alert("hola"+$scope.employeecost.SueldoFijo);
+                    //alert("hola"+$scope.employeecost.SueldoFijo);
                     $scope.employeecost.total=(parseFloat($scope.employeecost.SueldoFijo)+parseFloat($scope.employeecost.seguro)+
                                               parseFloat($scope.employeecost.menu)+parseFloat($scope.employeecost.pasajes))
                                               -parseFloat($scope.employeecost.descuento);

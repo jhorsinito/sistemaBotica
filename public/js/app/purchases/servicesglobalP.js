@@ -234,10 +234,17 @@
 
                 return deferred.promise;
             }
-            function Reportes(area,uri)
+            function Reportes(id,uri)
             {
                 var deferred = $q.defer();
-                $http.post('/api/'+uri+'/create/',area).success(function (data) {
+                $http.post('/api/'+uri+'/create/'+id).success(function (data) {
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
+            function comprovarCaja(id){
+                 var deferred = $q.defer();
+                $http.get('api/detCashes/compCajaActiva/'+id).success(function (data) {
                     deferred.resolve(data);
                 });
                 return deferred.promise;
@@ -248,6 +255,7 @@
                 paginate: paginate,
                 create:create,
                 byId:byId,
+                comprovarCaja: comprovarCaja,
                 update:update,
                 destroy:destroy,
                 search: search,

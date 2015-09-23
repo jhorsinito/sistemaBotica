@@ -1,7 +1,7 @@
 (function(){
     angular.module('purchases.controllers',[])
-        .controller('PurchaseController',['$scope','$http' ,'$routeParams','$location','crudOPurchase','socketService' ,'$filter','$route','$log',
-            function($scope,$http, $routeParams,$location,crudOPurchase,socket,$filter,$route,$log){
+        .controller('PurchaseController',['$window','$scope','$http' ,'$routeParams','$location','crudOPurchase','socketService' ,'$filter','$route','$log',
+            function($window,$scope,$http, $routeParams,$location,crudOPurchase,socket,$filter,$route,$log){
                 $scope.purchases = [];
                 $scope.purchase = {};
                 $scope.payments=[];
@@ -31,6 +31,8 @@
                 $scope.stores;
                 $scope.purchase.store_id='1';
                 $scope.date=new Date();
+                $scope.botonReporte = 'Generar Reportes de Ticket';
+                 $scope.botonReporteCod = 'Generar Reportes de Sku';
                 //------------------------------------------------
             
                 //-------------------------------------------------
@@ -538,19 +540,32 @@
              });
                     
                  }
+                 $scope.verReportTiket1=false;
+                 $scope.verReportSku1=false;
+                 $scope.verReportTiket=function(){
+                     $scope.verReportTiket1=false;
+                     $scope.botonReporte = 'Generar Reportes de Ticket';
+                 }
+                 $scope.verReportSku=function(){
+                    $scope.verReportSku1=false;
+                    $scope.botonReporteCod = 'Generar Reportes de Sku';
+                 }
                 $scope.GenerrarReport=function(){
                     //$log.log($routeParams.id);
                     //alert($scope.detailPurchase.length);
+                    $scope.botonReporte = 'Cargando..';
                     $scope.purchase.detailPurchases=$scope.detailPurchases;
                     var id=$routeParams.id;
                     //for(var n=0;n<$scope.detailPurchases.length;n++){
                       //  alert($scope.detailPurchases[n].id+$scope.detailPurchases[n].cantidad);
-                     crudOPurchase.Reportes($scope.purchase,'TiketReport').then(function (data) {
+                     crudOPurchase.Reportes(id,'TiketReport').then(function (data) {
                         // alert("debajo");
                             if (data!= undefined) {
                                 $scope.pdf=data;
-                                alert('Reporte Generado'+data.nombre);
-                               // $location.path('/purchases/create');
+                                alert("Reporte Generado");
+                                 $scope.botonReporte = 'Reporte Completado';
+                                 $scope.verReportTiket1=true;
+                                //$location.path("http://www.cnn.com");
                             } else {
                                 $scope.errors = data;
 
@@ -558,13 +573,20 @@
                         });
                  //}
                 }
+                $scope.cancelarEditPayment=function(){
+                    $route.reload();
+                }
                 $scope.GenerrarReportCod=function(){
                     //$log.log($routeParams.id);
-
+                     $scope.botonReporteCod="Genrando..";
                      crudOPurchase.Reportes($routeParams.id,'CodReport').then(function (data) {
                         // alert("debajo");
-                            if (data['estado'] == true) {
-                                alert('Reorte Generado');
+                            if (data!= undefined) {
+                                $scope.pdf1=data;
+                                alert('Reporte Generado');
+                                 $scope.botonReporteCod="Reporte Completado";
+                                 $scope.verReportSku1=true;
+                                //$scope.botonReporteCod = 'Generar Reportes de Sku';
                                // $location.path('/purchases/create');
                             } else {
                                 $scope.errors = data;
@@ -701,6 +723,34 @@
                     });
                 }
                 $scope.destroyPay = function(row){
+                    alert(row.detCash_id);
+                if(row.detCash_id!=null){
+                    //alert(row.cashID);
+                    crudOPurchase.comprovarCaja(row.detCash_id).then(function(data){
+                        //alert(data.estado);
+                        if(data.estado==1){
+                            if(confirm("Esta segura de querer eliminar este pago!!!") == true){
+                                  $scope.payment.detpId=row.id;
+                                  $scope.payment.cashMonthly_id=row.cashMonthly_id;
+                                  $scope.payment.detCash_id=row.detCash_id;
+                                  crudOPurchase.destroy($scope.payment,'payments').then(function(data)
+                                  {
+                                      if(data['estado'] == true){
+                                          $scope.success = data['nombre'];
+                                          alert("Elimnado Correctamente");
+                                          $route.reload();
+              
+                                      }else{
+                                          $scope.errors = data;
+                                      }
+                                  });
+                              }
+                        }else{
+                            alert("zorry Usted no puede eliminar un pago de una caja cerrada");
+                        }
+                    });
+                }else{
+                
                   if(confirm("Esta segura de querer eliminar este pago!!!") == true){
                     $scope.payment.detpId=row.id;
                     $scope.payment.cashMonthly_id=row.cashMonthly_id;
@@ -709,6 +759,7 @@
                     {
                         if(data['estado'] == true){
                             $scope.success = data['nombre'];
+                            alert("Eliminado Correctamente");
                             $route.reload();
 
                         }else{
@@ -716,12 +767,42 @@
                         }
                     });
                 }
+               }
             }
                 $scope.PagoAnterior;
                 $scope.mostrarBtnGEd=false;
                  $scope.check=false;
                  $scope.filaenEdicion=false;
                 $scope.editDetpayment=function(row){
+                 //alert(row.detCash_id);
+                if(row.detCash_id!=null){
+                    //alert(row.cashID);
+                    crudOPurchase.comprovarCaja(row.detCash_id).then(function(data){
+                        //alert(data.estado);
+                        if(data.estado==1){
+                              $scope.check=true;
+                              $scope.filaenEdicion=true;
+                              if(row.cashMonthly_id>0){
+                                  $scope.payment.cajamensual=true;
+                                  $scope.payment.cashMonthly_id=row.cashMonthly_id;
+                              }else{
+                                  $scope.payment.cajamensual=false;
+                              }
+                              $scope.payment.detpId=row.id;
+                              $scope.detPayment.cashe_id=row.cashID;
+                              $scope.payment.cash_id=$scope.detPayment.cashe_id;
+                              $scope.payment.detCash_id=row.detCash_id;
+                              $scope.detPayment.oldPay=row.montoPagado;
+                              $scope.PagoAnterior=row.montoPagado;
+                              $scope.detPayment.fecha=new Date(row.fecha);
+                              $scope.detPayment.methodPayment_id=row.methodPayment_id;
+                              $scope.detPayment.montoPagado=(parseFloat(row.montoPagado));
+                              $scope.mostrarBtnGEd=true;
+                      }else{
+                        alert("Error la caja con que se pago ya esta cerrada por ende no se puede registrar los cambios");
+                      }
+                    });
+                }else{
                     $scope.check=true;
                     $scope.filaenEdicion=true;
                     if(row.cashMonthly_id>0){
@@ -740,6 +821,7 @@
                     $scope.detPayment.methodPayment_id=row.methodPayment_id;
                     $scope.detPayment.montoPagado=(parseFloat(row.montoPagado));
                     $scope.mostrarBtnGEd=true;
+                 }
                 }
                 
                 $scope.cashmontly=function(){
