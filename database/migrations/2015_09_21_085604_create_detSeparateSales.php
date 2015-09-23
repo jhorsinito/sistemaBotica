@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDetOrderSalesTable extends Migration
+class CreateDetSeparateSales extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateDetOrderSalesTable extends Migration
      */
     public function up()
     {
-        Schema::create('detOrderSales', function (Blueprint $table) {
+        Schema::create('detSeparateSales', function (Blueprint $table) {
             $table->increments('id');
             $table->decimal('precioProducto',10,2);
             $table->decimal('precioVenta',10,2);
@@ -24,22 +24,22 @@ class CreateDetOrderSalesTable extends Migration
             $table->decimal('subTotal',10,2);
             $table->tinyInteger('estado');
 
-            $table->integer('orderSale_id')->unsigned();
-            $table->foreign('orderSale_id')->references('id')->on('orderSales');
+            $table->integer('separateSale_id')->unsigned();
+            $table->foreign('separateSale_id')->references('id')->on('separateSales');
 
             $table->integer('detPre_id')->unsigned()->nullable();;
             $table->foreign('detPre_id')->references('id')->on('detPres');
             $table->timestamps();
-        }); 
-    } 
+        });
+    }
 
     /**
      * Reverse the migrations.
      *
-     * @return void
+     * @return void 
      */
     public function down()
     {
-        Schema::drop('detOrderSales');
+        Schema::drop('separateSales');
     }
 }

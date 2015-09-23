@@ -1,11 +1,12 @@
 <?php
 namespace Salesfly\Salesfly\Entities;
 
-class Sale extends \Eloquent {
+class SeparateSale extends \Eloquent {
 
-	protected $table = 'sales';
+	protected $table = 'separateSales';
     
     protected $fillable = ['fechaPedido',
+                            'fechaEntrega',
     						'montoTotal',
     						'montoBruto',
     						'descuento',
@@ -14,9 +15,7 @@ class Sale extends \Eloquent {
     						'employee_id',
     						'estado',
     						'igv',
-    						'notas',
-                            'orderSale_id',
-                            'separateSale_id']; 
+    						'notas']; 
 
     public function customer(){
         return $this->belongsTo('Salesfly\Salesfly\Entities\Customer','customer_id');
@@ -25,4 +24,3 @@ class Sale extends \Eloquent {
         return $this->belongsTo('Salesfly\Salesfly\Entities\Employee','employee_id');
     }
 }
-

@@ -24,6 +24,8 @@ class CreateSalePaymentsTable extends Migration
             $table->foreign('sale_id')->references('id')->on('sales');
             $table->integer('orderSale_id')->unsigned()->nullable();;
             $table->foreign('orderSale_id')->references('id')->on('orderSales');
+            $table->integer('separateSale_id')->unsigned()->nullable();;
+            $table->foreign('separateSale_id')->references('id')->on('separateSales');
             $table->integer('customer_id')->unsigned()->nullable();
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->timestamps();

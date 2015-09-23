@@ -31,6 +31,13 @@ class SalePaymentController extends Controller {
 
         return response()->json($detOrder);
     }
+    public function searchPaymentSeparate($id)
+    {
+        //$q = Input::get('q');
+        $detOrder = $this->salePaymentRepo->searchPaymentSeparate($id);
+
+        return response()->json($detOrder);
+    }
     public function edit(Request $request)
     {
         //var_dump($request->all());die();

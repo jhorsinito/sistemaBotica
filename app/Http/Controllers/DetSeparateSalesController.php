@@ -5,35 +5,35 @@ namespace Salesfly\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-use Salesfly\Salesfly\Repositories\DetOrderSaleRepo;
-use Salesfly\Salesfly\Managers\DetOrderSaleManager; 
+use Salesfly\Salesfly\Repositories\DetSeparateSaleRepo;
+use Salesfly\Salesfly\Managers\DetSeparateSaleManager;
 
 use Salesfly\Salesfly\Repositories\StockRepo;
 use Salesfly\Salesfly\Managers\StockManager;
 
-class DetOrderSalesController extends Controller {
+class DetSeparateSalesController extends Controller {
 
-    protected $detOrderSaleRepo;
+    protected $detSeparateSaleRepo;
 
-    public function __construct(DetOrderSaleRepo $detOrderSaleRepo)
+    public function __construct(DetSeparateSaleRepo $detSeparateSaleRepo)
     {
-        $this->detOrderSaleRepo = $detOrderSaleRepo;
+        $this->detSeparateSaleRepo = $detSeparateSaleRepo;
     }
 
      
 
-    public function searchDetalle($id)
+    public function searchDetalle($id) 
     {
         //$q = Input::get('q');
-        $detorderSale = $this->detOrderSaleRepo->searchDetalle($id);
+        $detorderSale = $this->detSeparateSaleRepo->searchDetalle($id);
 
         return response()->json($detorderSale);
     }
 
     public function edit(Request $request)
     {
-        $detorderSale = $this->detOrderSaleRepo->find($request->id);
-        $manager = new DetOrderSaleManager($detorderSale,$request->all());
+        $detorderSale = $this->detSeparateSaleRepo->find($request->id);
+        $manager = new DetSeparateSaleManager($detorderSale,$request->all());
         $manager->save();
 
         $stokRepo;
@@ -43,9 +43,9 @@ class DetOrderSalesController extends Controller {
 
         $stock = $stokRepo->find($request->idStock);
         if ($request->estad==true) {
-            $stock->stockPedidos= $stock->stockPedidos-$request->canPendiente;
+            $stock->stockSeparados= $stock->stockSeparados-$request->canPendiente;
         }else{
-            $stock->stockPedidos= $stock->stockPedidos+$request->canPendiente;
+            $stock->stockSeparados= $stock->stockSeparados+$request->canPendiente;
         }
         
 

@@ -27,7 +27,8 @@ class SaleDetPaymentRepo extends BaseRepo{
     }
     public function mostrarDetPayment($id)
     {
-        $saleDetPayment =SaleDetPayment::where('salePayment_id','=', $id)
+        $saleDetPayment =SaleDetPayment::with('saleMethodPayment')
+                        ->where('salePayment_id','=', $id)
                     //with(['customer','employee'])
                     ->paginate(5);
         return $saleDetPayment;
