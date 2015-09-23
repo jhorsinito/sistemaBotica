@@ -457,8 +457,10 @@ class PurchasesController extends Controller {
       \DB::commit();
      return response()->json(['estado'=>true, 'nombres'=>$purchase->nombres]);
     }
-    public function reportes($id){
-    // var_dump($id);die();
+    public function reportes(Request $request){
+    $var=$request->detailPurchases;
+    foreach($var as $object){
+        //var_dump($object["cantidad"]);die();
         $database = \Config::get('database.connections.mysql');
         $time=time();
         $output = public_path() . '/report/'.$time.'_Tiket';        
@@ -470,14 +472,17 @@ class PurchasesController extends Controller {
             array($ext),
             //array(),
             //while($i<=3){};
-            ['idVariante'=>$id],//Parametros
-              
+            ['idVariante'=>intval($object["id"]),'cantidad'=>intval($object["cantidad"])],//Parametros
+           
+
             $database,
             false,
             false
         )->execute();
-        return response()->json(['estado'=>true]);
-   
+        echo("<a href='localhost:8007/report/".$time."_Tiket.".$ext."'>Genrar</a>");
+      }
+        //return response()->json(['estado'=>true]);
+        return '/report/'.$time.'_Tiket.'.$ext;
     }
      public function reportesCod($id){
      // var_dump("hola commd");die();

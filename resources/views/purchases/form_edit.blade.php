@@ -123,7 +123,8 @@
           </div>
           
                    <button ng-click="GenerrarReportCod()" type="submit" class="btn btn-primary btn-xs">Generar Reportes de Sku</button>
-                   <button ng-click="GenerrarReport()" type="submit" class="btn btn-primary btn-xs">Generar Reportes de Tocket</button>
+                   <button ng-click="GenerrarReport()" type="submit" class="btn btn-primary btn-xs">Generar Reportes de Ticket</button>
+                   <a ng-href="@{{pdf}}" target="_blank" type="submit" class="btn btn-primary pull-left"  >Ver Reporte</a>
                    <a href="/purchases" class="btn btn-success btn-xs">Regresar</a>
                   </div>
                 </form>

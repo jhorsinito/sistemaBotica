@@ -413,7 +413,7 @@ Route::post('api/purchases/destroy',['as'=>'person_destroy', 'uses'=>'PurchasesC
 Route::get('api/purchases/search/{q?}',['as'=>'person_search', 'uses'=>'PurchasesController@search']);
 Route::get('api/purchases/find/{id}',['as'=>'person_find', 'uses'=>'PurchasesController@find']);
 Route::get('api/purchases/mostrarCostos/{id}','PurchasesController@mostrarCostos');
-Route::post('api/TiketReport/create/{id}','PurchasesController@reportes');
+Route::post('api/TiketReport/create/','PurchasesController@reportes');
 Route::post('api/CodReport/create/{id}','PurchasesController@reportesCod');
 
 Route::get('purchases/showD','PurchasesController@index');

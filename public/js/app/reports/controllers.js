@@ -91,7 +91,7 @@
                         $scope.pdf1=data;
                         alert("Reporte generado con Exito : ");
                     });
-                    $scope.verdata1();
+                    //$scope.verdata1();
                     $scope.storeSelected=undefined;
                     $scope.warehouseSelected=undefined;
                     }else{
