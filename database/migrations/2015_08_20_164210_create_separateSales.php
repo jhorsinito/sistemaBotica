@@ -3,13 +3,19 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSalesTable extends Migration
+class CreateSeparateSales extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
-        Schema::create('sales', function (Blueprint $table) {
+        Schema::create('separateSales', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamp('fechaPedido');
+            $table->timestamp('fechaEntrega');
             $table->decimal('montoTotal',10,2);
             $table->decimal('montoBruto',10,2);
             $table->decimal('descuento',10,2);
@@ -23,14 +29,17 @@ class CreateSalesTable extends Migration
 
             $table->integer('employee_id')->unsigned()->nullable();
             $table->foreign('employee_id')->references('id')->on('employees');
-
-            $table->integer('orderSale_id')->unsigned()->nullable();;
-            $table->foreign('orderSale_id')->references('id')->on('orderSales');
             $table->timestamps();
-        });
+        }); 
     }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void 
+     */
     public function down()
     {
-        Schema::drop('sales');
+        Schema::drop('separateSales');
     }
 }

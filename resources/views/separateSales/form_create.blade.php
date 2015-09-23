@@ -1,11 +1,11 @@
  <section class="content-header"> 
           <h1>
-            Pedido Venta
+            Separado Venta
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="/stores">Pedido Venta</li>
+            <li class="/stores">Separado Venta</li>
             <li class="active">Crear</li>
           </ol>
  
@@ -18,7 +18,7 @@
 
           <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Crear Pedido Venta</h3>
+                  <h3 class="box-title">Crear Separado Venta</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form name="storeCreateForm" role="form" novalidate>
@@ -27,7 +27,7 @@
                     <ul>
                       <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
                     </ul>
-                  </div> 
+                  </div>
 
 
 
@@ -238,8 +238,8 @@
                       <td>@{{row.montoMovimientoTarjeta}}</td>
                       <td>@{{row.montoMovimientoEfectivo}}</td>
                       <td>@{{row.montoFinal}}</td>
-                      <td ng-if="row.cashMotive_id==15 || row.cashMotive_id==16"><a href="/orderSales/edit/@{{row.observacion}}" target="_blank">ver pedido</a></td>
-                      <td ng-if="row.cashMotive_id!=15 && row.cashMotive_id!=16">@{{row.observacion}}</td>
+                      <td ng-if="row.cashMotive_id==19 || row.cashMotive_id==20"><a href="/separateSales/edit/@{{row.observacion}}" target="_blank">ver separado</a></td>
+                      <td ng-if="row.cashMotive_id!=19 && row.cashMotive_id!=20">@{{row.observacion}}</td>
                     </tr>                   
                   </table>
                   <div class="box-footer clearfix">

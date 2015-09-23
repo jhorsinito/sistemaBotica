@@ -1,5 +1,5 @@
 <section class="content-header">
-          <h1> 
+          <h1>
             Ventas
             <small>Panel de Control</small>
           </h1>
@@ -278,7 +278,7 @@
                       <td>@{{row.fecha}}</td>
                       <td>@{{row.sale_method_payment.nombre}}</td>
                       <td>@{{row.monto}}</td>
-                      <td ng-if="row.tipoPago=='P'"><span class="badge bg-blue">@{{row.tipoPago}}</span></td> 
+                      <td ng-if="row.tipoPago=='S'"><span class="badge bg-blue">@{{row.tipoPago}}</span></td> 
                       <td ng-if="row.tipoPago=='C'"><span class="badge bg-green">@{{row.tipoPago}}</span></td>
                       <td><a href="/cashes/edit/@{{row.numCaja}}" target="_blank">@{{row.numCaja}}</a></td>
                      <td><button type="button" class="btn btn-danger btn-xs"  ng-click="destroyPay(row)">
@@ -322,8 +322,8 @@
           
 
         
-                   <a href="/orderSales" class="btn btn-success btn-xs" ng-show="banderaModificar" ng-click="grabarCanPedido()">Modificar</a>
-                   <a href="/orderSales" class="btn btn-success btn-xs">Regresar</a>
+                   <a href="/separateSales" class="btn btn-success btn-xs" ng-show="banderaModificar" ng-click="grabarCanPedido()">Modificar</a>
+                   <a href="/separateSales" class="btn btn-success btn-xs">Regresar</a>
                   </div>
                 </form>
               </div><!-- /.box -->

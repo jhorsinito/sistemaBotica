@@ -22,6 +22,8 @@ class CreateSaleDetPaymentsTable extends Migration
             $table->foreign('salePayment_id')->references('id')->on('salePayments');
             $table->integer('saleMethodPayment_id')->unsigned();
             $table->foreign('saleMethodPayment_id')->references('id')->on('saleMethodPayments');
+            $table->integer('detCash_id')->unsigned()->nullable();
+            $table->foreign('detCash_id')->references('id')->on('detCash');
             $table->timestamps();
         });
     }

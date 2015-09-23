@@ -14,6 +14,12 @@ use Salesfly\Salesfly\Managers\OrderSaleManager;
 use Salesfly\Salesfly\Repositories\DetOrderSaleRepo;
 use Salesfly\Salesfly\Managers\DetOrderSaleManager;
 
+use Salesfly\Salesfly\Repositories\SeparateSaleRepo;
+use Salesfly\Salesfly\Managers\SeparateSaleManager;
+
+use Salesfly\Salesfly\Repositories\DetSeparateSaleRepo;
+use Salesfly\Salesfly\Managers\DetSeparateSaleManager;
+
 use Salesfly\Salesfly\Repositories\DetSaleRepo;
 use Salesfly\Salesfly\Managers\DetSaleManager;
 
@@ -199,6 +205,97 @@ class SalesController extends Controller
      return response()->json(['estado'=>true, 'nombres'=>$orderSale->nombres]);
     }
 
+
+    public function createSeparateSale(Request $request) 
+        {
+          
+          //---------------------- 
+          $orderRepo;
+            $orderRepo = new SeparateSaleRepo;
+            $cajaSave=$orderRepo->getModel();
+            $cash1 = $orderRepo->find($request->id);
+
+            $manager1 = new SeparateSaleManager($cash1,$request->all());
+            $manager1->save();
+        //---------------------
+        $var = $request->detOrders;
+        $request->merge(array('estado' => '0'));
+        //$request->merge(array('estado' => '0'));
+        $orderSale = $this->saleRepo->getModel();
+        $manager = new SaleManager($orderSale,$request->all());
+        $manager->save();
+ 
+        $orderSale->save();
+        $temporal=$orderSale->id;
+        
+          //----------------------      
+
+        $detOrderrepox;
+        $montoventa=0;
+       foreach($var as $object){
+          //------Actualizar pedido------
+          //$cajaAct = $request->caja;
+          //var_dump($object);die();
+            $saleDet;
+            $saleDet = new DetSeparateSaleRepo;
+            //$object=$saleDet->getModel();
+            
+            $saled = $saleDet->find($object['id'] );
+            //var_dump($saled);die();
+
+            $manager2 = new DetSeparateSaleManager($saled,$object);
+            $manager2->save();
+          //-----------------------------
+           $object['sale_id'] = $temporal;
+           $object['cantidad'] = $object['parteEntregado'];
+           $object['subTotal'] = $object['precioVenta']*$object['parteEntregado'];
+           $montoventa=$montoventa+$object['subTotal'];
+           $detOrderrepox = new DetSaleRepo;
+
+           $insertar=new DetSaleManager($detOrderrepox->getModel(),$object);
+           if($object['parteEntregado']>0){$insertar->save();}
+           
+          
+           $detOrderrepox = null;
+
+           //-------------------------------------
+           
+           $stockmodel = new StockRepo;
+                  $object['warehouse_id']=$object['idAlmacen'];
+                  $object["variant_id"]=$object['vari'];
+                  $stockac=$stockmodel->encontrar($object["variant_id"],$object['warehouse_id']);
+                  //var_dump($stockac);die();
+            if(!empty($stockac)){
+             
+                if($object["equivalencia"]==null){
+                  $object["stockSeparados"]=$stockac->stockSeparados-($object["cantidad"]);
+                  $object["stockActual"]=$stockac->stockActual-($object["cantidad"]);//
+                  
+                }else{
+                  $object["stockActual"]=$stockac->stockActual-($object["cantidad"]*$object["equivalencia"]);
+                  $object["stockSeparados"]=$stockac->stockSeparados-($object["cantidad"]*$object["equivalencia"]);
+                }
+                  $manager = new StockManager($stockac,$object);
+                  $manager->save();
+                  //$stock=null;
+            }else{
+                
+            }
+            $stockac=null;
+            //-----------------------------------------------------
+       }
+            $subTotal=$montoventa/1.18;
+            $montoIgv=$montoventa-$subTotal;
+
+            $request->merge(array('montoTotal' => $montoventa));
+            $request->merge(array('igv' => $montoIgv));
+            $request->merge(array('montoBruto' => $subTotal));
+
+            $sales=$this->saleRepo->find($temporal);
+            $manager = new SaleManager($sales,$request->all());
+            $manager->save();
+     return response()->json(['estado'=>true, 'nombres'=>$orderSale->nombres]);
+    }
 
     public function createSale(Request $request) 
         {

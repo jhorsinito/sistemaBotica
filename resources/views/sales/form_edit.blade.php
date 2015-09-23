@@ -44,8 +44,12 @@
                          </div>
 
                          <div  class="input-group" ng-if="order1.orderSale_id!=null">
-                               <label>verOrder:</label>
-                               <a href='orderSales/edit/@{{order1.orderSale_id}}' target="_blank">ver Orden</a>
+                               <label>Order:</label>
+                               <a href='orderSales/edit/@{{order1.orderSale_id}}' target="_blank">Ver</a>
+                         </div>
+                         <div  class="input-group" ng-if="order1.separateSale_id!=null">
+                               <label>Separado:</label>
+                               <a href='separateSales/edit/@{{order1.separateSale_id}}' target="_blank">Ver</a>
                          </div>
 
                          <div>
@@ -114,7 +118,7 @@
         </div>
       </div>
   <!-- ==========================================================================================-->
-       <section class="content"ng-if="order1.orderSale_id==null">
+       <section class="content"ng-if="order1.orderSale_id==null && order1.separateSale_id==null">
         <div class="row" >
         <div class="col-md-12">
 

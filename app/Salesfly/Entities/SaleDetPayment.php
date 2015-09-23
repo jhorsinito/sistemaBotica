@@ -10,7 +10,9 @@ class SaleDetPayment extends \Eloquent {
     						'numCaja',
     						'tipoPago',
     						'salePayment_id', 
-    						'saleMethodPayment_id'];
+    						'saleMethodPayment_id',
+                            'detCash_id'];
+
     public function saleMethodPayment(){
         return $this->belongsTo('Salesfly\Salesfly\Entities\SaleMethodPayment','saleMethodPayment_id');
     }

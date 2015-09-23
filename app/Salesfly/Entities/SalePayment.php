@@ -11,6 +11,7 @@ class SalePayment extends \Eloquent {
     						'estado',
     						'sale_id',
                             'orderSale_id',
+                            'separateSale_id',
     						'customer_id'];
     						
     public function customer(){

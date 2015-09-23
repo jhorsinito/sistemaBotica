@@ -386,6 +386,20 @@
                 })
                 //-------------------------------------
                 //-------------------------------------------
+                .when('/separateSales', {
+                    templateUrl: '/js/app/separateSales/views/index.html',
+                    controller: 'SeparateSalesController'
+                })
+
+               
+                .when('/separateSales/create', {
+                    templateUrl: '/separateSales/form-create',
+                    controller: 'SeparateSalesController'
+                })
+                .when('/separateSales/edit/:id',{
+                    templateUrl:'/separateSales/form-edit',
+                    controller: 'SeparateSalesController'
+                })
                 //-----------------------------------------
                 .when('/inventory', {
                     templateUrl: '/js/app/inventory/views/index.html',

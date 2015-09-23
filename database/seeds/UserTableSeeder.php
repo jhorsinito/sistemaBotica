@@ -33,6 +33,7 @@ class UserTableSeeder extends Seeder
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ]);
+            */
             DB::table('users')->insert([
                 'name' => 'Cristobal Ramirez Cabrera',
                 'email' => 'cramirez@honeysoft.pe',
@@ -43,7 +44,7 @@ class UserTableSeeder extends Seeder
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ]);
-            */
+            
             DB::table('users')->insert([
                 'name' => 'soporte',
                 'email' => 'soporte@honeysoft.pe',
