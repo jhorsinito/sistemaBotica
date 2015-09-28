@@ -89,6 +89,7 @@ public function create(Request $request) {
         
             $insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
             $insertarMovimiento->save();
+            $detCash_id=$movimientoSave->id;
     //---Autualizar Caja---
             
             $cajaAct = $request->caja;
@@ -116,6 +117,7 @@ public function create(Request $request) {
                 $saledetPaymentrepo;
                 foreach($saledetPayments as $object1){
                     $object1['salePayment_id'] = $temporal1;
+                    $object1['detCash_id']=$detCash_id;
 
                     $saledetPaymentrepo = new SaleDetPaymentRepo;
 
@@ -129,6 +131,7 @@ public function create(Request $request) {
          
        foreach($var as $object){
            $object['orderSale_id'] = $temporal;
+
 
            $detOrderrepox = new DetOrderSaleRepo;
 

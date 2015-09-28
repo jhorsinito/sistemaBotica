@@ -59,6 +59,44 @@ class SalePaymentController extends Controller {
 
         return response()->json(['estado'=>true, 'nombre'=>$payment->nombre]);
     }
+    public function editdetpatmentSale(Request $request)
+    {
+        $payment=$this->saleDetPaymentRepo->find($request->id);
+        $diferenciaPago=($payment->monto)-($request->monto);
+
+        $manager = new SaleDetPaymentManager($payment,$request->all());
+        $manager->save();
+        //-----------------------------------------------
+        $cash = $this->cashRepo->find($request->numCaja);
+
+        $cash['montoBruto']=$cash['montoBruto']-$diferenciaPago;
+        $cash['ingresos']=$cash['ingresos']-$diferenciaPago;
+        //var_dump($cash);die();
+        $cash->save();
+        //-----------------------------------------------
+        //-----------------------------------------------
+        $detcash = $this->detCashRepo->find($request->detCash_id);
+        if ($request->saleMethodPayment_id=='1') {
+            $detcash['montoMovimientoEfectivo']=$request->monto;
+            $detcash['montoMovimientoTarjeta']=0;
+        }else{
+            $detcash['montoMovimientoEfectivo']=0;
+            $detcash['montoMovimientoTarjeta']=$request->monto;  
+        }
+        $detcash->save();
+        //var_dump($cash);die();
+        $cash->save();
+        //-----------------------------------------------
+        $deetpayment = $this->salePaymentRepo->find($request->salePayment_id);
+
+        $deetpayment['Acuenta']=$deetpayment['Acuenta']-$diferenciaPago;
+        $deetpayment['Saldo']=$deetpayment['Saldo']+$diferenciaPago;
+        
+        $deetpayment->save();
+
+        return response()->json(['estado'=>true, 'nombre'=>$payment->nombre]);
+
+    }
     public function destroy(Request $request) 
     {
         //var_dump($request->all());die();
@@ -84,12 +122,12 @@ class SalePaymentController extends Controller {
             $detcash=$this->detCashRepo->find($request->input("detCash_id"));
             $cash=$this->cashRepo->find($detcash->cash_id);
             
-             $request->merge(["gastos"=>floatval($cash->gastos)-floatval($pagoTemporal)]);
-             $request->merge(['montoBruto'=>floatval($cash->montoBruto)+floatval($pagoTemporal)]);
+             $request->merge(["gastos"=>$cash->gastos]);
+             $request->merge(['montoBruto'=>floatval($cash->montoBruto)-floatval($pagoTemporal)]);
              $request->merge(['fechaInicio'=>$cash->fechaInicio]);
              $request->merge(['fechaFin'=>$cash->fechaFin]);
              $request->merge(['montoInicial'=>$cash->montoInicial]);
-             $request->merge(['ingresos'=>$cash->ingresos]);
+             $request->merge(['ingresos'=>floatval($cash->ingresos)-floatval($pagoTemporal)]);
              //$request->merge(['montoBruto'=>$cash->montoBruto]);
              $request->merge(['montoReal'=>$cash->montoReal]);
              $request->merge(['descuadre'=>$cash->descuadre]);

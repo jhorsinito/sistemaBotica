@@ -98,10 +98,10 @@
                     if($scope.cash.montoReal=='0.00'){
                         alert("Ingrese Monto Real");
                     }else{
-                        alert($scope.date.getDate());
+                        //7alert($scope.date.getDate());
                         $scope.cash.fechaFin=$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate()+' '+$scope.date.getHours()+':'+$scope.date.getMinutes()+':'+$scope.date.getSeconds();
                             $scope.cash.estado='0';
-                            alert($scope.cash.fechaFin);
+                            //alert($scope.cash.fechaFin);
                             $log.log($scope.cash);
                         if ($scope.cashCreateForm.$valid) {  
                             

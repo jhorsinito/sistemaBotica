@@ -66,6 +66,14 @@
                           </div>
                            
                          </div>
+                         <div class="row" ng-show="banderaMostrarEntrega">
+                          <div class="col-md-3">
+                            <div class="form-group" >
+                                <input ng-disabled="order1.estado==3" type="checkbox" ng-disabled="order1.estado==3" name="estado" ng-model="cancelPedido" ng-checked="cancelPedido" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="canPedido()">
+                                <label for="estado">Anular Pedido</label> 
+                            </div>
+                          </div>
+                        </div>
                           
     </div>   
 
@@ -116,6 +124,8 @@
 
 
         </div>
+        <div class="overlay" ng-class="{ 'hidden': !cancelPedido}">
+                                                                    </div>
       </div>
   <!-- ==========================================================================================-->
        <section class="content"ng-if="order1.orderSale_id==null && order1.separateSale_id==null">
@@ -202,9 +212,28 @@
               </td>
               </tr>
             </table>
-            <div class="form-group" >
-                    <button class=" label-default" type='submit' ng-click='createdetPayment()' >Registrar Pago</button>  
-                  </div>
+
+            <div class="row" ng-if="!mostrarBtnGEd">
+                  <div class="col-md-4">
+                     <div class="form-group" >
+                        <label for="year">Tienda</label>
+                        <select ng-click="mostrarAlmacenCaja()" class="form-control" name="" ng-model="store.id" ng-options="item.id as item.nombreTienda for item in stores">
+                          <option value="">--Elije Tienda--</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group" >
+                          <label for="month">Caja</label>
+
+                          <select class="form-control" name="" ng-model="cash1.cashHeader_id" ng-options="item.id as item.nombre for item in cashHeaders">
+                          <option value="">--Elije Caja--</option>
+                          </select>
+                        </div>
+                      </div>
+                </div>
+
         </div>
         <div class="col-md-6" align="center">
             <div class="form-group">
@@ -217,7 +246,7 @@
                       <th>Monto Pagado</th>
                       <th>Tipo Pago</th>
                       <th>Caja</th>
-                      <th>Descartar</th>
+                      <th>Descartar</th> 
                     </tr>
                     
                     <tr ng-repeat="row in detPayments">
@@ -229,20 +258,31 @@
                       <td ng-if="row.tipoPago=='C'"><span class="badge bg-green">@{{row.tipoPago}}</span></td> 
                       <td><a href="/cashes/edit/@{{row.numCaja}}" target="_blank">@{{row.numCaja}}</a></td>
                      <td><button type="button" class="btn btn-danger btn-xs"  ng-click="destroyPay(row)">
-                        <span class="glyphicon glyphicon-trash"></span></td>
+                        <span class="glyphicon glyphicon-trash"></span></button>
+                        <a ng-Disabled="payment.Saldo<=0" ng-click="editDetpayment(row)" ng-model="checked" class="btn btn-warning btn-xs">Edit</a>
+                        </td>
                     </tr>
                     
                     
                   </table>
                   <div class="box-footer clearfix">
-                  <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" 
+                  <!--<pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" 
                   class="pagination-sm no-margin pull-right" items-per-page="itemsperPage" boundary-links="true" 
-                  rotate="false" num-pages="numPages" ng-change="pagechan2()"></pagination>
+                  rotate="false" num-pages="numPages" ng-change="pagechan2()"></pagination>-->
 
 
 
                 </div>
             </div>
+
+            </div>
+                <div ng-hide="mostrarBtnGEd" class="form-group" >
+                    <button class=" label-default" type='submit' ng-click='createdetPayment()' >Registrar Pago</button>
+                    </div>
+                    <div ng-show="mostrarBtnGEd" class="form-group" >
+                      <button class=" label-default" type='submit' ng-click='editPayment()'>Edit Pago</button>  
+                      <button class=" label-default" type='submit' ng-click='cancel()'>Cancelar</button> 
+                    </div> 
       </div>
 
      
@@ -251,6 +291,8 @@
                     
                   </div>
                 </form>
+                <div class="overlay" ng-class="{ 'hidden': !cancelPedido}">
+                                                                    </div>
               </div><!-- /.box -->
 
               </div>
@@ -261,7 +303,7 @@
 
           
 
-        
+                    <a class="btn btn-success btn-xs" ng-show="banderaModificar" ng-click="grabarCanPedido()">Modificar</a>
                    <a href="/sales" class="btn btn-success btn-xs">Regresar</a>
                   </div>
                 </form>

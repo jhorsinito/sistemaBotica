@@ -1,7 +1,7 @@
 <section class="content-header">
           <h1>
             Ventas
-            <small>Panel de Control</small>
+            <small>Panel de Control</small> 
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -26,7 +26,7 @@
                     <ul>
                       <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
                     </ul> 
-                  </div>
+                  </div> 
                                     
  <div class="box">  
                        <div  class="input-group">
@@ -56,20 +56,19 @@
                           <div class="row" ng-show="banderaMostrarEntrega">
                           <div class="col-md-3">
                           <div class="form-group" >
-                                <input type="checkbox" name="estado" ng-model="atenderOrder" ng-checked="atenderOrder" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="atenderOrderEstado()">
+                                <input ng-disabled="order1.estado==3" type="checkbox" name="estado" ng-model="atenderOrder" ng-checked="atenderOrder" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="atenderOrderEstado()">
                                 <label for="estado">Atender Orden</label> 
                           </div>
                           </div>
 
                           <div class="col-md-3">
                           <div class="form-group" >
-                                <input type="checkbox" name="estado" ng-model="cancelPedido" ng-checked="cancelPedido" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="canPedido()">
-                                <label for="estado">Cancelar Pedido</label> 
+                                <input ng-disabled="order1.estado==3" type="checkbox" name="estado" ng-model="cancelPedido" ng-checked="cancelPedido" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="canPedido()">
+                                <label for="estado">Anular Pedido</label> 
                           </div>
                           </div>
                           
                           </div>
-                          <label ng-show="banderaDevolucion">Se Generara devolucion por el Saldo del Pedido</label>
                            
                          </div>
                           
@@ -255,10 +254,28 @@
               </td>
               </tr>
             </table>
-            <div class="form-group" >
-                    <button class=" label-default" type='submit' ng-click='createdetPayment()' >Registrar Pago</button>  
-                  </div>
+            <div class="row" ng-if="!mostrarBtnGEd">
+                  <div class="col-md-4">
+                     <div class="form-group" >
+                        <label for="year">Tienda</label>
+                        <select ng-click="mostrarAlmacenCaja()" class="form-control" name="" ng-model="store.id" ng-options="item.id as item.nombreTienda for item in stores">
+                          <option value="">--Elije Tienda--</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group" >
+                          <label for="month">Caja</label>
+
+                          <select class="form-control" name="" ng-model="cash1.cashHeader_id" ng-options="item.id as item.nombre for item in cashHeaders">
+                          <option value="">--Elije Caja--</option>
+                          </select>
+                        </div>
+                      </div>
+                </div>
         </div>
+
         <div class="col-md-6" align="center">
             <div class="form-group">
               <b>Pagos Realizados</b>
@@ -282,15 +299,17 @@
                       <td ng-if="row.tipoPago=='C'"><span class="badge bg-green">@{{row.tipoPago}}</span></td>
                       <td><a href="/cashes/edit/@{{row.numCaja}}" target="_blank">@{{row.numCaja}}</a></td>
                      <td><button type="button" class="btn btn-danger btn-xs"  ng-click="destroyPay(row)">
-                        <span class="glyphicon glyphicon-trash"></span></td>
+                        <span class="glyphicon glyphicon-trash"></span></button>
+                        <a ng-Disabled="payment.Saldo<=0" ng-click="editDetpayment(row)" ng-model="checked" class="btn btn-warning btn-xs">Edit</a>
+                        </td>
                     </tr>
                     
                     
                   </table>
                   <div class="box-footer clearfix">
-                  <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" 
+                  <!--<pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" 
                   class="pagination-sm no-margin pull-right" items-per-page="itemsperPage" boundary-links="true" 
-                  rotate="false" num-pages="numPages" ng-change="pagechan2()"></pagination>
+                  rotate="false" num-pages="numPages" ng-change="pagechan2()"></pagination>-->
 
 
 
@@ -298,7 +317,14 @@
                 </div>
                 </div>
 
-     
+                  
+                  <div ng-hide="mostrarBtnGEd" class="form-group" >
+                    <button class=" label-default" type='submit' ng-click='createdetPayment()' >Registrar Pago</button>
+                    </div>
+                    <div ng-show="mostrarBtnGEd" class="form-group" >
+                      <button class=" label-default" type='submit' ng-click='editPayment()'>Edit Pago</button>  
+                      <button class=" label-default" type='submit' ng-click='cancel()'>Cancelar</button> 
+                    </div> 
              
                   <div class="box-footer">
                     

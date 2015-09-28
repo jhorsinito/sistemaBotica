@@ -32,7 +32,7 @@
                 $scope.purchase.store_id='1';
                 $scope.date=new Date();
                 //------------------------------------------------
-            
+             
                 //-------------------------------------------------
 
                 $scope.toggle = function () {
@@ -540,27 +540,20 @@
                  }
                 $scope.GenerrarReport=function(){
                     //$log.log($routeParams.id);
-                    //alert($scope.detailPurchase.length);
-                    $scope.purchase.detailPurchases=$scope.detailPurchases;
                     var id=$routeParams.id;
-                    //for(var n=0;n<$scope.detailPurchases.length;n++){
-                      //  alert($scope.detailPurchases[n].id+$scope.detailPurchases[n].cantidad);
-                     crudOPurchase.Reportes($scope.purchase,'TiketReport').then(function (data) {
+                     crudOPurchase.Reportes(id,'TiketReport').then(function (data) {
                         // alert("debajo");
-                            if (data!= undefined) {
-                                $scope.pdf=data;
-                                alert('Reporte Generado'+data.nombre);
+                            if (data['estado'] == true) {
+                                alert('Reporte Generado');
                                // $location.path('/purchases/create');
                             } else {
                                 $scope.errors = data;
 
                             }
                         });
-                 //}
                 }
                 $scope.GenerrarReportCod=function(){
                     //$log.log($routeParams.id);
-
                      crudOPurchase.Reportes($routeParams.id,'CodReport').then(function (data) {
                         // alert("debajo");
                             if (data['estado'] == true) {

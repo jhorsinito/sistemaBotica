@@ -16,7 +16,7 @@
                 $scope.cash1.cashHeader_id='1'; 
                 $scope.base=true;
                 $scope.skuestado=true;
-                $scope.compras=[];
+                $scope.compras=[]; 
                 $scope.sale={};
                 $scope.banderaNotas=true;
 
@@ -93,6 +93,7 @@
 
                 if(id)
                 {
+                    $scope.inicializar();
                     //$scope.paginateDetPay();
                     crudServiceOrderSales.byId(id,'orderSales').then(function (data) {
                         $scope.order1 = data;
@@ -133,6 +134,9 @@
                     });
                     crudServiceOrderSales.search('warehousesStore',$scope.store.id,1).then(function (data){
                         $scope.warehouses=data.data;
+                    });
+                    crudServiceOrderSales.search('searchHeaders',$scope.store.id,1).then(function (data){
+                        $scope.cashHeaders=data;
                     });
 
                     $scope.atenderOrder=false;
@@ -183,6 +187,7 @@
                         $scope.montoAcuenta+=(Number($scope.detOrders[i].canEntregado)*Number($scope.detOrders[i].precioVenta))
                     };
                     $scope.montosaldo=Number($scope.payment[0].Acuenta)-$scope.montoAcuenta;
+                    //alert($scope.montosaldo);
                 }
 
                 socket.on('orderSale.update', function (data) {
@@ -279,22 +284,22 @@
 
                 }
                 $scope.grabarCanPedido= function() {
+                    if ($scope.estadoAnulado) {
+                        $scope.order1.estado=3;
+                    }else{
+                      $scope.order1.estado=1;
+                    }
+                    //$scope.estadoAnulado=false;
+                       // $scope.order1.estado=1;
                     for (var i = $scope.detOrders.length - 1; i >= 0; i--) {
                             //------------------------------------------------
                             if ($scope.detOrders[i].estad==true && $scope.detOrders[i].estado==0 && $scope.detOrders[i].canPendiente!=0) {
                                 $scope.detOrders[i].estado=1;
-                                //crudServiceOrderSales.update($scope.detOrders[i],'DetOrderSales').then(function (data){
-                                //})
-                                //$scope.totalParteEntrega=1;
                                 $scope.banderaCancel=true;
-                                alert("no entrar");
                             }
                             if ($scope.detOrders[i].estad==false && $scope.detOrders[i].estado==1 && $scope.detOrders[i].canPendiente!=0) {
                                 $scope.detOrders[i].estado=0;
-                                //crudServiceOrderSales.update($scope.detOrders[i],'DetOrderSales').then(function (data){
-                                //})
                                 $scope.banderaCancel=true;
-                                alert("no entrar1");
                             }
                     }
                     $scope.order1.detOrder=$scope.detOrders;
@@ -307,43 +312,49 @@
 
                 }
                 $scope.createsalidaCaja = function(tipo){
-                    crudServiceOrderSales.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
-                        var canCashes=data.total;
-                        var pagActual=Math.ceil(canCashes/15);
-                        crudServiceOrderSales.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
-                            $scope.cashes = data.data;
-                            $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                    if ($scope.cash1.cashHeader_id==undefined) {
+                        alert("Elija Caja");
+                    }else{
+                        crudServiceOrderSales.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                            var canCashes=data.total;
+                            var pagActual=Math.ceil(canCashes/15);
+                            crudServiceOrderSales.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
+                                $scope.cashes = data.data;
+                                $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                                if ($scope.cashfinal.estado=='1') {
+                                    $scope.detCash={};
+                                    $scope.mostrarAlmacenCaja();
 
-                        $scope.detCash={};
-                        $scope.mostrarAlmacenCaja();
-
-                        $scope.detCash.cash_id=$scope.cashfinal.id; 
-                        $scope.detCash.fecha=$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate();
-                        $scope.detCash.hora=$scope.date.getHours()+':'+$scope.date.getMinutes()+':'+$scope.date.getSeconds();
-                        $scope.detCash.montoCaja=$scope.cashfinal.montoBruto;
+                                    $scope.detCash.cash_id=$scope.cashfinal.id; 
+                                    $scope.detCash.fecha=$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate();
+                                    $scope.detCash.hora=$scope.date.getHours()+':'+$scope.date.getMinutes()+':'+$scope.date.getSeconds();
+                                    $scope.detCash.montoCaja=$scope.cashfinal.montoBruto;
                     
-                        //$scope.detCash.montoMovimientoTarjeta=Number($scope.pago.tarjeta);
-                        $scope.detCash.montoMovimientoEfectivo=Number($scope.montosaldo);
-                        $scope.detCash.montoFinal=Number($scope.detCash.montoCaja)-$scope.detCash.montoMovimientoEfectivo;
-                        $scope.detCash.estado='1'; 
-                        //alert(tipo);
-                        $scope.detCash.cashMotive_id='18';
+                                    //$scope.detCash.montoMovimientoTarjeta=Number($scope.pago.tarjeta);
+                                    $scope.detCash.montoMovimientoEfectivo=Number($scope.montosaldo);
+                                    $scope.detCash.montoFinal=Number($scope.detCash.montoCaja)-$scope.detCash.montoMovimientoEfectivo;
+                                    $scope.detCash.estado='1'; 
+                                    //alert(tipo);
+                                    $scope.detCash.cashMotive_id='18';
                     
 
-                        $scope.cashfinal.gastos=Number($scope.cashfinal.gastos)+Number($scope.detCash.montoMovimientoEfectivo); 
-                        $scope.cashfinal.montoBruto=$scope.detCash.montoFinal;
-                        //////////////////////////////////////////////
-                        $scope.order1.movimiento=$scope.detCash;
-                        $scope.order1.caja=$scope.cashfinal;
-                        $log.log($scope.order1);
-                        crudServiceOrderSales.update($scope.order1,'orderSales').then(function (data){
+                                    $scope.cashfinal.gastos=Number($scope.cashfinal.gastos)+Number($scope.detCash.montoMovimientoEfectivo); 
+                                    $scope.cashfinal.montoBruto=$scope.detCash.montoFinal;
+                                    //////////////////////////////////////////////
+                                    $scope.order1.movimiento=$scope.detCash;
+                                    $scope.order1.caja=$scope.cashfinal;
+                                    $log.log($scope.order1);
+                                    crudServiceOrderSales.update($scope.order1,'orderSales').then(function (data){
+                                        $location.path('/orderSales');
+                                    });
+                                }else{
+                                    alert("Caja Cerrada");
+                                }
 
+
+                            });
                         });
-
-
-                    });
-                    });
-
+                    }
                     //$scope.sale.fechaPedido=$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate()+' '+$scope.date.getHours()+':'+$scope.date.getMinutes()+':'+$scope.date.getSeconds();
                     //for (var i = $scope.compras.length - 1; i >= 0; i--) {
                       //  $scope.compras[i].canPendiente=$scope.compras[i].cantidad;
@@ -364,11 +375,13 @@
                             $scope.payment[0].Saldo=$scope.payment[0].MontoTotal-$scope.payment[0].Acuenta;
                             //alert($scope.payment[0].Acuenta);
                         }else{$scope.banderaDevolucion=false}
-                        $scope.order1.estado=3;
+                        $scope.estadoAnulado=true;
                         for (var i = $scope.detOrders.length - 1; i >= 0; i--) {
                             //$scope.detOrders[i].estad=true;
                             if ($scope.detOrders[i].canPendiente>0) {
                                 $scope.detOrders[i].estad=true;
+                            }else{
+                                $scope.detOrders[i].estad=false;       
                             }
 
                             if ($scope.detOrders[i].estado==1 && $scope.detOrders[i].canPendiente==0){
@@ -378,7 +391,9 @@
                             }
                         }; 
                     }else{
-                        $scope.order1.estado=1;
+                        $route.reload();
+                        $scope.estadoAnulado=false;
+                       // $scope.order1.estado=1;
                         for (var i = $scope.detOrders.length - 1; i >= 0; i--) {
                             if ($scope.detOrders[i].canPendiente>0){
                                 $scope.detOrders[i].estad=false;
@@ -1119,7 +1134,8 @@
                                                     alert('grabado correctamente');
                                                     $scope.calcularPorcentaje();
                                                     $scope.calculospedido();
-                                                    $scope.paginateDetPay($scope.detPago.salePayment_id);
+                                                    $route.reload();
+                                                    //$scope.paginateDetPay($scope.detPago.salePayment_id);
                                                     $scope.pagoCredito={};
                                                     $scope.detPago={};
                                                 } else {
@@ -1210,14 +1226,68 @@
                 };
 
                 $scope.destroyPay = function(row){
-                  if(confirm("Esta segura de querer eliminar este pago!!!") == true){
-                    $scope.payment[0].detpayment_id=row.id;
-                    //$scope.payment[0].cashMonthly_id=row.cashMonthly_id;
-                    $scope.payment[0].detCash_id=row.detCash_id;
-                    $log.log($scope.payment);
-                    ssssss
-                    crudServiceOrderSales.destroy($scope.payment[0],'salePayment').then(function(data)
-                    {
+                $scope.cash1.cashHeader_id=row.cashHeaders_id;
+                crudServiceOrderSales.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                    var canCashes=data.total;
+                    var pagActual=Math.ceil(canCashes/15);
+                    crudServiceOrderSales.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
+                        $scope.cashes = data.data;
+                        $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                        if ($scope.cashfinal.id==row.numCaja&&$scope.cashfinal.estado=='1') {
+                            if(confirm("Esta segura de querer eliminar este pago!!!") == true){
+                                $scope.payment[0].detpayment_id=row.id;
+                                $scope.payment[0].detCash_id=row.detCash_id;
+                                $log.log($scope.payment[0]);
+                                crudServiceOrderSales.destroy($scope.payment[0],'salePayment').then(function(data){
+                                if(data['estado'] == true){
+                                        $scope.success = data['nombre'];
+
+                                        $route.reload();
+
+                                    }else{
+                                        $scope.errors = data;
+                                    }
+                                });
+                            }
+                        }else{
+                            alert("Caja Cerrada");
+                        }
+
+                    });
+                })
+            }
+            $scope.PagoAnterior;
+            $scope.mostrarBtnGEd=false;
+            $scope.check=false;
+            $scope.filaenEdicion=false;
+            $scope.editDetpayment=function(row){
+                $scope.cash1.cashHeader_id=row.cashHeaders_id;
+                $scope.opcionalRow=row.monto;
+                crudServiceOrderSales.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                    var canCashes=data.total;
+                    var pagActual=Math.ceil(canCashes/15);
+                    crudServiceOrderSales.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
+                        $scope.cashes = data.data;
+                        $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                        if ($scope.cashfinal.id==row.numCaja&&$scope.cashfinal.estado=='1') {
+                            $scope.detPago=row;
+                            $scope.detPago.fecha=new Date(row.fecha);
+                            $scope.detPago.monto=Number(row.monto);
+
+                            $scope.detPago.detpayment_id=row.id;
+                            $scope.detPago.detCash_id=row.detCash_id;
+
+                            $scope.mostrarBtnGEd=true;
+                        }else{
+                            alert("Caja Cerrada");  
+                            $route.reload();  
+                        }
+                    });
+                });    
+            }  
+            $scope.editPayment = function(){
+                if (Number($scope.payment[0].Acuenta)-Number($scope.opcionalRow) +Number($scope.detPago.monto) <= Number($scope.payment[0].MontoTotal)) {
+                    crudServiceOrderSales.update($scope.detPago,'editdetpatmentSale').then(function(data){
                         if(data['estado'] == true){
                             $scope.success = data['nombre'];
                             $route.reload();
@@ -1226,7 +1296,14 @@
                             $scope.errors = data;
                         }
                     });
-                }
+                }else{
+                    alert("Pago Mayor al Saldo");
+                }               
+            }
+            $scope.cancel = function(){
+                $route.reload(); 
+                //$scope.detPago={};
+                //$scope.mostrarBtnGEd=false; 
             }
                 
             }]);

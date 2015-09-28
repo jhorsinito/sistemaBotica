@@ -598,6 +598,8 @@ Route::get('api/saledetPayments/find/{id}',['as'=>'person_create', 'uses'=>'Sale
 Route::get('api/saledetPayments/paginate/',['as' => 'person_paginate', 'uses' => 'SaleDetPaymentController@paginatep']);
 Route::put('api/SalePayment/edit','SalePaymentController@edit');
 
+Route::put('api/editdetpatmentSale/edit','SalePaymentController@editdetpatmentSale');
+
 Route::get('api/pendientAccounts/paginate/','PendientAccountsController@paginatep');
 
 Route::get('inventory',['as'=>'person','uses'=>'InventoryController@index']);

@@ -142,10 +142,8 @@
                       <th>Fecha</th>
                       <th>Hora</th>
                       <th>Tipo</th>
-                      <th>Monto Caja</th>
                       <th>S/.Tarjeta</th>
                       <th>S/.Efectivo</th>
-                      <th>Monto Final</th>
                       <th>Ver Venta</th>
                     </tr>
                     
@@ -154,10 +152,8 @@
                       <td>@{{row.fecha}}</td>
                       <td>@{{row.hora}}</td>
                       <td>@{{row.cash_motive.nombre}}</td>
-                      <td>@{{row.montoCaja}}</td>
                       <td>@{{row.montoMovimientoTarjeta}}</td>
                       <td>@{{row.montoMovimientoEfectivo}}</td>
-                      <td>@{{row.montoFinal}}</td>
                       <td ng-if="row.cashMotive_id==1 || row.cashMotive_id==13 || row.cashMotive_id==14"><a href="/sales/edit/@{{row.observacion}}" target="_blank">ver venta</a></td>
                       <td ng-if="row.cashMotive_id==15 || row.cashMotive_id==16 || row.cashMotive_id==17"><a href="/orderSales/edit/@{{row.observacion}}" target="_blank">ver pedido</a></td>
                       <td ng-if="row.cashMotive_id==19 || row.cashMotive_id==20 || row.cashMotive_id==21"><a href="/separateSales/edit/@{{row.observacion}}" target="_blank">ver separado</a></td>
