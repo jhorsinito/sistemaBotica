@@ -552,15 +552,29 @@
                  }
                 $scope.GenerrarReport=function(){
                     //$log.log($routeParams.id);
-                    $scope.botonReporte = 'Cargando..';
+<<<<<<< HEAD
                     var id=$routeParams.id;
                      crudOPurchase.Reportes(id,'TiketReport').then(function (data) {
                         // alert("debajo");
                             if (data['estado'] == true) {
                                 alert('Reporte Generado');
+                               // $location.path('/purchases/create');
+=======
+                    //alert($scope.detailPurchase.length);
+                    $scope.botonReporte = 'Cargando..';
+                    $scope.purchase.detailPurchases=$scope.detailPurchases;
+                    var id=$routeParams.id;
+                    //for(var n=0;n<$scope.detailPurchases.length;n++){
+                      //  alert($scope.detailPurchases[n].id+$scope.detailPurchases[n].cantidad);
+                     crudOPurchase.Reportes(id,'TiketReport').then(function (data) {
+                        // alert("debajo");
+                            if (data!= undefined) {
+                                $scope.pdf=data;
+                                alert("Reporte Generado");
                                  $scope.botonReporte = 'Reporte Completado';
                                  $scope.verReportTiket1=true;
                                 //$location.path("http://www.cnn.com");
+>>>>>>> 096e74e2bdcb9922fb0ab389adb5fe52ecbc23ec
                             } else {
                                 $scope.errors = data;
 
@@ -572,7 +586,10 @@
                 }
                 $scope.GenerrarReportCod=function(){
                     //$log.log($routeParams.id);
+<<<<<<< HEAD
+=======
                      $scope.botonReporteCod="Genrando..";
+>>>>>>> 096e74e2bdcb9922fb0ab389adb5fe52ecbc23ec
                      crudOPurchase.Reportes($routeParams.id,'CodReport').then(function (data) {
                         // alert("debajo");
                             if (data!= undefined) {

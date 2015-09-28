@@ -457,9 +457,8 @@ class PurchasesController extends Controller {
       \DB::commit();
      return response()->json(['estado'=>true, 'nombres'=>$purchase->nombres]);
     }
-    public function reportes(Request $request){
-    $var=$request->detailPurchases;
-    foreach($var as $object){
+    public function reportes($id){
+   
         //var_dump($object["cantidad"]);die();
         $database = \Config::get('database.connections.mysql');
         $time=time();
@@ -472,15 +471,15 @@ class PurchasesController extends Controller {
             array($ext),
             //array(),
             //while($i<=3){};
-            ['idVariante'=>intval($object["id"]),'cantidad'=>intval($object["cantidad"])],//Parametros
+            ['idVariante'=>intval($id)],//Parametros
            
 
             $database,
             false,
             false
         )->execute();
-        echo("<a href='localhost:8007/report/".$time."_Tiket.".$ext."'>Genrar</a>");
-      }
+        //echo("<a href='localhost:8007/report/".$time."_Tiket.".$ext."'>Genrar</a>");
+      
         //return response()->json(['estado'=>true]);
         return '/report/'.$time.'_Tiket.'.$ext;
     }
@@ -503,7 +502,7 @@ class PurchasesController extends Controller {
             false,
             false
         )->execute();
-        return response()->json(['estado'=>true]);
+        return '/report/'.$time.'_CodigoBarras.'.$ext;
    
     }
     public function find($id)

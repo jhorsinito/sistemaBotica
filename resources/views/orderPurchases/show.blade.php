@@ -187,6 +187,8 @@
             </div> 
             <div ng-show="mostrarBtnGEd" class="form-group" >
                     <button class=" label-default" type='submit' ng-click='editPayment()'>Edit Pago</button>  
+                    <button class=" label-danger"  ng-click='cancelarEditPayment()'>Cancelar</button>  
+            
             </div>
         </div>
      

@@ -213,6 +213,13 @@
 
                 return deferred.promise;
             }
+            function comprovarCaja(id){
+                 var deferred = $q.defer();
+                $http.get('api/detCashes/compCajaActiva/'+id).success(function (data) {
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
             return {
                 all: all,
                 paginate: paginate,
@@ -224,6 +231,7 @@
                 select:select,
                 byforeingKey: byforeingKey,
                 bytraervar: bytraervar,
+                comprovarCaja: comprovarCaja,
                 //traerCodigo: traerCodigo,
                 traerEmpresa: traerEmpresa,
                 paginateDPedido: paginateDPedido,

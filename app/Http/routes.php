@@ -554,6 +554,7 @@ Route::put('api/detCashes/edit',['as'=>'person_edit', 'uses'=>'DetCashController
 Route::post('api/detCashes/destroy',['as'=>'person_destroy', 'uses'=>'DetCashController@destroy']);
 Route::get('api/detCashes/search/{q?}',['as'=>'person_search', 'uses'=>'DetCashController@search']);
 Route::get('api/detCashes/find/{id}',['as'=>'person_find', 'uses'=>'DetCashController@find']);
+Route::get('api/detCashes/compCajaActiva/{id}','DetCashController@compCajaActiva');
 
 Route::get('api/detCashesSale/search/{q?}',['as'=>'person_search', 'uses'=>'DetCashController@searchSale']);
 Route::get('api/detCashesOrderSale/search/{q?}',['as'=>'person_search', 'uses'=>'DetCashController@searchOrderSale']);

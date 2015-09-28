@@ -156,6 +156,7 @@
                     
                     <tr  ng-repeat="row in detPayments">
                       <td ng-hide="true">@{{row.id}}</td>
+                      <!--<td ng-hide="true">@{{row.detCash_id}}</td>-->
                       <td ng-hide="true">@{{row.cashID}}</td>
                       <td>@{{row.updated_at}}</td>
                       <td ng-if="row.nameMethod!=null">@{{row.nameMethod}}</td>
@@ -186,6 +187,8 @@
             </div> 
             <div ng-show="mostrarBtnGEd" class="form-group" >
                     <button class=" label-default" type='submit' ng-click='editPayment()'>Edit Pago</button>  
+                     <button class=" label-danger"  ng-click='cancelarEditPayment()'>Cancelar</button>  
+            
             </div>
         </div>
      
