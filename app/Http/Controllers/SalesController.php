@@ -116,6 +116,7 @@ class SalesController extends Controller
         
             $insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
             $insertarMovimiento->save();
+            $detCash_id=$movimientoSave->id;
     //---Autualizar Caja---
             
             $cajaAct = $request->caja;
@@ -153,6 +154,7 @@ class SalesController extends Controller
                 $saledetPaymentrepo;
                 foreach($saledetPayments as $object1){
                     $object1['salePayment_id'] = $temporal1;
+                    $object1['detCash_id']=$detCash_id;
 
                     $saledetPaymentrepo = new SaleDetPaymentRepo;
 
@@ -409,10 +411,7 @@ class SalesController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id)
-    {
-        //
-    }
+  
 
     /**
      * Update the specified resource in storage.
@@ -435,5 +434,73 @@ class SalesController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function edit(Request $request)
+    {
+        $varDetOrders = $request->detOrder;
+        $varPayment = $request->payment;
+        $movimiento = $request->movimiento;
+        if ($movimiento['montoMovimientoEfectivo']>0) {
+            //---create movimiento--- 
+            //var_dump($request->movimiento);die();
+            $detCashrepo;
+            $movimiento['observacion']="temporal";
+            $detCashrepo = new DetCashRepo;
+            $movimientoSave=$detCashrepo->getModel();
+        
+            $insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
+            $insertarMovimiento->save();
+    //---Autualizar Caja---
+            
+            $cajaAct = $request->caja;
+            $cashrepo;
+            $cashrepo = new CashRepo;
+            $cajaSave=$cashrepo->getModel();
+            $cash1 = $cashrepo->find($cajaAct["id"]);
+
+            $manager1 = new CashManager($cash1,$cajaAct);
+            $manager1->save();
+        //----------------
+
+            $salePaymentRepo;
+        $salePaymentRepo = new SalePaymentRepo;
+        $payment = $salePaymentRepo->find($varPayment['id']);
+        $manager = new SalePaymentManager($payment,$varPayment);
+        $manager->save();
+
+        }
+        
+        //$detOrderSaleRepo;
+        foreach($varDetOrders as $object){
+            //$detOrderSaleRepo = new DetSaleRepo;
+
+            //$detorderSale = $detOrderSaleRepo->find($object['id']);
+            //$manager = new DetSaleManager($detorderSale,$object);
+            //$manager->save();
+
+            $stokRepo;
+            $stokRepo = new StockRepo;
+            $cajaSave=$stokRepo->getModel();
+            $stockOri = $stokRepo->find($object['id']);
+
+            $stock = $stokRepo->find($object['idStock']);
+            //+++if ($object['estad']==true) {
+                $stock->stockActual= $stock->stockActual+$object['cantidad'];
+            //+++}else{
+                //+++$stock->stockPedidos= $stock->stockPedidos+$object['canPendiente'];
+            //+++}
+
+            $stock->save();
+        }
+
+        $orderSale = $this->saleRepo->find($request->id);
+        $manager = new SaleManager($orderSale,$request->all());
+        $manager->save();
+
+        
+
+
+
+        return response()->json(['estado'=>true, 'nombre'=>$orderSale->nombre]);
     }
 }

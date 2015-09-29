@@ -295,18 +295,19 @@
                             //------------------------------------------------
                             if ($scope.detOrders[i].estad==true && $scope.detOrders[i].estado==0 && $scope.detOrders[i].canPendiente!=0) {
                                 $scope.detOrders[i].estado=1;
-                                //crudServiceOrderSales.update($scope.detOrders[i],'DetOrderSales').then(function (data){
-                                //})
-                                //$scope.totalParteEntrega=1;
                                 $scope.banderaCancel=true;
-                                alert("no entrar");
+<<<<<<< HEAD
+                                //alert("no entrar");
+=======
+>>>>>>> 46db320d5efd035b68957307947289e16ca74521
                             }
                             if ($scope.detOrders[i].estad==false && $scope.detOrders[i].estado==1 && $scope.detOrders[i].canPendiente!=0) {
                                 $scope.detOrders[i].estado=0;
-                                //crudServiceOrderSales.update($scope.detOrders[i],'DetOrderSales').then(function (data){
-                                //})
                                 $scope.banderaCancel=true;
-                                alert("no entrar1");
+<<<<<<< HEAD
+                                //alert("no entrar1");
+=======
+>>>>>>> 46db320d5efd035b68957307947289e16ca74521
                             }
                     }
                     $scope.order1.detOrder=$scope.detOrders;

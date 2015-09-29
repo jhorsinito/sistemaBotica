@@ -27,7 +27,7 @@
                     <ul>
                       <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
                     </ul>
-                  </div> 
+                  </div>  
 
 
 
@@ -81,6 +81,9 @@
                             <div class="col-md-9" ng-show="!skuestado">
                               <input  type="text" ng-model="atributoSelected" ng-enter="open()" placeholder="Buscar por codigo" typeahead="atributo as atributo.NombreAtributos for atributo in getAtributos($viewValue)" 
                                     typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"/>
+                            
+                              <!--<input type="text" ng-model="atributoSelected" placeholder="Buscar por codigo" typeahead="atributo as atributo.NombreAtributos for atributo in getAtributos($viewValue)"
+                                    typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" ng-enter="open()"/>-->
                             </div>
                             <div class="col-md-3" >
                             <div class="form-group">

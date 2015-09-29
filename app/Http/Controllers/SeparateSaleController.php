@@ -89,6 +89,7 @@ public function create(Request $request) {
         
             $insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
             $insertarMovimiento->save();
+            $detCash_id=$movimientoSave->id;
     //---Autualizar Caja---
             
             $cajaAct = $request->caja;
@@ -116,7 +117,7 @@ public function create(Request $request) {
                 $saledetPaymentrepo;
                 foreach($saledetPayments as $object1){
                     $object1['salePayment_id'] = $temporal1;
-
+                    $object1['detCash_id']=$detCash_id;
                     $saledetPaymentrepo = new SaleDetPaymentRepo;
 
                     $insertar=new SaleDetPaymentManager($saledetPaymentrepo->getModel(),$object1);
@@ -178,37 +179,6 @@ public function create(Request $request) {
     public function edit(Request $request)
     {
         $varDetOrders = $request->detOrder;
-        $varPayment = $request->payment;
-        $movimiento = $request->movimiento;
-        if ($movimiento['montoMovimientoEfectivo']>0) {
-            //---create movimiento--- 
-            //var_dump($request->movimiento);die();
-            $detCashrepo;
-            $movimiento['observacion']="temporal";
-            $detCashrepo = new DetCashRepo;
-            $movimientoSave=$detCashrepo->getModel();
-        
-            $insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
-            $insertarMovimiento->save();
-    //---Autualizar Caja---
-            
-            $cajaAct = $request->caja;
-            $cashrepo;
-            $cashrepo = new CashRepo;
-            $cajaSave=$cashrepo->getModel();
-            $cash1 = $cashrepo->find($cajaAct["id"]);
-
-            $manager1 = new CashManager($cash1,$cajaAct);
-            $manager1->save();
-        //----------------
-
-            $salePaymentRepo;
-        $salePaymentRepo = new SalePaymentRepo;
-        $payment = $salePaymentRepo->find($varPayment['id']);
-        $manager = new SalePaymentManager($payment,$varPayment);
-        $manager->save();
-
-        }
         
         $detOrderSaleRepo;
         foreach($varDetOrders as $object){
