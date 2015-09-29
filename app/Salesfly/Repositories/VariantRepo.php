@@ -120,7 +120,11 @@ class VariantRepo extends BaseRepo{
                                 INNER JOIN stock ON stock.variant_id = variants.id
                                 INNER JOIN warehouses ON warehouses.id = stock.warehouse_id
                                 where variants.id=varCodigo and warehouses.id=$almac
-                                GROUP BY stock.id)as stockActual"))
+                                GROUP BY stock.id)as stockActual,(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,':',detAtr.descripcion) SEPARATOR '/') FROM variants
+                                INNER JOIN detAtr ON detAtr.variant_id = variants.id
+                                INNER JOIN atributes ON atributes.id = detAtr.atribute_id
+                                where variants.id=varCodigo
+                                GROUP BY variants.id) as NombreAtributos"))
                           ->groupBy('variants.id')->paginate();
         return $variant;
     }
@@ -141,7 +145,11 @@ class VariantRepo extends BaseRepo{
                                 INNER JOIN stock ON stock.variant_id = variants.id
                                 INNER JOIN warehouses ON warehouses.id = stock.warehouse_id
                                 where variants.id=varCodigo and warehouses.id=$almac
-                                GROUP BY stock.id)as stockActual"))
+                                GROUP BY stock.id)as stockActual,(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,':',detAtr.descripcion) SEPARATOR '/') FROM variants
+                                INNER JOIN detAtr ON detAtr.variant_id = variants.id
+                                INNER JOIN atributes ON atributes.id = detAtr.atribute_id
+                                where variants.id=varCodigo
+                                GROUP BY variants.id) as NombreAtributos"))
                           ->groupBy('variants.id')->paginate();
         return $variant;
     }

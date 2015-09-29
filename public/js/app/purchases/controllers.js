@@ -309,7 +309,8 @@
                $scope.companies=[];
                $scope.company={};
                $scope.badera=true;
-               $scope.calCantidad=function(stockActual,atributos,sku,varCodigo,can,talla){
+               $scope.calCantidad=function(stockActual,atributos,sku,varCodigo,can,talla,TieneVariante){
+                alert(TieneVariante);
                 //item.NombreAtributos,item.varSku,item.varCodigo,cantidad,item.valorDetAtr,item.TieneVariante
                        // alert(talla);
                         if(can>0 && $scope.purchase.tipo=='Entrada'){
@@ -331,6 +332,12 @@
                       crudOPurchase.select('detpres',varCodigo).then(function (data) {
                                     $scope.company.codigo=data.codigo;
                                     $scope.company.esbase=data.esbase;
+                                    if(atributos!=null){
+                                       // alert("estoy aqui");
+                                    $scope.company.producto=$scope.inputStock.proNombre+"("+atributos+")";
+                                   }else{
+                                    $scope.company.producto=$scope.inputStock.proNombre+"("+$scope.product.proId.varCodigo+")";
+                                   }
                                     $scope.company.detPres_id=data.detpresen_id;
                                     $scope.company.cantidad_llegado=can;
                                     $scope.company.talla=talla;
@@ -361,6 +368,12 @@
                                    $scope.company.detPres_id=data.detpresen_id;
                                    $scope.company.cantidad_llegado=can;
                                    $scope.company.talla=talla;
+                                   if(atributos!=null){
+                                       // alert("estoy aqui");
+                                    $scope.company.producto=$scope.inputStock.proNombre+"("+atributos+")";
+                                   }else{
+                                    $scope.company.producto=$scope.inputStock.proNombre+"("+$scope.product.proId.varCodigo+")";
+                                   }
                                    $log.log($scope.company);
                     $scope.companies.push($scope.company);
                     $scope.company={};
@@ -412,6 +425,12 @@
                 $scope.asignarProduc1=function(){
                     $scope.inputStock.CantidaStock='';
                     $scope.codigoVarP=$scope.product.proId.varCodigo;
+                    $scope.inputStock.proNombre=$scope.product.proId.proNombre;
+                    if($scope.product.proId.TieneVariante==1){
+                           $scope.inputStock.producto=$scope.inputStock.proNombre+"("+$scope.product.proId.NombreAtributos+")";
+                       }else{
+                           $scope.inputStock.producto=$scope.inputStock.proNombre+"("+$scope.product.proId.varCodigo+")";
+                       }
                     //alert($scope.product.proId.varid);
                      crudOPurchase.MostrarAtributos($scope.product.proId.varCodigo,'Taco').then(function (data) {
                               $scope.variants=data.data;
@@ -433,6 +452,12 @@
                             
                                                  });
                                                 $scope.Listo=false;
+                                                if($scope.product.proId.NombreAtributos!=null)
+                                                   {
+                                                   $scope.inputStock.producto=$scope.inputStock.proNombre+"("+$scope.product.proId.NombreAtributos+")";
+                                                   }else{
+                                                    $scope.inputStock.producto=$scope.inputStock.proNombre+"("+$scope.product.proId.proCodigo+")";
+                                                }
                                                 $scope.activarCampCantidad=true;
                                                  //---------------------------------------------------------------
                                                }else{
@@ -509,8 +534,228 @@
                     $scope.inputStock.cantidad_llegado='';
                 }
                 }
+                $scope.filtrarFechas=function(){
+                    //alert('ya estas');
+                    $scope.temporalfec='';
+                    $scope.temporalfech2='';
+            if($scope.purchase.fechaini<$scope.purchase.fechafin){
+                   if($scope.purchase.fechaini.getDate()<10){
+                         $scope.temporalfec="0"+$scope.purchase.fechaini.getDate();
+                         if($scope.purchase.fechaini.getMonth()+1<10){
+                            $scope.temporalfec=$scope.purchase.fechaini.getFullYear()+"-0"+
+                            ($scope.purchase.fechaini.getMonth()+1)+"-"+$scope.temporalfec;
+                            
+                         }else{
+                            $scope.temporalfec=$scope.purchase.fechaini.getFullYear()+"-"+
+                            ($scope.purchase.fechaini.getMonth()+1)+"-"+$scope.temporalfec;
+                         }
+                   }else{
+                        $scope.temporalfec=$scope.purchase.fechaini.getDate();
+                         if($scope.purchase.fechaini.getMonth()+1<10){
+                            $scope.temporalfec=$scope.purchase.fechaini.getFullYear()+"-0"+
+                            ($scope.purchase.fechaini.getMonth()+1)+"-"+$scope.temporalfec;
+                         }else{
+                            $scope.temporalfec=$scope.purchase.fechaini.getFullYear()+"-"+
+                            ($scope.purchase.fechaini.getMonth()+1)+"-"+$scope.temporalfec;
+                         }
+                   }
+                   if($scope.purchase.fechafin.getDate()<10){
+                         $scope.temporalfech2="0"+$scope.purchase.fechafin.getDate();
+                         if($scope.purchase.fechafin.getMonth()+1<10){
+                            $scope.temporalfech2=$scope.purchase.fechafin.getFullYear()+"-0"+
+                            ($scope.purchase.fechafin.getMonth()+1)+"-"+$scope.temporalfech2;
+                            
+                         }else{
+                            $scope.temporalfech2=$scope.purchase.fechafin.getFullYear()+"-"+
+                            ($scope.purchase.fechafin.getMonth()+1)+"-"+$scope.temporalfech2;
+                         }
+                   }else{
+                        $scope.temporalfech2=$scope.purchase.fechafin.getDate();
+                         if($scope.purchase.fechafin.getMonth()+1<10){
+                            $scope.temporalfech2=$scope.purchase.fechafin.getFullYear()+"-0"+
+                            ($scope.purchase.fechafin.getMonth()+1)+"-"+$scope.temporalfech2;
+                         }else{
+                            $scope.temporalfech2=$scope.purchase.fechafin.getFullYear()+"-"+
+                            ($scope.purchase.fechafin.getMonth()+1)+"-"+$scope.temporalfech2;
+                         }
+                   }
+                  // alert($scope.purchase.tipoMov);
+                   if($scope.purchase.tipoMov==''){
+                    //alert($scope.temporalfec+"////"+$scope.temporalfech2);
+                   crudOPurchase.paginarporfechas("inputStocks",$scope.temporalfec,$scope.temporalfech2).then(function (data) {
+                        $scope.headInputStocks = data.data;
+                        $scope.maxSize = 5;
+                        $scope.totalItems = data.total;
+                        $scope.currentPage = data.current_page;
+                        $scope.itemsperPage = 15;
+                   });
+               }
+                   else{
+                    //alert($scope.temporalfec+"cuandpo es falso////"+$scope.temporalfech2);
+                        crudOPurchase.paginarfechaTipo("inputStocks",$scope.temporalfec,$scope.temporalfech2,$scope.purchase.tipoMov).then(function (data) {
+                        $scope.headInputStocks = data.data;
+                        $scope.maxSize = 5;
+                        $scope.totalItems = data.total;
+                        $scope.currentPage = data.current_page;
+                        $scope.itemsperPage = 15;
+                   });
+                   }
+                }else{
+
+                   alert("Error La segunda fecha debe ser una fecha mayor a la primera como minimo en un dia!!")
+                }
+                }
+                $scope.filtrarFecharCompras=function(){
+                   // alert($scope.estado);
+                if($scope.purchase.fechaini!=null && $scope.purchase.fechafin!=null && $scope.purchase.fechaini<=$scope.purchase.fechafin){
+                     //alert($scope.estado);
+                   if($scope.purchase.fechaini.getDate()<10){
+                         $scope.temporalfec="0"+$scope.purchase.fechaini.getDate();
+                         if($scope.purchase.fechaini.getMonth()+1<10){
+                            $scope.temporalfec=$scope.purchase.fechaini.getFullYear()+"-0"+
+                            ($scope.purchase.fechaini.getMonth()+1)+"-"+$scope.temporalfec;
+                            
+                         }else{
+                            $scope.temporalfec=$scope.purchase.fechaini.getFullYear()+"-"+
+                            ($scope.purchase.fechaini.getMonth()+1)+"-"+$scope.temporalfec;
+                         }
+                   }else{
+                        $scope.temporalfec=$scope.purchase.fechaini.getDate();
+                         if($scope.purchase.fechaini.getMonth()+1<10){
+                            $scope.temporalfec=$scope.purchase.fechaini.getFullYear()+"-0"+
+                            ($scope.purchase.fechaini.getMonth()+1)+"-"+$scope.temporalfec;
+                         }else{
+                            $scope.temporalfec=$scope.purchase.fechaini.getFullYear()+"-"+
+                            ($scope.purchase.fechaini.getMonth()+1)+"-"+$scope.temporalfec;
+                         }
+                   }
+                   if($scope.purchase.fechafin.getDate()<10){
+                         $scope.temporalfech2="0"+$scope.purchase.fechafin.getDate();
+                         if($scope.purchase.fechafin.getMonth()+1<10){
+                            $scope.temporalfech2=$scope.purchase.fechafin.getFullYear()+"-0"+
+                            ($scope.purchase.fechafin.getMonth()+1)+"-"+$scope.temporalfech2;
+                            
+                         }else{
+                            $scope.temporalfech2=$scope.purchase.fechafin.getFullYear()+"-"+
+                            ($scope.purchase.fechafin.getMonth()+1)+"-"+$scope.temporalfech2;
+                         }
+                   }else{
+                        $scope.temporalfech2=$scope.purchase.fechafin.getDate();
+                         if($scope.purchase.fechafin.getMonth()+1<10){
+                            $scope.temporalfech2=$scope.purchase.fechafin.getFullYear()+"-0"+
+                            ($scope.purchase.fechafin.getMonth()+1)+"-"+$scope.temporalfech2;
+                         }else{
+                            $scope.temporalfech2=$scope.purchase.fechafin.getFullYear()+"-"+
+                            ($scope.purchase.fechafin.getMonth()+1)+"-"+$scope.temporalfech2;
+                         }
+                   }
+                    crudOPurchase.paginarporfechas("purchases",$scope.temporalfec,$scope.temporalfech2).then(function (data) {
+                        $scope.purchases = data.data;
+                        $scope.maxSize = 5;
+                        $scope.totalItems = data.total;
+                        $scope.currentPage = data.current_page;
+                        $scope.itemsperPage = 15;
+                   });
+                }else{
+                    $scope.purchase.fechafin=null;
+                    alert("Seleccione Fechas Correctas");
+                }
+                }
+                $scope.limpiarFiltros=function(){
+                    $scope.purchase.fechaini=null;
+                    $scope.purchase.fechafin=null;
+                    $scope.purchase.tipoMov='';
+                }
+                $scope.MovimientoAlmacen=function(){
+                    //alert($scope.check);
+                    if($scope.check==true)
+                    {    
+                        if($scope.purchase.tipoMov!=''){
+                          //  alert("hola");
+                           crudOPurchase.Reportes($scope.purchase.tipoMov,'movimientoTipo').then(function (data) {
+                       // alert("debajo");
+                            if (data!= undefined) {
+                                $scope.pdfMovimiento=data;
+                                alert("Reporte Generado");
+                                 //$scope.botonReporte = 'Reporte Completado';
+                                 //$scope.verReportTiket1=true;
+                                //$location.path("http://www.cnn.com");
+                            } else {
+                                $scope.errors = data;
+
+                            }
+                        });
+                     }else{
+                        if($scope.purchase.fechaini!=null && $scope.purchase.fechafin!=null && $scope.purchase.fechaini<$scope.purchase.fechafin)
+                        {
+                            //alert($scope.temporalfec);
+                             crudOPurchase.reportesMovFecha('movimientoFechas',$scope.temporalfec,$scope.temporalfech2).then(function (data) {
+                       // alert("debajo");
+                            if (data!= undefined) {
+                                $scope.pdfMovimiento=data;
+                                alert("Reporte Generado");
+                                 //$scope.botonReporte = 'Reporte Completado';
+                                 //$scope.verReportTiket1=true;
+                                //$location.path("http://www.cnn.com");
+                            } else {
+                                $scope.errors = data;
+
+                            }
+                        });
+
+                        }
+                    }
+                        
+                    }else{
+                      //alert("oyes");
+                    if($scope.purchase.tipoMov!=''){
+                       crudOPurchase.movimientoFechasTipo('movimientoFechasTipo',$scope.temporalfec,$scope.temporalfech2,$scope.purchase.tipoMov).then(function (data) {
+                       // alert("debajo");
+                            if (data!= undefined) {
+                                $scope.pdfMovimiento=data;
+                                alert("Reporte Generado");
+                                 //$scope.botonReporte = 'Reporte Completado';
+                                 //$scope.verReportTiket1=true;
+                                //$location.path("http://www.cnn.com");
+                            } else {
+                                $scope.errors = data;
+
+                            }
+                        });
+                    }else{
+                        if($scope.purchase.fechaini!=null && $scope.purchase.fechafin!=null && $scope.purchase.fechaini<$scope.purchase.fechafin)
+                        {
+                           // alert($scope.temporalfec);
+                             crudOPurchase.reportesMovFecha('movimientoFechas',$scope.temporalfec,$scope.temporalfech2).then(function (data) {
+                       // alert("debajo");
+                            if (data!= undefined) {
+                                $scope.pdfMovimiento=data;
+                                alert("Reporte Generado");
+                                 //$scope.botonReporte = 'Reporte Completado';
+                                 //$scope.verReportTiket1=true;
+                                //$location.path("http://www.cnn.com");
+                            } else {
+                                $scope.errors = data;
+
+                            }
+                        });
+
+                        }
+                    }
+                    }
+                }
+                $scope.searchporTipo=function(){
+                    crudOPurchase.paginarportipos("inputStocks",$scope.purchase.tipoMov).then(function (data) {
+                        $scope.headInputStocks = data.data;
+                        $scope.maxSize = 5;
+                        $scope.totalItems = data.total;
+                        $scope.currentPage = data.current_page;
+                        $scope.itemsperPage = 15;
+                   });
+                }
                 $scope.searchSkuEstock=function(sku){
                      $scope.purchase.eliminar=1;
+
                       crudOPurchase.autocomplitVar('variants',sku).then(function (data) {
                         $scope.product.proId = data;
                         if($scope.product.proId.varid==null){
@@ -519,6 +764,11 @@
                              $scope.inputStock.CantidaStock='';
                              $scope.Listo=true;
                         }else{
+                            if($scope.product.proId.NombreAtributos!=null){
+                            $scope.inputStock.producto=$scope.product.proId.proNombre+"("+$scope.product.proId.NombreAtributos+")";
+                            }else{
+                            $scope.inputStock.producto=$scope.product.proId.proNombre+"("+$scope.product.proId.varCodigo+")";
+                            }
                             $scope.Listo=false;
                             $scope.inputStock.cantidad='';
                             $scope.inputStock.CantidaStock='';
@@ -550,6 +800,22 @@
                     $scope.verReportSku1=false;
                     $scope.botonReporteCod = 'Generar Reportes de Sku';
                  }
+                $scope.GenerarReportComprasRF=function(){
+                    
+                     crudOPurchase.reportesMovFecha('reportePorFechacom',$scope.temporalfec,$scope.temporalfech2).then(function (data) {
+                        // alert("debajo");
+                            if (data!= undefined) {
+                                $scope.pdfreportCompr=data;
+                                alert("Reporte Generado");
+                                 $scope.botonReporte = 'Reporte Completado';
+                                 $scope.pdfreportCompr=true;
+                                //$location.path("http://www.cnn.com");
+                            } else {
+                                $scope.errors = data;
+
+                            }
+                        });
+                }
                 $scope.GenerrarReport=function(){
                     //$log.log($routeParams.id);
                     //alert($scope.detailPurchase.length);
@@ -723,7 +989,7 @@
                     });
                 }
                 $scope.destroyPay = function(row){
-                    alert(row.detCash_id);
+                    //alert(row.detCash_id);
                 if(row.detCash_id!=null){
                     //alert(row.cashID);
                     crudOPurchase.comprovarCaja(row.detCash_id).then(function(data){

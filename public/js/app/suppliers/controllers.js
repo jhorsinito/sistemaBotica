@@ -43,7 +43,7 @@
                         $scope.supplier.autogenerado = false;
                     });
                 }else{
-                   crudService.paginate('suppliers',1).then(function (data) {
+                   crudService.deudasSupplier(1).then(function (data) {
                         $scope.suppliers = data.data;
                         $scope.maxSize = 5;
                         $scope.totalItems = data.total;
@@ -76,6 +76,7 @@
 
                 $scope.createSupplier = function(){
                     //$scope.atribut.estado = 1;
+                    alert("hola");
                     if ($scope.supplierCreateForm.$valid) {
                         crudService.create($scope.supplier, 'suppliers').then(function (data) {
                           

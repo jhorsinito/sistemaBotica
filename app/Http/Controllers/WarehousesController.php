@@ -103,7 +103,7 @@ class WarehousesController extends Controller {
     }
     
     public function selectWarehouses(){
-        $warehouses = $this->warehouseRepo->all();
+        $warehouses = $this->warehouseRepo->traerAlmacenporUsuario();
         return response()->json($warehouses); 
     }
     public function searchWere($q)

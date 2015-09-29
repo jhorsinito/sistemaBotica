@@ -22,6 +22,14 @@
 
                 return deferred.promise;
             }
+            function deudasSupplier(page){
+                var deferred = $q.defer();
+                $http.get('api/suppliers/deudas/?page='+page).success(function (data) {
+                    deferred.resolve(data);
+                });
+
+                return deferred.promise;
+            }
 
             function create(area,uri)
             {
@@ -149,7 +157,8 @@
                 byforeingKey: byforeingKey,
                 searchMes,searchMes,
                 reportPro,reportPro,
-                reportProWare,reportProWare
+                reportProWare,reportProWare,
+                deudasSupplier: deudasSupplier
             }
         }])
         .factory('socketService', function ($rootScope) {

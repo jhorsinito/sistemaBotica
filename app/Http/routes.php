@@ -303,6 +303,7 @@ Route::post('api/suppliers/destroy',['as'=>'person_destroy', 'uses'=>'SuppliersC
 Route::get('api/suppliers/search/{q?}',['as'=>'person_search', 'uses'=>'SuppliersController@search']);
 Route::get('api/suppliers/find/{id}',['as'=>'person_find', 'uses'=>'SuppliersController@find']);
 Route::get('api/suppliers/select','SuppliersController@selectSupliers');
+Route::get('api/suppliers/deudas','SuppliersController@deudas');
 
 Route::get('employeecosts',['as'=>'person','uses'=>'EmployeecostsController@index']);
 Route::get('employeecosts/create',['as'=>'person_create','uses'=>'EmployeecostsController@index']);
@@ -396,9 +397,13 @@ Route::get('orderPurchases/form-createDetalle',['as'=>'atribut_form_create','use
 Route::get('orderPurchases/form-createP','OrderPurchasesController@form_createP');
 Route::get('orderPurchases/createP','OrderPurchasesController@index');
 Route::get('orderPurchases/show/{id?}','OrderPurchasesController@index');
-Route::get('orderPurchases/view-show','OrderPurchasesController@show');
+Route::get('orderPurchases/view-show','OrderPurchasesController@show'); 
+Route::get('api/orderPurchases/paginarfechaTipo/{fechaini}/{fechafin}/{estado}','OrderPurchasesController@searchFechasEstado');
+Route::get('api/orderPurchases/paginar/{fechaini}/{fechafin}','OrderPurchasesController@searchFechas');
 
-
+Route::post('api/orderPurchases/reporteEstado/{estado}','OrderPurchasesController@reporteEstado');
+Route::post('api/orderPurchases/reporteRangoFechas/{fech1}/{fecha2}','OrderPurchasesController@reporteRangoFechas');
+Route::post('api/orderPurchases/reporteRangoFechasEstado/{fech1}/{fecha2}/{estado}','OrderPurchasesController@reporteRangoFechasEstado');
 
 Route::get('purchases',['as'=>'person','uses'=>'PurchasesController@index']);
 Route::get('purchases/create',['as'=>'person_create','uses'=>'PurchasesController@index']);
@@ -416,8 +421,13 @@ Route::get('api/purchases/mostrarCostos/{id}','PurchasesController@mostrarCostos
 Route::post('api/TiketReport/create/{id}','PurchasesController@reportes');
 Route::post('api/CodReport/create/{id}','PurchasesController@reportesCod');
 
+Route::post('api/reportePorFechacom/create/{fech1}/{fecha2}','PurchasesController@reporteRangoFechas');
+Route::post('api/reportPagos1/create/{idpro}','PurchasesController@reportepagosProveedor');
+Route::post('api/reportPagos2/create/{idpay}','PurchasesController@reportepagos');
+
 Route::get('purchases/showD','PurchasesController@index');
 Route::get('purchases/view-showD','PurchasesController@form_showD');
+Route::get('api/purchases/paginar/{fechaini}/{fechafin}','PurchasesController@paginar1');
 
 //---------------------------------------------------------------------
 Route::get('variants/create/{product_id}',['as'=>'variant_create','uses'=>'VariantsController@index']);
@@ -476,6 +486,13 @@ Route::post('api/report/tiket/{id?}',['as'=>'person_search', 'uses'=>'ReportsCon
 Route::post('api/inputStocks/create','InputStocksController@create');
 Route::get('api/inputStocks/paginate/','InputStocksController@paginate');
 Route::get('api/inputStocks/find/{id}','InputStocksController@paginate2');
+Route::get('api/inputStocks/paginar/{fechaini}/{fechafin}','InputStocksController@paginateFechas');
+Route::get('api/inputStocks/paginartipos/{tipo}','InputStocksController@paginateTipos');
+Route::get('api/inputStocks/paginarfechaTipo/{fechaini}/{fechafin}/{tipo}','InputStocksController@selectFechaYtipo');
+//Route::post('api/reportes/reporteMovimientotipo/{tipo}','InputStocksController@reporteMovimentos');
+Route::post('api/movimientoTipo/create/{tipo}','InputStocksController@reporteMovimentos');
+Route::post('api/movimientoFechas/create/{fech1}/{fecha2}','InputStocksController@reporteMovimentosFechas');
+Route::post('api/movimientoFechasTipo/create/{fech1}/{fecha2}/{tipo}','InputStocksController@reporteMovimentosFechasTipo');
 
 //-----------------------------Promociones---------------------------
 Route::get('promotions',['as'=>'person','uses'=>'PromotionsController@index']);

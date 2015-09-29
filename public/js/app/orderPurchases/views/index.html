@@ -60,14 +60,76 @@
                       <button type="button" class="btn btn-default" ng-click="cancelPurchase()">No</button>
                     </p>
                   </div>
-                <select class="form-control"  ng-click="searchEstados()" ng-model="estado" >
+            <div class="row">
+                 <div class="col-md-2">
+               <em>¿Seleccione para filtrar individualmente?</em>
+                      <div   class="form-group" >                            
+                            <input   ng-click="limpiarFiltros()" type="checkbox"  name="variantes" ng-model="check" />
+                            
+                        </div>
+                </div> 
+                <div class="col-md-2">
+                  <div  class="form-group">
+                                <label for="fechaPedido">Elija Rango de Fechas</label>
+                            <div  class="input-group">
+                                <div class="input-group-addon">
+                                      <i class="fa fa-calendar"></i>
+                                </div>
+                                  <input  type="date" class="form-control"  name="fechaPedido" ng-model="orderPurchase.fechaini">
+                            </div>
+                  </div>
+          </div>
+          <div ng-show="check" class="col-md-3">
+                  <div  class="form-group" >
+                            <label ><---></label>
+                                <div  class="input-group">
+                                        <div class="input-group-addon">
+                                              <i class="fa fa-calendar"></i>
+                                        </div>
+                                      <input  ng-disabled="orderPurchase.fechaini==null" type="date"  ng-change="filtroFechas()" class="form-control" name="fechaPrevista" ng-model="orderPurchase.fechafin" >
+                                   </div>   
+                                 
+                            
+                      </div> 
+          </div>
+           <div ng-hide="check" class="col-md-3">
+                  <div  class="form-group" >
+                            <label ><---></label>
+                                <div  class="input-group">
+                                        <div class="input-group-addon">
+                                              <i class="fa fa-calendar"></i>
+                                        </div>
+                                      <input  ng-disabled="orderPurchase.fechaini==null" type="date"   class="form-control" name="fechaPrevista" ng-model="orderPurchase.fechafin" >
+                                   </div>   
+                                 
+                            
+                      </div> 
+          </div>
+          <div ng-show="check" class="col-md-3">
+                <label for="fechaPedido">Filtrar por Estado</label>
+                <select class="form-control"  ng-change="searchEstados()" ng-model="estado" >
                         <option value="">--Buscar por Estados--</option>
                         <option value="0">--Pedidos Pendientes--</option>
                         <option value="1">--Pedidos Atendidos--</option>
                         <option value="2">--Pedidos Cancelados--</option>
                         <option value="3">--Todos los Pedidos--</option>
                 </select>
-                
+              </div>
+              <div ng-hide="check" class="col-md-3">
+                <label for="fechaPedido">Filtrar por Estado</label>
+                <select ng-disabled="orderPurchase.fechaini==null || orderPurchase.fechafin==null" class="form-control"  ng-change="paginarfechaTipo()" ng-model="estado" >
+                        <option value="">--Buscar por Estados--</option>
+                        <option value="0">--Pedidos Pendientes--</option>
+                        <option value="1">--Pedidos Atendidos--</option>
+                        <option value="2">--Pedidos Cancelados--</option>
+                        <option value="3">--Todos los Pedidos--</option>
+                </select>
+              </div>
+            <div class="col-md-1">
+             <a ng-click="generarReporteFiltros()" style="width:95px;" class="btn btn-success btn-xs">Generar Reporte</a>
+             <a ng-href="{{pdforden}}" style="width:95px;" target="_blank" class="btn btn-primary btn-xs">Ver Reporte</a>
+          </div>
+            </div>    
             </div>
                   
                   <table class="table table-bordered table-hover">

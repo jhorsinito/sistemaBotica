@@ -66,7 +66,8 @@ class StocksController extends Controller {
             if(!empty($stockac)){ 
                 //var_dump($stockac); var_dump('1');die();
                 if($object["esbase"]==0){
-                  $object["stockActual"]=$stockac->stockActual+($object["cantidad"]*$object["equivalencia"]);
+                  //antes usando equivalencia$object["stockActual"]=$stockac->stockActual+($object["cantidad"]*$object["equivalencia"]);
+                  $object["stockActual"]=$stockac->stockActual+$object["cantidad"];
                 }else{
                   $object["stockActual"]=$stockac->stockActual+$object["cantidad"];
                 }
@@ -79,7 +80,8 @@ class StocksController extends Controller {
                 //var_dump($stockac); var_dump('2'); die();
                 if($object["esbase"]==0)
                 {
-                    $object["stockActual"]=$object["cantidad"]*$object["equivalencia"];
+                    //$object["stockActual"]=$object["cantidad"]*$object["equivalencia"];
+                    $object["stockActual"]=$object["cantidad"];
                 }else{
                     $object["stockActual"]=$object["cantidad"];
                 }

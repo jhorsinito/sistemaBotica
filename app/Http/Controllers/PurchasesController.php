@@ -93,7 +93,7 @@ class PurchasesController extends Controller {
 
     public function create(Request $request)
         {
-         // var_dump($request->all());die();
+        // var_dump($request->all());die();
     \DB::beginTransaction();
         $saldoTemp=0;
         $codigoHeadIS=0;
@@ -101,11 +101,30 @@ class PurchasesController extends Controller {
         $payment = $this->paymentRepo->getModel();
         $pendientAccount=$this->pendientAccountRepo->getModel();
         $var = $request->detailOrderPurchases;
+        $almacen_id=$request->input("warehouses_id");
         //var_dump($request->input('estado'));
        // var_dump($var);die();
       //==================================Cancelar Factura
       if($request->input('estado')==2){
              //var_dump("hola");die();
+        foreach($var as $object){
+         $stockmodel = new StockRepo;
+
+                  $object['warehouse_id']=$almacen_id;
+                  $object["variant_id"]=$object["Codigovar"];
+                  $stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
+                  //var_dump($stockac);die();
+            if(!empty($stockac)){ 
+              
+               $object["porLlegar"]=floatval($stockac->porLlegar)-floatval($object["cantidad"]);
+                $manager = new StockManager($stockac,$object);
+                  $manager->save();
+                  $stock=null;
+            }
+            //}
+            $stockac=null;
+          }
+
                 $orderPurchase = $this->orderPurchaseRepo->find($request->id);
        
                 $ordercompra = new OrderPurchaseManager($orderPurchase,$request->except('fechaPedido','fechaPrevista','montoBruto','montoTotal','descuento'));
@@ -142,6 +161,7 @@ class PurchasesController extends Controller {
                         $insercount=new PendientAccountManager($pendientAccount,$request->all());
                         $insercount->save();
                      }
+                 
                   }
                   }else{   
                   $request->merge(['orderPurchase_id'=>$request->input('id')]);
@@ -232,7 +252,7 @@ class PurchasesController extends Controller {
     //   var_dump($var);die();
    } }
         //==============================================================================
-        $almacen_id=$request->input("warehouses_id");
+        
         $codOrder=$request->input("orderPurchase_id");
         $fechaActual=$request->input("fecha");
         //var_dump($fechaActual);die();
@@ -362,32 +382,36 @@ class PurchasesController extends Controller {
                $codigoHeadIS=$headInputStock->id;
                }
        ////======================Registrando en notas de detalles===============================cantidad_llegado
-              if(!empty($object["equivalencia"])){
-                if($object["equivalencia"]>0){
-                  $object["cantidad_llegado"]=$object["cantidad_llegado"]*$object["equivalencia"];
-                }
-              }
+              //if(!empty($object["equivalencia"])){
+              //  if($object["equivalencia"]>0){
+              //    $object["cantidad_llegado"]=$object["cantidad_llegado"]*$object["equivalencia"];
+              //  }
+              //}
               $object['headInputStock_id']=$codigoHeadIS;
               $inserInputStock = new inputStockManager($inputStock,$object);
               $inserInputStock->save();
             if(!empty($stockac)){ 
-                if($object["esbase"]==0){
+                //if($object["esbase"]==0){
                   //var_dump($object);die();
-                  $object["stockActual"]=$stockac->stockActual+($cantidaCalculada*$object["equivalencia"]);
-                }else{
+                //  $object["stockActual"]=$stockac->stockActual+($cantidaCalculada*$object["equivalencia"]);
+               // }else{
                   $object["stockActual"]=$stockac->stockActual+$cantidaCalculada;
-                }
+                  if(!empty($object["Cantidad_Ll"])){
+                  $object["porLlegar"]=floatval($stockac->porLlegar)-(floatval($object["cantidad"])-floatval($object["Cantidad_Ll"]));
+               }
+                //}
       //======================Actualizando stock si es que variante existe===============================
                   $manager = new StockManager($stockac,$object);
                   $manager->save();
                   $stock=null;
             }else{
-                if($object["esbase"]==0)
-                {
-                    $object["stockActual"]=$cantidaCalculada*$object["equivalencia"];
-                }else{
+                //if($object["esbase"]==0)
+                //{
+                //    $object["stockActual"]=$cantidaCalculada*$object["equivalencia"];
+               // }else{
                     $object["stockActual"]=$cantidaCalculada;
-                }
+                    $object["porLlegar"]=floatval($stockac->porLlegar)-floatval($object["cantidad"]);
+                //}
       //======================Registrando estock si es que variante no existe===============================
                   $manager = new StockManager($stockmodel->getModel(),$object);
                   $manager->save();
@@ -505,9 +529,76 @@ class PurchasesController extends Controller {
         return '/report/'.$time.'_CodigoBarras.'.$ext;
    
     }
+     public function reporteRangoFechas($fech1,$fech2){
+       // var_dump($fech1."/".$fech2);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_comprasEFechas';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/comprasEFechas.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini' =>$fech1,'fechafin'=>$fech2],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_comprasEFechas.'.$ext;
+    }
+     public function reportepagosProveedor($idPro){
+       // var_dump($fech1."/".$fech2);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_reportePagosProveedor';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/reporteCompraFechas.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['supplier_id' => $idPro],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_reportePagosProveedor.'.$ext;
+    }
+    public function reportepagos($id){
+       // var_dump($fech1."/".$fech2);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_reportePagos';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/reportePagos.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['payments_id' => $id],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_reportePagos.'.$ext;
+    }
     public function find($id)
     {
         $purchase = $this->purchaseRepo->select($id);
+        return response()->json($purchase);
+    }
+    public function paginar1($fecha1,$fecha2){
+      $purchase = $this->purchaseRepo->paginar1($fecha1,$fecha2);
         return response()->json($purchase);
     }
     public function mostrarEmpresa($id){

@@ -21,6 +21,7 @@ class CreateEspejoTable extends Migration
             $table->text('image');
             $table->String('Taco');
             $table->String('Talla');
+            $table->bigint('sku');
         });
     }
 

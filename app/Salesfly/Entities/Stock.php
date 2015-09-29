@@ -10,6 +10,7 @@ class Stock extends \Eloquent {
                             'stockMinSoles',
                             'stockPedidos',
                             'stockSeparados',
+                            'porLlegar',
                             'variant_id',
                             'warehouse_id'];
  public function variant()

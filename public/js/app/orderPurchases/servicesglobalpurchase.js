@@ -220,12 +220,70 @@
                 });
                 return deferred.promise;
             }
+             function paginarfechaTipo(uri,fecha1,fecha2,estado)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/paginarfechaTipo/'+fecha1+"/"+fecha2+"/"+estado).success(function (data) {
+                    deferred.resolve(data);
+                });
+
+                return deferred.promise;
+            }
+            
+
+            function paginarporfechas(uri,fecha1,fecha2)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/paginar/'+fecha1+"/"+fecha2).success(function (data) {
+                    deferred.resolve(data);
+                });
+
+                return deferred.promise;
+            }
+            function reporteRangoFechasEstado(uri,fecha1,fecha2,estado)
+            {
+                var deferred = $q.defer();
+                $http.post('/api/'+uri+'/reporteRangoFechasEstado/'+fecha1+'/'+fecha2+'/'+estado)
+                    .success(function(data)
+                    {
+                        deferred.resolve(data);
+                    }
+                );
+                return deferred.promise;
+            }
+            function reporteRangoFechas(uri,fecha1,fecha2)
+            {
+                var deferred = $q.defer();
+                $http.post('/api/'+uri+'/reporteRangoFechas/'+fecha1+'/'+fecha2)
+                    .success(function(data)
+                    {
+                        deferred.resolve(data);
+                    }
+                );
+                return deferred.promise;
+            }
+             function reporteEstado(uri,estado)
+            {
+                var deferred = $q.defer();
+                $http.post('/api/'+uri+'/reporteEstado/'+estado)
+                    .success(function(data)
+                    {
+                        deferred.resolve(data);
+                    }
+                );
+                return deferred.promise;
+            }
             return {
                 all: all,
                 paginate: paginate,
                 create:create,
                 byId:byId,
                 update:update,
+                reporteRangoFechas: reporteRangoFechas, 
+                reporteEstado: reporteEstado,  
+                reporteRangoFechasEstado: reporteRangoFechasEstado,
+                paginarfechaTipo: paginarfechaTipo,
+                paginarporfechas: paginarporfechas,
                 destroy:destroy,
                 search: search,
                 select:select,

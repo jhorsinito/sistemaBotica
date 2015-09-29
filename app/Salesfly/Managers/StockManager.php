@@ -11,6 +11,7 @@ class StockManager extends BaseManager {
             'stockMinSoles'=>'between:0,9999999999.00',
             'stockPedidos'=>'between:0,9999999999.00',
             'stockSeparados'=>'between:0,9999999999.00',
+            'porLlegar'=>'between:0,9999999999.00',
             'variant_id'=>'required',
             'warehouse_id'=>'required'
         ];

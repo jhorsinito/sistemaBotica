@@ -30,9 +30,15 @@ class WarehouseRepo extends BaseRepo{
                     ->paginate(15);
         return $warehouses;
     }
-
+    public function traerAlmacenporUsuario(){
+        $warehouses =Warehouse::join('stores','stores.id','=','warehouses.store_id')
+                       ->join('users','users.store_id','=','stores.id')
+                       ->where('users.id','=',auth()->user()->id)
+                       ->select('warehouses.*')->groupBy('warehouses.id')->get();
+        return $warehouses;
+    }
     public function paginaterepo($c){
-        //$warehouses = Warehouse::with('store')->paginate($c);
+        $warehouses = Warehouse::with('store')->paginate($c);
         $warehouses = Warehouse::with(array('store'=>function($query){
             $query->select('id','nombreTienda');
         }))->paginate($c);

@@ -406,8 +406,8 @@
             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
           </div><!-- /.box-tools -->
         </div><!-- /.box-header -->
-        <div class="box-body" style="display: block;">
-          <table class="table-resposive table-bordered" id="tabla1">
+        <div class="box-body table-responsive no-padding">
+          <table  class="table table-bordered" id="tabla1">
             <tr style="height: 40px">
               <th style="height: 20px">#</th>
 
@@ -451,7 +451,7 @@
                     -->
                     </tr> 
           </table>
-          
+       </div>   
 <!--===============================================================================================-->
      <div class="row">
           <div class="col-md-4"> 

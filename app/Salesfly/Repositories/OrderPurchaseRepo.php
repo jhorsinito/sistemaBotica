@@ -45,6 +45,25 @@ class OrderPurchaseRepo extends BaseRepo{
         ->where('suppliers.id','=',$id)->select('suppliers.empresa as empresa')->first();
         return $orderPurchases;
     }
-
+   public function searchFechas($fechaini,$fechafin){
+    $purchases=OrderPurchase::join('suppliers','orderPurchases.supplier_id','=','suppliers.id')
+                       ->join('warehouses','warehouses.id','=','orderPurchases.warehouses_id')
+                       ->select('orderPurchases.*','suppliers.empresa as empresa','warehouses.nombre as almacen')
+                       //->between('orderPurchases.fechaPedido',[$estado)
+                       ->whereBetween("orderPurchases.fechaPedido",[$fechaini,$fechafin])
+                       ->orderBy('orderPurchases.id','asc')
+                       ->paginate(15);
+        return $purchases;
+   }
+   public function searchFechasEstado($fechaini,$fechafin,$estado){
+    $purchases=OrderPurchase::join('suppliers','orderPurchases.supplier_id','=','suppliers.id')
+                       ->join('warehouses','warehouses.id','=','orderPurchases.warehouses_id')
+                       ->select('orderPurchases.*','suppliers.empresa as empresa','warehouses.nombre as almacen')
+                       ->where('orderPurchases.Estado',$estado)
+                       ->whereBetween("orderPurchases.fechaPedido",[$fechaini,$fechafin])
+                       ->orderBy('orderPurchases.id','asc')
+                       ->paginate(15);
+        return $purchases;
+   }
     
 } 

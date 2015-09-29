@@ -43,6 +43,16 @@ class PurchaseRepo extends BaseRepo{
                        ->first();
         return $purchases;
     }
+    public function paginar1($fechaini,$fechafin){
+    $purchases=Purchase::join('suppliers','purchases.supplier_id','=','suppliers.id')
+                       ->join('warehouses','warehouses.id','=','purchases.warehouses_id')
+                       ->leftjoin('payments','payments.purchase_id','=','purchases.id')
+                       ->select('purchases.*','payments.Saldo as saldo','suppliers.empresa as empresa','warehouses.nombre as almacen')
+                       ->whereBetween("purchases.fechaEntrega",[$fechaini,$fechafin])
+                       ->orderBy('purchases.id','asc')
+                       ->paginate(15);
+        return $purchases;
+   }
 
     
 } 

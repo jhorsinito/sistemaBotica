@@ -14,6 +14,7 @@ class CreateInputStocksTable extends Migration
     {
         Schema::create('inputStocks', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('producto')
             $table->decimal('cantidad_llegado',10,2);
             $table->string('descripcion');
             $table->integer('variant_id')->unsigned();

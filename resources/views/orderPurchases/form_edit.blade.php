@@ -416,7 +416,8 @@
          </div>
         <div  class="box-body" style="display: block;">
          <form name="comprovar" role="form" novalidate>
-          <table  class="table-resposive table-bordered" id="tabla1">
+         <div class="box-body table-responsive no-padding">
+          <table  class="table table-bordered" id="tabla1">
             <tr style="height: 40px">
               <th style="width: 10px">#</th>
 
@@ -436,6 +437,7 @@
             </tr>
             <tr style="height: 40px" ng-repeat="row in detailOrderPurchases">
                       <td>@{{$index + 1}}</td>
+                      <td ng-hide="true">@{{row.cantAnterior}}</td>
                       <td ng-hide="true">@{{row.orderPurchases_id}}</td>
                       <td ng-hide="true">@{{row.detPres_id}}</td>
                       <td>@{{row.producto}}</td>
@@ -468,6 +470,7 @@
                     -->
                     </tr> 
           </table>
+          </div>
         </form>
           <div class="row">
             <div class="col-md-11">
@@ -538,7 +541,7 @@
            
       <div class="row">
       
-        <div class="col-md-2">
+        <div ng-show="orderPurchase.Estado" class="col-md-2">
                <em>¿agregar documento?</em>
                       <div   class="form-group" >                            
                             <input  type="checkbox"   name="variantes" ng-click="LimpiarDetdoc()" ng-model="checkfinal" />
