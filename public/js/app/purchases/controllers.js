@@ -807,8 +807,7 @@
                             if (data!= undefined) {
                                 $scope.pdfreportCompr=data;
                                 alert("Reporte Generado");
-                                 $scope.botonReporte = 'Reporte Completado';
-                                 $scope.pdfreportCompr=true;
+                                 //$scope.botonReporte = 'Reporte Completado';
                                 //$location.path("http://www.cnn.com");
                             } else {
                                 $scope.errors = data;
@@ -1101,6 +1100,19 @@
                         }
                     });
                 }
+                $scope.pdfPagos='';
+                $scope.generarReportePagos=function(){
+                        crudOPurchase.Reportes($scope.payment.id,'reportPagos2').then(function (data) {
+                             if (data!=null) 
+                             {
+                                $scope.pdfPagos=data;
+                                alert('Reporte Generado');
+                             }else {
+                                $scope.errors = data;
+                             }
+                        });
+                }
+
 $scope.random = function() {
     var type;
 

@@ -52,10 +52,10 @@
 				<reportElement x="323" y="18" width="111" height="80" uuid="11a91620-b47a-4854-a292-17f4103ec61a"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="115" y="12" width="168" height="87" uuid="0a6ef1e1-e908-4086-b64b-63a23f5dee4d"/>
+				<reportElement x="115" y="12" width="188" height="87" uuid="0a6ef1e1-e908-4086-b64b-63a23f5dee4d"/>
 			</rectangle>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="166" y="75" width="109" height="20" uuid="2aa1ed10-66f4-434a-8b8d-485f9cf900ff"/>
+				<reportElement x="166" y="75" width="127" height="20" uuid="2aa1ed10-66f4-434a-8b8d-485f9cf900ff"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
@@ -76,7 +76,7 @@
 				<textFieldExpression><![CDATA[$F{Taco}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="223" y="24" width="52" height="45" uuid="c8e2c71d-65a4-4d86-95a8-c4bcecc9374e"/>
+				<reportElement x="223" y="24" width="70" height="19" uuid="c8e2c71d-65a4-4d86-95a8-c4bcecc9374e"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>

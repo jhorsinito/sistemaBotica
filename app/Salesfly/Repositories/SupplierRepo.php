@@ -22,7 +22,7 @@ class SupplierRepo extends BaseRepo{
         $d = \DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
     }
-    public function deudas (){
+    public function deudas (){ 
          $supplier =Supplier::leftjoin("payments","payments.supplier_id","=","suppliers.id")
                             ->select(\DB::raw('suppliers.id as idsup,suppliers.*,(SELECT sum(payments.Saldo)
                                      FROM payments

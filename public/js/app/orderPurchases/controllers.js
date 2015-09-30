@@ -503,7 +503,7 @@
                         $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
                         $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
                         $scope.detailOrderPurchase.codigoEspecifico=$scope.product.proId.varCodigo;
-                        if($scope.product.proId.NombreAtributos==1){
+                        if($scope.product.proId.NombreAtributos!=null){
                            $scope.detailOrderPurchase.producto=$scope.detailOrderPurchase.proNombre+"("+$scope.product.proId.NombreAtributos+")";
                        }else{
                            $scope.detailOrderPurchase.producto=$scope.detailOrderPurchase.proNombre+"("+$scope.product.proId.proCodigo+")";
@@ -513,7 +513,7 @@
        // alert($scope.check1);
                  if($scope.check1==true)
                  {             
-                       $scope.activarCampCantidad=false;
+                       $scope.activarCampCantidad=true;
                     //alert($scope.product.proId.varid);
                        $scope.Listo=true;
                        crudPurchase.paginateDPedido($scope.product.proId.varid,'detpres').then(function (data) {
@@ -524,6 +524,7 @@
                                //$scope.itemsperPage = 15;
                        
                         if($scope.detPres.length<2){
+                             $scope.activarCampCantidad=false;
                              crudPurchase.select('detpres',$scope.product.proId.varid).then(function (data) {
                                     $scope.detailOrderPurchase.esbase=data.esbase;
                                     $scope.detailOrderPurchase.detPres_id=data.detpresen_id;
@@ -561,6 +562,15 @@
                                                    }else{
                                                     $scope.detailOrderPurchase.producto=$scope.detailOrderPurchase.proNombre+"("+$scope.product.proId.proCodigo+")";
                                                    }
+                                                   $scope.mostrarPresentacion=true;
+                                                   $scope.detailOrderPurchase.cantidad='';
+                                                   $scope.detailOrderPurchase.preProducto='';
+                                                   $scope.detailOrderPurchase.preCompra='';
+                                                   $scope.detailOrderPurchase.montoBruto='';
+                                                   $scope.detailOrderPurchase.descuento='';
+                                                   $scope.detailOrderPurchase.montoTotal='';
+                                                   $scope.companies=[];
+                                                   $scope.company={};
                                                    $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
                                                    $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
                                                    $scope.detailOrderPurchase.equivalecia=$scope.product.proId.varid;
@@ -690,6 +700,14 @@
                             alert("por favor seleccione una variante");
                         }
                     }
+                    $scope.limpiarDatosAgregate=function(){
+                      $scope.product.proId='';
+                      $scope.companies=[];
+                      $scope.company={};
+                      $scope.mostrardetalles=true;
+                      $scope.mostrarPresentacion=true;
+                      $scope.detailOrderPurchase={};
+                    }
                     $scope.Equivalente;
                     $scope.AsignarP=function(row){
                          $scope.detailOrderPurchase.preProducto=parseFloat(row.precioCompra);
@@ -700,6 +718,7 @@
                         // alert(row.base);
                          $scope.detailOrderPurchase.esbase=row.base;
                          $scope.mostrardetalles=true;
+                         $scope.activarCampCantidad=false;
                     }
                     $scope.AgregarProducto=function(){
             if($scope.Listo==true){
@@ -1083,7 +1102,7 @@
                             }
                         });
                    // }*/
-                    $scope.detPayment.payment_id=$scope.idProvicional;
+                  $scope.detPayment.payment_id=$scope.idProvicional;
                     $scope.payment.detPayments=$scope.detPayment;
                     //alert($scope.payment.id);
                     //if ($scope.TtypeCreateForm.$valid) {
@@ -1107,6 +1126,7 @@
 
                             }
                         });//}
+                      
                 }
                 $scope.CrearCompraDirecta =function(){
                     $scope.orderPurchase.compraDirecta=1;
@@ -1506,6 +1526,8 @@ $scope.recalPayments=function(){
                 }*/
                  $scope.createPayment = function(){
                     //alert( $scope.payment.fecha);
+                if($scope.detPayment.methodPayment_id!=null || $scope.detPayment.cashe_id!=null || $scope.payment.cajamensual!=null){
+                    
                     $scope.payment.detPayments=$scope.detPayment;
                     if ($scope.paymentCreateForm.$valid){
                         crudPurchase.create($scope.payment, 'payments').then(function (data) {
@@ -1524,6 +1546,11 @@ $scope.recalPayments=function(){
 
                             }
                         });}
+                        }
+                      else{
+                        $scope.detPayment.montoPagado='';
+                        alert("error debes seleccionar un metodo de pago");
+                      }
                 }
                 $scope.cancelarEditPayment=function(){
                     $route.reload();

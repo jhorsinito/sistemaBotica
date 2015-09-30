@@ -211,14 +211,14 @@
             <div class="col-md-1">
                <em>¿POR SKU?</em>
                       <div   class="form-group" >                            
-                            <input ng-disabled="check1" ng-disabled="orderPurchase.cancelar" ng-click="ActiBuscSku()" type="checkbox"  name="variantes" ng-model="check" />
+                            <input ng-disabled="check1" ng-click="limpiarDatosAgregate()" ng-disabled="orderPurchase.cancelar" ng-click="ActiBuscSku()" type="checkbox"  name="variantes" ng-model="check" />
                             
                         </div>
                 </div>
             <div class="col-md-1">
                <em>¿Busca Normal?</em>
                       <div   class="form-group" >                            
-                            <input  ng-disabled="check" type="checkbox"   ng-click="editCamEstadosJ()" ng-model="check1" />
+                            <input  ng-disabled="check" ng-click="limpiarDatosAgregate()" type="checkbox"   ng-click="editCamEstadosJ()" ng-model="check1" />
                             
                         </div>
                 </div>

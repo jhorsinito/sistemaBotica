@@ -195,6 +195,8 @@
              
                    <div class="box-footer">
                     <a href="/purchases" class="btn btn-danger">Salir</a>
+                    <button  ng-click="generarReportePagos()" class="btn btn-danger">Generar Reporte</button>
+                    <a href="@{{pdfPagos}}" class="btn btn-danger">Ver Reporte</a>
                   </div>
                 </form>
               </div><!-- /.box -->
