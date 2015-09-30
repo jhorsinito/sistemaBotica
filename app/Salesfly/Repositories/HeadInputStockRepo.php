@@ -32,7 +32,7 @@ class HeadInputStockRepo extends BaseRepo{
                                 INNER JOIN warehouses ON headInputStocks.warehouDestino_id = warehouses.id
                                 where warehouses.id=destWareh
                                 GROUP BY warehouses.id)as nomAlmacen2"))
-                            ->whereBetween("headInputStocks.Fecha",[$fechaini,$fechafin])
+                            ->whereBetween("headInputStocks.created_at",[$fechaini,$fechafin])
                             ->groupBy("headInputStocks.id")->paginate(15);
         return $headInputStock;
     }
@@ -54,7 +54,7 @@ class HeadInputStockRepo extends BaseRepo{
                                 INNER JOIN warehouses ON headInputStocks.warehouDestino_id = warehouses.id
                                 where warehouses.id=destWareh
                                 GROUP BY warehouses.id)as nomAlmacen2"))
-                            ->whereBetween("headInputStocks.Fecha",[$fechaini,$fechafin])
+                            ->whereBetween("headInputStocks.created_at",[$fechaini,$fechafin])
                             ->where("headInputStocks.tipo","=",$tipo)
                             ->groupBy("headInputStocks.id")->paginate(15);
         return $headInputStock;

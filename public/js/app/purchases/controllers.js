@@ -279,7 +279,7 @@
 
                     if(Number(row.Saldo) >=nuevoSaldo){
                       if($scope.saldoAnterior==0){$scope.saldoAnterior=Number(row.Saldo);}
-                      row.Saldo=$scope.saldoAnterior-nuevoSaldo;
+                      row.Saldo=parseFloat(($scope.saldoAnterior-nuevoSaldo).toFixed(2));
                       if(row.Saldo==0){
                         row.estado=1;
                       }
@@ -871,6 +871,7 @@
                 }
                 
                 $scope.crearEntradasEstock=function(){
+                  if($scope.inputStocks.length>0){
                     $scope.purchase.detailOrderPurchases=$scope.inputStocks;
                     $scope.mostrarCreate=!$scope.mostrarCreate;
                      //alert("sobre");
@@ -882,6 +883,7 @@
                                 $scope.purchase.warehouDestino_id='';  
                                 $scope.inputStocks=[];                             
                                 $scope.mostrarCreate=false;
+                                $scope.Listo=true;
                                 $scope
                                 $location.path('/purchases/create');
                             } else {
@@ -889,6 +891,9 @@
 
                             }
                         });
+                }else{
+                    alert("error usted no puede agregar un movimiento sin detalles");
+                }
                 }
                 $scope.traerPayments=function(row){
                     crudOPurchase.byId(row.id,'payments').then(function (data) {
@@ -949,6 +954,8 @@
 
                 $scope.createdetPayment = function(){
                     //$scope.atribut.estado = 1;
+                if($scope.detPayment.methodPayment_id!=null || $scope.detPayment.cashe_id!=null || $scope.payment.cajamensual!=null){
+                    
                     $scope.detPayment.payment_id=$scope.idProvicional;
                     $scope.payment.detPayments=$scope.detPayment;
                         if ($scope.paymentCreateForm.$valid){
@@ -970,6 +977,10 @@
                     }else{
                         alert("error");
                     }
+                }else{
+                    $scope.detPayment.montoPagado='';
+                    alert("error debes seleccionar un metodo de pago");
+                }
                 }
                 $scope.paginateDetPay=function(){
                       crudOPurchase.byId($scope.idProvicional,'detPayments').then(function (data) {
@@ -1100,12 +1111,13 @@
                         }
                     });
                 }
-                $scope.pdfPagos='';
+                $scope.pdf5;
                 $scope.generarReportePagos=function(){
                         crudOPurchase.Reportes($scope.payment.id,'reportPagos2').then(function (data) {
                              if (data!=null) 
                              {
-                                $scope.pdfPagos=data;
+                                alert(data);
+                                $scope.pdf5=data;
                                 alert('Reporte Generado');
                              }else {
                                 $scope.errors = data;

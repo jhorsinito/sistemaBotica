@@ -572,7 +572,7 @@ class PurchasesController extends Controller {
         return '/report/'.$time.'_reportePagosProveedor.'.$ext;
     }
     public function reportepagos($id){
-     
+
        // var_dump($fech1."/".$fech2);die();
         $database = \Config::get('database.connections.mysql');
         $time=time();

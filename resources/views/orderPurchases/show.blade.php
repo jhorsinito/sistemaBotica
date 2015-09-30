@@ -158,7 +158,7 @@
                       <td ng-hide="true">@{{row.id}}</td>
                       <td ng-hide="true">@{{row.cashID}}</td>
                       <td ng-hide="true">@{{row.Saldo_F}}</td>
-                      <td>@{{row.updated_at}}</td>
+                      <td>@{{row.fecha}}</td>
                       <td ng-if="row.nameMethod!=null">@{{row.nameMethod}}</td>
                       <td ng-if="row.detCash_id>0">@{{row.nombre}}</td>
                       <td ng-if="row.cashMonthly_id>0">caja Mensual</td>

@@ -58,7 +58,7 @@
                       <td ng-if="row.estado==0"><span class="badge bg-red">Pendiente</span></td> 
                       <td ng-if="row.estado==1"><span class="badge bg-green">Pagada</span></td> 
                       <td>@{{row.orderPurchase_id}}</td>
-                      <td><a  ng-hide="indexPirata==$index" type="submit" ng-click="EditarDeudas($index)" class="btn btn-success btn-xs">Editar</a>
+                      <td><a  ng-disabled="row.Saldo<=0" ng-hide="indexPirata==$index" type="submit" ng-click="EditarDeudas($index)" class="btn btn-success btn-xs">Editar</a>
                           <a  ng-if="indexPirata==$index" type="submit" ng-show="verEdicion" type="submit" ng-click="CuentasAFavor(row)" class="btn btn-info btn-xs">Guardar</a>
                           <a  ng-if="indexPirata==$index" ng-show="verEdicion" type="submit" ng-click="canselarEditDeudas()" class="btn btn-danger btn-xs">Cancelar</a>
                  
