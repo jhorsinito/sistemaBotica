@@ -93,7 +93,37 @@
                   </div>
                 </div>-->
              
- 
+ <div class="row">
+                
+                <div class="col-md-2">
+                  <div  class="form-group">
+                                <label for="fechaPedido">Elija Rango de Fechas</label>
+                            <div  class="input-group">
+                                <div class="input-group-addon">
+                                      <i class="fa fa-calendar"></i>
+                                </div>
+                                  <input  type="date" class="form-control"  name="fechaPedido" ng-model="purchase.fechaini">
+                            </div>
+                  </div>
+          </div>
+          <div  class="col-md-3">
+                  <div  class="form-group" >
+                            <label ><---></label>
+                                <div  class="input-group">
+                                        <div class="input-group-addon">
+                                              <i class="fa fa-calendar"></i>
+                                        </div>
+                                      <input  ng-disabled="purchase.fechaini==null" type="date"  ng-change="filtrarFecharCompras()" class="form-control" name="fechaPrevista" ng-model="purchase.fechafin" >
+                                   </div>   
+                                 
+                            
+                      </div> 
+          </div>
+          <div class="col-md-1">
+             <a ng-click="GenerarReportComprasRF()" style="width:95px;" class="btn btn-success btn-xs">Generar Reporte</a>
+             <a ng-href="@{{pdfreportCompr}}" style="width:95px;" target="_blank" class="btn btn-primary btn-xs">Ver Reporte</a>
+          </div>
+          </div>
            
                   
                   <table class="table table-bordered table-hover">

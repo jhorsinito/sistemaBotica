@@ -295,11 +295,18 @@
                             //------------------------------------------------
                             if ($scope.detOrders[i].estad==true && $scope.detOrders[i].estado==0 && $scope.detOrders[i].canPendiente!=0) {
                                 $scope.detOrders[i].estado=1;
+                                //crudServiceOrderSales.update($scope.detOrders[i],'DetOrderSales').then(function (data){
+                                //})
+                                //$scope.totalParteEntrega=1;
                                 $scope.banderaCancel=true;
+                                alert("no entrar");
                             }
                             if ($scope.detOrders[i].estad==false && $scope.detOrders[i].estado==1 && $scope.detOrders[i].canPendiente!=0) {
                                 $scope.detOrders[i].estado=0;
+                                //crudServiceOrderSales.update($scope.detOrders[i],'DetOrderSales').then(function (data){
+                                //})
                                 $scope.banderaCancel=true;
+                                alert("no entrar1");
                             }
                     }
                     $scope.order1.detOrder=$scope.detOrders;
@@ -830,7 +837,7 @@
                     if ($scope.pago.tarjeta+$scope.pago.cash>$scope.sale.montoTotal) {
                         if ($scope.pago.tarjeta>$scope.sale.montoTotal) {
                             $scope.pago.tarjeta=$scope.sale.montoTotal;
-                            alert("Pago tarjeta mayor compra");
+                            alert("Pago tarjeta es mayor a compra");
                         }else{
                             $scope.sale.vuelto=(Number($scope.pago.tarjeta)+Number($scope.pago.cash)-Number($scope.sale.montoTotal));
                         }
@@ -1166,7 +1173,7 @@
                     });
                 }
                 $scope.pagechan2=function(){
-                    alert($scope.currentPage);
+                    //alert($scope.currentPage);
                     crudServiceOrderSales.paginate('saledetPayments',$scope.currentPage).then(function (data) {
                             $scope.detPayments = data.data;
                             $log.log($scope.detPayments);

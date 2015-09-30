@@ -56,6 +56,18 @@ class InputStocksController extends Controller
         $inputStock=$this->inputStockRepo->selected($id);
         return response()->json($inputStock);
     }
+    public function paginateFechas($fechaini,$fechafin){
+        $inputStock=$this->headInputStockRepo->select2($fechaini,$fechafin);
+        return response()->json($inputStock);
+    }
+     public function paginateTipos($tipo){
+        $inputStock=$this->headInputStockRepo->selectporTipos($tipo);
+        return response()->json($inputStock);
+    }
+    public function selectFechaYtipo($fechaini,$fechafin,$tipo){
+        $inputStock=$this->headInputStockRepo->selectFechaYtipo($fechaini,$fechafin,$tipo);
+        return response()->json($inputStock);
+    }
     
     public function create(Request $request){
        \DB::beginTransaction();
@@ -105,12 +117,12 @@ class InputStocksController extends Controller
          // var_dump($object);die();
         if(!empty($object["cantidad_llegado"])){
           
-          if($object["cantidad_llegado"]>0){
-            if(!empty($object["equivalencia"])){
-                if($object["equivalencia"]>0){
-                  $object["cantidad_llegado"]=$object["cantidad_llegado"]*$object["equivalencia"];
-                }
-              }
+          //if($object["cantidad_llegado"]>0){
+          //  if(!empty($object["equivalencia"])){
+          //      if($object["equivalencia"]>0){
+          //        $object["cantidad_llegado"]=$object["cantidad_llegado"]*$object["equivalencia"];
+          //      }
+          //   }
             $object['headInputStock_id']=$codigoHeadIS;
             $inserInputStock = new inputStockManager($inputStock,$object);
             $inserInputStock->save();
@@ -137,11 +149,12 @@ class InputStocksController extends Controller
                        $object["stockActual"]=$stockac->stockActual+$object["cantidad_llegado"]; 
                     }
                 }*/
-                if($object["esbase"]==0){
-                  $object["stockActual"]=$stockac->stockActual+($object["cantidad_llegado"]*$object["equivalencia"]);
-                }else{
+                //if($object["esbase"]==0){
+                //  $object["stockActual"]=$stockac->stockActual+($object["cantidad_llegado"]*$object["equivalencia"]);
+               // }else{
                   $object["stockActual"]=$stockac->stockActual+$object["cantidad_llegado"];
-                }
+                  $object["porLlegar"]=$stockac->porLlegar-$object["cantidad_llegado"];
+                //}
                   $manager = new StockManager($stockac,$object);
                   $manager->save();
                   $stock=null;
@@ -162,7 +175,8 @@ class InputStocksController extends Controller
             $stockac=null;
         }}
 
-       }}else{
+      // }
+     }else{
 
        //==========================================================0
        //$inputStock = $this->inputStockRepo->getModel();
@@ -195,8 +209,10 @@ class InputStocksController extends Controller
                
                 if($object["esbase"]==0){
                   $object["stockActual"]=$tockacDestino->stockActual+($object["cantidad_llegado"]*$object["equivalencia"]);
+
                 }else{
                   $object["stockActual"]=$tockacDestino->stockActual+$object["cantidad_llegado"];
+                  
                 }
                  $object['warehouse_id']=$almacen_Destino;
                   $manager = new StockManager($tockacDestino,$object);
@@ -220,6 +236,7 @@ class InputStocksController extends Controller
               if(!empty($stockac)){
                   $object['warehouse_id']=$almacen_id;
                   $object["stockActual"]=$stockac->stockActual-$object["cantidad_llegado"];
+
                   $manager = new StockManager($stockac,$object);
                   $manager->save();
                   $stock=null;
@@ -236,13 +253,16 @@ class InputStocksController extends Controller
                           //var_dump("entre");
                     }else{
                         $object["stockActual"]=$stockac->stockActual+($object["cantidad_llegado"]*$object["equivalencia"]);
+                        
                      }
                 }else{
                     if($tipo==$tipo2){
                       $object["stockActual"]=$stockac->stockActual-$object["cantidad_llegado"];
                       //var_dump("entre");
                     }else{
+                     // var_dump("hola ");die();
                        $object["stockActual"]=$stockac->stockActual+$object["cantidad_llegado"]; 
+                       
                     }
                 }
                   $manager = new StockManager($stockac,$object);
@@ -268,5 +288,71 @@ class InputStocksController extends Controller
        ////======================================================00
        return response()->json(['estado'=>true]);
 
+    }
+    public function reporteMovimentos($tipo){
+      //var_dump("hola commd");die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_MovAlmacen';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/MovAlmacen.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['tipo'=>$tipo],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_MovAlmacen.'.$ext;
+   
+    }
+    public function reporteMovimentosFechas($fecha1,$fecha2){
+      //var_dump("hola commd".$fecha1."jajaj".$fecha2);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_MovientosRagoF';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/MovientosRagoF.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaMenor'=>$fecha1,'fechaMayor'=>$fecha2],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_MovientosRagoF.'.$ext;
+   
+    }
+    public function reporteMovimentosFechasTipo($fecha1,$fecha2,$tipo){
+      //var_dump("hola commd".$fecha1."jajaj".$fecha2);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_ReporteMovimientoCompleto';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/ReporteMovimientoCompleto.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaMenor'=>$fecha1,'fechaMayor'=>$fecha2,'tipo'=>$tipo],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_ReporteMovimientoCompleto.'.$ext;
+   
     }
 }

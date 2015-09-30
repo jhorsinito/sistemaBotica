@@ -19,6 +19,7 @@ class CreateStockTable extends Migration
             $table->decimal('stockMinSoles',10,2)->nullable()->default(0);
             $table->decimal('stockPedidos',10,2)->default(0);
             $table->decimal('stockSeparados',10,2)->default(0);
+            $table->decimal('porLlegar',10,2)->default(0);
             $table->integer('variant_id')->unsigned();
             $table->integer('warehouse_id')->unsigned();
             $table->foreign('variant_id')->references('id')->on('variants');

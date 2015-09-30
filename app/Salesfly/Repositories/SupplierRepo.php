@@ -22,4 +22,14 @@ class SupplierRepo extends BaseRepo{
         $d = \DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
     }
+    public function deudas (){
+         $supplier =Supplier::leftjoin("payments","payments.supplier_id","=","suppliers.id")
+                            ->select(\DB::raw('suppliers.id as idsup,suppliers.*,(SELECT sum(payments.Saldo)
+                                     FROM payments
+                                     INNER JOIN suppliers ON suppliers.id = payments.supplier_id
+                                     WHERE suppliers.id = idsup and payments.Saldo>0 group By suppliers.id) as deuda'))
+                            ->groupBy("suppliers.id")
+                            ->paginate(15);
+        return $supplier;
+    }
 } 

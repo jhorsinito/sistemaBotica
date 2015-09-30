@@ -17,19 +17,22 @@ use Salesfly\Salesfly\Repositories\PaymentRepo;
 use Salesfly\Salesfly\Managers\PaymentManager;
 use Salesfly\Salesfly\Repositories\DetPaymentRepo;
 use Salesfly\Salesfly\Managers\DetPaymentManager;
+use Salesfly\Salesfly\Repositories\StockRepo;
+use Salesfly\Salesfly\Managers\StockManager;
 
 class DetailOrderPurchasesController extends Controller {
 
     protected $detailOrderPurchaseRepo;
     protected $orderPurchaseRepo;
 
-    public function __construct(PaymentRepo $paymentRepo,DetPaymentRepo $detPaymentRepo,PendientAccountRepo $pendientAccountRepo,DetailOrderPurchaseRepo $detailOrderPurchaseRepo, OrderPurchaseRepo $orderPurchaseRepo)
+    public function __construct(StockRepo $stockRepo,PaymentRepo $paymentRepo,DetPaymentRepo $detPaymentRepo,PendientAccountRepo $pendientAccountRepo,DetailOrderPurchaseRepo $detailOrderPurchaseRepo, OrderPurchaseRepo $orderPurchaseRepo)
     {
         $this->detailOrderPurchaseRepo = $detailOrderPurchaseRepo;
         $this->orderPurchaseRepo = $orderPurchaseRepo;
         $this->pendientAccountRepo=$pendientAccountRepo;
         $this->paymentRepo = $paymentRepo;
         $this->detPaymentRepo = $detPaymentRepo;
+        $this->stockRepo=$stockRepo;
     }
 
 
@@ -206,10 +209,12 @@ class DetailOrderPurchasesController extends Controller {
 
     public function edit(Request $request)
     {
-       \DB::beginTransaction();
+      /// \DB::beginTransaction();
+      //var_dump($request->all());die();
        $var=$request->detailOrderPurchases;//->except($request->detailOrderPurchases["id"]);
        $orderPurchase = $this->orderPurchaseRepo->find($request->input('id'));
        $orderPurchase = $this->orderPurchaseRepo->find($request->id);
+       $almacen_id=$request->input("warehouses_id");
        
         $manager = new OrderPurchaseManager($orderPurchase,$request->except('fechaPedido','fechaPrevista'));
         $manager->save();
@@ -231,6 +236,49 @@ class DetailOrderPurchasesController extends Controller {
         $insertar->save();
         $detailOrderPurchaseRepox = null;
 
+        $stockmodel = new StockRepo;
+
+                  $object['warehouse_id']=$almacen_id;
+                  $object["variant_id"]=$object["Codigovar"];
+                  $stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
+                  
+            if(!empty($stockac)){ 
+              
+               // if($object["esbase"]==0){
+                //  $object["porLlegar"]=$stockac->stockActual+($object["cantidad_llegado"]*$object["equivalencia"]);
+               // }else{
+                  if(!empty($object["nuevo"])){
+                      $object["porLlegar"]=$stockac->porLlegar+$object["cantidad"];
+                   }else{
+                      if(!empty($object["cantAnterior"])){
+                        $object["porLlegar"]=(floatval($stockac->porLlegar)-floatval($object["cantAnterior"]))+floatval($object["cantidad"]);
+                      }else{
+                        $object["porLlegar"]=$stockac->porLlegar;
+                      }
+                   }
+                //}
+                  $manager = new StockManager($stockac,$object);
+                  $manager->save();
+                  $stock=null;
+            }else{
+               
+                    
+                  
+              //if($tipo!=$tipo2){
+               // if($object["esbase"]==0)
+               // {
+                //    $object["stockActual"]=$object["cantidad_llegado"]*$object["equivalencia"];
+                //}else{
+                    $object["porLlegar"]=$object["cantidad"];
+                //}
+            
+                  $manager = new StockManager($stockmodel->getModel(),$object);
+                  $manager->save();
+                  $stockmodel = null;
+                  }
+            //}
+            $stockac=null;
+
        }
        $payment = $this->paymentRepo->getModel();
         $payment1 = $this->paymentRepo->paymentById($request->input('id'));
@@ -246,7 +294,7 @@ class DetailOrderPurchasesController extends Controller {
            $manager->save(); 
            $provicional=$request->idpayment;
         }
-       \DB::commit(); 
+       //\DB::commit(); 
       return response()->json(['estado'=>true]);
     }
 

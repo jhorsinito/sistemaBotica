@@ -27,7 +27,11 @@ class SuppliersController extends Controller {
         $suppliers = $this->supplierRepo->paginate(15);
         return response()->json($suppliers);
     }
-
+    public function deudas(){
+       
+        $suppliers = $this->supplierRepo->deudas();
+        return response()->json($suppliers);
+    }
     public function paginatep(){
         $suppliers = $this->supplierRepo->paginate(15);
         return response()->json($suppliers);

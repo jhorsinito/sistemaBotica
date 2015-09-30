@@ -19,19 +19,23 @@ use Salesfly\Salesfly\Managers\PaymentManager;
 
 use Salesfly\Salesfly\Repositories\DetPaymentRepo;
 use Salesfly\Salesfly\Managers\DetPaymentManager;
+
+use Salesfly\Salesfly\Repositories\StockRepo;
+use Salesfly\Salesfly\Managers\StockManager;
 //use Intervention\Image\Facades\Image;
 
 class OrderPurchasesController extends Controller {
 
     protected $orderPurchaseRepo;
 
-    public function __construct(DetailOrderPurchaseRepo $detailOrderPurchaseRepo,DetPaymentRepo $detPaymentRepo,PaymentRepo $paymentRepo,PendientAccountRepo $pendientAccountRepo, OrderPurchaseRepo $orderPurchaseRepo)
+    public function __construct(StockRepo $stockRepo,DetailOrderPurchaseRepo $detailOrderPurchaseRepo,DetPaymentRepo $detPaymentRepo,PaymentRepo $paymentRepo,PendientAccountRepo $pendientAccountRepo, OrderPurchaseRepo $orderPurchaseRepo)
     {
         $this->orderPurchaseRepo = $orderPurchaseRepo;
         $this->pendientAccountRepo=$pendientAccountRepo;
         $this->paymentRepo=$paymentRepo;
         $this->detPaymentRepo=$detPaymentRepo;
         $this->detailOrderPurchaseRepo=$detailOrderPurchaseRepo;
+        $this->stockRepo=$stockRepo;
     }
 
     public function index()
@@ -101,12 +105,20 @@ class OrderPurchasesController extends Controller {
     $orderPurchase=$this->orderPurchaseRepo->traerSumplier($id);
     return response()->json($orderPurchase);
     }
-
+    public function searchFechasEstado($fechaini,$fechafin,$estado){
+        $orderPurchase=$this->orderPurchaseRepo->searchFechasEstado($fechaini,$fechafin,$estado);
+       return response()->json($orderPurchase);
+    }
+    public function searchFechas($fechaini,$fechafin){
+        $orderPurchase=$this->orderPurchaseRepo->searchFechas($fechaini,$fechafin);
+       return response()->json($orderPurchase);
+    }
     public function edit(Request $request)
     {
-        \DB::beginTransaction();
+    \DB::beginTransaction();
         $var=$request->input('detailOrderPurchases');
-       //var_dump($request->input('montoTotal'));die();    
+       //var_dump($request->input("warehouses_id"));die(); 
+       $almacen_id=$request->input("warehouses_id");
        $orderPurchase = $this->orderPurchaseRepo->find($request->id);
        if($request->Estado == 0){
         $manager = new OrderPurchaseManager($orderPurchase,$request->except('fechaPedido','fechaPrevista'));
@@ -125,16 +137,16 @@ class OrderPurchasesController extends Controller {
         }
 
         $orderPurchase->save();
-        $verSiExiste=$this->detailOrderPurchaseRepo->Comprobar($request->id);
+       // $verSiExiste=$this->detailOrderPurchaseRepo->Comprobar($request->id);
 
         //$n=0;
         //->except($request->detailOrderPurchases["id"]);
        //$orderPurchase = $this->orderPurchaseRepo->find($request->input('id'));
 //==================================Actualizando Detallles==========================
-    if(!empty($verSiExiste[0])){
+    //if(!empty($verSiExiste[0])){
         //var_dump("no deve entrar");die();
-      $orderPurchase->detPres()->detach();
-       foreach($var as $object1){
+     // $orderPurchase->detPres()->detach();
+       /*foreach($var as $object1){
         //$hola=$var[$n];
         if(!empty($object1["cantidad1"])){
             //var_dump("holay".$object1["cantidad1"]);die();
@@ -177,17 +189,78 @@ class OrderPurchasesController extends Controller {
         $insertar->save();
         $detailOrderPurchaseRepox = null;
         //$n++;
-       }
-   }
-  else{
+         $stockmodel = new StockRepo;
+                  $object['warehouse_id']=$almacen_id;
+                  $object["variant_id"]=$object["Codigovar"];
+                  $stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
+               var_dump($stockac->porLlegar);die();  
+            if(!empty($stockac)){ 
+              
+               // if($object["esbase"]==0){
+                //  $object["porLlegar"]=$stockac->stockActual+($object["cantidad_llegado"]*$object["equivalencia"]);
+               // }else{
+                  $object["porLlegar"]=$stockac->porLlegar+$object["cantidad"];
+                //}
+                  $manager = new StockManager($stockac,$object);
+                  $manager->save();
+                  $stock=null;
+            }else{
+              //if($tipo!=$tipo2){
+               // if($object["esbase"]==0)
+               // {
+                //    $object["stockActual"]=$object["cantidad_llegado"]*$object["equivalencia"];
+                //}else{
+                    $object["porLlegar"]=$object["cantidad"];
+                //}
+            
+                  $manager = new StockManager($stockmodel->getModel(),$object);
+                  $manager->save();
+                  $stockmodel = null;
+                  }
+            //}
+            $stockac=null;
+       }*/
+  // }
+  //else{
    foreach($var as $object){
    
           $detailOrderPurchaseRepox = new DetailOrderPurchaseRepo;
           $insertar=new DetailOrderPurchaseManager($detailOrderPurchaseRepox->getModel(),$object);
           $insertar->save();
           $detailOrderPurchaseRepox = null;
+          $stockmodel = new StockRepo;
+
+                  $object['warehouse_id']=$almacen_id;
+                  $object["variant_id"]=$object["Codigovar"];
+                  $stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
+                  
+            if(!empty($stockac)){ 
+              
+               // if($object["esbase"]==0){
+                //  $object["porLlegar"]=$stockac->stockActual+($object["cantidad_llegado"]*$object["equivalencia"]);
+               // }else{
+                  $object["porLlegar"]=$stockac->porLlegar+$object["cantidad"];
+                //}
+                  $manager = new StockManager($stockac,$object);
+                  $manager->save();
+                  $stock=null;
+            }else{
+              //if($tipo!=$tipo2){
+               // if($object["esbase"]==0)
+               // {
+                  //  $object["stockActual"]=$object["cantidad_llegado"]*$object["equivalencia"];
+                //}else{
+                    $object["porLlegar"]=$object["cantidad"];
+                //}
+            
+                  $manager = new StockManager($stockmodel->getModel(),$object);
+                  $manager->save();
+                  $stockmodel = null;
+                  }
+            //}
+            $stockac=null;
       }
-  }
+ // }
        //*************************************************************************************
            $verDeudas=$this->pendientAccountRepo->verSaldos($request->input("supplier_id"));
   //var_dump($verDeudas[0]->Saldo);die();
@@ -370,6 +443,69 @@ class OrderPurchasesController extends Controller {
             false,
             false
         )->execute();
+    }
+
+    public function reporteEstado($estado){
+        //var_dump($estado);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_reporteOrderPurchases';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/reporteOrderPurchases.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['estado'=>$estado],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_reporteOrderPurchases.'.$ext;
+    }
+    public function reporteRangoFechas($fech1,$fech2){
+       // var_dump($fech1."/".$fech2);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_reporteCompraFechas';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/reporteCompraFechas.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini' => $fech1,'fechafin'=>$fech2],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_reporteCompraFechas.'.$ext;
+    }
+     public function reporteRangoFechasEstado($fech1,$fech2,$estado){
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_ReporteCompreFechEstad';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/ReporteCompreFechEstad.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini' => $fech1,'fechafin'=>$fech2,'estado'=>$estado],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_ReporteCompreFechEstad.'.$ext;
     }
 
 }

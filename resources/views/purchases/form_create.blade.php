@@ -40,8 +40,73 @@
           <div  class="col-md-1">
                     <button data-toggle="modal" ng-click="limpiarStocks()" data-target="#miventana1" class="btn btn-success btn-xs">Registrar Nuevo</button>
            </div>
-  </div>          
-    </br>
+  </div> 
+  <div class="row">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-2">
+               <em>¿Seleccione para filtrar individualmente?</em>
+                      <div   class="form-group" >                            
+                            <input   ng-click="limpiarFiltros()" type="checkbox"  name="variantes" ng-model="check" />
+                            
+                        </div>
+                </div>        
+        
+          <div class="col-md-2">
+                  <div  class="form-group">
+                                <label for="fechaPedido">Elija Rango de Fechas</label>
+                            <div  class="input-group">
+                                <div class="input-group-addon">
+                                      <i class="fa fa-calendar"></i>
+                                </div>
+                                  <input  type="date" class="form-control"  name="fechaPedido" ng-model="purchase.fechaini">
+                            </div>
+                  </div>
+          </div>
+          <div class="col-md-3">
+                  <div  class="form-group" ng-class="{true: 'has-error'}[ inputStocksCreateForm.fechaPrevista.$error.required && inputStocksCreateForm.$submitted || inputStocksCreateForm.fechaPrevista.$dirty && inputStocksCreateForm.fechaPrevista.$invalid]">
+                            <label for="fechaPrevista"><---></label>
+                                <div  class="input-group">
+                                        <div class="input-group-addon">
+                                              <i class="fa fa-calendar"></i>
+                                        </div>
+                                      <input  ng-disabled="purchase.fechaini==null" type="date"  ng-change="filtrarFechas()" min="@{{purchase.fechaini}}" class="form-control" name="fechaPrevista" ng-model="purchase.fechafin" required>
+                                   </div>   
+                                  <label ng-show="inputStocksCreateForm.$submitted || inputStocksCreateForm.fechaPrevista.$dirty && inputStocksCreateForm.fechaPrevista.$invalid">
+                                         <span ng-show="inputStocksCreateForm.fechaPrevista.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
+                                      </label>
+                            
+                      </div> 
+          </div>
+           <div ng-show="check" class="col-md-2">
+          <div class="form-group" >
+                <label for="Variante">Filtrar Por</label>
+                <select  class="form-control"   ng-change="searchporTipo()" ng-model="purchase.tipoMov" >
+                  <option value="">Elejir Mov</option>
+                  <option value="Entrada">Entrada</option>
+                  <option value="Salida">Salida</option>
+                  <option value="Transferencia">Transferencia</option>
+                </select>
+                <!--@{{variants.varid}}-->
+                </div>
+          </div>
+           <div ng-hide="check" class="col-md-2">
+          <div class="form-group" >
+                <label for="Variante">Filtrar Por</label>
+                <select  ng-disabled="purchase.fechaini==null || purchase.fechafin==null" ng-change="filtrarFechas()" class="form-control"   ng-model="purchase.tipoMov" >
+                  <option value="">Elejir Mov</option>
+                  <option value="Entrada">Entrada</option>
+                  <option value="Salida">Salida</option>
+                  <option value="Transferencia">Transferencia</option>
+                </select>
+                <!--@{{variants.varid}}-->
+                </div>
+          </div>
+          <div class="col-md-1">
+             <a ng-click="MovimientoAlmacen()" style="width:95px;"class="btn btn-success btn-xs">Generar Reporte</a>
+             <a ng-href="@{{pdfMovimiento}}" style="width:95px;" target="_blank" class="btn btn-primary btn-xs">Ver Reporte</a>
+          </div>
+  </div>
       
       <div class="row">
           <div class="col-md-1">
@@ -224,7 +289,7 @@
               <label>Producto(Stock Actual:@{{inputStock.CantidaStock}})</label>
                 
                <input ng-Disabled="check" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId"  name="empresa" placeholder="Locations loaded via $http" 
-               typeahead="product as product.proNombre+'('+(product.BraName==null ? '': product.BraName+'/')+(product.TName==null ? '' : product.TName+'/')+(product.Mnombre==null ? '':product.Mnombre+'/')+(product.NombreAtributos==null ? '':product.NombreAtributos)+')' for product in products | filter:$viewValue | limitTo:8" 
+               typeahead="product as product.proNombre+'('+(product.BraName==null ? '': product.BraName+'/')+(product.TName==null ? '' : product.TName+'/')+(product.Mnombre==null ? '':product.Mnombre+'/')+')' for product in products | filter:$viewValue | limitTo:8" 
                typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
                tooltip="Ingrese caracteres para busacar producto por nombre"
             required >
@@ -345,13 +410,15 @@
                    <table class="table table-striped">
                     <tr>
                       <th style="width: 10px">#</th>
+                      <th>Producto</th>
                       <th>Descripcion</th>
                       <th>Cantidad</th>
-                      <th>Producto</th>
+                      <th>Codigo</th>
                     </tr>
                     
                     <tr ng-repeat="row in inputStocks">
                       <td>@{{$index + 1}}</td>
+                      <td >@{{row.producto}}</td>
                       <td >@{{row.descripcion}}</td>
                       <td >@{{row.cantidad_llegado}}</td>
                       <td>@{{row.codigo}}</td> 
@@ -397,17 +464,20 @@
           <div class="col-md-1">
           </div>
           <div class="col-md-10">
-              <div  class="well well-lg">
+            <div class="box-body table-responsive no-padding">
+              
                    <table class="table table-striped">
                     <tr>
                       <th style="width: 10px">#</th>
+                      <th>Producto</th>
                       <th>Descripcion</th>
                       <th>Cantidad</th>
-                      <th>Producto</th>
+                      <th>Codigo</th>
                     </tr>
                     
                     <tr ng-repeat="row in inputStocks">
                       <td>@{{$index + 1}}</td>
+                      <td >@{{row.producto}}</td>
                       <td >@{{row.descripcion}}</td>
                       <td >@{{row.cantidad_llegado}}</td>
                       <td>@{{row.codigo}}</td> 

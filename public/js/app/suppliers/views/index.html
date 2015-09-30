@@ -60,6 +60,7 @@
                       <th>Codigo</th>
                       <th>Ruc</th>
                       <th>Telefono</th>
+                      <th>Por Pagar</th>
                       <th style="width: 40px">Editar</th>
                       <th style="width: 40px">Eliminar</th>
                     </tr>
@@ -72,6 +73,7 @@
                       <td>{{row.codigo}}</td>
                       <td>{{row.ruc}}</td>
                       <td>{{row.movl}}</td>
+                      <td>{{row.deuda}}</td>
                       <td><a ng-click="editSupplier(row)" class="btn btn-warning btn-xs">Editar</a></td>
                       <td><a ng-click="deleteSupplier(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
                       

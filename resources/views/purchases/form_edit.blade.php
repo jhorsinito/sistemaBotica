@@ -122,10 +122,10 @@
             </div>
           </div>
           
-                   <button ng-click="GenerrarReportCod()" type="submit" class="btn btn-primary btn-xs">@{{botonReporteCod}}</button>
-                   <a ng-show="verReportSku1" ng-click="verReportSku()" ng-href="@{{pdf1}}" target="_blank" type="submit" class="btn btn-primary btn-xs"  >Ver Reporte</a>
+                 <!--  <button ng-click="GenerrarReportCod()" type="submit" class="btn btn-primary btn-xs">@{{botonReporteCod}}</button>
+                   <a ng-show="verReportSku1" ng-click="" ng-href="@{{pdf1}}" target="_blank" type="submit" class="btn btn-warning btn-xs"  >Ver Reporte</a>-->
                    <button ng-click="GenerrarReport()" type="submit" class="btn btn-primary btn-xs">@{{botonReporte}}</button>
-                   <a ng-show="verReportTiket1" ng-click="verReportTiket()"ng-href="@{{pdf}}" target="_blank" type="submit" class="btn btn-primary btn-xs"  >Ver Reporte</a>
+                   <a ng-show="verReportTiket1" ng-click=""ng-href="@{{pdf}}" target="_blank" type="submit" class="btn btn-warning btn-xs"  >Ver Reporte</a>
                    <a href="/purchases" class="btn btn-success btn-xs">Regresar</a>
                   </div>
                 </form>

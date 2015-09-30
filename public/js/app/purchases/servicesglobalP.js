@@ -242,6 +242,20 @@
                 });
                 return deferred.promise;
             }
+            function reportesMovFecha(uri,fech1,fech2){
+                   var deferred = $q.defer();
+                $http.post('/api/'+uri+'/create/'+fech1+'/'+fech2).success(function (data) {
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
+            function movimientoFechasTipo(uri,fech1,fech2,tipo){
+                   var deferred = $q.defer();
+                $http.post('/api/'+uri+'/create/'+fech1+'/'+fech2+'/'+tipo).success(function (data) {
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
             function comprovarCaja(id){
                  var deferred = $q.defer();
                 $http.get('api/detCashes/compCajaActiva/'+id).success(function (data) {
@@ -249,14 +263,46 @@
                 });
                 return deferred.promise;
             }
+            function paginarporfechas(uri,fecha1,fecha2)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/paginar/'+fecha1+"/"+fecha2).success(function (data) {
+                    deferred.resolve(data);
+                });
+
+                return deferred.promise;
+            }
+            function paginarportipos(uri,tipo)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/paginartipos/'+tipo).success(function (data) {
+                    deferred.resolve(data);
+                });
+
+                return deferred.promise;
+            }
+            function paginarfechaTipo(uri,fecha1,fecha2,tipo)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/paginarfechaTipo/'+fecha1+"/"+fecha2+"/"+tipo).success(function (data) {
+                    deferred.resolve(data);
+                });
+
+                return deferred.promise;
+            }
             //'/api/'+uri+'/create/'+id+'/'+can
             return {
                 all: all,
                 paginate: paginate,
                 create:create,
+                movimientoFechasTipo: movimientoFechasTipo,
+                paginarporfechas: paginarporfechas,
+                paginarportipos: paginarportipos,
+                paginarfechaTipo: paginarfechaTipo,
                 byId:byId,
                 comprovarCaja: comprovarCaja,
                 update:update,
+                reportesMovFecha: reportesMovFecha,
                 destroy:destroy,
                 search: search,
                 select:select,
