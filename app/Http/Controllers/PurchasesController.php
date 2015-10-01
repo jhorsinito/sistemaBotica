@@ -410,8 +410,9 @@ class PurchasesController extends Controller {
                 //    $object["stockActual"]=$cantidaCalculada*$object["equivalencia"];
                // }else{
                     $object["stockActual"]=$cantidaCalculada;
+                    if(!empty($stockac->porLlegar)){
                     $object["porLlegar"]=floatval($stockac->porLlegar)-floatval($object["cantidad"]);
-                //}
+                }
       //======================Registrando estock si es que variante no existe===============================
                   $manager = new StockManager($stockmodel->getModel(),$object);
                   $manager->save();
@@ -429,7 +430,7 @@ class PurchasesController extends Controller {
           
         }else{
         $consulPayment=$this->paymentRepo->paymentById($purchase->orderPurchase_id);
-        if($consulPayment==null){
+        if(!empty($consulPayment)){
           $request->merge(["Acuenta"=>0]);
           $inserPay=new PaymentManager($payment,$request->all());
           $inserPay->save();
