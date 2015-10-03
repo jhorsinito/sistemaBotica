@@ -1,5 +1,5 @@
  <section class="content-header"> 
-          <h1>
+          <h1> 
             Pedido Venta
             <small>Panel de Control</small>
           </h1>
@@ -208,12 +208,136 @@
 
 
                     </div>
-
+                    <!-- ===================Agregar Variante===================-->
                     <div class="col-md-6" style="min-height: 670px; border-style: solid;
                                 border-width: 2px; border-color: #C8D9F7; border-radius:10px" >
-                       <!-- Parte de Favorito-->
+                        <div>
+                        <div class="modal-header">
+
+                          <h4 class="modal-title">Agregar  Variante</h4>
+                        
+                        </div>
+                        <form name="variantCreateForm" role="form" novalidate>
+                          <div class="box-body">
+
+                        
+                            <div class="row">
+                              <div class="col-md-7">
+                                <label></label>
+                                <input type="text" ng-model="productSelected" placeholder="Buscar Producto" typeahead="atributo as atributo.nombre for atributo in getproduct($viewValue)" 
+                                            typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" ng-enter="cargarProducto()"/>
+                              </div>
+                              <div class="col-md-5">
+                                <div class="form-group" ng-class="{true: 'has-error'}[ variantCreateForm.nombre.$error.required && variantCreateForm.$submitted || variantCreateForm.nombre.$dirty && variantCreateForm.nombre.$invalid]">
+                                    <label for="nombres">Código (Autogenerado)</label>
+                                    <input type="text" class="form-control" name="codigo" placeholder="Codigo autogenerado" ng-model="variant.codigo" required disabled>
+                                    <label ng-show="variantCreateForm.$submitted || variantCreateForm.codigo.$dirty && variantCreateForm.codigo.$invalid">
+                                        <span ng-show="variantCreateForm.codigo.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                    </label>
+                                </div></div>
+                            </div>
+                             <!-- ======================================================= -->
+                            <div class="row" ng-show="estadoAddVariant">
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Presentación Base:</label>
+                                    <select  class="form-control" ng-model="variant.presentation_base_object" ng-change="changePreBase()" ng-options="item as item.nombre for item in presentations_base">
+                                        <option value="">-- Elige Presentación Base--</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Categoría</label>
+                                    <select name="brand" class="form-control" ng-model="variant.category" ng-options="category.id as category.nombre for category in categories">
+                                        <option value="">--Elige Categoría--</option>
+                                    </select>
+
+                                </div></div>
+                            
+
+                            </div>
+
+                            <div class="row" ng-show="estadoAddVariant">
+                              <div class="form-group">
+                                <label for="notas">Notas</label>
+                                <textarea type="notas" class="form-control" name="notas" placeholder="..."
+                                ng-model="variant.nota" rows="2" cols="50"></textarea>
+                              </div>
+
+                              <div class="row" ng-repeat="row in attributes" ng-init="variant.detAtr[$index].atribute_id = row.id">
+                                    <div class="col-md-2">
+                                        <input type="hidden" ng-model="variant.detAtr[$index].atribute_id">
+                                        <label for="">@{{ row.nombre }}</label>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" ng-model="variant.detAtr[$index].descripcion"  ng-keyup="capAttr(row.id)" typeahead="state for state in opcAtr[row.id] | filter:$viewValue | limitTo:8">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div ng-show="estadoAddVariant">
+                              Presentaciones del Producto <button class="btn btn-xs btn-info btn-flat" data-toggle="modal" data-target="#presentation" ng-click="traerPres()" ng-disabled="enabled_presentation_button" >Añadir Presentación</button>
+                            </div>
+                            <div class="row" ng-show="estadoAddVariant">
+
+                                    <div class="col-md-12">
+                                        <table class="table table-bordered">
+                                            <tbody><tr>
+                                                <th>#</th>
+                                                <th>Presentación</th>
+                                                <th>Precio de Proveedor</th>
+                                                <th>% de Utilidad</th>
+                                                <th>Precio de Venta</th>
+                                                <th>Opciones</th>
+                                            </tr>
+                                            <tr ng-repeat="row in variant.presentations">
+                                                <td>@{{$index + 1}}</td>
+                                                <td>@{{row.nombre}}</td>
+                                                <td>@{{row.suppPri}}</td>
+                                                <td>@{{row.markup}}</td>
+
+                                                <td>@{{row.price}}</td>
+                                                <td>
+                                                    <a href="" class="btn btn-danger btn-xs" ng-click="deletePres($index)"><i class="fa fa-fw fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+
+
+
+                                            </tbody></table>
+                                    </div>
+
+
+                                </div>
+
+                                    <div class="row" ng-show="false">
+                                      <div class="col-md-4">
+                                          <div class="form-group">
+                                              <label>Imagen</label>
+                                              <input type="file" ng-model="variant.image" id="variantImage" name="variantImage"/>
+
+                                         </div>
+                                      </div>
+                                    </div>
+                                 <!-- ======================================================= -->
+                             
+                          </div>
+
+                          <div class="box-footer" ng-show="estadoAddVariant">
+                              <button type="submit" class="btn btn-primary" ng-click="createVariant()">Crear</button>
+                              <a class="btn btn-danger" ng-click="cancelaraddVariant()">Cancelar</a>
+                          </div>
+                        </form>
+
+                        </div>
                       
                     </div>
+                    <!-- ======================================================= -->
                   </div>
 
                   </div><!-- /.tab-pane -->
@@ -784,3 +908,55 @@
               </div>
             </div>
           </div>
+
+
+          <!-- =============================Modal de Presentacion ================================ -->
+
+<div class="modal fade bs-example-modal-sm" id="presentation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-md"  role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Añadir Presentación</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <select name="" ng-click="selectPres()" class="form-control" id="" ng-model="presentationSelect" ng-options="item as item.nombre+' / '+item.shortname+' / '+item.cant for item in presentations">
+                                <option value="">-- Elige Presentación--</option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control hidden" name="presentation.nombre" ng-model="presentation.nombre">
+                        <div class="form-group" >
+                            <label for="suppPric">Precio de Compra</label>
+                            <input type="number" class="form-control" name="suppPric1" placeholder="0.00" ng-model="presentation.suppPri" ng-blur="calculateSuppPric()" step="0.1">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group" > <label for="suppPric">% de Ganancia</label> <input type="number" class="form-control" name="markup1" placeholder="0.00" ng-model="presentation.markup" ng-blur="calculateMarkup()" step="0.1">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group" >
+                            <label for="suppPric">Precio de Venta</label>
+                            <input type="number" class="form-control" name="price1" placeholder="0.00" ng-model="presentation.price" ng-blur="calculatePrice()" step="0.1">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="AddPres()" data-dismiss="modal">Grabar Cambios</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<!-- ======================================================================================== -->

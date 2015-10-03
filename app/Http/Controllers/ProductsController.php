@@ -107,7 +107,7 @@ class ProductsController extends Controller
 
     public function create(Request $request)
     {
-        \DB::beginTransaction();
+    \DB::beginTransaction();
         //$request->merge(array('sdf' => 'hola'));
         //var_dump($request->all()); die();
         $product = $this->productRepo->getModel();
@@ -428,13 +428,6 @@ class ProductsController extends Controller
 
         return response()->json($stations);
     } 
-    public function searchProducts($q)
-    {
-        //$q = Input::get('q');
-        $products = $this->productRepo->searchProducts($q);
-
-        return response()->json($products);
-    }
 
     /*fx ayuda para img*/
     public function get_string_between($string, $start, $end){
@@ -450,6 +443,13 @@ class ProductsController extends Controller
         $product = $this->productRepo->Autocomplit2();
         //sleep(5);
         return response()->json($product);
+    }
+     public function searchProductAddVariant($q)
+    {
+        //$q = Input::get('q');
+        $products = $this->productRepo->searchProductAddVariant($q);
+
+        return response()->json($products);
     }
 
 }

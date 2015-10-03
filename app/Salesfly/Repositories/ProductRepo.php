@@ -54,6 +54,16 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                     ->get();
         return $products;
     }
+    public function searchProductAddVariant($q)
+    {
+        $products =Product::select('id','nombre','codigo','estado','hasVariants')
+                    //with(['customer','employee'])
+                    ->where('nombre','like', $q.'%')
+                    ->where('estado','=','1')
+                    ->orWhere('codigo','like',$q.'%')
+                    ->paginate(20);
+        return $products;
+    }
 
     public function paginate($qantity){
         //$products = $this->getModel()->with('brand','type')->_variant->paginate($qantity);
@@ -238,12 +248,20 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->where('warehouses.id','=',$were)
                             ->where('variants.codigo','like', $q.'%')
                             ->where('T2.base','=','1')
+                            /////--------------------
+                            ->where('products.estado','=','1')
+                            ->where('variants.estado','=','1')
+                            /////--------------------
                             //->where('variants.estado','=','1')
                             //->where('products.estado','=','1')
                             ->orWhere('stores.id','=',$store)
                             ->where('warehouses.id','=',$were)
                             ->where('products.nombre','like', $q.'%')
                             ->where('T2.base','=','1')
+                            /////--------------------
+                            ->where('products.estado','=','1')
+                            ->where('variants.estado','=','1')
+                            /////--------------------
                             //->where('variants.estado','=','1')
                             //->where('products.estado','=','1')
                             ->groupBy('variants.id')
@@ -274,6 +292,10 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->where('stores.id','=',$store)
                             ->where('warehouses.id','=',$were)
                             ->where('variants.sku','=', $q)
+                            /////--------------------
+                            ->where('products.estado','=','1')
+                            ->where('variants.estado','=','1')
+                            /////--------------------
                             //->where('variants.codigo','like', $q.'%')
                             ->where('T2.base','=','1')
                             ->groupBy('variants.id')
@@ -338,6 +360,9 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->where('stores.id','=',$store)
                             ->where('warehouses.id','=',$were)
                             //->where('products.nombre','like', $q.'%')
+                            ->where('products.estado','=','1')
+                            ->where('variants.estado','=','1')
+                            
                             ->where('T2.base','like','1')
                             ->groupBy('variants.id')
                             ->where('variants.favorite','=','0')

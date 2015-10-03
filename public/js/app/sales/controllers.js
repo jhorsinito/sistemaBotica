@@ -413,12 +413,12 @@
                     }else{
                          $scope.sale.vuelto=0;   
                     };
-                    if($scope.pago.cash==undefined){
+                    /*if($scope.pago.cash==undefined){
                         $scope.pago.cash=0;
                     }
                     if($scope.pago.tarjeta==undefined){
                         $scope.pago.tarjeta=0;
-                    }
+                    }*/
                 }
 
                 $scope.realizarPago = function () {
@@ -439,7 +439,7 @@
                             else{
                                 $scope.salePayment.estado=1;
                                 $scope.sale.estado=1;
-                                if ($scope.pago.tarjeta+$scope.pago.cash>$scope.sale.montoTotal){
+                                if ($scope.pago.tarjeta+$scope.pago.cash>=$scope.sale.montoTotal){
                                     alert("Usa Pago Contado");
                                 }else{
                                 if ($scope.radioModel!=undefined && $scope.pago.tarjeta==0) {
@@ -773,8 +773,8 @@
                                                 //---------------
                                             $scope.pagoCredito.tipo="sale";
                                             //---------------
-                                            crudServiceOrders.create($scope.pagoCredito, 'saledetPayments').then(function (data) {
-                          
+                                            crudServiceOrders.create1($scope.pagoCredito, 'saledetPayments').then(function (data) {
+                                                
                                                 if (data['estado'] == true) {
                                 
                                                     alert('grabado correctamente');
@@ -785,9 +785,12 @@
                                                     $scope.detPago={};
                                                 } else {
                                                     $scope.errors = data;
-
+                                                     
+                                                     //alert("--");
                                                 }
+
                                             });
+                                            //alert("--");
                                         });
                                     }else{
                                         alert("No se puede Realizar el pago");

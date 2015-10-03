@@ -18,7 +18,8 @@ class EmployeeRepo extends BaseRepo{
     }
     public function searchVenta($q)
     {
-        $employee =Employee::select(\DB::raw('id,nombres,apellidos,codigo,CONCAT(nombres,"-",apellidos) as busqueda'))
+        $employee =Employee::select(\DB::raw('id,nombres,apellidos,estado,codigo,CONCAT(nombres,"-",apellidos) as busqueda'))
+                    ->where('estado','!=', 0)
                     ->where('nombres','like', $q.'%')
                     ->orWhere('apellidos','like',$q.'%')
                     ->orWhere('codigo','like',$q.'%')

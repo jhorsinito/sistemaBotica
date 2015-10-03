@@ -104,6 +104,7 @@ Route::get('api/products/disableprod/{id}',['as'=>'product_disabled', 'uses'=>'P
 
 Route::get('api/products/search/{q?}',['as'=>'product_search', 'uses'=>'ProductsController@search']);
 Route::get('api/productName/search/{q?}',['as'=>'product_search', 'uses'=>'ProductsController@searchProducts']);
+Route::get('api/productaddVariant/search/{q?}',['as'=>'product_search', 'uses'=>'ProductsController@searchProductAddVariant']);
 
 Route::get('api/products/find/{id}',['as'=>'person_find', 'uses'=>'ProductsController@find']);
 Route::get('api/products/brands',['as' => 'products_brands_select','uses' => 'ProductsController@brands_select']);

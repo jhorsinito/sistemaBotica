@@ -56,6 +56,7 @@ class SaleDetPaymentController extends Controller {
     public function create(Request $request)
     {
         //var_dump($request->detPayments);die();
+        \DB::beginTransaction();
         $saldo=$request->input("Saldo");
         if ($request->input("tipo")=='order') {
             
@@ -169,6 +170,7 @@ class SaleDetPaymentController extends Controller {
             $request->detPayments['fecha'] = null;
         }*/
        // $detPayment->save();
+        \DB::commit();
         return response()->json(['estado'=>true, 'montoP'=>$detPayment->Acuenta]);
     }
     public function find($id)
