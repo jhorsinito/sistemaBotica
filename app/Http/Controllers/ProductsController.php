@@ -363,7 +363,8 @@ class ProductsController extends Controller
         \DB::beginTransaction();
         $product = Product::find($proId);
         $estado = $product->estado;
-        if($product->hasVariant == 0) {
+        //var_dump($product->hasVariants); die();
+        if($product->hasVariants == 0) {
             $variant = $product->variant;
             if ($estado == 1) {
                 $product->estado = 0;
@@ -373,10 +374,20 @@ class ProductsController extends Controller
                 $product->estado = 1;
                 $variant->estado = 1;
             }
+            $variant->save();
+        }else{
+            if ($estado == 1) {
+                $product->estado = 0;
+                //$variant->estado = 0;
+
+            } else {
+                $product->estado = 1;
+                //$variant->estado = 1;
+            }
         }
         $product->save();
         //die();
-        $variant->save();
+
         \DB::commit();
         return response()->json(['estado'=>true]);
     }
