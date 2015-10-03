@@ -444,8 +444,7 @@
                             //alert($scope.product.hasVariants);
                             //alert('sin img');
                             $scope.variant.product_id = $scope.product.id;
-                            $log.log($scope.variant);
-                            nnn
+                            //$log.log($scope.variant);
                             crudService.create($scope.variant,'variants').then(function (data){
                                 if (data['estado'] == true) {
                                     //$scope.success = data['nombres'];
