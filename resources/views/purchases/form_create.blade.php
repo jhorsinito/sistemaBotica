@@ -86,6 +86,7 @@
                   <option value="Entrada">Entrada</option>
                   <option value="Salida">Salida</option>
                   <option value="Transferencia">Transferencia</option>
+                  <option value="Salida por Venta">Salida por Venta</option>
                 </select>
                 <!--@{{variants.varid}}-->
                 </div>
@@ -98,6 +99,7 @@
                   <option value="Entrada">Entrada</option>
                   <option value="Salida">Salida</option>
                   <option value="Transferencia">Transferencia</option>
+                  <option value="Salida por Venta">Salida por Venta</option>
                 </select>
                 <!--@{{variants.varid}}-->
                 </div>
@@ -120,6 +122,7 @@
                       <th>Tipo</th>
                       <th>Numero de Orden</th>
                       <th>Numero de Compra</th>
+                      <th>Numero de Venta</th>
                       <th>Usuario</th>
                       <th style="width: 200px">Almacen</th>
                       <th>Detalles</th>
@@ -131,8 +134,10 @@
                       <td ng-if="row.tipo=='Entrada'"><span class="badge bg-red">Entrada</span></td> 
                       <td ng-if="row.tipo=='Transferencia'"><span class="badge bg-yellow">Transferencia</span></td> 
                       <td ng-if="row.tipo=='Salida'"><span class="badge bg-green">Salida</span></td> 
+                      <td ng-if="row.tipo=='Salida Venta'"><span class="badge bg-green">Salida Venta</span></td> 
                       <td >@{{row.orderPurchase_id}}</td>
                       <td>@{{row.purchase_id}}</td>
+                      <td>@{{row.sale_id}}</td>
                       <td>@{{row.nombreUser}}
                       <td ng-if="row.tipo!='Transferencia'">@{{row.nombre}}</td>  
                       <td ng-if="row.tipo=='Transferencia'">@{{row.nombre+"->"+row.nomAlmacen2}}</td>
