@@ -128,10 +128,12 @@
 
                 if(id)
                 {
+
                     crudServiceOrders.byId(id,'sales').then(function (data) {
                         $scope.order1 = data;
                         $log.log($scope.order1);
                         $scope.estadoMostrarEntrega();
+                        if ($scope.order1.estado==0) {$scope.cancelPedido=false}else if($scope.order1.estado==3){$scope.cancelPedido=true};
 
                         crudServiceOrders.search('DetSales',$scope.order1.id,1).then(function (data){
                             $scope.detOrders = data.data;
@@ -1475,6 +1477,7 @@
                                     $scope.order1.movimiento=$scope.detCash;
                                     $scope.order1.caja=$scope.cashfinal;
                                     $log.log($scope.order1);
+
                                     crudServiceOrders.update($scope.order1,'sales').then(function (data){
                                         $location.path('/sales');
                                     });

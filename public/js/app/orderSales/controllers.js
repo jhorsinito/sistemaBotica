@@ -1144,7 +1144,7 @@
                                             //---------------
                                             $scope.pagoCredito.tipo="order";
                                             //---------------
-                                            crudServiceOrderSales.create($scope.pagoCredito, 'saledetPayments').then(function (data) {
+                                            crudServiceOrderSales.create1($scope.pagoCredito, 'saledetPayments').then(function (data) {
                           
                                                 if (data['estado'] == true) {
                                                     

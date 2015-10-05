@@ -48,7 +48,7 @@
                     }).error(function(data)
                 {
                     $route.reload(); 
-                    alert('No se puede Agregar oo');
+                    alert('No se puede Agregar');
                 });
                 return deferred.promise;
             }

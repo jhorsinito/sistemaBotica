@@ -26,8 +26,9 @@ class DetSaleRepo extends BaseRepo{
                     ->leftjoin("presentation","presentation.id","=","detPres.presentation_id")
                     ->leftjoin("equiv","equiv.preFin_id","=","presentation.id")
                     ->leftjoin("stock","variants.id","=","stock.variant_id")
+                    ->leftjoin("warehouses","warehouses.id","=","stock.warehouse_id")
                     
-                    ->select(\DB::raw('detSales.*, products.nombre as nameProducto, presentation.nombre as presentacion ,variants.id as vari , 
+                    ->select(\DB::raw('detSales.*, products.nombre as nameProducto, presentation.nombre as presentacion ,variants.id as vari , warehouses.id as idAlmacen,
                         stock.id as idStock,
                         (SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /") FROM variants
                                 INNER JOIN detAtr ON detAtr.variant_id = variants.id

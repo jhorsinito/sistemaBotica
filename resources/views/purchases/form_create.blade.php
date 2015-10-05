@@ -86,7 +86,8 @@
                   <option value="Entrada">Entrada</option>
                   <option value="Salida">Salida</option>
                   <option value="Transferencia">Transferencia</option>
-                  <option value="Salida por Venta">Salida por Venta</option>
+                  <option value="Salida Venta">Salida Venta</option>
+                  <option value="Entrada Venta">Entrada Venta</option> 
                 </select>
                 <!--@{{variants.varid}}-->
                 </div>
@@ -99,7 +100,8 @@
                   <option value="Entrada">Entrada</option>
                   <option value="Salida">Salida</option>
                   <option value="Transferencia">Transferencia</option>
-                  <option value="Salida por Venta">Salida por Venta</option>
+                  <option value="Salida Venta">Salida Venta</option>
+                  <option value="Entrada Venta">Entrada Venta</option> 
                 </select>
                 <!--@{{variants.varid}}-->
                 </div>
@@ -135,6 +137,7 @@
                       <td ng-if="row.tipo=='Transferencia'"><span class="badge bg-yellow">Transferencia</span></td> 
                       <td ng-if="row.tipo=='Salida'"><span class="badge bg-green">Salida</span></td> 
                       <td ng-if="row.tipo=='Salida Venta'"><span class="badge bg-green">Salida Venta</span></td> 
+                      <td ng-if="row.tipo=='Entrada Venta'"><span class="badge bg-red">Entrada Venta</span></td> 
                       <td >@{{row.orderPurchase_id}}</td>
                       <td>@{{row.purchase_id}}</td>
                       <td>@{{row.sale_id}}</td>

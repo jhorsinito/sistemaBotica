@@ -74,7 +74,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="row" ng-show="cancelPedido">
+                        <div class="row" ng-show="cancelPedido && order1.estado!=3">
                               <div class="col-md-4">
                                  <div class="form-group" >
                                     <label for="year">Tienda</label>

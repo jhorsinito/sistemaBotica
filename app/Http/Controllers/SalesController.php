@@ -573,6 +573,9 @@ class SalesController extends Controller
 
         }
         
+        $HeadStockRepo;
+         $codigoHeadIS=0;
+         
         //$detOrderSaleRepo;
         foreach($varDetOrders as $object){
             //$detOrderSaleRepo = new DetSaleRepo;
@@ -594,6 +597,35 @@ class SalesController extends Controller
             //+++}
 
             $stock->save();
+
+            //--------------reporte stock------------
+            $object["variant_id"]=$object['vari'];
+          if($codigoHeadIS===0){
+            $object["warehouses_id"]=$object['idAlmacen'];
+            //$object["cantidad_llegado"]=$cantidaCalculada;
+            //$object['descripcion']='Entrada por compra';
+            $object['tipo']='Entrada Venta';
+            $object["user_id"]=auth()->user()->id;
+            $object["Fecha"]=$request->input("fechaPedido");
+
+            $HeadStockRepo = new HeadInputStockRepo;
+            $HeadStock=$HeadStockRepo->getModel();
+            $HeadStockinsert=new HeadInputStockManager($HeadStock,$object);
+            $HeadStockinsert->save();
+            $codigoHeadIS=$HeadStock->id;
+          }
+
+          $object['headInputStock_id']=$codigoHeadIS;
+          $object["producto"]=$object['nameProducto']."(".$object['NombreAtributos'].")";
+          $object["cantidad_llegado"]=$object['cantidad'];
+          $object['descripcion']='Entrada Venta Anulada';
+          
+          $inputRepo;
+          $inputRepo = new InputStockRepo;
+            $inputstock=$inputRepo->getModel();
+            $inputInsert=new InputStockManager($inputstock,$object);
+            $inputInsert->save();
+          //---------------------------------------
         }
 
         $orderSale = $this->saleRepo->find($request->id);
