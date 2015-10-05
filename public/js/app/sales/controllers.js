@@ -1301,9 +1301,14 @@
                     crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
                         $scope.cashes = data.data;
                         $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+
                         if ($scope.cashfinal.id==row.numCaja&&$scope.cashfinal.estado=='1') {
                             if(confirm("Esta segura de querer eliminar este pago!!!") == true){
                                 $scope.payment[0].detpayment_id=row.id;
+
+                                $scope.payment[0].saleMethodPayment=row.saleMethodPayment_id;
+                                $scope.payment[0].montopayment=row.monto;
+                                
                                 $scope.payment[0].detCash_id=row.detCash_id;
                                 $log.log($scope.payment[0]);
                                 crudServiceOrders.destroy($scope.payment[0],'salePayment').then(function(data){

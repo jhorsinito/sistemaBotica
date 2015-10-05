@@ -1,6 +1,6 @@
 (function(){
     angular.module('crud.services.orderSales',[])
-        .factory('crudServiceOrderSales',['$http', '$q','$location', function($http, $q,$location){
+        .factory('crudServiceOrderSales',['$http', '$q','$location','$route', function($http, $q,$location,$route){
 
             $oPresentacion = {};
 

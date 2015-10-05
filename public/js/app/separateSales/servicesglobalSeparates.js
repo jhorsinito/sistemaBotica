@@ -1,6 +1,6 @@
 (function(){
     angular.module('crud.services.separates',[])
-        .factory('crudServiceSeparates',['$http', '$q','$location', function($http, $q,$location){
+        .factory('crudServiceSeparates',['$http', '$q','$location','$route', function($http, $q,$location,$route){
 
             $oPresentacion = {}; 
 
@@ -41,6 +41,20 @@
                 //        deferred.resolve(data);
                 //    })
                 ;
+                return deferred.promise;
+            }
+            function create1(area,uri)
+            {
+                var deferred = $q.defer();
+                $http.post( '/api/'+uri+'/create', area )
+                    .success(function (data)
+                    {
+                        deferred.resolve(data);
+                    }).error(function(data)
+                {
+                    $route.reload(); 
+                    alert('No se puede Agregar');
+                });
                 return deferred.promise;
             }
 
@@ -165,6 +179,7 @@
                 all: all,
                 paginate: paginate,
                 create:create,
+                create1:create1,
                 byId:byId,
                 update:update,
                 destroy:destroy,

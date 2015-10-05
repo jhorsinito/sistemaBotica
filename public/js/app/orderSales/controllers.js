@@ -854,12 +854,14 @@
                     }else{
                          $scope.sale.vuelto=0;   
                     };
+                    /*
                     if($scope.pago.cash==undefined){
                         $scope.pago.cash=0;
                     }
                     if($scope.pago.tarjeta==undefined){
                         $scope.pago.tarjeta=0;
                     }
+                    */
                 }
                 //------------------Boton Cobrar------------------
                 $scope.realizarPago = function () {   
@@ -1254,6 +1256,10 @@
                             if(confirm("Esta segura de querer eliminar este pago!!!") == true){
                                 $scope.payment[0].detpayment_id=row.id;
                                 $scope.payment[0].detCash_id=row.detCash_id;
+
+                                $scope.payment[0].saleMethodPayment=row.saleMethodPayment_id;
+                                $scope.payment[0].montopayment=row.monto;
+
                                 $log.log($scope.payment[0]);
                                 crudServiceOrderSales.destroy($scope.payment[0],'salePayment').then(function(data){
                                 if(data['estado'] == true){

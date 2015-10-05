@@ -121,6 +121,20 @@ class SalePaymentController extends Controller {
             
             $detcash=$this->detCashRepo->find($request->input("detCash_id"));
             $cash=$this->cashRepo->find($detcash->cash_id);
+
+            if($detcash->montoMovimientoTarjeta > 0 && $detcash->montoMovimientoEfectivo>0){
+                if ($request->saleMethodPayment==1) {
+                    $detcash->montoMovimientoEfectivo=0;
+                }else{
+                    $detcash->montoMovimientoTarjeta=0;
+                }
+                //$detcashedit=$this->detCashRepo->find($request->input("detCash_id"));
+
+                //$manager1 = new DetCashManager($detcashedit,$request->$detcash);
+                $detcash->save();
+            }else{
+                $detcash->delete();   
+            }
             
              $request->merge(["gastos"=>$cash->gastos]);
              $request->merge(['montoBruto'=>floatval($cash->montoBruto)-floatval($pagoTemporal)]);
@@ -133,10 +147,10 @@ class SalePaymentController extends Controller {
              $request->merge(['descuadre'=>$cash->descuadre]);
              $request->merge(['estado'=>$cash->estado]);
              $request->merge(['notas'=>$cash->notas]);
-             $request->merge(['cashHeader_id'=>$cash->cashHeader_id]);
+             $request->merge(['cashHeader_id'=>$cash->cashHeader_id]); 
             $cashr = new CashManager($cash,$request->all());
             $cashr->save();
-            $detcash->delete();
+            
         }
        
         return response()->json(['estado'=>true, 'nombre'=>$payment->nombre]);
