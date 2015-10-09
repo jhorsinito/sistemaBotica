@@ -26,7 +26,7 @@ class CustomerRepo extends BaseRepo{
                     ->orWhere('empresa','like',$q.'%')
                     ->paginate(15);
         return $customers;
-    }
+    } 
 
     function validateDate($date, $format = 'Y-m-d')
     {

@@ -1,3 +1,4 @@
+<section class="noPrintx">
  <section class="content-header">
           <h1>
             Venta
@@ -218,10 +219,10 @@
                       <th>Fecha</th>
                       <th>Hora</th>
                       <th>Tipo</th>
-                      <th>Monto Caja</th>
+                      
                       <th>S/.Tarjeta</th>
                       <th>S/.Efectivo</th>
-                      <th>Monto Final</th>
+                      
                       <th>Ver Venta</th>
                     </tr>
                     
@@ -230,10 +231,10 @@
                       <td>@{{row.fecha}}</td>
                       <td>@{{row.hora}}</td>
                       <td>@{{row.cash_motive.nombre}}</td>
-                      <td>@{{row.montoCaja}}</td>
+                      
                       <td>@{{row.montoMovimientoTarjeta}}</td>
                       <td>@{{row.montoMovimientoEfectivo}}</td>
-                      <td>@{{row.montoFinal}}</td>
+                      
                       <td ng-if="row.cashMotive_id==1 || row.cashMotive_id==14"><a href="/sales/edit/@{{row.observacion}}" target="_blank">ver venta</a></td>
                       <td ng-if="row.cashMotive_id!=1 && row.cashMotive_id!=14">@{{row.observacion}}</td>
                     </tr>                   
@@ -701,7 +702,7 @@
                         <div class="form-group">
                           <input type="checkbox" name="estado" ng-model="acuenta" ng-checked="acuenta" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="baseestado()">
                           <label for="estado">Acuenta</label>
-                        </div>
+                        </div> 
                       </td>
                     </tr>
                   </table>
@@ -731,7 +732,17 @@
                     </table>
 
                 </div>
+
                 </div>
+                  <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <input type="checkbox" name="estado" ng-model="comprobante" ng-checked="comprobante" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="baseestado()">
+                          <label for="estado">Comprobante</label>
+                        </div> 
+                      </div>
+
+                  </div>
                    
                 </div>
 
@@ -783,6 +794,118 @@
             <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
         </div>
     </script>
+</section>
+
+    <div id="printx" style="display:none;"> 
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6">
+          <h1>
+            <img src="logo.png">
+            Logo here
+            </a>
+          </h1>
+        </div>
+        <div class="col-xs-6 text-right">
+          <h1>Factura</h1>
+          <h1><small>Factura #001</small></h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-5">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4>From: <a href="#">Your Name</a></h4>
+            </div>
+            <div class="panel-body">
+              <p>
+                Address <br>
+                details <br>
+                more <br>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-5 col-xs-offset-2 text-right">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4>To : <a href="#">Client Name</a></h4>
+            </div>
+            <div class="panel-body">
+              <p>
+                Address <br>
+                details <br>
+                more <br>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- / end client details section -->
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>
+              <h4>Service</h4>
+            </th>
+            <th>
+              <h4>Description</h4>
+            </th>
+            <th>
+              <h4>Hrs/Qty</h4>
+            </th>
+            <th>
+              <h4>Rate/Price</h4>
+            </th>
+            <th>
+              <h4>Sub Total</h4>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Article</td>
+            <td><a href="#">Title of your article here</a></td>
+            <td class="text-right">-</td>
+            <td class="text-right">$200.00</td>
+            <td class="text-right">$200.00</td>
+          </tr>
+          <tr>
+            <td>Template Design</td>
+            <td><a href="#">Details of project here</a></td>
+            <td class="text-right">10</td>
+            <td class="text-right">75.00</td>
+            <td class="text-right">$750.00</td>
+          </tr>
+          <tr>
+            <td>Development</td>
+            <td><a href="#">WordPress Blogging theme</a></td>
+            <td class="text-right">5</td>
+            <td class="text-right">50.00</td>
+            <td class="text-right">$250.00</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="row text-right">
+        <div class="col-xs-2 col-xs-offset-8">
+          <p>
+            <strong>
+            Sub Total : <br>
+            TAX : <br>
+            Total : <br>
+            </strong>
+          </p>
+        </div>
+        <div class="col-xs-2">
+          <strong>
+          $1200.00 <br>
+          N/A <br>
+          $1200.00 <br>
+          </strong>
+        </div>
+      </div>
+    </div>
+    </div>
 
 
 

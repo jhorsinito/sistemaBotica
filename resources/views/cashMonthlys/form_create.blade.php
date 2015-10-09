@@ -61,7 +61,7 @@
                       <div class="row">
                       <div class="col-md-8">
 
-                        <div class="form-group" >
+                        <!--<div class="form-group" >
                           <label for="year">Año</label>
 
                           <select class="form-control" name="" ng-model="cashMonthly.years_id" ng-options="item.id as item.year for item in years | orderBy: 'year'">
@@ -80,10 +80,10 @@
                         </div>
                         
                       </div>
-                      </div>
+                      </div> -->
 
                       <!-- Combo Mes tabla mounts-->
-                      <div class="row">
+                      <!-- <div class="row">
                       <div class="col-md-4">
                         <div class="form-group" >
                           <label for="month">Mes</label>
@@ -93,7 +93,24 @@
                           </select>
                         </div>
                       </div>
-                      </div>
+                      </div> -->
+
+                      <div class="form-group" ng-class="{true: 'has-error'}[ cashMonthlyCreateForm.fechaPedido.$error.required &amp;&amp; cashMonthlyCreateForm.$submitted || cashMonthlyCreateForm.fechaPedido.$dirty &amp;&amp; cashMonthlyCreateForm.fechaPedido.$invalid]">
+                                <label for="fechaPedido">Fecha Entrega: </label>
+                            <div ng-hide="show" class="input-group">
+                                <div class="input-group-addon">
+                                      <i class="fa fa-calendar"></i>
+                                </div>
+                                  <input type="datetime-local" class="form-control ng-pristine ng-valid ng-touched" name="fechaPedido" ng-model="fechap" ng-change="buscarDetalles()">
+                                </div>
+                            <label ng-show="cashMonthlyCreateForm.$submitted || cashMonthlyCreateForm.fechaPedido.$dirty &amp;&amp; cashMonthlyCreateForm.fechaPedido.$invalid" class="ng-hide">
+                            <span ng-show="cashMonthlyCreateForm.fechaPedido.$invalid" class="ng-hide"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
+                            </label>
+                             
+                             <div ng-show="show" class="input-group ng-hide">
+                               <spam class="ng-binding"></spam>
+                            </div> 
+                      </div>  
 
                       <!-- capo de Texto  Monto-->
                         <div class="form-group" ng-class="{true: 'has-error'}[ cashMonthlyCreateForm.amount.$error.required && cashMonthlyCreateForm.$submitted || cashMonthlyCreateForm.amount.$dirty && cashMonthlyCreateForm.amount.$invalid]">

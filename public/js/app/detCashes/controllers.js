@@ -30,7 +30,7 @@
                         
                             crudService.create($scope.detCash, 'detCashes').then(function (data) {
                             //$log.log($scope.detCash);
-                            alert(data['estado']);
+                            //alert(data['estado']);
                                 if (data['estado'] == true) { 
                                     //$scope.success = data['nombres'];
 

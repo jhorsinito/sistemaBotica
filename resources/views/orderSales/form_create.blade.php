@@ -62,7 +62,7 @@
                              
                              <div ng-show="show" class="input-group ng-hide">
                                <spam class="ng-binding"></spam>
-                    </div> 
+                            </div> 
                       </div>  
                       
                     </div>
@@ -349,10 +349,10 @@
                       <th>Fecha</th>
                       <th>Hora</th>
                       <th>Tipo</th>
-                      <th>Monto Caja</th>
+                      
                       <th>S/.Tarjeta</th>
                       <th>S/.Efectivo</th>
-                      <th>Monto Final</th>
+                      
                       <th>Ver Venta</th>
                     </tr>
                     
@@ -361,10 +361,10 @@
                       <td>@{{row.fecha}}</td>
                       <td>@{{row.hora}}</td>
                       <td>@{{row.cash_motive.nombre}}</td>
-                      <td>@{{row.montoCaja}}</td>
+                      
                       <td>@{{row.montoMovimientoTarjeta}}</td>
                       <td>@{{row.montoMovimientoEfectivo}}</td>
-                      <td>@{{row.montoFinal}}</td>
+                      
                       <td ng-if="row.cashMotive_id==15 || row.cashMotive_id==16"><a href="/orderSales/edit/@{{row.observacion}}" target="_blank">ver pedido</a></td>
                       <td ng-if="row.cashMotive_id!=15 && row.cashMotive_id!=16">@{{row.observacion}}</td>
                     </tr>                   

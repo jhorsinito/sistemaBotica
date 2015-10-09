@@ -13,23 +13,58 @@ class CashMonthlyRepo extends BaseRepo{
 
     public function search($m,$a,$c)
     { 
-        if($m==0){
+        /*if($m==0){
             $m='%%';
-        }
-        if($a==0){
-            $a='%%';
-        }
+        }*/
+        //return $m;  
         if($c==0){
             $c='%%';
         }
-            $CashMonthlys =CashMonthly::with('year','month','expenseMonthly')
-                    ->where('months_id','like',$m)
-                    ->where('years_id','like',$a) 
+        if($a!=0 && $m!=0){
+            $CashMonthlys =CashMonthly::with('expenseMonthly')
+                    //->where('months_id','like',$m)
+                    //->where('fecha','between',$a )
+                    ->whereBetween('fecha', [$m,$a])
                     ->where('expenseMonthlys_id','like',$c)  
                     ->paginate(15); 
+            return $CashMonthlys;
+        }else{
+            $CashMonthlys =CashMonthly::with('expenseMonthly')
+                    //->where('months_id','like',$m)
+                    //->where('fecha','between',$a )
+                    //->whereBetween('fecha', [$m,$a])
+                    ->where('expenseMonthlys_id','like',$c)  
+                    ->paginate(15); 
+            return $CashMonthlys;        
+        }
+        
+            
+    }
 
+    public function searchMonto($m,$a,$c)
+    { 
+        /*if($m==0){
+            $m='%%';
+        }*/
+        //return $m;  
+        if($c==0){
+            $c='%%';
+        }
+        if($a!=0 && $m!=0){
+            $CashMonthlys =CashMonthly::whereBetween('fecha', [$m,$a])
+                    ->where('expenseMonthlys_id','like',$c)
+                    ->select(\DB::raw('SUM(amount) as monto'));
+                    //->groupBy('amount');
+                    //->paginate(15); 
 
-        return $CashMonthlys;
+            return $CashMonthlys->get();
+        }else{
+            $CashMonthlys =CashMonthly::where('expenseMonthlys_id','like',$c)
+                            ->select(\DB::raw('SUM(amount) as monto')); 
+            return $CashMonthlys->get();        
+        }
+        
+            
     }
 
     //public function store()
@@ -38,8 +73,13 @@ class CashMonthlyRepo extends BaseRepo{
     //}
 
     public function paginate($count){
-        $cashMonthlys = CashMonthly::with('year','month','expenseMonthly');
+        $cashMonthlys = CashMonthly::with('expenseMonthly');
         return $cashMonthlys->paginate($count);
+    }
+    function validateDate($date, $format = 'Y-M-D H:M:S')
+    {
+        $d = \DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
     }
     
 } 

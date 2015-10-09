@@ -1,0 +1,19 @@
+#printx { 
+	visibility:visible; 
+  	 display: block !important; 
+}
+.noPrintx{
+	visibility:hidden; 
+    display: none !important; 
+}
+.main-footer{
+	visibility:hidden; 
+    display: none !important; 
+}
+
+.sidebar{
+	visibility: hidden;
+	overflow: hidden !important;
+    display: none !important; 
+    background-color: red;
+}
