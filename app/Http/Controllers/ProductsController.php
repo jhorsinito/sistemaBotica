@@ -107,7 +107,7 @@ class ProductsController extends Controller
 
     public function create(Request $request)
     {
-        \DB::beginTransaction();
+    \DB::beginTransaction();
         //$request->merge(array('sdf' => 'hola'));
         //var_dump($request->all()); die();
         $product = $this->productRepo->getModel();
@@ -363,7 +363,8 @@ class ProductsController extends Controller
         \DB::beginTransaction();
         $product = Product::find($proId);
         $estado = $product->estado;
-        if($product->hasVariant == 0) {
+        //var_dump($product->hasVariants); die();
+        if($product->hasVariants == 0) {
             $variant = $product->variant;
             if ($estado == 1) {
                 $product->estado = 0;
@@ -373,10 +374,20 @@ class ProductsController extends Controller
                 $product->estado = 1;
                 $variant->estado = 1;
             }
+            $variant->save();
+        }else{
+            if ($estado == 1) {
+                $product->estado = 0;
+                //$variant->estado = 0;
+
+            } else {
+                $product->estado = 1;
+                //$variant->estado = 1;
+            }
         }
         $product->save();
         //die();
-        $variant->save();
+
         \DB::commit();
         return response()->json(['estado'=>true]);
     }
@@ -428,13 +439,6 @@ class ProductsController extends Controller
 
         return response()->json($stations);
     } 
-    public function searchProducts($q)
-    {
-        //$q = Input::get('q');
-        $products = $this->productRepo->searchProducts($q);
-
-        return response()->json($products);
-    }
 
     /*fx ayuda para img*/
     public function get_string_between($string, $start, $end){
@@ -450,6 +454,13 @@ class ProductsController extends Controller
         $product = $this->productRepo->Autocomplit2();
         //sleep(5);
         return response()->json($product);
+    }
+     public function searchProductAddVariant($q)
+    {
+        //$q = Input::get('q');
+        $products = $this->productRepo->searchProductAddVariant($q);
+
+        return response()->json($products);
     }
    
    public function validarNombre($text){

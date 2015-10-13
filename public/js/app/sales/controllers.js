@@ -128,10 +128,12 @@
 
                 if(id)
                 {
+
                     crudServiceOrders.byId(id,'sales').then(function (data) {
                         $scope.order1 = data;
                         $log.log($scope.order1);
                         $scope.estadoMostrarEntrega();
+                        if ($scope.order1.estado==0) {$scope.cancelPedido=false}else if($scope.order1.estado==3){$scope.cancelPedido=true};
 
                         crudServiceOrders.search('DetSales',$scope.order1.id,1).then(function (data){
                             $scope.detOrders = data.data;
@@ -413,12 +415,12 @@
                     }else{
                          $scope.sale.vuelto=0;   
                     };
-                    if($scope.pago.cash==undefined){
+                    /*if($scope.pago.cash==undefined){
                         $scope.pago.cash=0;
                     }
                     if($scope.pago.tarjeta==undefined){
                         $scope.pago.tarjeta=0;
-                    }
+                    }*/
                 }
 
                 $scope.realizarPago = function () {
@@ -439,7 +441,7 @@
                             else{
                                 $scope.salePayment.estado=1;
                                 $scope.sale.estado=1;
-                                if ($scope.pago.tarjeta+$scope.pago.cash>$scope.sale.montoTotal){
+                                if ($scope.pago.tarjeta+$scope.pago.cash>=$scope.sale.montoTotal){
                                     alert("Usa Pago Contado");
                                 }else{
                                 if ($scope.radioModel!=undefined && $scope.pago.tarjeta==0) {
@@ -773,8 +775,8 @@
                                                 //---------------
                                             $scope.pagoCredito.tipo="sale";
                                             //---------------
-                                            crudServiceOrders.create($scope.pagoCredito, 'saledetPayments').then(function (data) {
-                          
+                                            crudServiceOrders.create1($scope.pagoCredito, 'saledetPayments').then(function (data) {
+                                                
                                                 if (data['estado'] == true) {
                                 
                                                     alert('grabado correctamente');
@@ -785,9 +787,12 @@
                                                     $scope.detPago={};
                                                 } else {
                                                     $scope.errors = data;
-
+                                                     
+                                                     //alert("--");
                                                 }
+
                                             });
+                                            //alert("--");
                                         });
                                     }else{
                                         alert("No se puede Realizar el pago");
@@ -1296,9 +1301,14 @@
                     crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
                         $scope.cashes = data.data;
                         $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+
                         if ($scope.cashfinal.id==row.numCaja&&$scope.cashfinal.estado=='1') {
                             if(confirm("Esta segura de querer eliminar este pago!!!") == true){
                                 $scope.payment[0].detpayment_id=row.id;
+
+                                $scope.payment[0].saleMethodPayment=row.saleMethodPayment_id;
+                                $scope.payment[0].montopayment=row.monto;
+                                
                                 $scope.payment[0].detCash_id=row.detCash_id;
                                 $log.log($scope.payment[0]);
                                 crudServiceOrders.destroy($scope.payment[0],'salePayment').then(function(data){
@@ -1472,6 +1482,7 @@
                                     $scope.order1.movimiento=$scope.detCash;
                                     $scope.order1.caja=$scope.cashfinal;
                                     $log.log($scope.order1);
+
                                     crudServiceOrders.update($scope.order1,'sales').then(function (data){
                                         $location.path('/sales');
                                     });

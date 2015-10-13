@@ -33,21 +33,42 @@
                 <div class="box-header with-border">
                   <div class="row">
                     <div class="col-md-3">
-                      <label>Busqueda por Año</label>
-                        <select class="form-control" name="" ng-model="cashMonthly.years_id" ng-options="item.id as item.year for item in years" ng-click="buscarTodo()">
-                        <option value="">Todos</option>
-                      </select>
+                      <div class="form-group" ng-class="{true: 'has-error'}[ cashMonthlyCreateForm.fechaPedido.$error.required &amp;&amp; cashMonthlyCreateForm.$submitted || cashMonthlyCreateForm.fechaPedido.$dirty &amp;&amp; cashMonthlyCreateForm.fechaPedido.$invalid]">
+                                <label for="fechaPedido">Fecha Inicio: </label>
+                            <div ng-hide="show" class="input-group">
+                                <div class="input-group-addon">
+                                      <i class="fa fa-calendar"></i>
+                                </div>
+                                  <input type="date" class="form-control ng-pristine ng-valid ng-touched" name="fechaPedido" ng-model="fechaInicio" ng-change="buscarDetalles()">
+                                </div>
+                            <label ng-show="cashMonthlyCreateForm.$submitted || cashMonthlyCreateForm.fechaPedido.$dirty &amp;&amp; cashMonthlyCreateForm.fechaPedido.$invalid" class="ng-hide">
+                            <span ng-show="cashMonthlyCreateForm.fechaPedido.$invalid" class="ng-hide"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
+                            </label>
+                             
+                             <div ng-show="show" class="input-group ng-hide">
+                               <spam class="ng-binding"></spam>
+                            </div> 
+                      </div>  
 
                     </div>
 
                     <div class="col-md-3">
-                        <div class="form-group" >
-                          <label for="month">Buscar por Mes</label>
-
-                          <select class="form-control" name="" ng-model="cashMonthly.months_id" ng-options="item.id as item.month for item in months"  ng-click="buscarTodo()">
-                          <option value="">Todos</option>
-                          </select>                          
-                        </div>
+                        <div class="form-group" ng-class="{true: 'has-error'}[ cashMonthlyCreateForm.fechaPedido.$error.required &amp;&amp; cashMonthlyCreateForm.$submitted || cashMonthlyCreateForm.fechaPedido.$dirty &amp;&amp; cashMonthlyCreateForm.fechaPedido.$invalid]">
+                                <label for="fechaPedido">Fecha Fin: </label>
+                            <div ng-hide="show" class="input-group">
+                                <div class="input-group-addon">
+                                      <i class="fa fa-calendar"></i>
+                                </div>
+                                  <input type="date" class="form-control ng-pristine ng-valid ng-touched" name="fechaPedido" ng-model="fechaFin" ng-change="buscarDetalles()">
+                                </div>
+                            <label ng-show="cashMonthlyCreateForm.$submitted || cashMonthlyCreateForm.fechaPedido.$dirty &amp;&amp; cashMonthlyCreateForm.fechaPedido.$invalid" class="ng-hide">
+                            <span ng-show="cashMonthlyCreateForm.fechaPedido.$invalid" class="ng-hide"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
+                            </label>
+                             
+                             <div ng-show="show" class="input-group ng-hide">
+                               <spam class="ng-binding"></spam>
+                            </div> 
+                      </div>  
                       </div>
 
 
@@ -55,7 +76,7 @@
                         <div class="form-group" >
                          <label for="expense">Buscar por Concepto</label>
 
-                          <select class="form-control" name="" ng-model="cashMonthly.expenseMonthlys_id" ng-options="item.id as item.name for item in expenses" ng-click="buscarTodo()">
+                          <select class="form-control" name="" ng-model="cashMonthly.expenseMonthlys_id" ng-options="item.id as item.name for item in expenses" ng-change="buscarDetallesEcpence()">
                           <option value="">Todos</option>
                           </select>
                           
@@ -96,9 +117,8 @@
                   <table class="table table-bordered">
                     <tr>
                       <th style="width: 10px">#</th>
+                      <th>Fecha</th>
                       <th>Concepto</th>
-                      <th>Año</th>
-                      <th>Mes</th>
                       <th>Monto</th>
                       <th>Descripcion</th>
                       <th style="width: 40px">Editar</th>
@@ -107,9 +127,8 @@
                     
                     <tr ng-repeat="row in cashMonthlys">
                       <td>{{$index + 1}}</td>
+                      <td>{{row.fecha}}</td>
                       <td>{{row.expense_monthly.name}}</td>
-                      <td>{{row.year.year}}</td>
-                      <td>{{row.month.month}}</td>
                       <td>{{row.amount}}</td>
                       <td>{{row.descripcion}}</td>
                       <td><a ng-click="editcashMonthly(row)" class="btn btn-warning btn-xs">Editar</a></td>

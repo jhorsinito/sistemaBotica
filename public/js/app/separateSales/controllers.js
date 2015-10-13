@@ -818,12 +818,14 @@
                     }else{
                          $scope.sale.vuelto=0;   
                     };
+                    /*
                     if($scope.pago.cash==undefined){
                         $scope.pago.cash=0;
                     }
                     if($scope.pago.tarjeta==undefined){
                         $scope.pago.tarjeta=0;
                     }
+                    */
                 }
                 $scope.realizarPago = function () {   
                 if ($scope.cashfinal.estado=='1') {
@@ -1101,7 +1103,7 @@
                                             //---------------
                                             $scope.pagoCredito.tipo="separate";
                                             //---------------
-                                            crudServiceSeparates.create($scope.pagoCredito, 'saledetPayments').then(function (data) {
+                                            crudServiceSeparates.create1($scope.pagoCredito, 'saledetPayments').then(function (data) {
                           
                                                 if (data['estado'] == true) {
                                                     
@@ -1207,6 +1209,10 @@
                             if(confirm("Esta segura de querer eliminar este pago!!!") == true){
                                 $scope.payment[0].detpayment_id=row.id;
                                 $scope.payment[0].detCash_id=row.detCash_id;
+
+                                $scope.payment[0].saleMethodPayment=row.saleMethodPayment_id;
+                                $scope.payment[0].montopayment=row.monto;
+
                                 $log.log($scope.payment[0]);
                                 crudServiceSeparates.destroy($scope.payment[0],'salePayment').then(function(data){
                                 if(data['estado'] == true){

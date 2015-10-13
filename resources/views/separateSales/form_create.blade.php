@@ -222,10 +222,10 @@
                       <th>Fecha</th>
                       <th>Hora</th>
                       <th>Tipo</th>
-                      <th>Monto Caja</th>
+                      
                       <th>S/.Tarjeta</th>
                       <th>S/.Efectivo</th>
-                      <th>Monto Final</th>
+                      
                       <th>Ver Venta</th>
                     </tr>
                     
@@ -234,10 +234,10 @@
                       <td>@{{row.fecha}}</td>
                       <td>@{{row.hora}}</td>
                       <td>@{{row.cash_motive.nombre}}</td>
-                      <td>@{{row.montoCaja}}</td>
+                      
                       <td>@{{row.montoMovimientoTarjeta}}</td>
                       <td>@{{row.montoMovimientoEfectivo}}</td>
-                      <td>@{{row.montoFinal}}</td>
+                      
                       <td ng-if="row.cashMotive_id==19 || row.cashMotive_id==20"><a href="/separateSales/edit/@{{row.observacion}}" target="_blank">ver separado</a></td>
                       <td ng-if="row.cashMotive_id!=19 && row.cashMotive_id!=20">@{{row.observacion}}</td>
                     </tr>                   

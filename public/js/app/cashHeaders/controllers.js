@@ -60,7 +60,7 @@
 
                 $scope.searchcashHeader = function(){
                 if ($scope.query.length > 0) {
-                    alert($scope.query);
+                    //alert($scope.query);
                     crudService.search('cashHeaders',$scope.query,1).then(function (data){
                         $scope.cashHeaders = data.data;
                         $scope.totalItems = data.total;

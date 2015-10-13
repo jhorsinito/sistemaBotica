@@ -384,7 +384,7 @@ class PurchasesController extends Controller {
           if($codigoHeadIS===0 && $cantidaCalculada>0){
                $headInputStock = $this->headInputStockRepo->getModel();
               //var_dump($object);die();
-               $object["user_id"]=auth()->user()->id;
+               $object["user_id"]=auth()->user()->id; 
                $inserHeadInputStock = new HeadInputStockManager($headInputStock,$object);
                $inserHeadInputStock->save();
                $codigoHeadIS=$headInputStock->id;

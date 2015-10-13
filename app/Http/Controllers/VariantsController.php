@@ -224,6 +224,7 @@ foreach ($tallasDisponibles as $tallasD) {
 
             }
             $request->merge(array('user_id' => Auth()->user()->id));
+            $request->merge(array('estado' => '0'));
         $managerVar = new VariantManager($variant,$request->except('stock','detAtr','presentation_base_object','presentations'));
         $managerVar->save();
 

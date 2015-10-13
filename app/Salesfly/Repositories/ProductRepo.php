@@ -54,6 +54,16 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                     ->get();
         return $products;
     }
+    public function searchProductAddVariant($q)
+    {
+        $products =Product::select('id','nombre','codigo','estado','hasVariants')
+                    //with(['customer','employee'])
+                    ->where('nombre','like', $q.'%')
+                    ->where('estado','=','1')
+                    ->orWhere('codigo','like',$q.'%')
+                    ->paginate(20);
+        return $products;
+    }
 
     public function paginate($qantity){
         //$products = $this->getModel()->with('brand','type')->_variant->paginate($qantity);
@@ -223,10 +233,19 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->leftjoin('equiv','equiv.preFin_id','=','T1.id')
                             ->join('detPres','detPres.variant_id','=','variants.id')
                             ->join('presentation as T2','T2.id','=','detPres.presentation_id')
-                            ->select(\DB::raw('variants.sku as SKU ,detPres.id as detPre_id,products.nombre as NombreProducto,materials.nombre as Material,
+                            ->select(\DB::raw('variants.sku as SKU ,detPres.id as detPre_id,variants.id as vari ,
+
+                                IF(products.hasVariants=1 , CONCAT(products.nombre,"(",products.nombre,"/ ",(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /")
+                                 FROM variants
+                                LEFT JOIN detAtr ON detAtr.variant_id = variants.id
+                                LEFT JOIN atributes ON atributes.id = detAtr.atribute_id
+                                where variants.id=vari
+                                GROUP BY variants.id),")"),  products.nombre ) as NombreProducto,
+
+                                materials.nombre as Material,
                               warehouses.nombre as Almacen,stock.stockActual as Stock,detPres.price as precioProducto,
                               stock.stockPedidos as stockPedidos,stock.stockSeparados as stockSeparados,
-                              variants.id as vari , IF(products.hasVariants=1 , CONCAT(variants.codigo," - ",products.nombre,"/ ",(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /") FROM variants
+                               IF(products.hasVariants=1 , CONCAT(variants.codigo," - ",products.nombre,"/ ",(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /") FROM variants
                                 LEFT JOIN detAtr ON detAtr.variant_id = variants.id
                                 LEFT JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=vari
@@ -238,12 +257,20 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->where('warehouses.id','=',$were)
                             ->where('variants.codigo','like', $q.'%')
                             ->where('T2.base','=','1')
+                            /////--------------------
+                            ->where('products.estado','=','1')
+                            ->where('variants.estado','=','1')
+                            /////--------------------
                             //->where('variants.estado','=','1')
                             //->where('products.estado','=','1')
                             ->orWhere('stores.id','=',$store)
                             ->where('warehouses.id','=',$were)
                             ->where('products.nombre','like', $q.'%')
                             ->where('T2.base','=','1')
+                            /////--------------------
+                            ->where('products.estado','=','1')
+                            ->where('variants.estado','=','1')
+                            /////--------------------
                             //->where('variants.estado','=','1')
                             //->where('products.estado','=','1')
                             ->groupBy('variants.id')
@@ -260,10 +287,19 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->leftjoin('equiv','equiv.preFin_id','=','T1.id')
                             ->join('detPres','detPres.variant_id','=','variants.id')             
                             ->join('presentation as T2','T2.id','=','detPres.presentation_id')
-                            ->select(\DB::raw('variants.sku as SKU ,detPres.id as detPre_id,products.nombre as NombreProducto,materials.nombre as Material,
+                            ->select(\DB::raw('variants.sku as SKU ,detPres.id as detPre_id,variants.id as vari ,
+
+                                IF(products.hasVariants=1 , CONCAT(products.nombre,"(",products.nombre,"/ ",(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /")
+                                 FROM variants
+                                LEFT JOIN detAtr ON detAtr.variant_id = variants.id
+                                LEFT JOIN atributes ON atributes.id = detAtr.atribute_id
+                                where variants.id=vari
+                                GROUP BY variants.id),")"),  products.nombre ) as NombreProducto,
+
+                                materials.nombre as Material,
                                 stock.stockPedidos as stockPedidos,stock.stockSeparados as stockSeparados,
                               warehouses.nombre as Almacen,stock.stockActual as Stock,detPres.price as precioProducto,
-                              variants.id as vari ,IF(products.hasVariants=1 , CONCAT(variants.codigo," - ",products.nombre,"/ ",(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /") FROM variants
+                              IF(products.hasVariants=1 , CONCAT(variants.codigo," - ",products.nombre,"/ ",(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /") FROM variants
                                 LEFT JOIN detAtr ON detAtr.variant_id = variants.id
                                 LEFT JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=vari
@@ -274,6 +310,10 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->where('stores.id','=',$store)
                             ->where('warehouses.id','=',$were)
                             ->where('variants.sku','=', $q)
+                            /////--------------------
+                            ->where('products.estado','=','1')
+                            ->where('variants.estado','=','1')
+                            /////--------------------
                             //->where('variants.codigo','like', $q.'%')
                             ->where('T2.base','=','1')
                             ->groupBy('variants.id')
@@ -324,10 +364,19 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
 
                             ->join('presentation as T2','T2.id','=','detPres.presentation_id')
                             ->leftjoin('equiv','equiv.preFin_id','=','T2.id')
-                            ->select(\DB::raw('variants.sku as SKU ,detPres.id as detPre_id,products.nombre as NombreProducto,materials.nombre as Material,
+                            ->select(\DB::raw('variants.sku as SKU ,detPres.id as detPre_id,variants.id as vari ,
+
+                                IF(products.hasVariants=1 , CONCAT(products.nombre,"(",products.nombre,"/ ",(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /")
+                                 FROM variants
+                                LEFT JOIN detAtr ON detAtr.variant_id = variants.id
+                                LEFT JOIN atributes ON atributes.id = detAtr.atribute_id
+                                where variants.id=vari
+                                GROUP BY variants.id),")"),  products.nombre ) as NombreProducto,
+
+                                materials.nombre as Material,
                               warehouses.nombre as Almacen,stock.stockActual as Stock,detPres.price as precioProducto,
                               stock.stockPedidos as stockPedidos,stock.stockSeparados as stockSeparados,
-                              variants.id as vari , IF(products.hasVariants=1 , CONCAT(variants.codigo," - ",products.nombre,"/ ",(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /") FROM variants
+                               IF(products.hasVariants=1 , CONCAT(variants.codigo," - ",products.nombre,"/ ",(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /") FROM variants
                                 LEFT JOIN detAtr ON detAtr.variant_id = variants.id
                                 LEFT JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=vari
@@ -338,6 +387,9 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->where('stores.id','=',$store)
                             ->where('warehouses.id','=',$were)
                             //->where('products.nombre','like', $q.'%')
+                            ->where('products.estado','=','1')
+                            ->where('variants.estado','=','1')
+                            
                             ->where('T2.base','like','1')
                             ->groupBy('variants.id')
                             ->where('variants.favorite','=','0')

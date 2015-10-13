@@ -55,6 +55,7 @@
                 $scope.atributoSelected=undefined;
                 $scope.customersSelected=undefined;
                 $scope.employeeSelected=undefined;
+                 $scope.productSelected=undefined;
 
                 $scope.montoAcuenta=0;
                 $scope.montosaldo=0;
@@ -63,6 +64,11 @@
                 $scope.cashfinal={};
                 $scope.sale.fechaEntrega=undefined;
                 //$scope.payment.PorPagado;
+                 $scope.presentation={};
+                 $scope.variant={};
+                 $scope.variant.presentations = [];
+                 //$scope.variant.presentations
+
             }
             $scope.inicializar();
                 
@@ -179,6 +185,10 @@
                             });
                         });
                     });
+                    
+                    //--------------------------------------------
+
+                    //--------------------------------------------
                 }
                 $scope.calculospedido =function () {
                     $scope.montoAcuenta=0;
@@ -844,12 +854,14 @@
                     }else{
                          $scope.sale.vuelto=0;   
                     };
+                    /*
                     if($scope.pago.cash==undefined){
                         $scope.pago.cash=0;
                     }
                     if($scope.pago.tarjeta==undefined){
                         $scope.pago.tarjeta=0;
                     }
+                    */
                 }
                 //------------------Boton Cobrar------------------
                 $scope.realizarPago = function () {   
@@ -1134,7 +1146,7 @@
                                             //---------------
                                             $scope.pagoCredito.tipo="order";
                                             //---------------
-                                            crudServiceOrderSales.create($scope.pagoCredito, 'saledetPayments').then(function (data) {
+                                            crudServiceOrderSales.create1($scope.pagoCredito, 'saledetPayments').then(function (data) {
                           
                                                 if (data['estado'] == true) {
                                                     
@@ -1244,6 +1256,10 @@
                             if(confirm("Esta segura de querer eliminar este pago!!!") == true){
                                 $scope.payment[0].detpayment_id=row.id;
                                 $scope.payment[0].detCash_id=row.detCash_id;
+
+                                $scope.payment[0].saleMethodPayment=row.saleMethodPayment_id;
+                                $scope.payment[0].montopayment=row.monto;
+
                                 $log.log($scope.payment[0]);
                                 crudServiceOrderSales.destroy($scope.payment[0],'salePayment').then(function(data){
                                 if(data['estado'] == true){
@@ -1312,6 +1328,244 @@
                 //$scope.detPago={};
                 //$scope.mostrarBtnGEd=false; 
             }
+            //--------------Agregar Variante -----------------------------
+                $scope.productSelected=undefined;
+                $scope.getproduct = function(val) {
+                  return crudServiceOrderSales.search('productaddVariant',val,1).then(function(response){
+                    return response.data.map(function(item){
+                      return item;
+                    });
+                  });
+                };
+                $scope.estadoAddVariant=false;
+                 $scope.cargarProducto = function() {
+                    //alert($scope.productSelected.nombre);
+                    if($scope.productSelected.nombre!=undefined){
+                        $scope.estadoAddVariant=true;
+                        $scope.variant={};
+                        crudServiceOrderSales.byId($scope.productSelected.id,'products').then(function (data) {
+                            $log.log(data);
+                            $scope.product = data;
+                            if($scope.product.type) $scope.variant.codigo = $scope.product.codigo+$scope.product.type.nombre.charAt(0); else{$scope.variant.codigo = $scope.product.codigo;}
+                                //espero q se llene product y de ahi agrego Unidades por defecto
+                            crudServiceOrderSales.all('presentations_base').then(function(data){
+                                $log.log(data);
+                                $scope.presentations_base = data;
+                                //$scope.product.presentation_base_object
+                                //$log.log( $scope.presentations);
+                                $scope.variant.presentation_base_object = data[0];
+                                $scope.variant.presentation_base = $scope.variant.presentation_base_object.id;
+                                $scope.enabled_presentation_button = false;
+
+                                //$scope.presentationSelect =
+
+                            });
+
+                        });
+
+                        crudServiceOrderSales.all('warehouses').then(function (data){
+                            $scope.warehouses = data;
+                        });
+                        crudServiceOrderSales.all('atributes').then(function (data){
+                            $scope.attributes = data.data;
+                            //$log.log($scope.attributes);
+                        })
+
+                        $scope.variant.category= 1;
+                    }else{
+                        //alert("Ingrese producto correctamente");
+                        $scope.estadoAddVariant=false;
+                    }
+
+                    $scope.variant.presentations = [];
+                 }
+
+                 $scope.traerPres = function(){
+
+                    //if($location.path() == '/variants/create/'+$routeParams.product_id || $location.path() == '/variants/edit/'+$routeParams.id){
+                        crudServiceOrderSales.byforeingKey('presentations','all_by_base',1).then(function(data){
+                            $scope.presentations = data;
+
+                            $scope.presentations.unshift({
+                                id:$scope.variant.presentation_base_object.id,
+                                nombre:$scope.variant.presentation_base_object.nombre,
+                                shortname:$scope.variant.presentation_base_object.shortname,
+                                cant:'Pre. base'
+                            });
+                            $scope.presentationSelect = $scope.presentations[0];
+                            $scope.selectPres();
+                        });
+                    //}
+
+                }
+
+                $scope.selectPres = function(){
+                    $scope.presentation.suppPri = 0;
+                    $scope.presentation.markup = 0;
+                    $scope.presentation.price = 0;
+                }
+                $scope.calculateSuppPric = function() {//presentation.markup
+                    //alert("1");
+                    //alert('holi');alert($scope.presentation.suppPri);
+                    if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
+                        $scope.presentation.price = $scope.presentation.suppPri + $scope.presentation.markup * $scope.presentation.suppPri / 100;
+                        //alert('pasa');
+                    }
+                };
+                $scope.calculateMarkup = function() {
+                    //alert("2");
+                    //alert('holi');
+                    if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
+                        $scope.presentation.price = $scope.presentation.suppPri + $scope.presentation.markup * $scope.presentation.suppPri / 100;
+                    }
+                };
+                $scope.calculatePrice = function() {
+                    //alert("3");
+                    //alert('holi');
+                    if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
+                        $scope.presentation.markup = ($scope.presentation.price - $scope.presentation.suppPri) * 100 / $scope.presentation.suppPri;
+                    }
+                };
+
+                $scope.AddPres = function(){
+                    
+                    //$log.log($scope.presentationSelect);
+                    //we
+                        if (typeof ($scope.presentationSelect.preFin_id) !== 'undefined') {
+                            $scope.presentationSelect.id = $scope.presentationSelect.preFin_id;
+                        }
+                        /*
+                        
+                        var isYa2 = $.grep($scope.variant.presentations, function (e) {
+                            return e.id == $scope.presentationSelect.id;
+                        });
+
+                        if (isYa2.length == 0 && !isEmpty($scope.presentationSelect)) {*/
+                            $log.log("-------------------");
+                            $log.log($scope.presentationSelect.id);
+
+                            var estadopresentacionSelect=true;
+                            if ($scope.variant.presentations.length>0) {
+                                for (var i = $scope.variant.presentations.length - 1; i >= 0; i--) {
+                                    if ($scope.variant.presentations[i].id==$scope.presentationSelect.id) {
+                                        estadopresentacionSelect=false;
+                                    };
+                                };
+                            };
+
+                            if (estadopresentacionSelect) {
+                            $scope.presentationSelect.suppPri = $scope.presentation.suppPri;
+                            $scope.presentationSelect.markup = $scope.presentation.markup;
+                            $scope.presentationSelect.price = $scope.presentation.price;
+
+                            
+                            
+
+                            $scope.variant.presentations.push($scope.presentationSelect);
+                            $log.log("-------------------");
+                            $log.log($scope.variant.presentations);
+
+                            $scope.presentation = {};
+                            $scope.presentationSelect = {};
+                            $scope.presentation.suppPri = 0;
+                            $scope.presentation.markup = 0;
+                            $scope.presentation.price = 0;
+
+                        } else {
+                            alert('Item duplicado o vacío');
+                        }              
+                }
+
+                $scope.capAttr = function(attr_id){
+                    //$log.log(attr_id);
+                    if(attr_id == 1) {
+                        if($scope.product.type){} else{$scope.product.type = { nombre : ''}}
+                        $scope.variant.codigo = $scope.product.codigo + $scope.product.type.nombre.charAt(0) + $scope.variant.detAtr[0].descripcion.substring(0, 2);
+                    }
+                }
+
+                $scope.deletePres = function($index){
+                        $scope.variant.presentations.splice($index, 1);
+                };
+
+                $scope.createVariant = function(){
+                    $scope.variant.autogenerado = true;
+                    $scope.variant.track = true;
+                    $scope.variant.stock=[];
+                    $scope.addwereVariant={};
+                    $scope.addwereVariant.warehouse_id=$scope.warehouse.id;
+                    //$scope.variant.stock=$scope.addwereVariant;
+                    $scope.variant.stock.push($scope.addwereVariant);
+                    $log.log($scope.variant);
+                    //ccasss
+                    //$scope.variant.image=undefined;
+                   // if ($scope.variantCreateForm.$valid) {
+                        var fv = document.getElementById('variantImage').files[0] ? document.getElementById('variantImage').files[0] : null;
+                        //alert(f);
+                        var rv = new FileReader();
+                        rv.onloadend = function(e) {
+                            //alert('con img');
+                            $scope.variant.image = e.target.result;
+
+                            $scope.variant.product_id = $scope.product.id;
+                            crudServiceOrderSales.create($scope.variant, 'variants').then(function (data) {
+                                if (data['estado'] == true) {
+                                    //$scope.success = data['nombres'];
+                                    alert('Variante creada con Éxito');
+                                    $scope.estadoAddVariant=false;
+                                    $scope.productSelected=undefined;
+                                    $scope.variant.codigo=undefined;
+                                    //$location.path('/products/show/'+$scope.product.id);
+
+                                } else {
+                                    $scope.errors = data;
+                                    //alert(data);
+
+                                }
+                            });
+                        }
+                        if(!document.getElementById('variantImage').files[0]){
+                            //alert($scope.product.hasVariants);
+                            //alert('sin img');
+                            $scope.variant.product_id = $scope.product.id;
+                            crudServiceOrderSales.create($scope.variant,'variants').then(function (data){
+                                if (data['estado'] == true) {
+                                    //$scope.success = data['nombres'];
+                                    alert('Variante creada con Éxito');
+                                    $scope.estadoAddVariant=false;
+                                    $scope.productSelected=undefined;
+                                    $scope.variant.codigo=undefined;
+                                    //$location.path('/products/show/'+$scope.product.id);
+
+                                } else {
+                                    $scope.errors = data;
+
+                                }
+                            });
+                        }
+
+                        if(document.getElementById('variantImage').files[0]){
+                            rv.readAsDataURL(fv);
+                        }
+
+                    //}
+                }
+
+                $scope.cancelaraddVariant = function(){
+                    $scope.estadoAddVariant=false;    
+                    $scope.productSelected=undefined;
+                    $scope.variant.codigo=undefined;
+                }
+                
+
+                $scope.opcAtr = [];
+                $scope.opcAtr[1] = ['NEGRO','BLANCO','ROJO','AZUL','MARRÓN','VINO','NUDE','BEIGE','TURQUESA'];
+                $scope.opcAtr[2] = ['18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45'];
+                $scope.opcAtr[3] = ['3','5','7','9','10','11','12','13','15','18','20','21'];
+                $scope.opcAtr[4] = ['CUERO LISO','CUERO GAMUZA','CUERO CHAROL','SINTÉTICO LISO','SINTÉTICO GAMUZA','SINTÉTICO CHAROL','TELA'];
+
+                $scope.categories=[{id:1,nombre:'Dama'},{id:2,nombre:'Caballero'},{id:3,nombre:'Niño'},{id:4,nombre:'Niña'}];
+            //------------------------------------------------------------
                 
             }]);
 

@@ -6,6 +6,7 @@ Ventas
 <base href="{{URL::to('/')}}/sales"/>
 @stop
 @section('css-customize')
+<link rel="stylesheet" type="text/css" href="/css/print.css" media="print">
 @stop
 @section('content')
 <!--<section class="content-header">

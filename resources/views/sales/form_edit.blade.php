@@ -74,6 +74,26 @@
                             </div>
                           </div>
                         </div>
+                        <div class="row" ng-show="cancelPedido && order1.estado!=3">
+                              <div class="col-md-4">
+                                 <div class="form-group" >
+                                    <label for="year">Tienda</label>
+                                    <select ng-click="mostrarAlmacenCaja()" class="form-control" name="" ng-model="store.id" ng-options="item.id as item.nombreTienda for item in stores">
+                                      <option value="">--Elije Tienda--</option>
+                                    </select>
+                                  </div>
+                                </div>
+            
+                                <div class="col-md-4">
+                                    <div class="form-group" >
+                                      <label for="month">Caja</label>
+            
+                                    <select class="form-control" name="" ng-model="cash1.cashHeader_id" ng-options="item.id as item.nombre for item in cashHeaders">
+                                      <option value="">--Elije Caja--</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                            </div> 
                           
     </div>   
 
@@ -259,7 +279,7 @@
                       <td><a href="/cashes/edit/@{{row.numCaja}}" target="_blank">@{{row.numCaja}}</a></td>
                      <td><button type="button" class="btn btn-danger btn-xs"  ng-click="destroyPay(row)">
                         <span class="glyphicon glyphicon-trash"></span></button>
-                        <a ng-Disabled="payment.Saldo<=0" ng-click="editDetpayment(row)" ng-model="checked" class="btn btn-warning btn-xs">Edit</a>
+                        <a ng-Disabled="payment[0].Saldo<=0" ng-click="editDetpayment(row)" ng-model="checked" class="btn btn-warning btn-xs">Edit</a>
                         </td>
                     </tr>
                     

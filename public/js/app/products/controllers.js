@@ -422,9 +422,12 @@
 
 
                 $scope.createVariant = function(){
+<<<<<<< HEAD
                     $scope.variant.otros=$scope.ArrayTallas;
                     $scope.variant.cantTallas=$scope.variant1;
                             //alert($scope.variant.otros);
+=======
+>>>>>>> ea45188865f0296d4a097dde4d74ba081e6edca3
                     if ($scope.variantCreateForm.$valid) {
                         var fv = document.getElementById('variantImage').files[0] ? document.getElementById('variantImage').files[0] : null;
                         //alert(f);
@@ -434,6 +437,8 @@
                             $scope.variant.image = e.target.result;
 
                             $scope.variant.product_id = $scope.product.id;
+                            $log.log($scope.variant);
+                            nnn
                             crudService.create($scope.variant, 'variants').then(function (data) {
                                 if (data['estado'] == true) {
                                     //$scope.success = data['nombres'];
@@ -451,6 +456,7 @@
                             //alert($scope.product.hasVariants);
                             //alert('sin img');
                             $scope.variant.product_id = $scope.product.id;
+                            //$log.log($scope.variant);
                             crudService.create($scope.variant,'variants').then(function (data){
                                 if (data['estado'] == true) {
                                     //$scope.success = data['nombres'];
@@ -791,6 +797,7 @@
                 }
 
                 $scope.traerPres = function(preBase){
+                    $log.log(preBase);
                     if($location.path() != '/variants/create/'+$routeParams.product_id && $location.path() != '/variants/edit/'+$routeParams.id) {
                         crudService.byforeingKey('presentations', 'all_by_base', preBase).then(function (data) {
                             $scope.presentations = data;
@@ -834,7 +841,9 @@
                         });
                         //$log.log($scope.presentationSelect);
                         //$log.log($scope.product.presentations);
-                        //$log.log(isYa);
+                        //alert("hola")
+                        //$log.log("isYa");
+                        //$log.log(isYa.length);
                         //if(isYa.length == 0 && $scope.presentationSelect!==null && $scope.presentationSelect.length!== 0) {
                         if (isYa.length == 0 && !isEmpty($scope.presentationSelect)) {
                             //alert(typeof($scope.presentationSelect.preFin_id));
@@ -873,7 +882,7 @@
                             $scope.presentationSelect.markup = $scope.presentation.markup;
                             $scope.presentationSelect.price = $scope.presentation.price;
                             $scope.variant.presentations.push($scope.presentationSelect);
-                            //$log.log($scope.product.presentations);
+                            $log.log($scope.variant.presentations);
                             $scope.presentation = {};
                             $scope.presentationSelect = {};
                             $scope.presentation.suppPri = 0;
@@ -1170,6 +1179,8 @@
                 $scope.opcAtr[2] = ['18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45'];
                 $scope.opcAtr[3] = ['3','5','7','9','10','11','12','13','15','18','20','21'];
                 $scope.opcAtr[4] = ['CUERO LISO','CUERO GAMUZA','CUERO CHAROL','SINTÉTICO LISO','SINTÉTICO GAMUZA','SINTÉTICO CHAROL','TELA'];
+
+                
 
                 /*
                 Fin de add

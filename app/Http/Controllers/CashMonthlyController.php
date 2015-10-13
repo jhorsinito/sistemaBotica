@@ -50,11 +50,24 @@ class CashMonthlyController extends Controller {
     
     public function create(Request $request)
     {
-
+        //var_dump($request->all());
+        //die();
         $cashMonthlys = $this->CashMonthlyRepo->getModel();
 
         $manager = new CashMonthlyManager($cashMonthlys,$request->all());
         $manager->save();
+/*
+        if($this->CashMonthlyRepo->validateDate(substr($request->input('fecha'),0,19))){
+            //$customer->fechaNac = date("Y-m-d", strtotime($request->input('fechaNac')));
+            $cashMonthlys->fecha = substr($request->input('fecha'),0,19);
+            //var_dump($request->input('fecha'));
+            //die();
+        }else{
+            $cashMonthlys->fecha = null;
+        }
+
+        $cashMonthlys->save();
+        */
 
         return response()->json(['estado'=>true, 'descripcion'=>$cashMonthlys->descripcion]);
     }
@@ -91,6 +104,16 @@ class CashMonthlyController extends Controller {
         //return substr($q, -1);
 
         $cashMonthlys = $this->CashMonthlyRepo->search($m,$a,$c);
+
+        return response()->json($cashMonthlys);
+        //return $m+$a+$c;
+    }
+    public function searchMonto($m,$a,$c)
+    {
+        //return substr($q, 0,1);
+        //return substr($q, -1);
+
+        $cashMonthlys = $this->CashMonthlyRepo->searchMonto($m,$a,$c);
 
         return response()->json($cashMonthlys);
         //return $m+$a+$c;
