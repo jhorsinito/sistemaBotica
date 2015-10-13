@@ -96,7 +96,7 @@
                 <select   ng-change="filtrarCardex()" class="form-control"   ng-model="purchase.tiempo" >
                   <option value="">Elejir</option>
                   <option value="dia">Ultimo dia</option>
-                  <option value="semana">Ultima Semana</option>
+                 <!-- <option value="semana">Ultima Semana</option>-->
                   <option value="mes">Ultimo mes</option>
                   <option value="año">Ultimo año</option>
                   <option value="otro">Rango de Fechas</option>

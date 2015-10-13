@@ -136,13 +136,13 @@
                       <td ng-if="row.tipo=='Entrada'"><span class="badge bg-red">Entrada</span></td> 
                       <td ng-if="row.tipo=='Transferencia'"><span class="badge bg-yellow">Transferencia</span></td> 
                       <td ng-if="row.tipo=='Salida'"><span class="badge bg-green">Salida</span></td> 
-<<<<<<< HEAD
+
                       <td ng-if="row.tipo=='Compra'"><span class="badge bg-brown">Compra</span></td> 
                       <td ng-if="row.tipo=='Venta'"><span class="badge bg-purple">Venta</span></td> 
-=======
+
                       <td ng-if="row.tipo=='Salida Venta'"><span class="badge bg-green">Salida Venta</span></td> 
                       <td ng-if="row.tipo=='Entrada Venta'"><span class="badge bg-red">Entrada Venta</span></td> 
->>>>>>> ea45188865f0296d4a097dde4d74ba081e6edca3
+
                       <td >@{{row.orderPurchase_id}}</td>
                       <td>@{{row.purchase_id}}</td>
                       <td>@{{row.sale_id}}</td>

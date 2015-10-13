@@ -14,7 +14,7 @@ class CreatePurchasesTable extends Migration
     {
          Schema::create('purchases', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('fechaEntrega');
+            $table->timestamp('fechaEntrega');
             $table->decimal('descuento',10,2);
             $table->decimal('montoBruto',10,2);
             $table->decimal('montoTotal',10,2);

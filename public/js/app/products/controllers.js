@@ -422,12 +422,11 @@
 
 
                 $scope.createVariant = function(){
-<<<<<<< HEAD
+
                     $scope.variant.otros=$scope.ArrayTallas;
                     $scope.variant.cantTallas=$scope.variant1;
                             //alert($scope.variant.otros);
-=======
->>>>>>> ea45188865f0296d4a097dde4d74ba081e6edca3
+
                     if ($scope.variantCreateForm.$valid) {
                         var fv = document.getElementById('variantImage').files[0] ? document.getElementById('variantImage').files[0] : null;
                         //alert(f);

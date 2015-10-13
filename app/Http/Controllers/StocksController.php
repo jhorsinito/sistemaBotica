@@ -52,6 +52,7 @@ class StocksController extends Controller {
 
     public function edit(Request $request)
     {
+      \DB::beginTransaction();
          $var =$request->detailOrderPurchases;
          
          $almacen_id=$request->input("warehouses_id");
@@ -92,7 +93,7 @@ class StocksController extends Controller {
             $stockac=null;
 
         }
-      
+      \DB::commit();
         return response()->json(['estado'=>true]);
     }
 

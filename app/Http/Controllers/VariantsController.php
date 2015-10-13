@@ -119,6 +119,7 @@ $n=0;
  if($request->input('checkTallas')==true){
 foreach ($tallasDisponibles as $tallasD) {
         //var_dump($tallasD); die();
+        $request->merge(["track"=>1]);
         $variant = $this->variantRepo->getModel();
 
 
@@ -224,7 +225,7 @@ foreach ($tallasDisponibles as $tallasD) {
 
             }
             $request->merge(array('user_id' => Auth()->user()->id));
-            $request->merge(array('estado' => '0'));
+            //$request->merge(array('estado' => '0'));
         $managerVar = new VariantManager($variant,$request->except('stock','detAtr','presentation_base_object','presentations'));
         $managerVar->save();
 

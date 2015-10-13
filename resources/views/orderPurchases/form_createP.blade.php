@@ -570,7 +570,7 @@
     </div>
         
                     <button type="submit" class="btn btn-primary" ng-click="CrearCompraDirecta()">Crear</button>
-                    <a href="/orderPurchases" class="btn btn-danger">Cancelar</a>
+                    <a target="_self" href="/purchases" class="btn btn-danger">Cancelar</a>
                   </div>
       </div>
    </div>   

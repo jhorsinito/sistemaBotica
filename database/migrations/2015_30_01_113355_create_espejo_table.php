@@ -23,7 +23,7 @@ class CreateEspejoTable extends Migration
             $table->String('Talla');
             $table->bigInteger('sku');
         });
-DB::PROCEDURE('
+DB::statement('
           DELIMITER $$
           DROP PROCEDURE IF EXISTS detalles$$
           CREATE PROCEDURE detalles(id int)
@@ -43,24 +43,23 @@ DB::PROCEDURE('
                           select detailPurchases.cantidad,variants.id as Idvar,products.modelo,variants.codigo,
                           products.image,(select GROUP_CONCAT((CONCAT(atributes.nombre,"/",detAtr.descripcion)) 
                             SEPARATOR "-") from detAtr left join atributes on atributes.id=detAtr.atribute_id 
-                          where detAtr.variant_id=Idvar and atributes.nombre="Taco" )as Taco,(select GROUP_CONCAT
-                          ((CONCAT(atributes.nombre,"/",detAtr.descripcion)) SEPARATOR "-") from 
-                          detAtr left join atributes on atributes.id=detAtr.atribute_id where detAtr.variant_id=Idvar and 
-                          atributes.nombre="Talla" )as Talla,variants.sku from detPres inner join variants on 
+                          where detAtr.variant_id=1 and atributes.nombre="Taco" )as Taco,(select                                                                                 GROUP_CONCAT((CONCAT(atributes.nombre,"/",detAtr.descripcion)) 
+                            SEPARATOR "-") from detAtr left join atributes on atributes.id=detAtr.atribute_id 
+                          where detAtr.variant_id=1 and atributes.nombre="Talla" )as Talla,variants.sku from detPres inner join variants on 
                           variants.id=detPres.variant_id inner join detailPurchases on detailPurchases.detPres_id=detPres.id 
                           inner join purchases on purchases.id=detailPurchases.purchases_id inner join products on 
                           products.id=variants.product_id left join detAtr on detAtr.variant_id=variants.id 
-                          left join atributes on atributes.id=detAtr.atribute_id where detailPurchases.id=id 
+                          left join atributes on atributes.id=detAtr.atribute_id where detailPurchases.id=id
                           group by Idvar limit 1; 
  
                END LOOP ;    
        END$$
  DELIMITER ;
  ');
-DB::PROCEDURE('
+DB::statement('
               DELIMITER $$
               DROP PROCEDURE IF EXISTS principal$$
-              CREATE PROCEDURE `principal`(id int)
+              CREATE PROCEDURE principal(id int)
               BEGIN
                    DECLARE v_finished INTEGER DEFAULT 0;
                    DECLARE v_content VARCHAR(255) DEFAULT "";
@@ -75,7 +74,7 @@ DB::PROCEDURE('
                    alter table espejo auto_increment=1;
                    OPEN tiket_cursor;
                    obtener_tiket: LOOP
-                           FETCH email_cursor INTO v_content;
+                           FETCH tiket_cursor INTO v_content;
                            IF v_finished = 1 THEN
                                LEAVE obtener_tiket;
                            END IF;    

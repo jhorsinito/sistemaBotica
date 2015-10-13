@@ -594,11 +594,11 @@
                     <button ng-if="orderPurchase.estados==0" ng-show="estados1" type="submit" class="btn btn-primary" ng-click="CrearCompra()">Guardar Cambios</button>
                     <a ng-if="orderPurchase.estados==0" ng-show="estados" href="/orderPurchases" class="btn btn-danger">Cancelar</a>
                     <a ng-if="orderPurchase.estados==0" ng-show="estados1" href="/orderPurchases" class="btn btn-danger">Cancelar</a>
-                    <a ng-if="orderPurchase.estados==1" href="/orderPurchases" class="btn btn-success btn-xs">Regresar</a>
-                    <a ng-if="orderPurchase.estados==2" href="/orderPurchases" class="btn btn-success btn-xs">Regresar</a>
+                    <a ng-if="orderPurchase.estados==1" href="/purchases" class="btn btn-success btn-xs">Regresar</a>
+                    <a ng-if="orderPurchase.estados==2" href="/purchases" class="btn btn-success btn-xs">Regresar</a>
                   </div>
                   <div class="col-md-1">
-                    <a ng-if="orderPurchase.estados==0" href="/orderPurchases" class="btn btn-success btn-xs">Salir</a>
+                    <a ng-if="orderPurchase.estados==0" href="/purchases" class="btn btn-success btn-xs">Salir</a>
                   </div>
                  </div>
                 </div>    

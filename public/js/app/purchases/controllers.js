@@ -702,6 +702,7 @@
                 }
             }
                 }
+                
                 $scope.limpiarFiltros=function(){
                     crudOPurchase.paginate('inputStocks',1).then(function (data) {
                         $scope.headInputStocks = data.data;

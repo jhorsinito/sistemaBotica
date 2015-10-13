@@ -23,7 +23,7 @@ class CreateEspejo2Table extends Migration
             $table->String('Talla');
             $table->bigInteger('sku');
         });
-        DB::PROCEDURE('
+        DB::STATEMENT('
           DELIMITER $$
           DROP PROCEDURE IF EXISTS detalles2$$
           CREATE PROCEDURE detalles2(id int)
@@ -43,9 +43,9 @@ class CreateEspejo2Table extends Migration
                            select detailOrderPurchases.cantidad,variants.id as Idvar,products.modelo,
                            variants.codigo,products.image,(select GROUP_CONCAT((CONCAT(atributes.nombre,"/",detAtr.descripcion))
                            SEPARATOR "-") from detAtr left join atributes on atributes.id=detAtr.atribute_id 
-                           where detAtr.variant_id=Idvar and atributes.nombre="Taco" )as Taco,(select GROUP_CONCAT
-                           ((CONCAT(atributes.nombre,"/",detAtr.descripcion)) SEPARATOR "-") from detAtr left join atributes 
-                           on atributes.id=detAtr.atribute_id where detAtr.variant_id=Idvar and atributes.nombre="Talla" )as
+                           where detAtr.variant_id=Idvar and atributes.nombre="Taco" )as Taco,(select GROUP_CONCAT((CONCAT(atributes.nombre,"/",detAtr.descripcion))
+                           SEPARATOR "-") from detAtr left join atributes on atributes.id=detAtr.atribute_id 
+                           where detAtr.variant_id=Idvar and atributes.nombre="Talla" )as 
                            Talla,variants.sku from detPres inner join variants on variants.id=detPres.variant_id inner 
                            join detailOrderPurchases on detailOrderPurchases.detPres_id=detPres.id inner join orderPurchases 
                            on orderPurchases.id=detailOrderPurchases.orderPurchases_id inner join products on 
@@ -57,10 +57,10 @@ class CreateEspejo2Table extends Migration
        END$$
  DELIMITER ;
  ');
-DB::PROCEDURE('
+DB::STATEMENT('
               DELIMITER $$
               DROP PROCEDURE IF EXISTS principal2$$
-              CREATE PROCEDURE `principal2`(id int)
+              CREATE PROCEDURE principal2(id int)
               BEGIN
                    DECLARE v_finished INTEGER DEFAULT 0;
                    DECLARE v_content VARCHAR(255) DEFAULT "";
@@ -76,7 +76,7 @@ DB::PROCEDURE('
                    alter table espejo2 auto_increment=1;
                    OPEN tiket_cursor;
                    obtener_tiket: LOOP
-                           FETCH email_cursor INTO v_content;
+                           FETCH tiket_cursor INTO v_content;
                            IF v_finished = 1 THEN
                                LEAVE obtener_tiket;
                            END IF;    
