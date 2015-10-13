@@ -22,6 +22,7 @@ use Salesfly\Salesfly\Repositories\DetPresRepo;
 use Salesfly\Salesfly\Repositories\StockRepo;
 use Salesfly\Salesfly\Managers\StockManager;
 
+
 class InputStocksController extends Controller
 {
     protected $inputStockRepo;
@@ -68,18 +69,42 @@ class InputStocksController extends Controller
         $inputStock=$this->headInputStockRepo->selectFechaYtipo($fechaini,$fechafin,$tipo);
         return response()->json($inputStock);
     }
+    public function reporttiket($id){
+               $database = \Config::get('database.connections.mysql');
+               $time=time();
+               $output = public_path() . '/report/'.$time.'_TiketParte';        
+               $ext = "pdf";
+              
+               \JasperPHP::process(
+                   public_path() . '/report/TiketParte.jasper', 
+                   $output, 
+                   array($ext),
+            //array(),
+            //while($i<=3){};
+
+                   ['idVariante'=>intval($id)],//Parametros
+              
+                   $database,
+                   false,
+                   false
+               )->execute();
+               return '/report/'.$time.'_TiketParte.'.$ext;
+    }
     
     public function create(Request $request){
-       \DB::beginTransaction();
+      \DB::beginTransaction();
+      if($request->warehouDestino_id==""){
+        $request->merge(["warehouDestino_id"=>null]);
+      }
        $var =$request->detailOrderPurchases;
        $request->merge(["Fecha"=>$request->fecha]);
-    //var_dump($request->input("Fecha"));die();
+   // var_dump($request->input("generareport"));die();
        $codigoHeadIS;
        $almacen_id=$request->input("warehouses_id");
        $almacen_Destino=$request->input("warehouDestino_id");
-       if($almacen_Destino==null){
-              $almacen_Destino=null;
-       }
+       //if($almacen_Destino==null){
+       //       $almacen_Destino=null;
+       //}
        $queHacer=$request->input("eliminar");
        $tipo=$request->input("tipo");
        $tipo2="Salida";
@@ -284,11 +309,19 @@ class InputStocksController extends Controller
             //fin actualiza Stock---------------------------------------------------
             $stockac=null;
         }}}}
-        \DB::commit();
+       // var_dump($request->generareport);die();
+        //$idOrder=intval($request->input("id"));
+        //var_dump($idOrder);die();
+      
+      \DB::commit();
        ////======================================================00
        return response()->json(['estado'=>true]);
 
     }
+    static  function prueba(){
+      return "hola mundo";
+    }
+   
     public function reporteMovimentos($tipo){
       //var_dump("hola commd");die();
         $database = \Config::get('database.connections.mysql');

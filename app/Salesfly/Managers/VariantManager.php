@@ -14,6 +14,7 @@ class VariantManager extends BaseManager{
             'track' => 'required|boolean',
             'product_id' => 'required|integer',
             /*'observado' => 'boolean',*/
+            'estado'=>'',
             'nota' => '',
             'image' => '',
             'category' => 'integer',

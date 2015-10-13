@@ -13,6 +13,7 @@ class Variant extends \Eloquent {
                             'track',
                             'product_id',
                             /*'observado',*/
+                            'estado',
                             'nota',
                             'image',
                             'category',

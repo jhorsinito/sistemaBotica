@@ -7,8 +7,10 @@
         'crud.services',
         'routes',
         'ui.bootstrap',
-        'ngProgress'
+        'ngProgress',
+        'ui.slider'
     ]);
+    
     app.run(function($rootScope,ngProgressFactory) {
         var progressbar = ngProgressFactory.createInstance();
         $rootScope.$on('$routeChangeStart', function(ev,data) {

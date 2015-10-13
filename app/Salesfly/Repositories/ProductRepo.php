@@ -368,4 +368,10 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->get();
             return $datos;
     }
+     public function validarNoRepitname($text){
+        $products =product::where('nombre','=', $text)
+                    //->with(['customer','employee'])
+                    ->first();
+        return $products;
+    }
 }

@@ -12,10 +12,12 @@ class PurchaseRepo extends BaseRepo{
     {
       $purchases=Purchase::join('suppliers','purchases.supplier_id','=','suppliers.id')
                        ->join('warehouses','warehouses.id','=','purchases.warehouses_id')
-                       ->select('purchases.*','suppliers.empresa as empresa','warehouses.nombre as almacen')
+                       ->leftjoin('payments','payments.purchase_id','=','purchases.id')
+                       ->select('purchases.*','payments.Saldo as saldo','suppliers.empresa as empresa','warehouses.nombre as almacen')
                        ->where('suppliers.empresa','like',$q.'%')
                        ->orWhere('warehouses.nombre','like',$q.'%')
                        ->orWhere('purchases.fechaEntrega','like','%'.$q.'%')
+                       ->orderBy('purchases.id','dsc')
                        ->paginate(15);
         
         return $purchases;
@@ -31,7 +33,7 @@ class PurchaseRepo extends BaseRepo{
                        ->join('warehouses','warehouses.id','=','purchases.warehouses_id')
                        ->leftjoin('payments','payments.purchase_id','=','purchases.id')
                        ->select('purchases.*','payments.Saldo as saldo','suppliers.empresa as empresa','warehouses.nombre as almacen')
-                       ->orderBy('purchases.id','asc')
+                       ->orderBy('purchases.id','dsc')
                        ->paginate($c);
         return $purchases;
    }
@@ -49,7 +51,7 @@ class PurchaseRepo extends BaseRepo{
                        ->leftjoin('payments','payments.purchase_id','=','purchases.id')
                        ->select('purchases.*','payments.Saldo as saldo','suppliers.empresa as empresa','warehouses.nombre as almacen')
                        ->whereBetween("purchases.fechaEntrega",[$fechaini,$fechafin])
-                       ->orderBy('purchases.id','asc')
+                       ->orderBy('purchases.id','dsc')
                        ->paginate(15);
         return $purchases;
    }

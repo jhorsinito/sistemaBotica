@@ -64,7 +64,7 @@
   </div>
   <div class="col-md-4">
    <div class="form-group" ng-class="{true: 'has-error'}[ employeeCreateForm.fechanac.$error.required && employeeCreateForm.$submitted || employeeCreateForm.fechanac.$dirty && employeeCreateForm.fechanac.$invalid]">
-                    <label for="fechanac">Fecha de Nacimineto</label>
+                    <label for="fechanac">Fecha de Nacimiento</label>
                                         <div class="input-group">
                                           <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>

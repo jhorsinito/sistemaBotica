@@ -63,6 +63,19 @@
                 }
                     
                 };
+                 $scope.validanomMarca=function(texto){
+                
+                   if(texto!=undefined){
+                        crudService.validar('brands',texto).then(function (data){
+                        $scope.brand = data;
+                        if($scope.brand!=null){
+                           alert("Usted no puede crear dos Marcas con el mismo nombre");
+                           $scope.brand.nombre=''; 
+                           $scope.brand.shortname=''; 
+                        }
+                    });
+                    }
+               }
 
                 $scope.createBrand = function(){
                     //$scope.atribut.estado = 1;

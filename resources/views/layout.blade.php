@@ -21,6 +21,8 @@
 
     <link rel="stylesheet" href="/vendor/ngprogress/ngProgress.css">
 
+    <link href="/vendor/jquery-ui/themes/smoothness/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+
      <!-- <link href="/vendor/angular-bootstrap/ui-bootstrap-csp.css" rel="stylesheet" type="text/css" /> -->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -549,7 +551,7 @@
     <!-- jQuery 2.1.4 -->
     <script src="/vendor/adminlte/plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
-    <script src="/vendor/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="/vendor/jquery-ui/ui/minified/jquery-ui.min.js" type="text/javascript"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script type="text/javascript">
       $.widget.bridge('uibutton', $.ui.button);
@@ -594,6 +596,7 @@
     <script src="/js/app/atributes/controllers.js"></script>
     <script src="/js/app/types/app.js"></script>
     <script src="/js/app/types/controllers.js"></script>
+    <script src="/vendor/angular-ui-slider/src/slider.js"></script>
     <!-- endinject -->
     @section('js-customize')
     @show

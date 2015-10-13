@@ -12,9 +12,11 @@ class OrderPurchaseRepo extends BaseRepo{
     {   
          $purchases=OrderPurchase::join('suppliers','orderPurchases.supplier_id','=','suppliers.id')
                        ->join('warehouses','warehouses.id','=','orderPurchases.warehouses_id')
-                       ->select('orderPurchases.*','suppliers.empresa as empresa','warehouses.nombre as almacen')->where('suppliers.empresa','like',$q.'%')
+                       ->select('orderPurchases.*','suppliers.empresa as empresa','warehouses.nombre as almacen')
+                       ->where('suppliers.empresa','like',$q.'%')
                        ->orWhere('warehouses.nombre','like',$q.'%')
                        ->orWhere('orderPurchases.fechaPedido','like','%'.$q.'%')
+                       ->orWhere('orderPurchases.fechaPrevista','like','%'.$q.'%')
                        ->paginate(15);
         
         return $purchases;
@@ -61,6 +63,26 @@ class OrderPurchaseRepo extends BaseRepo{
                        ->select('orderPurchases.*','suppliers.empresa as empresa','warehouses.nombre as almacen')
                        ->where('orderPurchases.Estado',$estado)
                        ->whereBetween("orderPurchases.fechaPedido",[$fechaini,$fechafin])
+                       ->orderBy('orderPurchases.id','asc')
+                       ->paginate(15);
+        return $purchases;
+   }
+   public function searchFechasLlegada($fechaini,$fechafin){
+    $purchases=OrderPurchase::join('suppliers','orderPurchases.supplier_id','=','suppliers.id')
+                       ->join('warehouses','warehouses.id','=','orderPurchases.warehouses_id')
+                       ->select('orderPurchases.*','suppliers.empresa as empresa','warehouses.nombre as almacen')
+                       //->between('orderPurchases.fechaPedido',[$estado)
+                       ->whereBetween("orderPurchases.fechaPrevista",[$fechaini,$fechafin])
+                       ->orderBy('orderPurchases.id','asc')
+                       ->paginate(15);
+        return $purchases;
+   }
+   public function searchFechasLlegadaEstado($fechaini,$fechafin,$estado){
+    $purchases=OrderPurchase::join('suppliers','orderPurchases.supplier_id','=','suppliers.id')
+                       ->join('warehouses','warehouses.id','=','orderPurchases.warehouses_id')
+                       ->select('orderPurchases.*','suppliers.empresa as empresa','warehouses.nombre as almacen')
+                       ->where('orderPurchases.Estado',$estado)
+                       ->whereBetween("orderPurchases.fechaPrevista",[$fechaini,$fechafin])
                        ->orderBy('orderPurchases.id','asc')
                        ->paginate(15);
         return $purchases;

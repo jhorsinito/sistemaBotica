@@ -30,14 +30,14 @@
                     
                    <div class="form-group" ng-class="{true: 'has-error'}[ brandCreateForm.nombre.$error.required && brandCreateForm.$submitted || brandCreateForm.nombre.$dirty && brandCreateForm.nombre.$invalid]">
                       <label for="nombre">Nombre</label>
-                      <input type="text" class="form-control" name="nombre" placeholder="Nombre" ng-model="brand.nombre" required>
+                      <input type="text" class="form-control" name="nombre" ng-blur="validanomMarca(brand.nombre)" placeholder="Nombre" ng-model="brand.nombre" required>
                       <label ng-show="brandCreateForm.$submitted || brandCreateForm.nombre.$dirty && brandCreateForm.nombre.$invalid">
                         <span ng-show="brandCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>
                     </div>
                     <div class="form-group" ng-class="{true: 'has-error'}[ brandCreateForm.shortname.$error.required && brandCreateForm.$submitted || brandCreateForm.shortname.$dirty && brandCreateForm.shortname.$invalid]">
                       <label for="shortname">ShortName</label>
-                      <input type="text" class="form-control" name="shortname" placeholder="ShortName" ng-model="brand.shortname" required>
+                      <input type="text" class="form-control" name="shortname" ng-blur="validanomMarca(brand.nombre)" placeholder="ShortName" ng-model="brand.shortname" required>
                       <label ng-show="brandCreateForm.$submitted || brandCreateForm.shortname.$dirty && brandCreateForm.shortname.$invalid">
                         <span ng-show="brandCreateForm.shortname.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>

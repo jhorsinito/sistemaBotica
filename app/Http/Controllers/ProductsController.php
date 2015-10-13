@@ -451,5 +451,9 @@ class ProductsController extends Controller
         //sleep(5);
         return response()->json($product);
     }
-
+   
+   public function validarNombre($text){
+        $product = $this->productRepo->validarNoRepitname($text);
+        return response()->json($product);
+    }
 }

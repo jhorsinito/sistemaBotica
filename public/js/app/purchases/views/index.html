@@ -1,11 +1,11 @@
 <!-- Content Header (Page header) -->
         <section class="content-header">
-          <h1>Purchases
+          <h1>Compras
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Purchases</li>
+            <li class="active">Compras</li>
           </ol>
 
           
@@ -28,7 +28,7 @@
               <div class="box">
 
                 <div class="box-header with-border">
-                  <h3 class="box-title">Purchases</h3>
+                  <h3 class="box-title">Compras</h3>
                   <div class="box-tools">
                   <form ng-keyup="searchPurchase()">
                     <div class="input-group" style="width: 200px;">
@@ -57,11 +57,11 @@
                   </div>
               <div class="form-group">
                  <a target="_self" class="btn label-default" href="/orderPurchases/createP" >Crear Compra Directa</a>
-                  <a target="_self" class="btn label-default" href="/orderPurchases/create" >Crear Orden</a>
-                  <a target="_self" class="btn label-default" href="/orderPurchases" >Ver Listado de Ordenes</a>
-                 <a class="btn label-default" href="/purchases/create">Ver Entradas De Stock</a>
-                 <a class="btn label-default" href="/purchases/showD">Ver Saldos a favor</a>
-
+                  <a target="_self" class="btn label-default" href="/orderPurchases/create" >Crear Orden de Compra</a>
+                  <a target="_self" class="btn label-default" href="/orderPurchases" >Listado de Ordenes</a>
+                 <a class="btn label-default" href="/purchases/create">Movimientos de Almacen</a>
+                 <a class="btn label-default" href="/purchases/showD">Cuentas por Cobrar Proveedores</a>
+                 <a class="btn label-default" href="/purchases/cardex">Cardex</a>
               </div>
 
            <!-- <div class="form-group">
@@ -102,7 +102,7 @@
                                 <div class="input-group-addon">
                                       <i class="fa fa-calendar"></i>
                                 </div>
-                                  <input  type="date" class="form-control"  name="fechaPedido" ng-model="purchase.fechaini">
+                                  <input  type="date" class="form-control"  name="fechaPedido" ng-model="purchase.fechaini" ng-change="filtrarFecharCompras()" >
                             </div>
                   </div>
           </div>
@@ -120,7 +120,7 @@
                       </div> 
           </div>
           <div class="col-md-1">
-             <a ng-click="GenerarReportComprasRF()" style="width:95px;" class="btn btn-success btn-xs">Generar Reporte</a>
+             <a ng-click="GenerarReportComprasRF()" style="width:95px;" class="btn btn-success btn-xs">{{textpurchasefecha}}</a>
              <a ng-href="{{pdfreportCompr}}" style="width:95px;" target="_blank" class="btn btn-primary btn-xs">Ver Reporte</a>
           </div>
           </div>

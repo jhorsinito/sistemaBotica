@@ -6,7 +6,7 @@
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["/usr/share/nginx/html/salesfly/public/report/"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="estado" class="java.lang.String"/>
+	<parameter name="estado" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[select orderPurchases.*,suppliers.empresa from orderPurchases inner join suppliers on suppliers.id=orderPurchases.supplier_id where orderPurchases.estado=$P{estado};]]>
 	</queryString>

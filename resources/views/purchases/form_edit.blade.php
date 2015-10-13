@@ -80,11 +80,11 @@
                       <td>@{{row.producto}}</td>
                       <td>@{{row.CodigoPCompra}}</td>
                       <td>@{{row.cantidad}}</td>
-                      <td>@{{row.preProducto}}</td>
-                      <td>@{{row.preCompra}}</td>
-                      <td>@{{row.montoBruto}}</td>
-                      <td>@{{row.descuento}}</td>
-                      <td>@{{row.montoTotal}}</td>
+                      <td>S/.@{{row.preProducto}}</td>
+                      <td>S/.@{{row.preCompra}}</td>
+                      <td>S/.@{{row.montoBruto}}</td>
+                      <td>S/.@{{row.descuento}}</td>
+                      <td>S/.@{{row.montoTotal}}</td>
                       
                       <!--<td><a ng-click="sacarRow(row.index,row.montoTotal)" class="btn btn-warning btn-xs">Sacar</a></td>
                       <td><a ng-click="EditarDetalles(row,row.index)" data-target="#miventanaEditRow" data-toggle="modal" class="btn btn-warning btn-xs">Edit</a></td>
@@ -125,7 +125,7 @@
                  <!--  <button ng-click="GenerrarReportCod()" type="submit" class="btn btn-primary btn-xs">@{{botonReporteCod}}</button>
                    <a ng-show="verReportSku1" ng-click="" ng-href="@{{pdf1}}" target="_blank" type="submit" class="btn btn-warning btn-xs"  >Ver Reporte</a>-->
                    <button ng-click="GenerrarReport()" type="submit" class="btn btn-primary btn-xs">@{{botonReporte}}</button>
-                   <a ng-show="verReportTiket1" ng-click=""ng-href="@{{pdf}}" target="_blank" type="submit" class="btn btn-warning btn-xs"  >Ver Reporte</a>
+                   <a ng-show="verReportTiket1" ng-click=""ng-href="@{{pdfTiketsSku}}" target="_blank" type="submit" class="btn btn-warning btn-xs"  >Ver Reporte</a>
                    <a href="/purchases" class="btn btn-success btn-xs">Regresar</a>
                   </div>
                 </form>

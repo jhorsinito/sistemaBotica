@@ -5,68 +5,26 @@
 	<property name="ireport.y" value="0"/>
 	<parameter name="producto_id" class="java.lang.String"/>
 	<parameter name="tipo" class="java.lang.String"/>
+	<parameter name="fecha" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select * ,sum(inputStocks.cantidad_llegado)as cantidadreal from inputStocks inner join headInputStocks on headInputStocks.id=inputStocks.headInputStock_id inner join warehouses on warehouses.id=headInputStocks.warehouses_id
-where inputStocks.variant_id=$P{producto_id} and headInputStocks.tipo=$P{tipo} group by SUBSTRING(inputStocks.created_at,8,3);]]>
+		<![CDATA[select variants.codigo,variants.sku,inputStocks.producto,inputStocks.created_at,inputStocks.cantidad_llegado  from inputStocks inner join variants on variants.id=inputStocks.variant_id inner join headInputStocks on headInputStocks.id=inputStocks.headInputStock_id inner join warehouses on warehouses.id=headInputStocks.warehouses_id
+where inputStocks.variant_id=$P{producto_id} and headInputStocks.tipo=$P{tipo} and  SUBSTRING($P{fecha},9,2)=$P{fecha} group by variants.id;]]>
 	</queryString>
-	<field name="id" class="java.lang.Long">
+	<field name="codigo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sku" class="java.lang.Long">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="producto" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="cantidad_llegado" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="descripcion" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="variant_id" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="headInputStock_id" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
 	<field name="created_at" class="java.sql.Timestamp">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="updated_at" class="java.sql.Timestamp">
+	<field name="cantidad_llegado" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="Fecha" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="tipo" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="orderPurchase_id" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="purchase_id" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="warehouses_id" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="warehouDestino_id" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="user_id" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="nombre" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="shortname" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="capacidad" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="store_id" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="cantidadreal" class="java.math.BigDecimal"/>
 	<background>
 		<band/>
 	</background>
@@ -118,42 +76,36 @@ where inputStocks.variant_id=$P{producto_id} and headInputStocks.tipo=$P{tipo} g
 				<textElement textAlignment="Left">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[nombre]]></text>
+				<text><![CDATA[Codigo]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20">
+		<band height="28">
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="703a0fe0-7985-4c6d-83b5-4070b66ce89d"/>
 			</line>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss">
 				<reportElement x="407" y="0" width="148" height="20" uuid="d09a1f88-c746-476b-8a1a-47d0bb7fdc25"/>
 				<textElement>
-					<font size="14"/>
+					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{created_at}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="287" y="0" width="120" height="20" uuid="17d1ca4e-47c3-44c5-9358-bba60b9166ab"/>
-				<textElement>
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="0" width="206" height="20" uuid="74f894f7-96f4-429c-8dbf-59ec6cd807c7"/>
 				<textElement>
-					<font size="14"/>
+					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="206" y="0" width="81" height="20" uuid="053213e3-3be2-4669-9d80-3da484dbfbe6"/>
-				<textElement>
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{cantidadreal}]]></textFieldExpression>
+				<reportElement x="206" y="0" width="81" height="20" uuid="73cfb5b5-a2a5-4085-afff-1b0cbebd7837"/>
+				<textFieldExpression><![CDATA[$F{cantidad_llegado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="287" y="0" width="120" height="20" uuid="6479e8cb-df58-401d-80c3-ade1ff8d38ed"/>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

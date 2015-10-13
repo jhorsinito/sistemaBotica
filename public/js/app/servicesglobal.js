@@ -41,7 +41,7 @@
                     }).error(function(data)
                 {
                     //$log.log(data);
-                    alert('No se puede Agregar');
+                    alert('No se puede Agregar: Datos incorrectos o repetidos');
                 });
                 //    .error(function (data) //add for user , error send by 422 status
                 //    {
@@ -144,12 +144,22 @@
 
                 return deferred.promise;
             }
+            function validar(uri,texto)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/validar/'+texto)
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
 
+                return deferred.promise;
+            }
             return {
                 all: all,
                 paginate: paginate,
                 create:create,
                 byId:byId,
+                validar:validar,
                 update:update,
                 destroy:destroy,
                 search: search,

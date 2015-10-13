@@ -209,7 +209,7 @@ class DetailOrderPurchasesController extends Controller {
 
     public function edit(Request $request)
     {
-      /// \DB::beginTransaction();
+    \DB::beginTransaction();
       //var_dump($request->all());die();
        $var=$request->detailOrderPurchases;//->except($request->detailOrderPurchases["id"]);
        $orderPurchase = $this->orderPurchaseRepo->find($request->input('id'));
@@ -283,18 +283,17 @@ class DetailOrderPurchasesController extends Controller {
        $payment = $this->paymentRepo->getModel();
         $payment1 = $this->paymentRepo->paymentById($request->input('id'));
         
-        if($payment1==null){
-        }else{
-       // $request->merge(['MontoTotal'=>$request->input('MontoTotal')]);
-        $request->merge(['Acuenta'=>$payment1->Acuenta]);
+        if(!empty($payment1)){
+          
+          $request->merge(['Acuenta'=>$payment1->Acuenta]);
         $request->merge(['orderPurchase_id'=>$request->input('id')]);
-        $salc=$request->input('MontoTotal')-$request->input('Acuenta');
+        $salc=floatval($request->input('montoTotal'))-floatval($request->input('Acuenta'));
         $request->merge(['Saldo'=>$salc]);  
            $manager = new PaymentManager($payment1,$request->all());
            $manager->save(); 
            $provicional=$request->idpayment;
         }
-       //\DB::commit(); 
+       \DB::commit(); 
       return response()->json(['estado'=>true]);
     }
 

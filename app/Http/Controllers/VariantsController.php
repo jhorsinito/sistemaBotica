@@ -103,15 +103,112 @@ class VariantsController extends Controller
 
     public function create(Request $request)
     {
-        \DB::beginTransaction();
-        //var_dump($request->all()); die();
+       // \DB::beginTransaction();
+        $tallasDisponibles=$request->otros;
+        $cantTallas=$request->cantTallas;
+        $request->merge(["estado"=>1]);
+        //var_dump($request->input('stock')); die();
 
         $oProd = Product::find($request->input('product_id'));
-
+        
+          
+        
             //si viene el prod y ademas es prod con variantes
         if(!empty($oProd) && $oProd->hasVariants == 1){
+$n=0;
+ if($request->input('checkTallas')==true){
+foreach ($tallasDisponibles as $tallasD) {
+        //var_dump($tallasD); die();
+        $variant = $this->variantRepo->getModel();
 
 
+            if($request->input('autogenerado') === true) {
+                $sku = \DB::table('variants')->max('sku');
+                if (!empty($sku)) {
+                    $sku = $sku + 1;
+                } else {
+                    $sku = 1000; //inicializar el sku;
+                }
+                $request->merge(array('sku' => $sku));
+            }else{
+
+            }
+            $request->merge(array('user_id' => Auth()->user()->id));
+            
+        $managerVar = new VariantManager($variant,$request->except('stock','detAtr','presentation_base_object','presentations'));
+        $managerVar->save();
+
+            $oProd->quantVar = $oProd->quantVar + 1;
+            $oProd->save();
+
+
+            //================================ VARIANTES==============================//
+
+
+            foreach($request->input('presentations') as $presentation){
+                $presentation['variant_id'] = $variant->id;
+                $presentation['presentation_id'] =  $presentation['id'];
+                $oPres = new DetPresRepo();
+                $presManager = new DetPresManager($oPres->getModel(),$presentation);
+                $presManager->save();
+            }
+
+            foreach($request->input('detAtr') as $detAtr){
+                if(!empty($detAtr['descripcion']) || !empty($tallasD[$n])){
+
+                    if($detAtr['atribute_id']==2)
+                    {
+                      $detAtr['descripcion']=$tallasD[$n]; 
+                    }
+                    $detAtr['variant_id'] = $variant->id;
+                    $oDetAtr = new DetAtrRepo();
+                    $detAtrManager = new DetAtrManager($oDetAtr->getModel(),$detAtr);
+                    $detAtrManager->save();
+                }
+            }
+
+            
+                foreach ($request->input('stock') as $stock ) {
+                    //var_dump($cantTallas[0]);die();
+                    if (isset($stock['stockMin']) && $stock['stockMin'] == null) $stock['stockMin'] = 0;
+                    if (isset($stock['stockMinSoles']) && $stock['stockMinSoles'] == null) $stock['stockMinSoles'] = 0;
+                    $stock['variant_id'] = $variant->id;
+                    $oStock = new StockRepo();
+                    $obj = $oStock->getModel()->where('variant_id',$stock['variant_id'])->where('warehouse_id',$stock['warehouse_id'])->first();
+                     if(!empty($request->cantTallas[$n])){
+                         $stock['stockActual']=$request->cantTallas[$n];
+                     }else{
+                        if (isset($stock['stockActual']) && $stock['stockActual'] == null) $stock['stockActual'] = 0;
+                     }
+                    if(!isset($obj->id)){
+                        $stockManager = new StockManager($oStock->getModel(), $stock);
+                        $stockManager->save();
+                    }else{
+                        $stockManager = new StockManager($obj, $stock);
+                        $stockManager->save();
+                    }
+
+                }
+            
+
+            //================================ADD IMAGE TO VAR==============================//
+
+            if($request->has('image') and substr($request->input('image'),5,5) === 'image'){
+                $image = $request->input('image');
+                $mime = $this->get_string_between($image,'/',';');
+                $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image));
+                Image::make($image)->resize(200,200)->save('images/variants/'.$variant->id.'.'.$mime);
+                $variant->image='/images/variants/'.$variant->id.'.'.$mime;
+                $variant->save();
+            }else{
+                $variant->image='/images/variants/variant.png';
+                $variant->save();
+            }
+
+            //================================./ADD IMAGE TO VAR==============================//
+           $n++;
+         }
+     }else{
         $variant = $this->variantRepo->getModel();
 
 
@@ -147,6 +244,7 @@ class VariantsController extends Controller
 
             foreach($request->input('detAtr') as $detAtr){
                 if(!empty($detAtr['descripcion'])){
+
                     $detAtr['variant_id'] = $variant->id;
                     $oDetAtr = new DetAtrRepo();
                     $detAtrManager = new DetAtrManager($oDetAtr->getModel(),$detAtr);
@@ -155,7 +253,7 @@ class VariantsController extends Controller
             }
 
             if($request->input('track') == 1) {
-                foreach ($request->input('stock') as $stock) {
+                foreach ($request->input('stock') as $stock ) {
                     if (isset($stock['stockActual']) && $stock['stockActual'] == null) $stock['stockActual'] = 0;
                     if (isset($stock['stockMin']) && $stock['stockMin'] == null) $stock['stockMin'] = 0;
                     if (isset($stock['stockMinSoles']) && $stock['stockMinSoles'] == null) $stock['stockMinSoles'] = 0;
@@ -187,10 +285,8 @@ class VariantsController extends Controller
                 $variant->image='/images/variants/variant.png';
                 $variant->save();
             }
-
-            //================================./ADD IMAGE TO VAR==============================//
-
-            \DB::commit();
+     }
+           // \DB::commit();
             return response()->json(['estado'=>true, 'nombres'=>$variant->nombre]);
         }else{
             return response()->json(['estado'=>'Prod sin variantes']);

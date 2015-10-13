@@ -80,6 +80,9 @@ class PurchasesController extends Controller {
    public function form_showD(){
      return View('purchases.showD');
    }
+   public function form_cardex(){
+     return View('purchases.cardex');
+   }
 
     public function form_create()
     {
@@ -90,10 +93,13 @@ class PurchasesController extends Controller {
     {
         return View('purchases.form_edit');
     }
-
+    public function show()
+    {
+        return View('purchases.show');
+    }
     public function create(Request $request)
         {
-        // var_dump($request->all());die();
+       // var_dump($request->all());die();
     \DB::beginTransaction();
         $saldoTemp=0;
         $codigoHeadIS=0;
@@ -139,14 +145,14 @@ class PurchasesController extends Controller {
         }
 
         $orderPurchase->save();
-                   $payment1 = $this->paymentRepo->paymentById($request->input('id'));
+                  $payment1 = $this->paymentRepo->paymentById($request->input('id'));
                    $pendientAccount=$this->pendientAccountRepo->getModel();
 
                    //$pendientAcc=$this->pendientAccountRepo->verSaldos($payment1->id);
-              if($payment1!=null){  
-                  $detPayment=$this->detPaymentRepo->verPagosAdelantados($payment1->id); 
-                if($detPayment!=null){
-                  foreach($detPayment as  $detPayment) {
+              if(!empty($payment1)){  
+                    $detPayment=$this->detPaymentRepo->verPagosAdelantados($payment1->id); 
+                if(!empty($detPayment)){
+                    foreach($detPayment as  $detPayment) {
                     $request->merge(["estado"=>0]);
                      $SaldosTemporales =$this->pendientAccountRepo->find2($detPayment['Saldo_F']);
                      if($SaldosTemporales!=null){
@@ -163,6 +169,7 @@ class PurchasesController extends Controller {
                      }
                  
                   }
+        ///================solucion Errores==================================
                   }else{   
                   $request->merge(['orderPurchase_id'=>$request->input('id')]);
                   $request->merge(['Saldo'=>$payment1->Acuenta]);
@@ -170,6 +177,7 @@ class PurchasesController extends Controller {
                   $insercount->save();
                   $provicional=$request->idpayment;
                 }
+        //==========================fin
         }
 }else
 {
@@ -336,32 +344,32 @@ class PurchasesController extends Controller {
                     }
                   }*/
       //*****************ssss*************************
-           }else{
-              $stockmodel = new StockRepo;
-              $object['warehouse_id']=$almacen_id;
-              $object["variant_id"]=$object["Codigovar"];
-              $cantidaCalculada=$object["cantidad"];
-           }
+                   }else{
+                         $stockmodel = new StockRepo;
+                         $object['warehouse_id']=$almacen_id;
+                         $object["variant_id"]=$object["Codigovar"];
+                         $cantidaCalculada=$object["cantidad"];
+                   }
            //$object["cantidad"]=$cantidaCalculada;
-           if(intval($object["cantidad"]>0)){
+                   if(intval($object["cantidad"]>0))
+                   {
            //var_dump($object);die();
-           $detailPurchaseRepox = new DetailPurchaseRepo;
-           $insertar=new DetailPurchaseManager($detailPurchaseRepox->getModel(),$object);
-           $insertar->save();
-           $detailPurchaseRepox = null;
-         }
+                         $detailPurchaseRepox = new DetailPurchaseRepo;
+                         $insertar=new DetailPurchaseManager($detailPurchaseRepox->getModel(),$object);
+                         $insertar->save();
+                         $detailPurchaseRepox = null;
+                   }
         if($request->input('estado')==1){
-          $purchase1 = $this->purchaseRepo->find($temporal);
-          $request->merge(['montoBruto'=>floatval($total)]);
-          if(!empty($purchase1->descuento)){
-          $request->merge(['montoTotal'=>floatval($total)-((floatval($total)*floatval($purchase1->descuento))/100)]);
-        }else{
-          $request->merge(['montoTotal'=>floatval($total)]);
+                    $purchase1 = $this->purchaseRepo->find($temporal);
+                    $request->merge(['montoBruto'=>floatval($total)]);
+            if(!empty($purchase1->descuento)){
+                    $request->merge(['montoTotal'=>floatval($total)-((floatval($total)*floatval($purchase1->descuento))/100)]);
+            }else{
+                    $request->merge(['montoTotal'=>floatval($total)]);
+            }
+                    $manager = new PurchaseManager($purchase1,$request->except('fechaEntrega'));
+                    $manager->save();
         }
-          $manager = new PurchaseManager($purchase1,$request->except('fechaEntrega'));
-          $manager->save();
-       
-         }
 
         //======================Si Existe Stock Pendiente Por Agregar===============================
         if($cantidaCalculada>0){
@@ -369,7 +377,7 @@ class PurchasesController extends Controller {
           $object["warehouses_id"]=$request->input("warehouses_id");
           $object["cantidad_llegado"]=$cantidaCalculada;
           $object['descripcion']='Entrada por compra';
-          $object['tipo']='Entrada';
+          $object['tipo']='Compra';
           //$request->merge(["orderPurchase_id"=>$request->input('id')]);
           ////======================Registrando en notas de cabecera===============================
                
@@ -424,37 +432,46 @@ class PurchasesController extends Controller {
       //======================Creando reporte por cada linea de detalle de compra===============================
        //====================Creando y actualizando pagos si que existe adelantos====================================
         if($request->input('compraDirecta')==1){
-          $request->merge(["Acuenta"=>0]);
-          $inserPay=new PaymentManager($payment,$request->all());
-          $inserPay->save();
+                  $request->merge(["Acuenta"=>0]);
+                  $inserPay=new PaymentManager($payment,$request->all());
+                  $inserPay->save();
           
         }else{
-        $consulPayment=$this->paymentRepo->paymentById($purchase->orderPurchase_id);
+         // var_dump($request->orderPurchase_id);die();
+        $consulPayment=$this->paymentRepo->paymentById($request->orderPurchase_id);
         if(!empty($consulPayment)){
-          $request->merge(["Acuenta"=>0]);
-          $inserPay=new PaymentManager($payment,$request->all());
-          $inserPay->save();
-          //------------------------------------
-          
-
-        }else{
-
+         // var_dump("entrando XD");die();
               $request->merge(["Acuenta"=>$consulPayment->Acuenta]);
               $request->merge(["Saldo"=>(floatval($request->input("montoTotal"))-floatval($request->input("Acuenta")))]);
-              $inserPay=new PaymentManager($consulPayment,$request->all());
+              
+                  //$request->merge(["Acuenta"=>0]);
+                  $inserPay=new PaymentManager($consulPayment,$request->all());
+                  $inserPay->save();
+          //------------------------------------
+                   
+                   if(floatval($request->Saldo)<0){
+                         $request->merge(['Saldo'=>floatval($request->Saldo*-1)]);
+                         //$request->merge(["estado"=>0]);
+                         $insercount=new PendientAccountManager($pendientAccount,$request->except("estado"));
+                         $insercount->save();
+             
+                    }
+          
+
+        }else{
+
+              $request->merge(["Acuenta"=>0]);
+              $request->merge(["Saldo"=>(floatval($request->input("montoTotal"))-floatval($request->input("Acuenta")))]);
+              $inserPay=new PaymentManager($payment,$request->all());
               $inserPay->save();
               //$saldoTemp=$inserPay->Saldo;
         }
       }
-      if($request->input('Saldo')<0){
-           
-            $request->merge(['Saldo'=>$request->input('Saldo')*-1]);
-            //$request->merge(["estado"=>0]);
-            $insercount=new PendientAccountManager($pendientAccount,$request->except("estado"));
-            $insercount->save();
-             
-        }
-       if($consulPayment!=null){
+      //var_dump("recolectando verdadero salfdo".$consulPayment->Saldo);die();
+     // if(!empty($consulPayment)){
+     
+     // }
+       if(!empty($consulPayment)){
         $detPayment=$this->detPaymentRepo->verPagosAdelantados($consulPayment->id);
           if($detPayment!=null){       
           
@@ -483,8 +500,7 @@ class PurchasesController extends Controller {
      return response()->json(['estado'=>true, 'nombres'=>$purchase->nombres]);
     }
     public function reportes($id){
-   
-        //var_dump($object["cantidad"]);die();
+        
         $database = \Config::get('database.connections.mysql');
         $time=time();
         $output = public_path() . '/report/'.$time.'_Tiket';        
@@ -503,9 +519,7 @@ class PurchasesController extends Controller {
             false,
             false
         )->execute();
-        //echo("<a href='localhost:8007/report/".$time."_Tiket.".$ext."'>Genrar</a>");
-      
-        //return response()->json(['estado'=>true]);
+        
         return '/report/'.$time.'_Tiket.'.$ext;
     }
      public function reportesCod($id){
@@ -594,6 +608,29 @@ class PurchasesController extends Controller {
         )->execute();
         return '/report/'.$time.'_reportePagos.'.$ext;
     }
+    //pendiente sin ruta
+    public function reporteCompraLike($descri){
+
+       // var_dump($fech1."/".$fech2);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_reporteCompraLike';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/reporteCompraLike.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['q' => $descri],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_reporteCompraLike.'.$ext;
+    }
     public function find($id)
     {
         $purchase = $this->purchaseRepo->select($id);
@@ -644,8 +681,271 @@ class PurchasesController extends Controller {
 
         return response()->json($purchases);
     }
-    public function show()
-    {
-        return View('purchases.show');
+    //===========================================Reporte Cardex=================================
+     public function cardexUltimoDia($tipo,$fecha,$tienda){
+     // var_dump("hola commd");die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_cardexUltimoDia';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/cardexUltimoDia.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['tipo'=>$tipo,'fecha'=>$fecha,'tienda'=>$tienda],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_cardexUltimoDia.'.$ext;
+   
     }
+    public function cardexRangoFechas($fechaini,$fechafin,$tipo,$tienda){
+     //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_cardexRangoFechas';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/cardexRangoFechas.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['tipo'=>$tipo,'fechaini'=>$fechaini,'fechafin'=>$fechafin,'tienda'=>intval($tienda)],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_cardexRangoFechas.'.$ext;
+   
+    }
+     public function cardexTopPrimero($fecha,$tienda,$tipo){
+     //var_dump("hola hahahas".$fecha);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_cardexTopprimero';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/cardexTopprimero.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fecha'=>$fecha,'tienda'=>intval($tienda),'tipo'=>$tipo],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_cardexTopprimero.'.$ext;
+   
+    }
+    public function cardextopUnoRFechas($fechaini,$fechafin,$tienda,$tipo){
+     //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_cardexUnoRagoFechas';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/cardexUnoRagoFechas.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini'=>$fechaini,'fechafin'=>$fechafin,'tienda'=>intval($tienda),'tipo'=>$tipo],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_cardexUnoRagoFechas.'.$ext;
+   
+    }
+     public function cardextopUnomen($fecha,$tienda,$tipo){
+     //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_reportProductMeno';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/reportProductMeno.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fecha'=>$fecha,'tienda'=>intval($tienda),'tipo'=>$tipo],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_reportProductMeno.'.$ext;
+   
+    }
+    public function cardextopUnomenRFechas($fechaini,$fechafin,$tienda,$tipo){
+     //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_productMinRFechas';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/productMinRFechas.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini'=>$fechaini,'fechafin'=>$fechafin,'tienda'=>$tienda,'tipo'=>$tipo],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_productMinRFechas.'.$ext;
+   
+    }
+     public function cardextop10mejores($fecha,$tienda,$tipo){
+     //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_cardexTop10Mejores';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/cardexTop10Mejores.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fecha'=>$fecha,'tienda'=>$tienda,'tipo'=>$tipo],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_cardexTop10Mejores.'.$ext;
+   
+    }
+    public function cardextop10mejoreRFechas($fechaini,$fechafin,$tienda,$tipo){
+     //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_cardexTop10RangoFechas';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/cardexTop10RangoFechas.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini'=>$fechaini,'fechafin'=>$fechafin,'tienda'=>$tienda,'tipo'=>$tipo],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_cardexTop10RangoFechas.'.$ext;
+   
+    }
+    public function cardextop10Peores($fecha,$tienda,$tipo){
+     //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_cardexTop10Peores';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/cardexTop10Peores.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fecha'=>$fecha,'tienda'=>$tienda,'tipo'=>$tipo],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_cardexTop10Peores.'.$ext;
+   
+    }
+    public function cardextop10peoresFechas($fechaini,$fechafin,$tienda,$tipo){
+     //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_cardextop10PeoreRFechas';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/cardextop10PeoreRFechas.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini'=>$fechaini,'fechafin'=>$fechafin,'tienda'=>intval($tienda),'tipo'=>$tipo],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_cardextop10PeoreRFechas.'.$ext;
+   
+    }
+    public function reportMovimientoVarianteDMA($tipo,$fecha,$tienda,$var){
+     //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_reportMovimientoVarianteDMA';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/reportMovimientoVarianteDMA.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['tipo'=>$tipo,'fecha'=>$fecha,'tienda'=>intval($tienda),'variant_id'=>intval($var)],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_reportMovimientoVarianteDMA.'.$ext;
+   
+    }
+    public function reportMovimientosVarianteRangoF($fechaini,$fechafin,$tipo,$tienda,$var){
+     //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_reportMovimientosVarianteRangoF';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/reportMovimientosVarianteRangoF.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini'=>$fechaini,'fechafin'=>$fechafin,'variant_id'=>intval($var),'tienda'=>intval($tienda),'tipo'=>$tipo],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_reportMovimientosVarianteRangoF.'.$ext;
+   
+    }
+    //=============================================fin reportCardex=============================
+    
 }
