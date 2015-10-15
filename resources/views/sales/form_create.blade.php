@@ -108,7 +108,7 @@
                                   <div class="row">
                                     <div class="col-md-10" >
                                       <input type="text" ng-model="customersSelected" placeholder="Buscar Cliente" typeahead="atributo as atributo.busqueda for atributo in getcustomers($viewValue)" 
-                                            typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" ng-enter="selecionarCliente()"/>
+                                            typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" typeahead-on-select="selecionarCliente()"/>
                                     </div>
                                     <div>
                                       <a class="btn btn-default ng-binding" data-toggle="modal" data-target="#miventana2"><span class="glyphicon glyphicon-plus"></span></a>
@@ -123,7 +123,7 @@
                                 <tr>
                                   <div>
                                     <input type="text" ng-model="employeeSelected" placeholder="Buscar Vendedor" typeahead="atributo as atributo.busqueda for atributo in getemployee($viewValue)" 
-                                            typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" ng-enter="selecionarVendedor()"/>
+                                            typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" typeahead-on-select="selecionarVendedor()"/>
                                   </div>
                                 </tr>
                                <tr>

@@ -46,11 +46,10 @@
                     $scope.orders = [];
                     $scope.sale={};
                     //$scope.stores={};
-                    $scope.store={};
+                    
                     //$scope.warehouses={};
-                    $scope.warehouse={};
-                    $scope.warehouse.id='1';
-                    $scope.store.id='1';
+                    
+                    
                     $scope.atributos={};
                     $scope.compras=[];
                     $scope.compra={};
@@ -88,16 +87,23 @@
                     $scope.sale.vuelto=0;
                     $scope.exitCustumer=false;
                     //$scope.cashHeaders={};
-                    $scope.cash1={};
-                    $scope.cash1.cashHeader_id='1';
+                    
+                    
                     $scope.cashes={};
                     $scope.cashfinal={};
                     $scope.banderaMostrarEntrega=false;
                     $scope.banderaModificar=false;
 
                 }
+                
 
                 $scope.inicializar();
+                $scope.cash1={};
+                $scope.warehouse={};
+                $scope.store={};
+                $scope.cash1.cashHeader_id='1';
+                $scope.warehouse.id='1';
+                $scope.store.id='1';
 
                 $scope.estadoMostrarEntrega = function () {
                     if ($scope.order1.estado!=0) {$scope.banderaMostrarEntrega=true;}else{
@@ -303,12 +309,24 @@
                     if ($scope.cashfinal.estado == 0) {       
                         //alert("Caja Cerrada");
                     }else{
-                        crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,1).then(function (data){
-                            $scope.detCashes = data.data;
-                            $scope.maxSize1 = 5;
-                            $scope.totalItems1 = data.total;
-                            $scope.currentPage1 = data.current_page;
-                            $scope.itemsperPage1 = 15;
+                        crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                            var canCashes=data.total;
+                            var pagActual=Math.ceil(canCashes/15);
+                            crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
+                                $scope.cashes = data.data;
+                                $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                                //$log.log($scope.cashfinal);
+                                crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,1).then(function (data){
+                                    //$scope.detCashes = data.data;
+                                    //crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,1).then(function (data){
+                                    $log.log($scope.detCashes);
+                                    $scope.detCashes = data.data;
+                                    $scope.maxSize1 = 5;
+                                    $scope.totalItems1 = data.total;
+                                    $scope.currentPage1 = data.current_page;
+                                    $scope.itemsperPage1 = 15;
+                                });
+                            });
                         });
                     }
                         
@@ -676,8 +694,23 @@
                     if ($scope.customersSelected!=undefined) {
                         $scope.sale.customer_id=$scope.customersSelected.id;
                         $scope.sale.cliente=$scope.customersSelected.busqueda;
+                        $scope.customersSelected=undefined;
                     };
                 }
+                $scope.asd = function($item, $model, $label) {
+                    $log.log("item");
+                    $log.log($item);
+                    $log.log("model");
+                    $log.log($model);
+                    $log.log("label");
+                    $log.log($label);
+                    if ($scope.customersSelected!=undefined) {
+                        $scope.sale.customer_id=$scope.customersSelected.id;
+                        $scope.sale.cliente=$scope.customersSelected.busqueda;
+                        $scope.customersSelected=undefined;
+                    };
+                }
+
                 $scope.deleteCliente= function(){
                     $scope.sale.customer_id=undefined;
                     $scope.sale.cliente=undefined;
@@ -699,6 +732,7 @@
                     if ($scope.employeeSelected!=undefined) {
                         $scope.sale.employee_id=$scope.employeeSelected.id;
                         $scope.sale.vendedor=$scope.employeeSelected.busqueda;
+                        $scope.employeeSelected=undefined;
                     };
                 }
                 $scope.deleteVendedor= function(){

@@ -101,7 +101,7 @@
                                 <div class="input-group-addon">
                                       <i class="fa fa-calendar"></i>
                                 </div>
-                                  <input type="datetime-local" class="form-control ng-pristine ng-valid ng-touched" name="fechaPedido" ng-model="fechap" ng-change="buscarDetalles()">
+                                  <input type="datetime-local" class="form-control ng-pristine ng-valid ng-touched" name="fechaPedido">
                                 </div>
                             <label ng-show="cashMonthlyCreateForm.$submitted || cashMonthlyCreateForm.fechaPedido.$dirty &amp;&amp; cashMonthlyCreateForm.fechaPedido.$invalid" class="ng-hide">
                             <span ng-show="cashMonthlyCreateForm.fechaPedido.$invalid" class="ng-hide"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>

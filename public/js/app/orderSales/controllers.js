@@ -8,12 +8,7 @@
                 $scope.errors = null; 
                 $scope.success;
                 $scope.query = ''; 
-                $scope.store={};
-                $scope.warehouse={};
-                $scope.warehouse.id='1';
-                $scope.store.id='1';
-                $scope.cash1={};
-                $scope.cash1.cashHeader_id='1'; 
+
                 $scope.base=true;
                 $scope.skuestado=true;
                 $scope.compras=[]; 
@@ -71,6 +66,13 @@
 
             }
             $scope.inicializar();
+
+                $scope.cash1={};
+                $scope.warehouse={};
+                $scope.store={};
+                $scope.cash1.cashHeader_id='1';
+                $scope.warehouse.id='1';
+                $scope.store.id='1';
                 
                 $scope.estadoMostrarEntrega = function () {
                     if ($scope.order1.estado!=0) {$scope.banderaMostrarEntrega=true;}else{
@@ -93,6 +95,34 @@
                     }
 
                 };
+
+                $scope.actualizarCaja= function(){
+                    //$log.log($scope.cashfinal);
+                    $scope.detCashes={};
+                    if ($scope.cashfinal.estado == 0) {       
+                        //alert("Caja Cerrada");
+                    }else{
+                        crudServiceOrderSales.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                            var canCashes=data.total;
+                            var pagActual=Math.ceil(canCashes/15);
+                            crudServiceOrderSales.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
+                                $scope.cashes = data.data;
+                                $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                                //$log.log($scope.cashfinal);
+                                crudServiceOrderSales.search('detCashesOrderSale',$scope.cashfinal.id,1).then(function (data){
+                                    //$scope.detCashes = data.data;
+                                    //crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,1).then(function (data){
+                                    $scope.detCashes = data.data;
+                                    $scope.maxSize1 = 5;
+                                    $scope.totalItems1 = data.total;
+                                    $scope.currentPage1 = data.current_page;
+                                    $scope.itemsperPage1 = 15;
+                                });
+                            });
+                        });
+                    }
+                        
+                }
 
 
                 var id = $routeParams.id;
@@ -781,7 +811,9 @@
                     //$log.log($scope.customersSelected.busqueda);
                     if ($scope.customersSelected!=undefined) {
                         $scope.sale.customer_id=$scope.customersSelected.id;
+                        alert($scope.sale.customer_id);
                         $scope.sale.cliente=$scope.customersSelected.busqueda;
+                        $scope.customersSelected=undefined;
                     };
                 }
                 $scope.deleteCliente= function(){
@@ -803,6 +835,7 @@
                     if ($scope.employeeSelected!=undefined) {
                         $scope.sale.employee_id=$scope.employeeSelected.id;
                         $scope.sale.vendedor=$scope.employeeSelected.busqueda;
+                        $scope.employeeSelected=undefined;
                     };
                 }
                 $scope.deleteVendedor= function(){

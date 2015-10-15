@@ -7,7 +7,7 @@
                 $scope.separateSale = {};
                 $scope.errors = null; 
                 $scope.success;
-                $scope.query = ''; 
+                $scope.query = '';
                 $scope.store={};
                 $scope.warehouse={};
                 $scope.warehouse.id='1';
@@ -748,6 +748,7 @@
                     if ($scope.customersSelected!=undefined) {
                         $scope.sale.customer_id=$scope.customersSelected.id;
                         $scope.sale.cliente=$scope.customersSelected.busqueda;
+                        $scope.customersSelected=undefined;
                     };
                 }
                 $scope.deleteCliente= function(){
@@ -769,6 +770,7 @@
                     if ($scope.employeeSelected!=undefined) {
                         $scope.sale.employee_id=$scope.employeeSelected.id;
                         $scope.sale.vendedor=$scope.employeeSelected.busqueda;
+                        $scope.employeeSelected=undefined;
                     };
                 }
                 $scope.deleteVendedor= function(){
