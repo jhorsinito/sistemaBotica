@@ -249,7 +249,7 @@
                  <!-- <input  type="checkbox"  ng-click="quitarTalla(item.numTalla,cheked1)" ng-model="cheked1"  />@{{item.numTalla}}
                   <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.numTalla)" step="1" rquired>-->
                    <input  type="checkbox"  ng-click="quitarTalla(item.valorDetAtr,cheked1)" ng-model="cheked1"  />@{{item.valorDetAtr}}
-                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(item.NombreAtributos,item.varSku,item.varCodigo,cantidad,item.valorDetAtr)" step="1" rquired>
+                  <input ng-show="cheked1" type="number"  min='0' style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(item.NombreAtributos,item.varSku,item.varCodigo,cantidad,item.valorDetAtr)" step="1" rquired>
               
               </div>    
        </div>
@@ -327,7 +327,7 @@
             <div class="col-md-2"> 
                 <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.cantidad.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.cantidad.$dirty && detailOrderPurchaseCreateForm.cantidad.$invalid]">
                 <label for="cantidad">Cantidad</label>
-                <input  type="number"   class="form-control " name="cantidad" id="cantidad" placeholder="0.00" ng-model="detailOrderPurchase.cantidad" ng-blur="calculateSuppPric()" step="0.1">
+                <input  type="number"   class="form-control " min='0' name="cantidad" id="cantidad" placeholder="0.00" ng-model="detailOrderPurchase.cantidad" ng-blur="calculateSuppPric()" step="1">
                 <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.cantidad.$dirty && detailOrderPurchaseCreateForm.cantidad.$invalid">
                   <span ng-show="detailOrderPurchaseCreateForm.cantidad.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
@@ -338,7 +338,7 @@
                <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.preCompra.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.preCompra.$dirty && detailOrderPurchaseCreateForm.preCompra.$invalid]">
                 <label for="preCompra">Precio </label>
 
-                <input  ng-disabled="true" type="number"  class="form-control ng-pristine ng-valid ng-touched" name="preCompra" placeholder="0.00" ng-model="detailOrderPurchase.preCompra" ng-blur="calculateSuppPric()" step="0.1">
+                <input  ng-disabled="true" type="number"  min='0' class="form-control ng-pristine ng-valid ng-touched" name="preCompra" placeholder="0.00" ng-model="detailOrderPurchase.preCompra" ng-blur="calculateSuppPric()" step="0.1">
                 <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.preCompra.$dirty && detailOrderPurchaseCreateForm.preCompra.$invalid">
                   <span ng-show="detailOrderPurchaseCreateForm.preCompra.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
@@ -349,7 +349,7 @@
             <div class="col-md-2"> 
                 <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.montoBruto.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.montoBruto.$dirty && detailOrderPurchaseCreateForm.montoBruto.$invalid]">
                 <label for="montoBruto">Total Bruto</label>
-                <input   ng-disabled="true" type="number"  class="form-control ng-pristine ng-valid ng-touched" name="montoBruto" placeholder="0.00" ng-model="detailOrderPurchase.montoBruto" ng-blur="calculateSuppPric()" step="0.1">
+                <input   ng-disabled="true" type="number"  min='0'class="form-control ng-pristine ng-valid ng-touched" name="montoBruto" placeholder="0.00" ng-model="detailOrderPurchase.montoBruto" ng-blur="calculateSuppPric()" step="0.1">
                 <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.montoBruto.$dirty && detailOrderPurchaseCreateForm.montoBruto.$invalid">
                   <span ng-show="detailOrderPurchaseCreateForm.montoBruto.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
@@ -360,7 +360,7 @@
                 <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.descuento.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.descuento.$dirty && detailOrderPurchaseCreateForm.descuento.$invalid]">
                 <label for="descuento">Descuento % </label>
 
-                <input  ng-disabled="activarCampCantidad" type="number"  class="form-control ng-pristine ng-valid ng-touched" name="descuento" placeholder="0.00" ng-model="detailOrderPurchase.descuento" ng-blur="calculateSuppPric()" step="0.1">
+                <input  ng-disabled="activarCampCantidad" type="number"  min='0' class="form-control ng-pristine ng-valid ng-touched" name="descuento" placeholder="0.00" ng-model="detailOrderPurchase.descuento" ng-blur="calculateSuppPric()" step="0.1">
                 <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.descuento.$dirty && detailOrderPurchaseCreateForm.descuento.$invalid">
                   <span ng-show="detailOrderPurchaseCreateForm.descuento.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
@@ -370,7 +370,7 @@
             <div class="col-md-2"> 
                 <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.montoTotal.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.montoTotal.$dirty && detailOrderPurchaseCreateForm.montoTotal.$invalid]">
                 <label for="montoTotal">Total</label>
-                <input  type="number"  class="form-control ng-pristine ng-valid ng-touched" name="montoTotal" placeholder="0.00" ng-model="detailOrderPurchase.montoTotal" ng-blur="calculateSuppPric()" step="0.1">
+                <input  type="number"  class="form-control ng-pristine ng-valid ng-touched" min='0' name="montoTotal" placeholder="0.00" ng-model="detailOrderPurchase.montoTotal" ng-blur="calculateSuppPric()" step="0.1">
                 <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.montoTotal.$dirty && detailOrderPurchaseCreateForm.montoTotal.$invalid">
                   <span ng-show="detailOrderPurchaseCreateForm.montoTotal.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
@@ -473,10 +473,11 @@
           </div>
         </form>
           <div class="row">
-            <div class="col-md-11">
+            <div class="col-md-10">
             </div>
-            <div ng-if="orderPurchase.estados==0" ng-show="activarCasillas" class="col-md-1">
-                    <a ng-click="ActualizarStock()" class="btn btn-primary btn-xs">Guardar</a>
+            <div ng-if="orderPurchase.estados==0" ng-show="activarCasillas" class="col-md-2">
+                     <a ng-if="pdfTiketPart!=null"ng-href="@{{pdfTiketPart}}" target="_blank" class="btn btn-warning btn-xs">Ver Reporte</a>
+                     <a ng-click="ActualizarStock()" class="btn btn-primary btn-xs">Guardar</a>
             </div>
           </div>
 
@@ -488,7 +489,7 @@
           <div class="col-md-4"> 
                 <div class="form-group">
                 <label for="suppPric">Descuento</label>
-                <input string-to-number type="number" ng-model="orderPurchase.descuento" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
+                <input string-to-number type="number" min='0' ng-model="orderPurchase.descuento" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
                 name="descuento" placeholder="0.00"  ng-blur="calcularmontoBrutoF()" step="0.1">
               </div>
             </div>
@@ -497,14 +498,14 @@
               <div class="form-group">
                 <label for="suppPric">Monto Bruto</label>
                 <input ng-disabled="true" string-to-number type="number" ng-model="orderPurchase.montoBruto" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
-                name="montoBruto" placeholder="0.00"   ng-blur="calcularmontoBrutoF()" step="0.1">
+                name="montoBruto" placeholder="0.00"   min='0' ng-blur="calcularmontoBrutoF()" step="0.1">
               </div>
             </div>
             <!-- capo de Texto  Total-->
             <div class="col-md-4"> 
                 <div class="form-group">
                 <label for="suppPric">Monto Total</label>
-                <input string-to-number type="number" ng-model="orderPurchase.montoTotal" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
+                <input string-to-number type="number" min='0' ng-model="orderPurchase.montoTotal" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
                 name="montoTotal" placeholder="0.00"  ng-blur="calcularmontoBrutoF()" step="0.1">
               </div>
             </div>
@@ -593,11 +594,11 @@
                     <button ng-if="orderPurchase.estados==0" ng-show="estados1" type="submit" class="btn btn-primary" ng-click="CrearCompra()">Guardar Cambios</button>
                     <a ng-if="orderPurchase.estados==0" ng-show="estados" href="/orderPurchases" class="btn btn-danger">Cancelar</a>
                     <a ng-if="orderPurchase.estados==0" ng-show="estados1" href="/orderPurchases" class="btn btn-danger">Cancelar</a>
-                    <a ng-if="orderPurchase.estados==1" href="/orderPurchases" class="btn btn-success btn-xs">Regresar</a>
-                    <a ng-if="orderPurchase.estados==2" href="/orderPurchases" class="btn btn-success btn-xs">Regresar</a>
+                    <a ng-if="orderPurchase.estados==1" href="/purchases" class="btn btn-success btn-xs">Regresar</a>
+                    <a ng-if="orderPurchase.estados==2" href="/purchases" class="btn btn-success btn-xs">Regresar</a>
                   </div>
                   <div class="col-md-1">
-                    <a ng-if="orderPurchase.estados==0" href="/orderPurchases" class="btn btn-success btn-xs">Salir</a>
+                    <a ng-if="orderPurchase.estados==0" href="/purchases" class="btn btn-success btn-xs">Salir</a>
                   </div>
                  </div>
                 </div>    

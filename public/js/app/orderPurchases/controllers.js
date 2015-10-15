@@ -1,8 +1,8 @@
 (function(){
     angular.module('orderPurchases.controllers',[])
-        .controller('OrderPurchaseController',['$scope', '$routeParams','$location','crudPurchase','socketService' ,'$filter','$route','$http','$log',
-            function($scope, $routeParams,$location,crudPurchase,socket,$filter,$route , $http,$log){
-             
+        .controller('OrderPurchaseController',['$scope','ngProgressFactory','$routeParams','$location','crudPurchase','socketService' ,'$filter','$route','$http','$log',
+            function($scope,ngProgressFactory, $routeParams,$location,crudPurchase,socket,$filter,$route , $http,$log){
+                $scope.progressbar = ngProgressFactory.createInstance();
                 $scope.orderPurchases = [];
                 $scope.orderPurchase = {};
                 $scope.products = [];
@@ -63,11 +63,11 @@
                         
                         $scope.detPayment.fecha=new Date();
                         crudPurchase.byId(id,'payments').then(function (data){
-                            $scope.payment = data;
-                            $scope.totAnterior=$scope.payment.Acuenta
-                            $scope.payment.idpayment=$scope.payment.id;
-                            $scope.payment.PorPagado=((Number($scope.payment.Acuenta)*100)/(Number($scope.payment.MontoTotal))).toFixed(2);
-                            $scope.codPaymenTempo=data.id; 
+                                 $scope.payment = data;
+                                 $scope.totAnterior=$scope.payment.Acuenta
+                                 $scope.payment.idpayment=$scope.payment.id;
+                                 $scope.payment.PorPagado=((Number($scope.payment.Acuenta)*100)/(Number($scope.payment.MontoTotal))).toFixed(2);
+                                 $scope.codPaymenTempo=data.id; 
                         crudPurchase.byId($scope.payment.id,'detPayments').then(function (data) {
                                  $scope.detPayments = data.data;
                                  $scope.maxSize = 5;
@@ -77,16 +77,16 @@
                           }); 
                    
                         crudPurchase.byId(id,'orderPurchases').then(function (data) {
-                                    $scope.purchase=data;
-                                    $scope.alamcenId=data.warehouses_id;
-                                    $scope.payment.purchase_id=data.id;
-                                crudPurchase.byId(data.supplier_id,'suppliers').then(function (data) {
-                                    $scope.supplier=data;
-                                    $scope.payment.supplier_id=data.id;
-                                });
-                                crudPurchase.listaCashes('cashHeaders',$scope.alamcenId).then(function (data) {
-                                    $scope.cashHeaders = data;
-                                });
+                                  $scope.purchase=data;
+                                  $scope.alamcenId=data.warehouses_id;
+                                  $scope.payment.purchase_id=data.id;
+                                  crudPurchase.byId(data.supplier_id,'suppliers').then(function (data) {
+                                      $scope.supplier=data;
+                                      $scope.payment.supplier_id=data.id;
+                                  });
+                                  crudPurchase.listaCashes('cashHeaders',$scope.alamcenId).then(function (data) {
+                                      $scope.cashHeaders = data;
+                                  });
                                       if($scope.codPaymenTempo==null){
                                           $scope.payment.montoTotal=$scope.purchase.montoTotal;
                                           $scope.payment.MontoTotal=$scope.purchase.montoTotal;
@@ -131,11 +131,12 @@
                      $scope.dd1=$scope.orderPurchase.fechaPedido.getDate();
                      $scope.mm1=$scope.orderPurchase.fechaPedido.getMonth();
                      $scope.yyyy1=$scope.orderPurchase.fechaPedido.getFullYear();
+                     //alert($scope.mm);
                      if($scope.dd<10){$scope.dd="0"+$scope.dd;} else{$scope.dd=$scope.dd;}
-                     if($scope.mm<10){$scope.mm="0"+(parseInt($scope.mm)+1);}else{$scope.mm=$scope.mm;}
+                     if($scope.mm<9){$scope.mm="0"+(parseInt($scope.mm)+1);}else{$scope.mm=$scope.mm+1;}
                      $scope.orderPurchase.fechaPrevist=$scope.dd+"-"+$scope.mm+"-"+$scope.yyyy;
                      if($scope.dd1<10){$scope.dd1="0"+$scope.dd1;} else{$scope.dd1=$scope.dd1;}
-                     if($scope.mm<10){$scope.mm1="0"+(parseInt($scope.mm1)+1);}else{$scope.mm1=$scope.mm1;}
+                     if($scope.mm1<9){$scope.mm1="0"+(parseInt($scope.mm1)+1);}else{$scope.mm1=$scope.mm1+1;}
                      $scope.orderPurchase.fechaPedid=$scope.dd1+"-"+$scope.mm1+"-"+$scope.yyyy1;
                     
                        /* $scope.orderPurchase.montoBruto=parseFloat(data.montoBruto);
@@ -148,7 +149,7 @@
                         $scope.orderPurchase.empresa = data.empresa;
                     });
                        // alert(data.id);
-                        crudPurchase.paginateDPedido(data.id,'detailOrderPurchases').then(function (data) {
+                    crudPurchase.paginateDPedido(data.id,'detailOrderPurchases').then(function (data) {
                         $scope.detailOrderPurchases = data.data;
                         $log.log($scope.detailOrderPurchases);
                         $scope.detailOrderPurchase.unidades=parseFloat(data.cantidad);
@@ -156,7 +157,7 @@
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                         $scope.itemsperPage = 15;
-                         $scope.p=$scope.detailOrderPurchases.length;
+                        $scope.p=$scope.detailOrderPurchases.length;
                     for(var n=0;n<$scope.detailOrderPurchases.length;n++){
                         $scope.p=$scope.p+1;
                         if($scope.detailOrderPurchases[n].Cantidad_Ll>0){
@@ -200,23 +201,18 @@
                 //=========================================
                
               // if($location.path()=='/orderPurchases/create/' || $location.path()=='/orderPurchases/edit/'){
-                     crudPurchase.autocomplit('products',1).then(function (data) {
+                      crudPurchase.autocomplit('products',1).then(function (data) {
                         $scope.products = data.data;
-                       
-                       
-                    });
+                      });
                       crudPurchase.paginatVariants("variants").then(function (data){
-                   $scope.variants1=data;
-                 });
-                 crudPurchase.paginate('suppliers',1).then(function (data) {
+                        $scope.variants1=data;
+                      });
+                      crudPurchase.paginate('suppliers',1).then(function (data) {
                         $scope.suppliers = data.data;
-                        
-                    });
-                    crudPurchase.paginate('methodPayments',1).then(function (data) {
+                      });
+                      crudPurchase.paginate('methodPayments',1).then(function (data) {
                         $scope.methodPayments = data.data;
-                        
-
-                    });//}
+                      });//}
                     //=========================================
                     $scope.TraerPorSku=function(sku){
                        crudPurchase.autocomplitVar('variants',sku).then(function (data) {
@@ -225,8 +221,8 @@
                          
              if($scope.product.proId.varCodigo!=null){
 
-                      $scope.Listo=true;
-                      $scope.activarCampCantidad=false;
+                        $scope.Listo=true;
+                        $scope.activarCampCantidad=false;
                       //  alert($scope.product.proId.varid);
                         //$scope.detailOrderPurchase.marca=$scope.product.proId.BraName;
                         //$scope.detailOrderPurchase.material=$scope.product.proId.Mnombre;
@@ -261,21 +257,21 @@
                                        }else{
                                           $scope.detailOrderPurchase.producto=$scope.product.proId.proNombre+"("+$scope.product.proId.varCodigo+")";
                                        } 
-                                       $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
+                                        $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
                                         $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
                                         //$scope.variant.sku=$scope.product.proId.varcode; 
                                        // $scope.detailOrderPurchase.detPres_id=$scope.product.proId.presid;
                                         //alert("codigo det Pres"+$scope.detailOrderPurchase.detPres_id);
-                                       $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
-                                     $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
-                                              $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
+                                        $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
+                                        $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
+                                        $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
                                               //$scope.detailOrderPurchase.preCompra=parseFloat($scope.product.proId.precioCompra);
                                              // $scope.detailOrderPurchase.preProducto=parseFloat($scope.product.proId.precioCompra);
                                              //  alert($scope.detailOrderPurchase.preCompra);
                                                 //$scope.mostrarPresentacion=false;
-                                                $scope.variant.sku=$scope.product.proId.varcode; 
-                                              $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
-                                              $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
+                                        $scope.variant.sku=$scope.product.proId.varcode; 
+                                        $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
+                                        $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
                                        
                           });
                       }else{
@@ -297,7 +293,7 @@
                 });
                 $scope.ProvandoEdicion=function(){
                     $scope.show = !$scope.show;
-                 crudPurchase.select('warehouses','select').then(function(data){
+                    crudPurchase.select('warehouses','select').then(function(data){
                         $scope.warehouses = data;
                     });   
                 }
@@ -306,8 +302,6 @@
                 
                 };
                 $scope.asignarEmpresa=function(){
-                   // alert("hola estoy aqui");
-                   // alert($scope.orderPurchase.empresa.empresa);
                     $scope.orderPurchase.supplier_id=$scope.orderPurchase.empresa.id;
                     $scope.orderPurchase.empresa=$scope.orderPurchase.empresa.empresa;
                 }
@@ -414,8 +408,8 @@
                                     $scope.company.detPres_id=data.detpresen_id;
                                     $scope.company.preProducto=parseFloat(data.precioProduct);
                                     $scope.company.preCompra=parseFloat(data.precioProduct);
-                                     $scope.company.talla='TL:'+String(talla);
-                                     if(atributos!=null){
+                                    $scope.company.talla='TL:'+String(talla);
+                                  if(atributos!=null){
                                        // alert("estoy aqui");
                                     $scope.company.producto=$scope.detailOrderPurchase.proNombre+"("+atributos+")";
                                    }else{
@@ -468,10 +462,24 @@
                     $scope.company.producto=$scope.company.producto+"/TC:"+taco;
                     crudPurchase.MostrarTallas($scope.codigoVarP,taco).then(function (data) {
                     $scope.atributes=data.data;
-                         if($scope.atributes.length>1){$scope.Listo=false;}else{$scope.activarCampCantidad=false;}
+                         if($scope.atributes.length>1){$scope.Listo=false;
+                             $scope.mostrarPresentacion=false;
+                         }else{
+                          alert("este producto solo esta disponible en una sola talla");
+                          $scope.activarCampCantidad=false;
+                          crudPurchase.select('detpres',$scope.product.proId.varid).then(function (data) {
+                                                      $scope.detailOrderPurchase.equivalencia=data.equivalencia;
+                                                      $scope.detailOrderPurchase.esbase=data.esbase;
+                                                      $scope.detailOrderPurchase.detPres_id=data.detpresen_id;
+                                                      $scope.detailOrderPurchase.preProducto=parseFloat(data.precioProduct);
+                                                      $scope.detailOrderPurchase.preCompra=parseFloat(data.precioProduct);
+                              });
+                          $scope.Listo=true;
+                          $scope.mostrarPresentacion=true;
+                        }
                               
                     });
-                    $scope.mostrarPresentacion=false;
+                    //$scope.mostrarPresentacion=false;
                 } else{
                     alert("Selecciones un numero de Taco!!!")
                 }
@@ -484,9 +492,7 @@
                          $scope.check=true;
                      }
                      // $scope.check1=!$scope.check1;
-                    
-
-                  }
+                   }
                     $scope.mostrarPresentacion=true;
                     $scope.tieneTaco=null;
                     $scope.Listo=true;
@@ -495,6 +501,10 @@
                     $scope.asignarProduc1=function(){
                        //alert($scope.check1);
                         $scope.companies=[];
+                        $scope.company={};
+                        $scope.detailOrderPurchase={};
+                        $scope.mostrarPresentacion=true;
+                        $scope.mostrardetalles=true;
                         $scope.detailOrderPurchase.marca=$scope.product.proId.BraName;
                         $scope.detailOrderPurchase.material=$scope.product.proId.Mnombre;
                         $scope.detailOrderPurchase.tipo=$scope.product.proId.TName;
@@ -505,18 +515,18 @@
                         $scope.detailOrderPurchase.codigoEspecifico=$scope.product.proId.varCodigo;
                         if($scope.product.proId.NombreAtributos!=null){
                            $scope.detailOrderPurchase.producto=$scope.detailOrderPurchase.proNombre+"("+$scope.product.proId.NombreAtributos+")";
-                       }else{
+                        }else{
                            $scope.detailOrderPurchase.producto=$scope.detailOrderPurchase.proNombre+"("+$scope.product.proId.proCodigo+")";
-                       }
+                        }
 
-                        $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
+                           $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
        // alert($scope.check1);
-                 if($scope.check1==true)
-                 {             
-                       $scope.activarCampCantidad=true;
+                        if($scope.check1==true)
+                        {             
+                           $scope.activarCampCantidad=true;
                     //alert($scope.product.proId.varid);
-                       $scope.Listo=true;
-                       crudPurchase.paginateDPedido($scope.product.proId.varid,'detpres').then(function (data) {
+                           $scope.Listo=true;
+                        crudPurchase.paginateDPedido($scope.product.proId.varid,'detpres').then(function (data) {
                                $scope.detPres=data.data;
                                //$scope.maxSize = 5;
                                //$scope.totalItems = data.total;
@@ -524,22 +534,22 @@
                                //$scope.itemsperPage = 15;
                        
                         if($scope.detPres.length<2){
-                             $scope.activarCampCantidad=false;
-                             crudPurchase.select('detpres',$scope.product.proId.varid).then(function (data) {
+                                $scope.activarCampCantidad=false;
+                                crudPurchase.select('detpres',$scope.product.proId.varid).then(function (data) {
                                     $scope.detailOrderPurchase.esbase=data.esbase;
                                     $scope.detailOrderPurchase.detPres_id=data.detpresen_id;
                                     $scope.detailOrderPurchase.preProducto=parseFloat(data.precioProduct);
                                     $scope.detailOrderPurchase.preCompra=parseFloat(data.precioProduct);
-                            });
+                                });
                          }else{
                             $scope.mostrardetalles=false;
                          }
-                    });
+                         });
                 }else
                 {
                        
                        crudPurchase.MostrarAtributos($scope.product.proId.varCodigo,'Taco').then(function (data) {
-                              $scope.variants=data.data;
+                                  $scope.variants=data.data;
                                 //alert("Estoy Buscando Taco");
                               if($scope.variants.length>0){$scope.Listo=false;}else{$scope.activarCampCantidad=false;}
                               if($scope.variants[0]==null)
@@ -780,7 +790,8 @@
                     }
                     }else{ alert("!!Usted Debe seleccionar un producto y una presentacion para poder agregar!!");}
                  }
-               }else{alert("seleccione un Taco y una talla!!");}}
+               }else{alert("seleccione un Taco y una talla!!");}
+             }
 
                     $scope.ejemplo2=null;
                     $scope.estado_fin2=0;
@@ -813,28 +824,28 @@
                             $scope.detailOrderPurchase.pendiente=$scope.detailOrderPurchase.cantidad;
                            // alert("si estoy aqui");
                        }else{
-                           $scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preProducto).toFixed(2));
-                           $scope.detailOrderPurchase.montoBruto=parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preProducto)).toFixed(2));
-                           $scope.detailOrderPurchase.pendiente=$scope.detailOrderPurchase.cantidad;
+                            $scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preProducto).toFixed(2));
+                            $scope.detailOrderPurchase.montoBruto=parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preProducto)).toFixed(2));
+                            $scope.detailOrderPurchase.pendiente=$scope.detailOrderPurchase.cantidad;
                        if($scope.ejemplo != $scope.detailOrderPurchase.montoTotal && $scope.ejemplo_de == $scope.detailOrderPurchase.descuento){
-                          $scope.detailOrderPurchase.descuento=parseFloat(((($scope.detailOrderPurchase.montoBruto - $scope.detailOrderPurchase.montoTotal)/$scope.detailOrderPurchase.montoBruto)*100).toFixed(2));
-                           $scope.ejemplo_de=$scope.detailOrderPurchase.descuento;
-                          $scope.estado_fin=false;
+                            $scope.detailOrderPurchase.descuento=parseFloat(((($scope.detailOrderPurchase.montoBruto - $scope.detailOrderPurchase.montoTotal)/$scope.detailOrderPurchase.montoBruto)*100).toFixed(2));
+                            $scope.ejemplo_de=$scope.detailOrderPurchase.descuento;
+                            $scope.estado_fin=false;
                         }
                       
                       if( $scope.estado_fin){
                        if($scope.detailOrderPurchase.descuento>0 ){
-                          $scope.detailOrderPurchase.montoTotal= parseFloat(($scope.detailOrderPurchase.cantidad * ($scope.detailOrderPurchase.preCompra - (($scope.detailOrderPurchase.preCompra * $scope.detailOrderPurchase.descuento ) / 100))).toFixed(2));
-                          $scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preCompra - (($scope.detailOrderPurchase.preCompra * $scope.detailOrderPurchase.descuento ) / 100)).toFixed(2));
-                          $scope.ejemplo=$scope.detailOrderPurchase.montoTotal;
-                          $scope.ejemplo_de=$scope.detailOrderPurchase.descuento;
+                            $scope.detailOrderPurchase.montoTotal= parseFloat(($scope.detailOrderPurchase.cantidad * ($scope.detailOrderPurchase.preCompra - (($scope.detailOrderPurchase.preCompra * $scope.detailOrderPurchase.descuento ) / 100))).toFixed(2));
+                            $scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preCompra - (($scope.detailOrderPurchase.preCompra * $scope.detailOrderPurchase.descuento ) / 100)).toFixed(2));
+                            $scope.ejemplo=$scope.detailOrderPurchase.montoTotal;
+                            $scope.ejemplo_de=$scope.detailOrderPurchase.descuento;
                        }else{
-                         $scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preProducto).toFixed(2));
-                         $scope.detailOrderPurchase.montoBruto=parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preCompra)).toFixed(2));
-                         $scope.detailOrderPurchase.montoTotal= parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preCompra)).toFixed(2));
-                         $scope.detailOrderPurchase.descuento=0;
-                         $scope.ejemplo_de=$scope.detailOrderPurchase.descuento;
-                        $scope.ejemplo=$scope.detailOrderPurchase.montoTotal;
+                            $scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preProducto).toFixed(2));
+                            $scope.detailOrderPurchase.montoBruto=parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preCompra)).toFixed(2));
+                            $scope.detailOrderPurchase.montoTotal= parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preCompra)).toFixed(2));
+                            $scope.detailOrderPurchase.descuento=0;
+                            $scope.ejemplo_de=$scope.detailOrderPurchase.descuento;
+                            $scope.ejemplo=$scope.detailOrderPurchase.montoTotal;
                        }}else{
                         $scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preCompra - (($scope.detailOrderPurchase.preCompra * $scope.detailOrderPurchase.descuento ) / 100)).toFixed(2));
                         $scope.estado_fin=true;}
@@ -852,11 +863,14 @@
                 }*/
                 $scope.searchPurchase = function(){
                 if ($scope.query.length > 0) {
-                    crudPurchase.search('orderPurchases',$scope.query,1).then(function (data){
+                   /* crudPurchase.search('orderPurchases',$scope.query,1).then(function (data){
                         $scope.orderPurchases = data.data;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
-                    });
+                          alert("hola");
+                        
+                    });*/
+
                 }
                
                     
@@ -909,12 +923,12 @@
                         crudPurchase.create($scope.orderPurchase, 'orderPurchases').then(function (data) {
                           
                             if (data['estado'] == true) {
-                                $scope.success = data['nombres'];
+                                 $scope.success = data['nombres'];
                                  $scope.codigoTemporalP=(data['codigo']);
                                  $scope.orderPurchase.id=(data['codigo']);
-                                alert('Orden Creada correctamente');
+                                 alert('Orden Creada correctamente');
                                 //$scope.llenar();
-                                $scope.Warehouses(data['warehouse_id']);
+                                 $scope.Warehouses(data['warehouse_id']);
                         } else {
                                 $scope.errors = data;
 
@@ -958,13 +972,13 @@
                     $scope.mm1=$scope.orderPurchase.fechaPedido.getMonth();
                     $scope.yyyy1=$scope.orderPurchase.fechaPedido.getFullYear();
                      if($scope.dd<10){$scope.dd="0"+$scope.dd;} else{$scope.dd=$scope.dd;}
-                     if($scope.mm<10){$scope.mm="0"+(parseInt($scope.mm)+1);}else{$scope.mm=$scope.mm+1;}
+                     if($scope.mm<9){$scope.mm="0"+(parseInt($scope.mm)+1);}else{$scope.mm=$scope.mm+1;}
                      $scope.orderPurchase.fechaPrevist=$scope.dd+"-"+$scope.mm+"-"+$scope.yyyy;
                      if($scope.dd1<10){$scope.dd1="0"+$scope.dd1;} else{$scope.dd1=$scope.dd1;}
-                     if($scope.mm1<=9){$scope.mm1="0"+(parseInt($scope.mm1)+1);}else{$scope.mm1=$scope.mm1+1;}
+                     if($scope.mm1<9){$scope.mm1="0"+(parseInt($scope.mm1)+1);}else{$scope.mm1=$scope.mm1+1;}
                      $scope.orderPurchase.fechaPedid=$scope.dd1+"-"+$scope.mm1+"-"+$scope.yyyy1;
                      $scope.activEstados=false;
-                    $scope.toggle();
+                     $scope.toggle();
                    
                 }
               }
@@ -1163,8 +1177,8 @@
                                   $scope.orderPurchase.Saldo=$scope.orderPurchase.montoTotal;
                                   $scope.orderPurchases.push( $scope.orderPurchase);
                                   //if($scope.orderPurchase.cancelar){
-                                    $scope.orderPurchase.Estado=2;
-                                    $scope.orderPurchase.estado=2;
+                                  $scope.orderPurchase.Estado=2;
+                                  $scope.orderPurchase.estado=2;
                                  //}
                                   
                                    crudPurchase.create($scope.orderPurchase, 'purchases').then(function (data) {
@@ -1202,7 +1216,9 @@
                                     $scope.orderPurchase.Estado=2;
                                     $scope.orderPurchase.estado=2;
                                  }
+                                 alert("ya pase"+$scope.orderPurchase.Estado);
                                   if($scope.orderPurchase.Estado==1 || $scope.orderPurchase.Estado==2){
+
                                    crudPurchase.create($scope.orderPurchase, 'purchases').then(function (data) {
                                        
                                           if (data['estado'] == true) {
@@ -1246,6 +1262,21 @@
                     $location.path('/orderPurchases');
                  }*/
             }
+            $scope.mostrarTodos=function(){
+               crudPurchase.paginate('orderPurchases',1).then(function (data) {
+                        $scope.orderPurchases = data.data;
+                        $scope.maxSize = 5;
+                        $scope.totalItems = data.total;
+                        $scope.currentPage = data.current_page;
+                        $scope.itemsperPage = 15;
+
+                    });
+                    $scope.query='';
+                    $scope.orderPurchase.fechafin=null;
+                    $scope.orderPurchase.fechaini=null;
+                    $scope.estado='';
+                    $scope.textoBoton="Generar Reporte";
+            }
             $scope.estado;
             $scope.searchEstados=function(){
                  if($scope.estado!=null){
@@ -1256,8 +1287,12 @@
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                         $scope.itemsperPage = 15;
-
+           
                     });
+                    $scope.query='';
+                    $scope.orderPurchase.fechafin=null;
+                    $scope.orderPurchase.fechaini=null;
+                    $scope.textoBoton="Generar Reporte";
                 }else{
                     crudPurchase.paginate('orderPurchases',1).then(function (data) {
                         $scope.orderPurchases = data.data;
@@ -1267,6 +1302,10 @@
                         $scope.itemsperPage = 15;
 
                     });
+                    $scope.query='';
+                    $scope.orderPurchase.fechafin=null;
+                    $scope.orderPurchase.fechaini=null;
+                    $scope.textoBoton="Generar Reporte";
                 }
             }else{
                 alert("Error seleciones un estado valido");
@@ -1289,17 +1328,28 @@
                     alert("ERROR: La cantidad igresada no debe superar la cantidad real");
                 }
             }
-           
+           $scope.orderPurchase.generareport=false;
             $scope.ActualizarStock=function(){
+              alert($scope.orderPurchase.generareport);
                 $scope.orderPurchase.fecha=new Date();
-                $scope.orderPurchase.tipo="Entrada";
+                $scope.orderPurchase.tipo="Compra";
                 $scope.orderPurchase.eliminar=0;
                 $scope.orderPurchase.detailOrderPurchases=$scope.detailOrderPurchases;
                 crudPurchase.create($scope.orderPurchase, 'inputStocks').then(function (data) {
                          
                             if (data['estado'] == true) {
                                 alert('Stock registrado');
-                                $location.path('/orderPurchases');
+                                
+                                if(confirm("Desea Generar Tikets")==true){
+                                 crudPurchase.reporteEstado('reporttiket',$scope.orderPurchase.id).then(function (data) {
+                                    if (data!= null) {
+                                      alert("tikets Generados Correctamente"+data);
+                                      $scope.pdfTiketPart=data;
+                                    }
+                                 });
+                               }else{
+                                  $location.path('/orderPurchases');
+                               }
                             } else {
                                 $scope.errors = data;
 
@@ -1367,6 +1417,10 @@
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                     });
+                    $scope.orderPurchase.fechaini=null;
+                        $scope.orderPurchase.fechafin=null;
+                        $scope.estado='';
+
                 }else{
                     crudPurchase.paginate('orderPurchases',1).then(function (data) {
                         $scope.orderPurchases = data.data;
@@ -1571,22 +1625,22 @@ $scope.recalPayments=function(){
                     //alert(row.detCash_id);
                     if(row.detCash_id!=null){
                     //alert(row.detCash_id);
-                    crudPurchase.comprovarCaja(row.detCash_id).then(function(data){
+                      crudPurchase.comprovarCaja(row.detCash_id).then(function(data){
                         //alert(data.estado);
                         if(data.estado==1){
                            if(confirm("Esta segura de querer eliminar este pago!!!") == true){
-                    $scope.payment.detpId=row.id;
-                    $scope.payment.Saldo_F=row.Saldo_F;
+                           $scope.payment.detpId=row.id;
+                           $scope.payment.Saldo_F=row.Saldo_F;
                     //$scope.detPayment.montoPagado=row.montoPagado;
                    // alert(row.montoPagado);
                   // alert(row.id);
-                   $scope.payment.detpId=row.id;
-                    $scope.payment.cashMonthly_id=row.cashMonthly_id;
+                           $scope.payment.detpId=row.id;
+                           $scope.payment.cashMonthly_id=row.cashMonthly_id;
                    // $scope.Payment.cash_id=parseInt(row.cashID);
-                    $scope.payment.detCash_id=row.detCash_id;
-                    crudPurchase.destroy($scope.payment,'payments').then(function(data)
-                    {
-                        if(data['estado'] == true){
+                           $scope.payment.detCash_id=row.detCash_id;
+                      crudPurchase.destroy($scope.payment,'payments').then(function(data)
+                      {
+                        if(data['es     tado'] == true){
                             $scope.success = data['nombre'];
                             
                             alert('Eliminado Correctamente');
@@ -1610,15 +1664,15 @@ $scope.recalPayments=function(){
                     });
                 }else{
                     if(confirm("Esta segura de querer eliminar este pago!!!") == true){
-                    $scope.payment.detpId=row.id;
-                    $scope.payment.Saldo_F=row.Saldo_F;
+                         $scope.payment.detpId=row.id;
+                         $scope.payment.Saldo_F=row.Saldo_F;
                     //$scope.detPayment.montoPagado=row.montoPagado;
                    // alert(row.montoPagado);
                   // alert(row.id);
-                   $scope.payment.detpId=row.id;
-                    $scope.payment.cashMonthly_id=row.cashMonthly_id;
+                         $scope.payment.detpId=row.id;
+                         $scope.payment.cashMonthly_id=row.cashMonthly_id;
                    // $scope.Payment.cash_id=parseInt(row.cashID);
-                    $scope.payment.detCash_id=row.detCash_id;
+                         $scope.payment.detCash_id=row.detCash_id;
                     crudPurchase.destroy($scope.payment,'payments').then(function(data)
                     {
                         if(data['estado'] == true){
@@ -1652,16 +1706,28 @@ $scope.recalPayments=function(){
                     $scope.detPayment.montoPagado=(parseFloat(row.montoPagado));
                      $scope.mostrarBtnGEd=true;
                 }
-                  $scope.PagoAnterior;
+                  $scope.PagoAnterior;generarReporteFiltros
                 $scope.mostrarBtnGEd=false;*/
+                $scope.desseleccionarMethodP=function(){
+                    $scope.detPayment.montoPagado='';
+                  }
                 $scope.cashmontly=function(){
                     //alert($scope.payment.cajamensual);
-                     $scope.payment.months_id=$scope.date.getMonth()+1;
-                     $scope.payment.año=$scope.date.getFullYear();
+                    if($scope.payment.cajamensual==true){
+                          $scope.payment.months_id=$scope.date.getMonth()+1;
+                          $scope.payment.año=$scope.date.getFullYear();
+                    }else{
+                        $scope.detPayment.montoPagado='';
+                    }
+                     //$scope.payment.months_id=$scope.date.getMonth()+1;
+                     //$scope.payment.año=$scope.date.getFullYear();
                      }
                  $scope.check=false;
                 $scope.editDetpayment=function(row){
                     //alert(row.detCash_id);
+                 $scope.payment.Acuenta=Number((Number($scope.payment.Acuenta)-Number(row.montoPagado)).toFixed(2));
+                 $scope.payment.Saldo=Number((Number($scope.payment.Saldo)+Number(row.montoPagado)).toFixed(2));
+                 $scope.payments.splice(1,1,$scope.payment);
                    if(row.detCash_id!=null){
                     //alert(row.cashID);
                     crudPurchase.comprovarCaja(row.detCash_id).then(function(data){
@@ -1711,54 +1777,122 @@ $scope.recalPayments=function(){
                     $scope.mostrarBtnGEd=true;
                 }
                 }
+                $scope.textoBoton="Generar Reporte";
                 $scope.generarReporteFiltros=function(){
-                     if($scope.check==true){
-                        if($scope.estado!=''){
-                              crudPurchase.reporteEstado('orderPurchases',$scope.estado).then(function (data) {
-                        // alert("debajo");
+                  
+                  if($scope.query!=''){
+                    alert("no entres");
+                            $scope.textoBoton="Generando..";
+                            crudPurchase.reporteEstado('reporteOrdenCompreLike',$scope.query).then(function (data) {
                             if (data!= undefined) {
-                                $scope.pdforden=data;
-                                alert("Reporte Generado");
-                                 //$scope.botonReporte = 'Reporte Completado';
-                                 //$scope.verReportTiket1=true;
-                                //$location.path("http://www.cnn.com");
-                            } else {
-                                $scope.errors = data;
-
-                            }
-                        });
-                        }else{
-                            if($scope.orderPurchase.fechaini!=null && $scope.orderPurchase.fechafin!=null && $scope.orderPurchase.fechaini<=$scope.orderPurchase.fechafin)
-                            {
-                              crudPurchase.reporteRangoFechas('orderPurchases',$scope.temporalfec,$scope.temporalfech2).then(function (data) {
-                             if (data!= undefined) {
-                                $scope.pdforden=data;
-                                alert("Reporte Generado");
+                                  $scope.pdforden=data;
+                                  $scope.textoBoton="Generado..";
+                                  alert("Reporte Generado");
                                } else {
                                 $scope.errors = data;
-
-                            }
-                        });  
-
-                            }else{alert("error fechas incorrectas");}
-                        }
-                     }else{
-                        if($scope.estado!='' && $scope.orderPurchase.fechaini!=null && $scope.orderPurchase.fechafin!=null && $scope.orderPurchase.fechaini<=$scope.orderPurchase.fechafin)
-                       {
-                          crudPurchase.reporteRangoFechasEstado('orderPurchases',$scope.temporalfec,$scope.temporalfech2,$scope.estado).then(function (data) {
-                             if (data!= undefined) {
-                                $scope.pdforden=data;
-                                alert("Reporte Generado");
-                               } else {
-                                $scope.errors = data;
-
-                            }
+                             }
                         });
-                      }else{
-                        alert("error selecciones un estado y un rago de fechas valido");
-                      }
+                  }else{
+                    alert($scope.checkFechaPr);
+                      if($scope.checkFechaPr==true){
+                            if($scope.check==true){
+                               if($scope.estado!=''){
+                                 $scope.textoBoton="Generando..";
+                                     crudPurchase.reporteEstado('orderPurchases',$scope.estado).then(function (data) {
+                                     if (data!= undefined) {
+                                       $scope.pdforden=data;
+                                       $scope.textoBoton="Generado";
+                                       alert("Reporte Generado");
+                                     } else {
+                                $scope.errors = data;
+                                   }
+                               });
+                            }else{
+                                   if($scope.orderPurchase.fechaini!=null && $scope.orderPurchase.fechafin!=null && $scope.orderPurchase.fechaini<=$scope.orderPurchase.fechafin)
+                                   {
+                                    $scope.textoBoton="Generando..";
+                                     crudPurchase.reporteRangoFechas('reporteRangoFechaPrevista',$scope.temporalfec,$scope.temporalfech2).then(function (data) {
+                             if (data!= undefined) {
+                                       $scope.pdforden=data;
+                                       $scope.textoBoton="Generado";
+                                       alert("Reporte Generado");
+                               } else {
+                                       $scope.errors = data;
+       
+                                   }
+                               });  
+
+                                   }else{alert("error fechas incorrectas");}
+                               }
+                            }else{
+                              alert("hola00");
+                               if($scope.estado!='' && $scope.orderPurchase.fechaini!=null && $scope.orderPurchase.fechafin!=null && $scope.orderPurchase.fechaini<=$scope.orderPurchase.fechafin)
+                              {
+                                    $scope.textoBoton="Generando..";
+                                    crudPurchase.reporteRangoFechasEstado('reporteRangoFechaPrevistaEstado',$scope.temporalfec,$scope.temporalfech2,$scope.estado).then(function (data) {
+                                       if (data!= undefined) {
+                                          $scope.pdforden=data;
+                                          $scope.textoBoton="Generado";
+                                          alert("Reporte Generado");
+                                         } else {
+                                          $scope.errors = data;
+
+                                      }
+                                  });
+                           }else{
+                              alert("error selecciones un estado y un rago de fechas valido");
+                           }
                      }
-                }
+                     }else{
+                            if($scope.check==true){
+                               if($scope.estado!=''){
+                                $scope.textoBoton="Generando..";
+                                     crudPurchase.reporteEstado('orderPurchases',$scope.estado).then(function (data) {
+                                     if (data!= undefined) {
+                                      $scope.textoBoton="Generado";
+                                       $scope.pdforden=data;
+                                       alert("Reporte Generado");
+                                     } else {
+                                $scope.errors = data;
+                                   }
+                               });
+                            }else{
+                                   if($scope.orderPurchase.fechaini!=null && $scope.orderPurchase.fechafin!=null && $scope.orderPurchase.fechaini<=$scope.orderPurchase.fechafin)
+                                   {
+                                    $scope.textoBoton="Generando..";
+                                     crudPurchase.reporteRangoFechas('orderPurchases',$scope.temporalfec,$scope.temporalfech2).then(function (data) {
+                                      if (data!= undefined) {
+                                        $scope.textoBoton="Generado";
+                                           $scope.pdforden=data;
+                                           alert("Reporte Generado");
+                                        } else {
+                                       $scope.errors = data;
+       
+                                   }
+                               });  
+
+                                   }else{alert("error fechas incorrectas");}
+                               }
+                            }else{
+                               if($scope.estado!='' && $scope.orderPurchase.fechaini!=null && $scope.orderPurchase.fechafin!=null && $scope.orderPurchase.fechaini<=$scope.orderPurchase.fechafin)
+                              {
+                                alert("aQUIESTOY");
+                                $scope.textoBoton="Generando..";
+                                    crudPurchase.reporteRangoFechasEstado('orderPurchases',$scope.temporalfec,$scope.temporalfech2,$scope.estado).then(function (data) {
+                                       if (data!= undefined) {
+                                        $scope.textoBoton="Generado";
+                                          $scope.pdforden=data;
+                                          alert("Reporte Generado");
+                                         } else {
+                                          $scope.errors = data;
+
+                                      }
+                                  });
+                           }else{
+                              alert("error selecciones un estado y un rago de fechas valido");
+                           }
+                     }
+                }}}
                 $scope.paginarfechaTipo=function(){
                    // alert($scope.estado);
                       if($scope.estado!='' && $scope.orderPurchase.fechaini!=null && $scope.orderPurchase.fechafin!=null && $scope.orderPurchase.fechaini<=$scope.orderPurchase.fechafin){
@@ -1803,6 +1937,19 @@ $scope.recalPayments=function(){
                             ($scope.orderPurchase.fechafin.getMonth()+1)+"-"+$scope.temporalfech2;
                          }
                    }
+                   if($scope.checkFechaPr==true){
+                    crudPurchase.paginarfechaTipo('searchFechasLlegadaEstado',$scope.temporalfec,$scope.temporalfech2,$scope.estado).then(function (data) {
+                               $scope.orderPurchases = data.data;
+                               $scope.maxSize = 5;
+                               $scope.totalItems = data.total;
+                               $scope.currentPage = data.current_page;
+                               $scope.itemsperPage = 15;
+                         });
+                          $scope.estado='';
+                          $scope.query='';
+                          $scope.textoBoton="Generar Reporte";
+                   }else{
+                    //alert("Yes");
                       crudPurchase.paginarfechaTipo('orderPurchases',$scope.temporalfec,$scope.temporalfech2,$scope.estado).then(function (data) {
                                $scope.orderPurchases = data.data;
                                $scope.maxSize = 5;
@@ -1810,15 +1957,30 @@ $scope.recalPayments=function(){
                                $scope.currentPage = data.current_page;
                                $scope.itemsperPage = 15;
                          });
+                          $scope.estado='';
+                          $scope.query='';
+                          $scope.textoBoton="Generar Reporte";
+                   }
+                    
                   }else{
                     $scope.orderPurchase.fechafin=null;
                     alert("error debe seleccionar fecha inicial fecha final y estado");
                   }
                 }
                  $scope.limpiarFiltros=function(){
-                    $scope.orderPurchase.fechaini=null;
+                  crudPurchase.paginate('orderPurchases',1).then(function (data) {
+                        $scope.orderPurchases = data.data;
+                        $scope.maxSize = 5;
+                        $scope.totalItems = data.total;
+                        $scope.currentPage = data.current_page;
+                        $scope.itemsperPage = 15;
+
+                    });
+                    $scope.query='';
                     $scope.orderPurchase.fechafin=null;
+                    $scope.orderPurchase.fechaini=null;
                     $scope.estado='';
+                    $scope.textoBoton="Generar Reporte";
                 }
                 $scope.filtroFechas=function(){
                    //alert("oye"+$scope.orderPurchase.fechaini);
@@ -1867,6 +2029,24 @@ $scope.recalPayments=function(){
                             ($scope.orderPurchase.fechafin.getMonth()+1)+"-"+$scope.temporalfech2;
                          }
                    }
+                   if($scope.checkFechaPr==true){
+                    //alert($scope.check);
+                        if($scope.check==false){
+                          
+                        }else{
+                         // alert("oye este");
+                          crudPurchase.reporteRangoFechas('searchFechasLlegada',$scope.temporalfec,$scope.temporalfech2).then(function (data) {
+                               $scope.orderPurchases = data.data;
+                               $scope.maxSize = 5;
+                               $scope.totalItems = data.total;
+                               $scope.currentPage = data.current_page;
+                               $scope.itemsperPage = 15;
+                         })
+                          $scope.estado='';
+                          $scope.query='';
+                          $scope.textoBoton="Generar Reporte";
+                        }
+                   }else{
                     crudPurchase.paginarporfechas('orderPurchases',$scope.temporalfec,$scope.temporalfech2).then(function (data) {
                                $scope.orderPurchases = data.data;
                                $scope.maxSize = 5;
@@ -1874,8 +2054,12 @@ $scope.recalPayments=function(){
                                $scope.currentPage = data.current_page;
                                $scope.itemsperPage = 15;
                          });
+                    $scope.estado='';
+                    $scope.query='';
+                    $scope.textoBoton="Generar Reporte";
+                  }
                     }else{
-                        alert("Error selecciones fecha correcta");
+                        //alert("Error selecciones fecha correcta");
                     }
                 }
                 $scope.editPayment = function(){

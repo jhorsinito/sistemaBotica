@@ -41,6 +41,7 @@ class PaymentsController extends Controller {
 
     public function create(Request $request)
     {
+        \DB::beginTransaction();
        // var_dump($request->all());die();
         //var_dump($request->all());die();
        /* $var=$request->detPayments;
@@ -128,10 +129,10 @@ class PaymentsController extends Controller {
         $cashr->save();
     }
     if($request->input('cajamensual')==true){
-        
-    $año=$this->yearRepo->findID($request->input("año"));
+    $request->merge(['fecha'=>$var["fecha"]]); 
+    //$año=$this->yearRepo->findID($request->input("año"));
     //var_dump($año["id"]);die();
-    $request->merge(["years_id"=>$año->id]);
+    //$request->merge(["years_id"=>$año->id]);
     $request->merge(["amount"=>$var["montoPagado"]]);
     $request->merge(['descripcion'=>"Pago a Proveedores"]);
     $request->merge(['expenseMonthlys_id'=>1]);
@@ -142,6 +143,7 @@ class PaymentsController extends Controller {
 }
     $manager = new DetPaymentManager($detPayment,$var);
     $manager->save();
+    \DB::commit();
 
         return response()->json(['estado'=>true, 'nombre'=>$payment->id]);
     }
@@ -154,6 +156,7 @@ class PaymentsController extends Controller {
 
     public function edit(Request $request)
     {
+        \DB::beginTransaction();
         $var=$request->detPayments;
         $detPayment= $this->detPaymentRepo->find($request->detpId);
          $pagoTemporal=$detPayment->montoPagado;
@@ -234,17 +237,20 @@ if(intval($request->input('cashMonthly_id'))>0){
     $request->merge(["amount"=>$var["montoPagado"]]);
     $request->merge(['descripcion'=>"Pago a Proveedores"]);
     $request->merge(['expenseMonthlys_id'=>1]);
+    $request->merge(['fecha'=>$var["fecha"]]);
     $request->merge(['months_id'=>$cashMontly->months_id]);
 
     $cashMontl = new CashMonthlyManager($cashMontly,$request->all());
     $cashMontl->save();
     //$var['cashMonthly_id']=$cashMonthly->id;
 }
+\DB::commit();
         //==============================
         return response()->json(['estado'=>true, 'nombre'=>$payment->nombre]); 
     }
   public function destroy(Request $request)
     {
+        \DB::beginTransaction();
         //var_dump($request->all());die();
         $detPayment=$this->detPaymentRepo->find($request->detpId);
         $pagoTemporal=$detPayment->montoPagado;
@@ -304,7 +310,7 @@ if(intval($request->input('cashMonthly_id'))>0){
              $cashMontl =$this->cashMonthlyRepo->find($request->input("cashMonthly_id"));
              $cashMontl->delete();
         }
-       
+       \DB::commit();
         return response()->json(['estado'=>true, 'nombre'=>$payment->nombre]);
     }
     public function payIDLocal($id){

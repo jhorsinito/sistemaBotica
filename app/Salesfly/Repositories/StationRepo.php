@@ -17,4 +17,11 @@ class StationRepo extends BaseRepo{
                     ->paginate(15);
         return $stations;
     }
+    public function validarNoRepit($text){
+        $brands =Station::where('nombre','=', $text)
+                    ->orWhere('shortname','=', $text)
+                    //->with(['customer','employee'])
+                    ->first();
+        return $brands;
+    }
 } 

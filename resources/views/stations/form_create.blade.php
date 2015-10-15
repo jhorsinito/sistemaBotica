@@ -30,7 +30,7 @@
                     
                    <div class="form-group" ng-class="{true: 'has-error'}[ stationCreateForm.nombre.$error.required && stationCreateForm.$submitted || stationCreateForm.nombre.$dirty && stationCreateForm.nombre.$invalid]">
                       <label for="nombre">Nombre</label>
-                      <input type="text" class="form-control" name="nombre" placeholder="Nombre" ng-model="station.nombre" required>
+                      <input type="text" class="form-control" name="nombre" ng-blur="validanomStacion()"placeholder="Nombre" ng-model="station.nombre" required>
                       <label ng-show="stationCreateForm.$submitted || stationCreateForm.nombre.$dirty && stationCreateForm.nombre.$invalid">
                         <span ng-show="stationCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>

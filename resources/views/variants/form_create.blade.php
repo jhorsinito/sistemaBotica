@@ -102,9 +102,39 @@
 
                                     </div>
                                     <div class="col-md-3">
-                                        <input type="text" class="form-control" ng-model="variant.detAtr[$index].descripcion"  ng-keyup="capAttr(row.id)" typeahead="state for state in opcAtr[row.id] | filter:$viewValue | limitTo:8">
+                                        <input ng-disabled="row.id==2 && variant.checkTallas" typeahead-on-select="capAttr1(row.id)" type="text" class="form-control" ng-model="variant.detAtr[$index].descripcion"  ng-keyup="capAttr(row.id)" typeahead="state for state in opcAtr[row.id] | filter:$viewValue | limitTo:8">
                                     </div>
+                                    <!---===============================Parte de Alexis=============================-->
+                                    <div ng-if="row.nombre=='Taco'"class="col-md-6">    
+                                       <div ng-show="variant.checkTallas==true" style="background-color: red;" ui-slider="{range: true}" min="15" max="45" step="1" ng-click="LlenarRangoTallas(demoVals.sliderExample9[1],demoVals.sliderExample9[0])" use-numbers ng-model="demoVals.sliderExample9"></div>
+                                       <input ng-disabled="true" ng-show="variant.checkTallas==true" type="text" ng-model="demoVals.sliderExample9" />
+                                    </div>
+                                    <div ng-if="row.nombre=='Talla'"class="col-md-3">
+                                          <div   class="form-group" >                            
+                                              <input  ng-click="agregarenGrupo()" type="checkbox"  name="variantes" ng-model="variant.checkTallas" />
+                                              <em class="text-light-blue">¿Agregar tallas en grupo?</em>
+                                          </div>
+                                    </div>
+                                    <!--=========================================fin==================================-->
                                 </div>
+                                <!--==============================================================================-->
+                              
+                               <div  class="box-body" style="overflow-x:scroll;">
+                                <table style="style-decoration:none;">
+                                  <tr Style="height:10px;">
+                                     <td ng-repeat="n in ArrayTallas track by $index">
+                                     <input  style="width:50px;" type="text" ng-blur="" ng-model="n[$index]" >
+                                     </td>
+                                  </tr>
+                                  <tr Style="height:10px;">
+                                     <td ng-repeat="n in ArrayTallas track by $index">
+                                     <input  style="width:50px;" type="Number" ng-blur="generarVariantes(variant.talla[$index],$index)" ng-model="variant.talla[$index]" >
+                                     </td>
+                                  </tr>
+                                </table>
+                                </div>       
+                                <!--================================================================================-->
+
 
                             </div><!-- /.box-body -->
 

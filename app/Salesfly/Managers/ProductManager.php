@@ -6,7 +6,7 @@ class ProductManager extends BaseManager{
 
     public function getRules(){
         $rules = [
-            'nombre' => 'required',
+            'nombre' => 'required|unique:products,nombre,'.$this->entity->id,
             'codigo' => 'required|unique:products,codigo,'.$this->entity->id,
             'suppCode' => 'required|unique:products,suppCode,'.$this->entity->id,
             'hasVariants' => 'required|boolean',

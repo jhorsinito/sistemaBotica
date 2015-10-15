@@ -16,6 +16,12 @@ class StationsController extends Controller {
     {
         $this->stationRepo = $stationRepo;
     }
+    public function validastationname($text){
+        
+        $brands = $this->stationRepo->validarNoRepit($text);
+
+        return response()->json($brands);
+    }
 
     public function index()
     {

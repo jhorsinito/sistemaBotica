@@ -462,5 +462,9 @@ class ProductsController extends Controller
 
         return response()->json($products);
     }
-
+   
+   public function validarNombre($text){
+        $product = $this->productRepo->validarNoRepitname($text);
+        return response()->json($product);
+    }
 }

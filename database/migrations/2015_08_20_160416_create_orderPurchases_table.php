@@ -14,8 +14,8 @@ class CreateOrderPurchasesTable extends Migration
     {
          Schema::create('orderPurchases', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('fechaPedido');
-            $table->date('fechaPrevista');
+            $table->timestamp('fechaPedido');
+            $table->timestamp('fechaPrevista');
             $table->decimal('descuento',10,2);
             $table->decimal('montoBruto',10,2);
             $table->decimal('montoTotal',10,2);

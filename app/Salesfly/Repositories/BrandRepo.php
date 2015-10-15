@@ -11,8 +11,16 @@ class BrandRepo extends BaseRepo{
     public function search($q)
     {
         $brands =Brand::where('nombre','like', $q.'%')
+                    ->orWhere('shortname','like',$q.'%')
                     //->with(['customer','employee'])
                     ->paginate(15);
+        return $brands;
+    }
+    public function validarNoRepit($text){
+        $brands =Brand::where('nombre','=', $text)
+                    ->orWhere('shortname','=', $text)
+                    //->with(['customer','employee'])
+                    ->first();
         return $brands;
     }
 }

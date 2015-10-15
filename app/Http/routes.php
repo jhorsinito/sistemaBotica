@@ -117,6 +117,8 @@ Route::get('api/products/autocomplit/','ProductsController@autocomplit');
 Route::get('api/products/autocomplit2/','ProductsController@getAutocomplit2');
 Route::get('api/products/select','ProductsController@selectProducts');
 
+Route::get('api/products/validar/{text}','ProductsController@validarNombre');
+
 
 //---------------------
 Route::get('api/productsSearchsku/misDatos/{store?}/{were?}/{q?}',['as'=>'person_find', 'uses'=>'ProductsController@searchsku']);
@@ -189,6 +191,7 @@ Route::get('brands',['as'=>'brand','uses'=>'BrandsController@index']);
  Route::post('api/brands/destroy',['as'=>'brand_destroy', 'uses'=>'BrandsController@destroy']);
  Route::get('api/brands/search/{q?}',['as'=>'brand_search', 'uses'=>'BrandsController@search']);
  Route::get('api/brands/find/{id}',['as'=>'brand_find', 'uses'=>'BrandsController@find']);
+ Route::get('api/brands/validar/{text}',['as'=>'brand_find', 'uses'=>'BrandsController@validaBrandname']);
  //END STORE ROUTES
 Route::get('types',['as'=>'store','uses'=>'TypesController@index']);
 Route::get('types/create',['as'=>'type_create','uses'=>'TypesController@index']);
@@ -260,6 +263,7 @@ Route::put('api/stations/edit',['as'=>'atribut_edit', 'uses'=>'StationsControlle
 Route::post('api/stations/destroy',['as'=>'atribut_destroy', 'uses'=>'StationsController@destroy']);
 Route::get('api/stations/search/{q?}',['as'=>'atribut_search', 'uses'=>'StationsController@search']);
 Route::get('api/stations/find/{id}',['as'=>'atribut_find', 'uses'=>'StationsController@find']);
+Route::get('api/stations/validar/{text}',['as'=>'atribut_find', 'uses'=>'StationsController@validastationname']);
 
 
 Route::get('materials',['as'=>'warehouse','uses'=>'MaterialsController@index']);
@@ -402,10 +406,16 @@ Route::get('orderPurchases/show/{id?}','OrderPurchasesController@index');
 Route::get('orderPurchases/view-show','OrderPurchasesController@show'); 
 Route::get('api/orderPurchases/paginarfechaTipo/{fechaini}/{fechafin}/{estado}','OrderPurchasesController@searchFechasEstado');
 Route::get('api/orderPurchases/paginar/{fechaini}/{fechafin}','OrderPurchasesController@searchFechas');
+Route::get('api/searchFechasLlegadaEstado/paginarfechaTipo/{fechaini}/{fechafin}/{estado}','OrderPurchasesController@searchFechasLlegadaEstado');
+
 
 Route::post('api/orderPurchases/reporteEstado/{estado}','OrderPurchasesController@reporteEstado');
 Route::post('api/orderPurchases/reporteRangoFechas/{fech1}/{fecha2}','OrderPurchasesController@reporteRangoFechas');
+Route::post('api/searchFechasLlegada/reporteRangoFechas/{fech1}/{fecha2}','OrderPurchasesController@searchFechasLlegada');
 Route::post('api/orderPurchases/reporteRangoFechasEstado/{fech1}/{fecha2}/{estado}','OrderPurchasesController@reporteRangoFechasEstado');
+Route::post('api/reporteRangoFechaPrevista/reporteRangoFechas/{fech1}/{fecha2}','OrderPurchasesController@reporteRangoFechaPrevista');
+Route::post('api/reporteRangoFechaPrevistaEstado/reporteRangoFechasEstado/{fech1}/{fecha2}/{estado}','OrderPurchasesController@reporteRangoFechaPrevistaEstado');
+Route::post('api/reporteOrdenCompreLike/reporteEstado/{descr}','OrderPurchasesController@reporteOrdenCompreLike');
 
 Route::get('purchases',['as'=>'person','uses'=>'PurchasesController@index']);
 Route::get('purchases/create',['as'=>'person_create','uses'=>'PurchasesController@index']);
@@ -422,6 +432,7 @@ Route::get('api/purchases/find/{id}',['as'=>'person_find', 'uses'=>'PurchasesCon
 Route::get('api/purchases/mostrarCostos/{id}','PurchasesController@mostrarCostos');
 Route::post('api/TiketReport/create/{id}','PurchasesController@reportes');
 Route::post('api/CodReport/create/{id}','PurchasesController@reportesCod');
+Route::post('api/reporteCompraLike/create/{descr}','PurchasesController@reporteCompraLike');
 
 Route::post('api/reportePorFechacom/create/{fech1}/{fecha2}','PurchasesController@reporteRangoFechas');
 Route::post('api/reportPagos1/create/{idpro}','PurchasesController@reportepagosProveedor');
@@ -429,6 +440,8 @@ Route::post('api/reportPagos2/create/{idpay}','PurchasesController@reportepagos'
 
 Route::get('purchases/showD','PurchasesController@index');
 Route::get('purchases/view-showD','PurchasesController@form_showD');
+Route::get('purchases/cardex','PurchasesController@index');
+Route::get('purchases/view-cardex','PurchasesController@form_cardex');
 Route::get('api/purchases/paginar/{fechaini}/{fechafin}','PurchasesController@paginar1');
 
 //---------------------------------------------------------------------
@@ -492,6 +505,7 @@ Route::get('api/inputStocks/paginar/{fechaini}/{fechafin}','InputStocksControlle
 Route::get('api/inputStocks/paginartipos/{tipo}','InputStocksController@paginateTipos');
 Route::get('api/inputStocks/paginarfechaTipo/{fechaini}/{fechafin}/{tipo}','InputStocksController@selectFechaYtipo');
 //Route::post('api/reportes/reporteMovimientotipo/{tipo}','InputStocksController@reporteMovimentos');
+Route::post('api/reporttiket/reporteEstado/{id}','InputStocksController@reporttiket');
 Route::post('api/movimientoTipo/create/{tipo}','InputStocksController@reporteMovimentos');
 Route::post('api/movimientoFechas/create/{fech1}/{fecha2}','InputStocksController@reporteMovimentosFechas');
 Route::post('api/movimientoFechasTipo/create/{fech1}/{fecha2}/{tipo}','InputStocksController@reporteMovimentosFechasTipo');
@@ -663,3 +677,19 @@ Route::get('api/separateSales/find/{id}',['as'=>'person_find', 'uses'=>'Separate
 //--------------------------------------------------------------
 Route::get('api/DetSeparateSales/search/{id?}',['as'=>'person_search', 'uses'=>'DetSeparateSalesController@searchDetalle']);
 Route::put('api/DetSeparateSales/edit',['as'=>'person_edit', 'uses'=>'DetSeparateSalesController@edit']);
+
+Route::post('api/cardexUltimoDia/generate/{tipo}/{fecha}/{tienda}','PurchasesController@cardexUltimoDia');
+Route::post('api/cardexRangoFechas/create/{fechaini}/{fechafin}/{tipo}/{tienda}','PurchasesController@cardexRangoFechas');
+Route::post('api/cardexTopPrimero/generate/{fecha}/{tienda}/{tipo}','PurchasesController@cardexTopPrimero');
+Route::post('api/cardextopUnoRFechas/create/{fechaini}/{fechafin}/{tienda}/{tipo}','PurchasesController@cardextopUnoRFechas');
+Route::post('api/cardextopUnomen/generate/{fecha}/{tienda}/{tipo}','PurchasesController@cardextopUnomen');
+Route::post('api/cardextopUnomenRFechas/create/{fechaini}/{fechafin}/{tienda}/{tipo}','PurchasesController@cardextopUnomenRFechas');
+Route::post('api/cardextop10mejores/generate/{fecha}/{tienda}/{tipo}','PurchasesController@cardextop10mejores');
+Route::post('api/cardextop10mejoreRFechas/create/{fechaini}/{fechafin}/{tienda}/{tipo}','PurchasesController@cardextop10mejoreRFechas');
+Route::post('api/cardextop10Peores/generate/{fecha}/{tienda}/{tipo}','PurchasesController@cardextop10Peores');
+Route::post('api/cardextop10peoresFechas/create/{fechaini}/{fechafin}/{tienda}/{tipo}','PurchasesController@cardextop10peoresFechas');
+Route::post('api/reportMovimientoVarianteDMA/generate/{tipo}/{fecha}/{tienda}/{var}','PurchasesController@reportMovimientoVarianteDMA');
+Route::post('api/reportMovimientosVarianteRangoF/create/{fechaini}/{fechafin}/{tipo}/{tienda}/{var}','PurchasesController@reportMovimientosVarianteRangoF');
+
+
+

@@ -35,7 +35,7 @@
                             <div class="col-md-6">
                                 <div class="form-group" ng-class="{true: 'has-error'}[ productCreateForm.nombre.$error.required && productCreateForm.$submitted || productCreateForm.nombre.$dirty && productCreateForm.nombre.$invalid]">
                                     <label for="nombres">Nombre</label>
-                                    <input type="text" class="form-control" name="nombre" placeholder="Nombre" ng-model="product.nombre" required>
+                                    <input type="text" class="form-control" name="nombre" placeholder="Nombre" ng-model="product.nombre" ng-blur="validaNombre2(product.nombre)" typeahead-on-select="validarNombre()" typeahead="product as product.proNombre for product in products | filter:$viewValue | limitTo:8" required>
                                     <label ng-show="productCreateForm.$submitted || productCreateForm.nombre.$dirty && productCreateForm.nombre.$invalid">
                                         <span ng-show="productCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                                     </label>
@@ -80,7 +80,7 @@
                                 </div> <!--end row-->
 
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Marca <a class="btn btn-xs btn-info btn-flat" ng-click="addBrand()">+</a> </label>
                                             <select name="brand" class="form-control" ng-model="product.brand_id" ng-options="k as v for (k, v) in brands">
@@ -90,21 +90,21 @@
 
 
                                         </div></div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Línea <a class="btn btn-xs btn-info btn-flat" ng-click="addLine()">+</a></label>
                                             <select name="ttype" class="form-control" ng-model="product.type_id" ng-options="k as v for (k, v) in types">
                                                 <option value="">--Elige Categoría--</option>
                                             </select>
                                         </div></div>
-                                    <div class="col-md-3">
+                                    <!--<div class="col-md-3">
                                         <div class="form-group">
                                             <label>Material <a class="btn btn-xs btn-info btn-flat" ng-click="addMaterial()">+</a></label>
                                             <select name="material" class="form-control" ng-model="product.material_id" ng-options="k as v for (k, v) in materials">
                                                 <option value="">--Elige Material--</option>
                                             </select>
-                                        </div></div>
-                                    <div class="col-md-3">
+                                        </div></div>-->
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Estación <a class="btn btn-xs btn-info btn-flat" ng-click="addStation()">+</a></label>
                                             <select name="station" class="form-control" ng-model="product.station_id" ng-options="k as v for (k, v) in stations">
@@ -273,7 +273,7 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <input class="form-control" name="sku" type="text" ng-model="product.sku" ng-disabled="product.hasVariants || product.autogenerado" ng-required="!product.hasVariants && !product.autogenerado"/>
+                                            <input  class="form-control" name="sku" type="text" ng-model="product.sku" ng-disabled="product.hasVariants || product.autogenerado" ng-required="!product.hasVariants && !product.autogenerado"/>
                                             <span style="color:#dd4b39;" ng-show="productCreateForm.sku.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                                         </div>
 

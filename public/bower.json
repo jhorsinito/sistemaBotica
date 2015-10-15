@@ -19,8 +19,9 @@
     "jquery": "*",
     "jquery-ui": "*",
     "moment": "*",
-      "jquery.inputmask": "*",
-      "angular-xeditable": "*",
-      "ngprogress": "*"
+    "jquery.inputmask": "*",
+    "angular-xeditable": "*",
+    "ngprogress": "*",
+    "angular-ui-slider":"*"
   }
 }

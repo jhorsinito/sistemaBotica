@@ -45,7 +45,8 @@ class DetPaymentsController extends Controller {
     }
     public function create(Request $request)
     {
-        //var_dump($request->all());die();;
+      \DB::beginTransaction();
+       // var_dump($request->all());die();;
         $var=$request->detPayments;
         //var_dump($var);die();
         $detPayment = $this->detPaymentRepo->getModel();
@@ -88,10 +89,13 @@ class DetPaymentsController extends Controller {
     if($request->input('cajamensual')==true){
         
     $año=$this->yearRepo->findID($request->input("año"));
-    $request->merge(["years_id"=>$año->id]);
+    //var_dump($request->input("año"));
+    $request->merge(["years_id"=>$año['id']]);
     $request->merge(["amount"=>$var["montoPagado"]]);
     $request->merge(['descripcion'=>"Pago a Proveedores"]);
     $request->merge(['expenseMonthlys_id'=>1]);
+    //var_dump($request->detPayments["fecha"]);die();
+    $request->merge(['fecha'=>$request->detPayments["fecha"]]);
     $cashMontl = new CashMonthlyManager($cashMonthly,$request->all());
     $cashMontl->save();
     $var['cashMonthly_id']=$cashMonthly->id;
@@ -105,6 +109,7 @@ class DetPaymentsController extends Controller {
             $request->detPayments['fecha'] = null;
         }*/
        // $detPayment->save();
+        \DB::commit();
         return response()->json(['estado'=>true, 'montoP'=>$detPayment->Acuenta]);
     }
 
@@ -116,6 +121,7 @@ class DetPaymentsController extends Controller {
 
     public function edit(Request $request)
     {
+      var_dump("hola");die();
         $detPayment = $this->detPaymentRepo->find($request->id);
         $manager = new DetPaymentManager($detPayment,$request->all());
         $manager->save();

@@ -9,6 +9,8 @@
                 $rootScope.$on('$routeChangeSuccess', function(ev,data) {
                     $scope.progressbar.complete();
                 });*/
+               
+
                 $scope.stockVariants = [];
 
                 $scope.stockTemplate = 'stockTemplate.html';
@@ -115,7 +117,9 @@
                 {
                     if($location.path() == '/products/edit/'+$routeParams.id) {
 
-
+                                crudService.paginate('products',1).then(function (data) {
+                                    $scope.products = data.data;
+                                });
                           //  if(!$scope.product.hasVariants){
                                 crudService.byforeingKey('variants','variant',id).then(function(data){
                                     $log.log(data);
@@ -280,7 +284,9 @@
                     });
 
                     if($location.path() == '/products/create') {
-
+                        crudService.paginate('products',1).then(function (data) {
+                        $scope.products = data.data;
+                        });
                         crudService.select('products', 'brands').then(function (data) {
                             $scope.brands = data;
                         });
@@ -416,6 +422,11 @@
 
 
                 $scope.createVariant = function(){
+
+                    $scope.variant.otros=$scope.ArrayTallas;
+                    $scope.variant.cantTallas=$scope.variant1;
+                            //alert($scope.variant.otros);
+
                     if ($scope.variantCreateForm.$valid) {
                         var fv = document.getElementById('variantImage').files[0] ? document.getElementById('variantImage').files[0] : null;
                         //alert(f);
@@ -473,7 +484,7 @@
                         var r = new FileReader();
                         r.onloadend = function(e) {
                             $scope.product.image = e.target.result;
-
+                            
                             $scope.variant.product_id = $scope.product.id;
                             crudService.update($scope.variant, 'variants').then(function (data) {
                                 if (data['estado'] == true) {
@@ -643,18 +654,116 @@
                     })
                     //crudService.
                 }
-
+                $scope.agregarenGrupo=function(){
+                     if($scope.variant.checkTallas==true){
+                        $scope.variant.track=false;
+                        $scope.variant.detAtr[1].descripcion='';
+                     }else{
+                         $scope.variant.track=true;
+                         $scope.ArrayTalla={};
+                         $scope.ArrayTallas=[];
+                         $scope.variant.talla=[];
+                         $scope.LlenarRangoTallas();
+                     }
+                }
+                
                 $scope.editVariant = function(row){
                     $location.path('/variants/edit/'+row.id);
                 };
+                $scope.material='';
+                $scope.capAttr1 = function(attr_id){
+                    //alert(attr_id);
+                    $scope.material='';
+                    //alert($scope.variant.detAtr[3].descripcion);
+                    var separador = " ";
+                    var aregloSubcadena=new Array();
+                   if(attr_id == 1 || attr_id == 4) {
+                    if($scope.product.type){} else{$scope.product.type = { nombre : ''}}
+                         
+                          $scope.variant.codigo = $scope.product.codigo + $scope.product.type.nombre.charAt(0);
+                     if(attr_id == 4){
+                      var aregloSubcadena=$scope.variant.detAtr[3].descripcion.split(separador);
+                      $scope.material= aregloSubcadena[0].substring(0,1);
+                      
+                      if(parseInt(aregloSubcadena.length)>1){
+                        
+                        $scope.material= aregloSubcadena[0].substring(0,1)+aregloSubcadena[1].substring(0,1);
+                      }else{
+                        $scope.material= aregloSubcadena[0].substring(0,2);
+                      }
+                     }
+                         /*$scope.material= $scope.material+$scope.variant.detAtr[3].descripcion.substring(0, 1);
+                         for(var n=0;n<$scope.variant.detAtr[3].descripcion.length;n++){
+                            alert(n);
+                            alert($scope.variant.detAtr[3].descripcion.substring(n,1));
+                             if($scope.variant.detAtr[3].descripcion.substring(n,1)==' '){
+                                //alert(aqui);
+                                $scope.material=$scope.material+$scope.variant.detAtr[3].descripcion.substring(n+1,1);
+                             }
+                         }
+                         alert($scope.material);*/
+                         if(attr_id == 4 && $scope.variant.detAtr[0].descripcion!=undefined){
+                            $scope.variant.codigo=$scope.variant.codigo+$scope.variant.detAtr[0].descripcion.substring(0, 2)+ $scope.material.toLowerCase();
+                         }else{
 
-                $scope.capAttr = function(attr_id){
-                    //$log.log(attr_id);
-                    if(attr_id == 1) {
-                        if($scope.product.type){} else{$scope.product.type = { nombre : ''}}
-                        $scope.variant.codigo = $scope.product.codigo + $scope.product.type.nombre.charAt(0) + $scope.variant.detAtr[0].descripcion.substring(0, 2);
+                               if(attr_id == 1 && $scope.variant.detAtr[3].descripcion!=undefined){
+                               $scope.variant.codigo=$scope.variant.codigo+$scope.variant.detAtr[0].descripcion.substring(0, 2)+ $scope.material.toLowerCase();
+                               }else{
+                                   if(attr_id == 1 ){
+                                      $scope.variant.codigo=$scope.variant.codigo+$scope.variant.detAtr[0].descripcion.substring(0, 2);
+                                   }else{
+                                      $scope.variant.codigo=$scope.variant.codigo+ $scope.material.toLowerCase();
+                                   }
+                               }
+                         }
                     }
-                }
+                 }
+                $scope.capAttr = function(attr_id){
+                    //alert(attr_id);
+                    //alert($scope.variant.detAtr[3].descripcion);
+                    var separador = " ";
+                    var aregloSubcadena=new Array();
+                   if(attr_id == 1 || attr_id == 4) {
+                    if($scope.product.type){} else{$scope.product.type = { nombre : ''}}
+                         
+                          $scope.variant.codigo = $scope.product.codigo + $scope.product.type.nombre.charAt(0);
+                     if(attr_id == 4){
+                      var aregloSubcadena=$scope.variant.detAtr[3].descripcion.split(separador);
+                      $scope.material= aregloSubcadena[0].substring(0,1);
+                      
+                      if(parseInt(aregloSubcadena.length)>1){
+                        
+                        $scope.material= aregloSubcadena[0].substring(0,1)+aregloSubcadena[1].substring(0,1);
+                      }else{
+                        $scope.material= aregloSubcadena[0].substring(0,2);
+                      }
+                     }
+                         /*$scope.material= $scope.material+$scope.variant.detAtr[3].descripcion.substring(0, 1);
+                         for(var n=0;n<$scope.variant.detAtr[3].descripcion.length;n++){
+                            alert(n);
+                            alert($scope.variant.detAtr[3].descripcion.substring(n,1));
+                             if($scope.variant.detAtr[3].descripcion.substring(n,1)==' '){
+                                //alert(aqui);
+                                $scope.material=$scope.material+$scope.variant.detAtr[3].descripcion.substring(n+1,1);
+                             }
+                         }
+                         alert($scope.material);*/
+                         if(attr_id == 4 && $scope.variant.detAtr[0].descripcion!=undefined){
+                            $scope.variant.codigo=$scope.variant.codigo+$scope.variant.detAtr[0].descripcion.substring(0, 2)+ $scope.material.toLowerCase();
+                         }else{
+
+                               if(attr_id == 1 && $scope.variant.detAtr[3].descripcion!=undefined){
+                               $scope.variant.codigo=$scope.variant.codigo+$scope.variant.detAtr[0].descripcion.substring(0, 2)+ $scope.material.toLowerCase();
+                               }else{
+                                   if(attr_id == 1 ){
+                                      $scope.variant.codigo=$scope.variant.codigo+$scope.variant.detAtr[0].descripcion.substring(0, 2);
+                                   }else{
+                                      $scope.variant.codigo=$scope.variant.codigo+ $scope.material.toLowerCase();
+                                   }
+                               }
+                         }
+                    }
+                 }
 
                 //var trouble;
                 $scope.asignarDescr = function(index){
@@ -937,6 +1046,7 @@
 
                     });
                 };
+
                 $scope.addStation = function (size) {
 
                     var modalInstance = $modal.open({
@@ -961,7 +1071,82 @@
 
                     });
                 };
+                $scope.ArrayTallas =[];
+                $scope.ArrayTalla ={};
+                $scope.variants1=[];
+                $scope.variant1={};
+                $scope.variant.checkTallas=false;
+                $scope.obcional=0;
+                $scope.h=0;
+                $scope.LlenarRangoTallas=function(fin,ini){
+                   // alert(fin);
+                    $scope.ArrayTalla={};
+                    $scope.ArrayTallas=[];
+                    $scope.variant.talla=[];
+                    $scope.obcional=0;
+                    ///alert("hola que tal"+$scope.can);
+                   // if($scope.obcional==0){
+                      //  alert("estoy en cero");
+                        $scope.can=parseInt(fin)-parseInt(ini);
+                          for(var n=0;n<=$scope.can;n++)
+                        {   
+                            $scope.obcional=ini+n;
+                            $scope.ArrayTalla[n]=$scope.obcional; 
+                            $scope.ArrayTallas.push($scope.ArrayTalla);
+                            $scope.h++;
+                       // alert(n);
+                        }
 
+                   /* }else{
+                        alert("no estoy en cero"+$scope.obcional+"/"+$scope.h);
+                        $scope.can=parseInt(fin)-$scope.obcional;
+                         for(var t=0;t<$scope.can;t++)
+                        {   
+                            
+                            $scope.obcional++;
+                            $scope.ArrayTalla[$scope.obcional]=$scope.obcional; 
+                            $scope.ArrayTallas.push($scope.ArrayTalla);
+                            $scope.h++;
+                        }
+                   }*/
+                }
+               $scope.generarVariantes=function(cant,index){
+                ///alert("hola estoy llenando variantes"+index);
+                   $scope.variant1[index]=cant;
+                   $scope.variants1.push($scope.variant1);
+               }
+               $scope.validarNombre=function(){
+                   alert("Usted no puede crear dos productos con el mismo nombre");
+                   $scope.product.nombre='';
+                   crudService.paginate('products',1).then(function (data) {
+                        $scope.products = data.data;
+                   });
+               }
+               $scope.validaNombre2=function(texto){
+                 if(texto!=undefined){
+                    //alert(texto);
+                  crudService.validar('products',texto).then(function (data){
+                        //$scope.products = data;
+                        //alert(data.nombre);
+                        if(data.nombre!=undefined){
+                           alert("Usted no puede crear dos productos con el mismo nombre");
+                           $scope.product.nombre=''; 
+                        }
+                    });
+                 }
+               }
+               $scope.validanomMarca=function(texto){
+                alert('hola');
+                    if(texto!=undefined){
+                        crudService.search('brands',texto,1).then(function (data){
+                        $scope.materials = data.data;
+                        if($scope.materials!=null){
+                           alert("Usted no puede crear dos Marcas con el mismo nombre");
+                           $scope.product.nombre=''; 
+                        }
+                    });
+                    }
+               }
                 $scope.addAttribute = function (size) {
 
                     var modalInstance = $modal.open({

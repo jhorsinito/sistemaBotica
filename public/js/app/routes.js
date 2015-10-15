@@ -41,6 +41,10 @@
                     templateUrl:'/purchases/view-showD',
                     controller: 'PurchaseController'
                 })
+                .when('/purchases/cardex',{
+                    templateUrl:'/purchases/view-cardex',
+                    controller: 'PurchaseController'
+                })
                 //---------------------------------------
                  .when('/orderPurchases', {
                     templateUrl: '/js/app/orderPurchases/views/index.html',

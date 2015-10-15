@@ -12,7 +12,16 @@
 
                 return deferred.promise;
             }
-            
+             function todos(uri)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/all')
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
 
             function paginate(uri,page)
             {
@@ -290,16 +299,76 @@
 
                 return deferred.promise;
             }
+            function paginatVariants(uri)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/Paginar_por_Variante')
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
             //'/api/'+uri+'/create/'+id+'/'+can
+            //==========================Ruta generar reporte product========================
+            function reporteProducts(uri,tipo,fecha,tienda){
+                   var deferred = $q.defer();
+                $http.post('/api/'+uri+'/generate/'+tipo+'/'+fecha+'/'+tienda).success(function (data) {
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
+            function CardexFechasTipo(uri,fech1,fech2,tipo,tienda){
+                   var deferred = $q.defer();
+                $http.post('/api/'+uri+'/create/'+fech1+'/'+fech2+'/'+tipo+'/'+tienda).success(function (data) {
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
+            function cardexTopPrimero(uri,fecha,tienda,tipo){
+                   var deferred = $q.defer();
+                $http.post('/api/'+uri+'/generate/'+fecha+'/'+tienda+'/'+tipo).success(function (data) {
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
+             function reportesCardexFecha(uri,fech1,fech2,tienda,tipo){
+                   var deferred = $q.defer();
+                $http.post('/api/'+uri+'/create/'+fech1+'/'+fech2+'/'+tienda+'/'+tipo).success(function (data) {
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
+            function cardexTopVariantPrimero(uri,tipo,fecha,tienda,variant){
+                   var deferred = $q.defer();
+                $http.post('/api/'+uri+'/generate/'+tipo+'/'+fecha+'/'+tienda+'/'+variant).success(function (data) {
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
+             function reportesCardexVariantFecha(uri,fech1,fech2,tipo,tienda,variant){
+                   var deferred = $q.defer();
+                $http.post('/api/'+uri+'/create/'+fech1+'/'+fech2+'/'+tipo+'/'+tienda+'/'+variant).success(function (data) {
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
+            //==================================================
             return {
                 all: all,
                 paginate: paginate,
                 create:create,
+                CardexFechasTipo: CardexFechasTipo,
+                reportesCardexFecha: reportesCardexFecha,
+                reporteProducts: reporteProducts,
                 movimientoFechasTipo: movimientoFechasTipo,
                 paginarporfechas: paginarporfechas,
+                cardexTopPrimero: cardexTopPrimero,
                 paginarportipos: paginarportipos,
                 paginarfechaTipo: paginarfechaTipo,
                 byId:byId,
+                cardexTopVariantPrimero:cardexTopVariantPrimero,
+                reportesCardexVariantFecha:reportesCardexVariantFecha,
                 comprovarCaja: comprovarCaja,
                 update:update,
                 reportesMovFecha: reportesMovFecha,
@@ -321,7 +390,9 @@
                 MostrarTallas: MostrarTallas,
                getTallas: getTallas,
                setAtrib: setAtrib,
-               Reportes: Reportes
+               Reportes: Reportes,
+               paginatVariants: paginatVariants,
+               todos: todos
             }
         }])
         .factory('socketService', function ($rootScope) {

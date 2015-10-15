@@ -59,7 +59,7 @@
                                 <div class="input-group-addon">
                                       <i class="fa fa-calendar"></i>
                                 </div>
-                                  <input  type="date" class="form-control"  name="fechaPedido" ng-model="purchase.fechaini">
+                                  <input  type="date" class="form-control"  ng-change="filtrarFechas()" name="fechaPedido" ng-model="purchase.fechaini">
                             </div>
                   </div>
           </div>
@@ -107,7 +107,7 @@
                 </div>
           </div>
           <div class="col-md-1">
-             <a ng-click="MovimientoAlmacen()" style="width:95px;"class="btn btn-success btn-xs">Generar Reporte</a>
+             <a ng-click="MovimientoAlmacen()" style="width:95px;"class="btn btn-success btn-xs">@{{textMovimiento}}</a>
              <a ng-href="@{{pdfMovimiento}}" style="width:95px;" target="_blank" class="btn btn-primary btn-xs">Ver Reporte</a>
           </div>
   </div>
@@ -136,8 +136,13 @@
                       <td ng-if="row.tipo=='Entrada'"><span class="badge bg-red">Entrada</span></td> 
                       <td ng-if="row.tipo=='Transferencia'"><span class="badge bg-yellow">Transferencia</span></td> 
                       <td ng-if="row.tipo=='Salida'"><span class="badge bg-green">Salida</span></td> 
+
+                      <td ng-if="row.tipo=='Compra'"><span class="badge bg-brown">Compra</span></td> 
+                      <td ng-if="row.tipo=='Venta'"><span class="badge bg-purple">Venta</span></td> 
+
                       <td ng-if="row.tipo=='Salida Venta'"><span class="badge bg-green">Salida Venta</span></td> 
                       <td ng-if="row.tipo=='Entrada Venta'"><span class="badge bg-red">Entrada Venta</span></td> 
+
                       <td >@{{row.orderPurchase_id}}</td>
                       <td>@{{row.purchase_id}}</td>
                       <td>@{{row.sale_id}}</td>
@@ -284,7 +289,7 @@
           <div class="col-md-2">
           <div class="form-group" ng-class="{true: 'has-error'}[ inputStocksBodyCreateForm.nombre.$error.required && inputStocksBodyCreateForm.$submitted || inputStocksBodyCreateForm.nombre.$dirty && inputStocksBodyCreateForm.nombre.$invalid]">
                       <label for="nombre">Cantidad</label>
-                      <input ng-disabled="Listo" type="Number" class="form-control" name="nombre" placeholder="Nombre" ng-blur="verStockActual()" ng-model="inputStock.cantidad_llegado" required>
+                      <input ng-disabled="Listo" type="Number" min='0' class="form-control" name="nombre" placeholder="Nombre" ng-blur="verStockActual()" ng-model="inputStock.cantidad_llegado" required>
                       <label ng-show="inputStocksBodyCreateForm.$submitted || inputStocksBodyCreateForm.nombre.$dirty && inputStocksBodyCreateForm.nombre.$invalid">
                         <span ng-show="inputStocksBodyCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>
@@ -355,7 +360,7 @@
                  <!-- <input  type="checkbox"  ng-click="quitarTalla(item.numTalla,cheked1)" ng-model="cheked1"  />@{{item.numTalla}}
                   <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.numTalla)" step="1" rquired>-->
                   <input  type="checkbox"  ng-click="quitarTalla(item.valorDetAtr,cheked1)" ng-model="cheked1"  />@{{item.valorDetAtr}}
-                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(item.stockActual,item.NombreAtributos,item.varSku,item.varCodigo,cantidad,item.valorDetAtr)" step="1" rquired>
+                  <input ng-show="cheked1" type="number" min='0' style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(item.stockActual,item.NombreAtributos,item.varSku,item.varCodigo,cantidad,item.valorDetAtr)" step="1" rquired>
                   <em>Stock:@{{item.stockActual}}</em>
               </div>    
        </div>
@@ -444,7 +449,7 @@
       </div>
                      </div>
                      <div class="modal-footer" style="border-radius: 5px;">
-                    <a  class="btn btn-danger" data-dismiss="modal" aria-hidden="ngenabled">Cancelar</a>
+                    <a  class="btn btn-danger" data-dismiss="modal"  aria-hidden="ngenabled">Salir</a>
                    </div>
                      </form>
                    

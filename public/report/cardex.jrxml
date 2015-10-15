@@ -7,7 +7,7 @@
 	<parameter name="tipo" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select * from inputStocks inner join headInputStocks on headInputStocks.id=inputStocks.headInputStock_id inner join warehouses on warehouses.id=headInputStocks.warehouses_id
-where inputStocks.variant_id=$P{pruct_id} and headInputStocks.tipo=$P{tipo};]]>
+where inputStocks.variant_id=$P{pruct_id} and headInputStocks.tipo=$P{tipo} or ;]]>
 	</queryString>
 	<field name="id" class="java.lang.Long">
 		<fieldDescription><![CDATA[]]></fieldDescription>

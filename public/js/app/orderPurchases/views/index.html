@@ -1,11 +1,11 @@
 <!-- Content Header (Page header) -->
         <section class="content-header">
-          <h1>Order Purchase
+          <h1>Order de Compras
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Order Purchase</li>
+            <li class="active"><a target="_self"  href="/purchases" >Compras</a></li>
           </ol>
 
           
@@ -31,7 +31,7 @@
               <div class="box">
                  
                 <div class="box-header with-border">
-                  <h3 class="box-title">Order Purchase</h3>
+                  <h3 class="box-title">Order de Compras</h3>
                   <div class="box-tools">
                   <div class="form-group">
                 
@@ -61,13 +61,18 @@
                     </p>
                   </div>
             <div class="row">
-                 <div class="col-md-2">
-               <em>¿Seleccione para filtrar individualmente?</em>
+            
+                 <div  class="col-md-2">
                       <div   class="form-group" >                            
                             <input   ng-click="limpiarFiltros()" type="checkbox"  name="variantes" ng-model="check" />
-                            
+                            <em>¿filtrar individualmente?</em>
                         </div>
-                </div> 
+                         <div   class="form-group" >                            
+                            <input   ng-click="mostrarTodos()" type="checkbox"  name="variantes" ng-model="checkFechaPr"/>
+                            <em>¿Filtrar por fecha Prevista?</em>
+                        </div>
+                </div>
+                
                 <div class="col-md-2">
                   <div  class="form-group">
                                 <label for="fechaPedido">Elija Rango de Fechas</label>
@@ -75,7 +80,7 @@
                                 <div class="input-group-addon">
                                       <i class="fa fa-calendar"></i>
                                 </div>
-                                  <input  type="date" class="form-control"  name="fechaPedido" ng-model="orderPurchase.fechaini">
+                                  <input  type="date" ng-change="filtroFechas()" class="form-control"  name="fechaPedido" ng-model="orderPurchase.fechaini">
                             </div>
                   </div>
           </div>
@@ -105,6 +110,7 @@
                             
                       </div> 
           </div>
+        
           <div ng-show="check" class="col-md-3">
                 <label for="fechaPedido">Filtrar por Estado</label>
                 <select class="form-control"  ng-change="searchEstados()" ng-model="estado" >
@@ -126,7 +132,7 @@
                 </select>
               </div>
             <div class="col-md-1">
-             <a ng-click="generarReporteFiltros()" style="width:95px;" class="btn btn-success btn-xs">Generar Reporte</a>
+             <a ng-click="generarReporteFiltros()" style="width:95px;" class="btn btn-success btn-xs">{{textoBoton}}</a>
              <a ng-href="{{pdforden}}" style="width:95px;" target="_blank" class="btn btn-primary btn-xs">Ver Reporte</a>
           </div>
             </div>    

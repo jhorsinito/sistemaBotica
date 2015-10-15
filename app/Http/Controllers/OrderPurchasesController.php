@@ -113,6 +113,16 @@ class OrderPurchasesController extends Controller {
         $orderPurchase=$this->orderPurchaseRepo->searchFechas($fechaini,$fechafin);
        return response()->json($orderPurchase);
     }
+    public function searchFechasLlegadaEstado($fechaini,$fechafin,$estado)
+    {
+        $orderPurchase=$this->orderPurchaseRepo->searchFechasLlegadaEstado($fechaini,$fechafin,$estado);
+       return response()->json($orderPurchase);
+    }
+     public function searchFechasLlegada($fechaini,$fechafin)
+    {
+        $orderPurchase=$this->orderPurchaseRepo->searchFechasLlegada($fechaini,$fechafin);
+       return response()->json($orderPurchase);
+    }
     public function edit(Request $request)
     {
     \DB::beginTransaction();
@@ -327,7 +337,7 @@ class OrderPurchasesController extends Controller {
          $var=$request->detPayments;              
       // var_dump($var);die();
               $SaldoAfavor=$SaldoAfavor-$verDeudas->Saldo;
-              if($provicional==null){
+              if(!empty($provicional)){
               $payment = $this->paymentRepo->getModel();
               //$request->merge(['montoTotal'=>$montotot]);
               $request->merge(['Acuenta'=> $SaldoAfavor]);
@@ -487,6 +497,28 @@ class OrderPurchasesController extends Controller {
         )->execute();
         return '/report/'.$time.'_reporteCompraFechas.'.$ext;
     }
+    //sin ruta aun
+    public function reporteRangoFechaPrevista($fech1,$fech2){
+      // var_dump($fech1."/".$fech2);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_reportFechaPrevista';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/reportFechaPrevista.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini' => $fech1,'fechafin'=>$fech2],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_reportFechaPrevista.'.$ext;
+    }
      public function reporteRangoFechasEstado($fech1,$fech2,$estado){
         $database = \Config::get('database.connections.mysql');
         $time=time();
@@ -507,5 +539,48 @@ class OrderPurchasesController extends Controller {
         )->execute();
         return '/report/'.$time.'_ReporteCompreFechEstad.'.$ext;
     }
-
+    //sin ruta aun
+    public function reporteRangoFechaPrevistaEstado($fech1,$fech2,$estado){
+        //var_dump($fech1."//".$fech2);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_ReportFechaPrevistaEstado';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/ReportFechaPrevistaEstado.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini' => $fech1,'fechafin'=>$fech2,'estado'=>$estado],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_ReportFechaPrevistaEstado.'.$ext;
+    }
+    //sin ruta
+      public function reporteOrdenCompreLike($decri){
+        //var_dump($estado);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_reporteOrdenCompreLike';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/reporteOrdenCompreLike.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['q'=>$decri],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_reporteOrdenCompreLike.'.$ext;
+    }
 }

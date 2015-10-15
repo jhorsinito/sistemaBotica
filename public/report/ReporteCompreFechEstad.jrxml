@@ -111,14 +111,6 @@
 				</textElement>
 				<text><![CDATA[Orden de Compra N°:]]></text>
 			</staticText>
-			<subreport>
-				<reportElement x="0" y="47" width="555" height="11" uuid="99397a29-8270-49a6-b45d-97d807254797"/>
-				<subreportParameter name="ordePurchase_ID">
-					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subreporteCompras.jasper"]]></subreportExpression>
-			</subreport>
 			<staticText>
 				<reportElement positionType="FixRelativeToBottom" x="364" y="71" width="72" height="20" uuid="9b5b5370-12ff-4a94-b2da-780c223b478f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">

@@ -102,7 +102,20 @@
                         });
                     }
                 };
-
+                 $scope.validanomStacion=function(texto){
+                 alert("hola");
+                   if(texto!=undefined){
+                        crudService.validar('stations',texto).then(function (data){
+                        $scope.station = data;
+                        alert($scope.station);
+                        if(data!=null){
+                           alert("Usted no puede crear dos Marcas con el mismo nombre");
+                           $scope.station.nombre=''; 
+                           $scope.station.shortname=''; 
+                        }
+                    });
+                    }
+               }
                 $scope.deleteStation = function(row){
                     
                     $scope.station = row;

@@ -91,4 +91,10 @@ class BrandsController extends Controller {
 
         return response()->json($brands);
     }
+    public function validaBrandname($text){
+        
+        $brands = $this->brandRepo->validarNoRepit($text);
+
+        return response()->json($brands);
+    }
 }

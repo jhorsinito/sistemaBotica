@@ -50,7 +50,7 @@
                       <td >@{{row.empresa}}</td>
                       
                      <td ><label style="width: 50px">@{{row.Saldo}}</label>
-                      <input ng-if="indexPirata==$index" ng-show="verEdicion" ng-model="row.nuevoSaldo" type="number" ng-blur="ActualizarSaldo(row,row.nuevoSaldo)" style="width: 50px">
+                      <input ng-if="indexPirata==$index" ng-show="verEdicion" ng-model="row.nuevoSaldo" type="number" min='0' ng-blur="ActualizarSaldo(row,row.nuevoSaldo)" style="width: 50px">
                       <select ng-if="indexPirata==$index" ng-show="verEdicion" class="form-control"  ng-model="row.cash_id" style="width: 100px" ng-options="item.cashID as item.nombre for item in cashHeaders" >
                        <option value="">Elija Caja</option>
                        </select></td>

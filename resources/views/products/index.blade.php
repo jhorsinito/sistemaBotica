@@ -23,9 +23,10 @@ Productos
 </section>
 
 @section('js-customize')
+
     <script src="/js/app/products/app.js"></script>
     <script src="/js/app/products/controllers.js"></script>
-
+    
 @stop
 
 @stop
