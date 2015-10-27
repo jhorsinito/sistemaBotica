@@ -12,7 +12,7 @@ class CreateEspejo2Table extends Migration
      */
     public function up()
     {
-        Schema::create('espejo22', function (Blueprint $table) {
+        Schema::create('espejo2', function (Blueprint $table) {
             $table->increments('id');
             $table->decimal('cantidad',10,2);
             $table->integer('Idvar');
@@ -23,7 +23,7 @@ class CreateEspejo2Table extends Migration
             $table->String('Talla');
             $table->bigInteger('sku');
         });
-        DB::STATEMENT('
+       /* DB::STATEMENT('
           DELIMITER $$
           DROP PROCEDURE IF EXISTS detalles2$$
           CREATE PROCEDURE detalles2(id int)
@@ -86,7 +86,7 @@ DB::STATEMENT('
                SELECT * from espejo2;
                END$$
                DELIMITER ;'
-               );
+               );*/
     }
 
     /**
@@ -96,6 +96,6 @@ DB::STATEMENT('
      */
     public function down()
     {
-        Schema::drop('espejo22');
+        Schema::drop('espejo2');
     }
 }

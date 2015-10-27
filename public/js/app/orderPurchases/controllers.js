@@ -342,7 +342,8 @@
                   $scope.n=0;
                   
                   $scope.badera=true;
-                  $scope.quitarTalla=function(talla,estado){
+                  $scope.cantidad=[];
+                  $scope.quitarTalla=function(index,talla,estado){
                     //alert(talla+"/"+estado);
                     if(estado==false){
                     var t=0;
@@ -357,6 +358,7 @@
                             $scope.detailOrderPurchase.montoTotal=parseFloat((parseFloat($scope.detailOrderPurchase.montoTotal)-parseFloat($scope.companies[n].montoTotal)).toFixed(2)); 
                             $scope.detailOrderPurchase.preCompra=parseFloat((parseFloat($scope.detailOrderPurchase.montoTotal)/parseFloat($scope.detailOrderPurchase.cantidad)).toFixed(2));
                             $scope.companies.splice(t-1,1);
+                            $scope.cantidad[index]='';
                             break;
                         }
                     }
@@ -597,6 +599,7 @@
                                       
                                     }else{
                                         $scope.mostrarPresentacion=false;
+                                        $scope.activarCampCantidad=true;
                                     }
                          
                                   });
@@ -713,6 +716,7 @@
                     $scope.limpiarDatosAgregate=function(){
                       $scope.product.proId='';
                       $scope.companies=[];
+                      $scope.cantidad=[];
                       $scope.company={};
                       $scope.mostrardetalles=true;
                       $scope.mostrarPresentacion=true;
@@ -1149,17 +1153,21 @@
                     $scope.orderPurchase.detailOrderPurchases=$scope.detailOrderPurchases
                     $scope.orderPurchase.Saldo=$scope.orderPurchase.montoTotal;
                     $scope.orderPurchases.push( $scope.orderPurchase);
-                    
+                    if($scope.detailOrderPurchases.length>1)
+                    {
                      crudPurchase.create($scope.orderPurchase, 'purchases').then(function (data) {
                          
                             if (data['estado'] == true) {
                                 alert('Compra directa correctamente registrada');
-                                $location.path('/orderPurchases');
+                                $location.path('/purchases');
                             } else {
                                 $scope.errors = data;
 
                             }
                         });
+                    }else{
+                      alert("No puede Crear compra directa sin tener por lo menos un detalle");
+                    }
                  
             }
 

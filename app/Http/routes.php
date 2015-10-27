@@ -433,6 +433,9 @@ Route::get('api/purchases/mostrarCostos/{id}','PurchasesController@mostrarCostos
 Route::post('api/TiketReport/create/{id}','PurchasesController@reportes');
 Route::post('api/CodReport/create/{id}','PurchasesController@reportesCod');
 Route::post('api/reporteCompraLike/create/{descr}','PurchasesController@reporteCompraLike');
+Route::get('purchases/createMov','PurchasesController@index');
+Route::get('purchases/form-createMov','PurchasesController@form_createMov');
+//Route::post('api/orderPurchases/create',['as'=>'person_create', 'uses'=>'OrderPurchasesController@create']);
 
 Route::post('api/reportePorFechacom/create/{fech1}/{fecha2}','PurchasesController@reporteRangoFechas');
 Route::post('api/reportPagos1/create/{idpro}','PurchasesController@reportepagosProveedor');

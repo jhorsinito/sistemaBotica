@@ -291,8 +291,8 @@
                <div class="input-group" ng-value="item.valorDetAtr">
                  <!-- <input  type="checkbox"  ng-click="quitarTalla(item.numTalla,cheked1)" ng-model="cheked1"  />@{{item.numTalla}}
                   <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.numTalla)" step="1" rquired>-->
-                  <input  type="checkbox"  ng-click="quitarTalla(item.valorDetAtr,cheked1)" ng-model="cheked1"  />@{{item.valorDetAtr}}
-                  <input ng-show="cheked1" type="number"  min='0'  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(item.NombreAtributos,item.varSku,item.varCodigo,cantidad,item.valorDetAtr,item.TieneVariante)" step="1" rquired>
+                  <input  type="checkbox"  ng-click="quitarTalla($index,item.valorDetAtr,cheked1)" ng-model="cheked1"  />@{{item.valorDetAtr}}
+                  <input ng-show="cheked1" type="number"  min='0'  style="width:40px"  placeholder="0" ng-model="cantidad[$index]" ng-blur="calCantidad(item.NombreAtributos,item.varSku,item.varCodigo,cantidad[$index],item.valorDetAtr,item.TieneVariante)" step="1" rquired>
               
               </div>    
        </div>

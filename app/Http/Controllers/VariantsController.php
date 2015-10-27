@@ -103,10 +103,11 @@ class VariantsController extends Controller
 
     public function create(Request $request)
     {
-       // \DB::beginTransaction();
+     \DB::beginTransaction();
         $tallasDisponibles=$request->otros;
         $cantTallas=$request->cantTallas;
         $request->merge(["estado"=>1]);
+
         //var_dump($request->input('stock')); die();
 
         $oProd = Product::find($request->input('product_id'));
@@ -155,16 +156,22 @@ foreach ($tallasDisponibles as $tallasD) {
             }
 
             foreach($request->input('detAtr') as $detAtr){
-                if(!empty($detAtr['descripcion']) || !empty($tallasD[$n])){
-
-                    if($detAtr['atribute_id']==2)
-                    {
-                      $detAtr['descripcion']=$tallasD[$n]; 
-                    }
+                if(!empty($detAtr['descripcion'])){
                     $detAtr['variant_id'] = $variant->id;
                     $oDetAtr = new DetAtrRepo();
                     $detAtrManager = new DetAtrManager($oDetAtr->getModel(),$detAtr);
                     $detAtrManager->save();
+                }
+                if(!empty($tallasD[$n])){
+
+                    if($detAtr['atribute_id']==2)
+                    {
+                         $detAtr['descripcion']=$tallasD[$n]; 
+                         $detAtr['variant_id'] = $variant->id;
+                         $oDetAtr = new DetAtrRepo();
+                         $detAtrManager = new DetAtrManager($oDetAtr->getModel(),$detAtr);
+                         $detAtrManager->save();
+                    }
                 }
             }
 
@@ -173,6 +180,7 @@ foreach ($tallasDisponibles as $tallasD) {
                     //var_dump($cantTallas[0]);die();
                     if (isset($stock['stockMin']) && $stock['stockMin'] == null) $stock['stockMin'] = 0;
                     if (isset($stock['stockMinSoles']) && $stock['stockMinSoles'] == null) $stock['stockMinSoles'] = 0;
+                    
                     $stock['variant_id'] = $variant->id;
                     $oStock = new StockRepo();
                     $obj = $oStock->getModel()->where('variant_id',$stock['variant_id'])->where('warehouse_id',$stock['warehouse_id'])->first();
@@ -256,10 +264,11 @@ foreach ($tallasDisponibles as $tallasD) {
 
             if($request->input('track') == 1) {
                 foreach ($request->input('stock') as $stock ) {
-                    if (isset($stock['stockActual']) && $stock['stockActual'] == null) $stock['stockActual'] = 0;
-                    if (isset($stock['stockMin']) && $stock['stockMin'] == null) $stock['stockMin'] = 0;
-                    if (isset($stock['stockMinSoles']) && $stock['stockMinSoles'] == null) $stock['stockMinSoles'] = 0;
-                    $stock['variant_id'] = $variant->id;
+                    //var_dump($stock['stockActual']);die();
+                    if (isset($stock['stockActual']) || $stock['stockActual'] == NULL ||  $stock['stockActual'] =='') $stock['stockActual'] = 0;
+                        if (isset($stock['stockMin']) || $stock['stockMin'] == NULL ||  $stock['stockMin'] =='') $stock['stockMin'] = 0;
+                        if (isset($stock['stockMinSoles']) || $stock['stockMinSoles'] == NULL ||  $stock['stockMinSoles'] =='') $stock['stockMinSoles'] = 0;
+                        $stock['variant_id'] = $variant->id;
                     $oStock = new StockRepo();
                     $obj = $oStock->getModel()->where('variant_id',$stock['variant_id'])->where('warehouse_id',$stock['warehouse_id'])->first();
 
@@ -288,7 +297,7 @@ foreach ($tallasDisponibles as $tallasD) {
                 $variant->save();
             }
      }
-           // \DB::commit();
+           \DB::commit();
             return response()->json(['estado'=>true, 'nombres'=>$variant->nombre]);
         }else{
             return response()->json(['estado'=>'Prod sin variantes']);
@@ -370,9 +379,10 @@ foreach ($tallasDisponibles as $tallasD) {
                     //var_dump( $variant->stock ); die();
                     //$variant->warehouse()->detach();
                     foreach ($request->input('stock') as $stock) {
-                        if (isset($stock['stockActual']) && $stock['stockActual'] == null) $stock['stockActual'] = 0;
-                        if (isset($stock['stockMin']) && $stock['stockMin'] == null) $stock['stockMin'] = 0;
-                        if (isset($stock['stockMinSoles']) && $stock['stockMinSoles'] == null) $stock['stockMinSoles'] = 0;
+
+                        if (isset($stock['stockActual']) && $stock['stockActual'] == null &&  $stock['stockActual'] =='') $stock['stockActual'] = 0;
+                        if (isset($stock['stockMin']) && $stock['stockMin'] == null &&  $stock['stockMin'] =='') $stock['stockMin'] = 0;
+                        if (isset($stock['stockMinSoles']) && $stock['stockMinSoles'] == null &&  $stock['stockMinSoles'] =='') $stock['stockMinSoles'] = 0;
                         $stock['variant_id'] = $variant->id;
 
 

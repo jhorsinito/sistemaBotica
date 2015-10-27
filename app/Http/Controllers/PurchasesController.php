@@ -88,6 +88,10 @@ class PurchasesController extends Controller {
     {
         return View('purchases.form_create');
     }
+    public function form_createMov()
+    {
+        return View('purchases.form_createMov');
+    }
 
     public function form_edit()
     {
@@ -404,9 +408,18 @@ class PurchasesController extends Controller {
                 //  $object["stockActual"]=$stockac->stockActual+($cantidaCalculada*$object["equivalencia"]);
                // }else{
                   $object["stockActual"]=$stockac->stockActual+$cantidaCalculada;
-                  if(!empty($object["Cantidad_Ll"])){
-                  $object["porLlegar"]=floatval($stockac->porLlegar)-(floatval($object["cantidad"])-floatval($object["Cantidad_Ll"]));
-               }
+                  //$object["porLlegar"]=0;
+                //  var_dump($object["Cantidad_Ll"]);die();
+                 if(!empty($object["Cantidad_Ll"])){
+
+                    $object["porLlegar"]=floatval($stockac->porLlegar)-(floatval($object["cantidad"])-floatval($object["Cantidad_Ll"]));
+                  }else{
+                    if(!empty($stockac->porLlegar)){
+                    $object["porLlegar"]=floatval($stockac->porLlegar)-floatval($object["cantidad"]);
+                }else{
+                   $object["porLlegar"]=0;
+                }
+                }
                 //}
       //======================Actualizando stock si es que variante existe===============================
                   $manager = new StockManager($stockac,$object);
@@ -420,6 +433,8 @@ class PurchasesController extends Controller {
                     $object["stockActual"]=$cantidaCalculada;
                     if(!empty($stockac->porLlegar)){
                     $object["porLlegar"]=floatval($stockac->porLlegar)-floatval($object["cantidad"]);
+                }else{
+                   $object["porLlegar"]=0;
                 }
       //======================Registrando estock si es que variante no existe===============================
                   $manager = new StockManager($stockmodel->getModel(),$object);

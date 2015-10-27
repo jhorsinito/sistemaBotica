@@ -23,7 +23,7 @@ class CreateEspejoTable extends Migration
             $table->String('Talla');
             $table->bigInteger('sku');
         });
-DB::statement('
+/*DB::statement('
           DELIMITER $$
           DROP PROCEDURE IF EXISTS detalles$$
           CREATE PROCEDURE detalles(id int)
@@ -84,7 +84,7 @@ DB::statement('
                SELECT * from espejo;
                END$$
                DELIMITER ;'
-               );
+               );*/
     }
 
     /**
