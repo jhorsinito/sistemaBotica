@@ -24,13 +24,13 @@
                 $scope.toggle = function () {
                     $scope.show = !$scope.show;
                 };
-                $scope.calcularAcumulado = function () {
+                /*$scope.calcularAcumulado = function () {
                     //alert($scope.cashMonthlys.length);
                     $scope.acumulado=0;
                     for (var i = $scope.cashMonthlys.length - 1; i >= 0; i--) {
                         $scope.acumulado=$scope.acumulado+Number($scope.cashMonthlys[i].amount);
                     };
-                };
+                };*/
                 $scope.fecha1;
                 $scope.fecha2;
                 $scope.buscarDetalles = function () {
@@ -140,7 +140,7 @@
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                         $scope.itemsperPage = 15;
-                         $scope.calcularAcumulado();
+                         $scope.buscarDetallesEcpence();
                     }); 
                     crudService.select('months','select').then(function (data) {
                         $scope.months = data;
