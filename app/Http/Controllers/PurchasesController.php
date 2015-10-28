@@ -334,6 +334,9 @@ class PurchasesController extends Controller {
                   //$object["variant_id"]=$object["Codigovar"];
                   //$stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
                $cantidaCalculada=floatval($object["cantidad1"])-floatval($object["Cantidad_Ll"]);
+               if($cantidaCalculada<0){
+                    $cantidaCalculada=floatval($cantidaCalculada*(-1));
+               }
                   /*
                   if(!empty($object["cantidad1"])){
                       $cantidaCalculada=floatval($object["cantidad1"])-floatval($object["Cantidad_Ll"]);
@@ -385,9 +388,12 @@ class PurchasesController extends Controller {
           $object['tipo']='Compra';
           if(floatval($cantidadReal)>0){
            if(!empty($stockac)){ 
-                
                   $object["stockActual"]=$stockac->stockActual+$cantidaCalculada;
-                  $object["porLlegar"]=floatval($stockac->porLlegar)-floatval($cantidadReal);
+                  if($object["Cantidad_Ll"]>0){
+                       $object["porLlegar"]=floatval($stockac->porLlegar)-floatval($cantidaCalculada);
+                  }else{
+                       $object["porLlegar"]=floatval($stockac->porLlegar)-floatval($cantidadReal);
+                  }                
                
       //======================Actualizando stock si es que variante existe===============================
                   $manager = new StockManager($stockac,$object);
