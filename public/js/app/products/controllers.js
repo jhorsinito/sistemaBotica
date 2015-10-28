@@ -657,6 +657,7 @@
                 $scope.agregarenGrupo=function(){
                      if($scope.variant.checkTallas==true){
                         $scope.variant.track=false;
+                        $scope.variant.autogenerado=true;
                         $scope.variant.detAtr[1].descripcion='';
                      }else{
                          $scope.variant.track=true;

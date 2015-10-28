@@ -304,6 +304,7 @@ class PurchasesController extends Controller {
            $stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
            if($request->input('estado')==1){
            // var_dump($object1["cantidad1"]);
+                $cantidadReal=$object["cantidad"];
                 $object["cantidad"]=$object["cantidad1"];
                 $object["montoBruto"]=floatval($object["cantidad1"])*floatval($object["preProducto"]);
                 $object["montoTotal"]=floatval($object["cantidad1"])*floatval($object["preCompra"]);
@@ -376,13 +377,37 @@ class PurchasesController extends Controller {
         }
 
         //======================Si Existe Stock Pendiente Por Agregar===============================
-        if($cantidaCalculada>0){
+        
           $inputStock = $this->inputStockRepo->getModel();
           $object["warehouses_id"]=$request->input("warehouses_id");
           $object["cantidad_llegado"]=$cantidaCalculada;
           $object['descripcion']='Entrada por compra';
           $object['tipo']='Compra';
-          //$request->merge(["orderPurchase_id"=>$request->input('id')]);
+          if(floatval($cantidadReal)>0){
+           if(!empty($stockac)){ 
+                
+                  $object["stockActual"]=$stockac->stockActual+$cantidaCalculada;
+                  $object["porLlegar"]=floatval($stockac->porLlegar)-floatval($cantidadReal);
+               
+      //======================Actualizando stock si es que variante existe===============================
+                  $manager = new StockManager($stockac,$object);
+                  $manager->save();
+                  $stock=null;
+            }else{
+             
+                    if(!empty($stockac->porLlegar)){
+                    $object["porLlegar"]=floatval($stockac->porLlegar)-floatval($object["cantidad"]);
+                }else{
+                   $object["porLlegar"]=0;
+                }
+      //======================Registrando estock si es que variante no existe===============================
+                  $manager = new StockManager($stockmodel->getModel(),$object);
+                  $manager->save();
+                  $stockmodel = null;
+            }
+            $stockac=null;
+          }
+          if($cantidaCalculada>0){
           ////======================Registrando en notas de cabecera===============================
                
           if($codigoHeadIS===0 && $cantidaCalculada>0){
@@ -402,46 +427,7 @@ class PurchasesController extends Controller {
               $object['headInputStock_id']=$codigoHeadIS;
               $inserInputStock = new inputStockManager($inputStock,$object);
               $inserInputStock->save();
-            if(!empty($stockac)){ 
-                //if($object["esbase"]==0){
-                  //var_dump($object);die();
-                //  $object["stockActual"]=$stockac->stockActual+($cantidaCalculada*$object["equivalencia"]);
-               // }else{
-                  $object["stockActual"]=$stockac->stockActual+$cantidaCalculada;
-                  //$object["porLlegar"]=0;
-                //  var_dump($object["Cantidad_Ll"]);die();
-                 if(!empty($object["Cantidad_Ll"])){
-
-                    $object["porLlegar"]=floatval($stockac->porLlegar)-(floatval($object["cantidad"])-floatval($object["Cantidad_Ll"]));
-                  }else{
-                    if(!empty($stockac->porLlegar)){
-                    $object["porLlegar"]=floatval($stockac->porLlegar)-floatval($object["cantidad"]);
-                }else{
-                   $object["porLlegar"]=0;
-                }
-                }
-                //}
-      //======================Actualizando stock si es que variante existe===============================
-                  $manager = new StockManager($stockac,$object);
-                  $manager->save();
-                  $stock=null;
-            }else{
-                //if($object["esbase"]==0)
-                //{
-                //    $object["stockActual"]=$cantidaCalculada*$object["equivalencia"];
-               // }else{
-                    $object["stockActual"]=$cantidaCalculada;
-                    if(!empty($stockac->porLlegar)){
-                    $object["porLlegar"]=floatval($stockac->porLlegar)-floatval($object["cantidad"]);
-                }else{
-                   $object["porLlegar"]=0;
-                }
-      //======================Registrando estock si es que variante no existe===============================
-                  $manager = new StockManager($stockmodel->getModel(),$object);
-                  $manager->save();
-                  $stockmodel = null;
-            }
-            $stockac=null;
+           
          }
        }
       //======================Creando reporte por cada linea de detalle de compra===============================

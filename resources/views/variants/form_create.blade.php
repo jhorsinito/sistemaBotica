@@ -215,13 +215,13 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <input type="checkbox" ng-model="variant.autogenerado"> Autogenerado
+                                            <input ng-disabled="variant.checkTallas==true" type="checkbox" ng-model="variant.autogenerado"> Autogenerado
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group" >
                                     <label for="variantes">¿Desea seguir el stock del Producto?</label>
-                                    <input type="checkbox" name="trackeo" ng-model="variant.track" ng-checked="variant.track"/>
+                                    <input ng-disabled="variant.checkTallas==true" type="checkbox" name="trackeo" ng-model="variant.track" ng-checked="variant.track"/>
 
                                     <span class="text-info"> <em> </em></span>
 
