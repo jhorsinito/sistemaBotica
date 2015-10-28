@@ -1171,7 +1171,6 @@
                         if ($scope.paymentCreateForm.$valid){
                             crudOPurchase.create($scope.payment, 'detPayments').then(function (data) {
                             if (data['estado'] == true) {
-                               alert('grabado correctamente');
                                $scope.totAnterior=$scope.payment.Acuenta;
                                $scope.detPayment={};
                                $scope.detPayment.fecha=new Date();
@@ -1179,7 +1178,14 @@
                                $scope.Saldo1=0;
                                $scope.payment.cajamensual=false;
                                $scope.paginateDetPay();
-                            } else {
+                               if(confirm("Desea Generar Comprobante de Pago!!!") == true){
+                                crudOPurchase.Reportes(data['id'],'ReportComprobante').then(function (data) {
+                                    $scope.pdf7=data;
+                                });
+                               }else{
+                                     alert('grabado correctamente');
+                               }
+                            }else {
                                 $scope.errors = data;
 
                             }

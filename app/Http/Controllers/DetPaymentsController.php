@@ -102,6 +102,7 @@ class DetPaymentsController extends Controller {
 }
     $manager = new DetPaymentManager($detPayment,$var);
     $manager->save();
+    $idpago=$detPayment->id;
        /* if($this->detPaymentRepo->validateDate(substr($request->exedetPayments['fecha'],0,10))){
             $request->detPayments['fecha'] = substr($request->detPayments['fecha'],0,10);
         }else{
@@ -110,7 +111,7 @@ class DetPaymentsController extends Controller {
         }*/
        // $detPayment->save();
         \DB::commit();
-        return response()->json(['estado'=>true, 'montoP'=>$detPayment->Acuenta]);
+        return response()->json(['estado'=>true,'id'=>$idpago,'montoP'=>$detPayment->Acuenta]);
     }
 
     public function find($id)
@@ -127,5 +128,26 @@ class DetPaymentsController extends Controller {
         $manager->save();
         return response()->json(['estado'=>true, 'nombre'=>$detPayment->nombre]);
     }
- 
+    public function ReportComprobante($id){
+     //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_Comprobante';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/Comprobante.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['idPago'=>$id],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_Comprobante.'.$ext;
+   
+    }
 }

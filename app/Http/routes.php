@@ -440,6 +440,7 @@ Route::get('purchases/form-createMov','PurchasesController@form_createMov');
 Route::post('api/reportePorFechacom/create/{fech1}/{fecha2}','PurchasesController@reporteRangoFechas');
 Route::post('api/reportPagos1/create/{idpro}','PurchasesController@reportepagosProveedor');
 Route::post('api/reportPagos2/create/{idpay}','PurchasesController@reportepagos');
+Route::post('api/ReportComprobante/create/{idpago}','DetPaymentsController@ReportComprobante');
 
 Route::get('purchases/showD','PurchasesController@index');
 Route::get('purchases/view-showD','PurchasesController@form_showD');
