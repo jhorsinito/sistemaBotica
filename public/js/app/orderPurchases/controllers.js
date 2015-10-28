@@ -1171,7 +1171,7 @@
                  
             }
 
-
+                  
                 $scope.CrearCompra =function(){
                     //alert($scope.detailOrderPurchases.length);
                 if($scope.orderPurchase.cancelar){
@@ -1224,7 +1224,7 @@
                                     $scope.orderPurchase.Estado=2;
                                     $scope.orderPurchase.estado=2;
                                  }
-                                 alert("ya pase"+$scope.orderPurchase.Estado);
+                                // alert("ya pase"+$scope.orderPurchase.Estado);
                                   if($scope.orderPurchase.Estado==1 || $scope.orderPurchase.Estado==2){
 
                                    crudPurchase.create($scope.orderPurchase, 'purchases').then(function (data) {
@@ -1338,7 +1338,7 @@
             }
            $scope.orderPurchase.generareport=false;
             $scope.ActualizarStock=function(){
-              alert($scope.orderPurchase.generareport);
+             // alert($scope.orderPurchase.generareport);
                 $scope.orderPurchase.fecha=new Date();
                 $scope.orderPurchase.tipo="Compra";
                 $scope.orderPurchase.eliminar=0;
@@ -1789,7 +1789,7 @@ $scope.recalPayments=function(){
                 $scope.generarReporteFiltros=function(){
                   
                   if($scope.query!=''){
-                    alert("no entres");
+                   // alert("no entres");
                             $scope.textoBoton="Generando..";
                             crudPurchase.reporteEstado('reporteOrdenCompreLike',$scope.query).then(function (data) {
                             if (data!= undefined) {
@@ -1801,7 +1801,7 @@ $scope.recalPayments=function(){
                              }
                         });
                   }else{
-                    alert($scope.checkFechaPr);
+                    //alert($scope.checkFechaPr);
                       if($scope.checkFechaPr==true){
                             if($scope.check==true){
                                if($scope.estado!=''){
@@ -1833,7 +1833,7 @@ $scope.recalPayments=function(){
                                    }else{alert("error fechas incorrectas");}
                                }
                             }else{
-                              alert("hola00");
+                              //alert("hola00");
                                if($scope.estado!='' && $scope.orderPurchase.fechaini!=null && $scope.orderPurchase.fechafin!=null && $scope.orderPurchase.fechaini<=$scope.orderPurchase.fechafin)
                               {
                                     $scope.textoBoton="Generando..";
@@ -1884,7 +1884,7 @@ $scope.recalPayments=function(){
                             }else{
                                if($scope.estado!='' && $scope.orderPurchase.fechaini!=null && $scope.orderPurchase.fechafin!=null && $scope.orderPurchase.fechaini<=$scope.orderPurchase.fechafin)
                               {
-                                alert("aQUIESTOY");
+                                //alert("aQUIESTOY");
                                 $scope.textoBoton="Generando..";
                                     crudPurchase.reporteRangoFechasEstado('orderPurchases',$scope.temporalfec,$scope.temporalfech2,$scope.estado).then(function (data) {
                                        if (data!= undefined) {
