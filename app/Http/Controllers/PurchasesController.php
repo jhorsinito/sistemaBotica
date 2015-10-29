@@ -386,6 +386,7 @@ class PurchasesController extends Controller {
           $object["cantidad_llegado"]=$cantidaCalculada;
           $object['descripcion']='Entrada por compra';
           $object['tipo']='Compra';
+          if(!empty($cantidadReal)){
           if(floatval($cantidadReal)>0){
            if(!empty($stockac)){ 
                   $object["stockActual"]=$stockac->stockActual+$cantidaCalculada;
@@ -412,7 +413,7 @@ class PurchasesController extends Controller {
                   $stockmodel = null;
             }
             $stockac=null;
-          }
+          }}
           if($cantidaCalculada>0){
           ////======================Registrando en notas de cabecera===============================
                

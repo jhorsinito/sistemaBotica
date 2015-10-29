@@ -88,9 +88,9 @@ class DetPaymentsController extends Controller {
     }
     if($request->input('cajamensual')==true){
         
-    $año=$this->yearRepo->findID($request->input("año"));
+   // $año=$this->yearRepo->findID($request->input("año"));
     //var_dump($request->input("año"));
-    $request->merge(["years_id"=>$año['id']]);
+    //$request->merge(["years_id"=>$año['id']]);
     $request->merge(["amount"=>$var["montoPagado"]]);
     $request->merge(['descripcion'=>"Pago a Proveedores"]);
     $request->merge(['expenseMonthlys_id'=>1]);
