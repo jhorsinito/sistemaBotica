@@ -114,11 +114,11 @@
               
               <label>Producto(Stock Actual:@{{inputStock.CantidaStock}})</label>
                 
-               <input ng-Disabled="check" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId"  name="empresa" placeholder="Locations loaded via $http" 
-               typeahead="product as product.proNombre+'('+(product.BraName==null ? '': product.BraName+'/')+(product.TName==null ? '' : product.TName+'/')+(product.Mnombre==null ? '':product.Mnombre+'/')+')' for product in products | filter:$viewValue | limitTo:8" 
-               typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
-               tooltip="Ingrese caracteres para busacar producto por nombre"
-            required >
+               <input  typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Locations loaded1 via $http" 
+          typeahead="variant as variant.proNombre+'('+(variant.BraName==null ? '': variant.BraName+'/')+(variant.TName==null ? '' : variant.TName+'/')+(variant.Mnombre==null ? '':variant.Mnombre+'/')+(variant.NombreAtributos==null ? '':variant.NombreAtributos)+')' for variant in variants1 | filter:$viewValue | limitTo:8" 
+          typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
+           tooltip="Ingrese caracteres para busacar producto por codigo unico"
+            >
             
          
                     <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
@@ -131,16 +131,7 @@
         </div> 
         </div>
           </div>
-          <div ng-hide="check" class="col-md-2">
-           
-              <div class="form-group" >
-                <label for="Variante">Taco</label>
-                <select ng-disabled="item!=null" ng-Disabled="!Listo" class="form-control"   ng-change="mostrarTallas(detailOrderPurchase.taco)" ng-model="detailOrderPurchase.taco" ng-options="item.valorDetAtr as item.nomCortoVar+': '+item.valorDetAtr for item in variants">
-                  <option value="">--Elija Num Taco--</option>
-                </select>
-                <!--@{{variants.varid}}-->
-                </div>
-            </div>
+          
              <div ng-show="check" class="col-md-3">
             <label for="Variante">Busca Por Sku</label>
             <div class="form-group">

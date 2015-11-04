@@ -103,14 +103,14 @@
                                             <select name="material" class="form-control" ng-model="product.material_id" ng-options="k as v for (k, v) in materials">
                                                 <option value="">--Elige Material--</option>
                                             </select>
-                                        </div></div>-->
+                                        </div></div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Estación <a class="btn btn-xs btn-info btn-flat" ng-click="addStation()">+</a></label>
                                             <select name="station" class="form-control" ng-model="product.station_id" ng-options="k as v for (k, v) in stations">
                                                 <option value="">--Elige Estación--</option>
                                             </select>
-                                        </div></div>
+                                        </div></div>-->
                                 </div>
 
 

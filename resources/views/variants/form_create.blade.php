@@ -46,14 +46,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Categoría</label>
-                                    <select name="brand" class="form-control" ng-model="variant.category" ng-options="category.id as category.nombre for category in categories">
-                                        <option value="">--Elige Categoría--</option>
-                                    </select>
-
-                                </div></div>
+                          
 
                                 </div>
 

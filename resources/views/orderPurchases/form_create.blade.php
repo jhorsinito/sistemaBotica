@@ -177,12 +177,12 @@
              <div class="col-md-4">
           <div class="input-group" style="width: 300px;">
               <label>Producto</label>
-               <input ng-disabled="check" ng-hide="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Buscar por codigo especifico" 
+             <!--  <input ng-disabled="check" ng-hide="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Buscar por codigo especifico" 
           typeahead="product as product.proNombre+'('+(product.BraName==null ? '': product.BraName+'/')+(product.TName==null ? '' : product.TName+'/')+(product.Mnombre==null ? '':product.Mnombre)+')' for product in products | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
            tooltip="Ingrese caracteres para busacar producto por codigo unico"
-            >
-             <input ng-show="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Buscar por Variante" 
+            >-->
+             <input  typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Buscar por Variante" 
           typeahead="variant as variant.proNombre+'('+(variant.BraName==null ? '': variant.BraName+'/')+(variant.TName==null ? '' : variant.TName+'/')+(variant.Mnombre==null ? '':variant.Mnombre+'/')+(variant.NombreAtributos==null ? '':variant.NombreAtributos)+')' for variant in variants1 | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
            tooltip="Ingrese caracteres para busacar producto por codigo unico"
@@ -211,16 +211,7 @@
              
         </div> 
       </div>-->
-    <div ng-hide="check || check1" class="col-md-3">
-           
-              <div class="form-group" >
-                <label for="Variante">Taco</label>
-                <select class="form-control"   ng-change="mostrarTallas(detailOrderPurchase.taco)" ng-model="detailOrderPurchase.taco" ng-options="item.valorDetAtr as item.nomCortoVar+': '+item.valorDetAtr for item in variants">
-                  <option value="">--Elija Num Taco--</option>
-                </select>
-                <!--@{{variants.varid}}-->
-                </div>
-            </div>
+ 
             
             <div ng-show="check" class="col-md-3">
                   <label for="Variante">Busca Por Sku</label>
@@ -229,20 +220,14 @@
                   </div>
             </div>
              
-            <div class="col-md-1">
+            <div class="col-md-3">
                <em>¿POR SKU?</em>
                       <div   class="form-group" >                            
                             <input ng-disabled="check1" ng-click="limpiarDatosAgregate()" type="checkbox"  name="variantes" ng-model="check" />
                             
                         </div>
                 </div>
-            <div class="col-md-1">
-               <em>¿Busca Normal?</em>
-                      <div   class="form-group" >                            
-                            <input  ng-disabled="check" ng-click="limpiarDatosAgregate()" type="checkbox"   name="variantes" ng-model="check1" />
-                            
-                        </div>
-                </div>
+            
       <!--<div class="col-md-1">
       <div class="input-group">
       <label></label><br/>

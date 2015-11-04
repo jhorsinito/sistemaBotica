@@ -64,7 +64,7 @@ class BrandsController extends Controller {
         return response()->json($brand);
     }
 
-    /*public function edit(Request $request)
+    public function edit(Request $request)
     {
         $brand = $this->brandRepo->find($request->id);
         //var_dump($brand);
@@ -74,7 +74,7 @@ class BrandsController extends Controller {
 
         //Event::fire('update.brand',$brand->all());
         return response()->json(['estado'=>true, 'nombre'=>$brand->nombre]);
-    }*/
+    }
 
     public function destroy(Request $request)
     {

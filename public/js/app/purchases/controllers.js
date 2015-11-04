@@ -176,9 +176,9 @@
                      crudOPurchase.select('warehouses','select').then(function(data){
                         $scope.warehouses = data;
                     });
-                     crudOPurchase.autocomplit('products',1).then(function (data) {
-                        $scope.products = data.data;
-                    });
+                     crudOPurchase.paginatVariants("variants").then(function (data){
+                        $scope.variants1=data;
+                      });
                      $scope.purchase.tipo='Entrada';
                 }
                 $scope.limpiarStocks=function(){
