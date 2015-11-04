@@ -169,10 +169,32 @@
             {
                 $oPresentacion = oPres;
             }
+            function numeracion(uri,tipo,id){
+                var deferred = $q.defer();
+                //alert(val);
+                $http.get('/api/'+uri+'/numeracion/'+tipo+'/'+id)
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
+            function factura(uri,id){
+                var deferred = $q.defer();
+                //alert(val);
+                $http.get('/api/'+uri+'/factura/'+id)
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
 
             return {
                 all: all,
                 paginate: paginate,
+                numeracion: numeracion,
+                factura: factura,
                 create:create,
                 create1:create1,
                 byId:byId,

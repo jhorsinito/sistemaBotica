@@ -256,7 +256,8 @@
                     $scope.sale.movimiento=$scope.detCash; 
                     $scope.sale.caja=$scope.cashfinal;
                 }
-
+                 $scope.detVoices=[];
+                 $scope.headVoice={};
                 $scope. createorder = function(tipo){
 
                     crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
@@ -285,7 +286,49 @@
                                         $('#miventana1').modal('hide');
                                     alert('grabado correctamente');
                                     
-                                 
+                                        crudServiceOrders.factura('detfactura',data['codFactura']).then(function(data){    
+                                            $scope.detVoices=data;
+                                        });
+                                        crudServiceOrders.factura('sales',data['codFactura']).then(function(data){    
+                                            $scope.headVoice=data;
+                                            alert(data.created_at);
+                                            $scope.FechaCreado=new Date(data.created_at);
+                                            $scope.anoFactura=""+$scope.FechaCreado.getFullYear();
+                                            $scope.diaFactura=""+$scope.FechaCreado.getDate();
+                                            $scope.convertirMes($scope.FechaCreado.getMonth()+1);
+                                            $scope.insertar(Number(data.Total));
+                                            if(Number(data.numero)<10){
+                                                $scope.numeroDocumento="000000"+data.numero;
+                                            }else{
+                                            if(Number(data.numero)<100){
+                                               $scope.numeroDocumento="00000"+data.numero;
+                                            }else{
+                                            if(Number(data.numero)<1000){
+                                               $scope.numeroDocumento="0000"+data.numero;
+                                            }else{
+                                            if(Number(data.numero)<10000){
+                                               $scope.numeroDocumento="000"+data.numero;
+                                            }else{
+                                            if(Number(data.numero)<100000){
+                                               $scope.numeroDocumento="00"+data.numero;
+                                            }else{
+                                            if(Number(data.numero)<1000000){
+                                               $scope.numeroDocumento="0"+data.numero;
+                                            }else{
+                                            if(Number(data.numero)>=1000000){
+                                               $scope.numeroDocumento=""+data.numero;
+                                            }}}}}}}
+                                            
+                                        });
+                                         
+                                         if(Number($scope.cash1.cashHeader_id)<10){
+                                                $scope.numCaja="00"+$scope.cash1.cashHeader_id;
+                                            }else{
+                                            if(Number($scope.cash1.cashHeader_id)<100){
+                                               $scope.numCaja="0"+$scope.cash1.cashHeader_id;
+                                            }else{
+                                               $scope.numCaja=""+$scope.cash1.cashHeader_id;
+                                            }}
                                         //$location.path('/orders');
 
                                         crudServiceOrders.reportProWare('productsFavoritos',$scope.store.id,$scope.warehouse.id,'1').then(function(data){    
@@ -302,6 +345,22 @@
                             $scope.inicializar();
                         })    
                     });
+                }
+                $scope.convertirMes=function(valor){
+                    switch(valor){
+                        case 1:$scope.mesActual='Enero'; break;
+                        case 2:$scope.mesActual='Febrero'; break;
+                        case 3:$scope.mesActual='Marzo';break;  
+                        case 4:$scope.mesActual='Abril';break; 
+                        case 5:$scope.mesActual='Mayo';break;
+                        case 6:$scope.mesActual='Junio';break;
+                        case 7:$scope.mesActual='Julio';break;
+                        case 8:$scope.mesActual='Agosto';break;
+                        case 9:$scope.mesActual='Setiembre';break;
+                        case 10:$scope.mesActual='Octubre';break;
+                        case 11:$scope.mesActual='Noviembre';break;
+                        case 12:$scope.mesActual='Diciembre';break;
+                    }
                 }
                 $scope.actualizarCaja= function(){
                     //$log.log($scope.cashfinal);
@@ -443,6 +502,7 @@
 
                 $scope.realizarPago = function () {
                 //$log.log($scope.cashfinal.estado);
+
                 //$scope.mostrarAlmacenCaja();    
                 if ($scope.cashfinal.estado=='1') {
                     $scope.salePayment.MontoTotal=$scope.sale.montoTotal;
@@ -1120,6 +1180,54 @@
                     }                  
                        //$log.log($scope.atributoSelected);                    
                 }
+
+                $scope.validaDocumento=function(){
+                    //alert($scope.cash1.cashHeader_id);
+                    if($scope.sale.comprobante==true)
+                    {
+                        $scope.sale.tipoDoc="F";
+                        crudServiceOrders.numeracion("sales","F",$scope.cash1.cashHeader_id).then(function (data){
+                                   //$scope.numActual="0000"+(Number(data.numFactura)+1);
+                                $scope.numeracionMostrar(data.numFactura);
+                        });
+                    }else{
+                        $scope.sale.tipoDoc="";
+                    }
+                    
+                }
+                $scope.numeracionMostrar=function(num){
+                                            if(Number(num)<9){
+                                                $scope.numActual="000000"+(Number(num)+1);
+                                            }else{
+                                            if(Number(num)<100){
+                                               $scope.numActual="00000"+(Number(num)+1);
+                                            }else{
+                                            if(Number(num)<1000){
+                                               $scope.numActual="0000"+(Number(num)+1);
+                                            }else{
+                                            if(Number(num)<10000){
+                                               $scope.numActual="000"+(Number(num)+1);
+                                            }else{
+                                            if(Number(num)<100000){
+                                               $scope.numActual="00"+(Number(num)+1);
+                                            }else{
+                                            if(Number(num)<1000000){
+                                               $scope.numActual="0"+(Number(num)+1);
+                                            }else{
+                                            if(Number(num)>=1000000){
+                                               $scope.numActual=""+(Number(num)+1);
+                                            }}}}}}}
+                }
+                $scope.cambioNumeracion=function(){
+                    crudServiceOrders.numeracion("sales",$scope.sale.tipoDoc,$scope.cash1.cashHeader_id).then(function (data){
+                                  if($scope.sale.tipoDoc=='B'){
+                                     $scope.numeracionMostrar(data.numBoleta);
+                                  }else{
+                                     $scope.numeracionMostrar(data.numFactura);
+                                  }
+                                   
+                        });
+                }
                 $scope.deleteFavoritos= function(row){  
                     
                         //alert($scope.atributoSelected.vari);
@@ -1455,6 +1563,103 @@
                 //});
                     //$log.log($scope.detOrders);
                 }
+    $scope.insertar=function(num){
+        //alert(Math.floor(num));
+        if((num-Math.floor(num))!=0){
+            $scope.DecripcionTotal=$scope.doThings(Math.floor(num))+" CON "+((num-Math.floor(num))*100).toFixed(0)+"/100 NUEVOS SOLES";
+            
+        }else{
+            $scope.DecripcionTotal=$scope.doThings(Math.floor(num))+" NUEVOS SOLES";
+        }
+        
+    }
+    $scope.doThings=function(valor){
+        //Limite
+        if(valor >2000000)
+            {return "DOS MILLONES";}
+        
+        switch(valor){
+            case 0: return "CERO";
+            case 1: return "UNO"; //UNO
+            case 2: return "DOS";
+            case 3: return "TRES";
+            case 4: return "CUATRO";
+            case 5: return "CINCO"; 
+            case 6: return "SEIS";
+            case 7: return "SIETE";
+            case 8: return "OCHO";
+            case 9: return "NUEVE";
+            case 10: return "DIEZ";
+            case 11: return "ONCE"; 
+            case 12: return "DOCE"; 
+            case 13: return "TRECE";
+            case 14: return "CATORCE";
+            case 15: return "QUINCE";
+            case 20: return "VEINTE";
+            case 30: return "TREINTA";
+            case 40: return "CUARENTA";
+            case 50: return "CINCUENTA";
+            case 60: return "SESENTA";
+            case 70: return "SETENTA";
+            case 80: return "OCHENTA";
+            case 90: return "NOVENTA";
+            case 100: return "CIEN";
+            
+            case 200: return "DOSCIENTOS";
+            case 300: return "TRESCIENTOS";
+            case 400: return "CUATROCIENTOS";
+            case 500: return "QUINIENTOS";
+            case 600: return "SEISCIENTOS";
+            case 700: return "SETECIENTOS";
+            case 800: return "OCHOCIENTOS";
+            case 900: return "NOVECIENTOS";
+            
+            case 1000: return "MIL";
+            
+            case 1000000: return "UN MILLON";
+            case 2000000: return "DOS MILLONES";
+        }
+        if(valor<20){
+            //System.out.println(">15");
+            return "DIECI"+ $scope.doThings(valor-10);
+        }
+        if(valor<30){
+            //System.out.println(">20");
+            return "VEINTI" + $scope.doThings(valor-20);
+        }
+        if(valor<100){
+            //System.out.println("<100"); 
+            //alert((Math.floor(valor/10))*10);
+            return $scope.doThings((Math.floor(valor/10))*10) + " Y " + $scope.doThings(valor%10);
+        }        
+        if(valor<200){
+            //System.out.println("<200"); 
+            return "CIENTO " + $scope.doThings( valor - 100 );
+        }         
+        if(valor<1000){
+            //System.out.println("<1000");
+            return $scope.doThings((Math.floor(valor/100))*100) + " " + $scope.doThings(valor%100);
+        } 
+        if(valor<2000){
+            //System.out.println("<2000");
+            return "MIL " + $scope.doThings( valor % 1000 );
+        } 
+        if(valor<1000000){
+            $scope.descri="";
+            //System.out.println("<1000000");
+            $scope.descri = $scope.doThings(Math.floor(valor/1000)) + " MIL" ;
+            if(valor % 1000!=0){
+                //System.out.println(var);
+               // alert(valor % 1000);
+                $scope.descri += " " + $scope.doThings(valor % 1000);
+            }
+            return $scope.descri;
+        }
+        if(valor<2000000){
+            return "UN MILLON " + $scope.doThings( valor % 1000000 );
+        } 
+        return "";
+    }    
                 $scope.grabarCanPedido= function() {
                     if ($scope.estadoAnulado) {
                         $scope.order1.estado=3;

@@ -1153,7 +1153,7 @@
                     $scope.orderPurchase.detailOrderPurchases=$scope.detailOrderPurchases
                     $scope.orderPurchase.Saldo=$scope.orderPurchase.montoTotal;
                     $scope.orderPurchases.push( $scope.orderPurchase);
-                    if($scope.detailOrderPurchases.length>1)
+                    if($scope.detailOrderPurchases.length>=1)
                     {
                      crudPurchase.create($scope.orderPurchase, 'purchases').then(function (data) {
                          

@@ -23,6 +23,9 @@ use Salesfly\Salesfly\Managers\DetSeparateSaleManager;
 use Salesfly\Salesfly\Repositories\DetSaleRepo;
 use Salesfly\Salesfly\Managers\DetSaleManager;
 
+use Salesfly\Salesfly\Repositories\CustomerRepo;
+use Salesfly\Salesfly\Managers\CustomerManager;
+
 use Salesfly\Salesfly\Repositories\CashRepo;
 use Salesfly\Salesfly\Managers\CashManager;
 
@@ -42,13 +45,23 @@ use Salesfly\Salesfly\Managers\SaleDetPaymentManager;
 use Salesfly\Salesfly\Repositories\SaleDetPaymentRepo;
 use Salesfly\Salesfly\Managers\StockManager;
 use Salesfly\Salesfly\Repositories\StockRepo;
+
+use Salesfly\Salesfly\Repositories\CashHeaderRepo;
+
+use Salesfly\Salesfly\Managers\HeadInvoiceManager;
+use Salesfly\Salesfly\Repositories\HeadInvoiceRepo;
+use Salesfly\Salesfly\Managers\DetailInvoiceManager;
+use Salesfly\Salesfly\Repositories\DetailInvoiceRepo;
+use Salesfly\Salesfly\Managers\FBnumberManager;
+use Salesfly\Salesfly\Repositories\FBnumberRepo;
 class SalesController extends Controller
 {
     protected $saleRepo;
 
-    public function __construct(SaleRepo $saleRepo)
+    public function __construct(SaleRepo $saleRepo,CashHeaderRepo $ashHeaderRepo)
     {
         $this->saleRepo = $saleRepo;
+        $this->ashHeaderRepo = $ashHeaderRepo;
     }
 
     public function all()
@@ -90,10 +103,9 @@ class SalesController extends Controller
 
     public function create(Request $request) 
         {
+        //var_dump($request->all());die();
         $orderSale = $this->saleRepo->getModel();
-
         $var = $request->detOrders;
-        //var_dump($var);die();
         $payment = $request->salePayment;
         $saledetPayments = $request->saledetPayments;
 
@@ -102,6 +114,7 @@ class SalesController extends Controller
         
         $manager = new SaleManager($orderSale,$request->all());
         $manager->save();
+        //$codSale=$orderSale->id;
         /*
        if($this->purchaseRepo->validateDate(substr($request->input('fechaEntrega'),0,10))){
             $order->fechaEntrega = substr($request->input('fechaEntrega'),0,10);
@@ -133,7 +146,7 @@ class SalesController extends Controller
             //var_dump($cajaAct);die();
             $cash1 = $cashrepo->find($cajaAct["id"]);
 
-
+            //var_dump($cash1["id"]);die();
         
             //$insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
             //$insertarMovimiento->save();
@@ -170,7 +183,47 @@ class SalesController extends Controller
                     $saledetPaymentrepo = null;
                 }
             //--------------------------
-
+    if(!empty($request->input("comprobante"))){
+            ///var_dump("kkdkdkkdsk");die();
+            $headInvoiceRepo=new HeadInvoiceRepo;
+            $headInvoice=$headInvoiceRepo->getModel();
+            $customerRepo=new CustomerRepo;
+            $direccion=$customerRepo->find($request->input("customer_id"));
+            $fbnumberRepo=new FBnumberRepo;
+            $ashHeaderRepo=$this->ashHeaderRepo->comprobarCaja($cash1["id"]);
+            $numbers=$fbnumberRepo->find($ashHeaderRepo["id"]);
+            $num=$fbnumberRepo->find($ashHeaderRepo["id"]);
+            if($request->input("tipoDoc")=="F"){
+                 $request->merge(["numero"=>(intval($num->numFactura)+1)]);
+                 $request->merge(["numFactura"=>$request->input("numero")]);
+                 $request->merge(["cliente"=>$direccion["empresa"]]);
+                 $request->merge(["direccion"=>$direccion["direccFiscal"]]);
+                 $request->merge(["ruc"=>$direccion["ruc"]]);
+                 $inputfbnumber=new FBnumberManager($numbers,$request->only("numFactura"));
+                 $inputfbnumber->save();
+            }else{
+                 $request->merge(["cliente"=>$direccion["nombres"]." ".$direccion["apellidos"]]);
+                 $request->merge(["direccion"=>$direccion["direccContac"]]);
+                 $request->merge(["numero"=>(intval($num->numBoleta)+1)]);
+                 $request->merge(["numBoleta"=>$request->input("numero")]);
+                 $request->merge(["ruc"=>$direccion["dni"]]);
+                 $inputfbnumber=new FBnumberManager($numbers,$request->only("numBoleta"));
+                 $inputfbnumber->save();
+            }
+            
+            
+            
+            $request->merge(["subTotal"=>$request->input("montoBruto")]);
+            $request->merge(["Total"=>$request->input("montoTotal")]);
+            $request->merge(["venta_id"=>$temporal]);
+            $request->merge(["cliente_id"=>$request->input("customer_id")]);
+            $inputheadInvoiceRepo=new HeadInvoiceManager($headInvoice,
+            $request->only('numero','cliente','direccion','ruc','GRemicion','subTotal',
+                'igv','Total','venta_id','cliente_id','tipoDoc'));
+            $inputheadInvoiceRepo->save();
+            $codigoFactura=$headInvoice->id;
+            
+     }
         //----------------
 
         $detOrderrepox;
@@ -241,8 +294,23 @@ class SalesController extends Controller
             }
             $stockac=null;
             //-----------------------------------------------------
+            //Create det Documento Venta 
+            //-------------------------------------------------------
+            if(!empty($codigoFactura)){
+                  $object["descripcion"]=$object["NombreProducto"];
+                  $object["PrecioUnit"]=$object["precioProducto"];
+                  $object["PrecioVent"]=$object["subTotal"];
+                  $object["headInvoice_id"]=$codigoFactura;
+                  $detInvoice=new DetailInvoiceRepo;
+                  $insertDetInvoice=new DetailInvoiceManager($detInvoice->getModel(),$object);
+                  $insertDetInvoice->save();
+          }
+            //------------------------------------------------------
        }
-     return response()->json(['estado'=>true, 'nombres'=>$orderSale->nombres]);
+       //-----------------Creacion de Cabecera Factura-------
+       //$cajaPrueba=$request->saledetPayments;
+      
+     return response()->json(['estado'=>true,'codFactura'=>$codigoFactura,'nombres'=>$orderSale->nombres]);
     }
 
 
@@ -637,5 +705,20 @@ class SalesController extends Controller
 
 
         return response()->json(['estado'=>true, 'nombre'=>$orderSale->nombre]);
+    }
+    public function factura($id){
+           $headIvoiceRepo = new HeadInvoiceRepo;
+           $orders = $headIvoiceRepo->consult($id);
+        return response()->json($orders);
+    }
+    public function detfactura($id){
+           $detailIvoiceRepo = new DetailInvoiceRepo;
+           $orders = $detailIvoiceRepo->detFactura($id);
+        return response()->json($orders);
+    }
+     public function numeracion($tipo,$id){
+           $headIvoiceRepo = new FBnumberRepo;
+           $orders = $headIvoiceRepo->numeracion($tipo,$id);
+        return response()->json($orders);
     }
 }

@@ -56,16 +56,16 @@
                     </div> 
               </div> 
             </div>-->
+            
             <div class="col-md-4">
            
           <div class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.empresa.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.empresa.$dirty && orderPurchaseCreateForm.empresa.$invalid]">
               <label>Proveedor: </label>
-              <div class="input-group" ng-hide="show" style="width: 300px;">
-              
-                
+              <div class="form-group form-ok" ng-hide="show" style="width: 300px;">
+               
                <input typeahead-on-select="asignarEmpresa()" type="text" name="empresa" ng-model="orderPurchase.empresa" placeholder=" por Proveedor" 
                      typeahead="supplier as supplier.empresa for supplier in suppliers | filter:$viewValue | limitTo:8"  
-                     typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
+                     typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="is_required validate account_input form-control"
                      tooltip="Ingrese caracteres para busacar Proveedor por Empres" required>
                     <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                     <div ng-show="noResults">

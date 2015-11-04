@@ -737,11 +737,22 @@
                   <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <input type="checkbox" name="estado" ng-model="comprobante" ng-checked="comprobante" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="baseestado()">
-                          <label for="estado">Comprobante</label>
+                          <input type="checkbox" name="estado" ng-model="sale.comprobante" ng-checked="sale.comprobante" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="validaDocumento()">
+                          <label for="estado">Comprobante:</label>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div ng-show="sale.comprobante" class="form-group">
+                        <label  for="orderPurchase.tipoDoc">Tipo documento</label>
+                        <select  class="form-control" ng-model="sale.tipoDoc" ng-change="cambioNumeracion()">
+                              <option value="F">Factura</option>
+                              <option value="B">Boleta</option>
+                        </select>
                         </div> 
                       </div>
-
+                      <div ng-show="sale.comprobante" class="col-md-4">
+                      <h2>N°.- @{{numActual}}</h2>
+                      </div>
                   </div>
                    
                 </div>
@@ -796,117 +807,91 @@
     </script>
 </section>
 
-    <div id="printx" style="display:none;"> 
-      <div class="container">
-      <div class="row">
-        <div class="col-xs-6">
-          <h1>
-            <img src="logo.png">
-            Logo here
-            </a>
-          </h1>
-        </div>
-        <div class="col-xs-6 text-right">
-          <h1>Factura</h1>
-          <h1><small>Factura #001</small></h1>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-5">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4>From: <a href="#">Your Name</a></h4>
-            </div>
-            <div class="panel-body">
-              <p>
-                Address <br>
-                details <br>
-                more <br>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-xs-5 col-xs-offset-2 text-right">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4>To : <a href="#">Client Name</a></h4>
-            </div>
-            <div class="panel-body">
-              <p>
-                Address <br>
-                details <br>
-                more <br>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- / end client details section -->
+
+<div id="printx" style="display:none;">
+<body >
+    <div class="logotipo">
+      <h1 class="log">KALUZ.EIRL</h1>
+      <label>av. Pedro Ruiz #1020 - Chiclayo</label>
+    </div>
+    <div class="cuadroNume">
+      <label>R.U.C.:12548963002</label>
+      <h1 ng-if="headVoice.tipoDoc=='F'" class="fac">FACTURA</h1>
+      <h1 ng-if="headVoice.tipoDoc=='B'" class="fac">BOLETA DE VENTA</h1>
+      <label>N° @{{numCaja}}-@{{numeroDocumento}}</label>
+    </div>
+    <div class="headfac">
+        <br>
+      <label class="fech">Chiclayo @{{diaFactura}} de @{{mesActual}} del @{{anoFactura}}</label><br>
+    <table class="tbhead" >
+      <tr>
+        <td><label>Señor(a):</label></td>
+        <td><input style="width:400px;" type="text" value="@{{headVoice.cliente}}"></td>
+        <td><label ng-if="headVoice.tipoDoc=='F'">RUC:</label><label ng-if="headVoice.tipoDoc=='B'">N° Doc:</label></td>
+        <td><input style="width:250px;" type="text" value="@{{headVoice.ruc}}"></td>
+      </tr>
+
+      <tr>
+        <td><label>Direccion:</label></td>
+        <td ><input style="width:400px;" type="text" value="@{{headVoice.direccion}}"></td>
+        <td><label>G. Remicion:</label></td>
+        <td><input style="width:250px;" type="text"></td>
+      </tr>
+    </table>
+      
+    </div>
+    <div class="tbcontent">
       <table class="table table-bordered">
         <thead>
-          <tr>
-            <th>
-              <h4>Service</h4>
-            </th>
-            <th>
-              <h4>Description</h4>
-            </th>
-            <th>
-              <h4>Hrs/Qty</h4>
-            </th>
-            <th>
-              <h4>Rate/Price</h4>
-            </th>
-            <th>
-              <h4>Sub Total</h4>
-            </th>
-          </tr>
+          <th>CANTIDAD</th>
+          <th style="width: 400px;">DESCRIPCION</th>
+          <th>PRECIO<br>UNITARIO</th>
+          <th>VALOR DE<br>VENTA</th>
         </thead>
         <tbody>
-          <tr>
-            <td>Article</td>
-            <td><a href="#">Title of your article here</a></td>
-            <td class="text-right">-</td>
-            <td class="text-right">$200.00</td>
-            <td class="text-right">$200.00</td>
+          <tr ng-repeat="row in detVoices">
+            <td>@{{row.cantidad}}</td>
+            <td>@{{row.descripcion}}</td>
+            <td>S/.@{{row.PrecioUnit}}</td>
+            <td>S/.@{{row.PrecioVent}}</td>
           </tr>
-          <tr>
-            <td>Template Design</td>
-            <td><a href="#">Details of project here</a></td>
-            <td class="text-right">10</td>
-            <td class="text-right">75.00</td>
-            <td class="text-right">$750.00</td>
-          </tr>
-          <tr>
-            <td>Development</td>
-            <td><a href="#">WordPress Blogging theme</a></td>
-            <td class="text-right">5</td>
-            <td class="text-right">50.00</td>
-            <td class="text-right">$250.00</td>
+          <tr ng-if="headVoice.tipoDoc=='F'">
+               <td colspan='2'><label>Son:</label><input class="descrResult" type="text" value="@{{DecripcionTotal}}"></td>
+               <td></td>
+               <td></td>
           </tr>
         </tbody>
       </table>
-      <div class="row text-right">
-        <div class="col-xs-2 col-xs-offset-8">
-          <p>
-            <strong>
-            Sub Total : <br>
-            TAX : <br>
-            Total : <br>
-            </strong>
-          </p>
+      
+       </div>
+      <div class="firma">
+          <label>______________</label><br>
+          <label>
+            CANCELADO
+          </label>
         </div>
-        <div class="col-xs-2">
-          <strong>
-          $1200.00 <br>
-          N/A <br>
-          $1200.00 <br>
-          </strong>
-        </div>
+      <div class="result">
+        
+        <table class="tbre">
+        
+          <tr ng-if="headVoice.tipoDoc=='F'">
+             <td><label>Sub Total:</label></td>
+             <td><input type="text"  value="S/.@{{headVoice.subTotal}}"></td>
+          </tr>
+          <tr ng-if="headVoice.tipoDoc=='F'">
+              <td><label >IGV.18%:</label></td>
+              <td><input type="text"  value="S/.@{{headVoice.igv}}"></td>
+          </tr>
+          <tr>
+              <td><label >Total:</label></td>
+              <td><input type="text"  value="S/.@{{headVoice.Total}}"></td>
+          </tr> 
+        
+         </table>
       </div>
-    </div>
-    </div>
-
+    
+</body>
+</div>
 
 
 

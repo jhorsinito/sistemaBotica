@@ -28,7 +28,11 @@ class CashHeaderRepo extends BaseRepo{
         return $cashHeaders;
     }
 
-
+    public function comprobarCaja($id){
+        $cashHeaders =CashHeader::where('cashHeaders.id','=', $id)
+                    ->first();
+        return $cashHeaders;
+    }
     public function paginate($count){
         $cashHeaders = CashHeader::with('store');
         return $cashHeaders->paginate($count);
