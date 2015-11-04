@@ -672,7 +672,7 @@
                     $location.path('/variants/edit/'+row.id);
                 };
                 $scope.material='';
-                $scope.capAttr1 = function(attr_id){
+                /*$scope.capAttr1 = function(attr_id){
                     //alert(attr_id);
                     $scope.material='';
                     //alert($scope.variant.detAtr[3].descripcion);
@@ -702,7 +702,7 @@
                                 $scope.material=$scope.material+$scope.variant.detAtr[3].descripcion.substring(n+1,1);
                              }
                          }
-                         alert($scope.material);*/
+                         alert($scope.material);
                          if(attr_id == 4 && $scope.variant.detAtr[0].descripcion!=undefined){
                             $scope.variant.codigo=$scope.variant.codigo+$scope.variant.detAtr[0].descripcion.substring(0, 2)+ $scope.material.toLowerCase();
                          }else{
@@ -715,11 +715,11 @@
                                    }else{
                                       $scope.variant.codigo=$scope.variant.codigo+ $scope.material.toLowerCase();
                                    }
-                               }
+                               }*
                          }
                     }
-                 }
-                $scope.capAttr = function(attr_id){
+                 }*/
+               /* $scope.capAttr = function(attr_id){
                     //alert(attr_id);
                     //alert($scope.variant.detAtr[3].descripcion);
                     var separador = " ";
@@ -748,7 +748,7 @@
                                 $scope.material=$scope.material+$scope.variant.detAtr[3].descripcion.substring(n+1,1);
                              }
                          }
-                         alert($scope.material);*/
+                         alert($scope.material);
                          if(attr_id == 4 && $scope.variant.detAtr[0].descripcion!=undefined){
                             $scope.variant.codigo=$scope.variant.codigo+$scope.variant.detAtr[0].descripcion.substring(0, 2)+ $scope.material.toLowerCase();
                          }else{
@@ -764,7 +764,7 @@
                                }
                          }
                     }
-                 }
+                 }*/
 
                 //var trouble;
                 $scope.asignarDescr = function(index){
