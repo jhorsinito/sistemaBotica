@@ -241,7 +241,7 @@
   <div ng-hide="mostrarPresentacion" class="well well-lg">
   <em>Las Tallas Disponibles Para este Producto Son</em>
   <div class="row">
-       <div ng-repeat="item in atributes">
+       <div >
        <div class="col-md-1">
        </div>
        <table class="table table-striped">
