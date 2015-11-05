@@ -284,36 +284,53 @@
   <div ng-hide="mostrarPresentacion" class="well well-lg">
   <em>Las Tallas Disponibles Para este Producto Son</em>
   <div class="row">
-       <div ng-repeat="item in atributes">
+       <div class="form-group">
        <div class="col-md-1">
        </div>
-       <div class="col-md-2" >
-               <div class="input-group" ng-value="item.valorDetAtr">
+       <table class="table table-striped">
+             <tr >
+                <td ng-if="$index<=7" ng-repeat="item in atributes track by $index" style="width:40px;">
+                  <div class="input-group" ng-value="item.valorDetAtr">
                  <!-- <input  type="checkbox"  ng-click="quitarTalla(item.numTalla,cheked1)" ng-model="cheked1"  />@{{item.numTalla}}
                   <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.numTalla)" step="1" rquired>-->
                   <input  type="checkbox"  ng-click="quitarTalla($index,item.valorDetAtr,cheked1)" ng-model="cheked1"  />@{{item.valorDetAtr}}
                   <input ng-show="cheked1" type="number"  min='0'  style="width:40px"  placeholder="0" ng-model="cantidad[$index]" ng-blur="calCantidad(item.NombreAtributos,item.varSku,item.varCodigo,cantidad[$index],item.valorDetAtr,item.TieneVariante)" step="1" rquired>
-              
-              </div>    
+                  </div>
+                 </td>
+              </tr> 
+              <tr >
+                <td ng-if="$index>7 && $index<=14" ng-repeat="item in atributes track by $index" >
+                  <div class="input-group" ng-value="item.valorDetAtr">
+                 <!-- <input  type="checkbox"  ng-click="quitarTalla(item.numTalla,cheked1)" ng-model="cheked1"  />@{{item.numTalla}}
+                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.numTalla)" step="1" rquired>-->
+                  <input  type="checkbox"  ng-click="quitarTalla($index,item.valorDetAtr,cheked1)" ng-model="cheked1"  />@{{item.valorDetAtr}}
+                  <input ng-show="cheked1" type="number"  min='0'  style="width:40px"  placeholder="0" ng-model="cantidad[$index]" ng-blur="calCantidad(item.NombreAtributos,item.varSku,item.varCodigo,cantidad[$index],item.valorDetAtr,item.TieneVariante)" step="1" rquired>
+                  </div>
+                 </td>
+              </tr>
+              <tr >
+                <td ng-if="$index>14 && 21" ng-repeat="item in atributes track by $index" >
+                  <div class="input-group" ng-value="item.valorDetAtr">
+                 <!-- <input  type="checkbox"  ng-click="quitarTalla(item.numTalla,cheked1)" ng-model="cheked1"  />@{{item.numTalla}}
+                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.numTalla)" step="1" rquired>-->
+                  <input  type="checkbox"  ng-click="quitarTalla($index,item.valorDetAtr,cheked1)" ng-model="cheked1"  />@{{item.valorDetAtr}}
+                  <input ng-show="cheked1" type="number"  min='0'  style="width:40px"  placeholder="0" ng-model="cantidad[$index]" ng-blur="calCantidad(item.NombreAtributos,item.varSku,item.varCodigo,cantidad[$index],item.valorDetAtr,item.TieneVariante)" step="1" rquired>
+                  </div>
+                 </td>
+              </tr>
+              <tr >
+                <td ng-if="$index>21" ng-repeat="item in atributes track by $index" >
+                  <div class="input-group" ng-value="item.valorDetAtr">
+                 <!-- <input  type="checkbox"  ng-click="quitarTalla(item.numTalla,cheked1)" ng-model="cheked1"  />@{{item.numTalla}}
+                  <input ng-show="cheked1" type="number"  style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.numTalla)" step="1" rquired>-->
+                  <input  type="checkbox"  ng-click="quitarTalla($index,item.valorDetAtr,cheked1)" ng-model="cheked1"  />@{{item.valorDetAtr}}
+                  <input ng-show="cheked1" type="number"  min='0'  style="width:40px"  placeholder="0" ng-model="cantidad[$index]" ng-blur="calCantidad(item.NombreAtributos,item.varSku,item.varCodigo,cantidad[$index],item.valorDetAtr,item.TieneVariante)" step="1" rquired>
+                  </div>
+                 </td>
+              </tr>
+        </table>  
        </div>
-      <!-- <div class="col-md-2" ng-if="$index>4 && $index<=9">
-             <div class="input-group" ng-value="item.valorDetAtr">
-                  <input  type="checkbox"   ng-model="cheked1" />@{{item.valorDetAtr}}
-                 <input ng-show="cheked1" type="number" style="width:40px"   placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.valorDetAtr)" step="1" rquired>
-               </div> 
-        </div>
-       <div class="col-md-2" ng-if="$index>9 && $index<=14">
-            <div class="input-group" ng-value="item.valorDetAtr">
-                  <input  type="checkbox" ng-model="cheked1" />@{{item.valorDetAtr}}
-                  <input ng-show="cheked1" type="number" style="width:40px" placeholder="0"  ng-model="cantidad" ng-blur="calCantidad(cantidad,item.valorDetAtr)" step="1" rquired>
-              </div>            
-        </div>
-       <div class="col-md-2" ng-if="$index>14 && $index<=19">
-              <div class="input-group" ng-value="item.valorDetAtr">
-                  <input  type="checkbox" ng-model="cheked1"  />@{{item.valorDetAtr}}
-                  <input ng-show="cheked1" type="number" style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.valorDetAtr)" step="1" rquired>
-              </div>            
-        </div> -->
+     
       </div>
   </div>  
   </div>

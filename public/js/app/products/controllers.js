@@ -674,6 +674,7 @@
                 $scope.material='';
                 var codTemporal='';
                 $scope.capAttr10 = function(attr_id){
+                    if(attr_id == 1 || attr_id == 4){
                     if(codTemporal==''){
                     codTemporal=$scope.variant.codigo;
                     }
@@ -712,6 +713,7 @@
                       }
                    }
                    $scope.variant.codigo=$scope.variant.codigo+codigodes;
+                  }
                 }
                 $scope.capAttr1 = function(attr_id){
                     //alert(attr_id);

@@ -106,7 +106,7 @@
                                     </div>
                                     <!---===============================Parte de Alexis=============================-->
                                     <div ng-if="row.nombre=='Taco'"class="col-md-6">    
-                                       <div ng-show="variant.checkTallas==true" style="background-color: red;" ui-slider="{range: true}" min="15" max="45" step="1" ng-drag="LlenarRangoTallas(demoVals.sliderExample9[1],demoVals.sliderExample9[0])" use-numbers ng-model="demoVals.sliderExample9"></div>
+                                       <div ng-show="variant.checkTallas==true" style="background-color: red;" ui-slider="{range: true}" min="15" max="45" step="1" ng-change="LlenarRangoTallas(demoVals.sliderExample9[1],demoVals.sliderExample9[0])" use-numbers ng-model="demoVals.sliderExample9"></div>
                                        <input ng-disabled="true" ng-show="variant.checkTallas==true" type="text" ng-model="demoVals.sliderExample9" />
                                     </div>
                                     <div ng-if="row.nombre=='Talla'"class="col-md-3">
