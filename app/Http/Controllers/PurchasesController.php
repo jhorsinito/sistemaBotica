@@ -112,8 +112,28 @@ class PurchasesController extends Controller {
         $pendientAccount=$this->pendientAccountRepo->getModel();
         $var = $request->detailOrderPurchases;
         $almacen_id=$request->input("warehouses_id");
-        //var_dump($request->input('estado'));
-       // var_dump($var);die();
+       
+       if(!empty($request->input("compraDirecta"))){
+
+          foreach($var as $object){
+              $stockmodel = new StockRepo;
+                  $object['warehouse_id']=$almacen_id;
+                  $object["variant_id"]=$object["Codigovar"];
+                  $stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
+              if(!empty($stockac)){ 
+                  $object["stockActual"]=floatval($stockac->stockActual)+floatval($object["cantidad"]);
+                  //var_dump($object["stockActual"]);die();
+                  $manager = new StockManager($stockac,$object);
+                  $manager->save();
+                  $stock=null;
+              }else{
+                  $object["stockActual"]=$object["cantidad"];
+                  //var_dump($object["stockActual"]);die();
+                  $manager = new StockManager($stockRepo->getModel,$object);
+              }
+              $stockac=null;
+          }
+        }
       //==================================Cancelar Factura
       if($request->input('estado')==2){
              //var_dump("hola");die();

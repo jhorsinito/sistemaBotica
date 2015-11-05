@@ -1,7 +1,7 @@
 (function(){
     angular.module('orderPurchases.controllers',[])
-        .controller('OrderPurchaseController',['$scope','ngProgressFactory','$routeParams','$location','crudPurchase','socketService' ,'$filter','$route','$http','$log',
-            function($scope,ngProgressFactory, $routeParams,$location,crudPurchase,socket,$filter,$route , $http,$log){
+        .controller('OrderPurchaseController',['$window','$scope','ngProgressFactory','$routeParams','$location','crudPurchase','socketService' ,'$filter','$route','$http','$log',
+            function($window,$scope,ngProgressFactory, $routeParams,$location,crudPurchase,socket,$filter,$route , $http,$log){
                 $scope.progressbar = ngProgressFactory.createInstance();
                 $scope.orderPurchases = [];
                 $scope.orderPurchase = {};
@@ -1159,7 +1159,7 @@
                          
                             if (data['estado'] == true) {
                                 alert('Compra directa correctamente registrada');
-                                $location.path('/purchases');
+                                $window.location.href='/purchases';
                             } else {
                                 $scope.errors = data;
 
