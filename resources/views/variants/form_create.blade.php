@@ -102,11 +102,11 @@
 
                                     </div>
                                     <div class="col-md-3">
-                                        <input ng-disabled="row.id==2 && variant.checkTallas" typeahead-on-select="capAttr1(row.id)" type="text" class="form-control" ng-model="variant.detAtr[$index].descripcion"  ng-keyup="capAttr(row.id)" typeahead="state for state in opcAtr[row.id] | filter:$viewValue | limitTo:8">
+                                        <input ng-disabled="row.id==2 && variant.checkTallas" typeahead-on-select="capAttr10(row.id)" type="text" class="form-control" ng-model="variant.detAtr[$index].descripcion"  ng-keyup="capAttr10(row.id)" typeahead="state for state in opcAtr[row.id] | filter:$viewValue | limitTo:8">
                                     </div>
                                     <!---===============================Parte de Alexis=============================-->
                                     <div ng-if="row.nombre=='Taco'"class="col-md-6">    
-                                       <div ng-show="variant.checkTallas==true" style="background-color: red;" ui-slider="{range: true}" min="15" max="45" step="1" ng-click="LlenarRangoTallas(demoVals.sliderExample9[1],demoVals.sliderExample9[0])" use-numbers ng-model="demoVals.sliderExample9"></div>
+                                       <div ng-show="variant.checkTallas==true" style="background-color: red;" ui-slider="{range: true}" min="15" max="45" step="1" ng-drag="LlenarRangoTallas(demoVals.sliderExample9[1],demoVals.sliderExample9[0])" use-numbers ng-model="demoVals.sliderExample9"></div>
                                        <input ng-disabled="true" ng-show="variant.checkTallas==true" type="text" ng-model="demoVals.sliderExample9" />
                                     </div>
                                     <div ng-if="row.nombre=='Talla'"class="col-md-3">

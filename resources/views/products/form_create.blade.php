@@ -455,7 +455,7 @@
 
                 <div class="form-group" ng-class="{true: 'has-error'}[ brandCreateForm.nombre.$error.required && brandCreateForm.$submitted || brandCreateForm.nombre.$dirty && brandCreateForm.nombre.$invalid]">
                     <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control" ng-blur="validanomMarca()" name="nombre" placeholder="Nombre" ng-model="brand.nombre" required>
+                    <input type="text" class="form-control" ng-blur="AutogenerateCod(brand.nombre)" name="nombre" placeholder="Nombre" ng-model="brand.nombre" required>
                     <label ng-show="brandCreateForm.$submitted || brandCreateForm.nombre.$dirty && brandCreateForm.nombre.$invalid">
                         <span ng-show="brandCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                     </label>
@@ -505,7 +505,7 @@
 
                 <div class="form-group" ng-class="{true: 'has-error'}[ TtypeCreateForm.nombre.$error.required && TtypeCreateForm.$submitted || TtypeCreateForm.nombre.$dirty && TtypeCreateForm.nombre.$invalid]">
                     <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control" name="nombre" placeholder="Nombre" ng-model="Ttype.nombre" required>
+                    <input type="text" class="form-control" name="nombre" ng-blur="AutogenerateCod(Ttype.nombre)" placeholder="Nombre" ng-model="Ttype.nombre" required>
                     <label ng-show="TtypeCreateForm.$submitted || TtypeCreateForm.nombre.$dirty && TtypeCreateForm.nombre.$invalid">
                         <span ng-show="TtypeCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                     </label>
@@ -607,7 +607,7 @@
 
                 <div class="form-group" ng-class="{true: 'has-error'}[ stationCreateForm.nombre.$error.required && stationCreateForm.$submitted || stationCreateForm.nombre.$dirty && stationCreateForm.nombre.$invalid]">
                     <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control" name="nombre" placeholder="Nombre" ng-model="station.nombre" required>
+                    <input type="text" class="form-control" name="nombre" ng-blur="AutogenerateCod(station.nombre)" placeholder="Nombre" ng-model="station.nombre" required>
                     <label ng-show="stationCreateForm.$submitted || stationCreateForm.nombre.$dirty && stationCreateForm.nombre.$invalid">
                         <span ng-show="stationCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                     </label>

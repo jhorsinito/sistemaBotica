@@ -672,6 +672,47 @@
                     $location.path('/variants/edit/'+row.id);
                 };
                 $scope.material='';
+                var codTemporal='';
+                $scope.capAttr10 = function(attr_id){
+                    if(codTemporal==''){
+                    codTemporal=$scope.variant.codigo;
+                    }
+                    $scope.variant.codigo=codTemporal;
+                    var codigodes='';
+                    var separador = " ";
+                    var aregloSubcadena=new Array();
+                   if(attr_id == 1) {
+                      if($scope.variant.detAtr[0].descripcion!=undefined && $scope.variant.detAtr[3].descripcion!=undefined){
+                          var aregloSubcadena=$scope.variant.detAtr[3].descripcion.split(separador);
+                          codigodes=codigodes+($scope.variant.detAtr[0].descripcion.substring(0,2)).toUpperCase();
+                          if(aregloSubcadena.length>1){
+                            codigodes=codigodes+(aregloSubcadena[0].substring(0,1)+aregloSubcadena[1].substring(0,1)).toLowerCase();
+                          }else{
+                            codigodes.codigo=codigodes+(aregloSubcadena[0].substring(0,2)).toLowerCase();
+                          }
+                      }else{
+                           if($scope.variant.detAtr[0].descripcion!=undefined){
+                                codigodes=codigodes+($scope.variant.detAtr[0].descripcion.substring(0,2)).toUpperCase();
+                           }
+                      }
+                   }
+                   if(attr_id == 4){
+                         if($scope.variant.detAtr[0].descripcion!=undefined && $scope.variant.detAtr[3].descripcion!=undefined){
+                          var aregloSubcadena=$scope.variant.detAtr[3].descripcion.split(separador);
+                          codigodes=codigodes+($scope.variant.detAtr[0].descripcion.substring(0,2)).toUpperCase();
+                          if(aregloSubcadena.length>1){
+                            codigodes=codigodes+(aregloSubcadena[0].substring(0,1)+aregloSubcadena[1].substring(0,1)).toLowerCase();
+                          }else{
+                            codigodes=codigodes+(aregloSubcadena[0].substring(0,2)).toLowerCase();
+                          }
+                      }else{
+                           if($scope.variant.detAtr[3].descripcion!=undefined){
+                                codigodes=codigodes+($scope.variant.detAtr[3].descripcion.substring(0,2)).toLowerCase();
+                           }
+                      }
+                   }
+                   $scope.variant.codigo=$scope.variant.codigo+codigodes;
+                }
                 $scope.capAttr1 = function(attr_id){
                     //alert(attr_id);
                     $scope.material='';
@@ -721,7 +762,7 @@
                  }
                 $scope.capAttr = function(attr_id){
                     //alert(attr_id);
-                    //alert($scope.variant.detAtr[3].descripcion);
+                  
                     var separador = " ";
                     var aregloSubcadena=new Array();
                    if(attr_id == 1 || attr_id == 4) {
@@ -765,11 +806,15 @@
                          }
                     }
                  }
+                /*----------------------------------------------------------
+                ------------------------------------------
+                ------------------------------------------------
+                -----------------------------------*/
 
                 //var trouble;
                 $scope.asignarDescr = function(index){
                     //$log.log($scope.trouble);
-
+                     
                     if(isEmpty(trouble)){
                         //alert('arriba');
                         crudService.byforeingKey('variants','getAttr',$routeParams.id).then(function(data){
@@ -1138,9 +1183,18 @@
                }
                $scope.validanomMarca=function(texto){
                 alert('hola');
+                   var separador = " ";
+                    var aregloSubcadena=new Array();
                     if(texto!=undefined){
                         crudService.search('brands',texto,1).then(function (data){
                         $scope.materials = data.data;
+
+                    var aregloSubcadena=texto.split(separador);
+                    if(aregloSubcadena.length>1){
+                        $scope.brand.shortname=aregloSubcadena[0].substring(0,2)+aregloSubcadena[1].substring(0,1);
+                    }else{
+                        $scope.brand.shortname=aregloSubcadena[0].substring(0,3); 
+                    }
                         if($scope.materials!=null){
                            alert("Usted no puede crear dos Marcas con el mismo nombre");
                            $scope.product.nombre=''; 

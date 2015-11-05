@@ -60,6 +60,18 @@
         $scope.cancelBrand = function () {
             $modalInstance.dismiss('cancel');
         };
+        $scope.AutogenerateCod=function(nombre){
+                    
+                    var separador = " ";
+                    var aregloSubcadena=new Array();
+                    var aregloSubcadena=nombre.split(separador);
+                    if(aregloSubcadena.length>1){
+                        $scope.brand.shortname=aregloSubcadena[0].substring(0,2)+aregloSubcadena[1].substring(0,1);
+                    }else{
+                        $scope.brand.shortname=aregloSubcadena[0].substring(0,3); 
+                    }
+                    
+                }
     });
     angular.module('ui.bootstrap').controller('ModalInstanceCtrl2', function ($scope, $modalInstance, crudService) {
 
@@ -86,6 +98,17 @@
         $scope.cancelLine = function () {
             $modalInstance.dismiss('cancel');
         };
+        $scope.AutogenerateCod=function(nombre){
+                    var separador = " ";
+                    var aregloSubcadena=new Array();
+                    var aregloSubcadena=nombre.split(separador);
+                    if(aregloSubcadena.length>1){
+                        $scope.Ttype.shortname=aregloSubcadena[0].substring(0,2)+aregloSubcadena[1].substring(0,1);
+                    }else{
+                        $scope.Ttype.shortname=aregloSubcadena[0].substring(0,3); 
+                    }
+                    
+                }
     });
     angular.module('ui.bootstrap').controller('ModalInstanceCtrl3', function ($scope, $modalInstance, crudService) {
 
@@ -110,6 +133,7 @@
         $scope.cancelMaterial = function () {
             $modalInstance.dismiss('cancel');
         };
+
     });
     angular.module('ui.bootstrap').controller('ModalInstanceCtrl4', function ($scope, $modalInstance, crudService) {
 
@@ -134,6 +158,17 @@
         $scope.cancelStation = function () {
             $modalInstance.dismiss('cancel');
         };
+        $scope.AutogenerateCod=function(nombre){
+                    var separador = " ";
+                    var aregloSubcadena=new Array();
+                    var aregloSubcadena=nombre.split(separador);
+                    if(aregloSubcadena.length>1){
+                        $scope.station.shortname=aregloSubcadena[0].substring(0,2)+aregloSubcadena[1].substring(0,1);
+                    }else{
+                        $scope.station.shortname=aregloSubcadena[0].substring(0,3); 
+                    }
+                    
+                }
     });
     angular.module('ui.bootstrap').controller('ModalInstanceCtrl5', function ($scope, $modalInstance, crudService) {
 
@@ -158,7 +193,7 @@
                 });
             }
         };
-
+        
         $scope.cancelAttribute = function () {
             $modalInstance.dismiss('cancel');
         };

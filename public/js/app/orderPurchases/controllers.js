@@ -742,7 +742,7 @@
                             
                       for(var n=0;n<$scope.companies.length;n++){
                           $scope.companies[n].Fecha=new Date();
-                        if($scope.detailOrderPurchase.descuento>0){
+                        if($scope.detailOrderPurchase.descuento>0 && $scope.companies[n].descuento!=0){
                             $scope.companies[n].preCompra=parseFloat(($scope.companies[n].preCompra - (($scope.companies[n].preCompra * $scope.detailOrderPurchase.descuento ) / 100)).toFixed(2));
                             $scope.companies[n].montoTotal=Number($scope.companies[n].cantidad)*$scope.companies[n].preCompra;
                             $scope.companies[n].descuento=$scope.detailOrderPurchase.descuento;
@@ -859,6 +859,39 @@
                      }
 
                     }
+                $scope.CalcPrecio=function(){
+                  
+                  if($scope.companies.length>=1){
+                    $scope.detailOrderPurchase.montoTotal=0;
+                     for(var n=0;n<$scope.companies.length;n++){
+                          //$scope.companies[n].
+                          alert("hola"+$scope.companies[n].preProducto);
+                        //if($scope.detailOrderPurchase.descuento>0){
+                          
+                            //$scope.companies[n].preCompra=parseFloat(($scope.companies[n].preCompra - (($scope.companies[n].preCompra * $scope.detailOrderPurchase.descuento ) / 100)).toFixed(2));
+                            $scope.companies[n].preCompra=$scope.detailOrderPurchase.preCompra;
+                            $scope.companies[n].montoTotal=(Number($scope.companies[n].cantidad)*parseFloat($scope.companies[n].preCompra)).toFixed(2);
+                            $scope.companies[n].descuento=(Number((parseFloat($scope.companies[n].preProducto)-parseFloat($scope.companies[n].preCompra))/parseFloat($scope.companies[n].preProducto))*100).toFixed(2);
+                            //$scope.detailOrderPurchase.descuento=Number((Number($scope.companies[n].descuento)).toFixed(2));
+                            //$scope.detailOrderPurchase.montoTotal=Number((Number($scope.detailOrderPurchase.montoTotal)+Number($scope.companies[n].montoTotal)).toFixed(2));
+                            //todo=todo+;
+                        //} 
+                        $log.log($scope.companies[n]);
+                      }
+                      //alert(todo);
+                      //detailOrderPurchase.montoTotal
+                      $scope.detailOrderPurchase.descuento=((parseFloat($scope.companies[0].preProducto)-parseFloat($scope.detailOrderPurchase.preCompra))/parseFloat($scope.companies[0].preProducto)).toFixed(2);
+                      $scope.detailOrderPurchase.montoTotal= parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preCompra)).toFixed(2));
+                               
+                    }else{
+                            
+                           // $scope.detailOrderPurchase.montoBruto=parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preCompra)).toFixed(2));
+                            $scope.detailOrderPurchase.descuento=((parseFloat($scope.detailOrderPurchase.preProducto)-parseFloat($scope.detailOrderPurchase.preCompra))/parseFloat($scope.detailOrderPurchase.preProducto)).toFixed(2);
+                            //var descuento=parseFloat($scope.detailOrderPurchase.montoBruto)
+                            $scope.detailOrderPurchase.montoTotal= parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preCompra)).toFixed(2));
+                            
+                    }
+                }
                 /*$scope.calEnBaseTotal=function(){
                     $scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preProducto).toFixed(2));
                     $scope.detailOrderPurchase.montoBruto=parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preProducto)).toFixed(2));
