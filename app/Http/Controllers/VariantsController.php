@@ -108,8 +108,6 @@ class VariantsController extends Controller
         $cantTallas=$request->cantTallas;
         $request->merge(["estado"=>1]);
 
-        //var_dump($request->input('stock')); die();
-
         $oProd = Product::find($request->input('product_id'));
         
           
@@ -119,7 +117,7 @@ class VariantsController extends Controller
 $n=0;
  if($request->input('checkTallas')==true){
 foreach ($tallasDisponibles as $tallasD) {
-        //var_dump($tallasD); die();
+        
         $request->merge(["track"=>1]);
         $variant = $this->variantRepo->getModel();
 
@@ -218,6 +216,7 @@ foreach ($tallasDisponibles as $tallasD) {
            $n++;
          }
      }else{
+       
         $variant = $this->variantRepo->getModel();
 
 
@@ -262,27 +261,29 @@ foreach ($tallasDisponibles as $tallasD) {
                 }
             }
 
-            if($request->input('track') == 1) {
+            if($request->input('track') == true) {
                 foreach ($request->input('stock') as $stock ) {
-                    //var_dump($stock['stockActual']);die();
-                    if (isset($stock['stockActual']) || $stock['stockActual'] == NULL ||  $stock['stockActual'] =='') $stock['stockActual'] = 0;
-                        if (isset($stock['stockMin']) || $stock['stockMin'] == NULL ||  $stock['stockMin'] =='') $stock['stockMin'] = 0;
-                        if (isset($stock['stockMinSoles']) || $stock['stockMinSoles'] == NULL ||  $stock['stockMinSoles'] =='') $stock['stockMinSoles'] = 0;
+                   
+                    if (!isset($stock['stockActual']) || $stock['stockActual'] == NULL ||  $stock['stockActual'] =='') $stock['stockActual'] = 0;
+                    if (!isset($stock['stockMin']) || $stock['stockMin'] == NULL ||  $stock['stockMin'] =='') $stock['stockMin'] = 0;
+                    if (!isset($stock['stockMinSoles']) || $stock['stockMinSoles'] == NULL ||  $stock['stockMinSoles'] =='') $stock['stockMinSoles'] = 0;
                         $stock['variant_id'] = $variant->id;
                     $oStock = new StockRepo();
                     $obj = $oStock->getModel()->where('variant_id',$stock['variant_id'])->where('warehouse_id',$stock['warehouse_id'])->first();
 
                     if(!isset($obj->id)){
+                        
                         $stockManager = new StockManager($oStock->getModel(), $stock);
                         $stockManager->save();
                     }else{
+                        
                         $stockManager = new StockManager($obj, $stock);
                         $stockManager->save();
                     }
 
                 }
             }
-
+           
             //================================ADD IMAGE TO VAR==============================//
 
             if($request->has('image') and substr($request->input('image'),5,5) === 'image'){

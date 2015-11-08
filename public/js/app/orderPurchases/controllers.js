@@ -816,6 +816,14 @@
                     $scope.ejemplo=null;
                     $scope.ejemplo_de=null;
                     $scope.estado_fin=true;
+                    $scope.calcPrecio=function(){
+                      if($scope.detailOrderPurchase.cantidad>0) { 
+                            $scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preProducto).toFixed(2));
+                            $scope.detailOrderPurchase.montoBruto=parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preCompra)).toFixed(2));
+                            $scope.detailOrderPurchase.montoTotal= parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preCompra)).toFixed(2));
+                            $scope.detailOrderPurchase.descuento=0;
+                        }
+                    }
                     $scope.calculateSuppPric=function()
                     {  
                     if($scope.detailOrderPurchase.cantidad>0) { 
@@ -826,7 +834,7 @@
                             $scope.detailOrderPurchase.montoTotal=0;
                             $scope.detailOrderPurchase.Cantidad_Ll=0;
                             $scope.detailOrderPurchase.pendiente=$scope.detailOrderPurchase.cantidad;
-                           // alert("si estoy aqui");
+                          
                        }else{
                             $scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preProducto).toFixed(2));
                             $scope.detailOrderPurchase.montoBruto=parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preProducto)).toFixed(2));
@@ -851,8 +859,14 @@
                             $scope.ejemplo_de=$scope.detailOrderPurchase.descuento;
                             $scope.ejemplo=$scope.detailOrderPurchase.montoTotal;
                        }}else{
+                        if($scope.detailOrderPurchase.descuento!=null){
                         $scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preCompra - (($scope.detailOrderPurchase.preCompra * $scope.detailOrderPurchase.descuento ) / 100)).toFixed(2));
-                        $scope.estado_fin=true;}
+                        $scope.estado_fin=true;
+                        $scope.calcPrecio=function(){
+
+                        }
+                        }
+                      }
                        }
                      }else{
                       alert("Error usted debe ingresar como minimo 1");

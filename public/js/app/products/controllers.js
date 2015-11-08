@@ -437,7 +437,7 @@
 
                             $scope.variant.product_id = $scope.product.id;
                             $log.log($scope.variant);
-                            nnn
+                            
                             crudService.create($scope.variant, 'variants').then(function (data) {
                                 if (data['estado'] == true) {
                                     //$scope.success = data['nombres'];
