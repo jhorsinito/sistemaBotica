@@ -33,6 +33,12 @@
                 };*/
                 $scope.fecha1;
                 $scope.fecha2;
+                $scope.convertirfecha = function() {
+                    $scope.fechaInicio=new Date($scope.fechaInicio);
+                    $scope.fechaFin=new Date($scope.fechaFin);
+                    $scope.fecha1=$scope.fechaInicio.getFullYear()+'-'+($scope.fechaInicio.getMonth()+1)+'-'+$scope.fechaInicio.getDate()+' '+$scope.fechaInicio.getHours()+':'+$scope.fechaInicio.getMinutes()+':'+$scope.fechaInicio.getSeconds();
+                    $scope.fecha2=$scope.fechaFin.getFullYear()+'-'+($scope.fechaFin.getMonth()+1)+'-'+$scope.fechaFin.getDate()+' '+'23:59:59';
+                }
                 $scope.buscarDetalles = function () {
                     if ($scope.fechaInicio==undefined) {
                         alert("Ingrese Fecha Inicio");
@@ -41,8 +47,7 @@
                         alert("Ingrese Fecha Fin");
                         $scope.buscarDetallesEcpence();
                     }else{
-                        $scope.fechaInicio=new Date($scope.fechaInicio);
-                        $scope.fechaFin=new Date($scope.fechaFin);
+                        
                         //$scope.cashMonthly.fecha=$scope.fechap.getFullYear()+'-'+($scope.fechap.getMonth()+1)+'-'+$scope.fechap.getDate()+' '+$scope.fechap.getHours()+':'+$scope.fechap.getMinutes()+':'+$scope.fechap.getSeconds();
                         if($scope.fechaInicio<=$scope.fechaFin){
                             //alert("Entre")
@@ -50,8 +55,7 @@
                                 $scope.cashMonthly.expenseMonthlys_id=0;
                             }
 
-                            $scope.fecha1=$scope.fechaInicio.getFullYear()+'-'+($scope.fechaInicio.getMonth()+1)+'-'+$scope.fechaInicio.getDate()+' '+$scope.fechaInicio.getHours()+':'+$scope.fechaInicio.getMinutes()+':'+$scope.fechaInicio.getSeconds();
-                            $scope.fecha2=$scope.fechaFin.getFullYear()+'-'+($scope.fechaFin.getMonth()+1)+'-'+$scope.fechaFin.getDate()+' '+'23:59:59';
+                            $scope.convertirfecha();
                             
                             //$scope.fecha2=$scope.fechaFin.getFullYear()+'-'+($scope.fechaFin.getMonth()+1)+'-'+$scope.fechaFin.getDate()+' '+$scope.fechaFin.getHours()+':'+$scope.fechaFin.getMinutes()+':'+$scope.fechaFin.getSeconds();
                             crudService.searchMes('cashMonthlys',$scope.fecha1,$scope.fecha2,$scope.cashMonthly.expenseMonthlys_id,1).then(function (data){
@@ -77,15 +81,16 @@
                     }
                 };
                 $scope.buscarDetallesEcpence = function () {
-                        if($scope.cashMonthly.fecha1==undefined){
-                                $scope.cashMonthly.fecha1=0;
+                        if($scope.fecha1==undefined){
+                                $scope.fecha1=0;
                             }
-                        if($scope.cashMonthly.fecha2==undefined){
-                            $scope.cashMonthly.fecha2=0;
+                        if($scope.fecha2==undefined){
+                            $scope.fecha2=0;
                         }
                         if($scope.cashMonthly.expenseMonthlys_id==null){
                                 $scope.cashMonthly.expenseMonthlys_id=0;
                             }
+                            
                     crudService.searchMes('cashMonthlys',$scope.fecha1,$scope.fecha2,$scope.cashMonthly.expenseMonthlys_id,1).then(function (data){
                                 //$log.log(data);
                                 crudService.searchMes('cashMonthlysMonto',$scope.fecha1,$scope.fecha2,$scope.cashMonthly.expenseMonthlys_id,1).then(function (data){
@@ -98,6 +103,14 @@
                                 $scope.currentPage = data.current_page;
                                 //$scope.calcularAcumulado();
                             });
+                }
+                $scope.limpiar = function () {
+                    $scope.fecha1=undefined;
+                    $scope.fecha2=undefined;
+                    $scope.fechaInicio=undefined;
+                    $scope.fechaFin=undefined;
+                    $scope.cashMonthly.expenseMonthlys_id=null;
+                    $scope.buscarDetallesEcpence();
                 }
 
                 $scope.pageChanged = function() {
@@ -119,6 +132,10 @@
                 {
                     crudService.byId(id,'cashMonthlys').then(function (data) {
                         $scope.cashMonthly = data;
+                        $scope.cashMonthly.amount=Number($scope.cashMonthly.amount);
+                        $scope.cashMonthly.fecha=new Date($scope.cashMonthly.fecha);
+                        $log.log("-.-.-.-.-.-.-.-.-.-.-.-.-");
+                        $log.log($scope.cashMonthly);
                     });
                     crudService.select('months','select').then(function (data) {
                         $scope.months = data;
@@ -258,11 +275,12 @@
                 
                 $scope.createcashMonthly = function(){
                     if ($scope.cashMonthlyCreateForm.$valid) {  
-                        $scope.fechap=new Date($scope.fechap);
-                        //$scope.fechap.getTimezoneOffset();
-                        $scope.cashMonthly.fecha=$scope.fechap.getFullYear()+'-'+($scope.fechap.getMonth()+1)+'-'+$scope.fechap.getDate()+' '+$scope.fechap.getHours()+':'+$scope.fechap.getMinutes()+':'+$scope.fechap.getSeconds();
-                        $log.log($scope.cashMonthly.fecha);
-                        //eee
+                        //$scope.fechap=new Date($scope.fechap);
+                        //$scope.cashMonthly.fecha.getTimezoneOffset();
+                        $scope.cashMonthly.fecha=$scope.cashMonthly.fechap.getFullYear()+'-'+($scope.cashMonthly.fechap.getMonth()+1)+'-'+$scope.cashMonthly.fechap.getDate()+' '+$scope.cashMonthly.fechap.getHours()+':'+$scope.cashMonthly.fechap.getMinutes()+':'+$scope.cashMonthly.fechap.getSeconds();
+                        $log.log("=============");
+                        $log.log($scope.cashMonthly);
+
                         //$scope.cashMonthly.fecha=$scope.fechap;
                         //$log.log($scope.cashMonthly);
                         //'999plasas

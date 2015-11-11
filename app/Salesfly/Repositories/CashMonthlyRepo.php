@@ -30,9 +30,6 @@ class CashMonthlyRepo extends BaseRepo{
             return $CashMonthlys;
         }else{
             $CashMonthlys =CashMonthly::with('expenseMonthly')
-                    //->where('months_id','like',$m)
-                    //->where('fecha','between',$a )
-                    //->whereBetween('fecha', [$m,$a])
                     ->where('expenseMonthlys_id','like',$c)  
                     ->paginate(15); 
             return $CashMonthlys;        
