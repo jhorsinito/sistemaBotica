@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SupplierTableSeeder::class);
         $this->call(EmployeeTableSeeder::class);
         $this->call(expenseMonthlysTableSeeder::class);
+        $this->call(FBnumber::class);
         Model::reguard();
     }
 }

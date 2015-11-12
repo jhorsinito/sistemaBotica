@@ -14,6 +14,7 @@ class CreateHeadInvoicesTable extends Migration
     {
         Schema::create('headInvoices', function (Blueprint $table) {
             $table->increments('id');
+            $table->biginteger('numero');
             $table->string('clientes');
             $table->string('direccion')->nullable();
             $table->string('ruc',11);
@@ -25,6 +26,7 @@ class CreateHeadInvoicesTable extends Migration
             $table->foreign('venta_id')->references('id')->on('sales');
             $table->integer('cliente_id')->unsigned()->nullable();
             $table->foreign('cliente_id')->references('id')->on('customers');
+            $table->string('tipoDoc',1);
             $table->timestamps();
         });
 }
