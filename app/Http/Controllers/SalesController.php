@@ -296,6 +296,7 @@ class SalesController extends Controller
             //-----------------------------------------------------
             //Create det Documento Venta 
             //-------------------------------------------------------
+            
             if(!empty($codigoFactura)){
                   $object["descripcion"]=$object["NombreProducto"];
                   $object["PrecioUnit"]=$object["precioProducto"];
