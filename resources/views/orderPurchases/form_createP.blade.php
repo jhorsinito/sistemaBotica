@@ -37,25 +37,7 @@
     <div class="row">
           <div class="col-md-1">
           </div>
-         <!-- <div class="col-md-4">
-              <div class="form-group" ng-class="{true: 'has-error'}[ orderDetPurchaseCreateForm.empresa.$error.required && orderDetPurchaseCreateForm.$submitted || orderDetPurchaseCreateForm.empresa.$dirty && orderDetPurchaseCreateForm.empresa.$invalid]">
-                    <label>Proveedor: </label>
-                    <div ng-hide="show" class="input-group">
-                               <input  type="text" ng-model="orderPurchase.empresa"  name="empresa" class="form-control input-sm pull-right" placeholder="Search" required/>
-                                                             
-                                <div class="input-group-btn">
-                                 <button class="btn btn-sm btn-default" data-toggle="modal" ng-click="searchsupplier()" data-target="#miventana" ><i class="fa fa-search"></i></button>
-                               </div>
-                   </div>
-                   <label ng-show="orderDetPurchaseCreateForm.$submitted || orderDetPurchaseCreateForm.empresa.$dirty && orderDetPurchaseCreateForm.empresa.$invalid">
-                                    <span ng-show="orderDetPurchaseCreateForm.empresa.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
-                                </label>
-                    <div ng-show="show" class="input-group">
-                               <spam ng-show="show">@{{orderPurchase.empresa}}</spam>
-
-                    </div> 
-              </div> 
-            </div>-->
+         
             
             <div class="col-md-4">
            
@@ -160,11 +142,7 @@
             <div class="col-md-4">
           <div class="input-group" style="width: 300px;">
               <label>Producto</label>
-              <!-- <input ng-disabled="check" ng-hide="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Locations loaded via $http" 
-          typeahead="product as product.proNombre+'('+(product.BraName==null ? '': product.BraName+'/')+(product.TName==null ? '' : product.TName+'/')+(product.Mnombre==null ? '':product.Mnombre)+')' for product in products | filter:$viewValue | limitTo:8" 
-          typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
-           tooltip="Ingrese caracteres para busacar producto por codigo unico"
-            >-->
+            
              <input  typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Locations loaded1 via $http" 
           typeahead="variant as variant.proNombre+'('+(variant.BraName==null ? '': variant.BraName+'/')+(variant.TName==null ? '' : variant.TName+'/')+(variant.Mnombre==null ? '':variant.Mnombre+'/')+(variant.NombreAtributos==null ? '':variant.NombreAtributos)+')' for variant in variants1 | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
@@ -181,85 +159,32 @@
 
 
             
-            <div ng-show="check" class="col-md-3">
+            <div ng-if="check==true" class="col-md-2">
                   <label for="Variante">Busca Por Sku</label>
                   <div class="form-group">
                   <input type="text" ng-enter="TraerPorSku(variant.sku)" class="form-control" ng-model="variant.sku">
                   </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-1">
                <em>¿POR SKU?</em>
-                      <div   class="form-group" >                            
+                      <div class="form-group" >                            
                             <input  ng-disabled="check1" ng-click="limpiarDatosAgregate()" type="checkbox"  name="variantes" ng-model="check" />
                             
-                        </div>
-                </div>
-          
-           
-
-    <!--
-     <div class="col-md-2">
-            <div class="form-group">
-            <label for="Variante">Numero Talla</label>
-                <!-- Split button -
-              <div class="btn-group">
-              <div class="row">
-                     <div class="col-md-1">
-                            <button type="button" ng-click="aumentarValor()" class="btn btn-primary btn-xs">
-                            <span class="glyphicon glyphicon-chevron-up"></span></button>
-                            <button type="button" ng-click="bajarValor()" class="btn  btn-primary btn-xs " >
-                            <span class="glyphicon glyphicon-chevron-down"></span>
-                            </button>
-                     </div>
-                    <div class="col-md-5">
-                            <button type="button" class="btn btn-info btn-lg">Talla
-                            <span class="badge">@{{valor}}</span></button>
-                    </div>
-  
+                      </div>
             </div>
-            </div>
-          </div>
-    </div>
-    <div class="col-md-1">
-        <div class="row">
-          <labe>gfhjkm</labe>
-        </div>
-        <div class="row">
-                  <button type="button" ng-click="traerUno()" class="btn btn-primary btn-xs">
-                  <span class="glyphicon glyphicon-arrow-right"></span></button>
-        </div>
-           <div class="row">
-                  <button type="button" ng-click="traerTodo()" class="btn btn-primary btn-xs">
-                  <span class="glyphicon glyphicon-export"></span></button>
-          </div>
-  </div>
-  <div class="form-group">
-     <label>Talla: @{{tallaSelect}}</pre>
-  </div>
-         <!-- <div class="input-group">
-              <label>Variante</label>
-               
-               <input typeahead-on-select="asignarProduc2()" type="text" ng-model="variant.sku" placeholder="Busca por producto" 
-          typeahead="variant as variant.sku for variant in variants | filter:$viewValue | limitTo:8"  
-          typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
-          tooltip="Ingrese caracteres para busacar producto por sku">
-         
-                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-            <div ng-show="noResults">
-                    <i class="glyphicon glyphicon-remove"></i> No Results Found
+            <div class="col-md-2">
+               <label for="tcambio">Tipo de Cambio</label>
+               <select  class="form-control" name="tcambio"  ng-model="tCambio" >
+                       <option value="sol">Sol</option>
+                       <option value="dolar">Dolar</option>
+               </select>
            </div>
-             
-        </div> 
-      </div>-
-      <div class="col-md-1">
-      <div class="input-group">
-      <label></label><br/>
-           <input type="checkbox" name="vehicle"  ng-click="llenar()" >Base<br>
-      </div>
-    </div>-->
-           
-
-          </div>
+           <div ng-if="tCambio=='dolar'" class="col-md-1">
+               <label for="valorCambio">Valor</label>
+               <input class="form-control" ng-model="valorCambio" type="number" min="1">
+           </div>
+          
+</div>
   <div class="row">
   <div class="col-md-1">
        </div>
@@ -279,24 +204,7 @@
               
               </div>    
        </div>
-      <!-- <div class="col-md-2" ng-if="$index>4 && $index<=9">
-             <div class="input-group" ng-value="item.valorDetAtr">
-                  <input  type="checkbox"   ng-model="cheked1" />@{{item.valorDetAtr}}
-                 <input ng-show="cheked1" type="number" style="width:40px"   placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.valorDetAtr)" step="1" rquired>
-               </div> 
-        </div>
-       <div class="col-md-2" ng-if="$index>9 && $index<=14">
-            <div class="input-group" ng-value="item.valorDetAtr">
-                  <input  type="checkbox" ng-model="cheked1" />@{{item.valorDetAtr}}
-                  <input ng-show="cheked1" type="number" style="width:40px" placeholder="0"  ng-model="cantidad" ng-blur="calCantidad(cantidad,item.valorDetAtr)" step="1" rquired>
-              </div>            
-        </div>
-       <div class="col-md-2" ng-if="$index>14 && $index<=19">
-              <div class="input-group" ng-value="item.valorDetAtr">
-                  <input  type="checkbox" ng-model="cheked1"  />@{{item.valorDetAtr}}
-                  <input ng-show="cheked1" type="number" style="width:40px"  placeholder="0" ng-model="cantidad" ng-blur="calCantidad(cantidad,item.valorDetAtr)" step="1" rquired>
-              </div>            
-        </div> -->
+      
       </div>
   </div>  
   </div>
@@ -364,7 +272,7 @@
                <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.preCompra.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.preCompra.$dirty && detailOrderPurchaseCreateForm.preCompra.$invalid]">
                 <label for="preCompra">Precio </label>
 
-                <input ng-disabled="true" type="number" min='0' class="form-control ng-pristine ng-valid ng-touched" name="preCompra" placeholder="0.00" ng-model="detailOrderPurchase.preCompra" ng-blur="calculateSuppPric()" step="0.1" >
+                <input  type="number" min='0' class="form-control ng-pristine ng-valid ng-touched" name="preCompra" placeholder="0.00" ng-model="detailOrderPurchase.preCompra" ng-blur="CalcPrecio()" step="0.1" >
                 <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.preCompra.$dirty && detailOrderPurchaseCreateForm.preCompra.$invalid" >
                   <span ng-show="detailOrderPurchaseCreateForm.preCompra.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>

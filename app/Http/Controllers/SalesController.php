@@ -217,6 +217,7 @@ class SalesController extends Controller
             $request->merge(["Total"=>$request->input("montoTotal")]);
             $request->merge(["venta_id"=>$temporal]);
             $request->merge(["cliente_id"=>$request->input("customer_id")]);
+           
             $inputheadInvoiceRepo=new HeadInvoiceManager($headInvoice,
             $request->only('numero','cliente','direccion','ruc','GRemicion','subTotal',
                 'igv','Total','venta_id','cliente_id','tipoDoc'));
@@ -296,6 +297,7 @@ class SalesController extends Controller
             //-----------------------------------------------------
             //Create det Documento Venta 
             //-------------------------------------------------------
+            
             if(!empty($codigoFactura)){
                   $object["descripcion"]=$object["NombreProducto"];
                   $object["PrecioUnit"]=$object["precioProducto"];
@@ -309,8 +311,11 @@ class SalesController extends Controller
        }
        //-----------------Creacion de Cabecera Factura-------
        //$cajaPrueba=$request->saledetPayments;
-      
-     return response()->json(['estado'=>true,'codFactura'=>$codigoFactura,'nombres'=>$orderSale->nombres]);
+       if(!empty($codigoFactura)){
+                return response()->json(['estado'=>true,'codFactura'=>$codigoFactura,'nombres'=>$orderSale->nombres]);
+        }else{
+           return response()->json(['estado'=>true,'nombres'=>$orderSale->nombres]);
+        }      
     }
 
 
