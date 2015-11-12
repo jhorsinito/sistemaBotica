@@ -13,6 +13,11 @@
                 $scope.user.role_id = '2';
                 $scope.estados = [{key:'0',value:'Deshabilitado'},{key:'1',value:'Habilitado'}];
                 $scope.user.estado = '1';
+                $scope.showChange = false;
+
+                $scope.changePass = function(){
+                    $scope.showChange = !$scope.showChange;
+                }
 
                 $scope.toggle = function () {
                     $scope.show = !$scope.show;

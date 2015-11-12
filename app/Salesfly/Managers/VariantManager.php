@@ -19,7 +19,8 @@ class VariantManager extends BaseManager{
             'image' => '',
             'category' => 'integer',
             'favorite'=>'boolean',
-            'user_id' => 'required|integer'
+            'user_id' => 'required|integer',
+            'fvenc' => ''
         ];
         return $rules;
     }

@@ -44,6 +44,23 @@
                 $scope.presentation.suppPri = 0;
                 $scope.presentation.markup = 0;
                 $scope.presentation.price = 0;
+                $scope.presentation.markupCant = 0;
+                $scope.presentation.suppPriDol = 0;
+
+                //desctos
+                $scope.presentation.dscto = 0;
+                $scope.presentation.dsctoCant = 0;
+                $scope.presentation.pvp = 0;
+                $scope.presentation.fecIniDscto = new Date();
+                $scope.presentation.fecFinDscto = new Date();
+                $scope.presentation.dsctoRange = 0;
+                $scope.presentation.dsctoCantRange = 0;
+                $scope.presentation.pvpRange = 0;
+
+                $scope.presentation.cambioDolar = 3.00;
+                //
+                $scope.presentation.edit = false;
+                $scope.presentation.identificador = -1;
 
                 $scope.minNumber = 0;
 
@@ -51,6 +68,7 @@
 
 
                 $scope.variants = []; //variantes por product_id;
+                $scope.variant.fvenc = new Date();
 
                 //$scope.product.presentation_base = '1';
 
@@ -72,26 +90,143 @@
                 ./ de variants create
                  */
 
+                $scope.calculateCambioDolar = function() {
+                    //$scope.presentation.suppPri = presentation.suppPriDol * presentation.cambioDolar
+                    /*$scope.calculateSuppPric();*/
+                    $scope.calculateSuppPricDol();
+                }
+
+                $scope.calculateSuppPricDol = function() {
+                    $scope.presentation.suppPri = parseFloat($scope.presentation.suppPriDol) * parseFloat($scope.presentation.cambioDolar);
+                    $scope.presentation.suppPri = parseFloat($scope.presentation.suppPri).toFixed(2);
+                    $scope.calculateSuppPric();
+                    $scope.calculatePrice();
+                }
+
+                $scope.calculateMarkupCant = function(){
+                    $scope.presentation.price = parseFloat($scope.presentation.suppPri) + parseFloat($scope.presentation.markupCant);
+                    $scope.presentation.price = parseFloat($scope.presentation.price).toFixed(2);
+
+                    $scope.presentation.markup = (parseFloat($scope.presentation.price) - parseFloat($scope.presentation.suppPri)) * 100 / parseFloat($scope.presentation.suppPri);
+                    $scope.presentation.markup = parseFloat($scope.presentation.markup).toFixed(2);
+                    $scope.calculatePrice();
+                }
 
                 $scope.calculateSuppPric = function() {//presentation.markup
                     //alert('holi');alert($scope.presentation.suppPri);
-                    if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
-                        $scope.presentation.price = $scope.presentation.suppPri + $scope.presentation.markup * $scope.presentation.suppPri / 100;
-                        //alert('pasa');
-                    }
+                    //alert('hi');
+                    //if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
+                        $scope.presentation.price = parseFloat($scope.presentation.suppPri) + parseFloat($scope.presentation.markup) * parseFloat($scope.presentation.suppPri) / 100;
+                        $scope.presentation.price = parseFloat($scope.presentation.price).toFixed(2);
+                        $scope.presentation.suppPriDol = parseFloat($scope.presentation.suppPri) / parseFloat($scope.presentation.cambioDolar);
+                        $scope.presentation.suppPriDol = parseFloat($scope.presentation.suppPriDol).toFixed(2);
+                    $scope.calculatePrice();
+                    //alert('holi');
+                    //}
                 };
                 $scope.calculateMarkup = function() {
                     //alert('holi');
-                    if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
-                        $scope.presentation.price = $scope.presentation.suppPri + $scope.presentation.markup * $scope.presentation.suppPri / 100;
-                    }
+                    //if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
+                        $scope.presentation.price = parseFloat($scope.presentation.suppPri) + parseFloat($scope.presentation.markup) * parseFloat($scope.presentation.suppPri) / 100;
+                        $scope.presentation.price = parseFloat($scope.presentation.price).toFixed(2);
+
+                        $scope.presentation.markupCant = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.suppPri);
+                        $scope.presentation.markupCant = parseFloat($scope.presentation.markupCant).toFixed(2);
+                        $scope.calculatePrice();
+                    //}
                 };
                 $scope.calculatePrice = function() {
                     //alert('holi');
-                    if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
-                        $scope.presentation.markup = ($scope.presentation.price - $scope.presentation.suppPri) * 100 / $scope.presentation.suppPri;
-                    }
+                    //if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
+                        $scope.presentation.markup = (parseFloat($scope.presentation.price) - parseFloat($scope.presentation.suppPri)) * 100 / parseFloat($scope.presentation.suppPri);
+                        $scope.presentation.markup = parseFloat($scope.presentation.markup).toFixed(2);
+
+                    $scope.presentation.pvp = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.dscto) * parseFloat($scope.presentation.price) / 100;
+                    $scope.presentation.pvp = parseFloat($scope.presentation.pvp).toFixed(2);
+
+                    $scope.presentation.dsctoCant = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvp);
+                    $scope.presentation.dsctoCant = parseFloat($scope.presentation.dsctoCant).toFixed(2);
+
+                        $scope.presentation.markupCant = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.suppPri);
+                        $scope.presentation.markupCant = parseFloat($scope.presentation.markupCant).toFixed(2);
+
+                    $scope.presentation.pvpRange = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.dsctoRange) * parseFloat($scope.presentation.price) / 100;
+                    $scope.presentation.pvpRange = parseFloat($scope.presentation.pvpRange).toFixed(2);
+
+                    $scope.presentation.dsctoCantRange = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvpRange);
+                    $scope.presentation.dsctoCantRange = parseFloat($scope.presentation.dsctoCantRange).toFixed(2);
+
+
+                    //}
                 };
+
+                //dsctos calcular
+
+                $scope.calculatePVP = function() {
+                    $scope.presentation.dscto = (parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvp)) * 100 / parseFloat($scope.presentation.price);
+                    $scope.presentation.dscto = parseFloat($scope.presentation.dscto).toFixed(2);
+
+                    $scope.presentation.dsctoCant = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvp);
+                    $scope.presentation.dsctoCant = parseFloat($scope.presentation.dsctoCant).toFixed(2);
+                    //$scope.presentation.pvp = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.dscto) * parseFloat($scope.presentation.price) / 100;
+                    //$scope.presentation.pvp = parseFloat($scope.presentation.pvp).toFixed(2);
+                }
+
+                $scope.calculateDscto = function() {
+                    //alert('holi');
+                    //if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
+                    $scope.presentation.pvp = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.dscto) * parseFloat($scope.presentation.price) / 100;
+                    $scope.presentation.pvp = parseFloat($scope.presentation.pvp).toFixed(2);
+
+                    $scope.presentation.dsctoCant = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvp);
+                    $scope.presentation.dsctoCant = parseFloat($scope.presentation.dsctoCant).toFixed(2);
+                    //}
+                };
+                $scope.calculateDsctoCant = function() {
+                    //alert('holi');
+                    //if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
+                    $scope.presentation.pvp = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.dsctoCant);
+                    $scope.presentation.pvp = parseFloat($scope.presentation.pvp).toFixed(2);
+
+                    $scope.presentation.dscto = (parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvp)) * 100 / parseFloat($scope.presentation.price);
+                    $scope.presentation.dscto = parseFloat($scope.presentation.dscto).toFixed(2);
+                    //}
+                };
+
+                $scope.calculateDsctoRange = function() {
+                    //alert('holi');
+                    //if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
+                    $scope.presentation.pvpRange = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.dsctoRange) * parseFloat($scope.presentation.price) / 100;
+                    $scope.presentation.pvpRange = parseFloat($scope.presentation.pvpRange).toFixed(2);
+
+                    $scope.presentation.dsctoCantRange = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvpRange);
+                    $scope.presentation.dsctoCantRange = parseFloat($scope.presentation.dsctoCantRange).toFixed(2);
+                    //}
+                };
+
+                $scope.calculateDsctoCantRange = function() {
+                    //alert('holi');
+                    //if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
+                    $scope.presentation.pvpRange = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.dsctoCantRange);
+                    $scope.presentation.pvpRange = parseFloat($scope.presentation.pvpRange).toFixed(2);
+
+                    $scope.presentation.dsctoRange = (parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvpRange)) * 100 / parseFloat($scope.presentation.price);
+                    $scope.presentation.dsctoRange = parseFloat($scope.presentation.dsctoRange).toFixed(2);
+                    //}
+                };
+
+                $scope.calculatePVPRange = function() {
+                    $scope.presentation.dsctoRange = (parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvpRange)) * 100 / parseFloat($scope.presentation.price);
+                    $scope.presentation.dsctoRange = parseFloat($scope.presentation.dsctoRange).toFixed(2);
+
+                    $scope.presentation.dsctoCantRange = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvpRange);
+                    $scope.presentation.dsctoCantRange = parseFloat($scope.presentation.dsctoCantRange).toFixed(2);
+                    //$scope.presentation.pvp = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.dscto) * parseFloat($scope.presentation.price) / 100;
+                    //$scope.presentation.pvp = parseFloat($scope.presentation.pvp).toFixed(2);
+                }
+
+
+                //fin dsctos
                 $scope.toggle = function () {
                     $scope.show = !$scope.show;
                 };
@@ -215,7 +350,7 @@
                             $scope.variant.product_id = data.product_id;
                             $scope.variant.category = parseInt(data.category);
 
-
+                            $scope.variant.fvenc = new Date(data.fvenc);
 
                             //crudService.byId($scope.variant.product_id, 'products').then(function (data) {
                                 //$log.log(data);
@@ -483,7 +618,7 @@
                         //alert(f);
                         var r = new FileReader();
                         r.onloadend = function(e) {
-                            $scope.product.image = e.target.result;
+                            $scope.variant.image = e.target.result;
                             
                             $scope.variant.product_id = $scope.product.id;
                             crudService.update($scope.variant, 'variants').then(function (data) {
@@ -797,7 +932,7 @@
                 }
 
                 $scope.traerPres = function(preBase){
-                    $log.log(preBase);
+                    //$log.log(preBase);
                     if($location.path() != '/variants/create/'+$routeParams.product_id && $location.path() != '/variants/edit/'+$routeParams.id) {
                         crudService.byforeingKey('presentations', 'all_by_base', preBase).then(function (data) {
                             $scope.presentations = data;
@@ -814,6 +949,8 @@
                     }
                     if($location.path() == '/variants/create/'+$routeParams.product_id || $location.path() == '/variants/edit/'+$routeParams.id){
                         crudService.byforeingKey('presentations','all_by_base',preBase).then(function(data){
+                            //$scope.selectPres();
+                            $scope.selectPres();
                             $scope.presentations = data;
                             //$log.log( $scope.presentations);
                             //$scope.presentations.push({id:$scope.product.presentation_base.id,nombre:'holi'});
@@ -827,6 +964,39 @@
                         });
                     }
 
+                }
+
+                $scope.traerPresX = function(preBase){
+                    if($location.path() != '/variants/create/'+$routeParams.product_id && $location.path() != '/variants/edit/'+$routeParams.id) {
+                        crudService.byforeingKey('presentations', 'all_by_base', preBase).then(function (data) {
+                            $scope.presentations = data;
+                            //$log.log( $scope.presentations);
+                            //$scope.presentations.push({id:$scope.product.presentation_base.id,nombre:'holi'});
+                            $scope.presentations.unshift({
+                                id: $scope.product.presentation_base_object.id,
+                                nombre: $scope.product.presentation_base_object.nombre,
+                                shortname: $scope.product.presentation_base_object.shortname,
+                                cant: 'Pre. base'
+                            });
+                            $scope.presentationSelect = $scope.presentations[0];
+                        });
+                    }
+                    if($location.path() == '/variants/create/'+$routeParams.product_id || $location.path() == '/variants/edit/'+$routeParams.id){
+                        crudService.byforeingKey('presentations','all_by_base',preBase).then(function(data){
+                            //$scope.selectPres();
+                            if(!$scope.presentation.edit) $scope.selectPres();
+                            $scope.presentations = data;
+                            //$log.log( $scope.presentations);
+                            //$scope.presentations.push({id:$scope.product.presentation_base.id,nombre:'holi'});
+                            $scope.presentations.unshift({
+                                id:$scope.variant.presentation_base_object.id,
+                                nombre:$scope.variant.presentation_base_object.nombre,
+                                shortname:$scope.variant.presentation_base_object.shortname,
+                                cant:'Pre. base'
+                            });
+                            $scope.presentationSelect = $scope.presentations[0];
+                        });
+                    }
                 }
 
                 $scope.AddPres = function(){
@@ -864,6 +1034,8 @@
                     }
                     if($location.path() == '/variants/create/'+$routeParams.product_id || $location.path() == '/variants/edit/'+$routeParams.id){
 
+                        //alert('hola');
+
                         if (typeof ($scope.presentationSelect.preFin_id) !== 'undefined') {
                             $scope.presentationSelect.id = $scope.presentationSelect.preFin_id;
                         }
@@ -881,6 +1053,24 @@
                             $scope.presentationSelect.suppPri = $scope.presentation.suppPri;
                             $scope.presentationSelect.markup = $scope.presentation.markup;
                             $scope.presentationSelect.price = $scope.presentation.price;
+
+                            //new data
+                            $scope.presentationSelect.suppPriDol = $scope.presentation.suppPriDol;
+                            $scope.presentationSelect.markupCant = $scope.presentation.markupCant;
+                            $scope.presentationSelect.cambioDolar = $scope.presentation.cambioDolar;
+                            //descto normal
+                            $scope.presentationSelect.dscto = $scope.presentation.dscto;
+                            $scope.presentationSelect.dsctoCant = $scope.presentation.dsctoCant;
+                            $scope.presentationSelect.pvp = $scope.presentation.pvp;
+                            //dsctos por rango de fechas
+                            var monthFecIni = parseInt($scope.presentation.fecIniDscto.getMonth())+1;
+                            var monthFecFin = parseInt($scope.presentation.fecFinDscto.getMonth())+1;
+                            $scope.presentationSelect.fecIniDscto = $scope.presentation.fecIniDscto.getFullYear()+'-'+ monthFecIni+'-'+$scope.presentation.fecIniDscto.getDate();
+                            $scope.presentationSelect.fecFinDscto = $scope.presentation.fecFinDscto.getFullYear()+'-'+ monthFecFin+'-'+$scope.presentation.fecFinDscto.getDate();
+                            $scope.presentationSelect.dsctoRange = $scope.presentation.dsctoRange;
+                            $scope.presentationSelect.dsctoCantRange = $scope.presentation.dsctoCantRange;
+                            $scope.presentationSelect.pvpRange = $scope.presentation.pvpRange;
+                            //
                             $scope.variant.presentations.push($scope.presentationSelect);
                             $log.log($scope.variant.presentations);
                             $scope.presentation = {};
@@ -891,6 +1081,65 @@
                         } else {
                             alert('Item duplicado o vacío');
                         }
+                    }
+                }
+
+                $scope.editPres = function(row,$index){
+                    $scope.presentation.edit = true;
+                    $scope.traerPresX($scope.variant.presentation_base);
+                    $log.log(row);
+                    //$scope.presentationSelect = {};
+                    $scope.presentation.suppPri = row.suppPri;
+                    $scope.presentation.markup = row.markup;
+                    $scope.presentation.price = row.price;
+
+                    //new data
+                    $scope.presentation.suppPriDol = row.suppPriDol;
+                    $scope.presentation.markupCant = row.markupCant;
+                    $scope.presentation.cambioDolar = row.cambioDolar;
+                    //descto normal
+                    $scope.presentation.dscto = row.dscto;
+                    $scope.presentation.dsctoCant = row.dsctoCant;
+                    $scope.presentation.pvp = row.pvp;
+                    //dsctos por rango de fechas
+                    if(row.fecIniDscto instanceof Date) {
+                        var monthFecIni = parseInt(row.fecIniDscto.getMonth()) + 1;
+                        $scope.presentation.fecIniDscto = row.fecIniDscto.getFullYear() + '-' + monthFecIni + '-' + row.fecIniDscto.getDate();
+                    }
+                    if(row.fecFinDscto instanceof Date) {
+                        var monthFecFin = parseInt(row.fecFinDscto.getMonth()) + 1;
+                        $scope.presentation.fecFinDscto = row.fecFinDscto.getFullYear() + '-' + monthFecFin + '-' + row.fecFinDscto.getDate();
+                    }
+                    $scope.presentation.dsctoRange = row.dsctoRange;
+                    $scope.presentation.dsctoCantRange = row.dsctoCantRange;
+                    $scope.presentation.pvpRange = row.pvpRange;
+
+                    $scope.presentation.identificador = $index;
+                    $('#presentation').modal('show');
+                }
+
+                $scope.UpdatePres = function(){
+                    if($location.path() == '/variants/create/'+$routeParams.product_id || $location.path() == '/variants/edit/'+$routeParams.id){
+                        $scope.variant.presentations[$scope.presentation.identificador].suppPri = $scope.presentation.suppPri;
+                        $scope.variant.presentations[$scope.presentation.identificador].markup = $scope.presentation.markup;
+                        $scope.variant.presentations[$scope.presentation.identificador].price = $scope.presentation.price;
+
+                        //new data
+                        $scope.variant.presentations[$scope.presentation.identificador].suppPriDol = $scope.presentation.suppPriDol;
+                        $scope.variant.presentations[$scope.presentation.identificador].markupCant = $scope.presentation.markupCant;
+                        $scope.variant.presentations[$scope.presentation.identificador].cambioDolar = $scope.presentation.cambioDolar;
+                        //descto normal
+                        $scope.variant.presentations[$scope.presentation.identificador].dscto = $scope.presentation.dscto;
+                        $scope.variant.presentations[$scope.presentation.identificador].dsctoCant = $scope.presentation.dsctoCant;
+                        $scope.variant.presentations[$scope.presentation.identificador].pvp = $scope.presentation.pvp;
+                        //dsctos por rango de fechas
+                        var monthFecIni = parseInt($scope.presentation.fecIniDscto.getMonth())+1;
+                        var monthFecFin = parseInt($scope.presentation.fecFinDscto.getMonth())+1;
+                        $scope.variant.presentations[$scope.presentation.identificador].fecIniDscto = $scope.presentation.fecIniDscto.getFullYear()+'-'+ monthFecIni+'-'+$scope.presentation.fecIniDscto.getDate();
+                        $scope.variant.presentations[$scope.presentation.identificador].fecFinDscto = $scope.presentation.fecFinDscto.getFullYear()+'-'+ monthFecFin+'-'+$scope.presentation.fecFinDscto.getDate();
+                        $scope.variant.presentations[$scope.presentation.identificador].dsctoRange = $scope.presentation.dsctoRange;
+                        $scope.variant.presentations[$scope.presentation.identificador].dsctoCantRange = $scope.presentation.dsctoCantRange;
+                        $scope.variant.presentations[$scope.presentation.identificador].pvpRange = $scope.presentation.pvpRange;
                     }
                 }
 
@@ -907,6 +1156,23 @@
                     $scope.presentation.suppPri = 0;
                     $scope.presentation.markup = 0;
                     $scope.presentation.price = 0;
+                    $scope.presentation.markupCant = 0;
+                    $scope.presentation.suppPriDol = 0;
+
+                    //desctos
+                    $scope.presentation.dscto = 0;
+                    $scope.presentation.dsctoCant = 0;
+                    $scope.presentation.pvp = 0;
+                    $scope.presentation.fecIniDscto = new Date();
+                    $scope.presentation.fecFinDscto = new Date();
+                    $scope.presentation.dsctoRange = 0;
+                    $scope.presentation.dsctoCantRange = 0;
+                    $scope.presentation.pvpRange = 0;
+
+                    $scope.presentation.cambioDolar = 3.00;
+                    //
+                    $scope.presentation.edit = false;
+                    $scope.presentation.identificador = -1;
                 }
 
                 $scope.changePreBase = function(){
