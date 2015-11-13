@@ -18,7 +18,8 @@ class Variant extends \Eloquent {
                             'image',
                             'category',
                             'favorite',
-                            'user_id'
+                            'user_id',
+                            'fvenc'
                             ];
 
     public function atributes(){

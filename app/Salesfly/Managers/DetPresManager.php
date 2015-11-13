@@ -17,7 +17,18 @@ class DetPresManager extends BaseManager{
                 'presentation_id' => 'required|integer',
                 'suppPri' => 'required|between:0,99999999.99', //para que agregue decimales
                 'markup' => 'required',
-                'price' => 'required'
+                'price' => 'required',
+                'cambioDolar' => '',
+                'suppPriDol' => '',
+                'markupCant' => '',
+                'dscto' => '',
+                'dsctoCant' => '',
+                'pvp' => '',
+                'fecIniDscto' => '',
+                'fecFinDscto' => '',
+                'dsctoRange' => '',
+                'dsctoCantRange' => '',
+                'pvpRange' => ''
                 ];
     }
 
