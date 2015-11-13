@@ -619,6 +619,9 @@ Route::get('api/sales/factura/{id}',['as'=>'person_find', 'uses'=>'SalesControll
 Route::get('api/detfactura/factura/{id}',['as'=>'person_find', 'uses'=>'SalesController@detfactura']);
 Route::get('api/sales/numeracion/{tipo}/{id}',['as'=>'person_find', 'uses'=>'SalesController@numeracion']);
 
+
+Route::get('api/Reportsales/{fi}/{ff}','SalesController@reportCliente');
+
 Route::post('api/ordsales/create',['as'=>'person_create', 'uses'=>'SalesController@createSale']);
 Route::post('api/sepsales/create',['as'=>'person_create', 'uses'=>'SalesController@createSeparateSale']);
 
