@@ -1734,6 +1734,15 @@
                         });
                     }
                 }
+                //-------------------generar reporte-------------
+                $scope.reporte={};
+                $scope.reporteCliente = function(){
+                    var fInicio=$scope.reporte.fechaInicio.getFullYear()+'-'+($scope.reporte.fechaInicio.getMonth()+1)+'-'+$scope.reporte.fechaInicio.getDate();
+                    var fFin=$scope.reporte.fechaFin.getFullYear()+'-'+($scope.reporte.fechaFin.getMonth()+1)+'-'+$scope.reporte.fechaFin.getDate();
+
+                    crudServiceOrders.reportcliente('Reportsales',fInicio,fFin);
+
+                }
 
             }]);
 })();

@@ -40,7 +40,7 @@
                   <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Venta</a></li>
                   <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false" ng-click="actualizarCaja()">Caja Venta</a></li>
                   <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Opciones</a></li>
-                  
+                  <li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false">Reporte</a></li>
                 </ul>
                 <div class="tab-content">
                   <div class="tab-pane active" id="tab_1">
@@ -282,6 +282,40 @@
 
 
                   </div><!-- /.tab-pane -->
+                  <div class="tab-pane" id="tab_4">
+                  <div class="row">
+                    <div class="col-md-4">
+                    <div class="form-group" ng-class="{true: 'has-error'}[ customerCreateForm.fechaInicio.$error.required && customerCreateForm.$submitted || customerCreateForm.fechaInicio.$dirty && customerCreateForm.fechaInicio.$invalid]">
+                    <label for="fechaInicio">Fecha de Inicio</label>
+                                        <div class="input-group">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                          </div>
+                      <input type="date" class="form-control" name="fechaInicio" ng-model="reporte.fechaInicio">
+                      
+                      </div>
+                     </div>
+                     </div>
+
+
+                     <div class="col-md-4">
+                    <div class="form-group" ng-class="{true: 'has-error'}[ customerCreateForm.fechaFin.$error.required && customerCreateForm.$submitted || customerCreateForm.fechaFin.$dirty && customerCreateForm.fechaFin.$invalid]">
+                    <label for="fechaFin">Fecha de Fin</label>
+                                        <div class="input-group">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                          </div>
+                      <input type="date" class="form-control" name="fechaFin" ng-model="reporte.fechaFin">
+                      
+                      </div>
+                     </div>
+                     </div>
+
+                     <a class="btn btn-default ng-binding" ng-click="reporteCliente()" style="margin-top:25px">Generar Reporte</a>
+
+                     </div>
+
+                  </div>
                 </div><!-- /.tab-content -->
               </div>
                <script type="text/javascript">$('#myTabs a').click(function (e) {

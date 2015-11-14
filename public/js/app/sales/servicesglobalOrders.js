@@ -138,6 +138,11 @@
                 $http.get('/api/'+uri+'/'+id);
             }
 
+            function reportcliente(uri,fecIn,fecFin){
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/'+fecIn+'/'+fecFin);
+            }
+
             function reportProWare(uri,idStore,idWerehouse,val){
                 var deferred = $q.defer();
                 //alert(val);
@@ -207,7 +212,8 @@
                 reportPro,reportPro,
                 reportProWare,reportProWare,
                 getPres, setPres,
-                editFavoritoId,editFavoritoId
+                editFavoritoId,editFavoritoId,
+                reportcliente,reportcliente
             }
         }])
         .factory('socketService', function ($rootScope) {

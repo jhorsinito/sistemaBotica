@@ -104,6 +104,7 @@ class VariantsController extends Controller
     public function create(Request $request)
     {
      \DB::beginTransaction();
+        //var_dump($request->all()); die();
         $tallasDisponibles=$request->otros;
         $cantTallas=$request->cantTallas;
         $request->merge(["estado"=>1]);

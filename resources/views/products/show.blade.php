@@ -40,10 +40,7 @@
             <b>Marca:</b> @{{ product.brand.nombre }} <br/> <br/>
             <b>Línea:</b> @{{ product.type.nombre }} <br/> <br/>
             <b>Código Único de Producto:</b> @{{ product.codigo }}<br/> <br/>
-                      <b>Código de Proveedor:</b> @{{ product.suppCode }} <br/>
-            <b>Estación:</b> @{{ product.station.nombre }} <br/> <br/>
-                      <b>Modelo:</b> @{{ product.modelo }}
-
+                      <b>Código de Proveedor:</b> @{{ product.suppCode }} <br/><br/>
 
                   </div>
                   <div class="col-md-4">
