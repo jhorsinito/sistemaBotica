@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddFvecToVariantsTable extends Migration
+class AddCamposFacturaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,9 @@ class AddFvecToVariantsTable extends Migration
      */
     public function up()
     {
-        Schema::table('variants', function (Blueprint $table) {
-            //
-            $table->date('fvenc')->nullable();
+        Schema::table('headInvoices', function (Blueprint $table) {
+            $table->biginteger('numero')->after("id");
+            $table->string('tipoDoc',1)->after("cliente_id");
         });
     }
 
@@ -25,7 +25,7 @@ class AddFvecToVariantsTable extends Migration
      */
     public function down()
     {
-        Schema::table('variants', function (Blueprint $table) {
+        Schema::table('headInvoices', function (Blueprint $table) {
             //
         });
     }

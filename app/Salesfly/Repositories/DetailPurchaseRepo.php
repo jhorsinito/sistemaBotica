@@ -16,9 +16,10 @@ class DetailPurchaseRepo extends BaseRepo{
     //}
     public function paginate($id){
       $detailpurchase=DetailPurchase::join("detPres","detPres.id","=","detailPurchases.detPres_id")
+      ->join("purchases","purchases.id","=","detailPurchases.purchases_id")
       ->join("variants","variants.id","=","detPres.variant_id")
       ->join("products","products.id","=","variants.product_id")
-      ->select('detailPurchases.*',"variants.sku as CodigoPCompra","products.nombre as nombre")->where("detailPurchases.purchases_id","=",$id)
+      ->select('detailPurchases.*',"purchases.tCambio","variants.sku as CodigoPCompra","products.nombre as nombre")->where("detailPurchases.purchases_id","=",$id)
       ->paginate();
       return $detailpurchase;
     }

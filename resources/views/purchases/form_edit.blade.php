@@ -80,11 +80,17 @@
                       <td>@{{row.producto}}</td>
                       <td>@{{row.CodigoPCompra}}</td>
                       <td>@{{row.cantidad}}</td>
-                      <td>S/.@{{row.preProducto}}</td>
-                      <td>S/.@{{row.preCompra}}</td>
-                      <td>S/.@{{row.montoBruto}}</td>
+                      <td ng-if="row.tCambio=='sol'">S/.@{{row.preProducto}}<em style="color:blue;">($.@{{row.preProductoDolar}})</em></td>
+                      <td ng-if="row.tCambio=='dolar'">$.@{{row.preProductoDolar}}<em style="color:blue;">(S/.@{{row.preProducto}})</em></td>
+                      <td ng-if="row.tCambio=='sol'">S/.@{{row.preCompra}}<em style="color:blue;">($.@{{row.preCompraDolar}})</em></td>
+                      <td ng-if="row.tCambio=='dolar'">$.@{{row.preCompraDolar}}<em style="color:blue;">(S/.@{{row.preCompra}})</em></td>
+                      <td ng-if="row.tCambio=='sol'">S/.@{{row.montoBruto}}<em style="color:blue;">($.@{{row.montoBrutoDolar}})</em></td>
+                      <td ng-if="row.tCambio=='dolar'">$.@{{row.montoBrutoDolar}}<em style="color:blue;">(S/.@{{row.montoBruto}})</em></td>
+                      
                       <td>S/.@{{row.descuento}}</td>
-                      <td>S/.@{{row.montoTotal}}</td>
+                      <td ng-if="row.tCambio=='sol'">S/.@{{row.montoTotal}}<em style="color:blue;">($.@{{row.montoTotalDolar}})</em></td>
+                      <td ng-if="row.tCambio=='dolar'">$.@{{row.montoTotalDolar}}<em style="color:blue;">(S/.@{{row.montoTotal}})</em></td>
+                      
                       
                       <!--<td><a ng-click="sacarRow(row.index,row.montoTotal)" class="btn btn-warning btn-xs">Sacar</a></td>
                       <td><a ng-click="EditarDetalles(row,row.index)" data-target="#miventanaEditRow" data-toggle="modal" class="btn btn-warning btn-xs">Edit</a></td>

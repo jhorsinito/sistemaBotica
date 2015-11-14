@@ -35,6 +35,7 @@
                 $scope.idtemporalP;
                 $scope.master=true;
                 $scope.cheked2=false;
+                $scope.orderPurchase.tCambio="sol";
                 $scope.variants.id;
                 $scope.companies=[];
                 $scope.company={};
@@ -139,10 +140,12 @@
                      if($scope.mm1<9){$scope.mm1="0"+(parseInt($scope.mm1)+1);}else{$scope.mm1=$scope.mm1+1;}
                      $scope.orderPurchase.fechaPedid=$scope.dd1+"-"+$scope.mm1+"-"+$scope.yyyy1;
                     
-                       /* $scope.orderPurchase.montoBruto=parseFloat(data.montoBruto);
-                        $scope.orderPurchase.montoTotal=parseFloat(data.montoTotal);
-                        $scope.orderPurchase.descuento=parseFloat(data.descuento);     */                 
-
+                       $scope.orderPurchase.montoBruto=Number(data.montoBruto);
+                        $scope.orderPurchase.montoTotal=Number(data.montoTotal);
+                        $scope.orderPurchase.descuento=Number(data.descuento); 
+                        $scope.orderPurchase.montoBrutoDolar=Number(data.montoBrutoDolar);
+                        $scope.orderPurchase.montoTotalDolar=Number(data.montoTotalDolar);                   
+                        $scope.orderPurchase.tasaDolar=Number(data.tasaDolar);
                         
                         $scope.idtemporalP=data.supplier_id;
                         crudPurchase.traerEmpresa($scope.idtemporalP).then(function (data) { 
@@ -152,7 +155,7 @@
                     crudPurchase.paginateDPedido(data.id,'detailOrderPurchases').then(function (data) {
                         $scope.detailOrderPurchases = data.data;
                         $log.log($scope.detailOrderPurchases);
-                        $scope.detailOrderPurchase.unidades=parseFloat(data.cantidad);
+                        $scope.detailOrderPurchase.unidades=Number(data.cantidad);
                         $scope.maxSize = 5;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
@@ -248,8 +251,8 @@
                            crudPurchase.select('detpres',$scope.product.proId.varid).then(function (data) {
                                     $scope.detailOrderPurchase.esbase=data.esbase;
                                     $scope.detailOrderPurchase.detPres_id=data.detpresen_id;
-                                    $scope.detailOrderPurchase.preProducto=parseFloat(data.precioProduct);
-                                    $scope.detailOrderPurchase.preCompra=parseFloat(data.precioProduct);
+                                    $scope.detailOrderPurchase.preProducto=Number(data.precioProduct);
+                                    $scope.detailOrderPurchase.preCompra=Number(data.precioProduct);
 
                                $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
                                     if($scope.product.proId.NombreAtributos!=null){
@@ -265,8 +268,8 @@
                                         $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
                                         $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
                                         $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
-                                              //$scope.detailOrderPurchase.preCompra=parseFloat($scope.product.proId.precioCompra);
-                                             // $scope.detailOrderPurchase.preProducto=parseFloat($scope.product.proId.precioCompra);
+                                              //$scope.detailOrderPurchase.preCompra=Number($scope.product.proId.precioCompra);
+                                             // $scope.detailOrderPurchase.preProducto=Number($scope.product.proId.precioCompra);
                                              //  alert($scope.detailOrderPurchase.preCompra);
                                                 //$scope.mostrarPresentacion=false;
                                         $scope.variant.sku=$scope.product.proId.varcode; 
@@ -321,9 +324,20 @@
                 $scope.sacarRow=function(index,total){
                     if(confirm("Esta segura de querer eliminar este Producto de la lista!!!") == true){
                       $scope.detailOrderPurchases.splice(index,1);
-                      $scope.orderPurchase.montoBruto=parseFloat((parseFloat($scope.orderPurchase.montoBruto) - parseFloat(total)).toFixed(2));
-                      $scope.orderPurchase.montoTotal=parseFloat((parseFloat($scope.orderPurchase.montoBruto)-((parseFloat($scope.orderPurchase.montoBruto)*parseFloat($scope.orderPurchase.descuento))/100)).toFixed(2));
+                      if($scope.orderPurchase.tCambio=="sol"){
+                            $scope.orderPurchase.montoBruto=Number((Number($scope.orderPurchase.montoBruto) - Number(total)).toFixed(2));
+                            $scope.orderPurchase.montoTotal=Number((Number($scope.orderPurchase.montoBruto)-((Number($scope.orderPurchase.montoBruto)*Number($scope.orderPurchase.descuento))/100)).toFixed(2));
+                            $scope.orderPurchase.montoBrutoDolar=Number((Number($scope.orderPurchase.montoBruto)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                            $scope.orderPurchase.montoTotalDolar=Number((Number($scope.orderPurchase.montoTotal)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                       }else{
+                            $scope.orderPurchase.montoBrutoDolar=Number((Number($scope.orderPurchase.montoBrutoDolar) - Number(total)).toFixed(2));
+                            $scope.orderPurchase.montoTotalDolar=Number((Number($scope.orderPurchase.montoBrutoDolar)-((Number($scope.orderPurchase.montoBrutoDolar)*Number($scope.orderPurchase.descuento))/100)).toFixed(2));
+                            $scope.orderPurchase.montoBruto=Number((Number($scope.orderPurchase.montoBrutoDolar)*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                            $scope.orderPurchase.montoTotal=Number((Number($scope.orderPurchase.montoTotalDolar)*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                       }
                     }
+
+                         
                 }
                  /* $scope.llenar=function(){
                     $scope.master= !$scope.master;
@@ -351,12 +365,12 @@
                         t++;
                         //alert($scope.companies[n].talla);
                         if($scope.companies[n].talla==('TL:'+String(talla))){
-                            $scope.detailOrderPurchase.cantidad=parseFloat((parseFloat($scope.detailOrderPurchase.cantidad)-parseFloat($scope.companies[n].cantidad)).toFixed(2));
+                            $scope.detailOrderPurchase.cantidad=Number((Number($scope.detailOrderPurchase.cantidad)-Number($scope.companies[n].cantidad)).toFixed(2));
                             $scope.n=$scope.detailOrderPurchase.cantidad;
                             //alert($scope.companies[n].montoBruto);
-                            $scope.detailOrderPurchase.montoBruto=parseFloat((parseFloat($scope.detailOrderPurchase.montoBruto)-parseFloat($scope.companies[n].montoBruto)).toFixed(2));
-                            $scope.detailOrderPurchase.montoTotal=parseFloat((parseFloat($scope.detailOrderPurchase.montoTotal)-parseFloat($scope.companies[n].montoTotal)).toFixed(2)); 
-                            $scope.detailOrderPurchase.preCompra=parseFloat((parseFloat($scope.detailOrderPurchase.montoTotal)/parseFloat($scope.detailOrderPurchase.cantidad)).toFixed(2));
+                            $scope.detailOrderPurchase.montoBruto=Number((Number($scope.detailOrderPurchase.montoBruto)-Number($scope.companies[n].montoBruto)).toFixed(2));
+                            $scope.detailOrderPurchase.montoTotal=Number((Number($scope.detailOrderPurchase.montoTotal)-Number($scope.companies[n].montoTotal)).toFixed(2)); 
+                            $scope.detailOrderPurchase.preCompra=Number((Number($scope.detailOrderPurchase.montoTotal)/Number($scope.detailOrderPurchase.cantidad)).toFixed(2));
                             $scope.companies.splice(t-1,1);
                             $scope.cantidad[index]='';
                             break;
@@ -380,7 +394,7 @@
                             //alert($scope.n);
                             $scope.detailOrderPurchase.cantidad=Number($scope.n)-Number($scope.companies[n].cantidad);
                             $scope.n=Number($scope.detailOrderPurchase.cantidad);
-                            $scope.detailOrderPurchase.montoBruto=$scope.detailOrderPurchase.montoBruto-parseFloat(($scope.companies[n].cantidad * $scope.companies[n].preCompra).toFixed(2));
+                            $scope.detailOrderPurchase.montoBruto=$scope.detailOrderPurchase.montoBruto-Number(($scope.companies[n].cantidad * $scope.companies[n].preCompra).toFixed(2));
                             $scope.detailOrderPurchase.montoTotal=$scope.detailOrderPurchase.montoBruto; 
                             $scope.companies[n].cantidad=can;
                             $scope.companies[n].montoBruto=Number((Number($scope.companies[n].preProducto)*Number(can)).toFixed(2));
@@ -388,7 +402,7 @@
                             //alert(can);
                             $scope.detailOrderPurchase.cantidad=Number((Number(can)+Number($scope.n)).toFixed(2));
                             $scope.n=Number($scope.detailOrderPurchase.cantidad);
-                            $scope.detailOrderPurchase.montoBruto=Number(($scope.detailOrderPurchase.montoBruto+parseFloat(($scope.companies[n].cantidad * $scope.companies[n].preCompra).toFixed(2))).toFixed(2));
+                            $scope.detailOrderPurchase.montoBruto=Number(($scope.detailOrderPurchase.montoBruto+Number(($scope.companies[n].cantidad * $scope.companies[n].preCompra).toFixed(2))).toFixed(2));
                             $scope.detailOrderPurchase.montoTotal=$scope.detailOrderPurchase.montoBruto; 
                             $scope.detailOrderPurchase.preCompra=Number($scope.detailOrderPurchase.montoTotal)/Number($scope.detailOrderPurchase.cantidad);
                             
@@ -398,18 +412,18 @@
                       if($scope.badera){
                         //alert(precioProducto);
                       
-                      //$scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preProducto).toFixed(2));
+                      //$scope.detailOrderPurchase.preCompra=Number(($scope.detailOrderPurchase.preProducto).toFixed(2));
                       //====================Traendo Presentacion==============================
                       crudPurchase.select('detpres',varCodigo).then(function (data) {
                                     //$scope.detPres=data;
                                    // alert(data.esbase);
-                                   $scope.detailOrderPurchase.preProducto=parseFloat(data.precioProduct);
-                                    //$scope.detailOrderPurchase.preCompra=parseFloat(data.precioProduct);
+                                   $scope.detailOrderPurchase.preProducto=Number(data.precioProduct);
+                                    //$scope.detailOrderPurchase.preCompra=Number(data.precioProduct);
                                     $scope.company.equivalencia=data.equivalencia;
                                     $scope.company.esbase=data.esbase;
                                     $scope.company.detPres_id=data.detpresen_id;
-                                    $scope.company.preProducto=parseFloat(data.precioProduct);
-                                    $scope.company.preCompra=parseFloat(data.precioProduct);
+                                    $scope.company.preProducto=Number(data.precioProduct);
+                                    $scope.company.preCompra=Number(data.precioProduct);
                                     $scope.company.talla='TL:'+String(talla);
                                   if(atributos!=null){
                                        // alert("estoy aqui");
@@ -419,7 +433,7 @@
                                    }
                       //$scope.company.esbase=$scope.detailOrderPurchase.esbase;
                       //$scope.company.detPres_id=detID;
-                                    //$scope.company.equivalencia=parseFloat(equivalecia);
+                                    //$scope.company.equivalencia=Number(equivalecia);
                       //alert($scope.company.detPres_id);
                      // $scope.company.esbase=esBase;
                                    // alert($scope.company.esbase);
@@ -436,7 +450,7 @@
                                     $scope.company.montoBruto=Number($scope.company.preCompra)*Number(can);
                                     $scope.company.montoTotal=$scope.company.montoBruto;
                                     if($scope.detailOrderPurchase.montoBruto==null){$scope.detailOrderPurchase.montoBruto=0;};
-                                    $scope.detailOrderPurchase.montoBruto=parseFloat((parseFloat($scope.detailOrderPurchase.montoBruto)+(Number(can)*Number($scope.company.preCompra))).toFixed(2));
+                                    $scope.detailOrderPurchase.montoBruto=Number((Number($scope.detailOrderPurchase.montoBruto)+(Number(can)*Number($scope.company.preCompra))).toFixed(2));
                                     $scope.detailOrderPurchase.montoTotal=$scope.detailOrderPurchase.montoBruto; 
                                     $scope.companies.push($scope.company);
                                     $scope.company={};
@@ -473,8 +487,8 @@
                                                       $scope.detailOrderPurchase.equivalencia=data.equivalencia;
                                                       $scope.detailOrderPurchase.esbase=data.esbase;
                                                       $scope.detailOrderPurchase.detPres_id=data.detpresen_id;
-                                                      $scope.detailOrderPurchase.preProducto=parseFloat(data.precioProduct);
-                                                      $scope.detailOrderPurchase.preCompra=parseFloat(data.precioProduct);
+                                                      $scope.detailOrderPurchase.preProducto=Number(data.precioProduct);
+                                                      $scope.detailOrderPurchase.preCompra=Number(data.precioProduct);
                               });
                           $scope.Listo=true;
                           $scope.mostrarPresentacion=true;
@@ -523,8 +537,8 @@
 
                            $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
        // alert($scope.check1);
-                        if($scope.check1==true)
-                        {             
+                       /* if($scope.check1==true)
+                        {  */           
                            $scope.activarCampCantidad=true;
                     //alert($scope.product.proId.varid);
                            $scope.Listo=true;
@@ -540,32 +554,35 @@
                                 crudPurchase.select('detpres',$scope.product.proId.varid).then(function (data) {
                                     $scope.detailOrderPurchase.esbase=data.esbase;
                                     $scope.detailOrderPurchase.detPres_id=data.detpresen_id;
-                                    $scope.detailOrderPurchase.preProducto=parseFloat(data.precioProduct);
-                                    $scope.detailOrderPurchase.preCompra=parseFloat(data.precioProduct);
+                                    $scope.detailOrderPurchase.preProductoDolar=Number(data.precioDolar);
+                                    $scope.detailOrderPurchase.preCompraDolar=Number(data.precioDolar);
+                                    $scope.detailOrderPurchase.preProducto=Number(data.precioProduct);
+                                    $scope.detailOrderPurchase.preCompra=Number(data.precioProduct);
                                 });
                          }else{
                             $scope.mostrardetalles=false;
                          }
                          });
-                }else
+                /*}else
                 {
-                       
-                       crudPurchase.MostrarAtributos($scope.product.proId.varCodigo,'Taco').then(function (data) {
-                                  $scope.variants=data.data;
-                                //alert("Estoy Buscando Taco");
-                              if($scope.variants.length>0){$scope.Listo=false;}else{$scope.activarCampCantidad=false;}
-                              if($scope.variants[0]==null)
-                              {
-                                       crudPurchase.MostrarAtributos($scope.product.proId.varCodigo,'Talla').then(function (data) 
-                                       {
+                       */
+                       //crudPurchase.MostrarAtributos($scope.product.proId.varCodigo,'Taco').then(function (data) {
+                           //       $scope.variants=data.data;
+                           //     //alert("Estoy Buscando Taco");
+                             // if($scope.variants.length>0){$scope.Listo=false;}else{$scope.activarCampCantidad=false;}
+                              //if($scope.variants[0]==null)
+                              //{
+                                      // crudPurchase.MostrarAtributos($scope.product.proId.varCodigo,'Talla').then(function (data) 
+                                      // {
                                               //alert("Estoy Buscando Talla");
-                                              $scope.atributes=data.data;
-                                              if($scope.atributes.length>1){$scope.Listo=false;}else{$scope.activarCampCantidad=false;}
+                                              //$scope.atributes=data.data;
+                                              //if($scope.atributes.length>1){$scope.Listo=false;}else{$scope.activarCampCantidad=false;}
                                               //alert($scope.atributes.length);
-                                              if($scope.atributes[0]==null)
-                                              {
+                                              //if($scope.atributes[0]==null)
+                                              //{
+                                                /*
                                                 $scope.activarCampCantidad=false;
-                                                      $scope.Listo=true;
+                                                $scope.Listo=true;
                                                  //---------------------------------------------------------------
                                                    $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
                                                    if($scope.product.proId.NombreAtributos!=null)
@@ -592,52 +609,24 @@
                                                       $scope.detailOrderPurchase.equivalencia=data.equivalencia;
                                                       $scope.detailOrderPurchase.esbase=data.esbase;
                                                       $scope.detailOrderPurchase.detPres_id=data.detpresen_id;
-                                                      $scope.detailOrderPurchase.preProducto=parseFloat(data.precioProduct);
-                                                      $scope.detailOrderPurchase.preCompra=parseFloat(data.precioProduct);
+                                                      $scope.detailOrderPurchase.preProducto=Number(data.precioProduct);
+                                                      $scope.detailOrderPurchase.preCompra=Number(data.precioProduct);
                                                     });
-                                                   
+                                                   */
                                       
-                                    }else{
-                                        $scope.mostrarPresentacion=false;
-                                        $scope.activarCampCantidad=true;
-                                    }
+                                   // }else{
+                                      //  $scope.mostrarPresentacion=false;
+                                     //   $scope.activarCampCantidad=true;
+                                    //}
                          
-                                  });
+                                  //});
                                   
                               
-                                  }});
+                               //   }});
                                 
-                        }
+                        //}
             }
-                   /* $scope.asignarProduc2=function(){
-                        alert("este es el codigo de variante"+$scope.variant.sku.id);
-                        $scope.detailOrderPurchase.Codigovar=$scope.variant.sku.id;
-                         if($scope.master==false){
-                           $scope.detailOrderPurchase.CodigoPCompra=$scope.variant.sku.sku;
-                               $scope.detailOrderPurchase.nombre=$scope.variant.sku.nombre;
-                                crudPurchase.paginateDPedido($scope.variant.sku.id,'detpres').then(function (data) {
-                               $scope.detPres=data.data;
-                               $scope.maxSize = 5;
-                               $scope.totalItems = data.total;
-                                $scope.currentPage = data.current_page;
-                               $scope.itemsperPage = 15;
-                                  });
-                                 $scope.mostrarPresentacion=false;
-                                 $scope.product.proId=$scope.variant.sku.nombre+" /"+$scope.variant.sku.descripcion;
-                         }else{
-                             $scope.detailOrderPurchase.CodigoPCompra=$scope.variant.sku.sku;
-                               $scope.detailOrderPurchase.nombre=$scope.variant.sku.nombre;
-                                crudPurchase.select('detpres',$scope.variant.sku.id).then(function (data) {
-                                    //$scope.detPres=data;
-                                    $scope.detailOrderPurchase.esbase=data.esbase;
-                                    $scope.detailOrderPurchase.detPres_id=data.detpresen_id;
-                                    $scope.detailOrderPurchase.preProducto=parseFloat(data.precioProduct);
-                                    $scope.detailOrderPurchase.preCompra=parseFloat(data.precioProduct);
-                                  });
-                                 //$scope.mostrarPresentacion=false;
-                                 $scope.product.proId=$scope.variant.sku.nombre+" /"+$scope.variant.sku.NombreAtributos;
-                         }
-                    }*/
+                   
                     $scope.valor=21;
                     $scope.aumentarValor=function(){
                         if($scope.valor<42){
@@ -695,20 +684,7 @@
                             $scope.itemsperPage = 15;
 
                          });
-                        //finlo nuevo
-                         /*crudPurchase.paginateDPedido($id,'detpres').then(function (data) {
-                            $scope.detPres=data.data;
-                            $scope.maxSize = 5;
-                            $scope.totalItems = data.total;
-                            $scope.currentPage = data.current_page;
-                            $scope.itemsperPage = 15;
-
-                         });
-                          //$scope.mostrarModal="modal";
-                        crudPurchase.byId($id,'variants').then(function (data) {
-                        $scope.detailOrderPurchase.CodigoPCompra=data.sku;
-                        $scope.mostrarPresentacion=false;
-                    });*/
+                        
                         }else{
                             alert("por favor seleccione una variante");
                         }
@@ -724,8 +700,10 @@
                     }
                     $scope.Equivalente;
                     $scope.AsignarP=function(row){
-                         $scope.detailOrderPurchase.preProducto=parseFloat(row.precioCompra);
-                         $scope.detailOrderPurchase.preCompra=parseFloat(row.precioCompra);
+                         $scope.detailOrderPurchase.preProductoDolar=Number(row.precioDolar);
+                         $scope.detailOrderPurchase.preCompraDolar=Number(row.precioDolar);
+                         $scope.detailOrderPurchase.preProducto=Number(row.precioCompra);
+                         $scope.detailOrderPurchase.preCompra=Number(row.precioCompra);
                          $scope.detailOrderPurchase.detPres_id=row.iddetalleP;
                          $scope.detailOrderPurchase.equivalencia=row.equivalencia;
                          $scope.Equivalente=row.equivalencia;                             
@@ -734,6 +712,8 @@
                          $scope.mostrardetalles=true;
                          $scope.activarCampCantidad=false;
                     }
+                    $scope.orderPurchase.montoBrutoDolar=0;
+                    $scope.orderPurchase.montoTotalDolar=0;
                     $scope.AgregarProducto=function(){
             if($scope.Listo==true){
                     if( $scope.mostrarPresentacion==false ){
@@ -743,24 +723,19 @@
                       for(var n=0;n<$scope.companies.length;n++){
                           $scope.companies[n].Fecha=new Date();
                         if($scope.detailOrderPurchase.descuento>0){
-                            $scope.companies[n].preCompra=parseFloat(($scope.companies[n].preCompra - (($scope.companies[n].preCompra * $scope.detailOrderPurchase.descuento ) / 100)).toFixed(2));
+                            $scope.companies[n].preCompra=Number(($scope.companies[n].preCompra - (($scope.companies[n].preCompra * $scope.detailOrderPurchase.descuento ) / 100)).toFixed(2));
                             $scope.companies[n].montoTotal=Number($scope.companies[n].cantidad)*$scope.companies[n].preCompra;
                             $scope.companies[n].descuento=$scope.detailOrderPurchase.descuento;
                         }
                         $scope.companies[n].nuevo=true;
-                        $scope.orderPurchase.montoBruto=parseFloat((Number($scope.orderPurchase.montoBruto)+Number($scope.companies[n].montoTotal)).toFixed(2));
-                        $scope.orderPurchase.montoTotal=parseFloat(($scope.orderPurchase.montoBruto - parseFloat(($scope.orderPurchase.montoBruto*$scope.orderPurchase.descuento)/100)).toFixed(2));
+                        $scope.orderPurchase.montoBruto=Number((Number($scope.orderPurchase.montoBruto)+Number($scope.companies[n].montoTotal)).toFixed(2));
+                        $scope.orderPurchase.montoTotal=Number(($scope.orderPurchase.montoBruto - Number(($scope.orderPurchase.montoBruto*$scope.orderPurchase.descuento)/100)).toFixed(2));
                         $scope.detailOrderPurchases.push($scope.companies[n]);
                         $scope.product.proId='';
                         $scope.activarCampCantidad=true;
                       }
                       $scope.companies=[];
-                      //$scope.detailOrderPurchase.cantidad='';
-                      //$scope.detailOrderPurchase.montoBruto='';
-                      //$scope.detailOrderPurchase.montoTotal='';
-                      //$scope.detailOrderPurchase.descuento='';
-                      //$scope.detailOrderPurchase.preCompra='';
-                      //$scope.detailOrderPurchase.taco='';
+                    
                       $scope.detailOrderPurchase = {};
                       $scope.n=0;
                       $scope.cheked2=false;
@@ -773,12 +748,24 @@
                         $scope.detailOrderPurchases.push($scope.detailOrderPurchase);
                         $scope.orderPurchase.detailOrderPurchases=$scope.detailOrderPurchases;
                         //---------------------------------------------------------
-                        $scope.orderPurchase.montoBruto= parseFloat((parseFloat($scope.orderPurchase.montoBruto)+parseFloat($scope.detailOrderPurchase.montoTotal)).toFixed(2));
-                        $scope.orderPurchase.montoTotal=parseFloat((parseFloat($scope.orderPurchase.montoBruto)-((parseFloat($scope.orderPurchase.montoBruto)*parseFloat($scope.orderPurchase.descuento))/100)).toFixed(2));
+                        if($scope.orderPurchase.tCambio=="sol"){
+                             $scope.orderPurchase.montoBruto= Number((Number($scope.orderPurchase.montoBruto)+Number($scope.detailOrderPurchase.montoTotal)).toFixed(2));
+                             $scope.orderPurchase.montoTotal=Number((Number($scope.orderPurchase.montoBruto)-((Number($scope.orderPurchase.montoBruto)*Number($scope.orderPurchase.descuento))/100)).toFixed(2));
+                             $scope.orderPurchase.montoBrutoDolar=Number((Number($scope.orderPurchase.montoBruto)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                             $scope.orderPurchase.montoTotalDolar=Number((Number($scope.orderPurchase.montoTotal)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                        
+                        }else{
+                          
+                            $scope.orderPurchase.montoBrutoDolar= Number((Number($scope.orderPurchase.montoBrutoDolar)+Number($scope.detailOrderPurchase.montoTotalDolar)).toFixed(2));
+                            $scope.orderPurchase.montoTotalDolar=Number((Number($scope.orderPurchase.montoBrutoDolar)-((Number($scope.orderPurchase.montoBrutoDolar)*Number($scope.orderPurchase.descuento))/100)).toFixed(2));
+                            $scope.orderPurchase.montoBruto=Number((Number($scope.orderPurchase.montoBrutoDolar)*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                            $scope.orderPurchase.montoTotal=Number((Number($scope.orderPurchase.montoTotalDolar)*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                         
+                        }
                         if($scope.Equivalente!=null){
-                           $scope.detailOrderPurchase.cantidad=parseFloat((parseFloat($scope.detailOrderPurchase.cantidad)*parseFloat($scope.Equivalente)).toFixed(2));
-                           $scope.detailOrderPurchase.preProducto=parseFloat((parseFloat($scope.detailOrderPurchase.montoBruto)/parseFloat($scope.detailOrderPurchase.cantidad)).toFixed(2));
-                           $scope.detailOrderPurchase.preCompra=parseFloat((parseFloat($scope.detailOrderPurchase.montoTotal)/parseFloat($scope.detailOrderPurchase.cantidad)).toFixed(2));
+                           $scope.detailOrderPurchase.cantidad=Number((Number($scope.detailOrderPurchase.cantidad)*Number($scope.Equivalente)).toFixed(2));
+                           $scope.detailOrderPurchase.preProducto=Number((Number($scope.detailOrderPurchase.montoBruto)/Number($scope.detailOrderPurchase.cantidad)).toFixed(2));
+                           $scope.detailOrderPurchase.preCompra=Number((Number($scope.detailOrderPurchase.montoTotal)/Number($scope.detailOrderPurchase.cantidad)).toFixed(2));
                         }
                         $scope.orderPurchases.push($scope.orderPurchase);
                         $scope.Equivalente=null;
@@ -801,15 +788,32 @@
                     $scope.estado_fin2=0;
                     $scope.ejemplo_de2=true;
                     $scope.calcularmontoBrutoF=function(){
+                      
                         if($scope.ejemplo2 != $scope.orderPurchase.montoTotal && $scope.estado_fin2 == $scope.orderPurchase.descuento){
-                          $scope.orderPurchase.descuento=parseFloat(((($scope.orderPurchase.montoBruto - $scope.orderPurchase.montoTotal)/$scope.orderPurchase.montoBruto)*100).toFixed(2));
-                          $scope.estado_fin2=$scope.orderPurchase.descuento;
-                          $scope.ejemplo_de2=false;
+                            if($scope.orderPurchase.tCambio=="sol"){
+                                 $scope.orderPurchase.descuento=Number(((($scope.orderPurchase.montoBruto - $scope.orderPurchase.montoTotal)/$scope.orderPurchase.montoBruto)*100).toFixed(2));
+                                 $scope.orderPurchase.montoTotalDolar=Number((Number($scope.orderPurchase.montoTotal)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                                 $scope.estado_fin2=$scope.orderPurchase.descuento;
+                                 $scope.ejemplo_de2=false;
+                            }else{
+                                 $scope.orderPurchase.descuento=Number(((($scope.orderPurchase.montoBrutoDolar - $scope.orderPurchase.montoTotalDolar)/$scope.orderPurchase.montoBrutoDolar)*100).toFixed(2));
+                                 $scope.orderPurchase.montoTotal=Number((Number($scope.orderPurchase.montoTotalDolar)*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                                 $scope.estado_fin2=$scope.orderPurchase.descuento;
+                                 $scope.ejemplo_de2=false;
+                            }
                         }
                         if($scope.ejemplo_de2 && $scope.estado_fin2 != $scope.orderPurchase.descuento){
-                        $scope.orderPurchase.montoTotal=parseFloat(($scope.orderPurchase.montoBruto - parseFloat(($scope.orderPurchase.montoBruto*$scope.orderPurchase.descuento)/100)).toFixed(2));
-                        $scope.ejemplo2=$scope.orderPurchase.montoTotal;
-                        $scope.estado_fin2=$scope.orderPurchase.descuento;
+                              if($scope.orderPurchase.tCambio=="sol"){   
+                                 $scope.orderPurchase.montoTotal=Number(($scope.orderPurchase.montoBruto - Number(($scope.orderPurchase.montoBruto*$scope.orderPurchase.descuento)/100)).toFixed(2));
+                                 $scope.orderPurchase.montoTotalDolar=Number((Number($scope.orderPurchase.montoTotal)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                                 $scope.ejemplo2=$scope.orderPurchase.montoTotal;
+                                 $scope.estado_fin2=$scope.orderPurchase.descuento;
+                               }else{
+                                 $scope.orderPurchase.montoTotalDolar=Number(($scope.orderPurchase.montoBrutoDolar - Number(($scope.orderPurchase.montoBrutoDolar*$scope.orderPurchase.descuento)/100)).toFixed(2));
+                                 $scope.orderPurchase.montoTotal=Number((Number($scope.orderPurchase.montoTotalDolar)*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                                 $scope.ejemplo2=$scope.orderPurchase.montoTotalDolar;
+                                 $scope.estado_fin2=$scope.orderPurchase.descuento;
+                               }
                         }else{$scope.ejemplo_de2=true;}
                     }
                    
@@ -818,13 +822,88 @@
                     $scope.estado_fin=true;
                     $scope.calcPrecio=function(){
                       if($scope.detailOrderPurchase.cantidad>0) { 
-                            $scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preProducto).toFixed(2));
-                            $scope.detailOrderPurchase.montoBruto=parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preCompra)).toFixed(2));
-                            $scope.detailOrderPurchase.montoTotal= parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preCompra)).toFixed(2));
-                            $scope.detailOrderPurchase.descuento=0;
+                        if($scope.detailOrderPurchase.descuento>0 && $scope.orderPurchase.tCambio=="dolar"){                                   
+                                  
+                                   $scope.detailOrderPurchase.preCompraDolar=Number(($scope.detailOrderPurchase.preProductoDolar- (($scope.detailOrderPurchase.preProductoDolar * $scope.detailOrderPurchase.descuento ) / 100)).toFixed(2));
+                                   $scope.detailOrderPurchase.preCompra=Number((Number($scope.detailOrderPurchase.preCompraDolar)*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                                   $scope.detailOrderPurchase.montoBrutoDolar=Number(($scope.detailOrderPurchase.cantidad * Number($scope.detailOrderPurchase.preProductoDolar)).toFixed(2));
+                                   $scope.detailOrderPurchase.montoBruto=Number((Number($scope.detailOrderPurchase.montoBrutoDolar)*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                                   //$scope.detailOrderPurchase.descuento=Number(($scope.detailOrderPurchase.descuento).toFixed(2));
+                                   $scope.detailOrderPurchase.montoTotalDolar=Number(($scope.detailOrderPurchase.montoBrutoDolar - Number(($scope.detailOrderPurchase.montoBrutoDolar*$scope.detailOrderPurchase.descuento)/100)).toFixed(2));
+                                   $scope.detailOrderPurchase.montoTotal= Number(($scope.detailOrderPurchase.montoTotalDolar*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                                  
+                            }else {
+                                  if($scope.detailOrderPurchase.descuento>0 && $scope.orderPurchase.tCambio=="sol"){
+                                     //$scope.detailOrderPurchase.preCompra=Number($scope.detailOrderPurchase.preProducto);
+                                     $scope.detailOrderPurchase.preCompra=Number(($scope.detailOrderPurchase.preProducto- (($scope.detailOrderPurchase.preProducto * $scope.detailOrderPurchase.descuento ) / 100)).toFixed(2));
+                                     $scope.detailOrderPurchase.preCompraDolar=Number((Number($scope.detailOrderPurchase.preCompra)*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                                     $scope.detailOrderPurchase.montoBruto=Number(($scope.detailOrderPurchase.cantidad * Number($scope.detailOrderPurchase.preProducto)).toFixed(2));
+                                     $scope.detailOrderPurchase.montoBrutoDolar=Number((Number($scope.detailOrderPurchase.montoBruto)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                                     //$scope.detailOrderPurchase.descuento=Number(($scope.detailOrderPurchase.descuento).toFixed(2));
+                                     $scope.detailOrderPurchase.montoTotal=Number((Number($scope.detailOrderPurchase.montoBruto)- Number((Number($scope.detailOrderPurchase.montoBruto)*Number($scope.detailOrderPurchase.descuento))/100)).toFixed(2));
+                                     $scope.detailOrderPurchase.montoTotalDolar= Number((Number($scope.detailOrderPurchase.montoTotal)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                                     
+                                  }else{
+                                    if($scope.orderPurchase.tCambio=="sol"){
+                                         $scope.detailOrderPurchase.preCompra=Number($scope.detailOrderPurchase.preProducto);
+                                         $scope.detailOrderPurchase.preCompraDolar=Number((Number($scope.detailOrderPurchase.preCompra)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                                         $scope.detailOrderPurchase.montoBruto=Number(($scope.detailOrderPurchase.cantidad * Number($scope.detailOrderPurchase.preProducto)).toFixed(2));
+                                         $scope.detailOrderPurchase.montoBrutoDolar=Number((Number($scope.detailOrderPurchase.montoBruto)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                                         $scope.detailOrderPurchase.montoTotal=Number((Number($scope.detailOrderPurchase.montoBruto)).toFixed(2));
+                                         $scope.detailOrderPurchase.montoTotalDolar= Number((Number($scope.detailOrderPurchase.montoTotal)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                                    
+                                    }
+                                    if($scope.orderPurchase.tCambio=="dolar"){
+                                           $scope.detailOrderPurchase.preCompraDolar=Number($scope.detailOrderPurchase.preProductoDolar);
+                                           $scope.detailOrderPurchase.preCompra=Number((Number($scope.detailOrderPurchase.preCompraDolar)*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                                           $scope.detailOrderPurchase.montoBrutoDolar=Number(($scope.detailOrderPurchase.cantidad * Number($scope.detailOrderPurchase.preProductoDolar)).toFixed(2));
+                                           $scope.detailOrderPurchase.montoBruto=Number((Number($scope.detailOrderPurchase.montoBrutoDolar)*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                                           $scope.detailOrderPurchase.montoTotalDolar=Number((Number($scope.detailOrderPurchase.montoBrutoDolar)).toFixed(2));
+                                           $scope.detailOrderPurchase.montoTotal= Number(($scope.detailOrderPurchase.montoTotalDolar*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                                           
+                                           //$scope.detailOrderPurchase.descuento=Number(($scope.detailOrderPurchase.descuento).toFixed(2));
+                            
+                                    }
+                                     
+                                   }
+                            }                           
+                        
                         }
                     }
-                    $scope.calculateSuppPric=function()
+                    $scope.descuentoCalc=function(){
+                         if($scope.detailOrderPurchase.cantidad>0){
+                            if($scope.orderPurchase.tCambio=="dolar"){ 
+                                $scope.detailOrderPurchase.preCompraDolar=Number((Number($scope.detailOrderPurchase.preProductoDolar)-((Number($scope.detailOrderPurchase.preProductoDolar)*Number($scope.detailOrderPurchase.descuento))/100)).toFixed(2));
+                                $scope.detailOrderPurchase.preCompra=Number((Number($scope.detailOrderPurchase.preCompraDolar)*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                                $scope.detailOrderPurchase.montoTotalDolar=Number((Number($scope.detailOrderPurchase.preCompraDolar)*Number($scope.detailOrderPurchase.cantidad)).toFixed(2));
+                                $scope.detailOrderPurchase.montoTotal=Number($scope.detailOrderPurchase.montoTotalDolar)*Number($scope.orderPurchase.tasaDolar);
+                                //$scope.detailOrderPurchase.descuento=$scope.detailOrderPurchase.descuento;
+                            }else{
+                                $scope.detailOrderPurchase.preCompra=Number((Number($scope.detailOrderPurchase.preProducto)-((Number($scope.detailOrderPurchase.preProducto)*Number($scope.detailOrderPurchase.descuento))/100)).toFixed(2));
+                                $scope.detailOrderPurchase.montoTotal=Number((Number($scope.detailOrderPurchase.preCompra)*Number($scope.detailOrderPurchase.cantidad)).toFixed(2));
+                                $scope.detailOrderPurchase.montoTotalDolar=Number($scope.detailOrderPurchase.montoTotal)/Number($scope.orderPurchase.tasaDolar);
+                                $scope.detailOrderPurchase.preCompraDolar=Number((Number($scope.detailOrderPurchase.preCompra)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                                //$scope.detailOrderPurchase.descuento=$scope.detailOrderPurchase.descuento;
+                            }
+                         }
+                    }
+                    $scope.montofinalModif=function(){
+                      if($scope.orderPurchase.tCambio=="sol"){
+                            $scope.detailOrderPurchase.descuento=Number(((($scope.detailOrderPurchase.montoBruto - $scope.detailOrderPurchase.montoTotal)/$scope.detailOrderPurchase.montoBruto)*100).toFixed(2));
+                            $scope.detailOrderPurchase.preCompra=Number(($scope.detailOrderPurchase.preCompra - (($scope.detailOrderPurchase.preCompra * $scope.detailOrderPurchase.descuento ) / 100)).toFixed(2));
+                            $scope.detailOrderPurchase.preCompraDolar=Number($scope.detailOrderPurchase.preCompra)/Number($scope.orderPurchase.tasaDolar);
+                            $scope.detailOrderPurchase.montoTotalDolar=Number($scope.detailOrderPurchase.montoTotal)/Number($scope.orderPurchase.tasaDolar);
+                            //$scope.detailOrderPurchase.descuento=Number(($scope.detailOrderPurchase.descuento).toFixed(2));
+                      }else{
+                            $scope.detailOrderPurchase.descuento=Number(((($scope.detailOrderPurchase.montoBrutoDolar - $scope.detailOrderPurchase.montoTotalDolar)/$scope.detailOrderPurchase.montoBrutoDolar)*100).toFixed(2));
+                            $scope.detailOrderPurchase.preCompraDolar=Number(($scope.detailOrderPurchase.preCompraDolar - (($scope.detailOrderPurchase.preCompraDolar * $scope.detailOrderPurchase.descuento) / 100)).toFixed(2));
+                            $scope.detailOrderPurchase.preCompra=Number($scope.detailOrderPurchase.preCompraDolar)*Number($scope.orderPurchase.tasaDolar);
+                            $scope.detailOrderPurchase.montoTotal=Number($scope.detailOrderPurchase.montoTotalDolar)*Number($scope.orderPurchase.tasaDolar);
+                            //$scope.detailOrderPurchase.descuento=Number(($scope.detailOrderPurchase.descuento).toFixed(2));
+
+                      }
+                    }
+                   /* $scope.calculateSuppPric=function()
                     {  
                     if($scope.detailOrderPurchase.cantidad>0) { 
                        if($scope.checkProduct==true){
@@ -836,31 +915,31 @@
                             $scope.detailOrderPurchase.pendiente=$scope.detailOrderPurchase.cantidad;
                           
                        }else{
-                            $scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preProducto).toFixed(2));
-                            $scope.detailOrderPurchase.montoBruto=parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preProducto)).toFixed(2));
+                            $scope.detailOrderPurchase.preCompra=Number(($scope.detailOrderPurchase.preProducto).toFixed(2));
+                            $scope.detailOrderPurchase.montoBruto=Number(($scope.detailOrderPurchase.cantidad * Number($scope.detailOrderPurchase.preProducto)).toFixed(2));
                             $scope.detailOrderPurchase.pendiente=$scope.detailOrderPurchase.cantidad;
                        if($scope.ejemplo != $scope.detailOrderPurchase.montoTotal && $scope.ejemplo_de == $scope.detailOrderPurchase.descuento){
-                            $scope.detailOrderPurchase.descuento=parseFloat(((($scope.detailOrderPurchase.montoBruto - $scope.detailOrderPurchase.montoTotal)/$scope.detailOrderPurchase.montoBruto)*100).toFixed(2));
+                            $scope.detailOrderPurchase.descuento=Number(((($scope.detailOrderPurchase.montoBruto - $scope.detailOrderPurchase.montoTotal)/$scope.detailOrderPurchase.montoBruto)*100).toFixed(2));
                             $scope.ejemplo_de=$scope.detailOrderPurchase.descuento;
                             $scope.estado_fin=false;
                         }
                       
                       if( $scope.estado_fin){
                        if($scope.detailOrderPurchase.descuento>0 ){
-                            $scope.detailOrderPurchase.montoTotal= parseFloat(($scope.detailOrderPurchase.cantidad * ($scope.detailOrderPurchase.preCompra - (($scope.detailOrderPurchase.preCompra * $scope.detailOrderPurchase.descuento ) / 100))).toFixed(2));
-                            $scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preCompra - (($scope.detailOrderPurchase.preCompra * $scope.detailOrderPurchase.descuento ) / 100)).toFixed(2));
+                            $scope.detailOrderPurchase.montoTotal= Number(($scope.detailOrderPurchase.cantidad * ($scope.detailOrderPurchase.preCompra - (($scope.detailOrderPurchase.preCompra * $scope.detailOrderPurchase.descuento ) / 100))).toFixed(2));
+                            $scope.detailOrderPurchase.preCompra=Number(($scope.detailOrderPurchase.preCompra - (($scope.detailOrderPurchase.preCompra * $scope.detailOrderPurchase.descuento ) / 100)).toFixed(2));
                             $scope.ejemplo=$scope.detailOrderPurchase.montoTotal;
                             $scope.ejemplo_de=$scope.detailOrderPurchase.descuento;
                        }else{
-                            $scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preProducto).toFixed(2));
-                            $scope.detailOrderPurchase.montoBruto=parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preCompra)).toFixed(2));
-                            $scope.detailOrderPurchase.montoTotal= parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preCompra)).toFixed(2));
+                            $scope.detailOrderPurchase.preCompra=Number(($scope.detailOrderPurchase.preProducto).toFixed(2));
+                            $scope.detailOrderPurchase.montoBruto=Number(($scope.detailOrderPurchase.cantidad * Number($scope.detailOrderPurchase.preCompra)).toFixed(2));
+                            $scope.detailOrderPurchase.montoTotal= Number(($scope.detailOrderPurchase.cantidad * Number($scope.detailOrderPurchase.preCompra)).toFixed(2));
                             $scope.detailOrderPurchase.descuento=0;
                             $scope.ejemplo_de=$scope.detailOrderPurchase.descuento;
                             $scope.ejemplo=$scope.detailOrderPurchase.montoTotal;
                        }}else{
                         if($scope.detailOrderPurchase.descuento!=null){
-                        $scope.detailOrderPurchase.preCompra=parseFloat(($scope.detailOrderPurchase.preCompra - (($scope.detailOrderPurchase.preCompra * $scope.detailOrderPurchase.descuento ) / 100)).toFixed(2));
+                        $scope.detailOrderPurchase.preCompra=Number(($scope.detailOrderPurchase.preCompra - (($scope.detailOrderPurchase.preCompra * $scope.detailOrderPurchase.descuento ) / 100)).toFixed(2));
                         $scope.estado_fin=true;
                         
                         }
@@ -870,29 +949,66 @@
                       alert("Error usted debe ingresar como minimo 1");
                      }
 
-                    }
+                    }*/
                 
                 $scope.CalcPrecio=function(){
-                  
-                  if($scope.companies.length>=1){
-                    $scope.detailOrderPurchase.montoTotal=0;
-                     for(var n=0;n<$scope.companies.length;n++){
-
-                            $scope.companies[n].preCompra=$scope.detailOrderPurchase.preCompra;
-                            $scope.companies[n].montoTotal=(Number($scope.companies[n].cantidad)*parseFloat($scope.companies[n].preCompra)).toFixed(2);
-                            $scope.companies[n].descuento=(Number((parseFloat($scope.companies[n].preProducto)-parseFloat($scope.companies[n].preCompra))/parseFloat($scope.companies[n].preProducto))*100).toFixed(2);
+                  if($scope.detailOrderPurchase.cantidad>0) { 
+                       if($scope.orderPurchase.tCambio=="sol"){
+                            $scope.detailOrderPurchase.descuento=Number(((Number(Number($scope.detailOrderPurchase.preProducto)-Number($scope.detailOrderPurchase.preCompra))/Number($scope.detailOrderPurchase.preProducto))*100).toFixed(2));
+                            $scope.detailOrderPurchase.montoTotal= Number(($scope.detailOrderPurchase.cantidad * Number($scope.detailOrderPurchase.preCompra)).toFixed(2));
+                            $scope.detailOrderPurchase.preCompraDolar=Number($scope.detailOrderPurchase.preCompra)/Number($scope.orderPurchase.tasaDolar);
+                            //$scope.detailOrderPurchase.descuento=Number($scope.detailOrderPurchase.descuento);
+                            $scope.detailOrderPurchase.montoTotalDolar=Number($scope.detailOrderPurchase.montoTotal)/Number($scope.orderPurchase.tasaDolar);
+                      }else{
+                           $scope.detailOrderPurchase.descuento=Number(((Number(Number($scope.detailOrderPurchase.preProductoDolar)-Number($scope.detailOrderPurchase.preCompraDolar))/Number($scope.detailOrderPurchase.preProducto))*100).toFixed(2));
+                           $scope.detailOrderPurchase.montoTotalDolar= Number(($scope.detailOrderPurchase.cantidad * Number($scope.detailOrderPurchase.preCompraDolar)).toFixed(2));
+                           $scope.detailOrderPurchase.preCompra=Number($scope.detailOrderPurchase.preCompraDolar)*Number($scope.orderPurchase.tasaDolar);
+                           //$scope.detailOrderPurchase.descuento=Number($scope.detailOrderPurchase.descuento);
+                           $scope.detailOrderPurchase.montoTotal=Number($scope.detailOrderPurchase.montoTotalDolar)*Number($scope.orderPurchase.tasaDolar);
+                       }
                            
-                      }
-                      $scope.detailOrderPurchase.descuento=Number((Number((parseFloat($scope.companies[0].preProducto)-parseFloat($scope.detailOrderPurchase.preCompra))/parseFloat($scope.companies[0].preProducto))*100).toFixed(2));
-                      $scope.detailOrderPurchase.montoTotal= parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preCompra)).toFixed(2));
-                               
-                    }else{
-                           $scope.detailOrderPurchase.descuento=Number(((Number(parseFloat($scope.detailOrderPurchase.preProducto)-parseFloat($scope.detailOrderPurchase.preCompra))/parseFloat($scope.detailOrderPurchase.preProducto))*100).toFixed(2));
-                           $scope.detailOrderPurchase.montoTotal= parseFloat(($scope.detailOrderPurchase.cantidad * parseFloat($scope.detailOrderPurchase.preCompra)).toFixed(2));
-                    }
+                        
+                  }
+                  
                 }
+                $scope.selectDolar=function(){
+                   $scope.detailOrderPurchase.preProductoDolar=Number($scope.detailOrderPurchase.preProducto);
+                    $scope.detailOrderPurchase.preCompraDolar=Number($scope.detailOrderPurchase.preCompra);
+                    //$scope.detailOrderPurchase.descuento=Number($scope.detailOrderPurchase.descuento);
+                    $scope.detailOrderPurchase.montoTotalDolar=Number($scope.detailOrderPurchase.montoTotal);
+                    $scope.detailOrderPurchase.montoBrutoDolar=Number($scope.detailOrderPurchase.montoBruto);
+                   
+                }
+                $scope.activarBusca=true;
+                $scope.activarBusca2=false;
                 $scope.SolDolar = function(numero){
-                    valorCambio=Number($scope.detailOrderPurchase.preProducto) / Number(numero);
+                if($scope.orderPurchase.tasaDolar>0){
+                $scope.activarBusca=false;
+                $scope.activarBusca2=true;
+                if($scope.detailOrderPurchase.cantidad>0){
+                if($scope.orderPurchase.tCambio=="sol"){
+                    $scope.detailOrderPurchase.preProductoDolar=Number($scope.detailOrderPurchase.preProducto) / Number(numero);
+                    $scope.detailOrderPurchase.preCompraDolar=Number($scope.detailOrderPurchase.preCompra) / Number(numero);
+                    $scope.detailOrderPurchase.montoTotalDolar=Number($scope.detailOrderPurchase.montoTotal) / Number(numero);
+                    $scope.detailOrderPurchase.montoBrutoDolar=Number($scope.detailOrderPurchase.montoBruto) / Number(numero);
+                  }else{
+                    $scope.detailOrderPurchase.preProducto=Number($scope.detailOrderPurchase.preProductoDolar) * Number(numero);
+                    $scope.detailOrderPurchase.preCompra=Number($scope.detailOrderPurchase.preCompraDolar) * Number(numero);
+                    $scope.detailOrderPurchase.montoTotal=Number($scope.detailOrderPurchase.montoTotalDolar) * Number(numero);
+                    $scope.detailOrderPurchase.montoBruto=Number($scope.detailOrderPurchase.montoBrutoDolar) * Number(numero);
+                  
+                  } // $scope.detailOrderPurchase.preCompra=
+                }else{
+                  if($scope.orderPurchase.tCambio=="sol"){
+                       $scope.detailOrderPurchase.preCompraDolar=Number($scope.detailOrderPurchase.preCompra) / Number(numero);
+                  }else{
+                       $scope.detailOrderPurchase.preCompra=Number($scope.detailOrderPurchase.preCompraDolar) * Number(numero);
+                  }
+                }
+              }else{
+                alert("Ingrese un valor de cambio por favor");
+                $scope.orderPurchase.tasaDolar='';
+              }
                 }
                 $scope.paginateVariants=function(){
                   //alert("Hola quieres");
@@ -906,15 +1022,34 @@
                       if(row.cantAnterior==undefined){
                         row.cantAnterior=row.cantidad;
                       }
-                      $scope.orderPurchase.montoBruto=$scope.orderPurchase.montoBruto-parseFloat(row.montoTotal);
+                      $scope.orderPurchase.montoBruto=$scope.orderPurchase.montoBruto-Number(row.montoTotal);
+                      $scope.orderPurchase.montoBrutoDolar=$scope.orderPurchase.montoBrutoDolar-Number(row.montoTotalDolar);
                       row.cantidad=parseInt(row.cantidad)+1;
                       row.pendiente=parseInt(row.pendiente)+1;
-                      row.montoBruto=parseFloat((parseInt(row.cantidad)*parseFloat(row.preProducto)).toFixed(2));
-                      row.montoTotal=parseFloat((parseInt(row.cantidad)*parseFloat(row.preCompra)).toFixed(2));
-                      $scope.detailOrderPurchases.splice(index,1,row);
-                      $scope.orderPurchase.montoBruto=parseFloat((($scope.orderPurchase.montoBruto)+parseFloat(row.montoTotal)).toFixed(2));;
-                      $scope.orderPurchase.montoTotal=parseFloat((parseFloat($scope.orderPurchase.montoBruto)-((parseFloat($scope.orderPurchase.montoBruto)*parseFloat($scope.orderPurchase.descuento))/100)).toFixed(2));
+                       if($scope.orderPurchase.tCambio=="sol"){
+                      row.montoBruto=Number((parseInt(row.cantidad)*Number(row.preProducto)).toFixed(2));
+                      row.montoTotal=Number((parseInt(row.cantidad)*Number(row.preCompra)).toFixed(2));
+                      row.montoBrutoDolar=Number((parseInt(row.montoBruto)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                      row.montoTotalDolar=Number((parseInt(row.montoTotal)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                         $scope.detailOrderPurchases.splice(index,1,row);
+                         $scope.orderPurchase.montoBruto=Number((($scope.orderPurchase.montoBruto)+Number(row.montoTotal)).toFixed(2));;
+                         $scope.orderPurchase.montoTotal=Number((Number($scope.orderPurchase.montoBruto)-((Number($scope.orderPurchase.montoBruto)*Number($scope.orderPurchase.descuento))/100)).toFixed(2));
+                         $scope.orderPurchase.montoBrutoDolar=Number((parseInt($scope.orderPurchase.montoBruto)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                         $scope.orderPurchase.montoTotalDolar=Number((parseInt($scope.orderPurchase.montoTotal)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
                       
+                     }else{
+                      row.montoBrutoDolar=Number((parseInt(row.cantidad)*Number(row.preProductoDolar)).toFixed(2));
+                      row.montoTotalDolar=Number((parseInt(row.cantidad)*Number(row.preCompraDolar)).toFixed(2));
+                      row.montoBruto=Number((parseInt(row.montoBrutoDolar)*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                      row.montoTotal=Number((parseInt(row.montoTotalDolar)*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                         $scope.detailOrderPurchases.splice(index,1,row);
+                         $scope.orderPurchase.montoBrutoDolar=Number((($scope.orderPurchase.montoBrutoDolar)+Number(row.montoTotalDolar)).toFixed(2));;
+                         $scope.orderPurchase.montoTotalDolar=Number((Number($scope.orderPurchase.montoBrutoDolar)-((Number($scope.orderPurchase.montoBrutoDolar)*Number($scope.orderPurchase.descuento))/100)).toFixed(2));
+                         $scope.orderPurchase.montoBruto=Number((parseInt($scope.orderPurchase.montoBrutoDolar)*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                         $scope.orderPurchase.montoTotal=Number((parseInt($scope.orderPurchase.montoTotalDolar)*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                      
+                     }
+                     
                 }
                 $scope.lessCant=function(row,index){
                      //alert($scope.detailOrderPurchase.cantAnterior);
@@ -922,15 +1057,32 @@
                         if(row.cantAnterior==undefined){
                         row.cantAnterior=row.cantidad;
                       }
-                    $scope.orderPurchase.montoBruto=$scope.orderPurchase.montoBruto-parseFloat(row.montoTotal);
+                      $scope.orderPurchase.montoBruto=$scope.orderPurchase.montoBruto-Number(row.montoTotal);
+                      $scope.orderPurchase.montoBrutoDolar=$scope.orderPurchase.montoBrutoDolar-Number(row.montoTotalDolar);
                       row.cantidad=parseInt(row.cantidad)-1;
                       row.pendiente=parseInt(row.pendiente)-1;
-                      row.montoBruto=parseFloat((parseInt(row.cantidad)*parseFloat(row.preProducto)).toFixed(2));
-                      row.montoTotal=parseFloat((parseInt(row.cantidad)*parseFloat(row.preCompra)).toFixed(2));
-                      $scope.detailOrderPurchases.splice(index,1,row); 
-                      $scope.orderPurchase.montoBruto=parseFloat((($scope.orderPurchase.montoBruto)+parseFloat(row.montoTotal)).toFixed(2));
-                      // $scope.orderPurchase.montoBruto= $scope.orderPurchase.montoBruto.toFixed(2);
-                      $scope.orderPurchase.montoTotal=parseFloat((parseFloat($scope.orderPurchase.montoBruto)-((parseFloat($scope.orderPurchase.montoBruto)*parseFloat($scope.orderPurchase.descuento))/100)).toFixed(2));
+                      if($scope.orderPurchase.tCambio=="sol"){
+                         row.montoBruto=Number((parseInt(row.cantidad)*Number(row.preProducto)).toFixed(2));
+                         row.montoTotal=Number((parseInt(row.cantidad)*Number(row.preCompra)).toFixed(2));
+                         row.montoBrutoDolar=Number((parseInt(row.montoBruto)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                         row.montoTotalDolar=Number((parseInt(row.montoTotal)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                         $scope.detailOrderPurchases.splice(index,1,row); 
+                         $scope.orderPurchase.montoBruto=Number((($scope.orderPurchase.montoBruto)+Number(row.montoTotal)).toFixed(2));
+                         $scope.orderPurchase.montoTotal=Number((Number($scope.orderPurchase.montoBruto)-((Number($scope.orderPurchase.montoBruto)*Number($scope.orderPurchase.descuento))/100)).toFixed(2));
+                         $scope.orderPurchase.montoBrutoDolar=Number((parseInt($scope.orderPurchase.montoBruto)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                         $scope.orderPurchase.montoTotalDolar=Number((parseInt($scope.orderPurchase.montoTotal)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                      }else{
+                         row.montoBrutoDolar=Number((parseInt(row.cantidad)*Number(row.preProductoDolar)).toFixed(2));
+                         row.montoTotalDolar=Number((parseInt(row.cantidad)*Number(row.preCompraDolar)).toFixed(2));
+                         row.montoBruto=Number((parseInt(row.montoBrutoDolar)*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                         row.montoTotal=Number((parseInt(row.montoTotalDolar)*Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                         $scope.detailOrderPurchases.splice(index,1,row); 
+                         $scope.orderPurchase.montoBrutoDolar=Number((($scope.orderPurchase.montoBrutoDolar)+Number(row.montoTotalDolar)).toFixed(2));
+                         $scope.orderPurchase.montoTotalDolar=Number((Number($scope.orderPurchase.montoBrutoDolar)-((Number($scope.orderPurchase.montoBrutoDolar)*Number($scope.orderPurchase.descuento))/100)).toFixed(2));
+                         $scope.orderPurchase.montoBruto=Number((parseInt($scope.orderPurchase.montoBrutoDolar)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                         $scope.orderPurchase.montoTotal=Number((parseInt($scope.orderPurchase.montoTotalDolar)/Number($scope.orderPurchase.tasaDolar)).toFixed(2));
+                      
+                      }
                       }else{
                         alert("Usted debe tener como minimo una unidad de lo contrario elimine la este producto de la lista");
                       }
@@ -1395,7 +1547,7 @@
                           $scope.orderPurchase.montoBruto=$scope.orderPurchase.montoBruto-row.montoTotal;
                           row.Cantidad_Ll=Number(row.Restante)+row.cantidad1;
                           row.pendiente=Number(row.cantidad)-row.Cantidad_Ll;
-                          row.montoBruto=(row.Cantidad_Ll* parseFloat(row.preCompra));
+                          row.montoBruto=(row.Cantidad_Ll* Number(row.preCompra));
                 // if(row.descuento>0){
                           row.montoTotal= row.montoBruto - ((row.montoBruto * row.descuento ) / 100);
                        
@@ -1404,7 +1556,7 @@
                       
                // }
                 $scope.orderPurchase.montoBruto=$scope.orderPurchase.montoBruto+row.montoTotal;
-                $scope.orderPurchase.montoTotal=parseFloat($scope.orderPurchase.montoBruto)-((parseFloat($scope.orderPurchase.montoBruto)*parseFloat($scope.orderPurchase.descuento))/100);
+                $scope.orderPurchase.montoTotal=Number($scope.orderPurchase.montoBruto)-((Number($scope.orderPurchase.montoBruto)*Number($scope.orderPurchase.descuento))/100);
                 */
                 
                 //$scope.detailOrderPurchases.splice(index,1,row);
@@ -1413,18 +1565,18 @@
                 /*}else{
                      alert("usted no puede ingresar una cantidad menor a 0 y mayor ");
                      if(row.cantidad1==0 && row.pendiente>0){
-                            $scope.orderPurchase.montoBruto=parseFloat($scope.orderPurchase.montoBruto)-row.montoTotal;
-                           $scope.orderPurchase.montoTotal=parseFloat($scope.orderPurchase.montoBruto)-(
-                           (parseFloat($scope.orderPurchase.montoBruto)*parseFloat($scope.orderPurchase.descuento))/100);
+                            $scope.orderPurchase.montoBruto=Number($scope.orderPurchase.montoBruto)-row.montoTotal;
+                           $scope.orderPurchase.montoTotal=Number($scope.orderPurchase.montoBruto)-(
+                           (Number($scope.orderPurchase.montoBruto)*Number($scope.orderPurchase.descuento))/100);
                      
                          row.Cantidad_Ll=Number(row.Cantidad_Ll);
                           row.pendiente=Number(row.pendiente);
-                          row.montoBruto=(row.Cantidad_Ll* parseFloat(row.preCompra)); 
-                          row.montoTotal= row.montoBruto - ((row.montoBruto * parseFloat(row.descuento)) / 100);
-                          if(parseFloat(row.montoTotal)>0){
-                             $scope.orderPurchase.montoBruto=parseFloat($scope.orderPurchase.montoBruto)+row.montoTotal;
-                             $scope.orderPurchase.montoTotal=parseFloat($scope.orderPurchase.montoBruto)-(
-                           (parseFloat($scope.orderPurchase.montoBruto)*parseFloat($scope.orderPurchase.descuento))/100);
+                          row.montoBruto=(row.Cantidad_Ll* Number(row.preCompra)); 
+                          row.montoTotal= row.montoBruto - ((row.montoBruto * Number(row.descuento)) / 100);
+                          if(Number(row.montoTotal)>0){
+                             $scope.orderPurchase.montoBruto=Number($scope.orderPurchase.montoBruto)+row.montoTotal;
+                             $scope.orderPurchase.montoTotal=Number($scope.orderPurchase.montoBruto)-(
+                           (Number($scope.orderPurchase.montoBruto)*Number($scope.orderPurchase.descuento))/100);
                      
                           }
                      }
@@ -1726,7 +1878,7 @@ $scope.recalPayments=function(){
                     $scope.PagoAnterior=row.montoPagado;
                     $scope.detPayment.fecha=new Date(row.fecha);
                     $scope.detPayment.methodPayment_id=row.methodPayment_id;
-                    $scope.detPayment.montoPagado=(parseFloat(row.montoPagado));
+                    $scope.detPayment.montoPagado=(Number(row.montoPagado));
                      $scope.mostrarBtnGEd=true;
                 }
                   $scope.PagoAnterior;generarReporteFiltros
@@ -1772,7 +1924,7 @@ $scope.recalPayments=function(){
                                  $scope.PagoAnterior=row.montoPagado;
                                  $scope.detPayment.fecha=new Date(row.fecha);
                                  $scope.detPayment.methodPayment_id=row.methodPayment_id;
-                                 $scope.detPayment.montoPagado=(parseFloat(row.montoPagado));
+                                 $scope.detPayment.montoPagado=(Number(row.montoPagado));
                                  $scope.mostrarBtnGEd=true;
                         }else{
                             $scope.orderPurchase.fechafin=null;
@@ -1796,7 +1948,7 @@ $scope.recalPayments=function(){
                     $scope.PagoAnterior=row.montoPagado;
                     $scope.detPayment.fecha=new Date(row.fecha);
                     $scope.detPayment.methodPayment_id=row.methodPayment_id;
-                    $scope.detPayment.montoPagado=(parseFloat(row.montoPagado));
+                    $scope.detPayment.montoPagado=(Number(row.montoPagado));
                     $scope.mostrarBtnGEd=true;
                 }
                 }

@@ -17,7 +17,7 @@ class CreateHeadInvoicesTable extends Migration
             $table->biginteger('numero');
             $table->string('clientes');
             $table->string('direccion')->nullable();
-            $table->string('ruc',11);
+            $table->string('ruc',11)->nullable();
             $table->string('GRemicion')->nullable();
             $table->decimal('subTotal',10,2);
             $table->decimal('igv',10,2);
