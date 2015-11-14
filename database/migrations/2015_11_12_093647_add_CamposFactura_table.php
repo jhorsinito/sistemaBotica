@@ -12,10 +12,10 @@ class AddCamposFacturaTable extends Migration
      */
     public function up()
     {
-        Schema::table('headInvoices', function (Blueprint $table) {
-            $table->biginteger('numero')->after("id");
-            $table->string('tipoDoc',1)->after("cliente_id");
-        });
+        //Schema::table('headInvoices', function (Blueprint $table) {
+            //$table->biginteger('numero')->after("id");
+            //$table->string('tipoDoc',1)->after("cliente_id");
+        //});
     }
 
     /**

@@ -15,7 +15,7 @@ class CreateHeadInvoicesTable extends Migration
         Schema::create('headInvoices', function (Blueprint $table) {
             $table->increments('id');
             $table->biginteger('numero');
-            $table->string('clientes');
+            $table->string('cliente');
             $table->string('direccion')->nullable();
             $table->string('ruc',11)->nullable();
             $table->string('GRemicion')->nullable();
