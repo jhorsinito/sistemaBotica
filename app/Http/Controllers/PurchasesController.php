@@ -103,8 +103,8 @@ class PurchasesController extends Controller {
     }
     public function create(Request $request)
         {
-       // var_dump($request->all());die();
-    \DB::beginTransaction();
+      // var_dump($request->all());die();
+   // \DB::beginTransaction();
         $saldoTemp=0;
         $codigoHeadIS=0;
         $purchase = $this->purchaseRepo->getModel();
@@ -324,11 +324,27 @@ class PurchasesController extends Controller {
            $stockac=$stockmodel->encontrar($object["variant_id"],$almacen_id);
            if($request->input('estado')==1){
            // var_dump($object1["cantidad1"]);
-                $cantidadReal=$object["cantidad"];
-                $object["cantidad"]=$object["cantidad1"];
-                $object["montoBruto"]=floatval($object["cantidad1"])*floatval($object["preProducto"]);
-                $object["montoTotal"]=floatval($object["cantidad1"])*floatval($object["preCompra"]);
-                $total=$total+$object["montoTotal"];
+              $cantidadReal=$object["cantidad"];
+              $object["cantidad"]=$object["cantidad1"];
+              if($request->input("tCambio")=="sol"){
+                //var_dump("hola este es soles");die();
+                    $object["montoBruto"]=floatval($object["cantidad1"])*floatval($object["preProducto"]);
+                    $object["montoBrutoDolar"]=floatval($object["montoBruto"])/floatval($request->input("tasaDolar"));
+                    $object["montoTotal"]=floatval($object["cantidad1"])*floatval($object["preCompra"]);
+                    $object["montoTotalDolar"]=floatval($object["montoTotal"])/floatval($request->input("tasaDolar"));
+                    $total=$total+$object["montoTotal"];
+              }else{
+               
+                    $object["montoBrutoDolar"]=floatval($object["cantidad1"])*floatval($object["preProductoDolar"]);
+                    $object["montoBruto"]=floatval($object["montoBrutoDolar"])*floatval($request->input("tasaDolar"));
+                    $object["montoTotalDolar"]=floatval($object["cantidad1"])*floatval($object["preCompraDolar"]);
+                    $object["montoTotal"]=floatval($object["montoTotalDolar"])*floatval($request->input("tasaDolar"));
+                    $total=$total+$object["montoTotalDolar"];
+              }
+
+                
+                
+               
              //  var_dump($object["cantidad"]);
                 /*if(!empty($object["cantidad1"])){
                    $object["cantidad"]=$object["Cantidad_Ll"];
@@ -389,11 +405,30 @@ class PurchasesController extends Controller {
                    }
         if($request->input('estado')==1){
                     $purchase1 = $this->purchaseRepo->find($temporal);
-                    $request->merge(['montoBruto'=>floatval($total)]);
+                    if($request->input("tCambio")=="sol"){
+                         $request->merge(['montoBruto'=>floatval($total)]);
+                         $request->merge(['montoBrutoDolar'=>floatval($total)/floatval($request->input("tasaDolar"))]);
+                    }else{
+                         $request->merge(['montoBrutoDolar'=>floatval($total)]);
+                         $request->merge(['montoBruto'=>floatval($total)*floatval($request->input("tasaDolar"))]);
+                    }
+                    
             if(!empty($purchase1->descuento)){
-                    $request->merge(['montoTotal'=>floatval($total)-((floatval($total)*floatval($purchase1->descuento))/100)]);
+                    if($request->input("tCambio")=="sol"){
+                         $request->merge(['montoTotal'=>floatval($total)-((floatval($total)*floatval($purchase1->descuento))/100)]);
+                         $request->merge(['montoTotalDolar'=>floatval($total)/floatval($request->input("tasaDolar"))]);
+                    }else{
+                         $request->merge(['montoTotalDolar'=>floatval($total)-((floatval($total)*floatval($purchase1->descuento))/100)]);
+                         $request->merge(['montoTotal'=>floatval($total)*floatval($request->input("tasaDolar"))]);
+                    }
             }else{
-                    $request->merge(['montoTotal'=>floatval($total)]);
+                    if($request->input("tCambio")=="sol"){
+                         $request->merge(['montoTotal'=>floatval($total)]);
+                         $request->merge(['montoTotalDolar'=>floatval($total)/floatval($request->input("tasaDolar"))]);
+                    }else{
+                        $request->merge(['montoTotalDolar'=>floatval($total)]);
+                         $request->merge(['montoTotal'=>floatval($total)*floatval($request->input("tasaDolar"))]);
+                    }
             }
                     $manager = new PurchaseManager($purchase1,$request->except('fechaEntrega'));
                     $manager->save();
@@ -524,7 +559,7 @@ class PurchasesController extends Controller {
         ///==========================Registrando saldo Afavor ========================================
 
 }
-      \DB::commit();
+     // \DB::commit();
      return response()->json(['estado'=>true, 'nombres'=>$purchase->nombres]);
     }
     public function reportes($id){

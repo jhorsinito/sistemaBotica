@@ -12,6 +12,10 @@ class PurchaseManager extends BaseManager {
              'orderPurchase_id'=>'',
              'warehouses_id'=>'required',
                     'supplier_id'=>'required',
-                    'observacion'=>''];
+                    'observacion'=>'',
+                    'tCambio'=>'',
+                    'tasaDolar'=>'between:0,9999999999.00',
+                    'montoBrutoDolar'=>'between:0,9999999999.00',
+                    'montoTotalDolar'=>'between:0,9999999999.00'];
         return $rules;
     }}

@@ -14,7 +14,11 @@ class DetailOrderPurchaseManager extends BaseManager {
                     'preCompra'=>'',
                     'cantidad'=>'between:0,9999999999.00',
                     'Cantidad_Ll'=>'',
-                    'pendiente'=>''
+                    'pendiente'=>'',
+                    'preProductoDolar'=>'between:0,9999999999.00',
+                    'preCompraDolar'=>'between:0,9999999999.00',
+                    'montoBrutoDolar'=>'between:0,9999999999.00',
+                    'montoTotalDolar'=>'between:0,9999999999.00'
        				 ];
         return $rules;
     }

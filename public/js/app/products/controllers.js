@@ -351,6 +351,10 @@
                             $scope.variant.category = parseInt(data.category);
 
                             $scope.variant.fvenc = new Date(data.fvenc);
+                            $scope.variant.fvenc.setDate($scope.variant.fvenc.getDate()+1);
+                            //var tomorrow = new Date();
+                            //tomorrow.setDate(tomorrow.getDate() + 1);
+
 
                             //crudService.byId($scope.variant.product_id, 'products').then(function (data) {
                                 //$log.log(data);
@@ -558,6 +562,7 @@
 
                 $scope.createVariant = function(){
 
+                        //alert('hola');
                     $scope.variant.otros=$scope.ArrayTallas;
                     $scope.variant.cantTallas=$scope.variant1;
                             //alert($scope.variant.otros);
@@ -571,7 +576,12 @@
                             $scope.variant.image = e.target.result;
 
                             $scope.variant.product_id = $scope.product.id;
-                            $log.log($scope.variant);
+                            //$log.log($scope.variant.fvenc.getHours());
+                            //$log.log($scope.variant.fvenc.getHours());
+                            //modify fvenc menos 1 dia
+                            $scope.variant.fvenc.setUTCHours($scope.variant.fvenc.getHours());
+                            //
+                            //$log.log($scope.variant);
                             
                             crudService.create($scope.variant, 'variants').then(function (data) {
                                 if (data['estado'] == true) {
@@ -590,7 +600,12 @@
                             //alert($scope.product.hasVariants);
                             //alert('sin img');
                             $scope.variant.product_id = $scope.product.id;
-                            //$log.log($scope.variant);
+                            //$log.log($scope.variant.fvenc.getHours());
+                            //$log.log($scope.variant.fvenc.getHours());
+                            //modify fvenc menos 1 dia
+                            $scope.variant.fvenc.setUTCHours($scope.variant.fvenc.getHours());
+                            //
+
                             crudService.create($scope.variant,'variants').then(function (data){
                                 if (data['estado'] == true) {
                                     //$scope.success = data['nombres'];
@@ -621,6 +636,9 @@
                             $scope.variant.image = e.target.result;
                             
                             $scope.variant.product_id = $scope.product.id;
+                            //modify fvenc menos 1 dia
+                            $scope.variant.fvenc.setDate($scope.variant.fvenc.getDate() - 1);
+                            //
                             crudService.update($scope.variant, 'variants').then(function (data) {
                                 if (data['estado'] == true) {
                                     //$scope.success = data['nombres'];
@@ -637,6 +655,9 @@
                         if(!document.getElementById('variantImage').files[0]){
                             //alert($scope.product.hasVariants);
                             $scope.variant.product_id = $scope.product.id;
+                            //modify fvenc menos 1 dia
+                            $scope.variant.fvenc.setDate($scope.variant.fvenc.getDate() - 1);
+                            //
                             crudService.update($scope.variant,'variants').then(function (data){
                                 if (data['estado'] == true) {
                                     //$scope.success = data['nombres'];
@@ -1085,6 +1106,7 @@
                 }
 
                 $scope.editPres = function(row,$index){
+                    alert('hola');
                     $scope.presentation.edit = true;
                     $scope.traerPresX($scope.variant.presentation_base);
                     $log.log(row);
@@ -1102,14 +1124,22 @@
                     $scope.presentation.dsctoCant = row.dsctoCant;
                     $scope.presentation.pvp = row.pvp;
                     //dsctos por rango de fechas
-                    if(row.fecIniDscto instanceof Date) {
-                        var monthFecIni = parseInt(row.fecIniDscto.getMonth()) + 1;
-                        $scope.presentation.fecIniDscto = row.fecIniDscto.getFullYear() + '-' + monthFecIni + '-' + row.fecIniDscto.getDate();
-                    }
-                    if(row.fecFinDscto instanceof Date) {
-                        var monthFecFin = parseInt(row.fecFinDscto.getMonth()) + 1;
-                        $scope.presentation.fecFinDscto = row.fecFinDscto.getFullYear() + '-' + monthFecFin + '-' + row.fecFinDscto.getDate();
-                    }
+                    //if(row.fecIniDscto instanceof Date) {
+                        //alert('holaxx');
+                    var fecIniDscto = new Date(row.fecIniDscto);
+                    fecIniDscto.setDate(fecIniDscto.getDate()+1);
+
+                        //var monthFecIni = parseInt(row.fecIniDscto.getMonth()) + 1;
+                    $scope.presentation.fecIniDscto = fecIniDscto;
+                        //$scope.presentation.fecIniDscto = row.fecIniDscto.getFullYear() + '-' + monthFecIni + '-' + row.fecIniDscto.getDate();
+                    //}
+                    var fecFinDscto = new Date(row.fecFinDscto);
+                    fecFinDscto.setDate(fecFinDscto.getDate()+1);
+                    $scope.presentation.fecFinDscto = fecFinDscto;
+                    //if(row.fecFinDscto instanceof Date) {
+                        //var monthFecFin = parseInt(row.fecFinDscto.getMonth()) + 1;
+                        //$scope.presentation.fecFinDscto = row.fecFinDscto.getFullYear() + '-' + monthFecFin + '-' + row.fecFinDscto.getDate();
+                    //}
                     $scope.presentation.dsctoRange = row.dsctoRange;
                     $scope.presentation.dsctoCantRange = row.dsctoCantRange;
                     $scope.presentation.pvpRange = row.pvpRange;

@@ -162,8 +162,10 @@
                       <td>{{row.fechaPedido.substring(0,10)}}</td>
                       <td>{{row.fechaPrevista.substring(0,10)}}</td>
                       <td>{{row.descuento}}</td>
-                      <td>{{row.montoBruto}}</td>
-                      <td>{{row.montoTotal}}</td>
+                      <td ng-if="row.tCambio=='sol'">S/.{{row.montoBruto}} <em style="color:blue;">$({{row.montoBrutoDolar}})</em></td>
+                      <td ng-if="row.tCambio=='dolar'">$.{{row.montoBrutoDolar}} <em style="color:blue;">S/.({{row.montoBruto}})</em></td>
+                      <td ng-if="row.tCambio=='sol'">S/.{{row.montoTotal}} <em style="color:blue;">$({{row.montoTotalDolar}})</em></td>
+                      <td ng-if="row.tCambio=='dolar'">$.{{row.montoTotalDolar}} <em style="color:blue;">S/.({{row.montoTotal}})</em></td>
                       <td ng-if="row.Estado==0"><button class=" label-default" ng-click="VerAdelantos(row.id)">Adelanto</button></td>
                       <td ng-if="row.Estado!=0">------</td>
                       <td ng-if="row.Estado==0"><a  class="btn btn-success btn-xs">Pendiente</a></td>

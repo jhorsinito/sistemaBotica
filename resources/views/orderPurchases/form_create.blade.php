@@ -182,7 +182,7 @@
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
            tooltip="Ingrese caracteres para busacar producto por codigo unico"
             >-->
-             <input  typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Buscar por Variante" 
+             <input  ng-disabled="activarBusca" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Buscar por Variante" 
           typeahead="variant as variant.proNombre+'('+(variant.BraName==null ? '': variant.BraName+'/')+(variant.TName==null ? '' : variant.TName+'/')+(variant.Mnombre==null ? '':variant.Mnombre+'/')+(variant.NombreAtributos==null ? '':variant.NombreAtributos)+')' for variant in variants1 | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
            tooltip="Ingrese caracteres para busacar producto por codigo unico"
@@ -213,20 +213,31 @@
       </div>-->
  
             
-            <div ng-show="check" class="col-md-3">
+            <div ng-show="check" class="col-md-2">
                   <label for="Variante">Busca Por Sku</label>
                   <div class="form-group">
-                  <input type="text" ng-enter="TraerPorSku(variant.sku)" class="form-control" placeholder="Ingresa Sku" ng-model="variant.sku">
+                  <input ng-disabled="activarBusca" type="text" ng-enter="TraerPorSku(variant.sku)" class="form-control" placeholder="Ingresa Sku" ng-model="variant.sku">
                   </div>
             </div>
              
-            <div class="col-md-3">
+            <div class="col-md-1">
                <em>¿POR SKU?</em>
                       <div   class="form-group" >                            
                             <input ng-disabled="check1" ng-click="limpiarDatosAgregate()" type="checkbox"  name="variantes" ng-model="check" />
                             
                         </div>
                 </div>
+                <div class="col-md-2">
+               <label for="tcambio">Tipo de Cambio</label>
+               <select  ng-disabled="activarBusca2" class="form-control" ng-change="calcPrecio()" name="tcambio"  ng-model="orderPurchase.tCambio" >
+                       <option value="sol">Sol</option>
+                       <option value="dolar">Dolar</option>
+               </select>
+           </div>
+           <div  class="col-md-1">
+               <label for="detailOrderPurchase.tasaDolar">Valor</label>
+               <input  ng-disabled="activarBusca2" class="form-control" ng-model="orderPurchase.tasaDolar" ng-blur="SolDolar(orderPurchase.tasaDolar)"type="number" min="1">
+           </div>
             
       <!--<div class="col-md-1">
       <div class="input-group">
@@ -319,49 +330,76 @@
                   <span ng-show="detailOrderPurchaseCreateForm.cantidad.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
                 </div>
-            </div>
+                 <label ng-if="orderPurchase.tCambio=='dolar'" style="color:blue;">Equivalente en S/.</label>
+                <label ng-if="orderPurchase.tCambio=='sol'" style="color:blue;">Equivalente en $$.</label>
+             </div>
             <!-- capo de Texto  Precio-->
-            <div class="col-md-2">
+            <div ng-hide="orderPurchase.tCambio=='dolar'" class="col-md-2">
                <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.preCompra.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.preCompra.$dirty && detailOrderPurchaseCreateForm.preCompra.$invalid]">
                 <label for="preCompra">Precio </label>
 
-                <input ng-disabled="true" type="number" min='0' class="form-control ng-pristine ng-valid ng-touched" name="preCompra" placeholder="0.00" ng-model="detailOrderPurchase.preCompra" ng-blur="calculateSuppPric()" step="0.1">
-                <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.preCompra.$dirty && detailOrderPurchaseCreateForm.preCompra.$invalid">
+                <input  type="number" min='0' class="form-control ng-pristine ng-valid ng-touched" name="preCompra" placeholder="0.00" ng-model="detailOrderPurchase.preCompra" ng-blur="CalcPrecio()" step="0.1" >
+                <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.preCompra.$dirty && detailOrderPurchaseCreateForm.preCompra.$invalid" >
                   <span ng-show="detailOrderPurchaseCreateForm.preCompra.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
                 </div>
+                <label style="color:blue;">$$.@{{detailOrderPurchase.preCompraDolar}}</label>
+            </div>
+            <div ng-show="orderPurchase.tCambio=='dolar'" class="col-md-2">
+              <div class="form-group">
+               <label for="preCompra">Precio </label>
+               <input  type="number" min='0' class="form-control ng-pristine ng-valid ng-touched" name="preCompra" placeholder="0.00" ng-model="detailOrderPurchase.preCompraDolar" ng-blur="CalcPrecio()" step="0.1" >
+              </div>
+               <label style="color:blue;">S/.@{{detailOrderPurchase.preCompra}}</label>
             </div>
 
             <!-- capo de Texto  Total Bruto-->
-            <div class="col-md-2"> 
+           <div ng-hide="orderPurchase.tCambio=='dolar'" class="col-md-2"> 
                 <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.montoBruto.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.montoBruto.$dirty && detailOrderPurchaseCreateForm.montoBruto.$invalid]">
                 <label for="montoBruto">Total Bruto</label>
-                <input ng-disabled="true" type="number"  min='0' class="form-control ng-pristine ng-valid ng-touched" name="montoBruto" placeholder="0.00" ng-model="detailOrderPurchase.montoBruto" ng-blur="calculateSuppPric()" step="0.1">
+                <input ng-disabled="true" type="number" min='0' class="form-control ng-pristine ng-valid ng-touched" name="montoBruto" placeholder="0.00" ng-model="detailOrderPurchase.montoBruto" ng-blur="calculateSuppPric()" step="0.1" >
                 <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.montoBruto.$dirty && detailOrderPurchaseCreateForm.montoBruto.$invalid">
                   <span ng-show="detailOrderPurchaseCreateForm.montoBruto.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
                 </div>
+                <label style="color:blue;">$$.@{{detailOrderPurchase.montoBrutoDolar}}</label>
+            </div>
+            <div ng-show="orderPurchase.tCambio=='dolar'" class="col-md-2">
+              <div class="form-group">
+               <label for="preCompra">Total Bruto</label>
+               <input  type="number" min='0' class="form-control ng-pristine ng-valid ng-touched" name="preCompra" placeholder="0.00" ng-model="detailOrderPurchase.montoBrutoDolar" ng-blur="CalcPrecio()" step="0.1" >
+              </div>
+               <label style="color:blue;">S/.@{{detailOrderPurchase.montoBruto}}</label>
             </div>
             <!-- capo de Texto  Descuento-->
             <div class="col-md-2"> 
                 <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.descuento.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.descuento.$dirty && detailOrderPurchaseCreateForm.descuento.$invalid]">
                 <label for="descuento">Descuento % </label>
 
-                <input ng-disabled="activarCampCantidad" type="number" min='0' class="form-control ng-pristine ng-valid ng-touched" name="descuento" placeholder="0.00" ng-model="detailOrderPurchase.descuento" ng-blur="calculateSuppPric()" step="0.1">
+                <input ng-disabled="activarCampCantidad" type="number" min='0' class="form-control ng-pristine ng-valid ng-touched" name="descuento" placeholder="0.00" ng-model="detailOrderPurchase.descuento" ng-blur="descuentoCalc()" step="0.1">
                 <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.descuento.$dirty && detailOrderPurchaseCreateForm.descuento.$invalid">
                   <span ng-show="detailOrderPurchaseCreateForm.descuento.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
                 </div>
+                <label style="color:blue;">@{{detailOrderPurchase.descuento}} %</label>
             </div>
             <!-- capo de Texto  Total-->
-            <div class="col-md-2"> 
+              <div ng-hide="orderPurchase.tCambio=='dolar'" class="col-md-2"> 
                 <div class="form-group" ng-class="{true: 'has-error'}[ detailOrderPurchaseCreateForm.montoTotal.$error.required && detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.montoTotal.$dirty && detailOrderPurchaseCreateForm.montoTotal.$invalid]">
                 <label for="montoTotal">Total</label>
-                <input type="number" class="form-control ng-pristine ng-valid ng-touched" name="montoTotal" placeholder="0.00" ng-model="detailOrderPurchase.montoTotal" ng-blur="calculateSuppPric()" step="0.1">
+                <input type="number" class="form-control ng-pristine ng-valid ng-touched" min='0'name="montoTotal" placeholder="0.00" ng-model="detailOrderPurchase.montoTotal" ng-blur="montofinalModif()" step="0.1" >
                 <label ng-show="detailOrderPurchaseCreateForm.$submitted || detailOrderPurchaseCreateForm.montoTotal.$dirty && detailOrderPurchaseCreateForm.montoTotal.$invalid">
                   <span ng-show="detailOrderPurchaseCreateForm.montoTotal.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                 </label>
                 </div>
+                <label style="color:blue;">$$.@{{detailOrderPurchase.montoTotalDolar}}</label>
+            </div>
+            <div ng-show="orderPurchase.tCambio=='dolar'" class="col-md-2">
+              <div class="form-group">
+               <label for="preCompra">Total </label>
+               <input  type="number" min='0' class="form-control ng-pristine ng-valid ng-touched" name="preCompra" placeholder="0.00" ng-model="detailOrderPurchase.montoTotalDolar" ng-blur="montofinalModif()" step="0.1" >
+              </div> 
+               <label style="color:blue;">S/.@{{detailOrderPurchase.montoTotal}}</label>
             </div>
             </div>
           <div class="row">
@@ -418,11 +456,16 @@
                       ;Tp:@{{variants.Tnombre}};Mt:@{{variants.Mnombre}}" 
                       ng-mouseover="popover(row)">@{{row.CodigoPCompra}}</a></td>
                       <td>@{{row.cantidad}}</td>
-                      <td>S/.@{{row.preProducto}}</td>
-                      <td>S/.@{{row.preCompra}}</td>
-                      <td>S/.@{{row.montoBruto}}</td>
+                      <td ng-if="orderPurchase.tCambio=='sol'">S/.@{{row.preProducto}}<em style="color:blue;">($.@{{row.preProductoDolar}})</em></td>
+                      <td ng-if="orderPurchase.tCambio=='dolar'">$.@{{row.preProductoDolar}}<em style="color:blue;">(S/.@{{row.preProducto}})</em></td>
+                      <td ng-if="orderPurchase.tCambio=='sol'">S/.@{{row.preCompra}}<em style="color:blue;">($.@{{row.preCompraDolar}})</em></td>
+                      <td ng-if="orderPurchase.tCambio=='dolar'">$.@{{row.preCompraDolar}}<em style="color:blue;">(S/.@{{row.preCompra}})</em></td>
+                      <td ng-if="orderPurchase.tCambio=='sol'">S/.@{{row.montoBruto}}<em style="color:blue;">($.@{{row.montoBrutoDolar}})</em></td>
+                      <td ng-if="orderPurchase.tCambio=='dolar'">$.@{{row.montoBrutoDolar}}<em style="color:blue;">(S/.@{{row.montoBruto}})</em></td>
                       <td>@{{row.descuento}}%</td>
-                      <td>S/.@{{row.montoTotal}}</td>
+                      <td ng-if="orderPurchase.tCambio=='sol'">S/.@{{row.montoTotal}}<em style="color:blue;">($.@{{row.montoTotalDolar}})</em></td>
+                      <td ng-if="orderPurchase.tCambio=='dolar'">$.@{{row.montoTotalDolar}}<em style="color:blue;">(S/.@{{row.montoTotal}})</em></td>
+                      
                       <!--<td><a data-target="#miventanaEditRow" ng-click="EditarDetalles(row,$index)" data-toggle="modal" class="btn btn-warning btn-xs" ><i class="fa fa-fw fa-pencil"></i></a>
                           <a  class="btn btn-danger btn-xs" ng-click="sacarRow($index,row.montoTotal)"><i class="fa fa-fw fa-trash"></i></a>
                       </td>-->
@@ -450,20 +493,38 @@
               </div>
             </div>
             <!-- capo de Texto  Descuento-->
-            <div class="col-md-4"> 
+            <div ng-hide="orderPurchase.tCambio=='dolar'" class="col-md-4"> 
               <div class="form-group">
                 <label for="suppPric">Monto Bruto</label>
-                <input type="number" ng-disabled="true" min='0' ng-model="orderPurchase.montoBruto" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
-                name="montoBruto" placeholder="0.00"  ng-disabled="product.hasVariants" ng-blur="calcularmontoBrutoF()" step="0.1">
+                <input ng-Disabled="true" type="number" min='0' ng-model="orderPurchase.montoBruto" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
+                name="montoBruto" placeholder="0.00"  ng-blur="calcularmontoBrutoF()" step="0.1">
               </div>
+              <label>Equivalencia $.@{{orderPurchase.montoBrutoDolar}}</label>
+            </div>
+            <div ng-show="orderPurchase.tCambio=='dolar'" class="col-md-4"> 
+              <div class="form-group">
+                <label for="suppPric">Monto Bruto</label>
+                <input ng-Disabled="true" type="number" min='0' ng-model="orderPurchase.montoBrutoDolar" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
+                name="montoBruto" placeholder="0.00"   ng-blur="calcularmontoBrutoF()" step="0.1">
+              </div>
+              <label>Equivalencia S/.@{{orderPurchase.montoBruto}}</label>
             </div>
             <!-- capo de Texto  Total-->
-            <div class="col-md-4"> 
+            <div ng-hide="orderPurchase.tCambio=='dolar'" class="col-md-4"> 
                 <div class="form-group">
                 <label for="suppPric">Monto Total</label>
                 <input type="number" ng-model="orderPurchase.montoTotal" min='0' class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
-                name="montoTotal" placeholder="0.00"  ng-disabled="product.hasVariants" ng-blur="calcularmontoBrutoF()" step="0.1">
+                name="montoTotal" placeholder="0.00"   ng-blur="calcularmontoBrutoF()" step="0.1">
               </div>
+              <label>Equivalencia $.@{{orderPurchase.montoTotalDolar}}</label>
+            </div>
+            <div ng-show="orderPurchase.tCambio=='dolar'" class="col-md-4"> 
+                <div class="form-group">
+                <label for="suppPric">Monto Total</label>
+                <input type="number" ng-model="orderPurchase.montoTotalDolar" min='0' class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
+                name="montoTotal" placeholder="0.00"   ng-blur="calcularmontoBrutoF()" step="0.1">
+              </div>
+              <label>Equivalencia S/.@{{orderPurchase.montoTotal}}</label>
             </div>
 
       </div>

@@ -12,7 +12,11 @@ class DetailPurchase extends \Eloquent {
     						'detPres_id',
     						'preProducto',
     						'preCompra',
-    						'cantidad'
+    						'cantidad',
+                'preProductoDolar',
+                'preCompraDolar',
+                'montoBrutoDolar',
+                'montoTotalDolar'
     						];
 
     public function detPres()

@@ -12,7 +12,11 @@ class DetailPurchaseManager extends BaseManager {
         			'purchases_id'=>'required',
                     'preProducto'=>'',
                     'preCompra'=>'',
-                    'cantidad'=>'required'
+                    'cantidad'=>'required',
+                    'preProductoDolar'=>'between:0,9999999999.00',
+                    'preCompraDolar'=>'between:0,9999999999.00',
+                    'montoBrutoDolar'=>'between:0,9999999999.00',
+                    'montoTotalDolar'=>'between:0,9999999999.00'
        				 ];
         return $rules;
     }

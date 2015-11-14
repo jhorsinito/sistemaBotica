@@ -22,7 +22,7 @@ class DetPresRepo extends BaseRepo{
                            ->leftJoin("equiv","equiv.preFin_id","=","presentation.id")
                            ->where("detPres.variant_id","=",$id)
                            ->select(\DB::raw("detPres.id as iddetalleP,detPres.presentation_id as presenTid,
-                           	detPres.suppPri as precioCompra,presentation.*,equiv.cant as equivalencia,
+                           	detPres.suppPri as precioCompra,detPres.suppPriDol as precioDolar,presentation.*,equiv.cant as equivalencia,
                            	equiv.preBase_id as basevalor,(select (presentation.shortname) from presentation where presentation.id=basevalor) 
                            	as nomBase"))->paginate();
                     
@@ -39,8 +39,8 @@ class DetPresRepo extends BaseRepo{
                            ->join("presentation","presentation.id","=","detPres.presentation_id")
                            ->leftJoin("equiv","equiv.preFin_id","=","presentation.id")
                            ->where("variants.id","=",$id)->where("presentation.base","=",1)
-                           ->select(\DB::raw("variants.*,detPres.id as detpresen_id,detPres.suppPri as precioProduct,
-                            presentation.base as esbase"))->groupBy("detPres.id")->first();
+                           ->select(\DB::raw("variants.*,detPres.id as detpresen_id,detPres.suppPri as precioProduct,detPres.suppPriDol as precioDolar
+                            ,presentation.base as esbase"))->groupBy("detPres.id")->first();
 
         return $detPres;
     }
