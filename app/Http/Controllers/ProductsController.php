@@ -90,8 +90,9 @@ class ProductsController extends Controller
         $products = $this->productRepo->favoritos($store,$were,$q);
         return response()->json($products);
     } 
-    public function variantsAllInventary($store,$were,$q){
-        $products = $this->productRepo->variantsAllInventary($store,$were,$q);
+    public function variantsAllInventary($store,$were,$q,$type,$brand,$product){
+        //return $q;
+        $products = $this->productRepo->variantsAllInventary($store,$were,$q,$type,$brand,$product);
         return response()->json($products);
     } 
 

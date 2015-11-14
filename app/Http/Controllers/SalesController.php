@@ -728,7 +728,7 @@ class SalesController extends Controller
     }
     public function reportCliente($fi,$ff){
 
-             return $ff;
+             //return $ff;
         
         $database = \Config::get('database.connections.mysql');
         $time=time();

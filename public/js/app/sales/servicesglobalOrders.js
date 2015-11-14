@@ -153,6 +153,16 @@
 
                 return deferred.promise;
             }
+            function buquedarapida(uri,idStore,idWerehouse,val,type,brand,product){
+                var deferred = $q.defer();
+                //alert(val);
+                $http.get('/api/'+uri+'/misDatos/'+idStore+'/'+idWerehouse+'/'+val+'/'+type+'/'+brand+'/'+product)
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
 
             function select(uri,select)
             {
@@ -213,7 +223,8 @@
                 reportProWare,reportProWare,
                 getPres, setPres,
                 editFavoritoId,editFavoritoId,
-                reportcliente,reportcliente
+                reportcliente,reportcliente,
+                buquedarapida,buquedarapida
             }
         }])
         .factory('socketService', function ($rootScope) {

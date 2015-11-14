@@ -23,4 +23,9 @@ class TypeRepo extends BaseRepo{
         return $types;
     }
 
+    public function all(){
+        $stores = Store::all();
+        return $stores;
+    }
+
 } 

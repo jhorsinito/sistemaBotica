@@ -444,15 +444,31 @@
                     $scope.atributoSelected=crudServiceOrders.getPres();
                     
                         //alert("pase");
-                        //$log.log($scope.atributoSelected);
+                        $log.log($scope.atributoSelected);
+
+                        var fecha1 = $scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate();
+                            if(fecha1>=$scope.atributoSelected.FechaInicioDescuento && fecha1<=$scope.atributoSelected.FechaFinDescuento){
+                                $scope.atributoSelected.descuento=Number($scope.atributoSelected.DescuentoConFecha);
+                            }else{
+                                $scope.atributoSelected.descuento=Number($scope.atributoSelected.DescuentoSinFecha);
+                            }
                         if ($scope.atributoSelected.NombreAtributos!=undefined) {
                             //if ($scope.atributoSelected.equivalencia<=$scope.atributoSelected.Stock) {        
                                 $scope.atributoSelected.cantidad=1;
-                                $scope.atributoSelected.descuento=0;
+                                //$scope.atributoSelected.descuento=0;
                                 $scope.atributoSelected.subTotal=$scope.atributoSelected.cantidad*Number($scope.atributoSelected.precioProducto);
                                 $scope.atributoSelected.precioVenta=Number($scope.atributoSelected.precioProducto);
                     
                                 $scope.compras.push($scope.atributoSelected);  
+
+
+                                $scope.bandera=true; 
+                                    $scope.calcularmontos($scope.compras.length-1);
+
+                                    if ($scope.compras[$scope.compras.length-1].descuento>0) {
+                                        $scope.sale.montoTotalSinDescuento=$scope.sale.montoTotalSinDescuento+Number($scope.compras[$scope.compras.length-1].precioProducto)-$scope.compras[$scope.compras.length-1].precioVenta;
+                                    };
+
 
                                 $scope.sale.montoTotal=$scope.sale.montoTotalSinDescuento+$scope.atributoSelected.subTotal;
                                 $scope.recalcularCompra();
@@ -665,15 +681,9 @@
                 $scope.varianteSkuSelected;
                 $scope.varianteSkuSelected1=undefined;
                 $scope.getvariantSKU = function(size) {
-                    //alert("Aca !!!!")
-                    //if($scope.varianteSkuSelected.length <4){
-                        //alert("hola");
-                    //}else if($scope.varianteSkuSelected.length >= 4){
-                        //alert("entre" + $scope.varianteSkuSelected);
                         crudServiceOrders.reportProWare('productsSearchsku',$scope.store.id,$scope.warehouse.id,$scope.varianteSkuSelected).then(function(data){    
                             $scope.varianteSkuSelected1={};
                             $scope.varianteSkuSelected1=data;
-                            //$log.log($scope.varianteSkuSelected1);
 
                             if (($scope.varianteSkuSelected1[0].Stock-$scope.varianteSkuSelected1[0].stockPedidos-$scope.varianteSkuSelected1[0].stockSeparados)>0) { 
                                 $scope.Jalar(size);
@@ -689,20 +699,36 @@
                     if ($scope.varianteSkuSelected1.length>0) {
                         crudServiceOrders.reportProWare('productsVariantes',$scope.store.id,$scope.warehouse.id,$scope.varianteSkuSelected1[0].vari).then(function(data){    
                             $scope.presentations = data;
+
                             $log.log($scope.presentations);
+
+                            var fecha1 = $scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate();
+                            if(fecha1>=$scope.presentations[0].FechaInicioDescuento && fecha1<=$scope.presentations[0].FechaFinDescuento){
+                                $scope.varianteSkuSelected1[0].descuento=Number($scope.presentations[0].DescuentoConFecha);
+                            }else{
+                                $scope.varianteSkuSelected1[0].descuento=Number($scope.presentations[0].DescuentoSinFecha);
+                            }
+
+                            $log.log($scope.varianteSkuSelected1.descuento);
+
                             if($scope.base){                
                                     $scope.varianteSkuSelected1[0].cantidad=1;
-                                    $scope.varianteSkuSelected1[0].descuento=0;
+                                    //$scope.varianteSkuSelected1[0].descuento=0;
                                     $scope.varianteSkuSelected1[0].subTotal=$scope.varianteSkuSelected1[0].cantidad*Number($scope.varianteSkuSelected1[0].precioProducto);
                                     $scope.varianteSkuSelected1[0].precioVenta=Number($scope.varianteSkuSelected1[0].precioProducto);
                         
-                                   $scope.compras.push($scope.varianteSkuSelected1[0]);  
+                                   $scope.compras.push($scope.varianteSkuSelected1[0]); 
+
+
+                                   $scope.bandera=true; 
+                                    $scope.calcularmontos($scope.compras.length-1);
+
+                                    if ($scope.compras[$scope.compras.length-1].descuento>0) {
+                                        $scope.sale.montoTotalSinDescuento=$scope.sale.montoTotalSinDescuento+Number($scope.compras[$scope.compras.length-1].precioProducto)-$scope.compras[$scope.compras.length-1].precioVenta;
+                                    };
     
                                     $scope.sale.montoTotal=$scope.sale.montoTotalSinDescuento+$scope.varianteSkuSelected1[0].subTotal;
                                     $scope.recalcularCompra();
-                                    //$scope.sale.montoTotalSinDescuento=$scope.sale.montoTotal;
-                                    //$scope.sale.montoBruto=Number($scope.sale.montoTotal)/1.18;
-                                    //$scope.sale.igv=$scope.sale.montoTotal-$scope.sale.montoBruto;
                                $scope.varianteSkuSelected1=undefined;
                                 $scope.varianteSkuSelected="";
     
@@ -967,13 +993,10 @@
                 };
                 $scope.disminuirDescuento= function(index){
                     $scope.compras[index].descuento=Number($scope.compras[index].descuento)-1;
-                    //alert("entre -"+$scope.compras[index].descuento);
                     $scope.bandera=true;
                     $scope.calcularmontos(index);
                 };
                 $scope.keyUpDescuento= function(index){
-                    //$scope.compras[index].descuento=Number($scope.compras[index].descuento)-1;
-                    //alert("entre -"+$scope.compras[index].descuento);
                     $scope.bandera=true;
                     $scope.calcularmontos(index);
                 };
@@ -984,7 +1007,6 @@
                     $scope.sale.montoTotal=Number($scope.sale.montoTotal)+1;
 
                      $scope.sale.descuento=((Number($scope.sale.montoTotalSinDescuento)-Number($scope.sale.montoTotal))*100)/Number($scope.sale.montoTotalSinDescuento);
-                    //$scope.recalcularCompra();
                     $scope.sale.montoBruto=Number($scope.sale.montoTotal)/1.18;
                     $scope.sale.igv=$scope.sale.montoTotal-$scope.sale.montoBruto;
                 };
@@ -997,10 +1019,7 @@
                     $scope.sale.igv=$scope.sale.montoTotal-$scope.sale.montoBruto;
                 };
                  $scope.keyUpTotalPedido= function(){
-                    //$scope.sale.montoTotal=Number($scope.sale.montoTotal)+1;
-
                      $scope.sale.descuento=((Number($scope.sale.montoTotalSinDescuento)-Number($scope.sale.montoTotal))*100)/Number($scope.sale.montoTotalSinDescuento);
-                    //$scope.recalcularCompra();
                     $scope.sale.montoBruto=Number($scope.sale.montoTotal)/1.18;
                     $scope.sale.igv=$scope.sale.montoTotal-$scope.sale.montoBruto;
                 };
@@ -1090,22 +1109,38 @@
 
                 $scope.cargarFavoritos= function(row,size){                      
                         crudServiceOrders.reportProWare('productsVariantes',$scope.store.id,$scope.warehouse.id,row.vari).then(function(data){    
+                        $scope.atributoSelected=row;
                         $scope.presentations = data;
-                        //$log.log($scope.presentations);
+                        $log.log($scope.presentations);
+
+                            var fecha1 = $scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate();
+                            if(fecha1>=$scope.presentations[0].FechaInicioDescuento && fecha1<=$scope.presentations[0].FechaFinDescuento){
+                                $scope.atributoSelected.descuento=Number($scope.presentations[0].DescuentoConFecha);
+                            }else{
+                                $scope.atributoSelected.descuento=Number($scope.presentations[0].DescuentoSinFecha);
+                            }
+                        
                         if($scope.base){
                             //$scope.atributoSelected=undefined;
                             crudServiceOrders.reportProWare('productsFavoritos',$scope.store.id,$scope.warehouse.id,'1').then(function(data){    
                                         $scope.favoritos=data;
                                     });
-                            $scope.atributoSelected=row;
+                            
                             if ($scope.atributoSelected.NombreAtributos!=undefined) {
                                 if (($scope.atributoSelected.Stock-$scope.atributoSelected.stockPedidos-$scope.atributoSelected.stockSeparados)>0) {         
                                     $scope.atributoSelected.cantidad=1;
-                                    $scope.atributoSelected.descuento=0;
+                                    //$scope.atributoSelected.descuento=0;
                                     $scope.atributoSelected.subTotal=$scope.atributoSelected.cantidad*Number($scope.atributoSelected.precioProducto);
                                     $scope.atributoSelected.precioVenta=Number($scope.atributoSelected.precioProducto);
                     
                                     $scope.compras.push($scope.atributoSelected);  
+
+                                    $scope.bandera=true; 
+                                    $scope.calcularmontos($scope.compras.length-1);
+
+                                    if ($scope.compras[$scope.compras.length-1].descuento>0) {
+                                        $scope.sale.montoTotalSinDescuento=$scope.sale.montoTotalSinDescuento+Number($scope.compras[$scope.compras.length-1].precioProducto)-$scope.compras[$scope.compras.length-1].precioVenta;
+                                    };
 
                                     $scope.sale.montoTotal=$scope.sale.montoTotalSinDescuento+$scope.atributoSelected.subTotal;
                                     $scope.recalcularCompra();
@@ -1247,26 +1282,41 @@
                 }
 
                 $scope.cargarAtri = function(size){
-                    //crudServiceOrders.search('detpresPresentation',$scope.atributoSelected.vari,1).then(function (data){
-                        //$log.log($scope.atributoSelected+"aca");
                     crudServiceOrders.reportProWare('productsVariantes',$scope.store.id,$scope.warehouse.id,$scope.atributoSelected.vari).then(function(data){    
                         $scope.presentations = data;
-                        //$log.log($scope.presentations);
+                        var fecha = $scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate();
+                        if(fecha>=$scope.presentations[0].FechaInicioDescuento && fecha<=$scope.presentations[0].FechaFinDescuento){
+                            $scope.atributoSelected.descuento=Number($scope.presentations[0].DescuentoConFecha);
+                            $scope.atributoSelected.cantidad=1;
+                            $scope.atributoSelected.subTotal=$scope.atributoSelected.cantidad*Number($scope.atributoSelected.precioProducto);
+                            $scope.atributoSelected.precioVenta=Number($scope.atributoSelected.precioProducto);
+                        }else{
+                            $scope.atributoSelected.descuento=Number($scope.presentations[0].DescuentoSinFecha);
+                            $scope.atributoSelected.cantidad=1;
+                            $scope.atributoSelected.subTotal=$scope.atributoSelected.cantidad*Number($scope.atributoSelected.precioProducto);
+                            $scope.atributoSelected.precioVenta=Number($scope.atributoSelected.precioProducto);
+                        }
+
+
                         if($scope.base){
                             if ($scope.atributoSelected.NombreAtributos!=undefined) {
                                 if (($scope.atributoSelected.Stock-$scope.atributoSelected.stockPedidos-$scope.atributoSelected.stockSeparados)>0) {       
-                                    $scope.atributoSelected.cantidad=1;
-                                    $scope.atributoSelected.descuento=0;
-                                    $scope.atributoSelected.subTotal=$scope.atributoSelected.cantidad*Number($scope.atributoSelected.precioProducto);
-                                    $scope.atributoSelected.precioVenta=Number($scope.atributoSelected.precioProducto);
+                                    
+                                    $log.log($scope.atributoSelected);
                     
-                                    $scope.compras.push($scope.atributoSelected);  
+                                    $scope.compras.push($scope.atributoSelected);
+
+
+                 
+                                    $scope.bandera=true; 
+                                    $scope.calcularmontos($scope.compras.length-1);
+
+                                    if ($scope.compras[$scope.compras.length-1].descuento>0) {
+                                        $scope.sale.montoTotalSinDescuento=$scope.sale.montoTotalSinDescuento+Number($scope.compras[$scope.compras.length-1].precioProducto)-$scope.compras[$scope.compras.length-1].precioVenta;
+                                    };
 
                                     $scope.sale.montoTotal=$scope.sale.montoTotalSinDescuento+$scope.atributoSelected.subTotal;
                                     $scope.recalcularCompra();
-                                    //$scope.sale.montoTotalSinDescuento=$scope.sale.montoTotal;
-                                    //$scope.sale.montoBruto=Number($scope.sale.montoTotal)/1.18;
-                                    //$scope.sale.igv=$scope.sale.montoTotal-$scope.sale.montoBruto;
                                 }else{
                                     alert("STOK INSUFICIENTE");
                                 }   
@@ -1743,6 +1793,33 @@
                     crudServiceOrders.reportcliente('Reportsales',fInicio,fFin);
 
                 }
+                //--------------------------------------------------
+                $scope.buspro='%';
+                $scope.cargarConsulta = function(){
+                    $scope.fecha = ''+$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate();
+                    $scope.lineaId=0;$scope.materialId=0;
+
+                    crudServiceOrders.buquedarapida('buquedarapida',$scope.store.id, $scope.warehouse.id,$scope.fecha,$scope.lineaId,$scope.materialId,$scope.buspro).then(function (data) {                        
+                        $scope.variants1 = data;
+                    }); 
+                    crudServiceOrders.all('types').then(function (data) {                        
+                        $scope.types = data.data;
+                        //$log.log($scope.types);
+                    });
+                    crudServiceOrders.all('brands').then(function (data) {                        
+                        $scope.brands = data.data;
+                       //$log.log($scope.types);
+                    });      
+                }
+                $scope.cargarConsul = function(){
+                    if ($scope.lineaId==undefined) {$scope.lineaId=0;};
+                    if ($scope.materialId==undefined) {$scope.materialId=0;};              
+                    
+                    crudServiceOrders.buquedarapida('buquedarapida',$scope.store.id, $scope.warehouse.id,$scope.fecha,$scope.lineaId,$scope.materialId,$scope.buspro).then(function (data) {                        
+                        $scope.variants1 = data;
+                    }); 
+                }
+                
 
             }]);
 })();

@@ -241,9 +241,12 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                                 LEFT JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=vari
                                 GROUP BY variants.id),")"),  products.nombre ) as NombreProducto,
-
                                 materials.nombre as Material,
                               warehouses.nombre as Almacen,stock.stockActual as Stock,detPres.price as precioProducto,
+
+                                detPres.fecIniDscto as FechaInicioDescuento,detPres.fecFinDscto as FechaFinDescuento,
+                                detPres.dsctoRange as DescuentoConFecha,detPres.dscto as DescuentoSinFecha,
+
                               stock.stockPedidos as stockPedidos,stock.stockSeparados as stockSeparados,
                                IF(products.hasVariants=1 , CONCAT(variants.codigo," - ",products.nombre,"/ ",(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /") FROM variants
                                 LEFT JOIN detAtr ON detAtr.variant_id = variants.id
@@ -273,6 +276,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             /////--------------------
                             //->where('variants.estado','=','1')
                             //->where('products.estado','=','1')
+                            /////--------------------
                             ->groupBy('variants.id')
                             ->get();
             return $datos;
@@ -299,6 +303,10 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                                 materials.nombre as Material,
                                 stock.stockPedidos as stockPedidos,stock.stockSeparados as stockSeparados,
                               warehouses.nombre as Almacen,stock.stockActual as Stock,detPres.price as precioProducto,
+
+                                detPres.fecIniDscto as FechaInicioDescuento,detPres.fecFinDscto as FechaFinDescuento,
+                                detPres.dsctoRange as DescuentoConFecha,detPres.dscto as DescuentoSinFecha,
+
                               IF(products.hasVariants=1 , CONCAT(variants.codigo," - ",products.nombre,"/ ",(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /") FROM variants
                                 LEFT JOIN detAtr ON detAtr.variant_id = variants.id
                                 LEFT JOIN atributes ON atributes.id = detAtr.atribute_id
@@ -334,6 +342,10 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->leftjoin('equiv','equiv.preFin_id','=','T2.id')
                             ->select(\DB::raw('variants.sku as SKU ,detPres.id as detPre_id,products.nombre as NombreProducto,materials.nombre as Material,
                               warehouses.nombre as Almacen,stock.stockActual as Stock,detPres.price as precioProducto,
+
+                                detPres.fecIniDscto as FechaInicioDescuento,detPres.fecFinDscto as FechaFinDescuento,
+                                detPres.dsctoRange as DescuentoConFecha,detPres.dscto as DescuentoSinFecha,
+
                               stock.stockPedidos as stockPedidos,stock.stockSeparados as stockSeparados,
                               variants.id as vari , IF(products.hasVariants=1 , CONCAT(variants.codigo," - ",products.nombre,"/ ",(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /") FROM variants
                                 LEFT JOIN detAtr ON detAtr.variant_id = variants.id
@@ -375,6 +387,10 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
 
                                 materials.nombre as Material,
                               warehouses.nombre as Almacen,stock.stockActual as Stock,detPres.price as precioProducto,
+
+                                detPres.fecIniDscto as FechaInicioDescuento,detPres.fecFinDscto as FechaFinDescuento,
+                                detPres.dsctoRange as DescuentoConFecha,detPres.dscto as DescuentoSinFecha,
+
                               stock.stockPedidos as stockPedidos,stock.stockSeparados as stockSeparados,
                                IF(products.hasVariants=1 , CONCAT(variants.codigo," - ",products.nombre,"/ ",(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /") FROM variants
                                 LEFT JOIN detAtr ON detAtr.variant_id = variants.id
@@ -397,18 +413,29 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
             return $datos;
     }
 
-    public function variantsAllInventary($store,$were,$q){
+    public function variantsAllInventary($store,$were,$q,$type,$brand,$product){
+        //return $q;
       if ($store==0) {$store='%';}
       if ($were==0) {$were='%';}
+      if ($type==0) {$type='%';}
+      if ($brand==0) {$brand='%';}
       $datos = \DB::table('products')->leftjoin('materials','products.material_id','=','materials.id')
                            ->join('variants as T6','products.id','=','T6.product_id')
                             ->join('stock as T7','T6.id','=','T7.variant_id')
                             ->join ('types as T10','T10.id','=', 'products.type_id')
+                            ->join ('brands as T12','T12.id','=', 'products.brand_id')
+
+                            ->join ('detPres as T13','T6.id','=', 'T13.variant_id')
 
                             ->join ('warehouses as T8','T8.id','=', 'T7.warehouse_id')
                             ->join ('stores as T9', 'T9.id', '=', 'T8.store_id')  
 
-                            ->select(\DB::raw('products.nombre as Producto,T6.codigo as codigo,T6.id as vari ,T7.stockActual as stock,T10.nombre as Linea,
+                            ->select(\DB::raw('products.nombre as Producto,T6.codigo as codigo,T6.id as vari ,T7.stockActual as stock,T10.nombre as Linea,T12.nombre as Mate,
+                                                T13.price as Precio,
+
+                                                IF( T13.fecIniDscto<='.$q.' and T13.fecFinDscto>='.$q.',T13.dsctoRange,T13.dscto) as Descuento ,
+                                                IF( T13.fecIniDscto<='.$q.' and T13.fecFinDscto>='.$q.',T13.pvpRange,T13.pvp) as PrecioVenta ,
+
                                               (select T20.descripcion FROM detAtr T20 where T20.variant_id=vari and T20.atribute_id=4) as Material,
                                               (select T20.descripcion FROM detAtr T20 where T20.variant_id=vari and T20.atribute_id=1) as Color,
                                               (select T20.descripcion FROM detAtr T20 where T20.variant_id=vari and T20.atribute_id=3) as Taco,
@@ -416,6 +443,8 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                              
                             ->where('T9.id','like',$store.'%')
                             ->where('T8.id','like',$were.'%')
+                            ->where('T10.id','like',$type.'%')
+                            ->where('T12.id','like',$brand.'%')
                             ->groupBy('T6.id')
                             ->get();
             return $datos;

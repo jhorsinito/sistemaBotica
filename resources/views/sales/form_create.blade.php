@@ -41,6 +41,7 @@
                   <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false" ng-click="actualizarCaja()">Caja Venta</a></li>
                   <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Opciones</a></li>
                   <li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false">Reporte</a></li>
+                  <li class=""><a href="#tab_5" data-toggle="tab" aria-expanded="false" ng-click="cargarConsulta()">Consultas</a></li>
                 </ul>
                 <div class="tab-content">
                   <div class="tab-pane active" id="tab_1">
@@ -316,6 +317,46 @@
                      </div>
 
                   </div>
+
+                  <div class="tab-pane" id="tab_5">
+                    <table class="table table-bordered">
+                    <tr>
+                      <th style="width: 10px">#</th>
+                      <th>Productos</th>
+                      <th>Codigo</th>
+                      <th><select class="form-control" name="" ng-model="materialId" ng-click="cargarConsul()"ng-options="item.id as item.nombre for item in brands">
+                          <option value="">Material - Todos</option>
+                      <th><select class="form-control" name="" ng-model="lineaId" ng-click="cargarConsul()"ng-options="item.id as item.nombre for item in types">
+                          <option value="">Linea - Todos</option>
+                          </select></th>
+                      <th>Sabor</th>
+                      <th>Cantidad</th>
+                      <th>Stock</th>
+                      <th>Descuento</th>
+                      <th>Precio Normal</th>
+                      <th>Precio Oferta</th>
+                    </tr>
+                    
+                    <tr ng-repeat="row in variants1 track by $index">
+                      <td>@{{$index + 1}}</td>
+                      <td>@{{row.Producto}}</td>
+                      <td>@{{row.codigo}}</td>
+                      <td>@{{row.Mate}}</td>
+                      <td>@{{row.Linea}}</td>
+                      <td>@{{row.Color}}</td>
+                      <td>@{{row.Tallas}}</td>
+                      <td>@{{row.stock}}</td>
+                      <td>@{{row.Descuento}}</td>
+                      <td>@{{row.Precio}}</td>
+                      <td>@{{row.PrecioVenta}}</td>
+                      
+                    </tr>
+                    
+                    
+                  </table>
+
+                  </div>
+
                 </div><!-- /.tab-content -->
               </div>
                <script type="text/javascript">$('#myTabs a').click(function (e) {
