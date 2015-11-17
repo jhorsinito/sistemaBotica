@@ -1106,7 +1106,7 @@
                 }
 
                 $scope.editPres = function(row,$index){
-                    alert('hola');
+                    //alert('hola');
                     $scope.presentation.edit = true;
                     $scope.traerPresX($scope.variant.presentation_base);
                     $log.log(row);
@@ -1433,7 +1433,7 @@
                  }
                }
                $scope.validanomMarca=function(texto){
-                alert('hola');
+                //alert('hola');
                     if(texto!=undefined){
                         crudService.search('brands',texto,1).then(function (data){
                         $scope.materials = data.data;
