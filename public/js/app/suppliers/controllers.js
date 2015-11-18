@@ -79,11 +79,18 @@
                     
                 };
                 $scope.addCuentas=function(){
-                   $scope.counts.push($scope.count);
-                   $scope.count={};
+                if($scope.count.NumCuenta!=null && $scope.count.banco!=null){
+                     $scope.counts.push($scope.count);
+                   $scope.count={}; 
+                }else{
+                    alert("Agrega una cuenta y selecciona un baco!!!!");
+                }
+                   
                 }
                 $scope.deleteCuenta=function(index){
+                   if(confirm("esta seguro de querer eliminar esta cuenta??")==true){
                     $scope.counts.splice(index,1);
+                  }
                 }
                 $scope.createSupplier = function(){
                     $scope.supplier.counts=$scope.counts;

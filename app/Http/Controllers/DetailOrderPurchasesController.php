@@ -210,7 +210,7 @@ class DetailOrderPurchasesController extends Controller {
     public function edit(Request $request)
     {
     \DB::beginTransaction();
-      //var_dump($request->all());die();
+      
        $var=$request->detailOrderPurchases;//->except($request->detailOrderPurchases["id"]);
        $orderPurchase = $this->orderPurchaseRepo->find($request->input('id'));
        $orderPurchase = $this->orderPurchaseRepo->find($request->id);

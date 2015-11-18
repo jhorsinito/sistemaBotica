@@ -75,6 +75,7 @@ class OrderPurchasesController extends Controller {
 
     public function create(Request $request)
     {
+        
         \DB::beginTransaction();
         $orderPurchase = $this->orderPurchaseRepo->getModel();   
          //var_dump($request->input('montoTotal'));die();    
@@ -125,6 +126,7 @@ class OrderPurchasesController extends Controller {
     }
     public function edit(Request $request)
     {
+       // var_dump($var=$request->input('detailOrderPurchases'));die();
     \DB::beginTransaction();
         $var=$request->input('detailOrderPurchases');
        //var_dump($request->input("warehouses_id"));die(); 
@@ -233,7 +235,7 @@ class OrderPurchasesController extends Controller {
   // }
   //else{
    foreach($var as $object){
-   
+          $object["pendiente"]=$object["cantidad"];
           $detailOrderPurchaseRepox = new DetailOrderPurchaseRepo;
           $insertar=new DetailOrderPurchaseManager($detailOrderPurchaseRepox->getModel(),$object);
           $insertar->save();

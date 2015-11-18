@@ -109,13 +109,7 @@
 </div>
 <div class="row">
 
-  <div class="col-md-4"> 
-                     <div class="form-group" >
-                      <label for="numcuenta">Numero Cuenta</label>
-                      <input type="text" class="form-control" name="numcuenta" placeholder="Numero Cuenta"
-                      ng-model="supplier.numcuenta">
-                     </div>
-  </div>
+  
   <div class="col-md-4"> 
                      <div class="form-group" ng-class="{true: 'has-error'}[ supplierCreateForm.fechanac.$error.required && supplierCreateForm.$submitted || supplierCreateForm.fechanac.$dirty && supplierCreateForm.fechanac.$invalid]">
                     <label for="fechanac">Fecha de Nacimiento</label>
@@ -140,15 +134,16 @@
                                             </select>
                       </div>
 </div>
-</div>
-<div class="row">
-         <div class="col-md-4">
+<div class="col-md-4">
                     <div class="form-group" >
                       <label for="ruc">E-mail</label>
                       <input type="email" class="form-control" name="ruc" placeholder="E-mail"
                       ng-model="supplier.email">
                      </div>
         </div>
+</div>
+<div class="row">
+         
         <div class="col-md-4">
         <div class="form-group" >
                       <label for="ruc">Direccion de Contacto</label>
@@ -176,7 +171,7 @@
 <div class="row">
      <div class="col-md-3">
           <div class="form-group" >
-             <input type="text" class="form-control" name="dni" placeholder="8 dígitos"
+             <input type="text" class="form-control" name="dni" placeholder="Ingrese num de Cuenta"
                    ng-model="count.NumCuenta">
           </div>
       </div>
@@ -184,7 +179,23 @@
           <div class="form-group" >
             <select class="form-control" ng-model="count.banco" name="bancos">
               <option value="">Seleccione Banco</option>
-              <option >BCP</option>
+              <option >BBVA Banco Continental</option>
+              <option >Banco de Credito del Peru</option>
+              <option >Banco Financiero</option>
+              <option >MiBanco</option>
+              <option >Interbank</option>
+              <option >Banco Azteca</option>
+              <option >Banco de la Nacion</option>
+              <option >Scotiabank Peru</option>
+              <option >BanBif</option>
+              <option >Banco Ripley</option>
+              <option >Banco Falabella</option>
+              <option >Caja Arequipa</option>
+              <option >Caja Cusco</option>
+              <option >Caja Trujillo</option>
+              <option >Caja Huancayo</option>
+              <option >Caja Piura</option>
+              <option >Caja Sullana</option>
             </select>
           </div>
      </div>

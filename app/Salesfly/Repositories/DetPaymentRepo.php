@@ -21,7 +21,7 @@ class DetPaymentRepo extends BaseRepo{
             ->leftjoin("cashHeaders","cashes.cashHeader_id","=","cashHeaders.id")
             ->leftjoin("methodPayments","methodPayments.id","=",
             "detPayments.methodPayment_id")->select("cashes.cashHeader_id as cashID","cashHeaders.nombre","detPayments.*",
-            "methodPayments.nombre as nameMethod")->where('detPayments.payment_id','=',$id)->paginate(5);
+            "methodPayments.nombre as nameMethod")->where('detPayments.payment_id','=',$id)->get();
         return $detPayment;
     }
 
