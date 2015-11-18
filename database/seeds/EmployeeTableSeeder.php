@@ -23,6 +23,7 @@ class EmployeeTableSeeder extends Seeder
             'departamento' => 'Lambayeque',
             'pais' => 'Peru',
             'imagen' => '/images/employees/default.jpg',
+            'estado' => true,
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);

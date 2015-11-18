@@ -435,6 +435,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
 
                                                 IF( T13.fecIniDscto<='.$q.' and T13.fecFinDscto>='.$q.',T13.dsctoRange,T13.dscto) as Descuento ,
                                                 IF( T13.fecIniDscto<='.$q.' and T13.fecFinDscto>='.$q.',T13.pvpRange,T13.pvp) as PrecioVenta ,
+                                                IF( T13.fecIniDscto<='.$q.' and T13.fecFinDscto>='.$q.',"SI","NO") as Descuento ,
 
                                               (select T20.descripcion FROM detAtr T20 where T20.variant_id=vari and T20.atribute_id=4) as Material,
                                               (select T20.descripcion FROM detAtr T20 where T20.variant_id=vari and T20.atribute_id=1) as Color,
