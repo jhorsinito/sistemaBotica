@@ -173,6 +173,7 @@
                                                     <th>% Descuento</th>
                                                     <th>Cant de Descuento</th>
                                                     <th>PVP</th>
+                                                    <th>Dscto Rango Activado</th>
                                                     <th>Fecha Inicio</th>
                                                     <th>Fecha Fin</th>
                                                     <th>% Descuento</th>
@@ -192,6 +193,8 @@
                                                     <td>@{{row.dscto}}</td>
                                                     <td>@{{row.dsctoCant}}</td>
                                                     <td>@{{row.pvp}}</td>
+                                                    <td ng-if="row.activateDsctoRange == '1'" style="color:red;">SI</td>
+                                                    <td ng-if="row.activateDsctoRange == '0'" style="color:red;">NO</td>
                                                     <td>@{{row.fecIniDscto}}</td>
                                                     <td>@{{row.fecFinDscto}}</td>
                                                     <td>@{{row.dsctoRange}}</td>
@@ -261,7 +264,7 @@
                                         </div>
 
                                                                                                 <span ng-repeat="row in warehouses | filter:query">
-                                                                                                <div class="col-md-5">
+                                                                                                <div class="col-md-3 col-md-offset-1">
                                                                                                     <div class="form-group" >
                                                                                                         <label for=""></label>
                                                                                                         <h5>@{{ row.nombre }}</h5>
@@ -281,12 +284,7 @@
                                                                                                         <input type="number" class="form-control" name="markup" min="0" placeholder="0.00"  ng-model="variant.stock[$index].stockMin" ng-disabled="!variant.track" step="0.1">
                                                                                                     </div>
                                                                                                 </div>
-                                                                                                <div class="col-md-2">
-                                                                                                    <div class="form-group" >
-                                                                                                        <label for="suppPric">Costo Mínimo</label>
-                                                                                                        <input type="number" class="form-control" name="markup" min="0" placeholder="0.00"  ng-model="variant.stock[$index].stockMinSoles" ng-disabled="!variant.track" step="0.1">
-                                                                                                    </div>
-                                                                                                </div>
+
                                                                                                  </span>
 
 
@@ -382,8 +380,11 @@
                         <input type="number" class="form-control" string-to-number  ng-model="presentation.pvp" step="0.1" ng-change="calculatePVP()">
                     </div>
                 </div>
-                <h4>Descuentos por Rango</h4>
                 <div class="row">
+                    <div class="col-md-4">
+                        <h4>Descuentos por Rango</h4></div> <div class="col-md-4"><h4><input type="checkbox" ng-model="presentation.activateDsctoRange"> Activar</h4></div>
+                </div>
+                <div class="row" ng-show="presentation.activateDsctoRange">
                     <div class="col-md-4">
 
                         <div class="form-group" >
@@ -402,7 +403,7 @@
 
                 </div>
 
-                <div class="row">
+                <div class="row" ng-show="presentation.activateDsctoRange">
                     <div class="col-md-4">
                         <div class="form-group" >
                             <label for="suppPric">% Descuento</label>

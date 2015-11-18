@@ -28,7 +28,8 @@ class DetPresManager extends BaseManager{
                 'fecFinDscto' => '',
                 'dsctoRange' => '',
                 'dsctoCantRange' => '',
-                'pvpRange' => ''
+                'pvpRange' => '',
+                'activateDsctoRange' => ''
                 ];
     }
 

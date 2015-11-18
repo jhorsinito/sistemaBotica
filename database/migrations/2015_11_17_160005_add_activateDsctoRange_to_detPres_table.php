@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddCamposDetPaymentsTable extends Migration
+class AddActivateDsctoRangeToDetPresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,9 @@ class AddCamposDetPaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('detPayments', function (Blueprint $table) {
-            $table->string('NumCuenta')->nullable();
+        Schema::table('detPres', function (Blueprint $table) {
+            //
+            $table->boolean('activateDsctoRange');
         });
     }
 
@@ -24,7 +25,7 @@ class AddCamposDetPaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('detPayments', function (Blueprint $table) {
+        Schema::table('detPres', function (Blueprint $table) {
             //
         });
     }
