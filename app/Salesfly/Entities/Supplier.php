@@ -27,4 +27,7 @@ class Supplier extends \Eloquent {
     						'pais',
                             'notas'
     						];
+    public function counts(){
+      return $this->belongsTo('Salesfly\Salesfly\Entities\Count');
+    }
 }

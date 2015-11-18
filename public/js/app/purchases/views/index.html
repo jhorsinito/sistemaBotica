@@ -136,6 +136,7 @@
                       <th>Descuento</th>
                       <th>Monto Bruto</th>
                       <th>Monto Total</th>
+                      <th>N/S Fctura</th>
                       <th style="width: 40px">Pagar Pedido</th>
                       <th style="width: 40px">Ver Detalles</th>
                     </tr>
@@ -153,6 +154,7 @@
                       <td ng-if="row.tCambio=='dolar'">$.{{row.montoBrutoDolar}} <em style="color:blue;">S/.({{row.montoBruto}})</em></td>
                       <td ng-if="row.tCambio=='sol'">S/.{{row.montoTotal}} <em style="color:blue;">$({{row.montoTotalDolar}})</em></td>
                       <td ng-if="row.tCambio=='dolar'">$.{{row.montoTotalDolar}} <em style="color:blue;">S/.({{row.montoTotal}})</em></td>
+                      <td style="color:red;" >{{row.tipoDoc}}-{{row.numdocument}}<br>({{row.serie}})</td>
                       <td ng-if="row.saldo>0"><a  class="btn btn-primary btn-xs" ng-href="/purchases/show/{{row.id}}">Pagar</a>
                       </td>
                       <td ng-if="row.saldo<=0"><a class="btn btn-primary btn-xs" ng-href="/purchases/show/{{row.id}}">Ver Pagos</a>

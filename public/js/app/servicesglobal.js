@@ -154,10 +154,21 @@
 
                 return deferred.promise;
             }
+            function Cuentas(id,uri)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/paginatep/'+id).success(function (data) {
+                    deferred.resolve(data);
+                });
+
+                return deferred.promise;
+            }
+            
             return {
                 all: all,
                 paginate: paginate,
                 create:create,
+                Cuentas:Cuentas,
                 byId:byId,
                 validar:validar,
                 update:update,

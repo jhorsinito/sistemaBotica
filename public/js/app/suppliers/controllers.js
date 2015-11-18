@@ -8,6 +8,8 @@
                 $scope.success;
                 $scope.supplier.autogenerado = true;
                 $scope.query = '';
+                $scope.count={};
+                $scope.counts=[];
 
                 $scope.toggle = function () {
                     $scope.show = !$scope.show;
@@ -40,6 +42,9 @@
                         }
 
                         $scope.supplier = data;
+                        crudService.Cuentas(data.id,"counts").then(function (data) {
+                            $scope.counts=data;
+                        });
                         $scope.supplier.autogenerado = false;
                     });
                 }else{
@@ -73,10 +78,15 @@
                 }
                     
                 };
-
+                $scope.addCuentas=function(){
+                   $scope.counts.push($scope.count);
+                   $scope.count={};
+                }
+                $scope.deleteCuenta=function(index){
+                    $scope.counts.splice(index,1);
+                }
                 $scope.createSupplier = function(){
-                    //$scope.atribut.estado = 1;
-                    alert("hola");
+                    $scope.supplier.counts=$scope.counts;
                     if ($scope.supplierCreateForm.$valid) {
                         crudService.create($scope.supplier, 'suppliers').then(function (data) {
                           
@@ -99,7 +109,7 @@
                 };
 
                 $scope.updateSupplier = function(){
-
+                    $scope.supplier.counts=$scope.counts;
                     if ($scope.supplierCreateForm.$valid) {
                         crudService.update($scope.supplier,'suppliers').then(function(data)
                         {

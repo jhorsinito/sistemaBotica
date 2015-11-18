@@ -36,5 +36,11 @@ class methodPaymentsTableSeeder extends Seeder
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);
+        DB::table('methodPayments')->insert([
+            'nombre' => 'Transferencia',
+            'descripcion' => 'Pago por transferencia de cuenta',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
     }
 }

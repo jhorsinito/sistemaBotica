@@ -143,9 +143,10 @@ class PaymentsController extends Controller {
 }
     $manager = new DetPaymentManager($detPayment,$var);
     $manager->save();
+    $idetdPayment=$detPayment->id;
     \DB::commit();
 
-        return response()->json(['estado'=>true, 'nombre'=>$payment->id]);
+        return response()->json(['estado'=>true,'id'=>$idetdPayment, 'nombre'=>$payment->id]);
     }
 
     public function find($id)

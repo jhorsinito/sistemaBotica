@@ -33,6 +33,7 @@
                 $scope.mostrarVariantes=false;
                 $scope.ActivarEdicion=false;
                 $scope.idtemporalP;
+                $scope.counts=[];
                 $scope.master=true;
                 $scope.cheked2=false;
                 $scope.orderPurchase.tCambio="sol";
@@ -84,6 +85,9 @@
                                   crudPurchase.byId(data.supplier_id,'suppliers').then(function (data) {
                                       $scope.supplier=data;
                                       $scope.payment.supplier_id=data.id;
+                                      crudPurchase.paginateDPedido(data.id,'counts').then(function (data) {
+                                           $scope.counts=data;
+                                      });
                                   });
                                   crudPurchase.listaCashes('cashHeaders',$scope.alamcenId).then(function (data) {
                                       $scope.cashHeaders = data;
@@ -217,6 +221,16 @@
                         $scope.methodPayments = data.data;
                       });//}
                     //=========================================
+            $scope.desactivarCuentas=false;
+             
+             $scope.validarCuenta2=function(){
+                  if($scope.detPayment.NumCuenta!=null){
+                     $scope.desactivarCuentas=false;
+                   }else{
+                     $scope.desactivarCuentas=true;
+                   }
+             }
+
                     $scope.TraerPorSku=function(sku){
                        crudPurchase.autocomplitVar('variants',sku).then(function (data) {
                         $scope.product.proId = data;
@@ -1753,6 +1767,7 @@ $scope.recalPayments=function(){
                        $scope.payment.orderPurchase_id=row.id;
                        $scope.payment.supplier_id=row.supID;
                 }*/
+                $scope.desscripctiondddd="tiket";
                  $scope.createPayment = function(){
                     //alert( $scope.payment.fecha);
                 if($scope.detPayment.methodPayment_id!=null || $scope.detPayment.cashe_id!=null || $scope.payment.cajamensual!=null){
@@ -1763,12 +1778,25 @@ $scope.recalPayments=function(){
                           
                             if (data['estado'] == true) {
                                 $scope.success = data['nombres'];
-                                alert('grabado correctamente payments');
+                                alert('grabado correctamente');
                                 $scope.detPayment.methodPayment_id='';
                                 $scope.detPayment.montoPagado='';
                                 $scope.Saldo1=0;
+                                alert(data['id']);
                                 //$scope.paginateDetPay();
-                                $route.reload();
+                                if(confirm("Desea Generar Comprobante de Pago!!!") == true){
+                                $scope.desscripctiondddd="Generando Tiket...";
+                                crudPurchase.Reportes(data['id'],'ReportComprobante').then(function (data) {
+                                    $scope.pdf7=data;
+                                    
+                                    if(data!=null){
+                                      $scope.desscripctiondddd="Ver Tiket";
+                                    }
+                                });
+                               }else{
+                                     alert('grabado correctamente');
+                               }
+                                //$route.reload();
 
                             } else {
                                 $scope.errors = data;
@@ -1872,19 +1900,14 @@ $scope.recalPayments=function(){
                 }
                 $scope.PagoAnterior;
                 $scope.mostrarBtnGEd=false;
-              /*  $scope.editDetpayment=function(row){
-
-                    $scope.payment.detpId=row.id;
-                    $scope.PagoAnterior=row.montoPagado;
-                    $scope.detPayment.fecha=new Date(row.fecha);
-                    $scope.detPayment.methodPayment_id=row.methodPayment_id;
-                    $scope.detPayment.montoPagado=(Number(row.montoPagado));
-                     $scope.mostrarBtnGEd=true;
-                }
-                  $scope.PagoAnterior;generarReporteFiltros
-                $scope.mostrarBtnGEd=false;*/
+           
                 $scope.desseleccionarMethodP=function(){
                     $scope.detPayment.montoPagado='';
+                       if($scope.detPayment.methodPayment_id==5){
+                          $scope.desactivarCuentas=true;
+                       }else{
+                          $scope.desactivarCuentas=false;
+                      }
                   }
                 $scope.cashmontly=function(){
                     //alert($scope.payment.cajamensual);

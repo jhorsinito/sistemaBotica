@@ -164,6 +164,55 @@
         </div>
     </div>
 </div>
+<div class="row">
+     <div class="col-md-3">
+        <label>Numero de Cuenta</label>
+     </div>
+     <div class="col-md-3">
+        <label>Banco</label>
+     </div>
+
+</div>
+<div class="row">
+     <div class="col-md-3">
+          <div class="form-group" >
+             <input type="text" class="form-control" name="dni" placeholder="8 dígitos"
+                   ng-model="count.NumCuenta">
+          </div>
+      </div>
+      <div class="col-md-3">
+          <div class="form-group" >
+            <select class="form-control" ng-model="count.banco" name="bancos">
+              <option value="">Seleccione Banco</option>
+              <option >BCP</option>
+            </select>
+          </div>
+     </div>
+     <div class="col-md-2">
+          <div class="form-group" >
+             <button class=" label-default" type='submit' ng-click='addCuentas()' >Agregar Cuenta</button>  
+          </div>
+      </div>
+</div>
+<div class="row">
+     <div class="col-md-8">                  
+<table class="table table-striped">
+  <thead>
+    <th style="width:250px;">Numero de Cuenta</th>
+    <th style="width:200px;">Banco</th>
+    <th>Acciones</th>
+  </thead>
+  <tbody>
+    <tr ng-repeat="row in counts">
+        <td>@{{row.NumCuenta}}</td>
+        <td>@{{row.banco}}</td>
+        <td><a href="" class="btn btn-danger btn-xs" ng-click="deleteCuenta($index)"><i class="fa fa-fw fa-trash"></i></a>
+        </td>                                            
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
 <div class="">
                 <hr>
                  <button type="button" class="btn btn-default" ng-click="toggle()">Mostrar Formulario de Contacto</button>

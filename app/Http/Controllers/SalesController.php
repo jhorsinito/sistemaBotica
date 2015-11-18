@@ -300,7 +300,7 @@ class SalesController extends Controller
             
             if(!empty($codigoFactura)){
                   $object["descripcion"]=$object["NombreProducto"];
-                  $object["PrecioUnit"]=$object["precioProducto"];
+                  $object["PrecioUnit"]=$object["precioVenta"];
                   $object["PrecioVent"]=$object["subTotal"];
                   $object["headInvoice_id"]=$codigoFactura;
                   $detInvoice=new DetailInvoiceRepo;

@@ -87,7 +87,7 @@
               <td >
                <div class="form-group" ng-class="{true: 'has-error'}[ paymentCreateForm.warehouse.$error.required && paymentCreateForm.$submitted || paymentCreateForm.warehouse.$dirty && paymentCreateForm.warehouse.$invalid]">
                        
-                       <select ng-disabled="payment.Saldo<=0 || detPayment.cashe_id>0 || payment.cajamensual==true" ng-hide="show" class="form-control" name="warehouse" ng-click="" ng-model="detPayment.methodPayment_id" ng-options="item.id as item.nombre for item in methodPayments" >
+                       <select ng-disabled="payment.Saldo<=0 || detPayment.cashe_id>0 || payment.cajamensual==true" ng-hide="show" class="form-control" name="warehouse" ng-change="validarCuenta()" ng-model="detPayment.methodPayment_id" ng-options="item.id as item.nombre for item in methodPayments" >
                        <option value="">--Elija Modo de Pago--</option>
                        </select>
                        <label ng-show="paymentCreateForm.$submitted || paymentCreateForm.warehouse.$dirty && paymentCreateForm.warehouse.$invalid">
@@ -128,6 +128,14 @@
                             <input ng-disabled="payment.Saldo<=0 ||  detPayment.methodPayment_id>0 || check==true || detPayment.cashe_id>0 " type="checkbox"  ng-click="cashmontly()" name="variantes" ng-model="payment.cajamensual" />
                             <span class="text-info"> <em>Pagar con caja mensual</em></span>
                         </div>
+          </div>
+       
+           <div ng-show="detPayment.methodPayment_id==5"class="col-md-6">
+                      <div   class="form-group" >                            
+                            <select   class="form-control" name="numcuenta"  size="3" ng-model="detPayment.NumCuenta"  ng-change="validarCuenta2()" ng-options="item.NumCuenta as 'Cta. N°.-'+item.NumCuenta for item in counts" >
+                            
+                       </select>
+                      </div>
           </div>
           <!--<div ng-show="payment.cajamensual" class="col-md-5">
                    <em>Descripcion .</em>
@@ -183,8 +191,8 @@
             </div>
       </div>
             <div ng-hide="mostrarBtnGEd" class="form-group" >
-                    <button class=" label-default" type='submit' ng-click='createdetPayment()' >Registrar Pago</button>  
-                    <a ng-href="@{{pdf7}}" target="_blank" class="btn btn-primary">Ver Reporte</a>
+                    <button ng-disabled="desactivarCuentas" class=" label-default" type='submit' ng-click='createdetPayment()' >Registrar Pago</button>  
+                    <a ng-href="@{{pdf7}}" target="_blank" class="btn btn-primary btn-xs">@{{desscripctiondddd}}</a>
             </div> 
             <div ng-show="mostrarBtnGEd" class="form-group" >
                     <button class=" label-default" type='submit' ng-click='editPayment()'>Edit Pago</button>  
