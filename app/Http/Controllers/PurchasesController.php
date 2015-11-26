@@ -104,7 +104,7 @@ class PurchasesController extends Controller {
     public function create(Request $request)
         {
       // var_dump($request->all());die();
-   // \DB::beginTransaction();
+   \DB::beginTransaction();
         $saldoTemp=0;
         $codigoHeadIS=0;
         $purchase = $this->purchaseRepo->getModel();
@@ -559,7 +559,7 @@ class PurchasesController extends Controller {
         ///==========================Registrando saldo Afavor ========================================
 
 }
-     // \DB::commit();
+   \DB::commit();
      return response()->json(['estado'=>true, 'nombres'=>$purchase->nombres]);
     }
     public function reportes($id){

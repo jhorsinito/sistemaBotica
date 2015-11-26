@@ -255,6 +255,8 @@
                                     $scope.detailOrderPurchase.detPres_id=data.detpresen_id;
                                     $scope.detailOrderPurchase.preProducto=Number(data.precioProduct);
                                     $scope.detailOrderPurchase.preCompra=Number(data.precioProduct);
+                                    $scope.detailOrderPurchase.preProductoDolar=Number(data.precioDolar);
+                                    $scope.detailOrderPurchase.preCompraDolar=Number(data.precioDolar);
 
                                $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
                                     if($scope.product.proId.NombreAtributos!=null){
@@ -629,7 +631,7 @@
                     $scope.orderPurchase.montoBrutoDolar=0;
                     $scope.orderPurchase.montoTotalDolar=0;
                     $scope.AgregarProducto=function(){
-            if($scope.Listo==true){
+                    if($scope.Listo==true){
                     if( $scope.mostrarPresentacion==false ){
                        $scope.cantRows=$scope.companies.length;
                        $scope.detailOrderPurchase.descuento=Number($scope.detailOrderPurchase.descuento)/Number($scope.cantRows);
@@ -657,7 +659,7 @@
                       $scope.mostrarPresentacion=true;
                   }else{
                        if($scope.detailOrderPurchase.detPres_id>0){
-                        if($scope.detailOrderPurchase.cantidad>=1){
+                        if($scope.detailOrderPurchase.cantidad>=1 && $scope.detailOrderPurchase.preProducto>=0 && $scope.detailOrderPurchase.montoBruto>=0 && $scope.detailOrderPurchase.montoTotal>=0){
                         $scope.detailOrderPurchase.orderPurchases_id=$scope.codigoTemporalP;
                         $scope.detailOrderPurchase.nuevo=true;
                         $scope.detailOrderPurchases.push($scope.detailOrderPurchase);
