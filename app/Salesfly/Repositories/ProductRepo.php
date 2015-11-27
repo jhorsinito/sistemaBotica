@@ -433,9 +433,9 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->select(\DB::raw('products.nombre as Producto,T6.codigo as codigo,T6.id as vari ,T7.stockActual as stock,T10.nombre as Linea,T12.nombre as Mate,
                                                 T13.price as Precio,
 
-                                                IF( T13.fecIniDscto<='.$q.' and T13.fecFinDscto>='.$q.',T13.dsctoRange,T13.dscto) as Descuento ,
-                                                IF( T13.fecIniDscto<='.$q.' and T13.fecFinDscto>='.$q.',T13.pvpRange,T13.pvp) as PrecioVenta ,
-                                                IF( T13.fecIniDscto<='.$q.' and T13.fecFinDscto>='.$q.',"SI","NO") as Descuento ,
+                                                IF( T13.fecIniDscto<="'.$q.'" and T13.fecFinDscto>="'.$q.'",T13.dsctoRange,T13.dscto) as Descuento ,
+                                                IF( T13.fecIniDscto<="'.$q.'" and T13.fecFinDscto>="'.$q.'",T13.pvpRange,T13.pvp) as PrecioVenta ,
+                                                IF( T13.fecIniDscto<="'.$q.'" and T13.fecFinDscto>="'.$q.'","SI","NO") as Estado ,
 
                                               (select T20.descripcion FROM detAtr T20 where T20.variant_id=vari and T20.atribute_id=4) as Material,
                                               (select T20.descripcion FROM detAtr T20 where T20.variant_id=vari and T20.atribute_id=1) as Color,
@@ -446,6 +446,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->where('T8.id','like',$were.'%')
                             ->where('T10.id','like',$type.'%')
                             ->where('T12.id','like',$brand.'%')
+                            ->where('products.nombre','like','%'.$product.'%')
                             ->groupBy('T6.id')
                             ->get();
             return $datos;

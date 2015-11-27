@@ -1796,11 +1796,12 @@
                 //--------------------------------------------------
                 $scope.buspro='%';
                 $scope.cargarConsulta = function(){
-                    $scope.fecha = ''+$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate();
+                    $scope.fechaConsulta = ''+$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate();
                     $scope.lineaId=0;$scope.materialId=0;
 
-                    crudServiceOrders.buquedarapida('buquedarapida',$scope.store.id, $scope.warehouse.id,$scope.fecha,$scope.lineaId,$scope.materialId,$scope.buspro).then(function (data) {                        
+                    crudServiceOrders.buquedarapida('buquedarapida',$scope.store.id, $scope.warehouse.id,$scope.fechaConsulta,$scope.lineaId,$scope.materialId,$scope.buspro).then(function (data) {                        
                         $scope.variants1 = data;
+                        $log.log($scope.variants1);
                     }); 
                     crudServiceOrders.all('types').then(function (data) {                        
                         $scope.types = data.data;
@@ -1814,8 +1815,10 @@
                 $scope.cargarConsul = function(){
                     if ($scope.lineaId==undefined) {$scope.lineaId=0;};
                     if ($scope.materialId==undefined) {$scope.materialId=0;};              
-                    
-                    crudServiceOrders.buquedarapida('buquedarapida',$scope.store.id, $scope.warehouse.id,$scope.fecha,$scope.lineaId,$scope.materialId,$scope.buspro).then(function (data) {                        
+                    $scope.fechaConsulta = ''+$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate();
+                    if ($scope.busProducto=="") {$scope.buspro="%"}
+                        else{$scope.buspro=$scope.busProducto}
+                    crudServiceOrders.buquedarapida('buquedarapida',$scope.store.id, $scope.warehouse.id,$scope.fechaConsulta,$scope.lineaId,$scope.materialId,$scope.buspro).then(function (data) {                        
                         $scope.variants1 = data;
                     }); 
                 }

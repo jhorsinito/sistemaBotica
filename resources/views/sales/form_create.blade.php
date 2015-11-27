@@ -317,8 +317,25 @@
                      </div>
 
                   </div>
-
+                    
                   <div class="tab-pane" id="tab_5">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <form >
+                          <div class="input-group" >
+                            <input ng-keyup="cargarConsul()" type="text" ng-model="busProducto"  name="table_search" class="form-control input-sm pull-right" placeholder="Producto" />
+                            <div class="input-group-btn">
+                              <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                            </div>
+                          </div>
+                          </form>
+                        </div>
+                      </div>
+                      <br>
+
+
+
+
                     <table class="table table-bordered">
                     <tr>
                       <th style="width: 10px">#</th>
@@ -346,9 +363,10 @@
                       <td>@{{row.Color}}</td>
                       <td>@{{row.Tallas}}</td>
                       <td>@{{row.stock}}</td>
-                      <td>@{{row.Descuento}}</td>
+                      <td>@{{row.Descuento}}%</td>
                       <td>@{{row.Precio}}</td>
-                      <td>@{{row.PrecioVenta}}</td>
+                      <td ng-if="row.Estado=='SI'" style="color:blue">@{{row.PrecioVenta}}</td>
+                      <td ng-if="row.Estado=='NO'">@{{row.PrecioVenta}}</td>
                       
                     </tr>
                     
