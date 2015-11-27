@@ -12,7 +12,8 @@ class DetPaymentManager extends BaseManager {
             'montoPagado'=>'',
             'Saldo_F'=>'',
             'detCash_id'=>'',
-            'cashMonthly_id'=>''
+            'cashMonthly_id'=>'',
+            'NumCuenta'=>''
                   ];
         return $rules;
     }}

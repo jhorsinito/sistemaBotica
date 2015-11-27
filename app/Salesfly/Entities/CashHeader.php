@@ -16,5 +16,8 @@ class CashHeader extends \Eloquent {
     public function store(){
         return $this->belongsTo('Salesfly\Salesfly\Entities\Store','store_id');
     }
+    public function fbmumber(){
+        return $this->belongsTo('\Salesfly\Salesfly\Entities\FBmumber','caja_id');
+    }
 
 }

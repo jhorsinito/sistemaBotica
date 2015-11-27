@@ -32,7 +32,8 @@ class PurchaseRepo extends BaseRepo{
     $purchases=Purchase::join('suppliers','purchases.supplier_id','=','suppliers.id')
                        ->join('warehouses','warehouses.id','=','purchases.warehouses_id')
                        ->leftjoin('payments','payments.purchase_id','=','purchases.id')
-                       ->select('purchases.*','payments.Saldo as saldo','suppliers.empresa as empresa','warehouses.nombre as almacen')
+                       ->select('purchases.*','payments.NumFactura as numdocument','payments.NumSerie as serie',
+                        'payments.tipoDoc as tipoDoc','payments.Saldo as saldo','suppliers.empresa as empresa','warehouses.nombre as almacen')
                        ->orderBy('purchases.id','dsc')
                        ->paginate($c);
         return $purchases;

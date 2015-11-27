@@ -7,14 +7,17 @@ use Illuminate\Routing\Controller;
 
 use Salesfly\Salesfly\Repositories\CashHeaderRepo;
 use Salesfly\Salesfly\Managers\CashHeaderManager;
+use Salesfly\Salesfly\Repositories\FBnumberRepo;
+use Salesfly\Salesfly\Managers\FBnumberManager;
 
 class CashHeadersController extends Controller
 {
     protected $cashHeaderRepo;
 
-    public function __construct(CashHeaderRepo $cashHeaderRepo)
+    public function __construct(CashHeaderRepo $cashHeaderRepo,FBnumberRepo $fbnumberRepo)
     {
         $this->cashHeaderRepo = $cashHeaderRepo;
+        $this->fbnumberRepo=$fbnumberRepo;
     }
     public function cajasActivas($alm){
         $cashHeaders = $this->cashHeaderRepo->cajasActivas($alm);
@@ -71,10 +74,18 @@ class CashHeadersController extends Controller
     
     public function create(Request $request)
     {
+        \DB::beginTransaction();
         $cashHeader = $this->cashHeaderRepo->getModel();
+        $fbnumber = $this->fbnumberRepo->getModel();
 
         $manager = new CashHeaderManager($cashHeader,$request->all());
         $manager->save();
+        $request->merge(["numFactura"=>0]);
+        $request->merge(["numBoleta"=>0]);
+        $request->merge(["caja_id"=>$cashHeader->id]);
+        $manager1 = new FBnumberManager($fbnumber,$request->only("numFactura","numBoleta","caja_id"));
+        $manager1->save();
+        \DB::commit();
 
         return response()->json(['estado'=>true, 'nombre'=>$cashHeader->nombre]);
     }
@@ -92,8 +103,8 @@ class CashHeadersController extends Controller
     public function destroy(Request $request)
     {
         $cashHeader= $this->cashHeaderRepo->find($request->id);
+        $cashHeader->fbnumber()->detach();
         $cashHeader->delete();
-
         return response()->json(['estado'=>true, 'nombre'=>$cashHeader->nombre]);
     }
 

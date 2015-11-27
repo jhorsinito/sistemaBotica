@@ -309,6 +309,7 @@ Route::get('api/suppliers/search/{q?}',['as'=>'person_search', 'uses'=>'Supplier
 Route::get('api/suppliers/find/{id}',['as'=>'person_find', 'uses'=>'SuppliersController@find']);
 Route::get('api/suppliers/select','SuppliersController@selectSupliers');
 Route::get('api/suppliers/deudas','SuppliersController@deudas');
+Route::get('api/counts/paginatep/{id}','SuppliersController@getCuentas');
 
 Route::get('employeecosts',['as'=>'person','uses'=>'EmployeecostsController@index']);
 Route::get('employeecosts/create',['as'=>'person_create','uses'=>'EmployeecostsController@index']);

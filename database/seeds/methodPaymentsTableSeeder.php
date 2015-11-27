@@ -12,7 +12,7 @@ class methodPaymentsTableSeeder extends Seeder
     public function run()
     {
         //
-        DB::table('methodPayments')->insert([
+        /*DB::table('methodPayments')->insert([
             'nombre' => 'Cheque',
             'descripcion' => 'Pago por cheque',
             'created_at' => date("Y-m-d H:i:s"),
@@ -33,6 +33,12 @@ class methodPaymentsTableSeeder extends Seeder
         DB::table('methodPayments')->insert([
             'nombre' => 'Deuda',
             'descripcion' => 'Pago al contado',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);*/
+        DB::table('methodPayments')->insert([
+            'nombre' => 'Transferencia',
+            'descripcion' => 'Pago por transferencia de cuenta',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);

@@ -129,6 +129,13 @@
                             <span class="text-info"> <em>Pagar con caja mensual</em></span>
                         </div>
           </div>
+          <div ng-show="detPayment.methodPayment_id==5"class="col-md-6">
+                      <div   class="form-group" >                            
+                            <select   class="form-control" name="numcuenta"  size="3" ng-model="detPayment.NumCuenta"  ng-change="validarCuenta2()" ng-options="item.NumCuenta as 'Cta. N°.-'+item.NumCuenta for item in counts" >
+                            
+                       </select>
+                      </div>
+          </div>
          <!-- <div ng-show="payment.cajamensual" class="col-md-5">
                    <em>Descripcion .</em>
                    <div class="form-group" >
@@ -146,44 +153,41 @@
               <b>Pagos Realizados</b>
               </div>
             <table class="table table-striped" >
+                <thead style="display: block;">
                     <tr>
-                      <th>Fecha</th>
+                      <th Style="width:26%;">Fecha</th>
                       <th>Tipo de Pago</th>
                       <th>Monto Pagado</th>
                       <th>Tipo Pago</th>
                       <th>Descartar</th>
                     </tr>
-                    
+                 </thead>
+                 <tbody style="display: block; width:auto; height: 200px; overflow-x: auto;">  
                     <tr ng-repeat="row in detPayments">
                       <td ng-hide="true">@{{row.id}}</td>
                       <td ng-hide="true">@{{row.cashID}}</td>
                       <td ng-hide="true">@{{row.Saldo_F}}</td>
                       <td>@{{row.fecha}}</td>
-                      <td ng-if="row.nameMethod!=null">@{{row.nameMethod}}</td>
-                      <td ng-if="row.detCash_id>0">@{{row.nombre}}</td>
-                      <td ng-if="row.cashMonthly_id>0">caja Mensual</td>
-                      <td>@{{row.montoPagado}}</td>
-                      <td ng-if="row.tipoPago=='A'"><span class="badge bg-blue">@{{row.tipoPago}}</span></td> 
-                      <td ng-if="row.tipoPago=='P'"><span class="badge bg-green">@{{row.tipoPago}}</span></td> 
+                      <td Style="width:26%;" ng-if="row.nameMethod!=null">
+                      <a href="#" popover-trigger="mouseenter" popover="Cta.Num.-@{{row.NumCuenta}}" >@{{row.nameMethod}}</a></td>
+                      <td Style="width:26%;" ng-if="row.detCash_id>0">@{{row.nombre}}</td>
+                      <td Style="width:26%;" ng-if="row.cashMonthly_id>0">caja Mensual</td>
+                      <td Style="width:20%;">@{{row.montoPagado}}</td>
+                      <td Style="width:10%;" ng-if="row.tipoPago=='A'"><span class="badge bg-blue">@{{row.tipoPago}}</span></td> 
+                      <td Style="width:10%;" ng-if="row.tipoPago=='P'"><span class="badge bg-green">@{{row.tipoPago}}</span></td> 
                      <td><button type="button" class="btn btn-danger btn-xs"  ng-click="destroyPay(row)">
                         <span class="glyphicon glyphicon-trash"></span></button>
                      <a ng-click="editDetpayment(row)" ng-model="checked" class="btn btn-warning btn-xs">Edit</a></td>
                     </tr>
-
+                </table>
+                </tbody>
                     
-                    
-                  </table>
-                
-                   <div class="box-footer clearfix">
-                  <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" 
-                  class="pagination-sm no-margin pull-right" items-per-page="itemsperPage" 
-                  boundary-links="true" rotate="false" num-pages="numPages" 
-                  ng-change="pagechan3()"></pagination>
-               </div> 
             </div>
       </div>
             <div ng-hide="mostrarBtnGEd" class="form-group" >
-                    <button class=" label-default" type='submit' ng-click='createPayment()' >Registrar Pago</button>  
+                    <button ng-disabled="desactivarCuentas" class=" label-default" type='submit' ng-click='createPayment()' >Registrar Pago</button>  
+                     <a ng-href="@{{pdf7}}" target="_blank" class="btn btn-primary btn-xs">@{{desscripctiondddd}}</a>
+            
             </div> 
             <div ng-show="mostrarBtnGEd" class="form-group" >
                     <button class=" label-default" type='submit' ng-click='editPayment()'>Edit Pago</button>  

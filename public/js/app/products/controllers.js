@@ -62,6 +62,8 @@
                 $scope.presentation.edit = false;
                 $scope.presentation.identificador = -1;
 
+                $scope.presentation.activateDsctoRange = false;
+
                 $scope.minNumber = 0;
 
                 $scope.warehouses = [];
@@ -1091,14 +1093,18 @@
                             $scope.presentationSelect.dsctoRange = $scope.presentation.dsctoRange;
                             $scope.presentationSelect.dsctoCantRange = $scope.presentation.dsctoCantRange;
                             $scope.presentationSelect.pvpRange = $scope.presentation.pvpRange;
+                            $scope.presentationSelect.activateDsctoRange = $scope.presentation.activateDsctoRange;
                             //
                             $scope.variant.presentations.push($scope.presentationSelect);
+
                             $log.log($scope.variant.presentations);
                             $scope.presentation = {};
                             $scope.presentationSelect = {};
                             $scope.presentation.suppPri = 0;
                             $scope.presentation.markup = 0;
                             $scope.presentation.price = 0;
+                            //alert('hola');
+                            //$scope.presentation.activateDsctoRange= false;
                         } else {
                             alert('Item duplicado o vacío');
                         }
@@ -1145,6 +1151,13 @@
                     $scope.presentation.pvpRange = row.pvpRange;
 
                     $scope.presentation.identificador = $index;
+
+                    //alert(row.activateDsctoRange);
+
+                    row.activateDsctoRange == '1' ? row.activateDsctoRange = true : row.activateDsctoRange = false;
+
+                    $scope.presentation.activateDsctoRange = row.activateDsctoRange;
+
                     $('#presentation').modal('show');
                 }
 
@@ -1170,6 +1183,7 @@
                         $scope.variant.presentations[$scope.presentation.identificador].dsctoRange = $scope.presentation.dsctoRange;
                         $scope.variant.presentations[$scope.presentation.identificador].dsctoCantRange = $scope.presentation.dsctoCantRange;
                         $scope.variant.presentations[$scope.presentation.identificador].pvpRange = $scope.presentation.pvpRange;
+                        $scope.variant.presentations[$scope.presentation.identificador].activateDsctoRange =$scope.presentation.activateDsctoRange;
                     }
                 }
 
@@ -1203,6 +1217,7 @@
                     //
                     $scope.presentation.edit = false;
                     $scope.presentation.identificador = -1;
+                    $scope.presentation.activateDsctoRange = false;
                 }
 
                 $scope.changePreBase = function(){

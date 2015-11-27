@@ -837,7 +837,7 @@
                       <div class="col-md-4">
                         <div ng-show="sale.comprobante" class="form-group">
                         <label  for="orderPurchase.tipoDoc">Tipo documento</label>
-                        <select  class="form-control" ng-model="sale.tipoDoc" ng-change="cambioNumeracion()">
+                        <select  ng-disabled="estadoComoDocument==true" class="form-control" ng-model="sale.tipoDoc" ng-change="cambioNumeracion()">
                               <option value="F">Factura</option>
                               <option value="B">Boleta</option>
                         </select>

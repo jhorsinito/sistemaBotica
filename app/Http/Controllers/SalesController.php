@@ -104,6 +104,7 @@ class SalesController extends Controller
     public function create(Request $request) 
         {
         //var_dump($request->all());die();
+        \DB::beginTransaction();
         $orderSale = $this->saleRepo->getModel();
         $var = $request->detOrders;
         $payment = $request->salePayment;
@@ -190,6 +191,7 @@ class SalesController extends Controller
             $customerRepo=new CustomerRepo;
             $direccion=$customerRepo->find($request->input("customer_id"));
             $fbnumberRepo=new FBnumberRepo;
+            
             $ashHeaderRepo=$this->ashHeaderRepo->comprobarCaja($cash1["id"]);
             $numbers=$fbnumberRepo->find($ashHeaderRepo["id"]);
             $num=$fbnumberRepo->find($ashHeaderRepo["id"]);
@@ -300,7 +302,7 @@ class SalesController extends Controller
             
             if(!empty($codigoFactura)){
                   $object["descripcion"]=$object["NombreProducto"];
-                  $object["PrecioUnit"]=$object["precioProducto"];
+                  $object["PrecioUnit"]=$object["precioVenta"];
                   $object["PrecioVent"]=$object["subTotal"];
                   $object["headInvoice_id"]=$codigoFactura;
                   $detInvoice=new DetailInvoiceRepo;
@@ -311,6 +313,7 @@ class SalesController extends Controller
        }
        //-----------------Creacion de Cabecera Factura-------
        //$cajaPrueba=$request->saledetPayments;
+       \DB::commit();
        if(!empty($codigoFactura)){
                 return response()->json(['estado'=>true,'codFactura'=>$codigoFactura,'nombres'=>$orderSale->nombres]);
         }else{
@@ -321,7 +324,7 @@ class SalesController extends Controller
 
     public function createSeparateSale(Request $request) 
         {
-          
+          \DB::beginTransaction();
           //---------------------- 
           $orderRepo;
             $orderRepo = new SeparateSaleRepo;
@@ -438,12 +441,13 @@ class SalesController extends Controller
             $sales=$this->saleRepo->find($temporal);
             $manager = new SaleManager($sales,$request->all());
             $manager->save();
+            \DB::commit();
      return response()->json(['estado'=>true, 'nombres'=>$orderSale->nombres]);
     }
 
     public function createSale(Request $request) 
         {
-          
+          \DB::beginTransaction();
           //---------------------- 
           $orderRepo;
             $orderRepo = new OrderSaleRepo;
@@ -563,6 +567,7 @@ class SalesController extends Controller
             $sales=$this->saleRepo->find($temporal);
             $manager = new SaleManager($sales,$request->all());
             $manager->save();
+            \DB::commit();
      return response()->json(['estado'=>true, 'nombres'=>$orderSale->nombres]);
     }
     public function store(Request $request)
@@ -613,6 +618,7 @@ class SalesController extends Controller
     }
     public function edit(Request $request)
     {
+       \DB::beginTransaction();
         $varDetOrders = $request->detOrder;
         $varPayment = $request->payment;
         $movimiento = $request->movimiento;
@@ -707,7 +713,7 @@ class SalesController extends Controller
 
         
 
-
+         \DB::commit();
 
         return response()->json(['estado'=>true, 'nombre'=>$orderSale->nombre]);
     }

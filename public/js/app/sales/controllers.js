@@ -490,6 +490,7 @@
 
 
                 $scope.pagar = function () {
+                    $scope.validaDocumento();
                     if ($scope.sale.montoTotal==0) {
                         alert("Seleccione productos");
                     }else{
@@ -1215,18 +1216,28 @@
                     }                  
                        //$log.log($scope.atributoSelected);                    
                 }
-
+                
                 $scope.validaDocumento=function(){
-                    //alert($scope.cash1.cashHeader_id);
-                    if($scope.sale.comprobante==true)
+                $scope.estadoComoDocument=false;
+                    if($scope.sale.comprobante==true )
                     {
+                        if($scope.sale.cliente!=null){
                         $scope.sale.tipoDoc="F";
-                        crudServiceOrders.numeracion("sales","F",$scope.cash1.cashHeader_id).then(function (data){
-                                   //$scope.numActual="0000"+(Number(data.numFactura)+1);
-                                $scope.numeracionMostrar(data.numFactura);
-                        });
+                               crudServiceOrders.numeracion("sales","F",$scope.cash1.cashHeader_id).then(function (data){
+                                          //$scope.numActual="0000"+(Number(data.numFactura)+1);
+                                        $scope.numeracionMostrar(data.numFactura);
+                               });
+                        }else{
+                            $scope.sale.tipoDoc="B";
+                               $scope.estadoComoDocument=true;
+                               crudServiceOrders.numeracion("sales","B",$scope.cash1.cashHeader_id).then(function (data){
+                                          //$scope.numActual="0000"+(Number(data.numFactura)+1);
+                                       $scope.numeracionMostrar(data.numBoleta);
+                               });
+                        }
                     }else{
                         $scope.sale.tipoDoc="";
+                        $scope.estadoComoDocument=false;
                     }
                     
                 }

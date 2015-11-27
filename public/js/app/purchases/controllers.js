@@ -31,6 +31,7 @@
                 $scope.query = '';
                 $scope.stores=[];
                 $scope.store={};
+                $scope.counts=[];
                 $scope.purchase.store_id='1';
                 $scope.date=new Date();
                 $scope.botonReporte = 'Generar Reportes de Ticket';
@@ -47,12 +48,7 @@
                          $scope.pendientAccounts = data.data;
                     }); 
                 }
-                $scope.pagechan3=function(){
-                    //alert(idobcional);
-                    crudOPurchase.paginate('detPayments',$scope.currentPage).then(function (data) {
-                            $scope.detPayments = data.data;
-                        });
-                }
+                
                 $scope.pagechan2=function(){
                     crudOPurchase.paginate('inputStocks',$scope.currentPage).then(function (data) {
                             $scope.headInputStocks = data.data;
@@ -106,11 +102,7 @@
                                   $scope.random();
                                   idobcional=data.id;
                         crudOPurchase.byId($scope.payment.id,'detPayments',1).then(function (data) {
-                        $scope.detPayments = data.data;
-                        $scope.maxSize = 5;
-                        $scope.totalItems = data.total;
-                        $scope.currentPage = data.current_page;
-                        $scope.itemsperPage = 5;
+                        $scope.detPayments = data;
 
                     });
                         });
@@ -122,9 +114,11 @@
                                  $scope.supplier=data;
                                 $scope.payment.supplier_id=data.id;
                             });
+                            crudOPurchase.paginateDPedido(data.supplier_id,'counts').then(function (data) {
+                              $scope.counts=data;
+                            });
                         crudOPurchase.listaCashes('cashHeaders',$scope.alamcenId).then(function (data) {
                             $scope.cashHeaders = data;
-                        
                         });
                 });
                         crudOPurchase.paginate('methodPayments',1).then(function (data) {
@@ -442,6 +436,7 @@
                   
                   $scope.noreapeatrow=function(){
                     $scope.num=true;
+                    $scope.purchase.fecha.setUTCHours($scope.purchase.fecha.getHours());
                   if($scope.check==false){
                     if($scope.inputStocks[0]!=undefined && $scope.purchase.tipo!="Entrada"){
                              for(var n=0;n<$scope.inputStocks.length;n++){
@@ -614,7 +609,22 @@
                                 
                         
             }
-
+            $scope.desactivarCuentas=false;
+             $scope.validarCuenta=function(){
+              
+              if($scope.detPayment.methodPayment_id=='5'){
+                $scope.desactivarCuentas=true;
+              }else{
+                   $scope.desactivarCuentas=false;
+                }
+             }
+             $scope.validarCuenta2=function(){
+                  if($scope.detPayment.NumCuenta!=null){
+                     $scope.desactivarCuentas=false;
+                   }else{
+                     $scope.desactivarCuentas=true;
+                   }
+             }
 
              $scope.verEntradasEstock=function(){
                     $scope.purchase.eliminar=1;
@@ -1161,9 +1171,11 @@
                  $scope.detPayments.push($scope.detPayment);
                  $scope.detPayment={};
                }
-
+                $scope.desscripctiondddd="Tiket"
                 $scope.createdetPayment = function(){
+                  //alert($scope.detPayment.NumCuenta);
                     //$scope.atribut.estado = 1;
+                $scope.detPayment.fecha.setUTCHours($scope.detPayment.fecha.getHours());
                 if($scope.detPayment.methodPayment_id!=null || $scope.detPayment.cashe_id!=null || $scope.payment.cajamensual!=null){
                     
                     $scope.detPayment.payment_id=$scope.idProvicional;
@@ -1179,8 +1191,13 @@
                                $scope.payment.cajamensual=false;
                                $scope.paginateDetPay();
                                if(confirm("Desea Generar Comprobante de Pago!!!") == true){
+                                $scope.desscripctiondddd="Generando Tiket...";
                                 crudOPurchase.Reportes(data['id'],'ReportComprobante').then(function (data) {
                                     $scope.pdf7=data;
+                                    
+                                    if(data!=null){
+                                      $scope.desscripctiondddd="Ver Tiket";
+                                    }
                                 });
                                }else{
                                      alert('grabado correctamente');
@@ -1200,11 +1217,7 @@
                 }
                 $scope.paginateDetPay=function(){
                       crudOPurchase.byId($scope.idProvicional,'detPayments').then(function (data) {
-                        $scope.detPayments = data.data;
-                        $scope.maxSize = 5;
-                        $scope.totalItems = data.total;
-                        $scope.currentPage = data.current_page;
-                        $scope.itemsperPage = 5;
+                        $scope.detPayments = data;
 
                     });
                 }
