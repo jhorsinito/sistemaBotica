@@ -16,6 +16,7 @@ class SaleManager extends BaseManager {
             'customer_id'=> '',
             'igv'=> '',
             'notas'=> '',
+            'cash_id'=>'required',
             'orderSale_id'=> '',
             'separateSale_id'=> ''
                   ];

@@ -20,7 +20,7 @@ class CreateHeadInvoicesTable extends Migration
             $table->string('ruc',11)->nullable();
             $table->string('GRemicion')->nullable();
             $table->decimal('subTotal',10,2);
-            $table->decimal('igv',10,2);
+            $table->decimal('igv',10,2)->default('0');
             $table->decimal('Total',10,2);
             $table->integer('venta_id')->unsigned();
             $table->foreign('venta_id')->references('id')->on('sales');

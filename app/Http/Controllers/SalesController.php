@@ -114,7 +114,9 @@ class SalesController extends Controller
         $var = $request->detOrders;
         $payment = $request->salePayment;
         $saledetPayments = $request->saledetPayments;
-
+        $cajaAct = $request->caja;
+        //var_dump($cajaAct);die();
+        $request->merge(["cash_id"=>$cajaAct['id']]);
         //$almacen_id=$var->input("idAlmacen");
         //$variante_id=$var->input("vari");
         
@@ -144,14 +146,14 @@ class SalesController extends Controller
             $detCash_id=$movimientoSave->id;
     //---Autualizar Caja---
             
-            $cajaAct = $request->caja;
+            
             $cashrepo;
             //$movimiento['observacion']=$temporal;
             $cashrepo = new CashRepo;
             $cajaSave=$cashrepo->getModel();
-            //var_dump($cajaAct);die();
+            
             $cash1 = $cashrepo->find($cajaAct["id"]);
-
+            
             //var_dump($cash1["id"]);die();
         
             //$insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
@@ -211,7 +213,7 @@ class SalesController extends Controller
                  $request->merge(["ruc"=>$direccion["ruc"]]);
                  $inputfbnumber=new FBnumberManager($numbers,$request->only("numFactura","numTiketFactura"));
                  $inputfbnumber->save();
-            }else{
+            }elseif($request->input("tipoDoc")=="B"){
                  $request->merge(["cliente"=>$direccion["nombres"]." ".$direccion["apellidos"]]);
                  $request->merge(["direccion"=>$direccion["direccContac"]]);
                  $request->merge(["numero"=>(intval($num->numBoleta)+1)]);
@@ -221,7 +223,25 @@ class SalesController extends Controller
                  $inputfbnumber=new FBnumberManager($numbers,$request->only("numBoleta","numTiketBoleta"));
                  $inputfbnumber->save();
             }
-            
+            if($request->input("tipoDoc")=="TF")
+            {
+                 $request->merge(["numero"=>(intval($num->numTiketFactura)+1)]);
+                 $request->merge(["numTiketFactura"=>(intval($num->numTiketFactura)+1)]);
+                 $request->merge(["cliente"=>$direccion["empresa"]]);
+                 $request->merge(["direccion"=>$direccion["direccFiscal"]]);
+                 $request->merge(["ruc"=>$direccion["ruc"]]);
+                 $inputfbnumber=new FBnumberManager($numbers,$request->only("numTiketFactura"));
+                 $inputfbnumber->save();
+            }elseif($request->input("tipoDoc")=="TB")
+            {
+                 $request->merge(["cliente"=>$direccion["nombres"]." ".$direccion["apellidos"]]);
+                 $request->merge(["direccion"=>$direccion["direccContac"]]);
+                 $request->merge(["numero"=>(intval($num->numTiketFactura)+1)]);
+                 $request->merge(["numTiketFactura"=>(intval($num->numTiketBoleta)+1)]);
+                 $request->merge(["dni"=>$direccion["dni"]]);
+                 $inputfbnumber=new FBnumberManager($numbers,$request->only("numTiketFactura"));
+                 $inputfbnumber->save();
+            }
             
             
             $request->merge(["subTotal"=>$request->input("montoBruto")]);
@@ -323,12 +343,12 @@ class SalesController extends Controller
             //------------------------------------------------------
        }
      if(!empty($request->input("comprobante"))){
-      if($request->input("tipoDoc")=='F'){
-        $this->generate_factura($codigoFactura,$vuelto,$cajaId,$request->input("tipoDoc"));
-      }else{
-        $this->generate_Boleta($codigoFactura,$vuelto,$cajaId,$request->input("tipoDoc"));
-      }
-    }
+      if($request->input("tipoDoc")=='TF' || $request->input("tipoDoc")=='TB' ){
+        $this->generate_factura($codigoFactura,$vuelto,$cajaId,$cajaAct["id"],$request->input("tipoDoc"),$request->input('descuento'));
+      }//else{
+        //$this->generate_Boleta($codigoFactura,$vuelto,$cajaId,$request->input("tipoDoc"));
+     // }
+   }
        //-----------------Creacion de Cabecera Factura-------
        //$cajaPrueba=$request->saledetPayments;
        \DB::commit();
@@ -341,6 +361,7 @@ class SalesController extends Controller
     Public function codTicket($tipo,$cajid){
             $numTicket='';
             $fbnumber=new FBnumberRepo;
+            //var_dump($tipo.'-->'.$cajid);die();
             $numeros=$fbnumber->numeracionTiket($tipo,$cajid);
             if($numeros->numTiketFactura<10){
               return $numTicket.='00000'.$numeros->numTiketFactura;
@@ -361,106 +382,8 @@ class SalesController extends Controller
             }
             
     }
-    public function generate_Boleta($idFactura,$vuelto,$caja,$tipo){
-     $headInvoiceRepo=new HeadInvoiceRepo;
-      $detailInvoiceRepo=new DetailInvoiceRepo;      
-        $cabeceraFactura=$headInvoiceRepo->consult($idFactura);
-        $detalleFactura=$detailInvoiceRepo->detFactura($idFactura);
-
-         $txt = '<?php require_once(dirname(__FILE__) . "/escpos-php-master/Escpos.php");
-              //$logo = new EscposImage("images/productos/tostao.jpg");
-
-              $printer = new Escpos();
-              /* Print top logo */
-                            $printer -> setJustification(Escpos::JUSTIFY_CENTER);
-                            ';
-       // if($oCash->estado == 0)
-        //{
-                    $txt .= '
-                             $printer ->  setEmphasis(true);
-                             $printer -> text("FACTURA \n");
-                             $printer -> text("Calle san jose 427 Chiclayo-Lambayeque \n");
-                             $printer -> text("ruc:124586532651 \n");
-                             $printer -> text("TICKET \n");
-                             $printer -> text("00'.$caja.'-'.$this->codTicket($tipo,$caja).'\n");
-                             $printer ->  setEmphasis(false);
-                             $printer -> feed();
-                             $printer -> setJustification();'; 
-               //   }elseif($oCash->estado == 1)
-        //{
-        //    $txt .= '$printer -> text("RESUMEN PARCIAL\nDE CAJA");';
-        //}
-        $txt .= '
-              $printer -> setFont(Escpos::FONT_C);
-              $printer -> feed();
-              $printer -> text("CAJA:'.$caja.'       '.date("d-m-Y").' '.date("H:i:s").'\n");
-              $printer -> text("Ticket                  <original>\n");
-              $printer -> text("---------------------------------\n");
-              $printer -> text("TIPO:      RUC N°:'.$cabeceraFactura->ruc.'\n");
-              $printer -> text("Cliente: '.$cabeceraFactura->cliente.'\n");
-              $printer -> feed();
-              $printer -> text("Direccion: '.$cabeceraFactura->direccion.'\n");
-              $printer -> feed();
-              $printer -> text("Vendedor: '.auth()->user()->name.'\n");
-              $printer -> text("---------------------------------\n");
-              $printer -> text("Descripcion \n");
-              $printer -> text("Precio      cant           Total \n");
-              $printer -> text("---------------------------------\n");
-              ';
-              foreach($detalleFactura as $detalleFactura){
-                      $txt .='$printer -> text("'.$detalleFactura["descripcion"].'\n");
-                              
-                              $printer -> text("'.
-                                                $detalleFactura["PrecioVent"].'       '.$detalleFactura["cantidad"].
-                                                '       '.($detalleFactura["cantidad"]*$detalleFactura["PrecioVent"]).'\n");
-                              ';
-                            }
-                              $txt.='$printer -> text("---------------------------------\n");                              
-                              $printer -> text("Subtotal               S/.'.$cabeceraFactura->subTotal.'\n");
-                              $printer -> text("IGV(18%)               S/.'.$cabeceraFactura->igv.'\n");
-                              
-                              $printer -> text("Pago adelantado(anticipo)    0.00\n");
-                              $printer -> text("Vale de Consumo              0.00\n");
-                              $printer -> text("descuento especial           0.00\n");
-                              $printer -> text("---------------------------------\n"); 
-                              $printer -> text("TOTAL            S/.'.$cabeceraFactura->Total.'\n");
-                              $printer -> feed(); 
-                              $printer -> text("                    T.C. S/.3.18 \n");
-                              $printer -> text("forma de pago                    \n");
-                              $printer -> text("---------------------------------\n");
-                              $printer -> text("Vuelto                           \n");
-                              $printer -> text("                       S/.'.$vuelto.'\n"); 
-                              $printer -> text("---------------------------------\n"); 
-                              $printer -> text("---------------------------------\n"); 
-                              ';
-              
-              
-             $txt.='$printer -> setEmphasis(true);';
-              
-        $txt .= '$printer -> text("---------------------------------\n");';
-        $txt .= '$printer -> setEmphasis(true);';
-        $txt .= '$printer -> text("Comuniquense con nosotros al:\n");';
-        $txt .= '$printer -> text("example@gmail.com\n");';
-        $txt .= '$printer -> setEmphasis(false);';
-        $txt .= '$printer -> feed();';
-       
-        $txt .= '$printer -> text("**No válido como documento contable**\n");';
-        $txt .= '$printer -> feed();';
-        $txt .= '$printer -> cut();$printer -> pulse();';
-
-        $txt .= '$printer -> close();';
-        
-        $myfile = fopen("../resources/ticket.php", "w") or die("Unable to open file!");
-        fwrite($myfile, $txt);
-        fclose($myfile);
-        $cmd = 'php '.base_path("/resources/").'ticket.php  > '.base_path("resources/").'ticket.txt';
-        //$cmd = 'lpr -P Photosmart-Plus-B209a-m /var/www/html/4Rest/public/newfile.php';
-        shell_exec($cmd);//exec('sudo -u myuser ls /');
-        $cmd2 = 'lpr -P impresora_prueba -o raw '.base_path("resources/").'ticket.txt';
-        shell_exec($cmd2);
-        return response()->json('true');
-    }
-    public function generate_factura($idFactura,$vuelto,$caja,$tipo){
+    
+    public function generate_factura($idFactura,$vuelto,$caja,$cajadiari,$tipo,$descuento){
       $headInvoiceRepo=new HeadInvoiceRepo;
       $detailInvoiceRepo=new DetailInvoiceRepo;      
         $cabeceraFactura=$headInvoiceRepo->consult($idFactura);
@@ -492,51 +415,57 @@ class SalesController extends Controller
         $txt .= '
               $printer -> setFont(Escpos::FONT_C);
               $printer -> feed();
-              $printer -> text("CAJA:'.$caja.'       '.date("d-m-Y").' '.date("H:i:s").'\n");
+              $printer -> text("#CAJA:'.$cajadiari.'       '.date("d-m-Y").' '.date("H:i:s").'\n");
               $printer -> text("Ticket                  <original>\n");
-              $printer -> text("---------------------------------\n");
-              $printer -> text("TIPO:      DNI N°:'.$cabeceraFactura->dni.'\n");
+              $printer -> text("-------------------------------------\n");';
+              if($tipo=="TF"){
+                    $txt .= '$printer -> text("TIPO:      RUC N°:'.$cabeceraFactura->ruc.'\n");';
+              }else{
+                    $txt .= '$printer -> text("TIPO:      DNI N°:'.$cabeceraFactura->dni.'\n");';                     
+              }
+
+              
+             $txt .= '
               $printer -> text("Cliente: '.$cabeceraFactura->cliente.'\n");
               $printer -> feed();
               $printer -> text("Direccion: '.$cabeceraFactura->direccion.'\n");
               $printer -> feed();
               $printer -> text("Vendedor: '.auth()->user()->name.'\n");
-              $printer -> text("---------------------------------\n");
+              $printer -> text("-------------------------------------\n");
               $printer -> text("Descripcion \n");
               $printer -> text("Precio      cant           Total \n");
-              $printer -> text("---------------------------------\n");
+              $printer -> text("-------------------------------------\n");
               ';
               foreach($detalleFactura as $detalleFactura){
                       $txt .='$printer -> text("'.$detalleFactura["descripcion"].'\n");
                               
                               $printer -> text("'.
                                                 $detalleFactura["PrecioVent"].'       '.$detalleFactura["cantidad"].
-                                                '       '.($detalleFactura["cantidad"]*$detalleFactura["PrecioVent"]).'\n");
+                                                '          '.($detalleFactura["cantidad"]*$detalleFactura["PrecioVent"]).'\n");
                               ';
                             }
-                              $txt.='$printer -> text("---------------------------------\n");                              
+                              $txt.='$printer -> text("-------------------------------------\n");
+                              $printer -> text("IGV(18%)               S/.'.$cabeceraFactura->igv.'\n");                            
                               $printer -> text("Subtotal               S/.'.$cabeceraFactura->subTotal.'\n");
                               
                               
                               $printer -> text("Pago adelantado(anticipo)    0.00\n");
                               $printer -> text("Vale de Consumo              0.00\n");
-                              $printer -> text("descuento especial           0.00\n");
-                              $printer -> text("---------------------------------\n"); 
+                              $printer -> text("descuento especial         S/.'.$descuento.'\n");
+                              $printer -> text("-------------------------------------\n"); 
                               $printer -> text("TOTAL            S/.'.$cabeceraFactura->Total.'\n");
                               $printer -> feed(); 
-                              $printer -> text("                    T.C. S/.3.18 \n");
-                              $printer -> text("forma de pago                    \n");
-                              $printer -> text("---------------------------------\n");
+                              $printer -> text("-------------------------------------\n");
                               $printer -> text("Vuelto                           \n");
                               $printer -> text("                       S/.'.$vuelto.'\n"); 
-                              $printer -> text("---------------------------------\n"); 
-                              $printer -> text("---------------------------------\n"); 
+                              $printer -> text("-------------------------------------\n"); 
+                              $printer -> text("-------------------------------------\n"); 
                               ';
               
               
              $txt.='$printer -> setEmphasis(true);';
               
-        $txt .= '$printer -> text("---------------------------------\n");';
+        $txt .= '$printer -> text("-------------------------------------\n");';
         $txt .= '$printer -> setEmphasis(true);';
         $txt .= '$printer -> text("Comuniquense con nosotros al:\n");';
         $txt .= '$printer -> text("example@gmail.com\n");';

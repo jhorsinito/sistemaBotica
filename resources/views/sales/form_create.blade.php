@@ -1037,10 +1037,12 @@
                         <select  ng-disabled="estadoComoDocument==true" class="form-control" ng-model="sale.tipoDoc" ng-change="cambioNumeracion()">
                               <option value="F">Factura</option>
                               <option value="B">Boleta</option>
+                              <option value="TF">Ticket Factura</option>
+                              <option value="TB">Ticket Boleta</option>
                         </select>
                         </div> 
                       </div>
-                      <div ng-show="sale.comprobante" class="col-md-4">
+                      <div ng-show="sale.tipoDoc=='F' || sale.tipoDoc=='B'" class="col-md-4">
                       <h2>N°.- @{{numActual}}</h2>
                       </div>
                   </div>

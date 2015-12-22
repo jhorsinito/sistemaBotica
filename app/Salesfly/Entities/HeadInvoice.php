@@ -7,6 +7,8 @@ class HeadInvoice extends \Eloquent {
     
     protected $fillable = ['numero',
     						'cliente',
+                            'dni',
+                            'direccion_cliente',
     						'direccion',
     						'ruc',
                             'GRemicion',

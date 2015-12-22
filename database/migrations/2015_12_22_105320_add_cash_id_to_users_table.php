@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddNumTikectsToFBnumbersTable extends Migration
+class AddCashIdToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,9 @@ class AddNumTikectsToFBnumbersTable extends Migration
      */
     public function up()
     {
-        Schema::table('FBnumbers', function (Blueprint $table) {
-            $table->biginteger('numTiketFactura');
+        Schema::table('sales', function (Blueprint $table) {
+            $table->integer('cash_id')->unsigned()->after("notas")->nullable();
+            $table->foreign('cash_id')->references('id')->on('cashes');
         });
     }
 
@@ -24,7 +25,7 @@ class AddNumTikectsToFBnumbersTable extends Migration
      */
     public function down()
     {
-        Schema::table('FBnumbers', function (Blueprint $table) {
+        Schema::table('sales', function (Blueprint $table) {
             //
         });
     }
