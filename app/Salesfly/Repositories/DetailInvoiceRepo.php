@@ -12,4 +12,5 @@ class DetailInvoiceRepo extends BaseRepo{
         $detailInvoice=DetailInvoice::where("detailInvoices.headInvoice_id","=",$id)->get();
         return $detailInvoice;
     }
+    
 }

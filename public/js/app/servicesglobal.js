@@ -164,10 +164,30 @@
                 return deferred.promise;
             }
             
+            function Comprueba_caj_for_user()
+            {
+                var deferred = $q.defer();
+                $http.get('api/cashes/cajas_for_user').success(function (data) {
+                    deferred.resolve(data);
+                });
+
+                return deferred.promise;
+            }
+            function Comprueba_caj_for_user1(id)
+            {
+                var deferred = $q.defer();
+                $http.get('api/cashes/cajas_for_user1/'+id).success(function (data) {
+                    deferred.resolve(data);
+                });
+
+                return deferred.promise;
+            }
             return {
                 all: all,
                 paginate: paginate,
                 create:create,
+                Comprueba_caj_for_user: Comprueba_caj_for_user,
+                Comprueba_caj_for_user1: Comprueba_caj_for_user1,
                 Cuentas:Cuentas,
                 byId:byId,
                 validar:validar,

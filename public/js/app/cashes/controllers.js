@@ -278,12 +278,19 @@
                 }
 
                 $scope.editcash = function(row){
-                    if (row.estado=='0') {
-                        alert("La caja esta Cerrada");
-                    }
-                    else{
-                        $location.path('/cashes/edit/'+row.id);      
-                    }
+                    
+                    crudService.Comprueba_caj_for_user1(row.id).then(function (data){
+                        if(data.id!=undefined){
+                             if (row.estado=='0') {
+                                 alert("La caja esta Cerrada");
+                             }
+                             else{
+                                 $location.path('/cashes/edit/'+row.id);      
+                             }
+                        }else{
+                            alert("usted no tiene permisos para editar esta caja");
+                        }
+                    });
                      //$scope.cash.montoInicial=parseInt($scope.cash.montoInicial);
                 };
 

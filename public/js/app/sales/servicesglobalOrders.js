@@ -153,6 +153,16 @@
 
                 return deferred.promise;
             }
+            function confirmarVariante(id,fecha){
+                var deferred = $q.defer();
+                //alert(val);
+                $http.get('/api/sales/confirmarVariante/'+id+'/'+fecha)
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
             function buquedarapida(uri,idStore,idWerehouse,val,type,brand,product){
                 var deferred = $q.defer();
                 //alert(val);
@@ -204,11 +214,20 @@
 
                 return deferred.promise;
             }
+            function Comprueba_caj_for_user()
+            {
+                var deferred = $q.defer();
+                $http.get('api/cashes/cajas_for_user').success(function (data) {
+                    deferred.resolve(data);
+                });
 
+                return deferred.promise;
+            }
             return {
                 all: all,
                 paginate: paginate,
                 numeracion: numeracion,
+                Comprueba_caj_for_user: Comprueba_caj_for_user,
                 factura: factura,
                 create:create,
                 create1:create1,
@@ -224,7 +243,8 @@
                 getPres, setPres,
                 editFavoritoId,editFavoritoId,
                 reportcliente,reportcliente,
-                buquedarapida,buquedarapida
+                buquedarapida,buquedarapida,
+                confirmarVariante:confirmarVariante
             }
         }])
         .factory('socketService', function ($rootScope) {

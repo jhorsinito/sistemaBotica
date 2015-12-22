@@ -28,4 +28,5 @@ class SaleRepo extends BaseRepo{
         $sale = Sale::with('customer','employee');
         return $sale->find($id);
     }
+    
 } 

@@ -42,6 +42,7 @@
                   <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Opciones</a></li>
                   <li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false">Reporte</a></li>
                   <li class=""><a href="#tab_5" data-toggle="tab" aria-expanded="false" ng-click="cargarConsulta()">Consultas</a></li>
+                  <li class=""><a href="#tab_6" data-toggle="tab" aria-expanded="false" ng-click="cargarPromociones()">Promociones</a></li>
                 </ul>
                 <div class="tab-content">
                   <div class="tab-pane active" id="tab_1">
@@ -58,7 +59,7 @@
                             </div>
 
                             <div class="col-md-9" ng-show="!skuestado">
-                              <input  type="text" ng-model="atributoSelected" ng-enter="open()" placeholder="Buscar por codigo" typeahead="atributo as atributo.NombreAtributos for atributo in getAtributos($viewValue)" 
+                              <input  type="text" ng-model="atributoSelected" typeahead-on-select="open()" placeholder="Buscar por codigo" typeahead="atributo as atributo.NombreAtributos for atributo in getAtributos($viewValue)" 
                                     typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"/>
                             </div>
                             <div class="col-md-3" >
@@ -219,6 +220,8 @@
                       <th style="width: 10px">#</th>
                       <th>Fecha</th>
                       <th>Hora</th>
+                      <th>Caja</th>
+                      <th>Usuario</th>
                       <th>Tipo</th>
                       
                       <th>S/.Tarjeta</th>
@@ -231,7 +234,9 @@
                       <td>@{{$index + 1}}</td>
                       <td>@{{row.fecha}}</td>
                       <td>@{{row.hora}}</td>
-                      <td>@{{row.cash_motive.nombre}}</td>
+                      <td>@{{row.nombre}}</td>
+                      <td>@{{row.name}}</td>
+                      <td>@{{row.nommovimiento}}</td>
                       
                       <td>@{{row.montoMovimientoTarjeta}}</td>
                       <td>@{{row.montoMovimientoEfectivo}}</td>
@@ -322,8 +327,15 @@
                     <table class="table table-bordered">
                     <tr>
                       <th style="width: 10px">#</th>
-                      <th>Productos</th>
-                      <th>Codigo</th>
+                      <th>
+                            <div class="input-group" style="width: 150px;">
+                            <input type="text" ng-model="query"  ng-keyup="buscarporProduct(query)" name="table_search" class="form-control input-sm pull-right" placeholder="Search" />
+                                <div class="input-group-btn">
+                                  <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                      </th>
+                      <th>SKU</th>
                       <th><select class="form-control" name="" ng-model="materialId" ng-click="cargarConsul()"ng-options="item.id as item.nombre for item in brands">
                           <option value="">Material - Todos</option>
                       <th><select class="form-control" name="" ng-model="lineaId" ng-click="cargarConsul()"ng-options="item.id as item.nombre for item in types">
@@ -356,6 +368,191 @@
                   </table>
 
                   </div>
+                  <!---tab Promociones-->
+                  <div class="tab-pane" id="tab_6">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                         <button type="button" class="btn btn-info" ng-click="mostrarformProm()">Agregar Nueva Promocion</button><br><br>
+                        </div>
+                    </div>
+                    <div ng-show="formPromocion">
+                    <form  name="promocionCreateForm" role="form" novalidate>
+                       <div class="row">
+                       <div class="col-md-1"></div>
+                              <div class="col-md-2">
+                                  <div class="form-group"  ng-class="{true: 'has-error'}[ promocionCreateForm.cantidad.$error.required && promocionCreateForm.$submitted || promocionCreateForm.cantidad.$dirty && promocionCreateForm.cantidad.$invalid]">
+                                      <label>Cantidad</label>
+                                         <input class="form-control" type="number" name="cantidad" ng-model="promocion.cantidad" placeholder="0" min="0" required></input>
+                                  
+                                      <label ng-show="promocionCreateForm.$submitted || promocionCreateForm.cantidad.$dirty && promocionCreateForm.cantidad.$invalid">
+                                            <span ng-show="promocionCreateForm.cantidad.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                      </label>
+                                  </div>
+                              </div>
+                              <div class="col-md-4">
+                                   <div class="form-group" ng-class="{true: 'has-error'}[ promocionCreateForm.empresa.$error.required && promocionCreateForm.$submitted || promocionCreateForm.empresa.$dirty && promocionCreateForm.empresa.$invalid]">
+                                   <label>Producto Base: </label>
+                                   <div class="input-group" ng-hide="show" style="width: 100%;">
+              
+              
+                                       <input typeahead-on-select="validar(producto_base)" type="text" name="empresa" ng-model="producto_base" placeholder="Busca por Proveedor" 
+                                         typeahead="atributo as atributo.NombreAtributos for atributo in getAtributos($viewValue)"  
+                                         typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
+                                         tooltip="Ingrese caracteres para busacar Proveedor por Empres" required>
+                                        <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                                        <div ng-show="noResults">
+                                                <i class="glyphicon glyphicon-remove"></i> No Results Found
+                                        </div>
+                                  </div> 
+                                  <label ng-show="promocionCreateForm.$submitted || promocionCreateForm.empresa.$dirty && promocionCreateForm.empresa.$invalid">
+                                    <span ng-show="promocionCreateForm.empresa.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                 </label>
+                
+                                   </div>                              
+                          </div>
+                          <div class="col-md-4">
+                                   <div class="form-group" ng-class="{true: 'has-error'}[ promocionCreateForm.empresa.$error.required && promocionCreateForm.$submitted || promocionCreateForm.empresa.$dirty && promocionCreateForm.empresa.$invalid]">
+                                   <label>Producto Adicional: </label>
+                                   <div class="input-group" ng-hide="show" style="width: 100%;">
+              
+              
+                                       <input typeahead-on-select="validar1(producto)" type="text" name="empresa" ng-model="producto" placeholder="Busca por Proveedor" 
+                                         typeahead="atributo as atributo.NombreAtributos for atributo in getAtributos($viewValue)"  
+                                         typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
+                                         tooltip="Ingrese caracteres para busacar Proveedor por Empres" required>
+                                        <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                                        <div ng-show="noResults">
+                                                <i class="glyphicon glyphicon-remove"></i> No Results Found
+                                        </div>
+                                  </div> 
+                                  <label ng-show="promocionCreateForm.$submitted || promocionCreateForm.empresa.$dirty && promocionCreateForm.empresa.$invalid">
+                                    <span ng-show="promocionCreateForm.empresa.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                 </label>
+                
+                                   </div>                              
+                          </div>
+                              
+                       </div>
+                       <div class="row">
+                       <div class="col-md-1"></div>
+                              <div class="col-md-2">
+                                  <div class="form-group" >
+                                        <label>% de descuento</label>
+                                        <input class="form-control" type="number" ng-model="promocion.descuento" placeholder="0%"></input>
+                                  </div>
+                              </div>
+                    <div class="col-md-4">
+
+                      <div  class="form-group" ng-class="{true: 'has-error'}[ promocionCreateForm.fechaPedido.$error.required && promocionCreateForm.$submitted || promocionCreateForm.fechaPedido.$dirty && promocionCreateForm.fechaPedido.$invalid]">
+                                <label for="fechaPedido">Fecha Inicio Promocion: </label>
+                            <div ng-hide="show" class="input-group">
+                                <div class="input-group-addon">
+                                      <i class="fa fa-calendar"></i>
+                                </div>
+                                  <input type="date" class="form-control"  name="fechaPedido" ng-model="promocion.fecha_inicio" >
+                            </div>
+                            <label ng-show="promocionCreateForm.$submitted || promocionCreateForm.fechaPedido.$dirty && promocionCreateForm.fechaPedido.$invalid">
+                            <span ng-show="promocionCreateForm.fechaPedido.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
+                            </label>
+                             
+                          
+                      </div>  
+                      
+          </div>
+          <div  class="col-md-4">
+                       <div  class="form-group" ng-class="{true: 'has-error'}[ promocionCreateForm.fechaPrevista.$error.required && promocionCreateForm.$submitted || promocionCreateForm.fechaPrevista.$dirty && promocionCreateForm.fechaPrevista.$invalid]">
+                            <label for="fechaPrevista">Fecha Fin Promocion: </label>
+                                <div ng-hide="show" class="input-group">
+                                        <div class="input-group-addon">
+                                              <i class="fa fa-calendar"></i>
+                                        </div>
+                                      <input  type="date"  min="@{{promocion.fecha_inicio}}" class="form-control" name="fechaPrevista" ng-model="promocion.fecha_fin" required>
+                                   </div>   
+                                  <label ng-show="promocionCreateForm.$submitted || promocionCreateForm.fechaPrevista.$dirty && promocionCreateForm.fechaPrevista.$invalid">
+                                         <span ng-show="promocionCreateForm.fechaPrevista.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
+                                      </label>
+                               
+                           
+                      </div> 
+                                          
+         </div>
+                        </div>
+                         <div class="row">
+                          <div class="col-md-1"></div>
+                            <div class="col-md-6">
+                                  <div class="form-group">
+                                     <label>Descripcion</label>
+                                     <textarea class="form-control"  ng-model="promocion.descripcion" placeholder="....">
+                                       
+                                     </textarea>
+                                  </div>
+
+                            </div>
+                            <div class="col-md-4">
+                                  <div class="form-group">
+                                     <label></label><br>
+                                     <span style="color:blue;">Seleccione para activar promocion ==>  </span>
+                                     <input   type="checkbox"  style="width:50px;" name="variantes" ng-model="promocion.estado" />
+                                </div>
+                           
+<!--<input type="checkbox"  id="toggle-two">
+<script>
+  $(function() {
+    $('#toggle-two').bootstrapToggle({
+      on: 'Activar',
+      off: 'Desactivar'
+    });
+  })
+</script>-->
+                            </div>
+                      </div>
+
+                      <div class="row">
+                          <div class="col-md-1"></div>
+                             <div class="col-md-2">
+                                    <button type="button" class="btn btn-danger" >Cancelar</button>
+                             </div>
+                             <div class="col-md-6"></div>
+                             <div class="col-md-2" style="text-align: right;">
+                                    <button type="submit" ng-click="createPromotion()" class="btn btn-primary" >Guardar</button>
+                              </div>
+                      </div>
+
+                     
+                     </form></div>
+                     <br>
+                     <table class="table table-striped">
+                       <thead>
+                         <tr>
+                           <th>Descripcion</th>
+                           <th>Descripcion de la Promocion</th>
+                           <th>Fecha Inicio</th>
+                           <th>Fecha Fin</th>
+                           <th>Estado</th>
+                           <th>Acciones</th>
+                         </tr>
+                       </thead>
+                       <tbody>
+                         <tr ng-repeat="row in promociones">
+                           <td>@{{row.descripcion}}</td>
+                           <td>por  @{{row.cantidad+' unidades del '+row.nombre+' llevate el '}}<br>@{{row.product2+'con un '+row.descuento+'% de descuento'}}</td>
+                           <td>@{{row.fecha_inicio}}</td>
+                           <td>@{{row.fecha_fin}}</td>
+                           <td>
+                             <button ng-if="row.estado==1" class="btn btn-warning btn-xs">Activo</button>
+                             <button ng-if="row.estado==0" class="btn btn-success btn-xs">Desactivo</button>
+                           </td>
+                           <td>
+                             <button  class="btn btn-danger btn-md" ng-click="DropPromotions(row)">Eliminar</button>
+                           </td>
+                         </tr>
+                       </tbody>
+                     </table>
+                     <div class="box-footer clearfix">
+                  <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm no-margin pull-right" items-per-page="itemsperPage" boundary-links="true" rotate="false" num-pages="numPages" ng-change="pageChanged()"></pagination>
+                  </div>
+                 <!--fin tab Promociones-->    
 
                 </div><!-- /.tab-content -->
               </div>
@@ -971,11 +1168,6 @@
 
 
 
-
-
-
-    
-    
 
 
 

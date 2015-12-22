@@ -43,7 +43,7 @@
            
           <div class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.empresa.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.empresa.$dirty && orderPurchaseCreateForm.empresa.$invalid]">
               <label>Proveedor: </label>
-              <div class="form-group form-ok" ng-hide="show" style="width: 300px;">
+              <div class="form-group form-ok" ng-hide="show" style="width: 100%;">
                
                <input typeahead-on-select="asignarEmpresa()" type="text" name="empresa" ng-model="orderPurchase.empresa" placeholder=" por Proveedor" 
                      typeahead="supplier as supplier.empresa for supplier in suppliers | filter:$viewValue | limitTo:8"  
@@ -140,7 +140,7 @@
           <div class="row">
              <div class="col-md-1"></div>
             <div class="col-md-4">
-          <div class="input-group" style="width: 300px;">
+          <div class="input-group" style="width: 100%;">
               <label>Producto</label>
             
              <input  ng-disabled="activarBusca" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Locations loaded1 via $http" 

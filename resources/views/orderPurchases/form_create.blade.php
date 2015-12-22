@@ -58,7 +58,7 @@
              <div class="col-md-4">
           <div class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.empresa.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.empresa.$dirty && orderPurchaseCreateForm.empresa.$invalid]">
               <label>Proveedor: </label>
-              <div class="input-group" ng-hide="show" style="width: 300px;">
+              <div class="input-group" ng-hide="show" style="width: 100%;">
               
               
                <input typeahead-on-select="asignarEmpresa()" type="text" name="empresa" ng-model="orderPurchase.empresa" placeholder="Busca por Proveedor" 
@@ -175,7 +175,7 @@
           <div class="row">
              <div class="col-md-1"></div>
              <div class="col-md-4">
-          <div class="input-group" style="width: 300px;">
+          <div class="input-group" style="width: 100%;">
               <label>Producto</label>
              <!--  <input ng-disabled="check" ng-hide="check1==true" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Buscar por codigo especifico" 
           typeahead="product as product.proNombre+'('+(product.BraName==null ? '': product.BraName+'/')+(product.TName==null ? '' : product.TName+'/')+(product.Mnombre==null ? '':product.Mnombre)+')' for product in products | filter:$viewValue | limitTo:8" 

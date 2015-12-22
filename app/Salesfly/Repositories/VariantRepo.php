@@ -28,7 +28,14 @@ class VariantRepo extends BaseRepo{
                     ->get();
         return $products;
     }
-
+    public function getVariantid($q)
+    {
+        $variant =Variant::select('id','sku')
+                    ->where('id','=',$q)
+                    ->groupBy('variants.id')
+                    ->first();
+        return $variant;
+    }
     //public function findV($id){
     //    return Variant::find($id);
     //}

@@ -20,4 +20,20 @@ class CashRepo extends BaseRepo{
                     ->paginate(15);
         return $cashes;
     }
+    public function searchuserincaja($id){
+        $cashes =Cash::select("id")
+                     ->where('user_id','=', $id)
+                     ->where('estado','=',1)
+                    //with(['customer','employee'])
+                    ->first();
+        return $cashes;
+    }
+    public function searchuserincaja1($idCaja,$id){
+        $cashes =Cash::select("id")
+                     ->where('id','=', $idCaja)
+                     ->where('user_id','=',$id)
+                    //with(['customer','employee'])
+                    ->first();
+        return $cashes;
+    }
 } 

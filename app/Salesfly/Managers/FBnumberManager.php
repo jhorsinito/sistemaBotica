@@ -5,7 +5,7 @@ class FBnumberManager extends BaseManager {
 
     public function getRules()
     {
-        $rules = ['numFactura'=>'','numBoleta'=>'','caja_id'=>''];
+        $rules = ['numFactura'=>'','numBoleta'=>'','caja_id'=>'','numTiketFactura'=>'','numTiketBoleta'=>''];
         return $rules;
     }
 }

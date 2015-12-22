@@ -6,6 +6,8 @@
                 $scope.errors = null;
                 $scope.success;
                 $scope.query = ''; 
+                $scope.promocion={};
+                $scope.promociones=[];
                 /*
 
                 $scope.orders = [];
@@ -519,7 +521,11 @@
 
                 $scope.realizarPago = function () {
                 //$log.log($scope.cashfinal.estado);
-
+                
+                crudServiceOrders.Comprueba_caj_for_user().then(function (data){
+                      
+                        if(data.id != undefined){
+                         
                 //$scope.mostrarAlmacenCaja();    
                 if ($scope.cashfinal.estado=='1') {
                     $scope.salePayment.MontoTotal=$scope.sale.montoTotal;
@@ -645,6 +651,10 @@
                         alert("Caja Cerrada");
                         //$scope.createcash();
                     }
+                    }else{
+                            alert("Usted no puede vender con esta caja");
+                        }
+               });
 
                 }
 
@@ -681,17 +691,24 @@
                 }
                 $scope.varianteSkuSelected;
                 $scope.varianteSkuSelected1=undefined;
+                $scope.oferta=false;
+                $scope.descuento10=0;
                 $scope.getvariantSKU = function(size) {
+                        $scope.fechaActual=$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate();
+                        
                         crudServiceOrders.reportProWare('productsSearchsku',$scope.store.id,$scope.warehouse.id,$scope.varianteSkuSelected).then(function(data){    
                             $scope.varianteSkuSelected1={};
                             $scope.varianteSkuSelected1=data;
-
-                            if (($scope.varianteSkuSelected1[0].Stock-$scope.varianteSkuSelected1[0].stockPedidos-$scope.varianteSkuSelected1[0].stockSeparados)>0) { 
-                                $scope.Jalar(size);
-                            }else{
-                                alert("STOCK INSUFICIENTE");
-                                $scope.varianteSkuSelected=undefined;
-                            }                                                          
+                           
+                              
+                                   if (($scope.varianteSkuSelected1[0].Stock-$scope.varianteSkuSelected1[0].stockPedidos-$scope.varianteSkuSelected1[0].stockSeparados)>0) { 
+                                         $scope.Jalar(size);
+                                   }else{
+                                       alert("STOCK INSUFICIENTE");
+                                      $scope.varianteSkuSelected=undefined;
+                                  } 
+                           
+                                                                                     
                         });
                     //}
                 };
@@ -704,12 +721,16 @@
                             $log.log($scope.presentations);
 
                             var fecha1 = $scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate();
-                            if(fecha1>=$scope.presentations[0].FechaInicioDescuento && fecha1<=$scope.presentations[0].FechaFinDescuento){
-                                $scope.varianteSkuSelected1[0].descuento=Number($scope.presentations[0].DescuentoConFecha);
+                            if($scope.oferta==true){
+                                  
+                                 $scope.varianteSkuSelected1[0].descuento=Number($scope.descuento10);
                             }else{
-                                $scope.varianteSkuSelected1[0].descuento=Number($scope.presentations[0].DescuentoSinFecha);
-                            }
-
+                                  if(fecha1>=$scope.presentations[0].FechaInicioDescuento && fecha1<=$scope.presentations[0].FechaFinDescuento){
+                                      $scope.varianteSkuSelected1[0].descuento=Number($scope.presentations[0].DescuentoConFecha);
+                                  }else{
+                                      $scope.varianteSkuSelected1[0].descuento=Number($scope.presentations[0].DescuentoSinFecha);
+                                  }
+                             }
                             $log.log($scope.varianteSkuSelected1.descuento);
 
                             if($scope.base){                
@@ -723,15 +744,38 @@
 
                                    $scope.bandera=true; 
                                     $scope.calcularmontos($scope.compras.length-1);
-
+                                   
                                     if ($scope.compras[$scope.compras.length-1].descuento>0) {
                                         $scope.sale.montoTotalSinDescuento=$scope.sale.montoTotalSinDescuento+Number($scope.compras[$scope.compras.length-1].precioProducto)-$scope.compras[$scope.compras.length-1].precioVenta;
                                     };
     
                                     $scope.sale.montoTotal=$scope.sale.montoTotalSinDescuento+$scope.varianteSkuSelected1[0].subTotal;
                                     $scope.recalcularCompra();
-                               $scope.varianteSkuSelected1=undefined;
-                                $scope.varianteSkuSelected="";
+                               
+                                crudServiceOrders.confirmarVariante($scope.varianteSkuSelected1[0].vari,$scope.fechaActual).then(function(data){
+                              
+                              /*if(data.sku!=undefined && data.cantidad<2){
+                                  if(confirm("Desea cargar oferta") == true){
+                                      $scope.descuento10=data.descuento;
+                                      $scope.varianteSkuSelected1=undefined;
+                                      $scope.varianteSkuSelected=data.sku;
+                                      $scope.oferta=true;
+                                      $scope.compras[$scope.compras.length-1].oferta=1;
+                                      $scope.getvariantSKU(); 
+                                      }else{
+                                         $scope.varianteSkuSelected1=undefined;
+                                         $scope.varianteSkuSelected='';
+                                         $scope.descuento10=0;
+                                         $scope.oferta=false;
+                                      }                             
+                                      
+                              }else{*/
+                                  $scope.varianteSkuSelected1=undefined;
+                                  $scope.varianteSkuSelected='';
+                                  //$scope.descuento10=0;
+                                  $scope.oferta=false;
+                              //}
+                          });
     
                             }else{                           
                                 var modalInstance = $modal.open({      
@@ -930,6 +974,12 @@
                 //------------------------------------
                 //------------------------------------
                 $scope.calcularmontos=function(index){
+                    if($scope.compras[index].oferta==undefined){
+                          $scope.compras[index].oferta=0;
+                    }
+                    $scope.fechaActual=$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate();
+                        
+                     
                     if($scope.compras[index].cantidad>($scope.compras[index].Stock-$scope.compras[index].stockPedidos-$scope.compras[index].stockSeparados)){
                         $scope.compras[index].cantidad=1;
                         alert("Cantidad excede el STOCK");
@@ -952,7 +1002,34 @@
                     //$scope.sale.montoTotalSinDescuento=$scope.sale.montoTotal;
                     //$scope.sale.montoBruto=Number($scope.sale.montoTotal)/1.18;
                     //$scope.sale.igv=$scope.sale.montoTotal-$scope.sale.montoBruto;
-                    $scope.bandera=false;   
+                    if($scope.compras[index].cantidad>=1){
+                    crudServiceOrders.confirmarVariante($scope.compras[index].vari,$scope.fechaActual).then(function(data){
+                          if(data.sku!=undefined && data.cantidad<=$scope.compras[index].cantidad ){
+                               if($scope.compras[index].oferta==0){
+                                  if(confirm("Desea cargar oferta") == true){
+                                      $scope.descuento10=data.descuento;
+                                      $scope.varianteSkuSelected1=undefined;
+                                      $scope.varianteSkuSelected=data.sku;
+                                      $scope.oferta=true;
+                                      $scope.base=true;
+                                      $scope.compras[index].oferta=1;
+                                      $scope.getvariantSKU(); 
+                                      }else{
+                                        $scope.bandera=false; 
+                                      }
+                                }else{
+                                        //$scope.promedioV=Number(Math.floor(Number($scope.compras[index].cantidad)/Number(data.cantidad)));
+                                        //$scope.compras[index+1].cantidad=$scope.promedioV;
+                                        //$scope.calcularmontos(index+1);
+                                        alert('hola');
+                                        $scope.oferta=false;
+                                        $scope.bandera=false;
+                                        $scope.descuento10=0;
+                                }
+                               }
+                          
+                     });
+                      }
                 };
 
                 $scope.aumentarCantidad= function(index){
@@ -1830,7 +1907,66 @@
                         $scope.variants1 = data;
                     }); 
                 }
+
+                $scope.validar=function(data){
                 
+                    $scope.promocion.productBase_id=data.vari;
+                
+                }
+                 $scope.validar1=function(data){
+                
+                    $scope.promocion.product_id=data.vari;
+                
+                }
+                $scope.createPromotion=function(){
+                     crudServiceOrders.create($scope.promocion, 'promocion').then(function (data) {
+                          
+                            if (data['estado'] == true) {
+                                alert('grabado correctamente');
+                                 $route.reload();
+                            } else {
+                                $scope.errors = data;
+
+                            }
+                        });
+                }
+                $scope.cargarPromociones=function(){
+                    crudServiceOrders.paginate('promocion',1).then(function (data) {
+                        $scope.promociones = data.data;
+                        $scope.maxSize = 5;
+                        $scope.totalItems = data.total;
+                        $scope.currentPage = data.current_page;
+                        $scope.itemsperPage = 15;
+
+                    });
+
+                }
+                $scope.formPromocion=false;
+                $scope.mostrarformProm=function(){
+                       $scope.formPromocion=!$scope.formPromocion;
+                }
+                $scope.DropPromotions=function(row){
+                       
+                       crudServiceOrders.destroy(row,'promocion').then(function(data)
+                    {
+                        if(data['estado'] == true){                            
+                            
+                            $route.reload();
+
+                        }else{
+                            $scope.errors = data;
+                        }
+                    });
+                }
+        
+                $scope.buscarporProduct=function(query){
+                    if ($scope.lineaId==undefined) {$scope.lineaId=0;};
+                    if ($scope.materialId==undefined) {$scope.materialId=0;};              
+                    
+                    crudServiceOrders.buquedarapida('buquedarapida',$scope.store.id, $scope.warehouse.id,$scope.fecha,$scope.lineaId,$scope.materialId,query).then(function (data) {                        
+                        $scope.variants1 = data;
+                    }); 
+                }
 
             }]);
 })();

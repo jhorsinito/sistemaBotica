@@ -663,6 +663,7 @@
                         $scope.detailOrderPurchase.orderPurchases_id=$scope.codigoTemporalP;
                         $scope.detailOrderPurchase.nuevo=true;
                         $scope.detailOrderPurchases.push($scope.detailOrderPurchase);
+                        $scope.detailOrderPurchase.pendiente=$scope.detailOrderPurchase.cantidad;
                         $scope.orderPurchase.detailOrderPurchases=$scope.detailOrderPurchases;
                         //---------------------------------------------------------
                         if($scope.orderPurchase.tCambio=="sol"){
@@ -1111,6 +1112,12 @@
                      $scope.mostraItemAgreagaProducto=true;
                      //$scope.llenar();
                      $scope.check1=false;
+                     if($scope.orderPurchase.tasaDolar<=0 || $scope.orderPurchase.tasaDolar==undefined)
+                     {
+                      $scope.activarBusca=true;
+                     }else{
+                         $scope.activarBusca=false;
+                     }
                 }
                 $scope.MostrarCancelar=true;
                 $scope.MostrarEdcionStock=true;

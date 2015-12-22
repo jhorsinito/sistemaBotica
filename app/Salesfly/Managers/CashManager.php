@@ -16,7 +16,8 @@ class CashManager extends BaseManager{
             'descuadre' => '',
             'estado' => 'required',
             'notas' => '',
-            'cashHeader_id' => 'required'
+            'cashHeader_id' => 'required',
+            'user_id' => 'required'
         ];
         return $rules;
     }

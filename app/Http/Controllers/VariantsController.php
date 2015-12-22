@@ -48,6 +48,12 @@ class VariantsController extends Controller
 
         return response()->json($variants);
     }
+    public function getVariantid($q)
+    {
+        $variants = $this->variantRepo->getVariantid($q);
+
+        return response()->json($variants);
+    }
     public function find($id)
     {
         $variants = $this->variantRepo->find($id);

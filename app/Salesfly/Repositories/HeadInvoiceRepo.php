@@ -9,7 +9,9 @@ class HeadInvoiceRepo extends BaseRepo{
     }
 
     public function consult($id){
-    	$headInvoice=HeadInvoice::where("headInvoices.id","=",$id)->first();
+    	$headInvoice=HeadInvoice::where("headInvoices.id","=",$id)
+    	                      ->first();
     	return $headInvoice;
     }
+    
 }

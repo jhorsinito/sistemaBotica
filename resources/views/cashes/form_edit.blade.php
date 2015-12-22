@@ -141,6 +141,8 @@
                       <th style="width: 10px">#</th>
                       <th>Fecha</th>
                       <th>Hora</th>
+                      <th>Caja</th>
+                      <th>Usuario</th>
                       <th>Tipo</th>
                       <th>S/.Tarjeta</th>
                       <th>S/.Efectivo</th>
@@ -151,7 +153,9 @@
                       <td>@{{$index + 1}}</td>
                       <td>@{{row.fecha}}</td>
                       <td>@{{row.hora}}</td>
-                      <td>@{{row.cash_motive.nombre}}</td>
+                      <td>@{{row.nombre}}</td>
+                      <td>@{{row.name}}</td>
+                      <td>@{{row.nommovimiento}}</td>
                       <td>@{{row.montoMovimientoTarjeta}}</td>
                       <td>@{{row.montoMovimientoEfectivo}}</td>
                       <td ng-if="row.cashMotive_id==1 || row.cashMotive_id==13 || row.cashMotive_id==14"><a href="/sales/edit/@{{row.observacion}}" target="_blank">ver venta</a></td>

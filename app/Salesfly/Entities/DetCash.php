@@ -18,4 +18,7 @@ class DetCash extends \Eloquent {
     public function cashMotive(){
         return $this->belongsTo('Salesfly\Salesfly\Entities\CashMotive','cashMotive_id');
     }
+    public function cash(){
+        return $this->belongsTo('Salesfly\Salesfly\Entities\Cash','cash_id');
+    }
 }

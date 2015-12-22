@@ -414,11 +414,12 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
     }
 
     public function variantsAllInventary($store,$were,$q,$type,$brand,$product){
-        //return $q;
+        
       if ($store==0) {$store='%';}
       if ($were==0) {$were='%';}
       if ($type==0) {$type='%';}
       if ($brand==0) {$brand='%';}
+      if ($product==null) {$product='%';}
       $datos = \DB::table('products')->leftjoin('materials','products.material_id','=','materials.id')
                            ->join('variants as T6','products.id','=','T6.product_id')
                             ->join('stock as T7','T6.id','=','T7.variant_id')
@@ -430,7 +431,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->join ('warehouses as T8','T8.id','=', 'T7.warehouse_id')
                             ->join ('stores as T9', 'T9.id', '=', 'T8.store_id')  
 
-                            ->select(\DB::raw('products.nombre as Producto,T6.codigo as codigo,T6.id as vari ,T7.stockActual as stock,T10.nombre as Linea,T12.nombre as Mate,
+                            ->select(\DB::raw('products.nombre as Producto,T6.sku as codigo,T6.id as vari ,T7.stockActual as stock,T10.nombre as Linea,T12.nombre as Mate,
                                                 T13.price as Precio,
 
                                                 IF( T13.fecIniDscto<='.$q.' and T13.fecFinDscto>='.$q.',T13.dsctoRange,T13.dscto) as Descuento ,
@@ -442,6 +443,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                                               (select T20.descripcion FROM detAtr T20 where T20.variant_id=vari and T20.atribute_id=3) as Taco,
                                               (select T20.descripcion FROM detAtr T20 where T20.variant_id=vari and T20.atribute_id=2) as Tallas'))
                              
+                            ->where('products.nombre','like',$product.'%')
                             ->where('T9.id','like',$store.'%')
                             ->where('T8.id','like',$were.'%')
                             ->where('T10.id','like',$type.'%')

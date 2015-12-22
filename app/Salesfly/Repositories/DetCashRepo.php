@@ -12,14 +12,23 @@ class DetCashRepo extends BaseRepo{
 
     public function search($q)
     {
-        $detCashs =DetCash::with('cashMotive')
+        $detCashs =DetCash::join('cashMotives','cashMotives.id','=','detCash.cashMotive_id')
+                    ->join('cashes','cashes.id','=','detCash.cash_id')
+                    ->join('users','users.id','=','cashes.user_id')
+                    ->join('cashHeaders','cashHeaders.id','=','cashes.cashHeader_id')
+                    ->select('detCash.*','cashMotives.nombre as nommovimiento','users.name','cashHeaders.nombre')
                     ->where('cash_id','=', $q)
                     ->paginate(15);
         return $detCashs;
     }
     public function searchSale($q)
     {
-        $detCashs =DetCash::with('cashMotive')
+        $detCashs =DetCash::join('cashMotives','cashMotives.id','=','detCash.cashMotive_id')
+                    ->join('cashes','cashes.id','=','detCash.cash_id')
+                    ->join('users','users.id','=','cashes.user_id')
+                    ->join('cashHeaders','cashHeaders.id','=','cashes.cashHeader_id')
+                    ->select('detCash.*','cashMotives.nombre as nommovimiento','users.name','cashHeaders.nombre')
+                    
                         ->where('cash_id','=', $q)
                         ->where('cashMotive_id','=','1')
                         ->orWhere('cash_id','=', $q)

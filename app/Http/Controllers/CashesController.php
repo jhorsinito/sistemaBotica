@@ -55,10 +55,21 @@ class CashesController extends Controller
     {
         return View('cashes.form_edit');
     }
+    public function cajas_for_user(){
+        $cash=$this->cashRepo->searchuserincaja(auth()->user()->id);
+        return response()->json($cash);
+    }
+    public function cajas_for_user1($id){
+        $cash=$this->cashRepo->searchuserincaja1($id,auth()->user()->id);
+        return response()->json($cash);
+    }
+
+
     public function create(Request $request)
     {
+        
         $cash = $this->cashRepo->getModel();
-
+        $request->merge(['user_id'=>auth()->user()->id]);
         $manager = new CashManager($cash,$request->all());
         $manager->save();
 
@@ -67,7 +78,7 @@ class CashesController extends Controller
     public function edit(Request $request)
     {
         $cash = $this->cashRepo->find($request->id);
-
+        
         $manager = new CashManager($cash,$request->all());
         $manager->save();
 

@@ -462,6 +462,7 @@ Route::get('api/variants/findVariant/{id}','VariantsController@findVariant');
 Route::get('api/variants/paginate/','VariantsController@paginatep');
 Route::get('api/variants/find/{id}','VariantsController@find');
 Route::get('api/variants/getAttr/{id}','VariantsController@getAttr');
+Route::get('api/getVariantid/getAttr/{q}','VariantsController@getVariantid');
 Route::put('api/variants/editFavorito/','VariantsController@editFavoritos');
 Route::get('api/variants/disablevar/{id}',['as'=>'variant_disabled', 'uses'=>'VariantsController@disablevar']);
 
@@ -561,6 +562,7 @@ Route::get('api/cashHeaders/select','CashHeadersController@select');
 Route::get('api/cashHeaders/cajasActivas/{alma}','CashHeadersController@cajasActivas');
 Route::get('api/searchHeaders/search/{q?}',['as'=>'person_search', 'uses'=>'CashHeadersController@searchHeader']);
 Route::get('/api/cashHeaders/autocomplit2/','CashHeadersController@caja');
+Route::get('pruebafact/{id}/{vuel}','SalesController@generate_factura');
 //Route::get('api/cashHeaders/mostrarCostos/{id}','PromotionsController@mostrarCostos');
 
 //-----------------------------Cashes---------------------------
@@ -576,8 +578,8 @@ Route::put('api/cashes/edit',['as'=>'person_edit', 'uses'=>'CashesController@edi
 Route::post('api/cashes/destroy',['as'=>'person_destroy', 'uses'=>'CashesController@destroy']);
 Route::get('api/cashes/search/{q?}',['as'=>'person_search', 'uses'=>'CashesController@search']);
 Route::get('api/cashes/find/{id}',['as'=>'person_find', 'uses'=>'CashesController@find']);
-//Route::get('api/cashes/select','SuppliersController@selectSupliers');
-
+Route::get('api/cashes/cajas_for_user','CashesController@cajas_for_user');
+Route::get('api/cashes/cajas_for_user1/{id}','CashesController@cajas_for_user1');
 //-----------------------------DetCashes---------------------------
 Route::get('detCashes',['as'=>'person','uses'=>'DetCashController@index']);
 //Route::get('detCashes',['as'=>'person','uses'=>'DetCashController@index']);
@@ -619,8 +621,10 @@ Route::get('api/sales/find/{id}',['as'=>'person_find', 'uses'=>'SalesController@
 Route::get('api/sales/factura/{id}',['as'=>'person_find', 'uses'=>'SalesController@factura']);
 Route::get('api/detfactura/factura/{id}',['as'=>'person_find', 'uses'=>'SalesController@detfactura']);
 Route::get('api/sales/numeracion/{tipo}/{id}',['as'=>'person_find', 'uses'=>'SalesController@numeracion']);
-
-
+Route::post('api/promocion/create',['as'=>'person_create', 'uses'=>'SalesController@createPromcion']);
+Route::get('api/promocion/paginate/',['as' => 'person_paginate', 'uses' => 'SalesController@paginatePromtion']);
+Route::get('api/sales/confirmarVariante/{id}/{fecha}',['as'=>'person_find', 'uses'=>'SalesController@confirmarVariante']);
+Route::post('api/promocion/destroy','SalesController@destroy'); 
 Route::get('api/Reportsales/{fi}/{ff}','SalesController@reportCliente');
 
 Route::post('api/ordsales/create',['as'=>'person_create', 'uses'=>'SalesController@createSale']);
