@@ -989,7 +989,9 @@ class SalesController extends Controller
         return response()->json($orders);
     }
     public function reportCliente($fi,$ff){
-
+            //var_dump($fi);
+            //var_dump($ff);
+            //die();
              //return $ff;
         
         $database = \Config::get('database.connections.mysql');
@@ -1005,7 +1007,7 @@ class SalesController extends Controller
             //array(),
             //while($i<=3){};
             ['fechaInicio' => $fi,
-            'fechaFin' => $ff],//Parametros
+            'FechaF' => $ff],//Parametros
               
             $database,
             false,
