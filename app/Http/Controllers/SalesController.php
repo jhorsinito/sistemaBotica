@@ -237,7 +237,7 @@ class SalesController extends Controller
                  $request->merge(["cliente"=>$direccion["nombres"]." ".$direccion["apellidos"]]);
                  $request->merge(["direccion"=>$direccion["direccContac"]]);
                  $request->merge(["numero"=>(intval($num->numTiketFactura)+1)]);
-                 $request->merge(["numTiketFactura"=>(intval($num->numTiketBoleta)+1)]);
+                 $request->merge(["numTiketFactura"=>(intval($num->numTiketFactura)+1)]);
                  $request->merge(["dni"=>$direccion["dni"]]);
                  $inputfbnumber=new FBnumberManager($numbers,$request->only("numTiketFactura"));
                  $inputfbnumber->save();

@@ -26,7 +26,7 @@ class CreateHeadInvoicesTable extends Migration
             $table->foreign('venta_id')->references('id')->on('sales');
             $table->integer('cliente_id')->unsigned()->nullable();
             $table->foreign('cliente_id')->references('id')->on('customers');
-            $table->string('tipoDoc',1);
+            $table->string('tipoDoc',2);
             $table->timestamps();
         });
 }
