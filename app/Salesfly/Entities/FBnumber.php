@@ -5,6 +5,6 @@ class FBnumber extends \Eloquent {
 
 	protected $table = 'FBnumbers';
     
-    protected $fillable = ['numFactura','numBoleta','caja_id','numTiketFactura','numTiketBoleta'];
+    protected $fillable = ['numFactura','numBoleta','caja_id','numTiketFactura'];
 
 }
