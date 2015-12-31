@@ -25,7 +25,7 @@ class CashesController extends Controller
     }
 
     public function paginatep(){
-        $cashes = $this->cashRepo->paginate(15);
+        $cashes = $this->cashRepo->paginarCashes(15);
         return response()->json($cashes);
     }
 

@@ -382,7 +382,17 @@ class SalesController extends Controller
             }
             
     }
-    
+     public function editPromocion(Request $request)
+    {
+        $promocion = $this->promocionRepo->find($request->id);
+        //var_dump($material);
+        //die(); 
+        $manager = new PromocionManager($promocion,$request->except("fecha_inicio","fecha_fin"));
+        $manager->save();
+
+        //Event::fire('update.material',$material->all());
+        return response()->json(['estado'=>true]);
+    }
     public function generate_factura($idFactura,$vuelto,$caja,$cajadiari,$tipo,$descuento){
       $headInvoiceRepo=new HeadInvoiceRepo;
       $detailInvoiceRepo=new DetailInvoiceRepo;      

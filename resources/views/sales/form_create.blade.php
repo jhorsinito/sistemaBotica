@@ -59,7 +59,7 @@
                             </div>
 
                             <div class="col-md-9" ng-show="!skuestado">
-                              <input  type="text" ng-model="atributoSelected" typeahead-on-select="open()" placeholder="Buscar por codigo" typeahead="atributo as atributo.NombreAtributos for atributo in getAtributos($viewValue)" 
+                              <input  type="text" ng-model="atributoSelected" ng-enter="open()" placeholder="Buscar por codigo" typeahead="atributo as atributo.NombreAtributos for atributo in getAtributos($viewValue)" 
                                     typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"/>
                             </div>
                             <div class="col-md-3" >
@@ -274,15 +274,7 @@
                     </div>
 
 
-                    <div class="col-md-4">
-                        <div class="form-group" >
-                          <label for="month">Caja</label>
-
-                          <select class="form-control" name="" ng-model="cash1.cashHeader_id" ng-options="item.id as item.nombre for item in cashHeaders">
-                          <option value="">--Elije Caja--</option>
-                          </select>
-                        </div>
-                      </div>
+                    
 
                     </div>
 
@@ -324,33 +316,22 @@
                   </div>
                     
                   <div class="tab-pane" id="tab_5">
-                      <div class="row">
-                        <div class="col-md-4">
-                          <form >
-                          <div class="input-group" >
-                            <input ng-keyup="cargarConsul()" type="text" ng-model="busProducto"  name="table_search" class="form-control input-sm pull-right" placeholder="Producto" />
-                            <div class="input-group-btn">
-                              <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
-                            </div>
-                          </div>
-                          </form>
-                        </div>
-                      </div>
-                      <br>
-
-
-
+                      
+                      
 
                     <table class="table table-bordered">
                     <tr>
                       <th style="width: 10px">#</th>
                       <th>
-                            <div class="input-group" style="width: 150px;">
-                            <input type="text" ng-model="query"  ng-keyup="buscarporProduct(query)" name="table_search" class="form-control input-sm pull-right" placeholder="Search" />
-                                <div class="input-group-btn">
-                                  <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
-                                </div>
-                            </div>
+                           
+                          <form >
+                               <div class="input-group" style="width: 150px;">
+                                 <input ng-keyup="cargarConsul()" type="text" ng-model="busProducto"  name="table_search" class="form-control input-sm pull-right" placeholder="Producto" />
+                                 <div class="input-group-btn">
+                                   <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                                 </div>
+                               </div>
+                          </form>
                       </th>
                       <th>SKU</th>
                       <th><select class="form-control" name="" ng-model="materialId" ng-click="cargarConsul()"ng-options="item.id as item.nombre for item in brands">
@@ -430,12 +411,12 @@
                                    </div>                              
                           </div>
                           <div class="col-md-4">
-                                   <div class="form-group" ng-class="{true: 'has-error'}[ promocionCreateForm.empresa.$error.required && promocionCreateForm.$submitted || promocionCreateForm.empresa.$dirty && promocionCreateForm.empresa.$invalid]">
+                                   <div class="form-group" ng-class="{true: 'has-error'}[ promocionCreateForm.productAdicional.$error.required && promocionCreateForm.$submitted || promocionCreateForm.productAdicional.$dirty && promocionCreateForm.productAdicional.$invalid]">
                                    <label>Producto Adicional: </label>
                                    <div class="input-group" ng-hide="show" style="width: 100%;">
               
               
-                                       <input typeahead-on-select="validar1(producto)" type="text" name="empresa" ng-model="producto" placeholder="Busca por Proveedor" 
+                                       <input typeahead-on-select="validar1(producto)" type="text" name="productAdicional" ng-model="producto" placeholder="Busca por Proveedor" 
                                          typeahead="atributo as atributo.NombreAtributos for atributo in getAtributos($viewValue)"  
                                          typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
                                          tooltip="Ingrese caracteres para busacar Proveedor por Empres" required>
@@ -444,8 +425,8 @@
                                                 <i class="glyphicon glyphicon-remove"></i> No Results Found
                                         </div>
                                   </div> 
-                                  <label ng-show="promocionCreateForm.$submitted || promocionCreateForm.empresa.$dirty && promocionCreateForm.empresa.$invalid">
-                                    <span ng-show="promocionCreateForm.empresa.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                  <label ng-show="promocionCreateForm.$submitted || promocionCreateForm.productAdicional.$dirty && promocionCreateForm.productAdicional.$invalid">
+                                    <span ng-show="promocionCreateForm.productAdicional.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                                  </label>
                 
                                    </div>                              
@@ -455,10 +436,15 @@
                        <div class="row">
                        <div class="col-md-1"></div>
                               <div class="col-md-2">
-                                  <div class="form-group" >
-                                        <label>% de descuento</label>
-                                        <input class="form-control" type="number" ng-model="promocion.descuento" placeholder="0%"></input>
+                                  <div class="form-group"  ng-class="{true: 'has-error'}[ promocionCreateForm.descuento.$error.required && promocionCreateForm.$submitted || promocionCreateForm.descuento.$dirty && promocionCreateForm.descuento.$invalid]">
+                                      <label>Descuento</label>
+                                         <input class="form-control" type="number" name="descuento" ng-model="promocion.descuento" placeholder="0%" min="0" required></input>
+                                  
+                                      <label ng-show="promocionCreateForm.$submitted || promocionCreateForm.descuento.$dirty && promocionCreateForm.descuento.$invalid">
+                                            <span ng-show="promocionCreateForm.descuento.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                      </label>
                                   </div>
+                                  
                               </div>
                     <div class="col-md-4">
 
@@ -468,7 +454,7 @@
                                 <div class="input-group-addon">
                                       <i class="fa fa-calendar"></i>
                                 </div>
-                                  <input type="date" class="form-control"  name="fechaPedido" ng-model="promocion.fecha_inicio" >
+                                  <input type="date" class="form-control"  name="fechaPedido" ng-model="promocion.fecha_inicio" required>
                             </div>
                             <label ng-show="promocionCreateForm.$submitted || promocionCreateForm.fechaPedido.$dirty && promocionCreateForm.fechaPedido.$invalid">
                             <span ng-show="promocionCreateForm.fechaPedido.$invalid"><i class="fa fa-times-circle-o"></i>Fecha Inválida.</span>
@@ -499,19 +485,26 @@
                          <div class="row">
                           <div class="col-md-1"></div>
                             <div class="col-md-6">
-                                  <div class="form-group">
+                                 
+                                  <div  class="form-group" ng-class="{true: 'has-error'}[ promocionCreateForm.descripcion.$error.required && promocionCreateForm.$submitted || promocionCreateForm.descripcion.$dirty && promocionCreateForm.descripcion.$invalid]">
+                            
                                      <label>Descripcion</label>
-                                     <textarea class="form-control"  ng-model="promocion.descripcion" placeholder="....">
+                                        <textarea class="form-control"  name="descripcion" ng-model="promocion.descripcion" placeholder="...." required>
                                        
                                      </textarea>
+                                     <label ng-show="promocionCreateForm.$submitted || promocionCreateForm.descripcion.$dirty && promocionCreateForm.descripcion.$invalid">
+                                        <span ng-show="promocionCreateForm.descripcion.$invalid"><i class="fa fa-times-circle-o"></i>requerido.</span>
+                                     </label>
                                   </div>
 
                             </div>
                             <div class="col-md-4">
                                   <div class="form-group">
                                      <label></label><br>
-                                     <span style="color:blue;">Seleccione para activar promocion ==>  </span>
-                                     <input   type="checkbox"  style="width:50px;" name="variantes" ng-model="promocion.estado" />
+                                     <span style="color:blue;">Seleccione para activar promocion </span>
+                                    <label class="btn active btn-default" >
+                                        <input  ng-model="promocion.estado"  class="active" type="checkbox">Activar
+                                    </label>
                                 </div>
                            
 <!--<input type="checkbox"  id="toggle-two">
@@ -529,7 +522,7 @@
                       <div class="row">
                           <div class="col-md-1"></div>
                              <div class="col-md-2">
-                                    <button type="button" class="btn btn-danger" >Cancelar</button>
+                                    <button type="button" class="btn btn-danger" ng-click="mostrarformProm()">Cancelar</button>
                              </div>
                              <div class="col-md-6"></div>
                              <div class="col-md-2" style="text-align: right;">
@@ -540,6 +533,7 @@
                      
                      </form></div>
                      <br>
+                   
                      <table class="table table-striped">
                        <thead>
                          <tr>
@@ -554,12 +548,33 @@
                        <tbody>
                          <tr ng-repeat="row in promociones">
                            <td>@{{row.descripcion}}</td>
-                           <td>por  @{{row.cantidad+' unidades del '+row.nombre+' llevate el '}}<br>@{{row.product2+'con un '+row.descuento+'% de descuento'}}</td>
+                           <td>por  @{{row.cantidad+' unidades del ('+row.nombre+'/'+row.cant+'/'+row.sabor+') llevate el '}}<br>@{{'('+row.product2+') con un '+row.descuento+'% de descuento'}}</td>
                            <td>@{{row.fecha_inicio}}</td>
                            <td>@{{row.fecha_fin}}</td>
-                           <td>
-                             <button ng-if="row.estado==1" class="btn btn-warning btn-xs">Activo</button>
-                             <button ng-if="row.estado==0" class="btn btn-success btn-xs">Desactivo</button>
+                           <td ng-if="row.estado==1">
+                           
+                           <div class="input-group">
+                               <div  class="btn-group" data-toggle="buttons">
+                                  <button type="button" class="btn btn-@{{coloButton[$index]}}"  ng-init="cambiarColoButtonini($index)" ng-click="cambiarColoButton($index,row)">
+                                  <input type="radio"  name="options" id="option1"> Activo
+                                  </button>
+                                  <label class="btn btn-@{{coloButton2[$index]}}"  ng-click="cambiarColoButton2($index,row)">
+                                  <input type="radio"  name="options" id="option2"> Desactivo
+                                  </label>
+                              </div>
+                         </div>
+                           </td>
+                           <td ng-if="row.estado==0">
+                           <div class="input-group">
+                               <div  class="btn-group" data-toggle="buttons">
+                                  <button type="button" class="btn btn-@{{coloButton[$index]}}"   ng-click="cambiarColoButton($index,row)">
+                                  <input type="radio"  name="options" id="option1"> Activo
+                                  </button>
+                                  <label class="btn btn-@{{coloButton2[$index]}}" ng-init="cambiarColoButtonini2($index)" ng-click="cambiarColoButton2($index,row)">
+                                  <input type="radio"  name="options" id="option2"> Desactivo
+                                  </label>
+                              </div>
+                         </div>
                            </td>
                            <td>
                              <button  class="btn btn-danger btn-md" ng-click="DropPromotions(row)">Eliminar</button>
@@ -1034,10 +1049,10 @@
                       <div class="col-md-4">
                         <div ng-show="sale.comprobante" class="form-group">
                         <label  for="orderPurchase.tipoDoc">Tipo documento</label>
-                        <select  ng-disabled="estadoComoDocument==true" class="form-control" ng-model="sale.tipoDoc" ng-change="cambioNumeracion()">
-                              <option value="F">Factura</option>
+                        <select   class="form-control" ng-model="sale.tipoDoc" ng-change="cambioNumeracion()">
+                              <option ng-hide="estadoComoDocument==true" value="F">Factura</option>
                               <option value="B">Boleta</option>
-                              <option value="TF">Ticket Factura</option>
+                              <option ng-hide="estadoComoDocument==true" value="TF">Ticket Factura</option>
                               <option value="TB">Ticket Boleta</option>
                         </select>
                         </div> 
@@ -1184,6 +1199,8 @@
     
 </body>
 </div>
+
+
 
 
 

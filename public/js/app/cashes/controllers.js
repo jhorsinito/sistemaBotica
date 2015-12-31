@@ -234,7 +234,7 @@
 
                 $scope.searchcash = function(){
                 if ($scope.query.length > 0) {
-                    alert($scope.query);
+                    
                     crudService.search('cashes',$scope.query,1).then(function (data){
                         $scope.cashes = data.data;
                         $scope.totalItems = data.total;

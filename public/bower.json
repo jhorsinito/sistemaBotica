@@ -22,6 +22,7 @@
     "jquery.inputmask": "*",
     "angular-xeditable": "*",
     "ngprogress": "*",
-    "angular-ui-slider":"*"
+    "angular-ui-slider":"*",
+    "bootstrap-toggle":"*"
   }
 }

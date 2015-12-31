@@ -293,7 +293,7 @@
                                         });
                                         crudServiceOrders.factura('sales',data['codFactura']).then(function(data){    
                                             $scope.headVoice=data;
-                                            alert(data.created_at);
+                                            //alert(data.created_at);
                                             $scope.FechaCreado=new Date(data.created_at);
                                             $scope.anoFactura=""+$scope.FechaCreado.getFullYear();
                                             $scope.diaFactura=""+$scope.FechaCreado.getDate();
@@ -820,6 +820,51 @@
                     });
                   });
                 };
+
+                $scope.editPromcion=function(row){
+                      crudServiceOrders.update(row,'promocion').then(function(data)
+                        {
+                            if(data['estado'] == true){
+                                alert('editado correctamente');
+                            }else{
+                                $scope.errors =data;
+                            }
+                        });
+                }
+  
+
+               
+                $scope.coloButton={};
+                $scope.coloButton2={};
+                $scope.cambiarColoButton=function(index,row){
+                    //if(confirm("Esta seguro de querer Activar Oferta")==true){
+                         $scope.coloButton[index]='info';
+                         $scope.coloButton2[index]='default';
+                         row.estado=1;
+
+                         $scope.editPromcion(row);
+                     //}
+                }
+                
+                $scope.cambiarColoButton2=function(index,row){
+                    //if(confirm("Esta seguro de querer Desactivar Oferta")==true){
+                         $scope.coloButton2[index]='info';
+                         $scope.coloButton[index]='default';
+                         row.estado=0;
+                         $scope.editPromcion(row);
+                     //}
+                }
+                $scope.cambiarColoButtonini=function(index){
+                         $scope.coloButton[index]='info';
+                         $scope.coloButton2[index]='default';
+                    
+                }
+                
+                $scope.cambiarColoButtonini2=function(index){
+                         $scope.coloButton2[index]='info';
+                         $scope.coloButton[index]='default';
+                         
+                }
                 $scope.selecionarCliente = function() {
                     //$log.log($scope.customersSelected.busqueda);
                     if ($scope.customersSelected!=undefined) {
@@ -1021,7 +1066,7 @@
                                         //$scope.promedioV=Number(Math.floor(Number($scope.compras[index].cantidad)/Number(data.cantidad)));
                                         //$scope.compras[index+1].cantidad=$scope.promedioV;
                                         //$scope.calcularmontos(index+1);
-                                        alert('hola');
+                                        //alert('hola');
                                         $scope.oferta=false;
                                         $scope.bandera=false;
                                         $scope.descuento10=0;
@@ -1553,7 +1598,7 @@
                 }
                 //$scope.currentPage;
                 $scope.pagechan2=function(){
-                    alert($scope.currentPage);
+                    //alert($scope.currentPage);
                     crudServiceOrders.paginate('saledetPayments',$scope.currentPage).then(function (data) {
                             $scope.detPayments = data.data;
                         });
@@ -1607,7 +1652,8 @@
 
                     });
                 })
-            }
+}
+            
             $scope.PagoAnterior;
             $scope.mostrarBtnGEd=false;
             $scope.check=false;
@@ -1904,7 +1950,7 @@
                     if ($scope.lineaId==undefined) {$scope.lineaId=0;};
                     if ($scope.materialId==undefined) {$scope.materialId=0;};              
                     $scope.fechaConsulta = ''+$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate();
-                    if ($scope.busProducto=="") {$scope.buspro="%"}
+                    if ($scope.busProducto==undefined) {$scope.buspro="%"}
                         else{$scope.buspro=$scope.busProducto}
                     crudServiceOrders.buquedarapida('buquedarapida',$scope.store.id, $scope.warehouse.id,$scope.fechaConsulta,$scope.lineaId,$scope.materialId,$scope.buspro).then(function (data) {                        
                         $scope.variants1 = data;
@@ -1922,6 +1968,7 @@
                 
                 }
                 $scope.createPromotion=function(){
+                    if ($scope.promocionCreateForm.$valid) {
                      crudServiceOrders.create($scope.promocion, 'promocion').then(function (data) {
                           
                             if (data['estado'] == true) {
@@ -1932,6 +1979,7 @@
 
                             }
                         });
+                 }
                 }
                 $scope.cargarPromociones=function(){
                     crudServiceOrders.paginate('promocion',1).then(function (data) {

@@ -8,8 +8,8 @@ class PromocionManager extends BaseManager {
                     'cantidad'=>'required',
     				'productBase_id'=>'required',
     				'product_id'=> 'required',
-    				'fecha_inicio'=>'required',
-    				'fecha_fin'=>'required',
+    				'fecha_inicio'=>'',
+    				'fecha_fin'=>'',
     				'descuento'=> 'required',
     				'estado'=>''];
         return $rules;

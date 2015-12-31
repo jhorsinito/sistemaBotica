@@ -606,6 +606,7 @@ Route::get('api/cashMotive/search/{q?}',['as'=>'person_search', 'uses'=>'CashMot
 
 //----------------------------------------------------------------------
 //-----------------------------Cashes---------------------------
+Route::put('api/promocion/edit',['as'=>'person_edit', 'uses'=>'SalesController@editPromocion']);
 Route::get('sales',['as'=>'person','uses'=>'SalesController@index']);
 Route::get('sales/create/',['as'=>'person_create','uses'=>'SalesController@index']);
 Route::get('sales/edit/{id?}', ['as' => 'person_edit', 'uses' => 'SalesController@index']);
