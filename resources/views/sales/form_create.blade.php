@@ -326,7 +326,7 @@
                            
                           <form >
                                <div class="input-group" style="width: 150px;">
-                                 <input ng-keyup="cargarConsul()" type="text" ng-model="busProducto"  name="table_search" class="form-control input-sm pull-right" placeholder="Producto" />
+                                 <input ng-change="cargarConsul()" type="text" ng-model="busProducto"  name="table_search" class="form-control input-sm pull-right" placeholder="Producto" />
                                  <div class="input-group-btn">
                                    <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                                  </div>
@@ -365,7 +365,10 @@
                     
                     
                   </table>
-
+                    <div class="box-footer clearfix">
+                        <pagination total-items="totalItemsZ" ng-model="currentPageZ" max-size="maxSizeZ" class="pagination-sm no-margin pull-right" 
+                        items-per-page="itemsperPageZ" boundary-links="true" rotate="false" num-pages="numPages" ng-change="pageChangedZ()"></pagination>
+                    </div>
                   </div>
                   <!---tab Promociones-->
                   <div class="tab-pane" id="tab_6">

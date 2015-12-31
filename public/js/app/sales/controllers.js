@@ -403,6 +403,15 @@
                         });
                     }
                 };
+                $scope.pageChangedZ = function() {
+                   
+                       
+                        crudServiceOrders.buquedarapida('buquedarapida',$scope.store.id, $scope.warehouse.id,$scope.fechaConsulta,$scope.lineaId,$scope.materialId,$scope.buspro,$scope.currentPageZ).then(function (data) {                        
+                        $scope.variants1 = data.data;
+                    }); 
+                    
+                };
+                /*
                 /*
                 $scope.createcash = function(){
                     $scope.mostrarAlmacenCaja();
@@ -1928,13 +1937,17 @@
 
                 }
                 //--------------------------------------------------
-                $scope.buspro='%';
+                $scope.buspro=0;
                 $scope.cargarConsulta = function(){
                     $scope.fechaConsulta = ''+$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate();
                     $scope.lineaId=0;$scope.materialId=0;
 
-                    crudServiceOrders.buquedarapida('buquedarapida',$scope.store.id, $scope.warehouse.id,$scope.fechaConsulta,$scope.lineaId,$scope.materialId,$scope.buspro).then(function (data) {                        
-                        $scope.variants1 = data;
+                    crudServiceOrders.buquedarapida('buquedarapida',$scope.store.id, $scope.warehouse.id,$scope.fechaConsulta,$scope.lineaId,$scope.materialId,$scope.buspro,1).then(function (data) {                        
+                        $scope.variants1 = data.data;
+                        $scope.maxSizeZ = 5;
+                        $scope.totalItemsZ = data.total;
+                        $scope.currentPageZ = data.current_page;
+                        $scope.itemsperPageZ = 15;
                         $log.log($scope.variants1);
                     }); 
                     crudServiceOrders.all('types').then(function (data) {                        
@@ -1946,14 +1959,19 @@
                        //$log.log($scope.types);
                     });      
                 }
-                $scope.cargarConsul = function(){
+                $scope.cargarConsul
+                 = function(){
                     if ($scope.lineaId==undefined) {$scope.lineaId=0;};
                     if ($scope.materialId==undefined) {$scope.materialId=0;};              
                     $scope.fechaConsulta = ''+$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate();
-                    if ($scope.busProducto==undefined) {$scope.buspro="%"}
+                    if ($scope.busProducto==undefined || $scope.busProducto=='') {$scope.buspro=0;}
                         else{$scope.buspro=$scope.busProducto}
-                    crudServiceOrders.buquedarapida('buquedarapida',$scope.store.id, $scope.warehouse.id,$scope.fechaConsulta,$scope.lineaId,$scope.materialId,$scope.buspro).then(function (data) {                        
-                        $scope.variants1 = data;
+                    crudServiceOrders.buquedarapida('buquedarapida',$scope.store.id, $scope.warehouse.id,$scope.fechaConsulta,$scope.lineaId,$scope.materialId,$scope.buspro,1).then(function (data) {                        
+                        $scope.variants1 = data.data;
+                        $scope.maxSizeZ = 5;
+                        $scope.totalItemsZ = data.total;
+                        $scope.currentPageZ = data.current_page;
+                        $scope.itemsperPageZ = 15;
                     }); 
                 }
 

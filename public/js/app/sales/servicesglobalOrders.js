@@ -163,10 +163,10 @@
 
                 return deferred.promise;
             }
-            function buquedarapida(uri,idStore,idWerehouse,val,type,brand,product){
+            function buquedarapida(uri,idStore,idWerehouse,val,type,brand,product,page){
                 var deferred = $q.defer();
                 //alert(val);
-                $http.get('/api/'+uri+'/misDatos/'+idStore+'/'+idWerehouse+'/'+val+'/'+type+'/'+brand+'/'+product)
+                $http.get('/api/'+uri+'/misDatos/'+idStore+'/'+idWerehouse+'/'+val+'/'+type+'/'+brand+'/'+product+'/?page='+page)
                     .success(function (data) {
                         deferred.resolve(data);
                     });
