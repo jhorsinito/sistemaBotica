@@ -66,7 +66,7 @@
                 <label for="Variante">Generar Reporte de:</label>
                 <select   ng-change="" class="form-control"   ng-model="purchase.tipoMov" >
                   <option value="">Elejir una opcion</option>
-                  <option value="Entrada">Entradas</option>
+                  <option value="Entrada por Compra">Entradas</option>
                   <option value="Salida">Salidas</option>
                   <option value="Compra">Compra</option>
                   <option value="Venta">Venta</option>

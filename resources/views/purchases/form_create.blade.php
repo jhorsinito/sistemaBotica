@@ -117,6 +117,7 @@
           </div>
          
           <div class="col-md-10">
+           <div class="box-body table-responsive no-padding">
             <table class="table table-striped">
                     <tr>
                       <th style="width: 10px">#</th>
@@ -155,6 +156,7 @@
                     
                     
                   </table>
+                  </div>
                 </div>
             </div>
         <div class="row">

@@ -27,7 +27,7 @@
                                               <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
                                               </ul>
                                             </div>
-                   
+                    <div class="box-body table-responsive no-padding">
                     <table class="table table-striped">
                     <tr>
                       
@@ -55,7 +55,7 @@
                     
                     
                   </table>
-                  
+                  </div>
                 </div><!-- /.box-body -->
       <div class="box-body">
 <div class="row">
@@ -66,6 +66,7 @@
                  <div  class="form-group" >
                       <b>Agrega Pago</b>
                  </div>
+                  <div class="box-body table-responsive no-padding">
                  <table class="table table-striped" >
                     <tr>
                       <th style="width: 100px">Fecha</th>
@@ -107,6 +108,7 @@
               </td>
               </tr>
             </table>
+            </div>
           </div>
         </div>
         <div class="row">
@@ -152,6 +154,7 @@
             <div class="form-group">
               <b>Pagos Realizados</b>
               </div>
+            <div class="box-body table-responsive no-padding">
             <table class="table table-striped" >
                 <thead style="display: block;">
                     <tr>
@@ -179,9 +182,10 @@
                         <span class="glyphicon glyphicon-trash"></span></button>
                      <a ng-click="editDetpayment(row)" ng-model="checked" class="btn btn-warning btn-xs">Edit</a></td>
                     </tr>
-                </table>
+                
                 </tbody>
-                    
+                   </table>
+                   </div> 
             </div>
       </div>
             <div ng-hide="mostrarBtnGEd" class="form-group" >

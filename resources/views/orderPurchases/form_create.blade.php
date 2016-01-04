@@ -485,7 +485,7 @@
 <!--===============================================================================================-->
 <div  class="box-body" style="display: block;">
      <div class="row">
-          <div class="col-md-4"> 
+          <div class="col-md-2"> 
                 <div class="form-group">
                 <label for="suppPric">Descuento</label>
                 <input type="number" ng-model="orderPurchase.descuento" min='0' class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
@@ -493,7 +493,7 @@
               </div>
             </div>
             <!-- capo de Texto  Descuento-->
-            <div ng-hide="orderPurchase.tCambio=='dolar'" class="col-md-4"> 
+            <div ng-hide="orderPurchase.tCambio=='dolar'" class="col-md-2"> 
               <div class="form-group">
                 <label for="suppPric">Monto Bruto</label>
                 <input ng-Disabled="true" type="number" min='0' ng-model="orderPurchase.montoBruto" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
@@ -501,13 +501,45 @@
               </div>
               <label>Equivalencia $.@{{orderPurchase.montoBrutoDolar}}</label>
             </div>
-            <div ng-show="orderPurchase.tCambio=='dolar'" class="col-md-4"> 
+            <div ng-show="orderPurchase.tCambio=='dolar'" class="col-md-2"> 
               <div class="form-group">
                 <label for="suppPric">Monto Bruto</label>
                 <input ng-Disabled="true" type="number" min='0' ng-model="orderPurchase.montoBrutoDolar" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
                 name="montoBruto" placeholder="0.00"   ng-blur="calcularmontoBrutoF()" step="0.1">
               </div>
               <label>Equivalencia S/.@{{orderPurchase.montoBruto}}</label>
+            </div>
+            <div ng-hide="orderPurchase.tCambio=='dolar'" class="col-md-2"> 
+                <div class="form-group">
+                <label for="suppPric">Mas IGV <input type="checkbox" ng-model="orderPurchase.checkIgv" ng-click="activIgvtotal()"></label>
+                <input ng-disabled="true" type="number" ng-model="orderPurchase.igv" min='0' class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
+                name="descuento" placeholder="0.00"    step="0.1">
+              </div>
+              <label>Equivalencia $.@{{orderPurchase.igvDolar}}</label>              
+            </div>
+            <div ng-show="orderPurchase.tCambio=='dolar'" class="col-md-2"> 
+                <div class="form-group">
+                <label for="suppPric">Mas IGV <input type="checkbox" ng-model="orderPurchase.checkIgv" ng-click="activIgvtotal()"></label>
+                <input ng-disabled="true" type="number" ng-model="orderPurchase.igvDolar" min='0' class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
+                name="descuento" placeholder="0.00"    step="0.1">
+              </div> 
+              <label>Equivalencia S/.@{{orderPurchase.igv}}</label>             
+            </div>
+             <div ng-hide="orderPurchase.tCambio=='dolar'" class="col-md-2"> 
+                <div class="form-group">
+                <label for="suppPric">Base Imponible</label>
+                <input ng-disabled="true" type="number" ng-model="orderPurchase.montoBase" min='0' class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
+                       name="descuento" placeholder="0.00"    step="0.1">
+              </div>
+              <label>Equivalencia $.@{{orderPurchase.montoBaseDolar}}</label> 
+            </div>
+            <div ng-show="orderPurchase.tCambio=='dolar'" class="col-md-2"> 
+                <div class="form-group">
+                <label for="suppPric">Base Imponible</label>
+                <input ng-disabled="true" type="number" ng-model="orderPurchase.montoBaseDolar" min='0' class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
+                       name="descuento" placeholder="0.00"    step="0.1">
+              </div>
+              <label>Equivalencia S/.@{{orderPurchase.montoBase}}</label> 
             </div>
             <!-- capo de Texto  Total-->
             <div ng-hide="orderPurchase.tCambio=='dolar'" class="col-md-4"> 

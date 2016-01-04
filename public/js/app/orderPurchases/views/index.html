@@ -137,7 +137,7 @@
           </div>
             </div>    
             </div>
-                  
+                  <div class="box-body table-responsive no-padding">
                   <table class="table table-bordered table-hover">
                     <tr>
                       <th style="width: 10px">#</th>
@@ -147,6 +147,7 @@
                       <th>Fecha Prevista</th>
                       <th>Descuento</th>
                       <th>Monto Bruto</th>
+                      <th>IGV</th>
                       <th>Monto Total</th>
                       <th style="width: 40px">Añadir Pago A</th>
                       <th style="width: 40px">Estados</th>
@@ -164,6 +165,13 @@
                       <td>{{row.descuento}}</td>
                       <td ng-if="row.tCambio=='sol'">S/.{{row.montoBruto}} <em style="color:blue;">$({{row.montoBrutoDolar}})</em></td>
                       <td ng-if="row.tCambio=='dolar'">$.{{row.montoBrutoDolar}} <em style="color:blue;">S/.({{row.montoBruto}})</em></td>
+
+                      <td ng-if="row.tCambio=='sol'">S/.{{row.igv}} <em style="color:blue;">$({{row.igvDolar}})</em></td>
+                      <td ng-if="row.tCambio=='dolar'">$.{{row.igvDolar}} <em style="color:blue;">S/.({{row.igv}})</em></td>
+
+                      <td ng-if="row.tCambio=='sol'">S/.{{row.montoBase}} <em style="color:blue;">$({{row.montoBaseDolar}})</em></td>
+                      <td ng-if="row.tCambio=='dolar'">$.{{row.montoBaseDolar}} <em style="color:blue;">S/.({{row.montoBase}})</em></td>
+                      
                       <td ng-if="row.tCambio=='sol'">S/.{{row.montoTotal}} <em style="color:blue;">$({{row.montoTotalDolar}})</em></td>
                       <td ng-if="row.tCambio=='dolar'">$.{{row.montoTotalDolar}} <em style="color:blue;">S/.({{row.montoTotal}})</em></td>
                       <td ng-if="row.Estado==0"><button class=" label-default" ng-click="VerAdelantos(row.id)">Adelanto</button></td>
@@ -179,6 +187,7 @@
                     
                     
                   </table>
+                  </div>
                 </div><!-- /.box-body -->
                 <div class="box-footer clearfix">
                   <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm no-margin pull-right" items-per-page="itemsperPage" boundary-links="true" rotate="false" num-pages="numPages" ng-change="pageChanged()"></pagination>

@@ -17,7 +17,11 @@ class Purchase extends \Eloquent {
                     'tCambio',
                     'tasaDolar',
                     'montoBrutoDolar',
-                    'montoTotalDolar'];
+                    'montoTotalDolar',
+                    'montoBase',
+                    'montoBaseDolar',
+                    'igv',
+                    'igvDolar'];
      public function warehouse()
     {
         return $this->belongsTo('\Salesfly\Salesfly\Entities\Warehouse');

@@ -43,6 +43,8 @@
                   <li class=""><a href="#tab_4" data-toggle="tab" aria-expanded="false">Reporte</a></li>
                   <li class=""><a href="#tab_5" data-toggle="tab" aria-expanded="false" ng-click="cargarConsulta()">Consultas</a></li>
                   <li class=""><a href="#tab_6" data-toggle="tab" aria-expanded="false" ng-click="cargarPromociones()">Promociones</a></li>
+                  
+                
                 </ul>
                 <div class="tab-content">
                   <div class="tab-pane active" id="tab_1">
@@ -222,6 +224,7 @@
                       <th>Hora</th>
                       <th>Caja</th>
                       <th>Usuario</th>
+                      <th>Documento</th>
                       <th>Tipo</th>
                       
                       <th>S/.Tarjeta</th>
@@ -236,6 +239,7 @@
                       <td>@{{row.hora}}</td>
                       <td>@{{row.nombre}}</td>
                       <td>@{{row.name}}</td>
+                      <td><a href="#tab_7" data-toggle="tab" aria-expanded="false" ng-click="traerDoumento(row)">@{{row.tipoDoc+"-"+row.NumDocument}}</a></td>
                       <td>@{{row.nommovimiento}}</td>
                       
                       <td>@{{row.montoMovimientoTarjeta}}</td>
@@ -280,6 +284,103 @@
 
 
                   </div><!-- /.tab-pane -->
+                  <!--tab Documentos de Venta-->
+                  <div class="tab-pane" id="tab_7">
+                         <div class="row">
+                           <div class="col-md-1">
+                           </div>
+                           <div class="col-md-7">
+                               <h1>GoHar</h1>
+                           </div>
+                           <div class="col-md-3" style="text-align: center;">
+                              <table>
+
+                                    <h4 style="margin-bottom:0px;"> RUC.- 124586935685</h4>
+                                    <h1 style="margin-top: 0xp; padding-top:0px;">Factura</h1>
+                                    <h3 style="color:red;">N°.-001-0000012</h3>
+                               </table>
+                           </div>
+                         </div>
+                          <div class="row">
+                           <div class="col-md-1">
+                           </div>
+                            <div class="col-md-8">
+                            <label>FECHA: 15/02/2016 10:20:02 am</label>
+                           </div>
+                           <div class="col-md-2">
+                            <label>#CAJA: 02</label>
+                           </div>
+                           </div>
+                         <div class="row">
+                           <div class="col-md-1">
+                           </div>
+                           <div class="col-md-6">
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">CLIENTE: Jose Castillo</label>
+                           </div>
+                           <div class="col-md-4">
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">RUC: 1542896325</label>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-md-1">
+                           </div>
+                           <div class="col-md-6">
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">DIRECCION: Jose Castillo</label>
+                           </div>
+                           <div class="col-md-4">
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">VENDEDOR: 1542896325</label>
+                           </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                          <div class="col-md-1">
+                           </div>
+                           <div class="col-md-10">
+                           <div class="box-body table-responsive no-padding">
+                             <table class="table table-striped">
+                               <thead>
+                                 <th>Descripcion</th>
+                                 <th>Precion</th>
+                                 <th>Cantidad</th>
+                                 <th>Subtotal</th>
+                               </thead>
+                               <tbody>
+                                 <td>Cualquier cosa que se pueda comer</td>
+                                 <td>150.00</td>
+                                 <td>12</td>
+                                 <td>1500.50</td>
+                               </tbody>
+                             </table>
+                             </div>
+                           </div>
+                        </div><br>
+                        <div class="row">
+                           <div class="col-md-1">
+                           </div>
+                           <div class="col-md-2">
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">DESCUENTO:50 %</label>
+                           </div>
+                           <div class="col-md-3">
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">MONTOBRUTO:S/.1500.50</label>
+                           </div>
+                           <div class="col-md-2">
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">IGV:S/.270.00</label>
+                           </div>
+                           <div class="col-md-3">
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">TOTAL:S/.1500.50</label>
+                           </div>
+                        </div> <br>
+                        <div class="row">
+                           <div class="col-md-1">
+                           </div>
+                           <div class="col-md-10">
+                                <a  href="#tab_2" data-toggle="tab" aria-expanded="false" class="btn btn-warning">Volver</a>
+                                <button  ng-click="generarReportePagos()" class="btn btn-info">Imprimir</button>
+                           </div>
+                        </div>
+                  </div>
+
+                  <!--Fin tab documentos de venta-->
                   <div class="tab-pane" id="tab_4">
                   <div class="row">
                     <div class="col-md-4">
@@ -589,7 +690,7 @@
                   <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm no-margin pull-right" items-per-page="itemsperPage" boundary-links="true" rotate="false" num-pages="numPages" ng-change="pageChanged()"></pagination>
                   </div>
                  <!--fin tab Promociones-->    
-
+                   
                 </div><!-- /.tab-content -->
               </div>
                <script type="text/javascript">$('#myTabs a').click(function (e) {
@@ -1202,7 +1303,6 @@
     
 </body>
 </div>
-
 
 
 

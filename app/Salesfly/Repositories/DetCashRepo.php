@@ -16,8 +16,19 @@ class DetCashRepo extends BaseRepo{
                     ->join('cashes','cashes.id','=','detCash.cash_id')
                     ->join('users','users.id','=','cashes.user_id')
                     ->join('cashHeaders','cashHeaders.id','=','cashes.cashHeader_id')
-                    ->select('detCash.*','cashMotives.nombre as nommovimiento','users.name','cashHeaders.nombre')
-                    ->where('cash_id','=', $q)
+                    ->join('sales','sales.cash_id','=','cashes.id')
+                    ->leftjoin('headInvoices as hi','hi.venta_id','=','sales.id')
+                           ->select(\DB::raw("detCash.*,cashMotives.nombre as nommovimiento, users.name,
+                            cashHeaders.nombre,hi.tipoDoc,
+                            IF(hi.numero<10,CONCAT('000000',hi.numero),
+                             IF(hi.numero<100,CONCAT('00000',hi.numero),
+                             IF(hi.numero<1000,CONCAT('0000',hi.numero),
+                             IF(hi.numero<10000,CONCAT('000',hi.numero),
+                             IF(hi.numero<100000,CONCAT('00',hi.numero),
+                             IF(hi.numero<100000,CONCAT('0',hi.numero),hi.numero
+                             ))))))as NumDocument"))
+                    ->where('detCash.cash_id','=', $q)
+                    ->groupBy('sales.id')
                     ->paginate(15);
         return $detCashs;
     }
@@ -26,13 +37,23 @@ class DetCashRepo extends BaseRepo{
         $detCashs =DetCash::join('cashMotives','cashMotives.id','=','detCash.cashMotive_id')
                     ->join('cashes','cashes.id','=','detCash.cash_id')
                     ->join('users','users.id','=','cashes.user_id')
+                    ->join('sales','sales.cash_id','=','cashes.id')
                     ->join('cashHeaders','cashHeaders.id','=','cashes.cashHeader_id')
-                    ->select('detCash.*','cashMotives.nombre as nommovimiento','users.name','cashHeaders.nombre')
-                    
-                        ->where('cash_id','=', $q)
-                        ->where('cashMotive_id','=','1')
-                        ->orWhere('cash_id','=', $q)
-                        ->where('cashMotive_id','=','14')
+                    ->leftjoin('headInvoices as hi','hi.venta_id','=','sales.id')
+                           ->select(\DB::raw("detCash.*,cashMotives.nombre as nommovimiento, users.name,
+                            cashHeaders.nombre,hi.tipoDoc,hi.id as idDocu,
+                            IF(hi.numero<10,CONCAT('000000',hi.numero),
+                             IF(hi.numero<100,CONCAT('00000',hi.numero),
+                             IF(hi.numero<1000,CONCAT('0000',hi.numero),
+                             IF(hi.numero<10000,CONCAT('000',hi.numero),
+                             IF(hi.numero<100000,CONCAT('00',hi.numero),
+                             IF(hi.numero<100000,CONCAT('0',hi.numero),hi.numero
+                             ))))))as NumDocument"))
+                        ->where('detCash.cash_id','=', $q)
+                        ->where('detCash.cashMotive_id','=','1')
+                        ->orWhere('detCash.cash_id','=', $q)
+                        ->where('detCash.cashMotive_id','=','14')
+                        ->groupBy('sales.id')
                         //->orWhere('cashMotive_id','=','14')
                     ->paginate(15);
         return $detCashs; 

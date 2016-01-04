@@ -59,6 +59,7 @@
           </div><!-- /.box-tools -->
         </div><!-- /.box-header -->
         <div  class="box-body" style="display: block;">
+          <div class="box-body table-responsive no-padding">
           <table  class="table table-bordered" id="tabla1">
             <tr>
               <th style="width: 10px">#</th>
@@ -98,36 +99,48 @@
                     </tr> 
           </table>
 
-
+         </div>
         </div>
       </div>
   <!-- ==========================================================================================-->
         <div class="row">
-          <div class="col-md-4"> 
+          <div class="col-md-1"> 
                 <div class="form-group">
                 <label for="suppPric">Descuento</label>
-                <input type="number" ng-model="purchase.descuento" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
-                name="descuento" placeholder="0.00"  ng-disabled="purchase.Estado" ng-blur="calcularmontoBrutoF()" step="0.1">
-              </div>
+                <label style="border:solid 2px; width:100%; height:30px;">@{{purchase.descuento}} %</label>              
+            </div>
             </div>
             <!-- capo de Texto  Descuento-->
-            <div class="col-md-4"> 
+            <div class="col-md-3"> 
               <div class="form-group">
                 <label for="suppPric">Monto Bruto</label>
-                <input type="number" ng-model="purchase.montoBruto" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
-                name="montoBruto" placeholder="0.00"  ng-disabled="purchase.Estado" ng-blur="calcularmontoBrutoF()" step="0.1">
+                    <label style="border:solid 2px; width:100%; height:30px;">S/.@{{purchase.montoBruto}} -> $.@{{purchase.montoBruto}}</label>              
+            
+                </div>
+            </div>
+            <div class="col-md-2"> 
+                <div class="form-group">
+                <label for="suppPric">Mas IGV(18%)</label>
+                <label style="border:solid 2px; width:100%; height:30px;">S/.@{{purchase.igv}} -> $.@{{purchase.igv}}</label>              
+            
               </div>
+              
+            </div>
+            <div class="col-md-3"> 
+                <div class="form-group">
+                <label for="suppPric">Monto Base</label><br>
+                <label style="border:solid 2px; width:100%; height:30px;">S/.@{{purchase.montoBase}} -> $.@{{purchase.montoBaseDolar}}</label>              
+            </div>
             </div>
             <!-- capo de Texto  Total-->
-            <div class="col-md-4"> 
+            <div class="col-md-3"> 
                 <div class="form-group">
                 <label for="suppPric">Monto Total</label>
-                <input type="number" ng-model="purchase.montoTotal" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
-                name="montoTotal" placeholder="0.00"  ng-disabled="purchase.Estado" ng-blur="calcularmontoBrutoF()" step="0.1">
-              </div>
+                <label style="border:solid 2px; width:100%; height:30px;">S/.@{{purchase.montoTotal}} -> $.@{{purchase.montoTotal}}</label>              
             </div>
-          </div>
+            </div>
           
+          </div>
                  <!--  <button ng-click="GenerrarReportCod()" type="submit" class="btn btn-primary btn-xs">@{{botonReporteCod}}</button>
                    <a ng-show="verReportSku1" ng-click="" ng-href="@{{pdf1}}" target="_blank" type="submit" class="btn btn-warning btn-xs"  >Ver Reporte</a>-->
                    <button ng-click="GenerrarReport()" type="submit" class="btn btn-primary btn-xs">@{{botonReporte}}</button>

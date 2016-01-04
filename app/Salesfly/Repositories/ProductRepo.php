@@ -419,7 +419,8 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
       if ($were==0) {$were='%';}
       if ($type==0) {$type='%';}
       if ($brand==0) {$brand='%';}
-      if ($product==0) {$product='%';}
+      if ($product=='0') {$product='%';}
+      //var_dump($product);die();
       $datos = \DB::table('products')->leftjoin('materials','products.material_id','=','materials.id')
                            ->join('variants as T6','products.id','=','T6.product_id')
                             ->join('stock as T7','T6.id','=','T7.variant_id')
@@ -448,7 +449,6 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->where('T8.id','like',$were.'%')
                             ->where('T10.id','like',$type.'%')
                             ->where('T12.id','like',$brand.'%')
-                            ->where('products.nombre','like','%'.$product.'%')
                             ->groupBy('T6.id')
                             ->paginate(15);
             return $datos;

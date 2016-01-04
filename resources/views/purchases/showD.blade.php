@@ -34,6 +34,7 @@
           </div>
           <div class="col-md-10">
               <div  class="well well-lg">
+                  <div class="box-body table-responsive no-padding">
                    <table class="table table-striped">
                     <tr>
                       <th style="width: 10px">#</th>
@@ -67,6 +68,7 @@
                     
                     
                   </table>
+                  </div>
                    <div class="box-body">
                   <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" 
                   class="pagination-sm no-margin pull-right" items-per-page="itemsperPage" 

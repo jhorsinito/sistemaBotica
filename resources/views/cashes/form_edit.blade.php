@@ -144,6 +144,7 @@
                       <th>Caja</th>
                       <th>Usuario</th>
                       <th>Tipo</th>
+                      <th>Documento</th>
                       <th>S/.Tarjeta</th>
                       <th>S/.Efectivo</th>
                       <th>Ver Venta</th>
@@ -156,6 +157,7 @@
                       <td>@{{row.nombre}}</td>
                       <td>@{{row.name}}</td>
                       <td>@{{row.nommovimiento}}</td>
+                      <td>@{{row.tipoDoc+"-"+row.NumDocument}}</td>
                       <td>@{{row.montoMovimientoTarjeta}}</td>
                       <td>@{{row.montoMovimientoEfectivo}}</td>
                       <td ng-if="row.cashMotive_id==1 || row.cashMotive_id==13 || row.cashMotive_id==14"><a href="/sales/edit/@{{row.observacion}}" target="_blank">ver venta</a></td>
