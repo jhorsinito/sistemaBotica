@@ -262,6 +262,7 @@
                 );
                 return deferred.promise;
             }
+            
              function reporteEstado(uri,estado)
             {
                 var deferred = $q.defer();

@@ -566,6 +566,7 @@ class OrderPurchasesController extends Controller {
     //sin ruta
       public function reporteOrdenCompreLike($decri){
         //var_dump($estado);die();
+
         $database = \Config::get('database.connections.mysql');
         $time=time();
         $output = public_path() . '/report/'.$time.'_reporteOrdenCompreLike';        
@@ -577,7 +578,7 @@ class OrderPurchasesController extends Controller {
             array($ext),
             //array(),
             //while($i<=3){};
-            ['q'=>$decri],//Parametros
+            ['SUBREPORT_DIR'=>public_path() .'/report/','q'=>$decri],//Parametros
               
             $database,
             false,
