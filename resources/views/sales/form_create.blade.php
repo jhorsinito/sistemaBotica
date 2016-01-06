@@ -240,13 +240,13 @@
                       <td>@{{row.nombre}}</td>
                       <td>@{{row.name}}</td>
                       <td><a href="#tab_7" data-toggle="tab" aria-expanded="false" ng-click="traerDoumento(row)">@{{row.tipoDoc+"-"+row.NumDocument}}</a></td>
-                      <td>@{{row.nommovimiento}}</td>
+                      <td>@{{row.Motivo}}</td>
                       
-                      <td>@{{row.montoMovimientoTarjeta}}</td>
-                      <td>@{{row.montoMovimientoEfectivo}}</td>
+                      <td>@{{row.tarjeta}}</td>
+                      <td>@{{row.efectivo}}</td>
                       
-                      <td ng-if="row.cashMotive_id==1 || row.cashMotive_id==14"><a href="/sales/edit/@{{row.observacion}}" target="_blank">ver venta</a></td>
-                      <td ng-if="row.cashMotive_id!=1 && row.cashMotive_id!=14">@{{row.observacion}}</td>
+                      <td ng-if="row.cashMotive_id==1 || row.cashMotive_id==14"><a href="/sales/edit/@{{row.id}}" target="_blank">ver venta</a></td>
+                      <td ng-if="row.cashMotive_id!=1 && row.cashMotive_id!=14">@{{row.id}}</td>
                     </tr>                   
                   </table>
                   <div class="box-footer clearfix">
@@ -295,9 +295,12 @@
                            <div class="col-md-3" style="text-align: center;">
                               <table>
 
-                                    <h4 style="margin-bottom:0px;"> RUC.- 124586935685</h4>
-                                    <h1 style="margin-top: 0xp; padding-top:0px;">Factura</h1>
-                                    <h3 style="color:red;">N°.-001-0000012</h3>
+                                    <h4 style="margin-bottom:0px;"> RUC.- @{{documento.rucTienda}}</h4>
+                                    <h1 ng-if="documento.tipoDoc=='F'" style="margin-top: 0xp; padding-top:0px;">Factura</h1>
+                                    <h1 ng-if="documento.tipoDoc=='B'" style="margin-top: 0xp; padding-top:0px;">Boleta</h1>
+                                    <h1 ng-if="documento.tipoDoc=='TF'" style="margin-top: 0xp; padding-top:0px;">Tiket Factura</h1>
+                                    <h1 ng-if="documento.tipoDoc=='TB'" style="margin-top: 0xp; padding-top:0px;">Tiket Boleta</h1>
+                                    <h3 style="color:red;">N°.-00@{{documento.cashHeader_id}}-@{{documento.NumDocument}}</h3>
                                </table>
                            </div>
                          </div>
@@ -305,30 +308,30 @@
                            <div class="col-md-1">
                            </div>
                             <div class="col-md-8">
-                            <label>FECHA: 15/02/2016 10:20:02 am</label>
+                            <label>FECHA:@{{documento.created_at}} </label>
                            </div>
                            <div class="col-md-2">
-                            <label>#CAJA: 02</label>
+                            <label>#CAJA: @{{documento.idCaja}}</label>
                            </div>
                            </div>
                          <div class="row">
                            <div class="col-md-1">
                            </div>
                            <div class="col-md-6">
-                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">CLIENTE: Jose Castillo</label>
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">CLIENTE: @{{documento.cliente}}</label>
                            </div>
                            <div class="col-md-4">
-                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">RUC: 1542896325</label>
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">RUC: @{{documento.ruc}}</label>
                            </div>
                         </div>
                         <div class="row">
                            <div class="col-md-1">
                            </div>
                            <div class="col-md-6">
-                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">DIRECCION: Jose Castillo</label>
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">DIRECCION: @{{documento.direccion}}</label>
                            </div>
                            <div class="col-md-4">
-                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">VENDEDOR: 1542896325</label>
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">VENDEDOR: @{{documento.nomEmpleado}}</label>
                            </div>
                         </div>
                         <br>
@@ -345,10 +348,12 @@
                                  <th>Subtotal</th>
                                </thead>
                                <tbody>
-                                 <td>Cualquier cosa que se pueda comer</td>
-                                 <td>150.00</td>
-                                 <td>12</td>
-                                 <td>1500.50</td>
+                                 <tr ng-repeat="row in detDocumento">
+                                 <td>@{{row.descripcion}}</td>
+                                 <td>@{{row.PrecioUnit}}</td>
+                                 <td>@{{row.cantidad}}</td>
+                                 <td>@{{row.PrecioVent}}</td>
+                                 </tr>
                                </tbody>
                              </table>
                              </div>
@@ -358,16 +363,16 @@
                            <div class="col-md-1">
                            </div>
                            <div class="col-md-2">
-                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">DESCUENTO:50 %</label>
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">DESCUENTO: @{{documento.descuento}} %</label>
                            </div>
                            <div class="col-md-3">
-                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">MONTOBRUTO:S/.1500.50</label>
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">SUBTOTAL:S/.@{{documento.subTotal}}</label>
                            </div>
                            <div class="col-md-2">
-                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">IGV:S/.270.00</label>
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">IGV:S/. @{{documento.igv}}</label>
                            </div>
                            <div class="col-md-3">
-                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">TOTAL:S/.1500.50</label>
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">TOTAL:S/.@{{documento.Total}}</label>
                            </div>
                         </div> <br>
                         <div class="row">
@@ -375,7 +380,7 @@
                            </div>
                            <div class="col-md-10">
                                 <a  href="#tab_2" data-toggle="tab" aria-expanded="false" class="btn btn-warning">Volver</a>
-                                <button  ng-click="generarReportePagos()" class="btn btn-info">Imprimir</button>
+                                <button  ng-click="tipoDeDocumentoGenerado(documento.tipo,documento.idFactura)" class="btn btn-info">Imprimir</button>
                            </div>
                         </div>
                   </div>

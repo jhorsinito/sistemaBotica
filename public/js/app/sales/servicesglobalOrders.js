@@ -204,6 +204,20 @@
 
                 return deferred.promise;
             }
+             function imprimir_factura(area)
+            {
+                var deferred = $q.defer();
+                $http.post( '/api/ImprimirTiket/create/', area )
+                    .success(function (data)
+                    {
+                        deferred.resolve(data);
+                    }).error(function(data)
+                {
+                    $route.reload(); 
+                    alert('No se puede Agregar');
+                });
+                return deferred.promise;
+            }
             function factura(uri,id){
                 var deferred = $q.defer();
                 //alert(val);
@@ -244,7 +258,8 @@
                 editFavoritoId,editFavoritoId,
                 reportcliente,reportcliente,
                 buquedarapida,buquedarapida,
-                confirmarVariante:confirmarVariante
+                confirmarVariante:confirmarVariante,
+                imprimir_factura: imprimir_factura
             }
         }])
         .factory('socketService', function ($rootScope) {

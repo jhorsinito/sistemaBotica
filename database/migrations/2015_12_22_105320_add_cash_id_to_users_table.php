@@ -13,8 +13,8 @@ class AddCashIdToUsersTable extends Migration
     public function up()
     {
         Schema::table('sales', function (Blueprint $table) {
-            $table->integer('cash_id')->unsigned()->after("notas")->nullable();
-            $table->foreign('cash_id')->references('id')->on('cashes');
+            $table->integer('detCash_id')->unsigned()->after("notas")->nullable();
+            $table->foreign('detCash_id')->references('id')->on('detCash');
         });
     }
 

@@ -61,11 +61,13 @@ class SalesController extends Controller
 {
     protected $saleRepo;
 
-    public function __construct(SaleRepo $saleRepo,CashHeaderRepo $ashHeaderRepo,PromocionRepo $promocionRepo)
+    public function __construct(SaleRepo $saleRepo,CashHeaderRepo $ashHeaderRepo,
+      PromocionRepo $promocionRepo,HeadInvoiceRepo $headInvoiceRepo)
     {
         $this->saleRepo = $saleRepo;
         $this->ashHeaderRepo = $ashHeaderRepo;
         $this->promocionRepo = $promocionRepo;
+        $this->headInvoiceRepo=$headInvoiceRepo;
     }
 
     public function all()
@@ -74,7 +76,10 @@ class SalesController extends Controller
         return response()->json($orders);
         //var_dump($materials);
     }
-
+     public function DatosDocumento($id){
+       $orders = $this->headInvoiceRepo->DatosDocumento($id);
+        return response()->json($orders);
+     }
     public function paginatep(){
         $orders = $this->saleRepo->paginate(15);
         return response()->json($orders);
@@ -116,10 +121,21 @@ class SalesController extends Controller
         $saledetPayments = $request->saledetPayments;
         $cajaAct = $request->caja;
         //var_dump($cajaAct);die();
+
+        //---create movimiento---
+            $movimiento = $request->movimiento;
+            $detCashrepo;
+            //$movimiento['observacion']=$temporal;
+            $detCashrepo = new DetCashRepo;
+            $movimientoSave=$detCashrepo->getModel();
+        
+            $insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
+            $insertarMovimiento->save();
+            $detCash_id=$movimientoSave->id;
         $request->merge(["cash_id"=>$cajaAct['id']]);
         //$almacen_id=$var->input("idAlmacen");
         //$variante_id=$var->input("vari");
-        
+        $request->merge(['detCash_id'=> $detCash_id]);
         $manager = new SaleManager($orderSale,$request->all());
         $manager->save();
         //$codSale=$orderSale->id;
@@ -134,16 +150,6 @@ class SalesController extends Controller
 
         $temporal=$orderSale->id;
 
-        //---create movimiento---
-            $movimiento = $request->movimiento;
-            $detCashrepo;
-            $movimiento['observacion']=$temporal;
-            $detCashrepo = new DetCashRepo;
-            $movimientoSave=$detCashrepo->getModel();
-        
-            $insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
-            $insertarMovimiento->save();
-            $detCash_id=$movimientoSave->id;
     //---Autualizar Caja---
             
             
@@ -251,7 +257,7 @@ class SalesController extends Controller
            
             $inputheadInvoiceRepo=new HeadInvoiceManager($headInvoice,
             $request->only('numero','cliente','direccion','ruc','GRemicion','subTotal',
-                'igv','Total','venta_id','cliente_id','tipoDoc'));
+                'igv','Total','venta_id','cliente_id','tipoDoc','vuelto'));
             $inputheadInvoiceRepo->save();
             $codigoFactura=$headInvoice->id;
             
@@ -393,12 +399,24 @@ class SalesController extends Controller
         //Event::fire('update.material',$material->all());
         return response()->json(['estado'=>true]);
     }
+    public function concat(Request $request){
+        //var_dump($request["idFactura"]);die();
+        $this->generate_factura($request["idFactura"],$request["vuelto"],$request["caja"],
+                        $request["cajadiari"],$request["tipo"],$request["descuento"]);
+        return response()->json(['estado'=> true]);
+    }
     public function generate_factura($idFactura,$vuelto,$caja,$cajadiari,$tipo,$descuento){
+
       $headInvoiceRepo=new HeadInvoiceRepo;
       $detailInvoiceRepo=new DetailInvoiceRepo;      
         $cabeceraFactura=$headInvoiceRepo->consult($idFactura);
         $detalleFactura=$detailInvoiceRepo->detFactura($idFactura);
-
+        $tipoPago="E/T";
+             if($cabeceraFactura->efectivo>0){
+                 $tipoPago="Efec.";
+             }else{
+                  $tipoPago="Tarj.";
+             }
          $txt = '<?php require_once(dirname(__FILE__) . "/escpos-php-master/Escpos.php");
               //$logo = new EscposImage("images/productos/tostao.jpg");
 
@@ -411,8 +429,9 @@ class SalesController extends Controller
                     $txt .= '
                              $printer ->  setEmphasis(true);
                              $printer -> text("FACTURA \n");
-                             $printer -> text("Calle san jose 427 Chiclayo-Lambayeque \n");
-                             $printer -> text("ruc:124586532651 \n");
+                             $printer -> text("'.$cabeceraFactura->razonSocial.' \n");
+                             $printer -> text("C'.$cabeceraFactura->direccionEmpresa.' '.$cabeceraFactura->provincia.'-'.$cabeceraFactura->departamento.' \n");
+                             $printer -> text("ruc:'.$cabeceraFactura->ruc.' \n");
                              $printer -> text("TICKET \n");
                              $printer -> text("00'.$caja.'-'.$this->codTicket($tipo,$caja).'\n");
                              $printer -> setEmphasis(false);
@@ -425,13 +444,13 @@ class SalesController extends Controller
         $txt .= '
               $printer -> setFont(Escpos::FONT_C);
               $printer -> feed();
-              $printer -> text("#CAJA:'.$cajadiari.'       '.date("d-m-Y").' '.date("H:i:s").'\n");
+              $printer -> text("#CAJA:'.$cabeceraFactura->cajaid.'       '.date("d-m-Y").' '.date("H:i:s").'\n");
               $printer -> text("Ticket                  <original>\n");
               $printer -> text("-------------------------------------\n");';
               if($tipo=="TF"){
-                    $txt .= '$printer -> text("TIPO:      RUC N°:'.$cabeceraFactura->ruc.'\n");';
+                    $txt .= '$printer -> text("TIPO:'.$tipoPago.' RUC N°:'.$cabeceraFactura->ruc.'\n");';
               }else{
-                    $txt .= '$printer -> text("TIPO:      DNI N°:'.$cabeceraFactura->dni.'\n");';                     
+                    $txt .= '$printer -> text("TIPO:'.$tipoPago.' DNI N°:'.$cabeceraFactura->dni.'\n");';                     
               }
 
               
@@ -440,7 +459,8 @@ class SalesController extends Controller
               $printer -> feed();
               $printer -> text("Direccion: '.$cabeceraFactura->direccion.'\n");
               $printer -> feed();
-              $printer -> text("Vendedor: '.auth()->user()->name.'\n");
+              $printer -> text("Cajero: '.auth()->user()->name.'\n");
+              $printer -> text("Vendedor: '.$cabeceraFactura->nomEmpleado.'\n");
               $printer -> text("-------------------------------------\n");
               $printer -> text("Descripcion \n");
               $printer -> text("Precio      cant           Total \n");
@@ -450,8 +470,8 @@ class SalesController extends Controller
                       $txt .='$printer -> text("'.$detalleFactura["descripcion"].'\n");
                               
                               $printer -> text("'.
-                                                $detalleFactura["PrecioVent"].'       '.$detalleFactura["cantidad"].
-                                                '          '.($detalleFactura["cantidad"]*$detalleFactura["PrecioVent"]).'\n");
+                                                $detalleFactura["PrecioUnit"].'       '.$detalleFactura["cantidad"].
+                                                '          '.$detalleFactura["PrecioVent"].'\n");
                               ';
                             }
                               $txt.='$printer -> text("-------------------------------------\n");
@@ -462,12 +482,14 @@ class SalesController extends Controller
                               $printer -> text("Pago adelantado(anticipo)    0.00\n");
                               $printer -> text("Vale de Consumo              0.00\n");
                               $printer -> text("descuento especial         S/.'.$descuento.'\n");
-                              $printer -> text("-------------------------------------\n"); 
-                              $printer -> text("TOTAL            S/.'.$cabeceraFactura->Total.'\n");
+                              $printer -> text("-------------------------------------\n");
+                              $printer -> text("Monto P. Tarjeta     S/.'.$cabeceraFactura->tarjeta.'\n"); 
+                              $printer -> text("Monto P. Efectivo    S/.'.$cabeceraFactura->efectivo.'\n"); 
+                              $printer -> text("TOTAL                S/.'.$cabeceraFactura->Total.'\n");
                               $printer -> feed(); 
                               $printer -> text("-------------------------------------\n");
-                              $printer -> text("Vuelto                           \n");
-                              $printer -> text("                       S/.'.$vuelto.'\n"); 
+                              $printer -> text("Importe Pagado             S/.'.($cabeceraFactura->Total+$vuelto).'\n");
+                              $printer -> text("Vuelto                 S/.'.$vuelto.'\n"); 
                               $printer -> text("-------------------------------------\n"); 
                               $printer -> text("-------------------------------------\n"); 
                               ';
@@ -478,11 +500,11 @@ class SalesController extends Controller
         $txt .= '$printer -> text("-------------------------------------\n");';
         $txt .= '$printer -> setEmphasis(true);';
         $txt .= '$printer -> text("Comuniquense con nosotros al:\n");';
-        $txt .= '$printer -> text("example@gmail.com\n");';
+        $txt .= '$printer -> text("'.$cabeceraFactura->email.'\n");';
         $txt .= '$printer -> setEmphasis(false);';
         $txt .= '$printer -> feed();';
        
-        $txt .= '$printer -> text("**No válido como documento contable**\n");';
+        
         $txt .= '$printer -> feed();';
         $txt .= '$printer -> cut();$printer -> pulse();';
 
@@ -496,7 +518,7 @@ class SalesController extends Controller
         shell_exec($cmd);//exec('sudo -u myuser ls /');
         $cmd2 = 'lpr -P impresora_prueba -o raw '.base_path("resources/").'ticket.txt';
         shell_exec($cmd2);
-        return response()->json('true');
+        return response()->json('estado');
     }
    
     public function createSeparateSale(Request $request) 

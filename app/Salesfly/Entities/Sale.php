@@ -15,7 +15,7 @@ class Sale extends \Eloquent {
     						'estado',
     						'igv',
     						'notas',
-                            'cash_id',
+                            'detCash_id',
                             'orderSale_id',
                             'separateSale_id']; 
 

@@ -155,7 +155,7 @@
                             $scope.calcularPorcentaje();
 
                             
-                            crudServiceOrders.search('SaleDetPayment',$scope.payment[0].id,1).then(function (data){
+                            crudServiceOrders.search('SaleDetPayment',$scope.payment[0].idPAY,1).then(function (data){
                                 $scope.detPayments = data.data;
                                 $scope.maxSize = 5;
                                     $scope.totalItems = data.total;
@@ -288,10 +288,29 @@
                                         $('#miventana1').modal('hide');
                                     alert('grabado correctamente');
                                     
-                                        crudServiceOrders.factura('detfactura',data['codFactura']).then(function(data){    
+                                        $scope.datosFactura(data['codFactura']);
+                                        //$location.path('/orders');
+
+                                        crudServiceOrders.reportProWare('productsFavoritos',$scope.store.id,$scope.warehouse.id,'1').then(function(data){    
+                                            $scope.favoritos=data;
+                                            $log.log($scope.favoritos);
+                                        });
+                                
+
+                                    } else {
+                                        $scope.errors = data;
+                                    }
+                            });
+
+                            $scope.inicializar();
+                        })    
+                    });
+                }
+                $scope.datosFactura=function(codigoFactu){
+                    crudServiceOrders.factura('detfactura',codigoFactu).then(function(data){    
                                             $scope.detVoices=data;
                                         });
-                                        crudServiceOrders.factura('sales',data['codFactura']).then(function(data){    
+                                        crudServiceOrders.factura('sales',codigoFactu).then(function(data){    
                                             $scope.headVoice=data;
                                             //alert(data.created_at);
                                             $scope.FechaCreado=new Date(data.created_at);
@@ -331,22 +350,6 @@
                                             }else{
                                                $scope.numCaja=""+$scope.cash1.cashHeader_id;
                                             }}
-                                        //$location.path('/orders');
-
-                                        crudServiceOrders.reportProWare('productsFavoritos',$scope.store.id,$scope.warehouse.id,'1').then(function(data){    
-                                            $scope.favoritos=data;
-                                            $log.log($scope.favoritos);
-                                        });
-                                
-
-                                    } else {
-                                        $scope.errors = data;
-                                    }
-                            });
-
-                            $scope.inicializar();
-                        })    
-                    });
                 }
                 $scope.convertirMes=function(valor){
                     switch(valor){
@@ -370,25 +373,25 @@
                     if ($scope.cashfinal.estado == 0) {       
                         //alert("Caja Cerrada");
                     }else{
-                        crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                       /*crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
                             var canCashes=data.total;
                             var pagActual=Math.ceil(canCashes/15);
                             crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
                                 $scope.cashes = data.data;
                                 $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
-                                //$log.log($scope.cashfinal);
-                                crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,1).then(function (data){
+                               */ //$log.log($scope.cashfinal);
+                                crudServiceOrders.paginate('ver_ventas',1).then(function (data){
                                     //$scope.detCashes = data.data;
                                     //crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,1).then(function (data){
-                                    $log.log($scope.detCashes);
+                                    //$log.log($scope.detCashes);
                                     $scope.detCashes = data.data;
                                     $scope.maxSize1 = 5;
                                     $scope.totalItems1 = data.total;
                                     $scope.currentPage1 = data.current_page;
                                     $scope.itemsperPage1 = 15;
                                 });
-                            });
-                        });
+                          //  });
+                        //});
                     }
                         
                 }
@@ -498,8 +501,15 @@
                     //$log.log(crudServiceOrders.getPres());
                 }
 
-
-
+               $scope.tipoDeDocumentoGenerado=function(tipo,idFactura){
+                      if(tipo=='F' || tipo=='B'){
+                          $scope.datosFactura(idFactura);
+                          alert("Factura generada XD");
+                      }else{
+                          $scope.imprimir_factura();
+                      }
+               }
+                  
                 $scope.pagar = function () {
                     $scope.validaDocumento();
                     if ($scope.sale.montoTotal==0) {
@@ -1975,8 +1985,31 @@
                         $scope.itemsperPageZ = 15;
                     }); 
                 }
+                $scope.documento={};
+                $scope.detDocumento=[];
+                $scope.imprimir_factura=function(){
+                   crudServiceOrders.imprimir_factura($scope.documento).then(function (data) {
+                          
+                            if (data['estado'] == true) {
+                                alert('tiket Generado');
+                                 $route.reload();
+                            } else {
+                                $scope.errors = data;
+
+                            }
+                        });
+                }
                 $scope.traerDoumento=function(row){
-                  alert(row.idDocu);
+                  
+                  crudServiceOrders.search('datosDocumento',row.idDocu).then(function (data) {                        
+                        $scope.documento = data;
+                         
+                          
+                    }); 
+                   crudServiceOrders.factura('detfactura',row.idDocu).then(function (data) {                        
+                        $scope.detDocumento = data;
+                              //$location.path('sales/create#tab_7');
+                         });
                 }
                 $scope.validar=function(data){
                 

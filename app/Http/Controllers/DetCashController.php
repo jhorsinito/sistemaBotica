@@ -54,6 +54,11 @@ class DetCashController extends Controller
         $detCash = $this->detCashRepo->searchOrderSale($q);
         return response()->json($detCash);
     }
+     public function ver_ventas()
+    {
+        $detCash = $this->detCashRepo->ver_ventas(auth()->user()->id);
+        return response()->json($detCash);
+    }
     public function searchSeparateSale($q)
     {
         $detCash = $this->detCashRepo->searchSeparateSale($q);

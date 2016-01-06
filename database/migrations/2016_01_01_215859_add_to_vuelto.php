@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddToNumDocumentoV extends Migration
+class AddTovuelto extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class AddToNumDocumentoV extends Migration
      */
     public function up()
     {
-        Schema::table('detCash', function (Blueprint $table) {
-            //
+        Schema::table('headInvoices', function (Blueprint $table) {
+            $table->decimal("vuelto",10,2)->default(0);
         });
     }
 

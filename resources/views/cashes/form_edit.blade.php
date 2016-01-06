@@ -156,15 +156,15 @@
                       <td>@{{row.hora}}</td>
                       <td>@{{row.nombre}}</td>
                       <td>@{{row.name}}</td>
-                      <td>@{{row.nommovimiento}}</td>
+                      <td>@{{row.Motivo}}</td>
                       <td>@{{row.tipoDoc+"-"+row.NumDocument}}</td>
-                      <td>@{{row.montoMovimientoTarjeta}}</td>
-                      <td>@{{row.montoMovimientoEfectivo}}</td>
-                      <td ng-if="row.cashMotive_id==1 || row.cashMotive_id==13 || row.cashMotive_id==14"><a href="/sales/edit/@{{row.observacion}}" target="_blank">ver venta</a></td>
-                      <td ng-if="row.cashMotive_id==15 || row.cashMotive_id==16 || row.cashMotive_id==17"><a href="/orderSales/edit/@{{row.observacion}}" target="_blank">ver pedido</a></td>
-                      <td ng-if="row.cashMotive_id==19 || row.cashMotive_id==20 || row.cashMotive_id==21"><a href="/separateSales/edit/@{{row.observacion}}" target="_blank">ver separado</a></td>
+                      <td>@{{row.tarjeta}}</td>
+                      <td>@{{row.efectivo}}</td>
+                      <td ng-if="row.cashMotive_id==1 || row.cashMotive_id==13 || row.cashMotive_id==14"><a href="/sales/edit/@{{row.id}}" target="_blank">ver venta</a></td>
+                      <td ng-if="row.cashMotive_id==15 || row.cashMotive_id==16 || row.cashMotive_id==17"><a href="/orderSales/edit/@{{row.id}}" target="_blank">ver pedido</a></td>
+                      <td ng-if="row.cashMotive_id==19 || row.cashMotive_id==20 || row.cashMotive_id==21"><a href="/separateSales/edit/@{{row.id}}" target="_blank">ver separado</a></td>
                       <td ng-if="row.cashMotive_id!=1 && row.cashMotive_id!=13 && row.cashMotive_id!=14 && row.cashMotive_id!=15 && row.cashMotive_id!=16 && row.cashMotive_id!=17
-                                 && row.cashMotive_id!=19 && row.cashMotive_id!=20 && row.cashMotive_id!=21">@{{row.observacion}}</td>
+                                 && row.cashMotive_id!=19 && row.cashMotive_id!=20 && row.cashMotive_id!=21">@{{row.id}}</td>
                     </tr>                   
                   </table>
                   <div class="box-footer clearfix">

@@ -468,7 +468,7 @@
             </div>
              <div ng-hide="orderPurchase.tCambio=='dolar'" class="col-md-2"> 
                 <div class="form-group">
-                <label for="suppPric">Monto Base</label>
+                <label for="suppPric">Base Imponible</label>
                 <input ng-disabled="true" type="number" ng-model="orderPurchase.montoBase" min='0' class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
                        name="descuento" placeholder="0.00"    step="0.1">
               </div>
@@ -476,7 +476,7 @@
             </div>
             <div ng-show="orderPurchase.tCambio=='dolar'" class="col-md-2"> 
                 <div class="form-group">
-                <label for="suppPric">Monto Base</label>
+                <label for="suppPric">Base Imponible</label>
                 <input ng-disabled="true" type="number" ng-model="orderPurchase.montoBaseDolar" min='0' class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
                        name="descuento" placeholder="0.00"    step="0.1">
               </div>

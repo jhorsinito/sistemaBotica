@@ -17,6 +17,7 @@ class HeadInvoice extends \Eloquent {
     						'Total',
     						'venta_id',
     						'cliente_id',
-                            'tipoDoc'];
+                            'tipoDoc',
+                            'vuelto'];
     
 }

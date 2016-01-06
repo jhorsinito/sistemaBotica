@@ -17,7 +17,8 @@ class HeadInvoiceManager extends BaseManager {
                             'Total'=>'',
                             'venta_id'=>'',
                             'cliente_id'=>'',
-                            'tipoDoc'=>''];
+                            'tipoDoc'=>'',
+                            'vuelto'=>''];
         return $rules;
     }
 }

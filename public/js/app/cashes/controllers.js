@@ -176,10 +176,10 @@
                 {
                     crudService.byId(id,'cashes').then(function (data) {
                         $scope.cash = data;
-                        $scope.buscar=$scope.cash.id;
+                       // $scope.buscar=$scope.cash.id;
                         //$log.log($scope.cash);
 
-                        crudService.search('detCashes',$scope.cash.id,1).then(function (data){
+                       /* crudService.search('detCashes',$scope.cash.id,1).then(function (data){
                            $scope.detCashes = data.data;
                            $scope.maxSize1 = 5;
                             $scope.totalItems1 = data.total;
@@ -188,14 +188,15 @@
                             $log.log($scope.detCashes);
 
                             //$log.log($scope.detCashes);
-                        });
+                        });*/
                         
-                    });
-                    crudService.select('cashHeaders','select').then(function (data) {                        
-                        $scope.cashHeaders = data;
+                    //});
+                    //crudService.select('cashHeaders','select').then(function (data) {                        
+                    //    $scope.cashHeaders = data;
                     });
                     //-------------------------------------------------------
-                        crudService.paginate('detCashes',1).then(function (data) {
+
+                        crudService.search('detCashes',id,1).then(function (data) {
                             $scope.detCashes = data.data;
                             $scope.maxSize1 = 5;
                             $scope.totalItems1 = data.total;
