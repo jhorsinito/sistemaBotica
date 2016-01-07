@@ -29,7 +29,9 @@ class CashHeaderRepo extends BaseRepo{
     }
 
     public function comprobarCaja($id){
-        $cashHeaders =CashHeader::where('cashHeaders.id','=', $id)
+        $cashHeaders =CashHeader::join("cashes","cashes.cashHeader_id","=","cashHeaders.id")
+                      ->where('cashes.id','=', $id)
+                      ->select("cashHeaders.*")
                     ->first();
         return $cashHeaders;
     }

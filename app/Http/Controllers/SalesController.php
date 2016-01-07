@@ -147,6 +147,7 @@ class SalesController extends Controller
             $cashrepo = new CashRepo;
             $cajaSave=$cashrepo->getModel();
             //var_dump($cajaAct);die();
+
             $cash1 = $cashrepo->find($cajaAct["id"]);
 
             //var_dump($cash1["id"]);die();
@@ -196,6 +197,7 @@ class SalesController extends Controller
             $fbnumberRepo=new FBnumberRepo;
             $ashHeaderRepo=$this->ashHeaderRepo->comprobarCaja($cash1["id"]);
             $numbers=$fbnumberRepo->find($ashHeaderRepo["id"]);
+            //var_dump($ashHeaderRepo["id"]);die();
             $num=$fbnumberRepo->find($ashHeaderRepo["id"]);
             if($request->input("tipoDoc")=="F"){
                  $request->merge(["numero"=>(intval($num->numFactura)+1)]);

@@ -28,6 +28,16 @@ class CashRepo extends BaseRepo{
                     ->first();
         return $cashes;
     }
+        public function id2($id){
+           
+        $cashes =Cash::join("cashHeaders","cashHeaders.id","=","cashes.cashHeader_id")
+                     ->select("cashHeaders.id")
+                     ->where('id','=', '1')
+                     ->where('user_id','=',$id)
+                    //with(['customer','employee'])
+                    ->first();
+        return $cashes;
+    }
         public function searchuserincaja1($idCaja,$id){
            
         $cashes =Cash::select("id")
