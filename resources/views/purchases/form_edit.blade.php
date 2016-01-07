@@ -97,28 +97,40 @@
       </div>
   <!-- ==========================================================================================-->
         <div class="row">
-          <div class="col-md-4"> 
+          <div class="col-md-1"> 
                 <div class="form-group">
                 <label for="suppPric">Descuento</label>
-                <input type="number" ng-model="purchase.descuento" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
-                name="descuento" placeholder="0.00"  ng-disabled="purchase.Estado" ng-blur="calcularmontoBrutoF()" step="0.1">
-              </div>
+                <label style="border:solid 2px; width:100%; height:30px;">@{{purchase.descuento}} %</label>              
+            </div>
             </div>
             <!-- capo de Texto  Descuento-->
-            <div class="col-md-4"> 
+            <div class="col-md-3"> 
               <div class="form-group">
                 <label for="suppPric">Monto Bruto</label>
-                <input type="number" ng-model="purchase.montoBruto" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
-                name="montoBruto" placeholder="0.00"  ng-disabled="purchase.Estado" ng-blur="calcularmontoBrutoF()" step="0.1">
+                    <label style="border:solid 2px; width:100%; height:30px;">S/.@{{purchase.montoBruto}}</label>              
+            
+                </div>
+            </div>
+            <div class="col-md-2"> 
+                <div class="form-group">
+                <label for="suppPric">Mas IGV(18%)</label>
+                <label style="border:solid 2px; width:100%; height:30px;">S/.@{{purchase.igv}}</label>              
+            
               </div>
+              
+            </div>
+            <div class="col-md-3"> 
+                <div class="form-group">
+                <label for="suppPric">Monto Base</label><br>
+                <label style="border:solid 2px; width:100%; height:30px;">S/.@{{purchase.montoBase}}</label>              
+            </div>
             </div>
             <!-- capo de Texto  Total-->
-            <div class="col-md-4"> 
+            <div class="col-md-3"> 
                 <div class="form-group">
                 <label for="suppPric">Monto Total</label>
-                <input type="number" ng-model="purchase.montoTotal" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
-                name="montoTotal" placeholder="0.00"  ng-disabled="purchase.Estado" ng-blur="calcularmontoBrutoF()" step="0.1">
-              </div>
+                <label style="border:solid 2px; width:100%; height:30px;">S/.@{{purchase.montoTotal}}</label>              
+            </div>
             </div>
           </div>
           

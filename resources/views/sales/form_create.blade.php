@@ -43,6 +43,116 @@
                   
                 </ul>
                 <div class="tab-content">
+
+
+                     <!--tab Documentos de Venta-->
+                  <div class="tab-pane" id="tab_4">
+                         <div class="row">
+                           <div class="col-md-1">
+                           </div>
+                           <div class="col-md-7">
+                               <h1>Kaluz</h1>
+                           </div>
+                           <div class="col-md-3" style="text-align: center;">
+                              <table>
+
+                                    <h4 style="margin-bottom:0px;"> RUC.- @{{documento.rucTienda}}</h4>
+                                    <h1 ng-if="documento.tipoDoc=='F'" style="margin-top: 0xp; padding-top:0px;">Factura</h1>
+                                    <h1 ng-if="documento.tipoDoc=='B'" style="margin-top: 0xp; padding-top:0px;">Boleta</h1>
+                                    <h1 ng-if="documento.tipoDoc=='TF'" style="margin-top: 0xp; padding-top:0px;">Tiket Factura</h1>
+                                    <h1 ng-if="documento.tipoDoc=='TB'" style="margin-top: 0xp; padding-top:0px;">Tiket Boleta</h1>
+                                    <h3 style="color:red;">N°.-00@{{documento.cashHeader_id}}-@{{documento.NumDocument}}</h3>
+                               </table>
+                           </div>
+                         </div>
+                          <div class="row">
+                           <div class="col-md-1">
+                           </div>
+                            <div class="col-md-8">
+                            <label>FECHA:@{{documento.created_at}} </label>
+                           </div>
+                           <div class="col-md-2">
+                            <label>#CAJA: @{{documento.idCaja}}</label>
+                           </div>
+                           </div>
+                         <div class="row">
+                           <div class="col-md-1">
+                           </div>
+                           <div class="col-md-6">
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">CLIENTE: @{{documento.cliente}}</label>
+                           </div>
+                           <div class="col-md-4">
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">RUC: @{{documento.ruc}}</label>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-md-1">
+                           </div>
+                            <div class="col-md-6">
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">DIRECCION: @{{documento.direccion}}</label>
+                           </div>
+                           <div class="col-md-4">
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">VENDEDOR: @{{documento.nomEmpleado}}</label>
+                           </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                          <div class="col-md-1">
+                           </div>
+                           <div class="col-md-10">
+                           <div class="box-body table-responsive no-padding">
+                             <table class="table table-striped">
+                               <thead>
+                                 <th>Descripcion</th>
+                                 <th>Precion</th>
+                                 <th>Cantidad</th>
+                                 <th>Subtotal</th>
+                               </thead>
+                               <tbody>
+                                 <tr ng-repeat="row in detDocumento">
+                                 <td>@{{row.descripcion}}</td>
+                                 <td>@{{row.PrecioUnit}}</td>
+                                 <td>@{{row.cantidad}}</td>
+                                 <td>@{{row.PrecioVent}}</td>
+                                 </tr>
+                               </tbody>
+                             </table>
+                             </div>
+                           </div>
+                        </div><br>
+                        <div class="row">
+                           <div class="col-md-1">
+                           </div>
+                           <div class="col-md-2">
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">DESCUENTO: @{{documento.descuento}} %</label>
+                           </div>
+                           <div class="col-md-3">
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">SUBTOTAL:S/.@{{documento.subTotal}}</label>
+                           </div>
+                           <div class="col-md-2">
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">IGV:S/. @{{documento.igv}}</label>
+                           </div>
+                           <div class="col-md-3">
+                               <label style="border:solid 1px; text-align: justify; width:100%; height:35px;">TOTAL:S/.@{{documento.Total}}</label>
+                           </div>
+                        </div> <br>
+                        <div class="row">
+                  <div class="col-md-1">
+                           </div>
+                           <div class="col-md-10">
+                                <a  href="#tab_2" data-toggle="tab" aria-expanded="false" class="btn btn-warning">Volver</a>
+                                <button  ng-click="tipoDeDocumentoGenerado(documento.tipo,documento.idFactura)" class="btn btn-info">Imprimir</button>
+                           </div>
+                        </div>
+                  </div>
+
+                  <!--Fin tab documentos de venta-->
+
+
+
+
+
+
                   <div class="tab-pane active" id="tab_1">
 
 
@@ -218,6 +328,9 @@
                       <th style="width: 10px">#</th>
                       <th>Fecha</th>
                       <th>Hora</th>
+                      <th>Caja</th>
+                      <th>Usuario</th>
+                      <th>Documento</th>
                       <th>Tipo</th>
                       
                       <th>S/.Tarjeta</th>
@@ -230,13 +343,16 @@
                       <td>@{{$index + 1}}</td>
                       <td>@{{row.fecha}}</td>
                       <td>@{{row.hora}}</td>
-                      <td>@{{row.cash_motive.nombre}}</td>
+                      <td>@{{row.nombre}}</td>
+                      <td>@{{row.name}}</td>
+                      <td><a href="#tab_4" data-toggle="tab" aria-expanded="false" ng-click="traerDoumento(row)">@{{row.tipoDoc+"-"+row.NumDocument}}</a></td>
+                      <td>@{{row.Motivo}}</td>
                       
-                      <td>@{{row.montoMovimientoTarjeta}}</td>
-                      <td>@{{row.montoMovimientoEfectivo}}</td>
+                      <td>@{{row.tarjeta}}</td>
+                      <td>@{{row.efectivo}}</td>
                       
-                      <td ng-if="row.cashMotive_id==1 || row.cashMotive_id==14"><a href="/sales/edit/@{{row.observacion}}" target="_blank">ver venta</a></td>
-                      <td ng-if="row.cashMotive_id!=1 && row.cashMotive_id!=14">@{{row.observacion}}</td>
+                      <td ng-if="row.cashMotive_id==1 || row.cashMotive_id==14"><a href="/sales/edit/@{{row.id}}" target="_blank">ver venta</a></td>
+                      <td ng-if="row.cashMotive_id!=1 && row.cashMotive_id!=14">@{{row.id}}</td>
                     </tr>                   
                   </table>
                   <div class="box-footer clearfix">
@@ -268,7 +384,7 @@
                     </div>
 
 
-                    <div class="col-md-4">
+                   <!-- <div class="col-md-4">
                         <div class="form-group" >
                           <label for="month">Caja</label>
 
@@ -276,7 +392,7 @@
                           <option value="">--Elije Caja--</option>
                           </select>
                         </div>
-                      </div>
+                      </div>-->
 
                     </div>
 
@@ -737,7 +853,7 @@
                   <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <input type="checkbox" name="estado" ng-model="sale.comprobante" ng-checked="sale.comprobante" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="validaDocumento()">
+                          <input type="checkbox" name="estado" ng-model="sale.comprobante"  ng-checked="sale.comprobante" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="validaDocumento()">
                           <label for="estado">Comprobante:</label>
                         </div>
                       </div>
@@ -745,7 +861,7 @@
                         <div ng-show="sale.comprobante" class="form-group">
                         <label  for="orderPurchase.tipoDoc">Tipo documento</label>
                         <select  class="form-control" ng-model="sale.tipoDoc" ng-change="cambioNumeracion()">
-                              <option value="F">Factura</option>
+                              <option ng-hide="estadoComoDocument==true" value="F">Factura</option>
                               <option value="B">Boleta</option>
                         </select>
                         </div> 

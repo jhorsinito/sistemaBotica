@@ -490,7 +490,7 @@
 <!--===============================================================================================-->
 <div  class="box-body" style="display: block;">
      <div class="row">
-          <div class="col-md-4"> 
+          <div class="col-md-2"> 
                 <div class="form-group">
                 <label for="suppPric">Descuento</label>
                 <input type="number" ng-model="orderPurchase.descuento" min='0' class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
@@ -498,12 +498,28 @@
               </div>
             </div>
             <!-- capo de Texto  Descuento-->
-            <div class="col-md-4"> 
+            <div class="col-md-2"> 
               <div class="form-group">
                 <label for="suppPric">Monto Bruto</label>
                 <input type="number" ng-disabled="true" min='0' ng-model="orderPurchase.montoBruto" class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
                 name="montoBruto" placeholder="0.00"  ng-disabled="product.hasVariants" ng-blur="calcularmontoBrutoF()" step="0.1">
               </div>
+            </div>
+                <div  class="col-md-2"> 
+                <div class="form-group">
+                <label for="suppPric">Mas IGV <input type="checkbox" ng-model="orderPurchase.checkIgv" ng-click="activIgvtotal()"></label>
+                <input ng-disabled="true" type="number" ng-model="orderPurchase.igv" min='0' class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
+                name="descuento" placeholder="0.00"    step="0.1">
+              </div> 
+                           
+            </div>
+             <div  class="col-md-2"> 
+                <div class="form-group">
+                <label for="suppPric">Base Imponible</label>
+                <input ng-disabled="true" type="number" ng-model="orderPurchase.montoBase" min='0' class="form-control ng-valid ng-dirty ng-valid-number ng-touched" 
+                       name="descuento" placeholder="0.00"    step="0.1">
+              </div>
+              
             </div>
             <!-- capo de Texto  Total-->
             <div class="col-md-4"> 

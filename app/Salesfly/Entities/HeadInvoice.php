@@ -6,15 +6,18 @@ class HeadInvoice extends \Eloquent {
 	protected $table = 'headInvoices';
     
     protected $fillable = ['numero',
-    						'cliente',
-    						'direccion',
-    						'ruc',
+                            'cliente',
+                            'dni',
+                            'direccion_cliente',
+                            'direccion',
+                            'ruc',
                             'GRemicion',
-    						'subTotal',
-    						'igv',
-    						'Total',
-    						'venta_id',
-    						'cliente_id',
-                            'tipoDoc'];
+                            'subTotal',
+                            'igv',
+                            'Total',
+                            'venta_id',
+                            'cliente_id',
+                            'tipoDoc',
+                            'vuelto'];
     
 }

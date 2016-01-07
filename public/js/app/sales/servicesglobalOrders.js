@@ -189,7 +189,15 @@
 
                 return deferred.promise;
             }
+             function Comprueba_caj_for_user()
+            {
+                var deferred = $q.defer();
+                $http.get('api/cashes/cajas_for_user').success(function (data) {
+                    deferred.resolve(data);
+                });
 
+                return deferred.promise;
+            }
             return {
                 all: all,
                 paginate: paginate,
@@ -207,7 +215,8 @@
                 reportPro,reportPro,
                 reportProWare,reportProWare,
                 getPres, setPres,
-                editFavoritoId,editFavoritoId
+                editFavoritoId,editFavoritoId,
+                Comprueba_caj_for_user: Comprueba_caj_for_user
             }
         }])
         .factory('socketService', function ($rootScope) {

@@ -25,7 +25,8 @@ class CashTableSeeder extends Seeder
             'notas' => 'Caja Principal abierta por defecto',
             'cashHeader_id' => 1,
             'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s")
+            'updated_at' => date("Y-m-d H:i:s"),
+            'user_id'=>5
         ]);
     }
 }

@@ -84,7 +84,9 @@
                              $scope.purchase.montoBruto=parseFloat(data.montoBruto);
                              $scope.purchase.montoTotal=parseFloat(data.montoTotal);
                              $scope.purchase.descuento=parseFloat(data.descuento); 
-
+                              $scope.purchase.montoBase=parseFloat(data.montoBase);
+                               $scope.purchase.igv=parseFloat(data.igv);
+                         
                           crudOPurchase.paginateDPedido(data.id,'detailPurchases').then(function (data) {
                              $scope.detailPurchases = data.data;
                              $scope.maxSize = 5;

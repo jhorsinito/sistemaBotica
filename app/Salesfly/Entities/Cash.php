@@ -15,5 +15,6 @@ class Cash extends \Eloquent {
     						'descuadre',
     						'estado',
     						'notas',
-    						'cashHeader_id'];
+    						'cashHeader_id',
+                            'user_id'];
 }

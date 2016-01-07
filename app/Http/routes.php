@@ -575,9 +575,12 @@ Route::put('api/cashes/edit',['as'=>'person_edit', 'uses'=>'CashesController@edi
 Route::post('api/cashes/destroy',['as'=>'person_destroy', 'uses'=>'CashesController@destroy']);
 Route::get('api/cashes/search/{q?}',['as'=>'person_search', 'uses'=>'CashesController@search']);
 Route::get('api/cashes/find/{id}',['as'=>'person_find', 'uses'=>'CashesController@find']);
+Route::get('api/cashes/cajas_for_user','CashesController@cajas_for_user');
+Route::get('api/cashes/cajas_for_user1/{id}','CashesController@cajas_for_user1');
 //Route::get('api/cashes/select','SuppliersController@selectSupliers');
 
 //-----------------------------DetCashes---------------------------
+Route::get('api/ver_ventas/paginate/',['as'=>'person_search', 'uses'=>'DetCashController@ver_ventas']);
 Route::get('detCashes',['as'=>'person','uses'=>'DetCashController@index']);
 //Route::get('detCashes',['as'=>'person','uses'=>'DetCashController@index']);
 Route::get('detCashes/create/{id?}',['as'=>'person_create','uses'=>'DetCashController@index']);
@@ -621,6 +624,7 @@ Route::get('api/sales/numeracion/{tipo}/{id}',['as'=>'person_find', 'uses'=>'Sal
 
 Route::post('api/ordsales/create',['as'=>'person_create', 'uses'=>'SalesController@createSale']);
 Route::post('api/sepsales/create',['as'=>'person_create', 'uses'=>'SalesController@createSeparateSale']);
+Route::get('api/datosDocumento/search/{id}', ['as' => 'person_edit', 'uses' => 'SalesController@DatosDocumento']);
 
 
 

@@ -58,10 +58,11 @@ class SalesController extends Controller
 {
     protected $saleRepo;
 
-    public function __construct(SaleRepo $saleRepo,CashHeaderRepo $ashHeaderRepo)
+    public function __construct(SaleRepo $saleRepo,CashHeaderRepo $ashHeaderRepo,HeadInvoiceRepo $headInvoiceRepo)
     {
         $this->saleRepo = $saleRepo;
         $this->ashHeaderRepo = $ashHeaderRepo;
+        $this->headInvoiceRepo=$headInvoiceRepo;
     }
 
     public function all()
@@ -70,7 +71,10 @@ class SalesController extends Controller
         return response()->json($orders);
         //var_dump($materials);
     }
-
+    public function DatosDocumento($id){
+       $orders = $this->headInvoiceRepo->DatosDocumento($id);
+        return response()->json($orders);
+     }
     public function paginatep(){
         $orders = $this->saleRepo->paginate(15);
         return response()->json($orders);
@@ -112,8 +116,7 @@ class SalesController extends Controller
         //$almacen_id=$var->input("idAlmacen");
         //$variante_id=$var->input("vari");
         
-        $manager = new SaleManager($orderSale,$request->all());
-        $manager->save();
+        
         //$codSale=$orderSale->id;
         /*
        if($this->purchaseRepo->validateDate(substr($request->input('fechaEntrega'),0,10))){
@@ -156,8 +159,9 @@ class SalesController extends Controller
 
             $manager1 = new CashManager($cash1,$cajaAct);
             $manager1->save();
-            
-
+            $request->merge(['detCash_id'=> $detCash_id]);
+           $manager = new SaleManager($orderSale,$request->all());
+        $manager->save();
         //----------------
         $salePaymentrepo;
         $payment['sale_id']=$temporal;
@@ -212,14 +216,16 @@ class SalesController extends Controller
             }
             
             
-            
+           
+
             $request->merge(["subTotal"=>$request->input("montoBruto")]);
             $request->merge(["Total"=>$request->input("montoTotal")]);
             $request->merge(["venta_id"=>$temporal]);
             $request->merge(["cliente_id"=>$request->input("customer_id")]);
+           
             $inputheadInvoiceRepo=new HeadInvoiceManager($headInvoice,
             $request->only('numero','cliente','direccion','ruc','GRemicion','subTotal',
-                'igv','Total','venta_id','cliente_id','tipoDoc'));
+                'igv','Total','venta_id','cliente_id','tipoDoc','vuelto'));
             $inputheadInvoiceRepo->save();
             $codigoFactura=$headInvoice->id;
             

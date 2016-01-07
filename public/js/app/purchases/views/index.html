@@ -133,6 +133,9 @@
                       <th>Proveedor</th>
                       <th>Almacen</th>
                       <th>Orden de Compra</th>
+                      <th>Num. Documento</th>
+                      <th>IGV</th>
+                      <th>Monto Base</th>
                       <th>Descuento</th>
                       <th>Monto Bruto</th>
                       <th>Monto Total</th>
@@ -148,6 +151,9 @@
                       <td>{{row.almacen}}</td>
                       <td ng-if="row.orderPurchase_id>0"><a target="_self" ng-href="/orderPurchases/edit/{{row.orderPurchase_id}}">Ver Orden</a></td>
                       <td ng-if="row.orderPurchase_id==null">Sin Orden</td>
+                      <td style="color:red;" >{{row.tipoDoc}}-{{row.numdocument}}<br>({{row.serie}})</td>
+                      <td>{{row.igv}}</td>
+                      <td>{{row.montoBase}}</td>
                       <td>{{row.descuento}}</td>
                       <td>{{row.montoBruto}}</td>
                       <td>{{row.montoTotal}}</td>

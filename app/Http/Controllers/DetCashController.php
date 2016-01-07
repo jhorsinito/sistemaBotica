@@ -20,6 +20,11 @@ class DetCashController extends Controller
        $cash = $this->detCashRepo->compCajaActiva($id);
         return response()->json($cash);
     }
+     public function ver_ventas()
+    {
+        $detCash = $this->detCashRepo->ver_ventas(auth()->user()->id);
+        return response()->json($detCash);
+    }
     public function all()
     {
         $detCash = $this->detCashRepo->paginate(15);

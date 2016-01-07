@@ -5,7 +5,9 @@ class HeadInvoiceManager extends BaseManager {
 
     public function getRules()
     {
-        $rules = [          'numero'=>'',
+          $rules = [          'numero'=>'',
+                            'dni'=>'',
+                            'direccion_cliente'=>'',
                             'cliente'=>'',
                             'direccion'=>'',
                             'ruc'=>'',
@@ -15,7 +17,8 @@ class HeadInvoiceManager extends BaseManager {
                             'Total'=>'',
                             'venta_id'=>'',
                             'cliente_id'=>'',
-                            'tipoDoc'=>''];
+                            'tipoDoc'=>'',
+                            'vuelto'=>''];
         return $rules;
     }
 }

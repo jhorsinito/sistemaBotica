@@ -173,7 +173,7 @@
                     </tr>
                     
                     <tr ng-repeat="row in payment">
-                      <td>Hola</td>
+                      <td>@{{row.tipoDoc}}-@{{row.NumDocument}}</td>
                       <td>@{{row.MontoTotal}}</td>
                       <td>@{{row.Acuenta}}</td>
                       <td>@{{row.Saldo}}</td>

@@ -12,6 +12,9 @@ class OrderPurchaseManager extends BaseManager {
              'montoTotal'=>'between:0,9999999999.00',
              'Estado'=>'',
              'warehouses_id'=>'required',
-             'supplier_id'=>'required'];
+             'supplier_id'=>'required',
+             'montoBase'=>'',
+             'igv'=>'',
+             'checkIgv'=>''];
         return $rules;
     }}
