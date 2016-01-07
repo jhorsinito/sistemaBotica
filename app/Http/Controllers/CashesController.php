@@ -66,7 +66,7 @@ class CashesController extends Controller
     public function create(Request $request)
     {
         $cash = $this->cashRepo->getModel();
-
+        $request->merge(['user_id'=>auth()->user()->id]);
         $manager = new CashManager($cash,$request->all());
         $manager->save();
 
