@@ -1163,7 +1163,7 @@
                  $scope.detPayments.push($scope.detPayment);
                  $scope.detPayment={};
                }
-
+                $scope.desscripctiondddd='Generar Ticket';
                 $scope.createdetPayment = function(){
                     //$scope.atribut.estado = 1;
                 if($scope.detPayment.methodPayment_id!=null || $scope.detPayment.cashe_id!=null || $scope.payment.cajamensual!=null){
@@ -1181,8 +1181,12 @@
                                $scope.payment.cajamensual=false;
                                $scope.paginateDetPay();
                                if(confirm("Desea Generar Comprobante de Pago!!!") == true){
+                                $scope.desscripctiondddd='Generando Ticket..';
                                 crudOPurchase.Reportes(data['id'],'ReportComprobante').then(function (data) {
                                     $scope.pdf7=data;
+                                    if(data!=null){
+                                      $scope.desscripctiondddd="Ver Tiket";
+                                    }
                                 });
                                }else{
                                      alert('grabado correctamente');

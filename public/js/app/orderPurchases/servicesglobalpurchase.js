@@ -273,10 +273,19 @@
                 );
                 return deferred.promise;
             }
+            function Reportes(id,uri)
+            {
+                var deferred = $q.defer();
+                $http.post('/api/'+uri+'/create/'+id).success(function (data) {
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
             return {
                 all: all,
                 paginate: paginate,
                 create:create,
+                Reportes: Reportes,
                 byId:byId,
                 update:update,
                 reporteRangoFechas: reporteRangoFechas, 

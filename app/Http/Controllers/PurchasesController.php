@@ -135,7 +135,7 @@ class PurchasesController extends Controller {
         
       //==================================Cancelar Factura
       if($request->input('estado')==2){
-             var_dump("hola1");die();
+            // var_dump("hola1");die();
           foreach($var as $object){
               $stockmodel = new StockRepo;
                   $object['warehouse_id']=$almacen_id;
@@ -313,8 +313,24 @@ class PurchasesController extends Controller {
                     $request->merge(['montoBruto'=>floatval($total)]);
             if(!empty($purchase1->descuento)){
                     $request->merge(['montoTotal'=>floatval($total)-((floatval($total)*floatval($purchase1->descuento))/100)]);
+                    if($purchase1->checkIgv==1){
+                          $request->merge(['montoBase'=>floatval($request->input('montoTotal'))/1.18]);
+                          $request->merge(['igv'=>floatval($request->input('montoTotal'))-(floatval($request->input('montoTotal'))/1.18)]);
+                    }else{
+                          $request->merge(['montoBase'=>floatval($request->input('montoTotal'))]);
+                          $request->merge(['igv'=>floatval($request->input('montoTotal')*1.18)]);
+                          $request->merge(['montoTotal'=>floatval($request->input('montoTotal'))+floatval($request->input('igv'))]);
+                    }
             }else{
                     $request->merge(['montoTotal'=>floatval($total)]);
+                     if($purchase1->checkIgv==1){
+                          $request->merge(['montoBase'=>floatval($request->input('montoTotal'))/1.18]);
+                          $request->merge(['igv'=>floatval($request->input('montoTotal'))-(floatval($request->input('montoTotal'))/1.18)]);
+                    }else{
+                          $request->merge(['montoBase'=>floatval($request->input('montoTotal'))]);
+                          $request->merge(['igv'=>floatval($request->input('montoTotal')*0.18)]);
+                          $request->merge(['montoTotal'=>floatval($request->input('montoTotal'))+floatval($request->input('igv'))]);
+                    }
             }
                     $manager = new PurchaseManager($purchase1,$request->except('fechaEntrega'));
                     $manager->save();

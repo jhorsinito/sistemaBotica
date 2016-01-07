@@ -1387,6 +1387,7 @@ $scope.recalPayments=function(){
                     alert('!!Error Usted Solo Puede Ingresar una cantidad menor o igual al total!!');
                 }
                 }
+                $scope.desscripctiondddd="Generar Ticket";
                  $scope.createPayment = function(){
                     //alert( $scope.payment.fecha);
                 if($scope.detPayment.methodPayment_id!=null || $scope.detPayment.cashe_id!=null || $scope.payment.cajamensual!=null){
@@ -1397,13 +1398,27 @@ $scope.recalPayments=function(){
                           
                             if (data['estado'] == true) {
                                 $scope.success = data['nombres'];
-                                alert('grabado correctamente payments');
+                               // alert('grabado correctamente payments');
                                 $scope.detPayment.methodPayment_id='';
                                 $scope.detPayment.montoPagado='';
                                 $scope.Saldo1=0;
                                 //$scope.paginateDetPay();
-                                $route.reload();
+                                //$route.reload();
+                            if(confirm("Desea Generar Comprobante de Pago!!!") == true){
+                                $scope.paginateDetPay();
+                                $scope.desscripctiondddd="Generando Ticket...";
+                                crudPurchase.Reportes(data['id'],'ReportComprobante').then(function (data) {
+                                    $scope.pdf7=data;
+                                    
+                                    if(data!=null){
+                                      $scope.desscripctiondddd="Ver Ticket";
 
+                                    }
+                                });
+                               }else{
+                                     alert('grabado correctamente');
+                                     $scope.paginateDetPay();
+                               }
                             } else {
                                 $scope.errors = data;
 

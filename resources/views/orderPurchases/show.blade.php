@@ -183,7 +183,9 @@
             </div>
       </div>
             <div ng-hide="mostrarBtnGEd" class="form-group" >
-                    <button class=" label-default" type='submit' ng-click='createPayment()' >Registrar Pago</button>  
+                    
+                    <button ng-disabled="desactivarCuentas" class=" label-default" type='submit' ng-click='createPayment()' >Registrar Pago</button>  
+                    <a ng-href="@{{pdf7}}" target="_blank" class="btn btn-primary btn-xs">@{{desscripctiondddd}}</a>
             </div> 
             <div ng-show="mostrarBtnGEd" class="form-group" >
                     <button class=" label-default" type='submit' ng-click='editPayment()'>Edit Pago</button>  
