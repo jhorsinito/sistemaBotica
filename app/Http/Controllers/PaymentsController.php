@@ -125,6 +125,11 @@ class PaymentsController extends Controller {
              $request->merge(['notas'=>$cash->notas]);
              $request->merge(['cashHeader_id'=>$cash->cashHeader_id]);
              $var["methodPayment_id"]=null;
+             if($cash->user_id==auth()->user()->id  && $cash->estado==1){
+              $request->merge(['user_id'=>$cash->user_id]);
+             }else{
+              return response()->json(['estado'=>'Usted no tiene permisos sobre esta caja o la caja esta cerrada??']);
+             }
         $cashr = new CashManager($cash,$request->all());
         $cashr->save();
     }
@@ -215,6 +220,11 @@ class PaymentsController extends Controller {
              $request->merge(['hora'=>$detCash->hora]);
              $request->merge(['estado'=>1]);
              $request->merge(['cashMotive_id'=>$detCash->cashMotive_id]);
+             if($cash->user_id==auth()->user()->id  && $cash->estado==1){
+              $request->merge(['user_id'=>$cash->user_id]);
+             }else{
+              return response()->json(['estado'=>'Usted no tiene permisos sobre esta caja o la caja esta cerrada??']);
+             }
           //   var_dump($request->all());die();
         $detcash = new DetCashManager($detCash,$request->all());
         $detcash->save();

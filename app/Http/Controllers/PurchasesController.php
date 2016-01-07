@@ -686,7 +686,7 @@ class PurchasesController extends Controller {
             array($ext),
             //array(),
             //while($i<=3){};
-            ['q' => $descri],//Parametros
+            ['SUBREPORT_DIR'=>public_path() . '/report/','q' => $descri],//Parametros
               
             $database,
             false,

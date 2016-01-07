@@ -152,6 +152,15 @@
                         $scope.orderPurchase.montoTotalDolar=Number(data.montoTotalDolar);                   
                         $scope.orderPurchase.tasaDolar=Number(data.tasaDolar);
                         $scope.orderPurchase.igv=Number(data.igv);
+                        $scope.orderPurchase.igvDolar=Number(data.igvDolar);
+                        $scope.orderPurchase.montoBase=Number(data.montoBase);
+                        $scope.orderPurchase.montoBaseDolar=Number(data.montoBaseDolar);
+                        if(($scope.orderPurchase.montoBase+$scope.orderPurchase.igv)==$scope.orderPurchase.montoTotal)
+                        {
+                          $scope.orderPurchase.checkIgv=true;
+                        }else{
+                          $scope.orderPurchase.checkIgv=false;
+                        }
                         $scope.idtemporalP=data.supplier_id;
                         crudPurchase.traerEmpresa($scope.idtemporalP).then(function (data) { 
                         $scope.orderPurchase.empresa = data.empresa;
