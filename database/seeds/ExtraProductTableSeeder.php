@@ -26,7 +26,7 @@ class ExtraProductTableSeeder extends Seeder
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);
-        DB::table('materials')->insert([
+        /*DB::table('materials')->insert([
             'nombre' => 'Material Genérico',
             'shortname' => 'GE',
             'descripcion' => 'Material genérico creada por defecto',
@@ -39,6 +39,6 @@ class ExtraProductTableSeeder extends Seeder
             'descripcion' => 'Estación genérica creada por defecto',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
-        ]);
+        ]);*/
     }
 }

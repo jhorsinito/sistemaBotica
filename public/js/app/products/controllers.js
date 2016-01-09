@@ -520,6 +520,7 @@
                 $scope.createProduct = function(){
 
                     if ($scope.productCreateForm.$valid) {
+                        var $btn = $('#btn_generate').button('loading');
                         var f = document.getElementById('productImage').files[0] ? document.getElementById('productImage').files[0] : null;
                         //alert(f);
                         var r = new FileReader();
@@ -534,12 +535,14 @@
 
                                 } else {
                                     $scope.errors = data;
+                                    $btn.button('reset');
                                     //alert(data);
 
                                 }
                             });
                         }
                         if(!document.getElementById('productImage').files[0]){
+                            var $btn = $('#btn_generate').button('loading');
                             //alert($scope.product.hasVariants);
                             crudService.create($scope.product,'products').then(function (data){
                                 if (data['estado'] == true) {
@@ -549,6 +552,7 @@
 
                                 } else {
                                     $scope.errors = data;
+                                    $btn.button('reset');
 
                                 }
                             });
@@ -570,6 +574,7 @@
                             //alert($scope.variant.otros);
 
                     if ($scope.variantCreateForm.$valid) {
+                        var $btn = $('#btn_generate').button('loading');
                         var fv = document.getElementById('variantImage').files[0] ? document.getElementById('variantImage').files[0] : null;
                         //alert(f);
                         var rv = new FileReader();
@@ -593,12 +598,14 @@
 
                                 } else {
                                     $scope.errors = data;
+                                    $btn.button('reset');
                                     //alert(data);
 
                                 }
                             });
                         }
                         if(!document.getElementById('variantImage').files[0]){
+                            var $btn = $('#btn_generate').button('loading');
                             //alert($scope.product.hasVariants);
                             //alert('sin img');
                             $scope.variant.product_id = $scope.product.id;
@@ -616,6 +623,7 @@
 
                                 } else {
                                     $scope.errors = data;
+                                    $btn.button('reset');
 
                                 }
                             });
@@ -631,6 +639,7 @@
                 $scope.updateVariant = function(){
 
                     if ($scope.variantCreateForm.$valid) {
+                        var $btn = $('#btn_generate').button('loading');
                         var f = document.getElementById('variantImage').files[0] ? document.getElementById('variantImage').files[0] : null;
                         //alert(f);
                         var r = new FileReader();
@@ -649,12 +658,14 @@
 
                                 } else {
                                     $scope.errors = data;
+                                    $btn.button('reset');
                                     //alert(data);
 
                                 }
                             });
                         }
                         if(!document.getElementById('variantImage').files[0]){
+                            var $btn = $('#btn_generate').button('loading');
                             //alert($scope.product.hasVariants);
                             $scope.variant.product_id = $scope.product.id;
                             //modify fvenc menos 1 dia
@@ -668,6 +679,7 @@
 
                                 } else {
                                     $scope.errors = data;
+                                    $btn.button('reset');
 
                                 }
                             });
@@ -692,6 +704,7 @@
                 $scope.updateProduct = function(){
                     //alert('ho');
                     if ($scope.productCreateForm.$valid) {
+                        var $btn = $('#btn_generate').button('loading');
                         var f = document.getElementById('productImage').files[0] ? document.getElementById('productImage').files[0] : null;
                         //alert(f);
                         var r = new FileReader();
@@ -705,10 +718,12 @@
                                 $location.path('/products');
                             }else{
                                 $scope.errors =data;
+                                $btn.button('reset');
                             }
                         });
                         }
                         if(!document.getElementById('productImage').files[0]){
+                            var $btn = $('#btn_generate').button('loading');
                             //alert('ho');
                         crudService.update($scope.product,'products').then(function(data)
                         {
@@ -718,6 +733,7 @@
                                 $location.path('/products');
                             }else{
                                 $scope.errors =data;
+                                $btn.button('reset');
                             }
                         });}
 
