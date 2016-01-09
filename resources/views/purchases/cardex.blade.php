@@ -68,8 +68,8 @@
                   <option value="">Elejir una opcion</option>
                   <option value="Entrada por Compra">Entradas</option>
                   <option value="Salida">Salidas</option>
-                  <option value="Compra">Compra</option>
-                  <option value="Venta">Venta</option>
+                  <option value="Compra">Entrada Compra</option>
+                  <option value="Venta">Salida Venta</option>
                   <option value="Transferencia">Transferencias</option>
                   <option value="masVendido" ng-disabled="product.proId!=null">Producto mas Vendido</option>
                   <option value="menVendido" ng-disabled="product.proId!=null">Producto menos vendido</option>

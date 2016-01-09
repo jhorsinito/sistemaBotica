@@ -4,8 +4,8 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="tipo" class="java.lang.String"/>
-	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["/usr/share/nginx/html/salesfly/public/report/"]]></defaultValueExpression>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[select headInputStocks.id,headInputStocks.warehouDestino_id as idCabeseara,headInputStocks.Fecha,headInputStocks.tipo,users.name,warehouses.nombre as almcen_uno,(select warehouses.nombre from headInputStocks inner join users on users.id= headInputStocks.user_id inner join warehouses on warehouses.id=headInputStocks.warehouses_id where warehouses.id=idCabeseara limit 1)as almacen_dos from headInputStocks inner join users on users.id= headInputStocks.user_id inner join warehouses on warehouses.id=headInputStocks.warehouses_id where headInputStocks.tipo=$P{tipo};]]>

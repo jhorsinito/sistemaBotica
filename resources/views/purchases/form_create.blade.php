@@ -86,8 +86,8 @@
                   <option value="Entrada">Entrada</option>
                   <option value="Salida">Salida</option>
                   <option value="Transferencia">Transferencia</option>
-                  <option value="Salida Venta">Salida Venta</option>
-                  <option value="Entrada Venta">Entrada Venta</option> 
+                 <option value="Venta">Salida Venta</option>
+                  <option value="Compra">Entrada Compra</option> 
                 </select>
                 <!--@{{variants.varid}}-->
                 </div>
@@ -100,8 +100,8 @@
                   <option value="Entrada">Entrada</option>
                   <option value="Salida">Salida</option>
                   <option value="Transferencia">Transferencia</option>
-                  <option value="Salida Venta">Salida Venta</option>
-                  <option value="Entrada Venta">Entrada Venta</option> 
+                  <option value="Venta">Salida Venta</option>
+                  <option value="Compra">Entrada Compra</option> 
                 </select>
                 <!--@{{variants.varid}}-->
                 </div>

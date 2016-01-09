@@ -291,7 +291,7 @@ class SalesController extends Controller
             $object["warehouses_id"]=$object['idAlmacen'];
             //$object["cantidad_llegado"]=$cantidaCalculada;
             //$object['descripcion']='Entrada por compra';
-            $object['tipo']='Salida Venta';
+            $object['tipo']='Venta';
             $object["user_id"]=auth()->user()->id;
             $object["Fecha"]=$request->input("fechaPedido");
 
@@ -588,7 +588,7 @@ class SalesController extends Controller
             $object["warehouses_id"]=$object['idAlmacen'];
             //$object["cantidad_llegado"]=$cantidaCalculada;
             //$object['descripcion']='Entrada por compra';
-            $object['tipo']='Salida Venta';
+            $object['tipo']='Venta';
             $object["user_id"]=auth()->user()->id;
             $object["Fecha"]=$request->input("fechaPedido");
 
@@ -714,7 +714,7 @@ class SalesController extends Controller
             $object["warehouses_id"]=$object['idAlmacen'];
             //$object["cantidad_llegado"]=$cantidaCalculada;
             //$object['descripcion']='Entrada por compra';
-            $object['tipo']='Salida Venta';
+            $object['tipo']='Venta';
             $object["user_id"]=auth()->user()->id;
             $object["Fecha"]=$request->input("fechaPedido");
 

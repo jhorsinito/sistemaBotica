@@ -335,7 +335,7 @@ class InputStocksController extends Controller
             array($ext),
             //array(),
             //while($i<=3){};
-            ['tipo'=>$tipo],//Parametros
+            ['SUBREPORT_DIR'=>public_path() . '/report/','tipo'=>$tipo],//Parametros
               
             $database,
             false,
@@ -357,7 +357,7 @@ class InputStocksController extends Controller
             array($ext),
             //array(),
             //while($i<=3){};
-            ['fechaMenor'=>$fecha1,'fechaMayor'=>$fecha2],//Parametros
+            ['SUBREPORT_DIR'=>public_path() . '/report/','fechaMenor'=>$fecha1,'fechaMayor'=>$fecha2],//Parametros
               
             $database,
             false,
@@ -379,7 +379,7 @@ class InputStocksController extends Controller
             array($ext),
             //array(),
             //while($i<=3){};
-            ['fechaMenor'=>$fecha1,'fechaMayor'=>$fecha2,'tipo'=>$tipo],//Parametros
+            ['SUBREPORT_DIR'=>public_path() . '/report/','fechaMenor'=>$fecha1,'fechaMayor'=>$fecha2,'tipo'=>$tipo],//Parametros
               
             $database,
             false,

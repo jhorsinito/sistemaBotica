@@ -142,12 +142,12 @@ class VariantRepo extends BaseRepo{
                           ->leftjoin('stock','stock.variant_id','=','variants.id')
                           //->join('detPres','detPres.variant_id','=','variants.id')
                           //->join('presentation','detPres.presentation_id','=','presentation.id')
-                          ->where('variants.codigo','=',$id)->where('atributes.nombre','=','Talla')
+                          ->where('variants.codigo','=',$id)->where('atributes.nombre','=','Cantidad')
                           ->select(\DB::raw("stock.stockActual as stock,variants.sku as varSku,variants.id as varCodigo,products.hasVariants as TieneVariante,variants.codigo as variantCondigo,
                             atributes.shortname as nomCortoVar,(SELECT (detAtr.descripcion ) FROM variants
                                 INNER JOIN detAtr ON detAtr.variant_id = variants.id
                                 INNER JOIN atributes ON atributes.id = detAtr.atribute_id
-                                where variants.id=varCodigo and atributes.nombre='Talla'
+                                where variants.id=varCodigo and atributes.nombre='Sabor'
                                 GROUP BY variants.id)as valorDetAtr,(SELECT (stock.stockActual ) FROM variants
                                 INNER JOIN stock ON stock.variant_id = variants.id
                                 INNER JOIN warehouses ON warehouses.id = stock.warehouse_id

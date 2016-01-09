@@ -470,7 +470,7 @@ class OrderPurchasesController extends Controller {
             array($ext),
             //array(),
             //while($i<=3){};
-            ['estado'=>$estado],//Parametros
+            ['SUBREPORT_DIR'=>public_path() . '/report/','estado'=>$estado],//Parametros
               
             $database,
             false,
@@ -491,7 +491,7 @@ class OrderPurchasesController extends Controller {
             array($ext),
             //array(),
             //while($i<=3){};
-            ['fechaini' => $fech1,'fechafin'=>$fech2],//Parametros
+            ['SUBREPORT_DIR'=>public_path() . '/report/','fechaini' => $fech1,'fechafin'=>$fech2],//Parametros
               
             $database,
             false,
@@ -513,7 +513,7 @@ class OrderPurchasesController extends Controller {
             array($ext),
             //array(),
             //while($i<=3){};
-            ['fechaini' => $fech1,'fechafin'=>$fech2],//Parametros
+            ['SUBREPORT_DIR'=>public_path() . '/report/','fechaini' => $fech1,'fechafin'=>$fech2],//Parametros
               
             $database,
             false,
@@ -533,7 +533,7 @@ class OrderPurchasesController extends Controller {
             array($ext),
             //array(),
             //while($i<=3){};
-            ['fechaini' => $fech1,'fechafin'=>$fech2,'estado'=>$estado],//Parametros
+            ['SUBREPORT_DIR'=>public_path() . '/report/','fechaini' => $fech1,'fechafin'=>$fech2,'estado'=>$estado],//Parametros
               
             $database,
             false,
@@ -555,7 +555,7 @@ class OrderPurchasesController extends Controller {
             array($ext),
             //array(),
             //while($i<=3){};
-            ['fechaini' => $fech1,'fechafin'=>$fech2,'estado'=>$estado],//Parametros
+            ['SUBREPORT_DIR'=>public_path() . '/report/','fechaini' => $fech1,'fechafin'=>$fech2,'estado'=>$estado],//Parametros
               
             $database,
             false,
