@@ -441,6 +441,7 @@
                         var $btn = $('#btn_generate').button('loading');
                         var fv = document.getElementById('variantImage').files[0] ? document.getElementById('variantImage').files[0] : null;
                         //alert(f);
+                        if(fv){
                         if(fv.size <= 400000) {
                         var rv = new FileReader();
                         rv.onloadend = function(e) {
@@ -467,7 +468,7 @@
                         }else{
                             alert('Peso de imagen mayor a 400Kb.');
                             $btn.button('reset');
-                        }
+                        }}
                         if(!document.getElementById('variantImage').files[0]){
                             var $btn = $('#btn_generate').button('loading');
                             //alert($scope.product.hasVariants);
