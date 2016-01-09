@@ -12,15 +12,15 @@ class AtributeTableSeeder extends Seeder
     public function run()
     {
         DB::table('atributes')->insert([
-            'nombre' => 'Cantidad',
-            'shortname' => 'CT',
+            'nombre' => 'Sabor',
+            'shortname' => 'SB',
             'descripcion' => '',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('atributes')->insert([
-            'nombre' => 'Sabor',
-            'shortname' => 'SB',
+            'nombre' => 'Cantidad',
+            'shortname' => 'CT',
             'descripcion' => '',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
