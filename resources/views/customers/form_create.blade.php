@@ -214,7 +214,7 @@
 
 
                   <div class="box-footer">
-                    <button type="submit" class="btn btn-primary" ng-click="createCustomer()">Crear</button>
+                    <button id="btn_generate" data-loading-text="Enviando.." type="submit" class="btn btn-primary" ng-click="createCustomer()">Crear</button>
                       <!--<input type="button" class="btn btn-danger" value="Cancel" onclick="location='/customers'">-->
                       <a href="/customers" class="btn btn-danger">Cancelar</a>
                   </div>

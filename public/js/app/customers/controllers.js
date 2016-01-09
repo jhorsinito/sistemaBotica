@@ -77,6 +77,7 @@
                 $scope.createCustomer = function(){
 
                     if ($scope.customerCreateForm.$valid) {
+                        var $btn = $('#btn_generate').button('loading');
                         crudService.create($scope.customer, 'customers').then(function (data) {
                            
                             if (data['estado'] == true) {
@@ -86,6 +87,7 @@
 
                             } else {
                                 $scope.errors = data;
+                                $btn.button('reset');
 
                             }
                         });
@@ -101,6 +103,7 @@
 
                 $scope.updateCustomer = function(){
                     if ($scope.customerCreateForm.$valid) {
+                        var $btn = $('#btn_generate').button('loading');
                         crudService.update($scope.customer,'customers').then(function(data)
                         {
                             if(data['estado'] == true){
@@ -109,6 +112,7 @@
                                 $location.path('/customers');
                             }else{
                                 $scope.errors =data;
+                                $btn.button('reset');
                             }
                         });
                     }

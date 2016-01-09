@@ -205,7 +205,7 @@
               
     </div>
      <div class="box-footer">
-                    <button type="submit" class="btn btn-primary" aling="left" ng-click="createEmployee()">Crear</button>
+                    <button id="btn_generate" data-loading-text="Enviando.."  type="submit" class="btn btn-primary" aling="left" ng-click="createEmployee()">Crear</button>
                     <a href="/employees" class="btn btn-danger">Cancelar</a>
                     <!--<input type="button" class="btn btn-danger" value="Cancel"onclick="location='/employees'"/>-->
                   </div>
