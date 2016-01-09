@@ -4,7 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String">
-		<defaultValueExpression><![CDATA["/usr/share/nginx/html/salesfly/public/report/"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="fechaMenor" class="java.lang.String"/>
 	<parameter name="fechaMayor" class="java.lang.String"/>
