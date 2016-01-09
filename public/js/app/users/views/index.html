@@ -75,7 +75,14 @@
                       <td>{{row.store.nombreTienda}}</td>
 
                       <td><a ng-click="editUser(row)" class="btn btn-warning btn-xs">Editar</a></td>
-                        <td><a ng-click="" class="btn bg-purple-active color-palette btn-xs">Deshabilitar</a></td>
+                        <td>
+                           <span ng-if="row.estado == 1">
+                          <a ng-click="disableUser(row)" class="btn bg-purple-active color-palette btn-xs">Deshabilitar</a>
+                             </span>
+                          <span ng-if="row.estado == 0">
+                          <a ng-click="disableUser(row)" class="btn bg-purple-active color-palette btn-xs">Habilitar</a>
+                             </span>
+                        </td>
                       <td><a ng-click="deleteUser(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
                       
                     </tr>

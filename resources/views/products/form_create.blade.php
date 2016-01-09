@@ -330,7 +330,7 @@
                 </div><!-- /.box-body -->
 
                   <div class="box-footer">
-                    <button type="submit" class="btn btn-primary" ng-click="createProduct()">Crear</button>
+                    <button id="btn_generate" data-loading-text="Enviando.." type="submit" class="btn btn-primary" ng-click="createProduct()">Crear</button>
                     <a href="/products" class="btn btn-danger">Cancelar</a>
                   </div>
                 </form>
@@ -481,7 +481,7 @@
 
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="createBrand()">OK</button>
+        <button id="btn_generateMarca" data-loading-text="Enviando.." class="btn btn-primary" type="button" ng-click="createBrand()">OK</button>
         <button class="btn btn-warning" type="button" ng-click="cancelBrand()">Cancelar</button>
     </div>
 </script>
@@ -532,7 +532,7 @@
 
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="createLine()">OK</button>
+        <button id="btn_generateLinea" data-loading-text="Enviando.." class="btn btn-primary" type="button" ng-click="createLine()">OK</button>
         <button class="btn btn-warning" type="button" ng-click="cancelLine()">Cancelar</button>
     </div>
 </script>
@@ -634,7 +634,7 @@
 
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="createStation()">OK</button>
+        <button id="btn_generateEstacion" data-loading-text="Enviando.." class="btn btn-primary" type="button" ng-click="createStation()">OK</button>
         <button class="btn btn-warning" type="button" ng-click="cancelStation()">Cancelar</button>
     </div>
 </script>

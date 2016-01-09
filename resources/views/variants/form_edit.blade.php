@@ -263,7 +263,7 @@
                     </div><!-- /.box-body -->
 
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary" ng-click="updateVariant()">Editar</button>
+                        <button id="btn_generate" data-loading-text="Enviando.." type="submit" class="btn btn-primary" ng-click="updateVariant()">Editar</button>
                         <a href="/products/show/@{{product.id}}" class="btn btn-danger">Cancelar</a>
                     </div>
                 </form>

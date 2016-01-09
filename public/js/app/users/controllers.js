@@ -4,6 +4,7 @@
             function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log){
                 $scope.users = [];
                 $scope.user = {};
+                $scope.userPass = {}; //usuario para cambiar contraseña
                 $scope.generos = [{name:'Masculino'},{name:'Femenino'}];
                 //$scope.errors = [{val:'hola'}];
                 $scope.errors;
@@ -13,6 +14,11 @@
                 $scope.user.role_id = '2';
                 $scope.estados = [{key:'0',value:'Deshabilitado'},{key:'1',value:'Habilitado'}];
                 $scope.user.estado = '1';
+                $scope.showChange = false;
+
+                $scope.changePass = function(){
+                    $scope.showChange = !$scope.showChange;
+                }
 
                 $scope.toggle = function () {
                     $scope.show = !$scope.show;
@@ -38,6 +44,7 @@
                     crudService.byId(id,'users').then(function (data) {
                         $log.log(data);
                         $scope.user = data;
+                        $scope.userPass.id = $scope.user.id;
 
                     });
                     crudService.select('users','stores').then(function (data){
@@ -85,8 +92,10 @@
                 $scope.createUser = function(){
 
                     if ($scope.userCreateForm.$valid) {
+                        var $btn = $('#btn_generate').button('loading');
                         var f = document.getElementById('userImage').files[0] ? document.getElementById('userImage').files[0] : null;
                         //alert(f);
+                        if(f.size <= 400000) {
                         var r = new FileReader();
                         r.onloadend = function(e) {
                             $scope.user.image = e.target.result;
@@ -99,10 +108,15 @@
 
                                 } else {
                                     $scope.errors = data;
+                                    $btn.button('reset');
                                     //alert(data);
 
                                 }
                             });
+                        }
+                        }else{
+                            alert('Peso de imagen mayor a 400Kb.');
+                            $btn.button('reset');
                         }
                         if(!document.getElementById('userImage').files[0]){
                         crudService.create($scope.user,'users').then(function (data){
@@ -113,11 +127,12 @@
 
                             } else {
                                 $scope.errors = data;
+                                $btn.button('reset');
 
                             }
                         });}
 
-                        if(document.getElementById('userImage').files[0]){
+                        if(document.getElementById('userImage').files[0] && document.getElementById('userImage').files[0].size <= 400000){
                             r.readAsDataURL(f);
                         }
 
@@ -130,22 +145,30 @@
 
                 $scope.updateUser = function(){
                     if ($scope.userCreateForm.$valid) {
+                        var $btn = $('#btn_generate').button('loading');
                         var f = document.getElementById('userImage').files[0] ? document.getElementById('userImage').files[0] : null;
                         //alert(f);
+                        if(f){
+                        if(f.size <= 400000) {
                         var r = new FileReader();
-                        r.onloadend = function(e) {
-                            $scope.user.image = e.target.result;
-                        crudService.update($scope.user,'users').then(function(data)
-                        {
-                            if(data['estado'] == true){
-                                $scope.success = data['nombres'];
-                                alert('editado correctamente');
-                                $location.path('/users');
-                            }else{
-                                $scope.errors =data;
+                            r.onloadend = function(e) {
+                                $scope.user.image = e.target.result;
+                            crudService.update($scope.user,'users').then(function(data)
+                            {
+                                if(data['estado'] == true){
+                                    $scope.success = data['nombres'];
+                                    alert('editado correctamente');
+                                    $location.path('/users');
+                                }else{
+                                    $scope.errors =data;
+                                    $btn.button('reset');
+                                }
+                            });
                             }
-                        });
-                        }
+                        }else{
+                            alert('Peso de imagen mayor a 400Kb.');
+                            $btn.button('reset');
+                        }}
                         if(!document.getElementById('userImage').files[0]){
                         crudService.update($scope.user,'users').then(function(data)
                         {
@@ -155,10 +178,11 @@
                                 $location.path('/users');
                             }else{
                                 $scope.errors =data;
+                                $btn.button('reset');
                             }
                         });}
 
-                        if(document.getElementById('userImage').files[0]){
+                        if(document.getElementById('userImage').files[0] && document.getElementById('userImage').files[0].size <= 400000){
                             r.readAsDataURL(f);
                         }
                     }
@@ -185,6 +209,37 @@
                             $scope.errors = data;
                         }
                     });
+                }
+                $scope.disableUser = function(row){
+                    //$log.log(row);
+                    crudService.byforeingKey('users','disableuser',row.id).then(function(data)
+                    {
+                        if(data['estado'] == true){
+                            $route.reload();
+                        }else{
+                            alert('No se pudo cambiar el estado');
+                        }
+                    });
+                }
+                $scope.updatePass = function(){
+
+                    if ($scope.passwordForm.$valid) {
+                        var $btn = $('#btn_generatePass').button('loading');
+                        //function selectPost(area,uri,select);
+                        crudService.selectPost($scope.userPass,'users','changePass').then(function(data)
+                            {
+                                if(data['estado'] == true){
+                                    //$scope.success = data['nombres'];
+                                    alert('Contraseña cambiada correctamente');
+                                    $location.path('/users');
+                                }else{
+                                    $scope.errors = data;
+                                    $btn.button('reset');
+                                }
+                            });
+
+
+                    }
                 }
             }]);
 })();
