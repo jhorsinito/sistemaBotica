@@ -522,7 +522,7 @@ class PurchasesController extends Controller {
             array($ext),
             //array(),
             //while($i<=3){};
-            ['fechaini' =>$fech1,'fechafin'=>$fech2],//Parametros
+            ['SUBREPORT_DIR'=> public_path() . '/report/','fechaini' =>$fech1,'fechafin'=>$fech2],//Parametros
               
             $database,
             false,
@@ -565,7 +565,7 @@ class PurchasesController extends Controller {
             array($ext),
             //array(),
             //while($i<=3){};
-            ['payments_id' => $id],//Parametros
+            ['SUBREPORT_DIR'=> public_path() . '/report/','payments_id' => $id],//Parametros
               
             $database,
             false,
@@ -588,7 +588,7 @@ class PurchasesController extends Controller {
             array($ext),
             //array(),
             //while($i<=3){};
-            ['q' => $descri],//Parametros
+            ['SUBREPORT_DIR'=> public_path() . '/report/','q' => $descri],//Parametros
               
             $database,
             false,

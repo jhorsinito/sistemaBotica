@@ -926,6 +926,7 @@
                     }
                 }
                 $scope.searchporTipo=function(){
+                  alert($scope.purchase.tipoMov);
                     crudOPurchase.paginarportipos("inputStocks",$scope.purchase.tipoMov).then(function (data) {
                         $scope.headInputStocks = data.data;
                         $scope.maxSize = 5;
@@ -1433,7 +1434,7 @@
                 if($scope.product.proId!=null){
                 if(parseInt($scope.product.proId.varid)>0)
                     {
-                    if($scope.purchase.tipoMov=='Entrada' || $scope.purchase.tipoMov=='Salida' || $scope.purchase.tipoMov=='Transferencia')
+                    if($scope.purchase.tipoMov=='Entrada' || $scope.purchase.tipoMov=='Venta' || $scope.purchase.tipoMov=='Compra' || $scope.purchase.tipoMov=='Salida' || $scope.purchase.tipoMov=='Transferencia')
                     {
                         if($scope.purchase.tiempo=='dia' || $scope.purchase.tiempo=='mes' || $scope.purchase.tiempo=='año'){
                         alert("generando reporte por Variante  y dia mes o año");
@@ -1451,7 +1452,7 @@
                         }
                     }
                     if($scope.purchase.tiempo=='otro'){
-                        if( $scope.purchase.tipoMov=='Entrada' || $scope.purchase.tipoMov=='Salida' || $scope.purchase.tipoMov=='Transferencia')
+                        if( $scope.purchase.tipoMov=='Entrada' || $scope.purchase.tipoMov=='Venta' || $scope.purchase.tipoMov=='Compra' || $scope.purchase.tipoMov=='Salida' || $scope.purchase.tipoMov=='Transferencia')
                         {
                         alert('generando reportes productos por tipo y rango de fechas');
                          $scope.textgeneratecardex="Generando..";
@@ -1470,7 +1471,7 @@
 
                     }}
                 else{
-                if($scope.purchase.tipoMov=='Entrada' || $scope.purchase.tipoMov=='Salida' || $scope.purchase.tipoMov=='Transferencia')
+                if($scope.purchase.tipoMov=='Entrada' || $scope.purchase.tipoMov=='Venta' || $scope.purchase.tipoMov=='Compra' || $scope.purchase.tipoMov=='Salida' || $scope.purchase.tipoMov=='Transferencia')
                 {
                     if($scope.purchase.tiempo=='dia' || $scope.purchase.tiempo=='mes' || $scope.purchase.tiempo=='año'){
                         alert("generando reporte por tipo y dia mes o año");
@@ -1488,7 +1489,7 @@
                     }
                 }
                     if($scope.purchase.tiempo=='otro'){
-                        if( $scope.purchase.tipoMov=='Entrada' || $scope.purchase.tipoMov=='Salida' || $scope.purchase.tipoMov=='Transferencia')
+                        if( $scope.purchase.tipoMov=='Entrada' || $scope.purchase.tipoMov=='Venta' || $scope.purchase.tipoMov=='Compra' ||  $scope.purchase.tipoMov=='Salida' || $scope.purchase.tipoMov=='Transferencia')
                         {
                         alert('generando reportes productos por tipo y rango de fechas');
                          $scope.textgeneratecardex="Generando..";

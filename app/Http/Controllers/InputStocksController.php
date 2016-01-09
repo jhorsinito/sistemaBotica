@@ -92,6 +92,7 @@ class InputStocksController extends Controller
     }
     
     public function create(Request $request){
+      //var_dump($request->input('descripcion'));die();
       \DB::beginTransaction();
       if($request->warehouDestino_id==""){
         $request->merge(["warehouDestino_id"=>null]);
@@ -335,7 +336,7 @@ class InputStocksController extends Controller
             array($ext),
             //array(),
             //while($i<=3){};
-            ['tipo'=>$tipo],//Parametros
+            ['SUBREPORT_DIR'=> public_path() . '/report/','tipo'=>$tipo],//Parametros
               
             $database,
             false,
@@ -357,7 +358,7 @@ class InputStocksController extends Controller
             array($ext),
             //array(),
             //while($i<=3){};
-            ['fechaMenor'=>$fecha1,'fechaMayor'=>$fecha2],//Parametros
+            ['SUBREPORT_DIR'=> public_path() . '/report/','fechaMenor'=>$fecha1,'fechaMayor'=>$fecha2],//Parametros
               
             $database,
             false,
@@ -379,7 +380,7 @@ class InputStocksController extends Controller
             array($ext),
             //array(),
             //while($i<=3){};
-            ['fechaMenor'=>$fecha1,'fechaMayor'=>$fecha2,'tipo'=>$tipo],//Parametros
+            ['SUBREPORT_DIR'=> public_path() . '/report/','fechaMenor'=>$fecha1,'fechaMayor'=>$fecha2,'tipo'=>$tipo],//Parametros
               
             $database,
             false,

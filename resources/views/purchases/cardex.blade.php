@@ -67,8 +67,9 @@
                 <select   ng-change="" class="form-control"   ng-model="purchase.tipoMov" >
                   <option value="">Elejir una opcion</option>
                   <option value="Entrada">Entradas</option>
+                  <option value="Salida por Venta">Salida por Venta</option>
                   <option value="Salida">Salidas</option>
-                  <option value="Compra">Compra</option>
+                  <option value="Compra">Compras</option>
                   <option value="Venta">Venta</option>
                   <option value="Transferencia">Transferencias</option>
                   <option value="masVendido" ng-disabled="product.proId!=null">Producto mas Vendido</option>

@@ -1743,7 +1743,7 @@ $scope.recalPayments=function(){
                                $scope.currentPage = data.current_page;
                                $scope.itemsperPage = 15;
                          });
-                          $scope.estado='';
+                          //$scope.estado='';
                           $scope.query='';
                           $scope.textoBoton="Generar Reporte";
                    }else{
@@ -1755,7 +1755,7 @@ $scope.recalPayments=function(){
                                $scope.currentPage = data.current_page;
                                $scope.itemsperPage = 15;
                          });
-                          $scope.estado='';
+                        //  $scope.estado='';
                           $scope.query='';
                           $scope.textoBoton="Generar Reporte";
                    }
