@@ -433,7 +433,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->join ('stores as T9', 'T9.id', '=', 'T8.store_id')  
 
                             ->select(\DB::raw('products.nombre as Producto,T6.sku as codigo,T6.id as vari ,T7.stockActual as stock,T10.nombre as Linea,T12.nombre as Mate,
-                                                T13.price as Precio,
+                                                T13.price as Precio,T13.dsctoRange,
 
                                                 IF( T13.fecIniDscto<="'.$q.'" and T13.fecFinDscto>="'.$q.'",T13.dsctoRange,T13.dscto) as Descuento ,
                                                 IF( T13.fecIniDscto<="'.$q.'" and T13.fecFinDscto>="'.$q.'",T13.pvpRange,T13.pvp) as PrecioVenta ,

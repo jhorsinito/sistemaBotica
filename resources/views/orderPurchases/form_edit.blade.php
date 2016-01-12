@@ -142,7 +142,7 @@
           <div class="input-group" style="width: 300px;">
               <label>Producto</label>
                
-             <input ng-disabled="activarBusca "  typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Busqueda por varinates" 
+             <input ng-disabled="activarBusca || check"  typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId" placeholder="Busqueda por varinates" 
           typeahead="variant as variant.proNombre+'('+(variant.BraName==null ? '': variant.BraName+'/')+(variant.TName==null ? '' : variant.TName+'/')+(variant.Mnombre==null ? '':variant.Mnombre+'/')+(variant.NombreAtributos==null ? '':variant.NombreAtributos)+')' for variant in variants1 | filter:$viewValue | limitTo:8" 
           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
            tooltip="Ingrese caracteres para busacar producto por codigo unico"

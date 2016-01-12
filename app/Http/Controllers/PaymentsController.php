@@ -41,6 +41,7 @@ class PaymentsController extends Controller {
 
     public function create(Request $request)
     {
+       
         \DB::beginTransaction();
        // var_dump($request->all());die();
         //var_dump($request->all());die();
@@ -149,6 +150,20 @@ class PaymentsController extends Controller {
     $manager = new DetPaymentManager($detPayment,$var);
     $manager->save();
     $idetdPayment=$detPayment->id;
+    //$this->detPaymentRepo->consultDetpayments($provicional);
+    $montoTotalPagado=0;
+    foreach($this->detPaymentRepo->consultDetpayments($provicional) as $object){
+        $montoTotalPagado=$montoTotalPagado+floatval($object["montoPagado"]);
+    }
+    $payment1 = $this->paymentRepo->find($provicional);
+    $request->merge(["Acuenta"=>$montoTotalPagado]);
+    if(floatval($payment1->MontoTotal)-$montoTotalPagado>=0){
+          $request->merge(["Saldo"=>floatval($payment1->MontoTotal)-$montoTotalPagado]);
+    }else{
+          return response()->json('error');
+    }
+    $manager = new PaymentManager($payment1,$request->only("Acuenta","Saldo"));
+    $manager->save();
     \DB::commit();
 
         return response()->json(['estado'=>true,'id'=>$idetdPayment, 'nombre'=>$payment->id]);
@@ -162,6 +177,7 @@ class PaymentsController extends Controller {
 
     public function edit(Request $request)
     {
+
         \DB::beginTransaction();
         $var=$request->detPayments;
         $detPayment= $this->detPaymentRepo->find($request->detpId);
@@ -171,8 +187,23 @@ class PaymentsController extends Controller {
        
        
         $payment = $this->paymentRepo->find($request->id);
-        $manager = new PaymentManager($payment,$request->only("Acuenta","Saldo"));
-        $manager->save();
+             
+        $montoTotalPagado=0;
+    foreach($this->detPaymentRepo->consultDetpayments($request->id) as $object){
+        $montoTotalPagado=$montoTotalPagado+floatval($object["montoPagado"]);
+    }
+    //$payment1 = $this->paymentRepo->find($provicional);
+    $request->merge(["Acuenta"=>$montoTotalPagado]);
+    if(floatval($payment->MontoTotal)-$montoTotalPagado>=0){
+          $request->merge(["Saldo"=>floatval($payment->MontoTotal)-$montoTotalPagado]);
+    }else{
+          return response()->json('error');
+    }
+    $manager = new PaymentManager($payment,$request->only("Acuenta","Saldo"));
+    $manager->save();
+
+       // $manager = new PaymentManager($payment,$request->only("Acuenta","Saldo"));
+       // $manager->save();
         //=======================================================
         //var_dump($request->input('Saldo_F'));die();
         if(intval($request->input('Saldo_F'))>0){
@@ -274,6 +305,17 @@ if(intval($request->input('cashMonthly_id'))>0){
         $request->merge(['Saldo'=>$MontotalTemp-$AcuentaTemp2]);
         //var_dump($request->all());die();
         $payment = $this->paymentRepo->find($request->id);
+              $montoTotalPagado=0;
+    foreach($this->detPaymentRepo->consultDetpayments($request->id) as $object){
+        $montoTotalPagado=$montoTotalPagado+floatval($object["montoPagado"]);
+    }
+    //$payment1 = $this->paymentRepo->find($provicional);
+    $request->merge(["Acuenta"=>$montoTotalPagado]);
+    if(floatval($payment->MontoTotal)-$montoTotalPagado>=0){
+          $request->merge(["Saldo"=>floatval($payment->MontoTotal)-$montoTotalPagado]);
+    }else{
+          return response()->json('error');
+    }
         $manager = new PaymentManager($payment,$request->only("Acuenta","Saldo"));
         $manager->save();
         if(intval($request->input('Saldo_F'))>0){

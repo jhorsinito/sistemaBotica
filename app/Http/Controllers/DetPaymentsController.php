@@ -116,6 +116,21 @@ class DetPaymentsController extends Controller {
             $request->detPayments['fecha'] = null;
         }*/
        // $detPayment->save();
+
+   // $this->detPaymentRepo->consultDetpayments($provicional);
+    $montoTotalPagado=0;
+    foreach($this->detPaymentRepo->consultDetpayments($request->id) as $object){
+        $montoTotalPagado=$montoTotalPagado+floatval($object["montoPagado"]);
+    }
+    $payment1 = $this->paymentRepo->find($request->id);
+    $request->merge(["Acuenta"=>$montoTotalPagado]);
+    if(floatval($payment1->MontoTotal)-$montoTotalPagado>=0){
+          $request->merge(["Saldo"=>floatval($payment1->MontoTotal)-$montoTotalPagado]);
+    }else{
+          return response()->json('error');
+    }
+    $manager = new PaymentManager($payment1,$request->only("Acuenta","Saldo"));
+    $manager->save();
         \DB::commit();
         return response()->json(['estado'=>true,'id'=>$idpago,'montoP'=>$detPayment->Acuenta]);
     }
@@ -128,7 +143,7 @@ class DetPaymentsController extends Controller {
 
     public function edit(Request $request)
     {
-      var_dump("hola");die();
+     // var_dump("hola");die();
         $detPayment = $this->detPaymentRepo->find($request->id);
         $manager = new DetPaymentManager($detPayment,$request->all());
         $manager->save();

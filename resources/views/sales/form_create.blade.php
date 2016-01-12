@@ -449,6 +449,7 @@
                       <th>Cantidad</th>
                       <th>Stock</th>
                       <th>Descuento</th>
+                      <th>Descuento Rango</th>
                       <th>Precio Normal</th>
                       <th>Precio Oferta</th>
                     </tr>
@@ -463,6 +464,7 @@
                       <td>@{{row.Tallas}}</td>
                       <td>@{{row.stock}}</td>
                       <td>@{{row.Descuento}}%</td>
+                      <td>@{{row.dsctoRange}}%</td>
                       <td>@{{row.Precio}}</td>
                       <td ng-if="row.Estado=='SI'" style="color:blue">@{{row.PrecioVenta}}</td>
                       <td ng-if="row.Estado=='NO'">@{{row.PrecioVenta}}</td>

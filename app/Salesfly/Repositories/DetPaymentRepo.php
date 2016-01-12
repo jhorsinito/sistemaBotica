@@ -29,4 +29,10 @@ class DetPaymentRepo extends BaseRepo{
        $detPayment=DetPayment::where("detPayments.payment_id","=",$id)->get();
        return $detPayment;
     }
+    function consultDetpayments($id){
+        $detPayment=DetPayment::where("detPayments.payment_id","=",$id)
+                              ->get();
+
+        return $detPayment;
+    }
 } 

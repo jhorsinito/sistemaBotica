@@ -17,7 +17,7 @@ class InputStockRepo extends BaseRepo{
     }
     public function selected($id){
        $InputStock=InputStock::join("variants","variants.id","=","inputStocks.variant_id")
-                            ->select(\DB::raw("inputStocks.producto,inputStocks.descripcion,inputStocks.cantidad_llegado,variants.codigo"))
+                            ->select(\DB::raw("inputStocks.producto,inputStocks.descripcion,inputStocks.cantidad_llegado,variants.sku as codigo"))
                             ->where("inputStocks.headInputStock_id","=",$id)
                             ->groupBy("inputStocks.id")->paginate(15);
         return $InputStock;
