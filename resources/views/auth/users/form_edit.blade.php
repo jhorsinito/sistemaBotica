@@ -104,10 +104,61 @@
                 </div><!-- /.box-body -->
 
                   <div class="box-footer">
-                    <button type="submit" class="btn btn-primary" ng-click="updateUser()">Editar</button>
+                    <button id="btn_generate" data-loading-text="Enviando.." type="submit" class="btn btn-primary" ng-click="updateUser()">Editar</button>
                     <a href="/users" class="btn btn-danger">Cancelar</a>
+                      <button class="btn btn-warning" ng-click="changePass()">Cambiar Contraseña</button>
                   </div>
                 </form>
+
+
+              <div class="row" ng-show="showChange"> <!--being change pas-->
+                  <div class="col-md-6">
+
+                      <div class="panel panel-default">
+                          <div class="panel-heading">
+                              <h3 class="panel-title">Cambio de Contraseña</h3>
+                          </div>
+                          <div class="panel-body">
+                              <form name="passwordForm" role="form" novalidate>
+
+                                  <div class="row">
+                                      <input type="hidden" ng-model="userPass.id">
+                                      <div class="col-md-6">
+                                          <div class="form-group" ng-class="{true: 'has-error'}[ passwordForm.pass1.$error.required  && passwordForm.$submitted || passwordForm.pass1.$dirty && passwordForm.pass1.$invalid]">
+                                              <label for="email">Nuevo password</label>
+                                              <input type="password" class="form-control" name="pass1" id="pass1" placeholder="pass" ng-model="userPass.password" ng-minlength=6 required>
+                                              <label ng-show="passwordForm.$submitted || passwordForm.pass1.$dirty && passwordForm.pass1.$invalid">
+                                                  <span ng-show="passwordForm.pass1.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                                  <span ng-show="passwordForm.pass1.$error.minlength"><i class="fa fa-times-circle-o"></i>Mínimo 6 caracteres.</span>
+                                              </label>
+                                          </div></div>
+                                      <div class="col-md-6">
+                                          <div class="form-group" ng-class="{true: 'has-error'}[ passwordForm.pass2.$error.required  && passwordForm.$submitted || passwordForm.pass2.$dirty && passwordForm.pass2.$invalid]">
+                                              <label for="email">Confirmación de password</label>
+                                              <input type="password" class="form-control" name="pass2" placeholder="pass" ng-model="userPass.password_confirmation" pw-check="pass1" required >
+                                              <label ng-show="passwordForm.$submitted || passwordForm.pass2.$dirty && passwordForm.pass2.$invalid">
+                                                  <span ng-show="passwordForm.pass2.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                                  <span ng-show="passwordForm.pass2.$error.pwmatch">  Contraseñas no coinciden.</span>
+                                              </label>
+                                          </div></div>
+                                  </div>
+
+                              </form>
+
+
+
+
+                          </div>
+                          <div class="panel-footer">
+                              <button id="btn_generatePass" data-loading-text="Enviando.." type="submit" class="btn btn-default" ng-click="updatePass()">Cambiar</button>
+                              <a href="" class="btn btn-default" ng-click="changePass()">Cancelar</a>
+                          </div>
+                      </div>
+
+                  </div>
+
+              </div> <!-- end chage pass-->
+
               </div><!-- /.box -->
 
               </div>

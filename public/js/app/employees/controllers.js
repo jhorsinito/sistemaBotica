@@ -146,48 +146,57 @@
 
                 $scope.createEmployee = function(){
                     if ($scope.employeeCreateForm.$valid){
+                        var $btn = $('#btn_generate').button('loading');
                         var f = document.getElementById('employeeImage').files[0] ? document.getElementById('employeeImage').files[0] : null;
                         //alert(f);
+                        if(f){
+                            if(f.size <= 400000) {
+                                var r = new FileReader();
+                                r.onloadend = function(e) {
+                                    $scope.employee.imagen = e.target.result;
+                                    alert("aqui estoy");
+                                    crudService.create($scope.employee, 'employees').then(function (data) {
 
-                        var r = new FileReader();
-                        r.onloadend = function(e) {
-                            $scope.employee.imagen = e.target.result;
-                                alert("aqui estoy");
-                           crudService.create($scope.employee, 'employees').then(function (data) {
-                           
-                            if (data['estado'] == true) {
-                                $scope.success = data['nombres'];
-                                alert('grabado correctamente');
-                                $location.path('/employees');
+                                        if (data['estado'] == true) {
+                                            $scope.success = data['nombres'];
+                                            alert('grabado correctamente');
+                                            $location.path('/employees');
 
-                            } else {
-                                $scope.errors = data;
+                                        } else {
+                                            $scope.errors = data;
+                                            $btn.button('reset');
+
+                                        }
+                                    });
+                                }
+                            }else{
+                                alert('Peso de imagen mayor a 400Kb.');
+                                $btn.button('reset');
+                            }}
+                                if(!document.getElementById('employeeImage').files[0]){
+
+                                    crudService.create($scope.employee, 'employees').then(function (data) {
+
+                                        if (data['estado'] == true) {
+                                            $scope.success = data['nombres'];
+                                            alert('grabado correctamente');
+                                            $location.path('/employees');
+
+                                        } else {
+                                            $scope.errors = data;
+                                            $btn.button('reset');
+
+                                        }
+                                    });}
+
+                                if(document.getElementById('employeeImage').files[0] && document.getElementById('employeeImage').files[0].size <= 400000){
+                                    r.readAsDataURL(f);
+                                }
 
                             }
-                        });
                         }
-                        if(!document.getElementById('employeeImage').files[0]){
-
-                        crudService.create($scope.employee, 'employees').then(function (data) {
-                           
-                            if (data['estado'] == true) {
-                                $scope.success = data['nombres'];
-                                alert('grabado correctamente');
-                                $location.path('/employees');
-
-                            } else {
-                                $scope.errors = data;
-
-                            }
-                        });}
-
-                        if(document.getElementById('employeeImage').files[0]){
-                            r.readAsDataURL(f);
-                        }
-
-                    }
                     ///--------------------------------------------------------------
-                }
+
                
 
                 $scope.editEmployee = function(row){
@@ -197,9 +206,11 @@
                 $scope.updateEmployee = function(){
 
                     if ($scope.employeeCreateForm.$valid){
+                        var $btn = $('#btn_generate').button('loading');
                         var f = document.getElementById('employeeImage').files[0] ? document.getElementById('employeeImage').files[0] : null;
                         //alert(f);
-
+                        if(f){
+                            if(f.size <= 400000) {
                         var r = new FileReader();
                         r.onloadend = function(e) {
                             $scope.employee.imagen = e.target.result;
@@ -213,10 +224,15 @@
 
                                 } else {
                                     $scope.errors = data;
+                                    $btn.button('reset');
 
                                 }
                             });
                         }
+                            }else{
+                                alert('Peso de imagen mayor a 400Kb.');
+                                $btn.button('reset');
+                            }}
                         if(!document.getElementById('employeeImage').files[0]){
 
                             crudService.update($scope.employee, 'employees').then(function (data) {
@@ -228,11 +244,12 @@
 
                                 } else {
                                     $scope.errors = data;
+                                    $btn.button('reset');
 
                                 }
                             });}
 
-                        if(document.getElementById('employeeImage').files[0]){
+                        if(document.getElementById('employeeImage').files[0] && document.getElementById('employeeImage').files[0].size <= 400000){
                             r.readAsDataURL(f);
                         }
 

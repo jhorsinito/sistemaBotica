@@ -379,26 +379,35 @@
                 $scope.createProduct = function(){
 
                     if ($scope.productCreateForm.$valid) {
+                        var $btn = $('#btn_generate').button('loading');
                         var f = document.getElementById('productImage').files[0] ? document.getElementById('productImage').files[0] : null;
-                        //alert(f);
-                        var r = new FileReader();
-                        r.onloadend = function(e) {
-                            $scope.product.image = e.target.result;
+                        //alert(f.size); return false;
+                        if(f){
+                        if(f.size <= 400000) {
+                            var r = new FileReader();
+                            r.onloadend = function (e) {
+                                $scope.product.image = e.target.result;
 
-                            crudService.create($scope.product, 'products').then(function (data) {
-                                if (data['estado'] == true) {
-                                    //$scope.success = data['nombres'];
-                                    alert('Producto creado con Éxito');
-                                    $location.path('/products');
+                                crudService.create($scope.product, 'products').then(function (data) {
+                                    if (data['estado'] == true) {
+                                        //$scope.success = data['nombres'];
+                                        alert('Producto creado con Éxito');
+                                        $location.path('/products');
 
-                                } else {
-                                    $scope.errors = data;
-                                    //alert(data);
+                                    } else {
+                                        $scope.errors = data;
+                                        $btn.button('reset');
+                                        //alert(data);
 
-                                }
-                            });
-                        }
+                                    }
+                                });
+                            }
+                        }else{
+                            alert('Peso de imagen mayor a 400Kb.');
+                            $btn.button('reset');
+                        }}
                         if(!document.getElementById('productImage').files[0]){
+                            var $btn = $('#btn_generate').button('loading');
                             //alert($scope.product.hasVariants);
                             crudService.create($scope.product,'products').then(function (data){
                                 if (data['estado'] == true) {
@@ -408,12 +417,13 @@
 
                                 } else {
                                     $scope.errors = data;
+                                    $btn.button('reset');
 
                                 }
                             });
                         }
 
-                        if(document.getElementById('productImage').files[0]){
+                        if(document.getElementById('productImage').files[0] && document.getElementById('productImage').files[0].size <= 400000){
                             r.readAsDataURL(f);
                         }
 
@@ -428,8 +438,11 @@
                             //alert($scope.variant.otros);
 
                     if ($scope.variantCreateForm.$valid) {
+                        var $btn = $('#btn_generate').button('loading');
                         var fv = document.getElementById('variantImage').files[0] ? document.getElementById('variantImage').files[0] : null;
                         //alert(f);
+                        if(fv){
+                        if(fv.size <= 400000) {
                         var rv = new FileReader();
                         rv.onloadend = function(e) {
                             //alert('con img');
@@ -437,21 +450,27 @@
 
                             $scope.variant.product_id = $scope.product.id;
                             $log.log($scope.variant);
-                            
+
                             crudService.create($scope.variant, 'variants').then(function (data) {
                                 if (data['estado'] == true) {
                                     //$scope.success = data['nombres'];
                                     alert('Variante creada con Éxito');
-                                    $location.path('/products/show/'+$scope.product.id);
+                                    $location.path('/products/show/' + $scope.product.id);
 
                                 } else {
                                     $scope.errors = data;
+                                    $btn.button('reset');
                                     //alert(data);
 
                                 }
                             });
                         }
+                        }else{
+                            alert('Peso de imagen mayor a 400Kb.');
+                            $btn.button('reset');
+                        }}
                         if(!document.getElementById('variantImage').files[0]){
+                            var $btn = $('#btn_generate').button('loading');
                             //alert($scope.product.hasVariants);
                             //alert('sin img');
                             $scope.variant.product_id = $scope.product.id;
@@ -464,12 +483,13 @@
 
                                 } else {
                                     $scope.errors = data;
+                                    $btn.button('reset');
 
                                 }
                             });
                         }
 
-                        if(document.getElementById('variantImage').files[0]){
+                        if(document.getElementById('variantImage').files[0] && document.getElementById('variantImage').files[0].size <= 400000){
                             rv.readAsDataURL(fv);
                         }
 
@@ -479,27 +499,36 @@
                 $scope.updateVariant = function(){
 
                     if ($scope.variantCreateForm.$valid) {
+                        var $btn = $('#btn_generate').button('loading');
                         var f = document.getElementById('variantImage').files[0] ? document.getElementById('variantImage').files[0] : null;
                         //alert(f);
+                        if(f){
+                        if(f.size <= 400000) {
                         var r = new FileReader();
-                        r.onloadend = function(e) {
-                            $scope.product.image = e.target.result;
-                            
-                            $scope.variant.product_id = $scope.product.id;
-                            crudService.update($scope.variant, 'variants').then(function (data) {
-                                if (data['estado'] == true) {
-                                    //$scope.success = data['nombres'];
-                                    alert('Variante modificada con Éxito');
-                                    $location.path('/products/show/'+$scope.product.id);
+                            r.onloadend = function(e) {
+                                $scope.product.image = e.target.result;
 
-                                } else {
-                                    $scope.errors = data;
-                                    //alert(data);
+                                $scope.variant.product_id = $scope.product.id;
+                                crudService.update($scope.variant, 'variants').then(function (data) {
+                                    if (data['estado'] == true) {
+                                        //$scope.success = data['nombres'];
+                                        alert('Variante modificada con Éxito');
+                                        $location.path('/products/show/'+$scope.product.id);
 
-                                }
-                            });
-                        }
+                                    } else {
+                                        $scope.errors = data;
+                                        $btn.button('reset');
+                                        //alert(data);
+
+                                    }
+                                });
+                            }
+                        }else{
+                            alert('Peso de imagen mayor a 400Kb.');
+                            $btn.button('reset');
+                        }}
                         if(!document.getElementById('variantImage').files[0]){
+                            var $btn = $('#btn_generate').button('loading');
                             //alert($scope.product.hasVariants);
                             $scope.variant.product_id = $scope.product.id;
                             crudService.update($scope.variant,'variants').then(function (data){
@@ -510,12 +539,13 @@
 
                                 } else {
                                     $scope.errors = data;
+                                    $btn.button('reset');
 
                                 }
                             });
                         }
 
-                        if(document.getElementById('variantImage').files[0]){
+                        if(document.getElementById('variantImage').files[0] && document.getElementById('variantImage').files[0].size <= 400000){
                             r.readAsDataURL(f);
                         }
 
@@ -534,23 +564,32 @@
                 $scope.updateProduct = function(){
                     //alert('ho');
                     if ($scope.productCreateForm.$valid) {
+                        var $btn = $('#btn_generate').button('loading');
                         var f = document.getElementById('productImage').files[0] ? document.getElementById('productImage').files[0] : null;
                         //alert(f);
+                        if(f){
+                        if(f.size <= 400000) {
                         var r = new FileReader();
-                        r.onloadend = function(e) {
-                            $scope.product.image = e.target.result;
-                        crudService.update($scope.product,'products').then(function(data)
-                        {
-                            if(data['estado'] == true){
-                                $scope.success = data['nombres'];
-                                alert('editado correctamente');
-                                $location.path('/products');
-                            }else{
-                                $scope.errors =data;
-                            }
-                        });
-                        }
+                                r.onloadend = function(e) {
+                                    $scope.product.image = e.target.result;
+                                crudService.update($scope.product,'products').then(function(data)
+                                {
+                                    if(data['estado'] == true){
+                                        $scope.success = data['nombres'];
+                                        alert('editado correctamente');
+                                        $location.path('/products');
+                                    }else{
+                                        $scope.errors =data;
+                                        $btn.button('reset');
+                                    }
+                                });
+                                }
+                        }else{
+                            alert('Peso de imagen mayor a 400Kb.');
+                            $btn.button('reset');
+                        }}
                         if(!document.getElementById('productImage').files[0]){
+                            var $btn = $('#btn_generate').button('loading');
                             //alert('ho');
                         crudService.update($scope.product,'products').then(function(data)
                         {
@@ -560,10 +599,11 @@
                                 $location.path('/products');
                             }else{
                                 $scope.errors =data;
+                                $btn.button('reset');
                             }
                         });}
 
-                        if(document.getElementById('productImage').files[0]){
+                        if(document.getElementById('productImage').files[0] && document.getElementById('productImage').files[0].size <= 400000){
                             r.readAsDataURL(f);
                         }
                     }

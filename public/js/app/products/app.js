@@ -41,6 +41,7 @@
             //$modalInstance.close($scope.selected.item);
             //$scope.atribut.estado = 1;
             if ($scope.brandCreateForm.$valid) {
+                var $btn = $('#btn_generateMarca').button('loading');
                 crudService.create($scope.brand, 'brands').then(function (data) {
 
                     if (data['estado'] == true) {
@@ -51,6 +52,7 @@
 
                     } else {
                         $scope.errors = data;
+                        $btn.button('reset');
 
                     }
                 });
@@ -79,6 +81,7 @@
             //$modalInstance.close($scope.selected.item);
             //$scope.atribut.estado = 1;
             if ($scope.TtypeCreateForm.$valid) {
+                var $btn = $('#btn_generateLinea').button('loading');
                 crudService.create($scope.Ttype, 'types').then(function (data) {
 
                     if (data['estado'] == true) {
@@ -89,6 +92,7 @@
 
                     } else {
                         $scope.errors = data;
+                        $btn.button('reset');
 
                     }
                 });
@@ -139,6 +143,7 @@
 
         $scope.createStation = function () {
             if ($scope.stationCreateForm.$valid) {
+                var $btn = $('#btn_generateEstacion').button('loading');
                 crudService.create($scope.station, 'stations').then(function (data) {
 
                     if (data['estado'] == true) {
@@ -149,6 +154,7 @@
 
                     } else {
                         $scope.errors = data;
+                        $btn.button('reset');
 
                     }
                 });

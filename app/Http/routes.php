@@ -54,6 +54,8 @@ Route::post('api/users/destroy',['as'=>'user_destroy', 'uses'=>'Auth\AuthControl
 Route::get('api/users/search/{q?}',['as'=>'user_search', 'uses'=>'Auth\AuthController@search']);
 Route::get('api/users/find/{id}',['as'=>'user_find', 'uses'=>'Auth\AuthController@find']);
 Route::get('api/users/stores',['as' => 'user_stores_select','uses' => 'Auth\AuthController@store_select']);
+Route::get('api/users/disableuser/{id}',['as'=>'user_disabled', 'uses'=>'Auth\AuthController@disableuser']);
+Route::post('api/users/changePass','Auth\AuthController@changePass');
 //END
 
 //PERSONS ROUTES
