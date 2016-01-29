@@ -36,7 +36,10 @@ class CustomersController extends Controller {
         $customers = $this->customerRepo->paginate(15);
         return response()->json($customers);
     }
-
+    public function ComprobarDatos($datos){
+         $customers = $this->customerRepo->ComprobarDatos($datos);
+        return response()->json($customers);
+    }
 
     public function form_create()
     {

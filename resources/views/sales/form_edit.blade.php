@@ -112,6 +112,8 @@
               <th style="width: 10px">#</th>
               <th>Producto</th>
               <th>Atributos</th>
+              <th>Sku</th>
+              <th>Codigo</th>
               <th>Presentacion</th>
               <th>Precio Producto</th>
               <th>Precio Venta </th>
@@ -126,6 +128,8 @@
                       <td>@{{$index + 1}}</td>
                       <td>@{{row.nameProducto}}</td>
                       <td>@{{row.NombreAtributos}}</td>
+                      <td>@{{row.sku}}</td>
+                      <td>@{{row.codigo}}</td>
                       <td>@{{row.presentacion}}</td>
                       <td ng-hide="true">@{{row.purchases_id}}</td>
                       <td ng-hide="true">@{{row.detPres_id}}</td>

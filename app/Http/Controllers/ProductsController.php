@@ -417,6 +417,11 @@ class ProductsController extends Controller
         $stations = Station::lists('nombre','id');
         return response()->json($stations);
     }
+    public function consultCodigo($cod){
+        $products = $this->productRepo->consultCodigo($cod);
+
+        return response()->json($products);
+    }
     public function search($q)
     {
         //$q = Input::get('q');

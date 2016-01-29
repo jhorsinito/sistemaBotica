@@ -113,7 +113,7 @@
 
                                     </div>
                                     <div class="col-md-3">
-                                        <input type="text" class="form-control" ng-model="variant.detAtr[$index].descripcion"  ng-init="asignarDescr($index)" ng-keyup="capAttr(row.id)" typeahead="state for state in opcAtr[row.id] | filter:$viewValue | limitTo:8">
+                                        <input type="text" class="form-control" ng-model="variant.detAtr[$index].descripcion"  ng-init="asignarDescr($index)" ng-keyup="editCod(row.id)" typeahead-on-select="editCod(row.id)" typeahead="state for state in opcAtr[row.id] | filter:$viewValue | limitTo:8">
                                     </div>
                                 </div>
 
@@ -159,6 +159,7 @@
                                                 <td>@{{row.price}}</td>
                                                 <td>
                                                     <a href="" class="btn btn-danger btn-xs" ng-click="deletePres($index)"><i class="fa fa-fw fa-trash"></i></a>
+                                                    <a href="" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#presentation" ng-click="editPresentation(row,variant.presentation_base)"><i class="fa fa-pencil fa-fw"></i></a>
                                                 </td>
                                             </tr>
 
@@ -231,19 +232,19 @@
                                                                                                 <div class="col-md-2">
                                                                                                     <div class="form-group" >
                                                                                                         <label for="suppPric">Stock Actual</label>
-                                                                                                        <input type="number" class="form-control" name="markup" ng-attr-min="@{{minNumber}}" string-to-number placeholder="0.00"  ng-model="variant.stock[$index].stockActual" ng-disabled="!variant.track" step="0.1">
+                                                                                                        <input type="number" class="form-control" step="1" name="markup" ng-attr-min="@{{minNumber}}" string-to-number placeholder="0.00"  ng-model="variant.stock[$index].stockActual" ng-disabled="!variant.track" step="0.1">
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div class="col-md-2">
                                                                                                     <div class="form-group" >
                                                                                                         <label for="suppPric">Stock Mínimo</label>
-                                                                                                        <input type="number" class="form-control" name="markup" ng-attr-min="@{{minNumber}}" string-to-number placeholder="0.00"  ng-model="variant.stock[$index].stockMin" ng-disabled="!variant.track" step="0.1">
+                                                                                                        <input type="number" class="form-control" step="1" name="markup" ng-attr-min="@{{minNumber}}" string-to-number placeholder="0.00"  ng-model="variant.stock[$index].stockMin" ng-disabled="!variant.track" step="0.1">
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div class="col-md-2">
                                                                                                     <div class="form-group" >
                                                                                                         <label for="suppPric">Costo Mínimo</label>
-                                                                                                        <input type="number" class="form-control" name="markup" ng-attr-min="@{{minNumber}}" string-to-number placeholder="0.00"  ng-model="variant.stock[$index].stockMinSoles" ng-disabled="!variant.track" step="0.1">
+                                                                                                        <input type="number" class="form-control" step="1" name="markup" ng-attr-min="@{{minNumber}}" string-to-number placeholder="0.00"  ng-model="variant.stock[$index].stockMinSoles" ng-disabled="!variant.track" step="0.1">
                                                                                                     </div>
                                                                                                 </div>
                                                                                                  </span>

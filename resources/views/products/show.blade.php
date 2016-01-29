@@ -82,6 +82,8 @@
                                   <th>Variante</th>
                                     <th>Creado por</th>
                                   <th style="">Precio</th>
+                                  <th style="">Ganacia</th>
+                                  <th style="">Precio Venta</th>
                                   <th style="">En stock</th>
                                     <th>Editar</th>
                                     <th >Opción</th>
@@ -99,6 +101,8 @@
 
                                         </a></td>
                                     <td>@{{ row.user.name }}</td>
+                                    <td>@{{row.det_pre[0].suppPri}}</td>
+                                    <td>@{{row.det_pre[0].markup}}</td>
                                     <td>@{{row.det_pre[0].price}}</td>
                                     <td>@{{row.stock[0].stockActual}}</td>
                                     <td><a ng-click="editVariant(row)" class="btn btn-warning btn-xs">Editar</a></td>

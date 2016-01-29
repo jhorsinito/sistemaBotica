@@ -10,7 +10,14 @@ class ProductRepo extends BaseRepo{
     public function getModel(){
         return new Product;
     }
-
+   public function consultCodigo($cod){
+      $products = Product::leftjoin('types','products.type_id','=','types.id')
+                          ->where('codigo','=',$cod)
+                          ->groupBy('products.id')
+                          ->select('products.codigo','types.descripcion')
+                          ->first();
+                    return $products;      
+   }
     public function search($q)
     {
         //$promotion =Product::select('id','nombre','codigo','estado')->where('nombre','like', $q.'%')
@@ -44,6 +51,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
             //->having()
             ->groupBy('products.id')
             ->where('products.nombre','like',$q.'%')
+            ->orWhere('products.codigo','like',$q.'%')
             ->paginate(15);
         return $products;
     }

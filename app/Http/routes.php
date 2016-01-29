@@ -85,7 +85,7 @@ Route::post('api/customers/destroy',['as'=>'person_destroy', 'uses'=>'CustomersC
 Route::get('api/customers/search/{q?}',['as'=>'person_search', 'uses'=>'CustomersController@search']);
 Route::get('api/customers/find/{id}',['as'=>'person_find', 'uses'=>'CustomersController@find']);
 Route::get('api/customersVenta/search/{q?}',['as'=>'person_search', 'uses'=>'CustomersController@searchVenta']);
-
+Route::get('api/ComprobarDatos/find/{q?}',['as'=>'person_search', 'uses'=>'CustomersController@ComprobarDatos']);
 //END CUSTOMERS ROUTES
 
 //PRODUCTS ROUTES
@@ -97,6 +97,7 @@ Route::get('products/form-edit',['as'=>'product_form_edit','uses'=>'ProductsCont
 Route::get('api/products/all',['as'=>'product_all', 'uses'=>'ProductsController@all']);
 Route::get('api/products/paginate/',['as' => 'product_paginate', 'uses' => 'ProductsController@paginate']);
 Route::get('api/products/pag',['as' => 'prod_pag', 'uses' => 'ProductsController@pag']);
+Route::get('api/consultCodigo/find/{id}',['as' => 'prod_pag', 'uses' => 'ProductsController@consultCodigo']);
 Route::post('api/products/create',['as'=>'product_create', 'uses'=>'ProductsController@create']);
 Route::put('api/products/edit',['as'=>'product_edit', 'uses'=>'ProductsController@edit']);
 Route::post('api/products/destroy',['as'=>'product_destroy', 'uses'=>'ProductsController@destroy']);

@@ -73,10 +73,31 @@
                 }
                     
                 };
+                $scope.ValidarCamposRuc=function(){
+                    if($scope.customer.ruc.length>1){
+                    crudService.byId($scope.customer.ruc,'ComprobarDatos').then(function (data){
+                        if(data.id!=undefined){
+                            alert("esta RUC ya existe escriba bien o ingrese nuevamente!!");
+                            $scope.customer.ruc="";
+                        }
+                    });
+                }
+                }
+                $scope.ValidarCamposDni=function(){
+                    if($scope.customer.dni.length>1){
+                    crudService.byId($scope.customer.dni,'ComprobarDatos').then(function (data){
+                        if(data.id!=undefined){ 
+                            alert("esta DNI ya existe escriba bien o ingrese nuevamente!!");
+                            $scope.customer.dni="";
+                        }
+                    });
+                   }
+                }
 
                 $scope.createCustomer = function(){
-
+              
                     if ($scope.customerCreateForm.$valid) {
+                        
                         crudService.create($scope.customer, 'customers').then(function (data) {
                            
                             if (data['estado'] == true) {
@@ -89,6 +110,7 @@
 
                             }
                         });
+                    
                     }
                 }
                 $scope.createcashMonthlysss = function(){

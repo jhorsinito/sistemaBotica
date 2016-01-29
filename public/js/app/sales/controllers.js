@@ -6,6 +6,7 @@
                 $scope.errors = null;
                 $scope.success;
                 $scope.query = ''; 
+
                 /*
 
                 $scope.orders = [];
@@ -48,7 +49,7 @@
                     //$scope.stores={};
                     
                     //$scope.warehouses={};
-                    
+                    $scope.sale.comprobante=true;
                     
                     $scope.atributos={};
                     $scope.compras=[];
@@ -86,6 +87,7 @@
                     $scope.sale.employee_id=undefined;
                     $scope.sale.vuelto=0;
                     $scope.exitCustumer=false;
+                    $scope.customer.autogenerado=true;
                     //$scope.cashHeaders={};
                     
                     
@@ -542,7 +544,8 @@
                     if ($scope.sale.montoTotal==0) {
                         alert("Seleccione productos");
                     }else{
-                        $scope.calcularVuelto();      
+                        $scope.calcularVuelto();   
+                        $scope.validaDocumento();   
                     }
                 }
                 $scope.calcularVuelto = function () {
@@ -569,19 +572,20 @@ $scope.validaDocumento=function(){
                     if($scope.sale.comprobante==true )
                     {
                         if($scope.sale.cliente!=null){
-                        $scope.sale.tipoDoc="F";
-                               crudServiceOrders.numeracion("sales","F",$scope.cash1.cashHeader_id).then(function (data){
+                        /*$scope.sale.tipoDoc="B";
+                               crudServiceOrders.numeracion("sales","B",$scope.cash1.cashHeader_id).then(function (data){
                                           //$scope.numActual="0000"+(Number(data.numFactura)+1);
                                         $scope.numeracionMostrar(data.numFactura);
-                               });
-                        }else{
+                               });*/
+                         }else{$scope.estadoComoDocument=true;}
+                        
                             $scope.sale.tipoDoc="B";
-                               $scope.estadoComoDocument=true;
+                               //
                                crudServiceOrders.numeracion("sales","B",$scope.cash1.cashHeader_id).then(function (data){
                                           //$scope.numActual="0000"+(Number(data.numFactura)+1);
                                        $scope.numeracionMostrar(data.numBoleta);
                                });
-                        }
+                        //}
                     }else{
                         $scope.sale.tipoDoc="";
                         $scope.estadoComoDocument=false;
@@ -1103,7 +1107,26 @@ $scope.validaDocumento=function(){
                     $scope.calcularmontos(index);
                 };
 
-
+                 $scope.ValidarCamposRuc=function(){
+                    if($scope.customer.ruc.length>1){
+                    crudServiceOrders.byId($scope.customer.ruc,'ComprobarDatos').then(function (data){
+                        if(data.id!=undefined){
+                            alert("esta RUC ya existe escriba bien o ingrese nuevamente!!");
+                            $scope.customer.ruc="";
+                        }
+                    });
+                }
+                }
+                $scope.ValidarCamposDni=function(){
+                    if($scope.customer.dni.length>1){
+                    crudServiceOrders.byId($scope.customer.dni,'ComprobarDatos').then(function (data){
+                        if(data.id!=undefined){ 
+                            alert("esta DNI ya existe escriba bien o ingrese nuevamente!!");
+                            $scope.customer.dni="";
+                        }
+                    });
+                   }
+                }
                 //-----------------------------------------------------
                 $scope.aumentarTotalPedido= function(){
                     $scope.sale.montoTotal=Number($scope.sale.montoTotal)+1;

@@ -84,7 +84,7 @@
                               <div class="col-md-4">
                     <div class="form-group" >
                       <label for="ruc">RUC</label>
-                      <input type="text" class="form-control" name="ruc" placeholder="ruc"
+                      <input type="text" class="form-control" name="ruc" ng-change="ValidarCamposRuc()" placeholder="ruc"
                       ng-model="customer.ruc">
                      </div>
                               </div>
@@ -141,8 +141,9 @@
         <div class="col-md-4">
             <div class="form-group" >
                 <label for="dni">DNI</label>
-                <input type="text" class="form-control" name="dni" placeholder="8 dígitos"
-                       ng-model="customer.dni">
+                <input type="text" class="form-control" name="dni" ng-change="ValidarCamposDni()" placeholder="8 dígitos"
+                       ng-model="customer.dni" required>
+                       
             </div>
         </div>
     </div>

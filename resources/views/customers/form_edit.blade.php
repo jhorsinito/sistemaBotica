@@ -91,7 +91,7 @@
                                             <div class="col-md-2">
                                                 <div class="form-group" >
                                                     <label for="codigo">Código de Cliente</label>
-                                                    <input type="text" class="form-control" name="codigo" placeholder="codigo de cliente"
+                                                    <input  ng-disabled="true" type="text" class="form-control" name="codigo" placeholder="codigo de cliente"
                                                            ng-model="customer.codigo" ng-disabled="customer.autogenerado" ng-required="!customer.autogenerado">
                                                     <span style="color:#dd4b39;" ng-show="customerCreateForm.codigo.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                                                 </div>
@@ -99,7 +99,7 @@
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label for="apellidos">Autogenerado</label><br>
-                                                    <input type="checkbox" ng-model="customer.autogenerado"> Cód. gen.
+                                                    <input ng-disabled="true" type="checkbox" ng-model="customer.autogenerado"> Cód. gen.
                                                 </div>
                                             </div>
                                         </div>

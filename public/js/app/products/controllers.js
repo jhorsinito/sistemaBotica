@@ -714,9 +714,11 @@
                    }
                    $scope.variant.codigo=$scope.variant.codigo+codigodes;
                   }
+                  //$scope.variant.codigo=$scope.variant.codigo.toUpperCase();
                 }
                 $scope.capAttr1 = function(attr_id){
-                    //alert(attr_id);
+                   
+                    
                     $scope.material='';
                     //alert($scope.variant.detAtr[3].descripcion);
                     var separador = " ";
@@ -725,6 +727,7 @@
                     if($scope.product.type){} else{$scope.product.type = { nombre : ''}}
                          
                           $scope.variant.codigo = $scope.product.codigo + $scope.product.type.nombre.charAt(0);
+                     
                      if(attr_id == 4){
                       var aregloSubcadena=$scope.variant.detAtr[3].descripcion.split(separador);
                       $scope.material= aregloSubcadena[0].substring(0,1);
@@ -762,9 +765,21 @@
                          }
                     }
                  }
+                 $scope.editCod=function(attr_id){
+                    crudService.byId($scope.product.codigo,'consultCodigo').then(function (data){
+                        if(data.descripcion!=null){
+                               $scope.variant.codigo=data.codigo+data.descripcion.substring(0,1);
+                               $scope.capAttr10(attr_id);
+                           }else{
+                               $scope.variant.codigo=data.codigo;
+                               $scope.capAttr10(attr_id);
+                           }
+                        });
+                 }
                 $scope.capAttr = function(attr_id){
                     //alert(attr_id);
-                  
+
+                  alert($scope.product.codigo+"/");
                     var separador = " ";
                     var aregloSubcadena=new Array();
                    if(attr_id == 1 || attr_id == 4) {
@@ -842,7 +857,13 @@
                             }
                     }
                 }
-
+                $scope.editPresentation=function(row,preBase){
+                    alert(row.id);
+                    $scope.presentation.suppPri=Number(row.suppPri);
+                    $scope.presentation.markup=Number(row.markup);
+                    $scope.presentation.price=Number(row.price);
+                    $scope.traerPres(preBase);
+                }
                 $scope.traerPres = function(preBase){
                     $log.log(preBase);
                     if($location.path() != '/variants/create/'+$routeParams.product_id && $location.path() != '/variants/edit/'+$routeParams.id) {
@@ -922,25 +943,28 @@
                         //$log.log($scope.product.presentations);
                         //$log.log(isYa);
                         //if(isYa.length == 0 && $scope.presentationSelect!==null && $scope.presentationSelect.length!== 0) {
-                        if (isYa2.length == 0 && !isEmpty($scope.presentationSelect)) {
+                        //$scope.variant.presentations.splice(0,1);
+                        //if (isYa2.length == 0 && !isEmpty($scope.presentationSelect)) {
                             //alert(typeof($scope.presentationSelect.preFin_id));
 
                             $scope.presentationSelect.suppPri = $scope.presentation.suppPri;
                             $scope.presentationSelect.markup = $scope.presentation.markup;
                             $scope.presentationSelect.price = $scope.presentation.price;
-                            $scope.variant.presentations.push($scope.presentationSelect);
+                            $scope.variant.presentations.splice(0,1,$scope.presentationSelect);
                             $log.log($scope.variant.presentations);
                             $scope.presentation = {};
                             $scope.presentationSelect = {};
                             $scope.presentation.suppPri = 0;
                             $scope.presentation.markup = 0;
                             $scope.presentation.price = 0;
-                        } else {
-                            alert('Item duplicado o vacío');
-                        }
+                       // } else {
+                          //  alert('Item duplicado o vacío');
+                        //}
                     }
                 }
-
+                 $scope.duplicateCodProveedor=function(){
+                    $scope.product.suppCode=$scope.product.codigo;
+                 }
                 $scope.deletePres = function($index){
                     if($location.path() != '/variants/create/'+$routeParams.product_id && $location.path() != '/variants/edit/'+$routeParams.id) {
                         $scope.product.presentations.splice($index, 1);

@@ -33,4 +33,13 @@ class CustomerRepo extends BaseRepo{
         $d = \DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
     }
+     public function ComprobarDatos($q)
+    {
+        $customers =Customer::where('dni','=', $q)
+                    ->orWhere('ruc','=',$q)
+                    ->orWhere('empresa','=',$q)
+                    //->with(['customer','employee'])
+                    ->first();
+        return $customers;
+    }
 } 

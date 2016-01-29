@@ -248,19 +248,19 @@
                                                                                                 <div class="col-md-2">
                                                                                                     <div class="form-group" >
                                                                                                         <label for="suppPric">Stock Actual</label>
-                                                                                                        <input type="number" class="form-control" name="markup" min="0" placeholder="0.00"  ng-model="variant.stock[$index].stockActual" ng-disabled="!variant.track" step="0.1">
+                                                                                                        <input type="number" class="form-control" name="markup" step="1" min="0" placeholder="0.00"  ng-model="variant.stock[$index].stockActual" ng-disabled="!variant.track" step="0.1">
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div class="col-md-2">
                                                                                                     <div class="form-group" >
                                                                                                         <label for="suppPric">Stock Mínimo</label>
-                                                                                                        <input type="number" class="form-control" name="markup" min="0" placeholder="0.00"  ng-model="variant.stock[$index].stockMin" ng-disabled="!variant.track" step="0.1">
+                                                                                                        <input type="number" class="form-control" name="markup" step="1" min="0" placeholder="0.00"  ng-model="variant.stock[$index].stockMin" ng-disabled="!variant.track" step="0.1">
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div class="col-md-2">
                                                                                                     <div class="form-group" >
                                                                                                         <label for="suppPric">Costo Mínimo</label>
-                                                                                                        <input type="number" class="form-control" name="markup" min="0" placeholder="0.00"  ng-model="variant.stock[$index].stockMinSoles" ng-disabled="!variant.track" step="0.1">
+                                                                                                        <input type="number" class="form-control" name="markup" step="1" min="0" placeholder="0.00"  ng-model="variant.stock[$index].stockMinSoles" ng-disabled="!variant.track" step="0.1">
                                                                                                     </div>
                                                                                                 </div>
                                                                                                  </span>

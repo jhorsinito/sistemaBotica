@@ -33,18 +33,16 @@
                             <div class="col-md-8">
                             <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group" ng-class="{true: 'has-error'}[ productCreateForm.nombre.$error.required && productCreateForm.$submitted || productCreateForm.nombre.$dirty && productCreateForm.nombre.$invalid]">
+                                <div class="form-group" >
                                     <label for="nombres">Nombre</label>
-                                    <input type="text" class="form-control" name="nombre" placeholder="Nombre" ng-model="product.nombre" ng-blur="validaNombre2(product.nombre)" typeahead-on-select="validarNombre()" typeahead="product as product.proNombre for product in products | filter:$viewValue | limitTo:8" required>
-                                    <label ng-show="productCreateForm.$submitted || productCreateForm.nombre.$dirty && productCreateForm.nombre.$invalid">
-                                        <span ng-show="productCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
-                                    </label>
+                                    <input type="text" class="form-control" name="nombre" placeholder="Nombre" ng-model="product.nombre" ng-blur="validaNombre2(product.nombre)" typeahead-on-select="validarNombre()" typeahead="product as product.proNombre for product in products | filter:$viewValue | limitTo:8" >
+                                    
                                 </div></div>
                             <div class="col-md-6">
                                 <div class="form-group" ng-class="{true: 'has-error'}[ productCreateForm.codigo.$error.required && productCreateForm.$submitted || productCreateForm.codigo.$dirty && productCreateForm.codigo.$invalid]">
                                     <label for="codigo">Código de Producto</label>
                                     <input type="text" class="form-control" name="codigo" placeholder="1000"
-                                           ng-model="product.codigo" required>
+                                           ng-model="product.codigo" ng-keyup="duplicateCodProveedor()" required>
                                     <label ng-show="productCreateForm.$submitted || productCreateForm.codigo.$dirty && productCreateForm.codigo.$invalid">
 
                                         <span ng-show="productCreateForm.codigo.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
@@ -135,11 +133,20 @@
 
 
                         </div>
+                     <div class="row">
+                        <div class="col-md-4">
                         <div class="form-group" >
                             <label for="estado">¿Puede ser vendido/comprado?</label>
                             <input type="checkbox" name="estado" ng-model="product.estado" ng-checked="product.estado"/>
                         </div>
-
+                        </div>
+                         <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Modelo</label>
+                            <input class="form-control" type="text" ng-model="product.modelo">
+                        </div>
+                      </div>
+                      </div>
                         <div class="form-group" >
                             <label for="notas">Descripción</label>
                       <textarea type="notas" class="form-control" name="notas" placeholder="..."
