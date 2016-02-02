@@ -706,4 +706,4 @@ Route::post('api/reportMovimientoVarianteDMA/generate/{tipo}/{fecha}/{tienda}/{v
 Route::post('api/reportMovimientosVarianteRangoF/create/{fechaini}/{fechafin}/{tipo}/{tienda}/{var}','PurchasesController@reportMovimientosVarianteRangoF');
 
 
-
+Route::post('api/Factura','SalesController@reporteFactura');

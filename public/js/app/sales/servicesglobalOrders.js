@@ -110,7 +110,18 @@
                 );
                 return deferred.promise;
             }
-
+function Document_venta_Factura()
+            {
+            
+                var deferred = $q.defer();
+                $http.post( '/api/Factura/')
+                    .success(function (data)
+                    {
+                        deferred.resolve(data);
+                    })
+                ;
+                return deferred.promise;
+            }
             function search(uri,query,page){
                 var deferred = $q.defer();
                 var result = $http.get('/api/'+uri+'/search/'+query+'/?page='+page);
@@ -216,6 +227,7 @@
                 reportProWare,reportProWare,
                 getPres, setPres,
                 editFavoritoId,editFavoritoId,
+                Document_venta_Factura: Document_venta_Factura,
                 Comprueba_caj_for_user: Comprueba_caj_for_user
             }
         }])

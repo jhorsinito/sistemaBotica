@@ -437,6 +437,9 @@
                                             $scope.diaFactura=""+$scope.FechaCreado.getDate();
                                             $scope.convertirMes($scope.FechaCreado.getMonth()+1);
                                             $scope.insertar(Number(data.Total));
+                                            crudServiceOrders.Document_venta_Factura().then(function (data) {  
+                                                       alert(data);
+                                            });
                                             if(Number(data.numero)<10){
                                                 $scope.numeroDocumento="000000"+data.numero;
                                             }else{
