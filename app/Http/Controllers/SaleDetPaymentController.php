@@ -55,9 +55,12 @@ class SaleDetPaymentController extends Controller {
     //------------------------------------------------------
     public function create(Request $request)
     {
-        //var_dump($request->detPayments);die();
+        
+        
         \DB::beginTransaction();
         $saldo=$request->input("Saldo");
+        $var=$request->detPayments;
+       var_dump($var);die();
         if ($request->input("tipo")=='order') {
             
             $var1=$request->sale;
@@ -138,15 +141,18 @@ class SaleDetPaymentController extends Controller {
         $var=$request->detPayments;
         
         $temporal=$var["salePayment_id"];
-
+        var_dump($temporal);die();
         $salePaymentrepo;
 
         $salePaymentrepo = new SalePaymentRepo;
         $paymentSave=$salePaymentrepo->getModel();
 
         $payment1 = $paymentSave->find($temporal);
+        //var_dump($payment1->Acuenta);die();
+        $request->merge(['Acuenta'=>floatval($payment1->Acuenta)+floatval($var["monto"])]);
+        $request->merge(['Saldo'=>$payment1->MontoTotal-$payment1->Acuenta]);
         //if($saldo=='0'){$request->input("estado")='0';}
-        $manager = new SalePaymentManager($payment1,$request->all());
+        $manager = new SalePaymentManager($payment1,$request->only("Acuenta","Saldo"));
         $manager->save();
 
         //------------------------------------

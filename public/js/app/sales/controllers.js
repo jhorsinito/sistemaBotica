@@ -991,7 +991,7 @@
                                         $scope.pagoCredito.Acuenta=Number($scope.pagoCredito.Acuenta)+$scope.detPago.monto;
                                         $scope.pagoCredito.Saldo=Number($scope.pagoCredito.Saldo)-$scope.detPago.monto;
 
-                                        $scope.detPago.salePayment_id=$scope.payment[0].id;
+                                        $scope.detPago.salePayment_id=$scope.detPago.detpayment_id;
                                         $scope.detPago.fecha=new Date($scope.detPago.fecha);
                                         $scope.detPago.tipoPago="C";
                                         $scope.pagoCredito.detPayments=$scope.detPago;
@@ -1677,7 +1677,9 @@
             $scope.mostrarBtnGEd=false;
             $scope.check=false;
             $scope.filaenEdicion=false;
+            
             $scope.editDetpayment=function(row){
+                //$scope.idPago=row.id;
                 $scope.cash1.cashHeader_id=row.cashHeaders_id;
                 $scope.opcionalRow=row.monto;
                 crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){

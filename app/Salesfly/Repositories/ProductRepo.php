@@ -44,6 +44,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
             //->having()
             ->groupBy('products.id')
             ->where('products.nombre','like',$q.'%')
+            ->orWhere('products.codigo','like',$q.'%')
             ->paginate(15);
         return $products;
     }
