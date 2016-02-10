@@ -534,6 +534,29 @@ foreach ($tallasDisponibles as $tallasD) {
         $len = strpos($string,$end,$ini) - $ini;
         return substr($string,$ini,$len);
     }
+    public function reportes2($id,$cant){
+        
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_TiketVariante';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/TiketVariante.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['idVariante'=>intval($id),'cant'=>intval($cant)],//Parametros
+           
+
+            $database,
+            false,
+            false
+        )->execute();
+        
+        return '/report/'.$time.'_TiketVariante.'.$ext;
+    }
     /*./ fx ayuda para img*/
 
 }

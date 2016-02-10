@@ -568,7 +568,7 @@
                   <div style="border-radius: 5px" class="modal-content">
                         <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal" aria-hidden="ngenabled"> &times; </button>
-                          <h4 class="modal-title">Opciones Año</h4>
+                          <h4 class="modal-title">Añadir Cliente</h4>
                         </div>
                         <form name="customerCreateForm" role="form" novalidate> 
                         <!--=================cueropo========================-->
@@ -577,7 +577,7 @@
                     <div class="col-md-6">
                       <div class="form-group" ng-class="{true: 'has-error'}[ customerCreateForm.nombres.$error.required && customerCreateForm.$submitted || customerCreateForm.nombres.$dirty && customerCreateForm.nombres.$invalid]">
                       <label for="nombres">Nombres</label>
-                      <input type="text" class="form-control" name="nombres" placeholder="Nombres" ng-model="customer.nombres" required>
+                      <input type="text" style="text-transform: uppercase" class="form-control" name="nombres" placeholder="Nombres" ng-model="customer.nombres" required>
                       <label ng-show="customerCreateForm.$submitted || customerCreateForm.nombres.$dirty && customerCreateForm.nombres.$invalid">
                         <span ng-show="customerCreateForm.nombres.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>
@@ -586,7 +586,7 @@
                     <div class="col-md-6">
                     <div class="form-group" ng-class="{true: 'has-error'}[ customerCreateForm.apellidos.$error.required && customerCreateForm.$submitted || customerCreateForm.apellidos.$dirty && customerCreateForm.apellidos.$invalid]">
                       <label for="apellidos">Apellidos</label>
-                      <input type="text" class="form-control" name="apellidos" placeholder="Apellidos"
+                      <input type="text" style="text-transform: uppercase" class="form-control" name="apellidos" placeholder="Apellidos"
                       ng-model="customer.apellidos" required>
                       <label ng-show="customerCreateForm.$submitted || customerCreateForm.apellidos.$dirty && customerCreateForm.apellidos.$invalid">
 
@@ -600,14 +600,14 @@
                     <div class="col-md-6">
                     <div class="form-group" >
                       <label for="apellidos">Empresa / Razón Social</label>
-                      <input type="text" class="form-control" name="empresa" placeholder="empresa"
+                      <input type="text" style="text-transform: uppercase" class="form-control" name="empresa" placeholder="empresa"
                       ng-model="customer.empresa">
                      </div>
                      </div>
                      <div class="col-md-6">
                     <div class="form-group" >
                       <label for="direccFiscal">Dirección Fiscal</label>
-                      <input type="text" class="form-control" name="direccFiscal" placeholder="dirección fiscal"
+                      <input type="text" style="text-transform: uppercase" class="form-control" name="direccFiscal" placeholder="dirección fiscal"
                       ng-model="customer.direccFiscal">
                      </div>
                      </div>
@@ -617,14 +617,14 @@
                     <div class="col-md-6"> 
                     <div class="form-group" >
                       <label for="ruc">RUC</label>
-                      <input type="text" class="form-control" name="ruc" placeholder="ruc"
+                      <input type="text" style="text-transform: uppercase" class="form-control" name="ruc" placeholder="ruc"
                       ng-model="customer.ruc"  ng-change="ValidarCamposRuc()">
                      </div>
                      </div>
                      <div class="col-md-3"> 
                         <div class="form-group" >
                                       <label for="codigo">Código de Cliente</label>
-                                      <input type="text" class="form-control" name="codigo" placeholder="codigo de cliente"
+                                      <input type="text" style="text-transform: uppercase" class="form-control" name="codigo" placeholder="codigo de cliente"
                                              ng-model="customer.codigo" ng-disabled="customer.autogenerado" ng-required="!customer.autogenerado">
                                       <span style="color:#dd4b39;" ng-show="customerCreateForm.codigo.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                                   </div>
@@ -655,7 +655,7 @@
                      <div class="col-md-3"> 
                       <div class="form-group">
                                             <label>Género</label>
-                                            <select name="genero" class="form-control" ng-model="customer.genero">
+                                            <select name="genero" style="text-transform: uppercase" class="form-control" ng-model="customer.genero">
                                              <option value="">-- elige género --</option>
                                              <option value="M">Masculino</option>
                                              <option value="F">Femenino</option>
@@ -666,7 +666,7 @@
                       <div class="col-md-4">
             <div class="form-group" >
                 <label for="dni">DNI</label>
-                <input type="text" class="form-control" name="dni" placeholder="8 dígitos"
+                <input type="text" style="text-transform: uppercase" class="form-control" name="dni" placeholder="8 dígitos"
                        ng-model="customer.dni" ng-change="ValidarCamposDni()">
             </div>
         </div>
@@ -686,7 +686,7 @@
                     <div class="col-md-4">  
                     <div class="form-group" >
                       <label for="fijo">Teléfono fijo</label>
-                      <input type="text" class="form-control" name="fijo" placeholder="###"
+                      <input type="text" style="text-transform: uppercase" class="form-control" name="fijo" placeholder="###"
                       ng-model="customer.fijo">
                      </div>
                      </div>
@@ -694,7 +694,7 @@
                      <div class="col-md-4"> 
                     <div class="form-group" >
                       <label for="movil">Teléfono movil</label>
-                      <input type="text" class="form-control" name="movil" placeholder="###"
+                      <input type="text" style="text-transform: uppercase" class="form-control" name="movil" placeholder="###"
                       ng-model="customer.movil">
                      </div>
                      </div>
@@ -704,21 +704,21 @@
                      <div class="col-md-4">  
                     <div class="form-group" >
                       <label for="email">Email</label>
-                      <input type="email" class="form-control" name="email" placeholder="###"
+                      <input type="email" style="text-transform: uppercase" class="form-control" name="email" placeholder="###"
                       ng-model="customer.email">
                      </div>
                      </div>
                      <div class="col-md-4">  
                     <div class="form-group" >
                       <label for="website">Página Web</label>
-                      <input type="text" class="form-control" name="website" placeholder="###"
+                      <input type="text" style="text-transform: uppercase" class="form-control" name="website" placeholder="###"
                       ng-model="customer.website">
                      </div>
                      </div>
                      <div class="col-md-4">  
                     <div class="form-group" >
                       <label for="direccContac">Dirección de Contacto</label>
-                      <input type="text" class="form-control" name="direccContac" placeholder="###"
+                      <input type="text" style="text-transform: uppercase" class="form-control" name="direccContac" placeholder="###"
                       ng-model="customer.direccContac">
                      </div>
                      </div>
@@ -728,35 +728,35 @@
                      <div class="col-md-3"> 
                     <div class="form-group" >
                       <label for="distrito">Distrito</label>
-                      <input type="text" class="form-control" name="distrito" placeholder="Chiclayo"
+                      <input type="text" style="text-transform: uppercase" class="form-control" name="distrito" placeholder="Chiclayo"
                       ng-model="customer.distrito">
                      </div>
                      </div>
                      <div class="col-md-3"> 
                     <div class="form-group" >
                       <label for="provincia">Provincia</label>
-                      <input type="text" class="form-control" name="provincia" placeholder="Chiclayo"
+                      <input type="text" style="text-transform: uppercase" class="form-control" name="provincia" placeholder="Chiclayo"
                       ng-model="customer.provincia">
                      </div>
                      </div>
                      <div class="col-md-3"> 
                     <div class="form-group" >
                       <label for="departamento">Departamento</label>
-                      <input type="text" class="form-control" name="departamento" placeholder="Lambayeque"
+                      <input type="text" style="text-transform: uppercase" class="form-control" name="departamento" placeholder="Lambayeque"
                       ng-model="customer.departamento">
                      </div>
                      </div>
                      <div class="col-md-3"> 
                     <div class="form-group" >
                       <label for="pais">País</label>
-                      <input type="text" class="form-control" name="pais" placeholder="Perú"
+                      <input type="text" style="text-transform: uppercase" class="form-control" name="pais" placeholder="Perú"
                       ng-model="customer.pais">
                      </div>
                      </div>
                      </div>
                     <div class="form-group" >
                       <label for="notas">Notas</label>
-                      <input type="notas" class="form-control" name="notas" placeholder="..."
+                      <input type="notas" style="text-transform: uppercase" class="form-control" name="notas" placeholder="..."
                       ng-model="customer.notas"></input>
                      </div>
                       </div>

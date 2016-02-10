@@ -117,7 +117,14 @@
                 });
                 return deferred.promise;
             }
-
+           function Reportes(uri,id,cant)
+            {
+                var deferred = $q.defer();
+                $http.post('/api/'+uri+'/create/'+id+'/'+cant).success(function (data) {
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
 
             function reportPro(uri,id){
                 var deferred = $q.defer();
@@ -193,7 +200,8 @@
                 reportPro,reportPro,
                 reportProWare,reportProWare,
                 deudasSupplier: deudasSupplier,
-                selectPost: selectPost
+                selectPost: selectPost,
+                Reportes: Reportes
             }
         }])
         .factory('socketService', function ($rootScope) {

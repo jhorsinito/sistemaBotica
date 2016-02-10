@@ -279,13 +279,11 @@
 
                 $scope.editcash = function(row){
                  crudService.Comprueba_caj_for_user1(row.id).then(function (data){
-                        if(data.id!=undefined && data.id!=''){
-                    if (row.estado=='0') {
-                        alert("La caja esta Cerrada");
-                    }
-                    else{
+              if(data.id!=undefined && data.id!=''){
+                    
+                       
                         $location.path('/cashes/edit/'+row.id);      
-                    }
+                    
                 }else{
                     alert("usted no tiene permisos en esta caja");
                 }});

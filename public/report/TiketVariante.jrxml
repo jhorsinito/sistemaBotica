@@ -4,8 +4,11 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="idVariante" class="java.lang.String"/>
+	<parameter name="cant" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[call principal($P{idVariante});]]>
+		<![CDATA[call principal2($P{idVariante},$P{cant});]]>
 	</queryString>
 	<field name="id" class="java.lang.Long">
 		<fieldDescription><![CDATA[]]></fieldDescription>

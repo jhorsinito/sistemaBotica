@@ -26,7 +26,7 @@
               <!-- Here is a label for example -->
               <button class=" label-default" ng-if="product.hasVariants == '1'" ng-click="addVariant(product.id)">Añadir Variante</button>
 
-              <button class=" label-default">Imprimir Código de Barras</button>
+              <button class=" label-default" ng-click="generarTikets()">Imprimir Código de Barras</button><input style="widht:20px;" placeholder="cant Tickets" type="number" ng-model="CantidadRep">
               <button class=" label-default" ng-click="editProductShow(product)">Editar Producto</button>
               <button class=" label-danger" ng-if="product.quantVar == '0'">Eliminar</button>
             </div><!-- /.box-tools -->

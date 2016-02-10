@@ -15,7 +15,20 @@ class CashRepo extends BaseRepo{
         if($q==0){
             $q='%%';
         }
-        $cashes =Cash::where('cashHeader_id','like', $q)
+        $cashes =Cash::join("users","users.id","=","cashes.user_id")
+                    ->join("cashHeaders","cashHeaders.id","=","cashes.cashHeader_id")
+                    ->select("cashes.*","cashHeaders.*","users.name as nomUser")
+                     ->where('cashes.cashHeader_id','like', $q)
+                    //with(['customer','employee'])
+                    ->paginate(15);
+        return $cashes;
+    }
+    public function paginate2()
+    {
+        
+        $cashes =Cash::join("users","users.id","=","cashes.user_id")
+                    ->join("cashHeaders","cashHeaders.id","=","cashes.cashHeader_id")
+                    ->select("cashes.*","cashes.estado as estado1","cashHeaders.*","users.name as nomUser")
                     //with(['customer','employee'])
                     ->paginate(15);
         return $cashes;
@@ -41,7 +54,7 @@ class CashRepo extends BaseRepo{
         public function searchuserincaja1($idCaja,$id){
            
         $cashes =Cash::select("id")
-                     ->where('id','=', '1')
+                     
                      ->where('user_id','=',$id)
                     //with(['customer','employee'])
                     ->first();

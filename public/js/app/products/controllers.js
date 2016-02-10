@@ -1,7 +1,7 @@
 (function(){
     angular.module('products.controllers',[])
-        .controller('ProductController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log','ngProgressFactory','$rootScope','trouble','$modal',
-            function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log,ngProgressFactory,$rootScope,trouble,$modal){
+        .controller('ProductController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log','ngProgressFactory','$rootScope','trouble','$window','$modal',
+            function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log,ngProgressFactory,$rootScope,trouble,$window,$modal){
                 $scope.progressbar = ngProgressFactory.createInstance();
                 /*$rootScope.$on('$routeChangeStart', function(ev,data) {
                     $scope.progressbar.start();
@@ -176,6 +176,7 @@
 
                     if($location.path() == '/products/show/'+$routeParams.id) {
                         //alert('ok');
+                        $scope.ProductoID=$routeParams.id;
                         crudService.byId(id,'products').then(function (data){
                             $scope.product = data;
                             if($scope.product.hasVariants == 0){
@@ -612,13 +613,28 @@
                 $scope.deleteProduct = function(row){
                     $scope.product = row;
                     //$log.log($scope.product);
+
+
                 }
 
                 $scope.cancelProduct = function(){
                     $scope.product = {};
                 }
-
+                $scope.generarTikets=function(){
+                    if($scope.CantidadRep > 0 && $scope.ProductoID!=undefined){
+                    crudService.Reportes('TiketReport2',$scope.ProductoID,$scope.CantidadRep).then(function(data)
+                    {
+                        if(data != undefined){
+                           alert(data);
+                           $window.open(data);
+                        }else{
+                            alert("Error No se a generado Tikets");
+                        }
+                    });
+                  }
+                }
                 $scope.destroyProduct = function(){
+                    alert("si");
                     crudService.destroy($scope.product,'products').then(function(data)
                     {
                         if(data['estado'] == true){

@@ -33,7 +33,7 @@
                             <div class="col-md-4">
                                 <div class="form-group" ng-class="{true: 'has-error'}[ variantCreateForm.nombre.$error.required && variantCreateForm.$submitted || variantCreateForm.nombre.$dirty && variantCreateForm.nombre.$invalid]">
                                     <label for="nombres">Código (Autogenerado)</label>
-                                    <input type="text" class="form-control" name="codigo" placeholder="Codigo autogenerado" ng-model="variant.codigo" required disabled>
+                                    <input type="text" style="text-transform: uppercase" class="form-control" name="codigo" placeholder="Codigo autogenerado" ng-model="variant.codigo" required disabled>
                                     <label ng-show="variantCreateForm.$submitted || variantCreateForm.codigo.$dirty && variantCreateForm.codigo.$invalid">
                                         <span ng-show="variantCreateForm.codigo.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                                     </label>
@@ -41,7 +41,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Presentación Base:</label>
-                                    <select  class="form-control" ng-model="variant.presentation_base_object" ng-change="changePreBase()" ng-options="item as item.nombre for item in presentations_base">
+                                    <select  class="form-control" style="text-transform: uppercase" ng-model="variant.presentation_base_object" ng-change="changePreBase()" ng-options="item as item.nombre for item in presentations_base">
                                         <option value="">-- Elige Presentación Base--</option>
                                     </select>
                                 </div>
@@ -49,7 +49,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Categoría</label>
-                                    <select name="brand" class="form-control" ng-model="variant.category" ng-options="category.id as category.nombre for category in categories">
+                                    <select name="brand" style="text-transform: uppercase" class="form-control" ng-model="variant.category" ng-options="category.id as category.nombre for category in categories">
                                         <option value="">--Elige Categoría--</option>
                                     </select>
 
@@ -78,7 +78,7 @@
 
                         <div class="form-group">
                             <label for="notas">Notas</label>
-                      <textarea type="notas" class="form-control" name="notas" placeholder="..."
+                      <textarea type="notas" class="form-control" style="text-transform: uppercase" name="notas" placeholder="..."
                                 ng-model="variant.nota" rows="4" cols="50"></textarea>
                         </div>
 
@@ -123,7 +123,7 @@
                                 <table style="style-decoration:none;">
                                   <tr Style="height:10px;">
                                      <td ng-repeat="n in ArrayTallas track by $index">
-                                     <input  style="width:50px;" type="text" ng-blur="" ng-model="n[$index]" >
+                                     <input  style="width:50px;" style="text-transform: uppercase" type="text" ng-blur="" ng-model="n[$index]" >
                                      </td>
                                   </tr>
                                   <tr Style="height:10px;">
@@ -209,7 +209,7 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <input class="form-control" name="sku" type="text" ng-model="variant.sku" ng-disabled="variant.autogenerado" ng-required="!variant.autogenerado"/>
+                                            <input class="form-control" style="text-transform: uppercase" name="sku" type="text" ng-model="variant.sku" ng-disabled="variant.autogenerado" ng-required="!variant.autogenerado"/>
                                             <span style="color:#dd4b39;" ng-show="variantCreateForm.sku.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                                         </div>
                                     </div>
@@ -229,7 +229,7 @@
 
                                         <div class="box-tools">
                                             <div class="input-group" style="width: 150px;">
-                                                <input type="text" name="table_search" class="form-control input-sm pull-right" placeholder="Search" ng-model="query">
+                                                <input type="text" style="text-transform: uppercase" name="table_search" class="form-control input-sm pull-right" placeholder="Search" ng-model="query">
                                                 <div class="input-group-btn">
                                                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                                                 </div>
@@ -241,14 +241,14 @@
                                                                                                     <div class="form-group" >
                                                                                                         <label for=""></label>
                                                                                                         <h5>@{{ row.nombre }}</h5>
-                                                                                                        <input type="text" class="hidden" ng-model="variant.stock[$index].warehouse_id" ng-init="variant.stock[$index].warehouse_id = row.id"/>
+                                                                                                        <input type="text" style="text-transform: uppercase" class="hidden" ng-model="variant.stock[$index].warehouse_id" ng-init="variant.stock[$index].warehouse_id = row.id"/>
 
                                                                                                     </div></div>
 
                                                                                                 <div class="col-md-2">
                                                                                                     <div class="form-group" >
                                                                                                         <label for="suppPric">Stock Actual</label>
-                                                                                                        <input type="number" class="form-control" name="markup" step="1" min="0" placeholder="0.00"  ng-model="variant.stock[$index].stockActual" ng-disabled="!variant.track" step="0.1">
+                                                                                                        <input type="number" style="text-transform: uppercase" class="form-control" name="markup" step="1" min="0" placeholder="0.00"  ng-model="variant.stock[$index].stockActual" ng-disabled="!variant.track" step="0.1">
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div class="col-md-2">
@@ -305,7 +305,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <select name="" ng-click="selectPres()" class="form-control" id="" ng-model="presentationSelect" ng-options="item as item.nombre+' / '+item.shortname+' / '+item.cant for item in presentations">
+                            <select name="" ng-click="selectPres()" style="text-transform: uppercase" class="form-control" id="" ng-model="presentationSelect" ng-options="item as item.nombre+' / '+item.shortname+' / '+item.cant for item in presentations">
                                 <option value="">-- Elige Presentación--</option>
                             </select>
 
@@ -360,18 +360,18 @@
                         <input type="hidden" class="form-control" name="preAdd.preBase_id" ng-model="variant.presentation_base">
                         <div class="form-group" >
                             <label for="suppPric">Nombre</label>
-                            <input type="text" class="form-control" name="nombre" placeholder="Docena" ng-model="preAdd.nombre">
+                            <input type="text" style="text-transform: uppercase" class="form-control" name="nombre" placeholder="Docena" ng-model="preAdd.nombre">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group" > <label for="suppPric">Shortname</label>
-                            <input type="text" class="form-control" name="shortname" placeholder="DO12" ng-model="preAdd.shortname">
+                            <input type="text" style="text-transform: uppercase" class="form-control" name="shortname" placeholder="DO12" ng-model="preAdd.shortname">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group" >
                             <label for="suppPric">Equiv (@{{ variant.presentation_base_object.nombre }})</label>
-                            <input type="number" class="form-control" name="equiv" placeholder="12.00" ng-model="preAdd.cant" min="0">
+                            <input type="number"  class="form-control" name="equiv" placeholder="12.00" ng-model="preAdd.cant" min="0">
                         </div>
                     </div>
                 </div>
@@ -405,21 +405,21 @@
 
                 <div class="form-group" ng-class="{true: 'has-error'}[ atributCreateForm.nombre.$error.required && atributCreateForm.$submitted || atributCreateForm.nombre.$dirty && atributCreateForm.nombre.$invalid]">
                     <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control" name="nombre" placeholder="Nombre" ng-model="atribut.nombre" required>
+                    <input type="text" class="form-control" style="text-transform: uppercase" name="nombre" placeholder="Nombre" ng-model="atribut.nombre" required>
                     <label ng-show="atributCreateForm.$submitted || atributCreateForm.nombre.$dirty && atributCreateForm.nombre.$invalid">
                         <span ng-show="atributCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                     </label>
                 </div>
                 <div class="form-group" ng-class="{true: 'has-error'}[ atributCreateForm.shortname.$error.required && atributCreateForm.$submitted || atributCreateForm.shortname.$dirty && atributCreateForm.shortname.$invalid]">
                     <label for="nombre">ShortName</label>
-                    <input type="text" class="form-control" name="shortname" placeholder="ShortName" ng-model="atribut.shortname" required>
+                    <input type="text" class="form-control" style="text-transform: uppercase" name="shortname" placeholder="ShortName" ng-model="atribut.shortname" required>
                     <label ng-show="atributCreateForm.$submitted || atributCreateForm.shortname.$dirty && atributCreateForm.shortname.$invalid">
                         <span ng-show="atributCreateForm.shortname.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                     </label>
                 </div>
                 <div class="form-group" >
                     <label for="descripcion">Descripcion</label>
-                      <textarea type="descripcion" class="form-control" name="descripcion" placeholder="Descripcion"
+                      <textarea type="descripcion" class="form-control" style="text-transform: uppercase" name="descripcion" placeholder="Descripcion"
                                 ng-model="atribut.descripcion" rows="4" cols="50"></textarea>
                 </div>
 

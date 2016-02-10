@@ -342,14 +342,16 @@ class ProductsController extends Controller
     public function destroy(Request $request)
     {
         //$customer= $this->productRepo->find($request->id);
-
+  //var_dump($request->proId);die();
         \DB::beginTransaction();
         $product = Product::find($request->proId);
-        if($product->hasVariants == 0) {
+        if($product->hasVariants == 0 || $product->quantVar==0) {
             $variant = Variant::where('product_id', $product->id)->first();
+           if(!empty($variant)){
             $variant->warehouse()->detach();
             $variant->presentation()->detach();
             $variant->delete();
+           }
             //die();
             $product->delete();
             //Event::fire('update.customer',$customer->all());
