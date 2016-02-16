@@ -34,8 +34,7 @@ class CashRepo extends BaseRepo{
         return $cashes;
     }
      public function searchuserincaja($id){
-        $cashes =Cash::select("id")
-                     ->where('user_id','=', $id)
+        $cashes =Cash::where('user_id','=', $id)
                      ->where('estado','=',1)
                     //with(['customer','employee'])
                     ->first();

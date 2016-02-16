@@ -24,6 +24,8 @@ class CustomerRepo extends BaseRepo{
                     ->where('nombres','like', $q.'%')
                     ->orWhere('apellidos','like',$q.'%')
                     ->orWhere('empresa','like',$q.'%')
+                    ->orWhere('ruc','like',$q.'%')
+                    ->orWhere('dni','like',$q.'%')
                     ->paginate(15);
         return $customers;
     } 

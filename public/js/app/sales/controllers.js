@@ -123,14 +123,18 @@
                     crudServiceOrders.search('warehousesStore',$scope.store.id,1).then(function (data){
                         $scope.warehouses=data.data;
                     });
-                    crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                    /*forma antigua de retornar caja, erroneo*/
+                    /*crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
                         var canCashes=data.total;
                         var pagActual=Math.ceil(canCashes/15);
                         crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
                             $scope.cashes = data.data;
                             $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
                         });
-                    });    
+                    });*/
+                    crudServiceOrders.Comprueba_caj_for_user().then(function (data){
+                            $scope.cashfinal=data;
+                    });
                 }
                 var id = $routeParams.id;
 
@@ -206,8 +210,8 @@
                         $scope.cashHeaders=data;
                         $log.log($scope.cashHeaders);
                     });
-
-                    crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                    /*forma antigua*/
+                    /*crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
                         var canCashes=data.total;
                         var pagActual=Math.ceil(canCashes/15);
                         crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
@@ -223,6 +227,18 @@
 
                                 //$log.log($scope.detCashes);
                             });
+                        });
+                    });*/
+                    crudServiceOrders.Comprueba_caj_for_user().then(function (data){
+                        $scope.cashfinal=data;
+                        crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,1).then(function (data){
+                            $scope.detCashes = data.data;
+                            $scope.maxSize1 = 5;
+                            $scope.totalItems1 = data.total;
+                            $scope.currentPage1 = data.current_page;
+                            $scope.itemsperPage1 = 15;
+
+                            //$log.log($scope.detCashes);
                         });
                     });
                     //$scope.detCashes={};
@@ -262,13 +278,15 @@
                  $scope.headVoice={};
                 $scope. createorder = function(tipo){
 
-                    crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
-                        var canCashes=data.total;
-                        var pagActual=Math.ceil(canCashes/15);
-                        crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
+                    //crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                        //var canCashes=data.total;
+                        //var pagActual=Math.ceil(canCashes/15);
+                        //crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
 
-                            $scope.cashes = data.data;
-                            $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                            //$scope.cashes = data.data;
+                            //$scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                    crudServiceOrders.Comprueba_caj_for_user().then(function (data){
+                        $scope.cashfinal=data;
 
                         
                             $scope.createmovCaja(tipo);
@@ -345,7 +363,7 @@
                             });
 
                             $scope.inicializar();
-                        })    
+                        //})
                     });
                 }
                 $scope.convertirMes=function(valor){
@@ -783,6 +801,12 @@ $scope.validaDocumento=function(){
                                 $scope.success = data['nombres'];
                                 $('#miventana2').modal('hide');
                                 alert('grabado correctamente');
+
+
+                                $scope.sale.customer_id=data.id;
+                                $scope.sale.cliente=data.nombres;
+                                $scope.customersSelected=undefined;
+
                                 
                                 //$location.path('/customers');
 
@@ -941,16 +965,21 @@ $scope.validaDocumento=function(){
                     if($scope.detPago.monto<0){
                         alert("Numero no valido");
                     }else{
-                        $scope.pagoCredito=$scope.payment[0]; 
-                        crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
-                        var canCashes=data.total;
-                        var pagActual=Math.ceil(canCashes/15);
+                        $scope.pagoCredito=$scope.payment[0];
+
+                        /*Antigua forma eliminada de obtener caja abierta de usuario*/
+                        //crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                        //var canCashes=data.total;
+                        //var pagActual=Math.ceil(canCashes/15);
                             //alert(pagActual);
 
-                            crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){    
-                                $scope.cashes = data.data;
+                            //crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
+                                //$scope.cashes = data.data;
 
-                                $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                                //$scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                        crudServiceOrders.Comprueba_caj_for_user().then(function (data){ //new
+
+                                $scope.cashfinal = data; //new
 
                                 if ($scope.cashfinal.estado=='1') {
 
@@ -1026,7 +1055,7 @@ $scope.validaDocumento=function(){
 
                             }else{alert("Caja Cerrada");}
                             });
-                        }); 
+                        //});
                     }
 
                 }
@@ -1587,13 +1616,16 @@ $scope.validaDocumento=function(){
                 }
 
                 $scope.destroyPay = function(row){
-                $scope.cash1.cashHeader_id=row.cashHeaders_id;
-                crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
-                    var canCashes=data.total;
-                    var pagActual=Math.ceil(canCashes/15);
-                    crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
-                        $scope.cashes = data.data;
-                        $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                //$scope.cash1.cashHeader_id=row.cashHeaders_id;
+                //crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                //    var canCashes=data.total;
+                //    var pagActual=Math.ceil(canCashes/15);
+                //    crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
+                //        $scope.cashes = data.data;
+                //        $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+
+                    crudServiceOrders.Comprueba_caj_for_user().then(function (data){
+                        $scope.cashfinal=data;
 
                         if ($scope.cashfinal.id==row.numCaja&&$scope.cashfinal.estado=='1') {
                             if(confirm("Esta segura de querer eliminar este pago!!!") == true){
@@ -1619,7 +1651,7 @@ $scope.validaDocumento=function(){
                         }
 
                     });
-                })
+                //})
             }
             $scope.PagoAnterior;
             $scope.mostrarBtnGEd=false;
@@ -1628,12 +1660,15 @@ $scope.validaDocumento=function(){
             $scope.editDetpayment=function(row){
                 $scope.cash1.cashHeader_id=row.cashHeaders_id;
                 $scope.opcionalRow=row.monto;
-                crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
-                    var canCashes=data.total;
-                    var pagActual=Math.ceil(canCashes/15);
-                    crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
-                        $scope.cashes = data.data;
-                        $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                //forma antigua de cashfinal eliminada
+                //crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                    //var canCashes=data.total;
+                    //var pagActual=Math.ceil(canCashes/15);
+                    //crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
+                        //$scope.cashes = data.data;
+                        //$scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                crudServiceOrders.Comprueba_caj_for_user().then(function (data){
+                    $scope.cashfinal=data;
                         if ($scope.cashfinal.id==row.numCaja&&$scope.cashfinal.estado=='1') {
                             $scope.detPago=row;
                             $scope.detPago.fecha=new Date(row.fecha);
@@ -1647,7 +1682,7 @@ $scope.validaDocumento=function(){
                             alert("Caja Cerrada");    
                         }
                     });
-                });    
+                //});
             }  
             $scope.editPayment = function(){
                 if (Number($scope.payment[0].Acuenta)-Number($scope.opcionalRow) +Number($scope.detPago.monto) <= Number($scope.payment[0].MontoTotal)) {
@@ -1843,12 +1878,14 @@ $scope.validaDocumento=function(){
                     if ($scope.cash1.cashHeader_id==undefined) {
                         alert("Elija Caja");
                     }else{
-                        crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
-                            var canCashes=data.total;
-                            var pagActual=Math.ceil(canCashes/15);
-                            crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
-                                $scope.cashes = data.data;
-                                $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                        //crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                            //var canCashes=data.total;
+                            //var pagActual=Math.ceil(canCashes/15);
+                            //crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
+                                //$scope.cashes = data.data;
+                                //$scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                        crudServiceOrders.Comprueba_caj_for_user().then(function (data){
+                                $scope.cashfinal=data;
                                 if ($scope.cashfinal.estado=='1') {
                                     $scope.detCash={};
                                     $scope.mostrarAlmacenCaja();
@@ -1881,7 +1918,7 @@ $scope.validaDocumento=function(){
                                 }
 
 
-                            });
+                            //});
                         });
                     }
                 }

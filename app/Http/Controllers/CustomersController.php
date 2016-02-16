@@ -93,7 +93,7 @@ class CustomersController extends Controller {
         //print_r($customer->nombres); die();
         //Event::fire('update.customer',$customer->all());
 
-        return response()->json(['estado'=>true, 'nombres'=>$customer->nombres]);
+        return response()->json(['estado'=>true, 'nombres'=>$customer->nombres."-".$customer->apellidos."-".$customer->empresa, 'id'=>$customer->id]);
     }
 
     public function find($id)
