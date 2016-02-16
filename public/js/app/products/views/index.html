@@ -57,12 +57,8 @@
                     <tr>
                       <th style="width: 10px">#</th>
                       <th>Código</th>
-                      <th>Nombre</th>
-                        <th>Precio</th>
                       <th>Marca</th>
                       <th>Línea</th>
-                        <th>Creado</th>
-                        <th>Por</th>
                         <th>Variantes</th>
                         <th>Stock</th>
                       <th style="width: 40px">Editar</th>
@@ -74,12 +70,9 @@
                       <td>{{$index + 1}}</td>
 
                       <td><a ng-href="/products/show/{{row.proId}}">{{row.proCodigo }}</a></td>
-                      <td>{{row.proNombre}}</td>
-                        <td>{{row.detPresPri}}</td>
+                      
                       <td>{{row.braNombre}}</td>
                       <td>{{row.typNombre}}</td>
-                        <td>{{row.proCreado}}</td>
-                        <td>{{row.userNombre}}</td>
                         <td>
                             <span ng-if="row.proHasVar == '1'">
                                         <span ng-if="row.proQuantvar == '0'">0</span>
@@ -182,20 +175,22 @@
             <table class="table table-hover">
                 <tbody><tr>
                     <th>#</th>
-                    <th>Almacén</th>
+                    <th>Ćodigo</th>
                     <th>Stock Actual</th>
                     <th>Stock por llegar</th>
-                    <th>Ćodigo</th>
-                    <th>SKU</th>
+                    <th>Almacén</th>                 
+                    
+                    
 
                 </tr>
                 <tr ng-repeat="row in stockVariants">
                     <td>{{$index + 1}}</td>
-                    <td>{{row.nombre}}</td>
+                    <td>{{row.codigo}}</td>                    
                     <td>{{row.stockActual}}</td>
                     <td>{{row.porLlegar}}</td>
-                    <td>{{row.codigo}}</td>
-                    <td>{{row.sku}}</td>
+                    <td>{{row.nombre}}</td>
+                    
+                    
 
                 </tr>
 

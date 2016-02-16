@@ -24,7 +24,15 @@
 
                 return deferred.promise;
             }
+           function selectall(uri,codigo,marca,linea,busColor,busTaco,busTalla,busMate,page)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/selectall/'+codigo+'/'+marca+'/'+linea+'/'+busColor+'/'+busTaco+'/'+busTalla+'/'+busMate+'?page='+page).success(function (data) {
+                    deferred.resolve(data);
+                });
 
+                return deferred.promise;
+            }
             function create(area,uri)
             {
                 var deferred = $q.defer();
@@ -122,6 +130,16 @@ function Document_venta_Factura()
                 ;
                 return deferred.promise;
             }
+            function search1(uri,page){
+                var deferred = $q.defer();
+                var result = $http.get('/api/'+uri+'/search/?page='+page);
+
+                result.success(function(data){
+                        deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
+
             function search(uri,query,page){
                 var deferred = $q.defer();
                 var result = $http.get('/api/'+uri+'/search/'+query+'/?page='+page);
@@ -211,6 +229,7 @@ function Document_venta_Factura()
             }
             return {
                 all: all,
+                selectall: selectall,
                 paginate: paginate,
                 numeracion: numeracion,
                 factura: factura,
@@ -218,6 +237,7 @@ function Document_venta_Factura()
                 create1:create1,
                 byId:byId,
                 update:update,
+                search1:search1,
                 destroy:destroy,
                 search: search,
                 select:select,

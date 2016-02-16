@@ -138,6 +138,44 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->paginate($qantity);
         return $products;
     }
+    public function consultaProductos($codigo,$marca,$linea,$busColor,$busTaco,$busTalla,$busMate){
+
+
+      if($codigo=='undefined' || empty($codigo)){$codigo="%";}else{}
+      if($marca=='undefined' || empty($marca) ){$marca="%";}else{}
+      if($linea=='undefined' || empty($linea) ){$linea="%";}else{}
+      if($busColor=='undefined'|| empty($busColor) ){$busColor="%";}else{}
+      if($busTaco=='undefined' || empty($busTaco) ){$busTaco="%";}else{}
+      if($busTalla=='undefined' || empty($busTalla) ){$busTalla="%";}else{}
+      if($busMate=='undefined' || empty($busMate) ){$busMate="%";}else{}
+       $products = Product::leftjoin('brands','products.brand_id','=','brands.id')
+                            ->leftjoin('types','products.type_id','=','types.id')
+                            ->leftjoin('variants','products.id','=','variants.product_id')
+                            ->leftjoin('detPres','variants.id','=','detPres.variant_id')
+                            ->leftjoin('presentation','detPres.presentation_id','=','presentation.id')
+                            ->leftjoin('stock','stock.variant_id','=','variants.id')
+                            ->select('variants.codigo','variants.sku','variants.id as varid','products.estado as proEstado',
+                               'brands.nombre as braNombre','products.hasVariants as TieneVariante','types.nombre as typNombre',
+                              \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Color" and dt.descripcion like "'.$busColor.'%") as color'),
+                              \DB::raw('(SELECT sum(stock.stockActual)
+      
+FROM products
+INNER JOIN variants ON products.id = variants.product_id
+INNER JOIN stock ON variants.id = stock.variant_id
+WHERE variants.id = varid) as stoStockActual'),
+                              \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Talla" and dt.descripcion like "'.$busTalla.'%") as Talla'),
+                              \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Taco" and dt.descripcion like "'.$busTaco.'%") as Taco'),
+                              \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Material" and dt.descripcion like "'.$busMate.'%") as Material'),
+                              'detPres.suppPri','detPres.price'
+                              )
+                            //->having()
+                            ->where('variants.codigo','like',$codigo.'%')
+                            ->where('brands.id','like',$marca.'%')
+                            ->where('types.id','like',$linea.'%')                            
+                            ->groupBy('variants.id')
+                            ->paginate(15);
+        return $products;
+    }
     public function Autocomplit(){
             $products = Product::leftjoin('variants','products.id','=','variants.product_id')
                             ->leftjoin("detAtr","variants.id","=","detAtr.variant_id")

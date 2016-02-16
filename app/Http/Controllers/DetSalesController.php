@@ -26,4 +26,11 @@ class DetSalesController extends Controller {
 
         return response()->json($detSale);
     }
+     public function listarVentasDia()
+    {
+        //$q = Input::get('q');
+        $detSale = $this->detSaleRepo->listarVentasDia();
+
+        return response()->json($detSale);
+    }
 }
