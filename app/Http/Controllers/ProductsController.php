@@ -424,6 +424,12 @@ class ProductsController extends Controller
 
         return response()->json($products);
     }
+    public function consultaProductos($codigo,$marca,$linea,$busColor,$busTaco,$busTalla,$busMate){
+        
+        $products = $this->productRepo->consultaProductos($codigo,$marca,$linea,$busColor,$busTaco,$busTalla,$busMate);
+
+        return response()->json($products);
+    }
     public function search($q)
     {
         //$q = Input::get('q');

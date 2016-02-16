@@ -1267,7 +1267,57 @@ $scope.validaDocumento=function(){
                          $window.alert('You\'ve selected the alert tab!');
                         });
                     };
-
+                    $scope.pageChangedZ=function(){
+                        crudServiceOrders.selectall("consultaProductos",$scope.busCodigo,$scope.materialid,$scope.lineaid,$scope.busColor,$scope.busTaco,$scope.busTalla,$scope.busMaterial,$scope.currentPageZ).then(function(data){
+                        $scope.variants1=data.data;
+                        
+                       });
+                    }
+                    $scope.materialid=0;$scope.lineaid=0;
+                   // $scope.materialid.nombre="hola";
+                   $scope.cargarConsulta1=function(dato){
+                      $scope.materialid=dato;
+                      
+                      $scope.cargarConsulta();
+                   }
+                    $scope.cargarConsulta2=function(dato){
+                      
+                      $scope.lineaid=dato;
+                      $scope.cargarConsulta();
+                   }
+                   $scope.variants1=[];
+                $scope.cargarConsulta=function(){
+                   
+                   
+                    crudServiceOrders.selectall("consultaProductos",$scope.busCodigo,$scope.materialid,$scope.lineaid,$scope.busColor,$scope.busTaco,$scope.busTalla,$scope.busMaterial,1).then(function(data){
+                        $scope.variants1=data.data;
+                        $scope.maxSizeZ= 5;
+                        $scope.totalItemsZ = data.total;
+                        $scope.currentPageZ= data.current_page;
+                        $scope.itemsperPageZ= 15;
+                    });
+                    crudServiceOrders.all("brands").then(function(data){
+                        $scope.brands=data.data;
+                    });
+                    crudServiceOrders.all("types").then(function(data){
+                        $scope.types=data.data;
+                    });
+                }
+                $scope.ventas=[];
+                $scope.pageChangedV=function(){
+                    crudServiceOrders.search1("listarVentasDia",$scope.currentPageV).then(function(data){
+                        $scope.ventas=data.data;
+                    });
+                }
+                $scope.cargarVentasProduct=function(){
+                     crudServiceOrders.search1("listarVentasDia",1).then(function(data){
+                        $scope.ventas=data.data;
+                        $scope.maxSizeV= 5;
+                        $scope.totalItemsV = data.total;
+                        $scope.currentPageV= data.current_page;
+                        $scope.itemsperPageV= 15;
+                    });
+                }
                 $scope.cargarFavoritos= function(row,size){                      
                         crudServiceOrders.reportProWare('productsVariantes',$scope.store.id,$scope.warehouse.id,row.vari).then(function(data){    
                         $scope.presentations = data;

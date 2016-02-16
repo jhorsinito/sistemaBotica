@@ -121,7 +121,7 @@ Route::get('api/products/autocomplit2/','ProductsController@getAutocomplit2');
 Route::get('api/products/select','ProductsController@selectProducts');
 
 Route::get('api/products/validar/{text}','ProductsController@validarNombre');
-
+Route::get('api/consultaProductos/selectall/{codigo?}/{marca?}/{linea?}/{busColor?}/{busTaco?}/{busTalla?}/{busMate?}','ProductsController@consultaProductos');
 
 //---------------------
 Route::get('api/productsSearchsku/misDatos/{store?}/{were?}/{q?}',['as'=>'person_find', 'uses'=>'ProductsController@searchsku']);
@@ -708,3 +708,6 @@ Route::post('api/reportMovimientosVarianteRangoF/create/{fechaini}/{fechafin}/{t
 
 Route::post('api/Factura','SalesController@reporteFactura');
 Route::post('api/TiketReport2/create/{id}/{cant}','VariantsController@reportes2');
+
+
+Route::get('api/listarVentasDia/search',['as'=>'person_search', 'uses'=>'DetSalesController@listarVentasDia']);

@@ -42,4 +42,27 @@ class DetSaleRepo extends BaseRepo{
                     ->paginate(15);
         return $detSales;
     }
+    public function listarVentasDia(){
+        $detSales =\DB::table('detSales')
+                    ->leftjoin("detPres","detPres.id","=","detSales.detPre_id")
+                    ->leftjoin("variants","variants.id","=","detPres.variant_id")
+                    ->leftjoin("products","products.id","=","variants.product_id")
+                    ->leftjoin('brands','products.brand_id','=','brands.id')
+                    ->leftjoin('types','products.type_id','=','types.id')
+                    ->leftjoin('stations','products.station_id','=','stations.id')
+                    ->join('sales','detSales.sale_id','=','sales.id')
+                    ->join('detCash','sales.detCash_id','=','detCash.id')
+                    ->join('cashes','detCash.cash_id','=','cashes.id')
+                    ->select(\DB::raw('variants.id as varid,variants.sku,brands.nombre as marca,products.codigo,types.nombre as linea,stations.nombre as estacion,products.modelo,detSales.subTotal'),
+                         \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Color" ) as color'),
+                         \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Taco" ) as Taco'),
+                         \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Talla" ) as Talla'))
+
+                    ->where('cashes.user_id','=', auth()->user()->id)
+                    ->where('cashes.estado','=','1')    
+                    ->groupBy('detSales.id')    
+                    //with(['customer','employee'])
+                    ->paginate(15);
+        return $detSales;
+    }
 } 

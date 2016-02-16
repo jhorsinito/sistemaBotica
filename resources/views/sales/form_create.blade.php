@@ -40,7 +40,8 @@
                   <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Venta</a></li>
                   <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false" ng-click="actualizarCaja()">Caja Venta</a></li>
                   <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Opciones</a></li>
-                  
+                   <li class=""><a href="#tab_5" data-toggle="tab" aria-expanded="false" ng-click="cargarConsulta()">Consultas</a></li>
+                   <li class=""><a href="#tab_6" data-toggle="tab" aria-expanded="false" ng-click="cargarVentasProduct()">Ventas Productos</a></li>
                 </ul>
                 <div class="tab-content">
 
@@ -328,10 +329,8 @@
                       <th style="width: 10px">#</th>
                       <th>Fecha</th>
                       <th>Hora</th>
-                      <th>Caja</th>
                       <th>Usuario</th>
                       <th>Documento</th>
-                      <th>Tipo</th>
                       
                       <th>S/.Tarjeta</th>
                       <th>S/.Efectivo</th>
@@ -343,10 +342,9 @@
                       <td>@{{$index + 1}}</td>
                       <td>@{{row.fecha}}</td>
                       <td>@{{row.hora}}</td>
-                      <td>@{{row.nombre}}</td>
                       <td>@{{row.name}}</td>
                       <td><a href="#tab_4" data-toggle="tab" aria-expanded="false" ng-click="traerDoumento(row)">@{{row.tipoDoc+"-"+row.NumDocument}}</a></td>
-                      <td>@{{row.Motivo}}</td>
+                    
                       
                       <td>@{{row.tarjeta}}</td>
                       <td>@{{row.efectivo}}</td>
@@ -398,6 +396,143 @@
 
 
                   </div><!-- /.tab-pane -->
+
+
+                <div class="tab-pane" id="tab_6">
+                      
+                      
+                    
+                    <table class="table table-bordered">
+                    <tr>
+                      <th style="width: 10px">#</th>
+                      <th>Marca</th>
+                      <th>Codigo</th>
+                      <th>sku</th>
+                      <th>Vestir/Sport</th>
+                      <th>Estacion</th>
+                      <th>Modelo</th>
+                      <th>Color</th>
+                      <th>Taco</th>
+                      <th>Talla</th>
+                      <th>Separado/Pedido</th>
+                      <th>Modo de Pago</th>
+                      <th>Monto</th>
+                    </tr>
+                    
+                    <tr  ng-repeat="row in ventas track by $index">
+                      <td>@{{$index + 1}}</td>
+                      <td>@{{row.marca}}</td>
+                      <td>@{{row.codigo}}</td>
+                      <td>@{{row.sku}}</td>
+                      <td>@{{row.linea}}</td>
+                      <td>@{{row.estacion}}</td>
+                      <td>@{{row.modelo}}</td>
+                      <td>@{{row.color}}</td>
+                      <td>@{{row.Taco}}</td>
+                      <td>@{{row.Talla}}</td>
+                      <td>@{{row.Material}}</td> 
+                      <td>@{{row.price}}</td> 
+                      <td>S/. @{{row.subTotal}}</td> 
+                    </tr>
+                    
+                    
+                  </table>
+                    <div class="box-footer clearfix">
+                        <pagination total-items="totalItemsV" ng-model="currentPageV" max-size="maxSizeV" class="pagination-sm no-margin pull-right" 
+                        items-per-page="itemsperPageV" boundary-links="true" rotate="false" num-pages="numPages" ng-change="pageChangedV()"></pagination>
+                    </div>
+                  </div>
+
+
+
+
+
+
+
+                  <div class="tab-pane" id="tab_5">
+                      
+                      
+                    
+                    <table class="table table-bordered">
+                    <tr>
+                      <th style="width: 10px">#</th>
+                      <th>
+                           
+                          <form >
+                               <div class="input-group" style="width: 150px;">
+                                 <input ng-change="cargarConsulta()" type="text" ng-model="busCodigo"  name="table_search" class="form-control input-sm pull-right" placeholder="Codigo" />
+                                 <div class="input-group-btn">
+                                   <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                                 </div>
+                               </div>
+                          </form>
+                      </th>
+                      <th>Sku</th>
+                      <th>
+                      <select class="form-control" name="" ng-model="materialId" ng-change="cargarConsulta1(materialId)"ng-options="item.id as item.nombre for item in brands">
+                          <option value="">Marca - Todos</option>
+                      <th><select class="form-control" name="" ng-model="lineaId" ng-change="cargarConsulta2(lineaId)"ng-options="item.id as item.nombre for item in types">
+                          <option value="">Linea - Todos</option>
+                          </select></th>
+                      <th>Stock</th>
+                      <th><form >
+                               <div class="input-group" style="width: 120px;">
+                                 <input ng-change="cargarConsulta()" type="text" ng-model="busColor"  name="table_search" class="form-control input-sm pull-right" placeholder="Color" />
+                                 <div class="input-group-btn">
+                                   <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                                 </div>
+                               </div>
+                          </form>
+                      </th>
+                      <th><form >
+                               <div class="input-group" style="width: 80px;">
+                                 <input ng-change="cargarConsulta()" type="text" ng-model="busTaco"  name="table_search" class="form-control input-sm pull-right" placeholder="Taco" />
+                                 <div class="input-group-btn">
+                                   <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                                 </div>
+                               </div>
+                          </form>
+                          </th>
+                      <th><form >
+                               <div class="input-group" style="width: 80px;">
+                                 <input ng-change="cargarConsulta()" type="text" ng-model="busTalla"  name="table_search" class="form-control input-sm pull-right" placeholder="Talla" />
+                                 <div class="input-group-btn">
+                                   <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                                 </div>
+                               </div>
+                          </form></th>
+                      <th><form >
+                               <div class="input-group" style="width: 150px;">
+                                 <input ng-change="cargarConsulta()" type="text" ng-model="busMaterial"  name="table_search" class="form-control input-sm pull-right" placeholder="Material" />
+                                 <div class="input-group-btn">
+                                   <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                                 </div>
+                               </div>
+                          </form></th>
+                      <th>Precio Venta (S/.)</th>
+                    </tr>
+                    
+                    <tr ng-if="row.color!=undefined  && row.Taco!=undefined && row.Talla!=undefined && row.Material!=undefined" ng-repeat="row in variants1 track by $index">
+                      <td>@{{$index + 1}}</td>
+                      <td>@{{row.codigo}}</td>
+                      <td>@{{row.sku}}</td>
+                      <td>@{{row.braNombre}}</td>
+                      <td>@{{row.typNombre}}</td>
+                      <td>@{{row.stoStockActual}}</td>
+                      <td>@{{row.color}}</td>
+                      <td>@{{row.Taco}}</td>
+                      <td>@{{row.Talla}}</td>
+                      <td>@{{row.Material}}</td> 
+                      <td>@{{row.price}}</td> 
+                    </tr>
+                    
+                    
+                  </table>
+                    <div class="box-footer clearfix">
+                        <pagination total-items="totalItemsZ" ng-model="currentPageZ" max-size="maxSizeZ" class="pagination-sm no-margin pull-right" 
+                        items-per-page="itemsperPageZ" boundary-links="true" rotate="false" num-pages="numPages" ng-change="pageChangedZ()"></pagination>
+                    </div>
+                  </div>
                 </div><!-- /.tab-content -->
               </div>
                <script type="text/javascript">$('#myTabs a').click(function (e) {
