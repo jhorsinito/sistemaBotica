@@ -1257,6 +1257,7 @@ $scope.validaDocumento=function(){
                       $scope.cargarConsulta();
                    }
                    $scope.variants1=[];
+                   $scope.materialid=0;$scope.lineaid=0;
                 $scope.cargarConsulta=function(){
                    
                    

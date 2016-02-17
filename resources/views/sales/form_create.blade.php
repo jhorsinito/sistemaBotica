@@ -344,8 +344,6 @@
                       <td>@{{row.hora}}</td>
                       <td>@{{row.name}}</td>
                       <td><a href="#tab_4" data-toggle="tab" aria-expanded="false" ng-click="traerDoumento(row)">@{{row.tipoDoc+"-"+row.NumDocument}}</a></td>
-                    
-                      
                       <td>@{{row.tarjeta}}</td>
                       <td>@{{row.efectivo}}</td>
                       

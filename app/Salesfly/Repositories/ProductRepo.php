@@ -142,8 +142,8 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
 
 
       if($codigo=='undefined' || empty($codigo)){$codigo="%";}else{}
-      if($marca=='undefined' || empty($marca) ){$marca="%";}else{}
-      if($linea=='undefined' || empty($linea) ){$linea="%";}else{}
+      if($marca==0 || empty($marca) ){$marca="%";}else{}
+      if($linea==0 || empty($linea) ){$linea="%";}else{}
       if($busColor=='undefined'|| empty($busColor) ){$busColor="%";}else{}
       if($busTaco=='undefined' || empty($busTaco) ){$busTaco="%";}else{}
       if($busTalla=='undefined' || empty($busTalla) ){$busTalla="%";}else{}
@@ -229,7 +229,14 @@ WHERE variants.id = varid) as stoStockActual'),
 
         return $products;
     }
-   
+   public function cantidadProductos(){
+        $products = Product::leftjoin('variants','products.id','=','variants.product_id')
+                             ->select(\DB::raw('(select COUNT(*) as cantProductos from variants) as cantidad,(select SUM(stock.stockActual)  from stock ) as stockA'))
+                             ->groupBy('variants.id')
+                             ->first();
+
+        return $products;
+   }
     public function find($id){
         $oProduct = Product::find($id);
 
