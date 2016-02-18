@@ -130,7 +130,15 @@
                 var deferred = $q.defer();
                 $http.get('/api/'+uri+'/'+id);
             }
+             function cantidadProductos(){
+                var deferred = $q.defer();
+                $http.get('api/cantidadProductos/cantidades')
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
 
+                return deferred.promise;
+            }
             function reportProWare(uri,idStore,idWerehouse,val){
                 var deferred = $q.defer();
                 $http.get('/api/'+uri+'/misDatos/'+idStore+'/'+idWerehouse+'/'+val)
@@ -201,7 +209,8 @@
                 reportProWare,reportProWare,
                 deudasSupplier: deudasSupplier,
                 selectPost: selectPost,
-                Reportes: Reportes
+                Reportes: Reportes,
+                cantidadProductos:cantidadProductos
             }
         }])
         .factory('socketService', function ($rootScope) {

@@ -274,6 +274,11 @@
 
 
                 }else{
+                     crudService.cantidadProductos().then(function(data)
+                    {
+                        $scope.product.canttoalProducts=data.cantidad;
+                        $scope.product.stockA=data.stockA;
+                    });
                     crudService.paginate('products',1).then(function (data) {
                         $scope.products = data.data;
                         //$log.log(data.data);
@@ -613,10 +618,10 @@
                 $scope.deleteProduct = function(row){
                     $scope.product = row;
                     //$log.log($scope.product);
-
+                   
 
                 }
-
+               
                 $scope.cancelProduct = function(){
                     $scope.product = {};
                 }

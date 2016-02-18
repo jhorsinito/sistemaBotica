@@ -712,3 +712,5 @@ Route::post('api/TiketReport2/create/{id}/{cant}','VariantsController@reportes2'
 
 
 Route::get('api/listarVentasDia/search',['as'=>'person_search', 'uses'=>'DetSalesController@listarVentasDia']);
+
+Route::get('api/cantidadProductos/cantidades',['as'=>'person_search', 'uses'=>'ProductsController@cantidadProductos']);

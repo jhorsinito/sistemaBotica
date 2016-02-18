@@ -419,6 +419,11 @@ class ProductsController extends Controller
         $stations = Station::lists('nombre','id');
         return response()->json($stations);
     }
+    public function cantidadProductos(){
+        $products = $this->productRepo->cantidadProductos();
+
+        return response()->json($products);
+    }
     public function consultCodigo($cod){
         $products = $this->productRepo->consultCodigo($cod);
 
