@@ -17,9 +17,10 @@ class CashRepo extends BaseRepo{
         }
         $cashes =Cash::join("users","users.id","=","cashes.user_id")
                     ->join("cashHeaders","cashHeaders.id","=","cashes.cashHeader_id")
-                    ->select("cashes.*","cashHeaders.*","users.name as nomUser")
+                    ->select("cashes.*","cashes.estado as estado1","users.name as nomUser")
                      ->where('cashes.cashHeader_id','like', $q)
                     //with(['customer','employee'])
+                    ->orderby('cashes.fechaInicio','DESC')
                     ->paginate(15);
         return $cashes;
     }
@@ -28,8 +29,9 @@ class CashRepo extends BaseRepo{
         
         $cashes =Cash::join("users","users.id","=","cashes.user_id")
                     ->join("cashHeaders","cashHeaders.id","=","cashes.cashHeader_id")
-                    ->select("cashes.*","cashes.estado as estado1","cashHeaders.*","users.name as nomUser")
+                    ->select("cashes.*","cashes.estado as estado1","users.name as nomUser")
                     //with(['customer','employee'])
+                        ->orderby('cashes.fechaInicio','DESC')
                     ->paginate(15);
         return $cashes;
     }

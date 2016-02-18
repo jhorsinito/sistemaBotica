@@ -107,7 +107,7 @@ class SalesController extends Controller
 
     public function create(Request $request) 
         {
-        var_dump($request->all());die();
+        //var_dump($request->all());die();
            \DB::beginTransaction();
         $orderSale = $this->saleRepo->getModel();
         $var = $request->detOrders;

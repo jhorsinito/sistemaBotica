@@ -76,20 +76,30 @@
                         alert("Caja Cerrada");
                         $scope.bandera=true;
                     }else{
-                        var canpag=Math.ceil($scope.totalItems/15);
+                        //var canpag=Math.ceil($scope.totalItems/15);
 
-                        crudService.search('cashes',$scope.cash.cashHeader_id,canpag).then(function (data){
-                            $scope.cashesedit = data.data;
-                            $scope.cash1=$scope.cashesedit[$scope.cashesedit.length-1];
-                            if ($scope.cash1.estado=='0') {
-                                alert("Caja Cerrada");
-                                $scope.bandera=true;
 
-                            }else{
-                                alert("Caja Abierta");
-                                $scope.ruta='/cashes/edit/'+$scope.cash1.id;
-                                $scope.bandera=false;
-                            }
+
+
+                       // crudService.search('cashes',$scope.cash.cashHeader_id,canpag).then(function (data){
+
+                            crudService.selectPost($scope.cash.cashHeader_id,'cashes','searchOpenCashxCashHeader').then(function(data){
+
+                            //$scope.cashesedit = data;
+                            //$scope.cash1=$scope.cashesedit[$scope.cashesedit.length-1];
+
+                                if (data.length > 0){
+                                    $scope.cash1 = data;
+                                    alert("Caja Abierta");
+                                    $scope.ruta='/cashes/edit/'+$scope.cash1.id;
+                                    $scope.bandera=false;
+                                }
+                                else
+                                {
+                                    alert("Caja Cerrada");
+                                    $scope.bandera = true;
+                                }
+
                         });
                     }
 
@@ -234,7 +244,7 @@
 
                 $scope.searchcash = function(){
                 if ($scope.query.length > 0) {
-                    alert($scope.query);
+                    //alert($scope.query);
                     crudService.search('cashes',$scope.query,1).then(function (data){
                         $scope.cashes = data.data;
                         $scope.totalItems = data.total;

@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller;
 
 use Salesfly\Salesfly\Repositories\CashRepo;
 use Salesfly\Salesfly\Managers\CashManager;
+use Salesfly\Salesfly\Entities\Cash;
 
 class CashesController extends Controller
 {
@@ -23,6 +24,16 @@ class CashesController extends Controller
         return response()->json($cashes);
         //var_dump($materials);
     }
+
+    public function searchOpenCashxCashHeader(Request $request){
+        $cashes =Cash::where('cashHeader_id','=', $request->input(0))
+            ->where('estado','=',1)
+            //with(['customer','employee'])
+            ->first();
+        //return $cashes;
+        return response()->json($cashes);
+    }
+
     public function cajas_for_user(){
         $cash=$this->cashRepo->searchuserincaja(auth()->user()->id);
         return response()->json($cash);

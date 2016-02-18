@@ -157,7 +157,8 @@
                       <td>@{{row.nombre}}</td>
                       <td>@{{row.name}}</td>
                       <td>@{{row.Motivo}}</td>
-                      <td>@{{row.tipoDoc+"-"+row.NumDocument}}</td>
+                      <td ng-if="row.tipoDoc!=null">@{{row.tipoDoc+"-"+row.NumDocument}}</td>
+                      <td ng-if="row.tipoDoc==null">-</td>
                       <td>@{{row.tarjeta}}</td>
                       <td>@{{row.efectivo}}</td>
                       <td ng-if="row.cashMotive_id==1 || row.cashMotive_id==13 || row.cashMotive_id==14"><a href="/sales/edit/@{{row.id}}" target="_blank">ver venta</a></td>
