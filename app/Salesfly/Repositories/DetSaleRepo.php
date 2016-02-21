@@ -53,7 +53,12 @@ class DetSaleRepo extends BaseRepo{
                     ->join('sales','detSales.sale_id','=','sales.id')
                     ->join('detCash','sales.detCash_id','=','detCash.id')
                     ->join('cashes','detCash.cash_id','=','cashes.id')
-                    ->select(\DB::raw('variants.id as varid,variants.sku,brands.nombre as marca,products.codigo,types.nombre as linea,stations.nombre as estacion,products.modelo,detSales.subTotal'),
+
+                    ->join('salePayments','salePayments.sale_id','=','sales.id')
+                    ->join('saledetPayments','saledetPayments.salePayment_id','=','salePayments.id')
+                    ->join('saleMethodPayments','saleMethodPayments.id','=','saledetPayments.saleMethodPayment_id')
+
+                    ->select(\DB::raw('variants.id as varid,variants.sku,brands.nombre as marca,products.codigo,types.nombre as linea,stations.nombre as estacion,products.modelo,detSales.subTotal,sales.estado as estado,detSales.cantidad,saleMethodPayments.nombre as SMPNombre'),
                          \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Color" ) as color'),
                          \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Taco" ) as Taco'),
                          \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Talla" ) as Talla'))

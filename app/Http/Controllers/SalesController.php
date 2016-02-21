@@ -136,6 +136,9 @@ class SalesController extends Controller
             $movimiento['observacion']=$temporal;
             $detCashrepo = new DetCashRepo;
             $movimientoSave=$detCashrepo->getModel();
+
+            $movimiento['fecha'] = date('Y-m-d');
+            $movimiento['hora'] = date('H:i:s');
         
             $insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
             $insertarMovimiento->save();
@@ -162,6 +165,7 @@ class SalesController extends Controller
             $manager1 = new CashManager($cash1,$cajaAct);
             $manager1->save();
             $request->merge(['detCash_id'=> $detCash_id]);
+            $request->merge(['fechaPedido' => date('Y-m-d H:i:s')]);
            $manager = new SaleManager($orderSale,$request->all());
         $manager->save();
         //----------------
@@ -180,6 +184,7 @@ class SalesController extends Controller
                 foreach($saledetPayments as $object1){
                     $object1['salePayment_id'] = $temporal1;
                     $object1['detCash_id']=$detCash_id;
+                    $object1['fecha']=date('Y-m-d H:i:s');
 
                     $saledetPaymentrepo = new SaleDetPaymentRepo;
 
@@ -617,6 +622,9 @@ class SalesController extends Controller
     }
     public function edit(Request $request)
     {
+        //var_dump( );
+        //die();
+        \DB::beginTransaction();
         $varDetOrders = $request->detOrder;
         $varPayment = $request->payment;
         $movimiento = $request->movimiento;
@@ -644,7 +652,8 @@ class SalesController extends Controller
 
             $salePaymentRepo;
         $salePaymentRepo = new SalePaymentRepo;
-        $payment = $salePaymentRepo->find($varPayment['id']);
+        //$payment = $salePaymentRepo->find($varPayment['id']);
+        $payment = $salePaymentRepo->find($varPayment['idPAY']);
         $manager = new SalePaymentManager($payment,$varPayment);
         $manager->save();
 
@@ -681,9 +690,11 @@ class SalesController extends Controller
             $object["warehouses_id"]=$object['idAlmacen'];
             //$object["cantidad_llegado"]=$cantidaCalculada;
             //$object['descripcion']='Entrada por compra';
-            $object['tipo']='Entrada Venta';
+            //$object['tipo']='Entrada Venta';
+            $object['tipo']='Entrada-Anulado';
             $object["user_id"]=auth()->user()->id;
-            $object["Fecha"]=$request->input("fechaPedido");
+            //$object["Fecha"]=$request->input("fechaPedido");
+            $object["Fecha"]= date('Y-m-d H:i:s');
 
             $HeadStockRepo = new HeadInputStockRepo;
             $HeadStock=$HeadStockRepo->getModel();
@@ -695,7 +706,7 @@ class SalesController extends Controller
           $object['headInputStock_id']=$codigoHeadIS;
           $object["producto"]=$object['nameProducto']."(".$object['NombreAtributos'].")";
           $object["cantidad_llegado"]=$object['cantidad'];
-          $object['descripcion']='Entrada Venta Anulada';
+          $object['descripcion']='Entrada-Venta-Anulada';
           
           $inputRepo;
           $inputRepo = new InputStockRepo;
@@ -706,12 +717,15 @@ class SalesController extends Controller
         }
 
         $orderSale = $this->saleRepo->find($request->id);
+        if($request->input('estado') == '3'){
+            $request->merge(array('fechaAnulado' => date('Y-m-d H:i:s')));
+        }
         $manager = new SaleManager($orderSale,$request->all());
         $manager->save();
 
-        
 
 
+        \DB::commit();
 
         return response()->json(['estado'=>true, 'nombre'=>$orderSale->nombre]);
     }

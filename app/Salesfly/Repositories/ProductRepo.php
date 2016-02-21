@@ -141,13 +141,13 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
     public function consultaProductos($codigo,$marca,$linea,$busColor,$busTaco,$busTalla,$busMate){
 
 
-      if($codigo=='undefined' || empty($codigo)){$codigo="%";}else{}
-      if($marca==0 || empty($marca) ){$marca="%";}else{}
-      if($linea==0 || empty($linea) ){$linea="%";}else{}
-      if($busColor=='undefined'|| empty($busColor) ){$busColor="%";}else{}
-      if($busTaco=='undefined' || empty($busTaco) ){$busTaco="%";}else{}
-      if($busTalla=='undefined' || empty($busTalla) ){$busTalla="%";}else{}
-      if($busMate=='undefined' || empty($busMate) ){$busMate="%";}else{}
+      if($codigo=='undefined' || empty($codigo)){$codigo="%%";}else{}
+      if($marca==0 || empty($marca) ){$marca="%%";}else{}
+      if($linea==0 || empty($linea) ){$linea="%%";}else{}
+      if($busColor=='undefined'|| empty($busColor) ){$busColor="%%";}else{}
+      if($busTaco=='undefined' || empty($busTaco) ){$busTaco="%%";}else{}
+      if($busTalla=='undefined' || empty($busTalla) ){$busTalla="%%";}else{}
+      if($busMate=='undefined' || empty($busMate) ){$busMate="%%";}else{}
        $products = Product::leftjoin('brands','products.brand_id','=','brands.id')
                             ->leftjoin('types','products.type_id','=','types.id')
                             ->leftjoin('variants','products.id','=','variants.product_id')

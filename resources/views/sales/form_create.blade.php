@@ -334,7 +334,9 @@
                       
                       <th>S/.Tarjeta</th>
                       <th>S/.Efectivo</th>
-                      
+
+                        <th>Estado</th>
+
                       <th>Ver Venta</th>
                     </tr>
                     
@@ -346,7 +348,10 @@
                       <td><a href="#tab_4" data-toggle="tab" aria-expanded="false" ng-click="traerDoumento(row)">@{{row.tipoDoc+"-"+row.NumDocument}}</a></td>
                       <td>@{{row.tarjeta}}</td>
                       <td>@{{row.efectivo}}</td>
-                      
+                        <td ng-if="row.estado==0" style="color: yellow;">Pend.</td>
+                        <td ng-if="row.estado==1" style="color: green;">Term.</td>
+                        <td ng-if="row.estado==3" style="color: red;">Anul.</td>
+
                       <td ng-if="row.cashMotive_id==1 || row.cashMotive_id==14"><a href="/sales/edit/@{{row.id}}" target="_blank">ver venta</a></td>
                       <td ng-if="row.cashMotive_id!=1 && row.cashMotive_id!=14">@{{row.id}}</td>
                     </tr>                   
@@ -406,6 +411,7 @@
                       <th>Marca</th>
                       <th>Codigo</th>
                       <th>sku</th>
+                        <th>Cantidad</th>
                       <th>Vestir/Sport</th>
                       <th>Estacion</th>
                       <th>Modelo</th>
@@ -422,6 +428,7 @@
                       <td>@{{row.marca}}</td>
                       <td>@{{row.codigo}}</td>
                       <td>@{{row.sku}}</td>
+                        <td>@{{row.cantidad | number:0}}</td>
                       <td>@{{row.linea}}</td>
                       <td>@{{row.estacion}}</td>
                       <td>@{{row.modelo}}</td>
@@ -429,8 +436,9 @@
                       <td>@{{row.Taco}}</td>
                       <td>@{{row.Talla}}</td>
                       <td>@{{row.Material}}</td> 
-                      <td>@{{row.price}}</td> 
-                      <td>S/. @{{row.subTotal}}</td> 
+                      <td>@{{row.SMPNombre}}</td>
+                      <td ng-if="row.estado==3" style="color: red;">S/. @{{row.subTotal}}</td>
+                        <td ng-if="row.estado!=3" style="color: green;">S/. @{{row.subTotal}}</td>
                     </tr>
                     
                     

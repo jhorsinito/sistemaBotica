@@ -22,7 +22,9 @@ class HeadInputStockRepo extends BaseRepo{
                                 INNER JOIN warehouses ON headInputStocks.warehouDestino_id = warehouses.id
                                 where warehouses.id=destWareh
                                 GROUP BY warehouses.id)as nomAlmacen2"))
-                            ->groupBy("headInputStocks.id")->paginate(15);
+                            ->groupBy("headInputStocks.id")
+                            ->orderBy('headInputStocks.id', 'DESC')
+                            ->paginate(15);
         return $headInputStock;
     }
      public function select2($fechaini,$fechafin){

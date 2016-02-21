@@ -20,8 +20,12 @@ class SaleRepo extends BaseRepo{
     public function paginate($count){
         $sale = Sale::leftjoin('salePayments','salePayments.sale_id','=','sales.id')
                         ->select('sales.*','salePayments.estado as estadoPago')
-                        ->with('customer','employee');
-        return $sale->paginate($count);
+                        ->orderBy('sales.id','DESC')
+                        //->groupBy('')
+                        ->with('customer','employee')
+                        //->get();
+                        ->paginate($count);
+        return $sale;
     }
     public function find($id)
     {
