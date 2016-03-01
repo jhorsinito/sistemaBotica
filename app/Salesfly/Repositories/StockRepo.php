@@ -25,4 +25,5 @@ class StockRepo extends BaseRepo{
         $stocks=Stock::where("variant_id","=",$vari)->where("warehouse_id","=",$almacen)->first();
         return $stocks;
     }
+    
 } 
