@@ -412,12 +412,22 @@
                 }*/
                 $scope.pageChanged1 = function() {
                     if ($scope.query.length > 0) {
-                        crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,$scope.currentPage1).then(function (data){
-                            $scope.detCashes = data.data;
-                        });
+                        //crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,$scope.currentPage1).then(function (data){
+                        //    $scope.detCashes = data.data;
+                        //});
                     }else{
-                        crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,$scope.currentPage1).then(function (data){
+                        //crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,$scope.currentPage1).then(function (data){
+                        //    $scope.detCashes = data.data;
+                        //});
+                        crudServiceOrders.paginate('ver_ventas',$scope.currentPage1).then(function (data){
+                            //$scope.detCashes = data.data;
+                            //crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,1).then(function (data){
+                            //$log.log($scope.detCashes);
                             $scope.detCashes = data.data;
+                            //$scope.maxSize1 = 5;
+                            //$scope.totalItems1 = data.total;
+                            //$scope.currentPage1 = data.current_page;
+                            //$scope.itemsperPage1 = 5;
                         });
                     }
                 };
@@ -1017,7 +1027,8 @@ $scope.validaDocumento=function(){
                                         $scope.pagoCredito.Acuenta=Number($scope.pagoCredito.Acuenta)+$scope.detPago.monto;
                                         $scope.pagoCredito.Saldo=Number($scope.pagoCredito.Saldo)-$scope.detPago.monto;
 
-                                        $scope.detPago.salePayment_id=$scope.payment[0].id;
+                                        //$scope.detPago.salePayment_id=$scope.payment[0].id;
+                                        $scope.detPago.salePayment_id=$scope.payment[0].idPAY; //pasar el id correcto de SALEPAYMENTS.id
                                         $scope.detPago.fecha=new Date($scope.detPago.fecha);
                                         $scope.detPago.tipoPago="C";
                                         $scope.pagoCredito.detPayments=$scope.detPago;

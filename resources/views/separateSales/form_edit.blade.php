@@ -30,6 +30,9 @@
                                     
  <div class="box">  
                        <div  class="input-group">
+
+
+
                                <label>Cliente:</label>
                                <spam>@{{order1.customer.nombres+' '+order1.customer.apellidos +' - Empresa: '+order1.customer.empresa}}</spam>
                          </div>
@@ -113,7 +116,7 @@
                       <td>@{{row.cantidad}}</td>
                       <td>@{{row.canEntregado}}</td>
                       <td>@{{row.canPendiente}}</td>
-                      <td ng-if="atenderOrder"><input style="width: 45px" ng-disabled="row.estad" ng-model="row.parteEntregado" string-to-number ng-change="ActualizarPartStock(row,$index)" type="number" min="0" placeholder="@{{row.canPendiente}}" ></td>          
+                      <td ng-if="atenderOrder"><input style="width: 45px" ng-disabled="row.estad" ng-model="row.parteEntregado" string-to-number ng-change="ActualizarPartStock(row,$index)" type="number" min="0" placeholder="@{{row.canPendiente}}" ></td>
                       <td ng-if="atenderOrder"><input type="checkbox" ng-disabled="row.estad1" ng-click="cancelOrderProduc(row,$index)" name="estado" ng-model="row.estad" ng-checked="row.estad" class="ng-valid ng-dirty ng-valid-parse ng-touched"></td>
                       
                       <!--<td><a ng-click="sacarRow(row.index,row.montoTotal)" class="btn btn-warning btn-xs">Sacar</a></td>

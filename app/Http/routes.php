@@ -585,6 +585,7 @@ Route::post('api/cashes/searchOpenCashxCashHeader','CashesController@searchOpenC
 
 //-----------------------------DetCashes---------------------------
 Route::get('api/ver_ventas/paginate/',['as'=>'person_search', 'uses'=>'DetCashController@ver_ventas']);
+Route::get('api/ver_ventasSeparate/paginate/',['as'=>'person_search', 'uses'=>'DetCashController@ver_ventasSeparate']);
 Route::get('detCashes',['as'=>'person','uses'=>'DetCashController@index']);
 //Route::get('detCashes',['as'=>'person','uses'=>'DetCashController@index']);
 Route::get('detCashes/create/{id?}',['as'=>'person_create','uses'=>'DetCashController@index']);
