@@ -14,6 +14,12 @@
                 $scope.stockVariants = [];
 
                 $scope.stockTemplate = 'stockTemplate.html';
+                $scope.dsctoTemplate = 'dsctoTemplate.html';
+
+                $scope.areaDscto = {};
+
+                $scope.areaDscto.DsctoVal = 0;
+                $scope.areaDscto.DsctoProId = 0;
 
                 $scope.products = [];
                 $scope.product = {};
@@ -47,6 +53,13 @@
 
                 $scope.minNumber = 0;
 
+                //dsctos
+                $scope.presentation.dscto = 0;
+                $scope.presentation.dsctoCant = 0;
+                $scope.presentation.pvp = 0;
+                //fin
+
+
                 $scope.warehouses = [];
 
 
@@ -78,20 +91,46 @@
                     if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
                         $scope.presentation.price = $scope.presentation.suppPri + $scope.presentation.markup * $scope.presentation.suppPri / 100;
                         //alert('pasa');
+                        $scope.calculateDscto();
                     }
                 };
                 $scope.calculateMarkup = function() {
                     //alert('holi');
                     if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
                         $scope.presentation.price = $scope.presentation.suppPri + $scope.presentation.markup * $scope.presentation.suppPri / 100;
+                        $scope.calculateDscto();
                     }
                 };
                 $scope.calculatePrice = function() {
                     //alert('holi');
                     if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
                         $scope.presentation.markup = ($scope.presentation.price - $scope.presentation.suppPri) * 100 / $scope.presentation.suppPri;
+                        $scope.calculateDscto();
                     }
                 };
+
+                $scope.calculateDscto = function() {
+                    //alert('holi');
+                    //if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
+                    $scope.presentation.pvp = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.dscto) * parseFloat($scope.presentation.price) / 100;
+                    $scope.presentation.pvp = parseFloat($scope.presentation.pvp).toFixed(2);
+
+                    $scope.presentation.dsctoCant = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvp);
+                    $scope.presentation.dsctoCant = parseFloat($scope.presentation.dsctoCant).toFixed(2);
+                    //}
+                };
+                $scope.calculateDsctoCant = function() {
+                    //alert('holi');
+                    //if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
+                    $scope.presentation.pvp = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.dsctoCant);
+                    $scope.presentation.pvp = parseFloat($scope.presentation.pvp).toFixed(2);
+
+                    $scope.presentation.dscto = (parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvp)) * 100 / parseFloat($scope.presentation.price);
+                    $scope.presentation.dscto = parseFloat($scope.presentation.dscto).toFixed(2);
+                    //}
+                };
+
+
                 $scope.toggle = function () {
                     $scope.show = !$scope.show;
                 };
@@ -923,6 +962,10 @@
                     $scope.presentation.suppPri=Number(row.suppPri);
                     $scope.presentation.markup=Number(row.markup);
                     $scope.presentation.price=Number(row.price);
+                    $scope.presentation.dscto=Number(row.dscto);
+                    $scope.presentation.dsctoCant=Number(row.dsctoCant);
+                    $scope.presentation.pvp=Number(row.pvp);
+
                     $scope.traerPres(preBase);
                 }
                 $scope.traerPres = function(preBase){
@@ -1011,6 +1054,9 @@
                             $scope.presentationSelect.suppPri = $scope.presentation.suppPri;
                             $scope.presentationSelect.markup = $scope.presentation.markup;
                             $scope.presentationSelect.price = $scope.presentation.price;
+                            $scope.presentationSelect.dscto = $scope.presentation.dscto;
+                            $scope.presentationSelect.dsctoCant = $scope.presentation.dsctoCant;
+                            $scope.presentationSelect.pvp = $scope.presentation.pvp;
                             $scope.variant.presentations.splice(0,1,$scope.presentationSelect);
                             $log.log($scope.variant.presentations);
                             $scope.presentation = {};
@@ -1100,6 +1146,22 @@
                     crudService.byforeingKey('stocks','traerstock',product_id).then(function (data){
                         $scope.stockVariants = data;
                     })
+                };
+
+                $scope.showDscto = function(proId,Dscto){
+                    $scope.areaDscto.DsctoVal = Number(Dscto);
+                    $scope.areaDscto.DsctoProId = proId;
+                };
+
+                $scope.ActualizarDsctoGeneral = function(){
+                    crudService.selectPost($scope.areaDscto,'products','actualizarDsctoGeneral').then(function (data){
+                      if(data['estado']==true){
+                          alert('Se actualizó el Descto con éxito');
+                      }else{
+                          alert('No se pudo realizar la operación');
+                      }
+                    })
+                    //$log.log($scope.areaDscto);
                 }
 
                 /*

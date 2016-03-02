@@ -35,6 +35,9 @@ class Variant extends \Eloquent {
      public function detPre(){
         return $this->hasMany('\Salesfly\Salesfly\Entities\DetPres');
     }
+    public function detPreONE(){
+        return $this->hasOne('\Salesfly\Salesfly\Entities\DetPres');
+    }
     public function stock(){
         return $this->hasMany('\Salesfly\Salesfly\Entities\Stock');
     }

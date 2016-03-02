@@ -123,6 +123,10 @@ Route::get('api/products/select','ProductsController@selectProducts');
 Route::get('api/products/validar/{text}','ProductsController@validarNombre');
 Route::get('api/consultaProductos/selectall/{codigo?}/{marca?}/{linea?}/{busColor?}/{busTaco?}/{busTalla?}/{busMate?}','ProductsController@consultaProductos');
 
+Route::post('api/products/actualizarDsctoGeneral','ProductsController@actualizarDsctoGeneral');
+
+
+
 //---------------------
 Route::get('api/productsSearchsku/misDatos/{store?}/{were?}/{q?}',['as'=>'person_find', 'uses'=>'ProductsController@searchsku']);
 Route::get('api/products/misDatos/{store?}/{were?}/{q?}',['as'=>'person_find', 'uses'=>'ProductsController@misDatos']);
