@@ -23,6 +23,7 @@
                 $scope.cashHeader={};
                 $scope.atributes=[];
                 $scope.atribute={};
+                $scope.almacenes={};
                 $scope.date=new Date();
                 //$scope.idProvicional;
                 $scope.totAnterior;
@@ -267,6 +268,10 @@
                 crudOPurchase.paginatVariants("variants").then(function (data){
                    $scope.variants1=data;
                  });
+                crudOPurchase.todos("warehouses").then(function (data){
+                   $scope.almacenes=data;
+                   $scope.purchase.almacen='1';
+                 });
                 crudOPurchase.todos("stores").then(function (data){
                    $scope.stores=data.data;
                    $scope.purchase.tienda='1';
@@ -281,7 +286,27 @@
                     alert("Complete Todos los Campos");
                    }
                }
-
+                $scope.comproStock={};
+                $scope.Inventario=function(){
+                  crudOPurchase.StockActual("stocks",$scope.producto.proId.varid,$scope.purchase.almacen).then(function (data){
+                   $scope.comproStock.stockActual=data.stockActual;
+                   $scope.comproStock.stockActualID=data.id;
+                 });
+                }
+                $scope.ActualizarStock=function(){
+                  if ($scope.comproStock.stockReal>=0) {
+                        crudOPurchase.update($scope.comproStock,'stocks1').then(function(data)
+                        {
+                            if(data['estado'] == true){
+                                $scope.success = data['nombres'];
+                                alert('editado correctamente');
+                                $route.reload();
+                            }else{
+                                $scope.errors =data;
+                            }
+                        });
+                    }
+                }
                 $scope.ListarinputStocks=function(row){
                 
                 crudOPurchase.byId(row.id,'inputStocks').then(function (data){

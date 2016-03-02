@@ -1287,6 +1287,7 @@ $scope.validaDocumento=function(){
                     $scope.materialid=0;$scope.lineaid=0;
                    // $scope.materialid.nombre="hola";
                    $scope.cargarConsulta1=function(dato){
+                     alert(dato);
                       $scope.materialid=dato;
                       
                       $scope.cargarConsulta();
@@ -1298,9 +1299,13 @@ $scope.validaDocumento=function(){
                    }
                    $scope.variants1=[];
                    $scope.materialid=0;$scope.lineaid=0;
+                  
                 $scope.cargarConsulta=function(){
-                   
-                   
+                    if($scope.busColor==''){$scope.busColor=undefined;}
+                    if($scope.busTaco==''){$scope.busTaco=undefined;}
+                    if($scope.busTalla==''){$scope.busTalla=undefined;}
+                    if($scope.busMaterial==''){$scope.busMaterial=undefined;}
+                    if($scope.busCodigo==''){$scope.busCodigo=undefined;}
                     crudServiceOrders.selectall("consultaProductos",$scope.busCodigo,$scope.materialid,$scope.lineaid,$scope.busColor,$scope.busTaco,$scope.busTalla,$scope.busMaterial,1).then(function(data){
                         $scope.variants1=data.data;
                         $scope.maxSizeZ= 5;

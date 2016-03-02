@@ -479,6 +479,7 @@ Route::put('api/detailOrderPurchases/edit/','DetailOrderPurchasesController@edit
 Route::get('api/detailPurchases/paginatep/{id?}','DetailPurchasesController@paginatep');
 Route::get('api/stocks/find/{id}/{id1}','StocksController@find');
 Route::put('api/stocks/edit/','StocksController@edit');
+Route::put('api/stocks1/edit/','StocksController@edit1');
 Route::get('api/stocks/traerstock/{product_id}','StocksController@traerStock');
 Route::get('api/stocks/verStockActual/{var}/{almacen}','StocksController@verStockActual');
 

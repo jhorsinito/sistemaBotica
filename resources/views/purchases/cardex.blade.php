@@ -138,10 +138,65 @@
                       </div> 
           </div>
       </div>
-      <button  ng-click="GenerateRportCardex()" class="btn btn-danger">@{{textgeneratecardex}}</button>
-      <a ng-href="@{{reportCardex}}" target="_blank" class="btn btn-primary">Ver Reporte</a>
+      <div class="row">
+          <div class="col-md-1"></div>
+              <div  class="col-md-6">
+                 <button  ng-click="GenerateRportCardex()" class="btn btn-danger">@{{textgeneratecardex}}</button>
+                 <a ng-href="@{{reportCardex}}" target="_blank" class="btn btn-primary">Ver Reporte</a>
+              </div>
+
+       </div> 
+       <hr>
+       <div class="row">
+            <div class="col-md-1"></div>
+              <div  class="col-md-6">
+               <h2>Cuadre de Inventario</h2>
+              </div>
+
+       </div>          
+        <div class="row">
+        <div class="col-md-1"></div>
+              <div  class="col-md-6">
+                     <div class="input-group" style="width: 100%;">
+                  <label>Producto</label>
+              
+                  <input  typeahead-on-select="Inventario()" type="text" ng-model="producto.proId" placeholder="Locations loaded via $http" 
+                  typeahead="variant as variant.proNombre+'('+(variant.BraName==null ? '': variant.BraName+'/')+(variant.TName==null ? '' : variant.TName+'/')+(variant.Mnombre==null ? '':variant.Mnombre+'/')+(variant.NombreAtributos==null ? '':variant.NombreAtributos)+')' for variant in variants1 | filter:$viewValue | limitTo:8" 
+                  typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
+                  tooltip="Ingrese caracteres para busacar producto por codigo unico"
+                  >
+                 <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                 <div ng-show="noResults">
+                    <i class="glyphicon glyphicon-remove"></i> No Results Found
+                 </div>
+            
+                  </div> 
+              </div>
+              <div class="col-md-3">
+             <div class="form-group" >
+                <label for="Variante">Almacen: </label>
+                <select   ng-change="" class="form-control"   ng-model="purchase.almacen" ng-options="item.id as item.nombre for item in almacenes">
                   
-                    
+                </select>
+                <!--@{{variants.varid}}-->
+                </div>
+          </div>
+        </div> 
+        <div class="row"> 
+            <div class="col-md-1"></div>
+           <div class="col-md-2">
+               <label>Stock Actual:</label>
+               <input ng-disabled="true" type="text" class="form-control" ng-model="comproStock.stockActual">
+           </div>
+           <div class="col-md-2">
+               <label>Stock Real:</label>
+               <input type="number" class="form-control" ng-model="comproStock.stockReal">
+           </div>
+           <div class="col-md-2">
+               <label></label><br>
+               <input type="submit" class="btn btn-info" ng-click="ActualizarStock()" value="Actualizar Stock">
+           </div>
+        </div>           
      <div class="box-footer">
                     <a href="/purchases" class="btn btn-danger">Salir</a>
                   </div>

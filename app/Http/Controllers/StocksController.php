@@ -43,7 +43,26 @@ class StocksController extends Controller {
 
         return response()->json(['estado'=>true, 'nombre'=>$stocks->nombre]);
     }
+      public function edit1(Request $request)
+    {
+       //var_dump($request->all());die();
+        $stock = $this->stockRepo->find($request->stockActualID);
+        $request->merge(["stockActual"=>$request->input("stockReal")]);
+        $request->merge(["stockMin"=>$stock->stockMin]);
+        $request->merge(["stockMinSoles"=>$stock->stockMinSoles]);
+        $request->merge(["stockPedidos"=>$stock->stockPedidos]);
+        $request->merge(["stockSeparados"=>$stock->stockSeparados]);
+        $request->merge(["porLlegar"=>$stock->porLlegar]);
+        $request->merge(["variant_id"=>$stock->variant_id]);
+        $request->merge(["warehouse_id"=>$stock->warehouse_id]);
+        //var_dump($brand);
+        //die(); 
+        $manager = new StockManager($stock,$request->all());
+        $manager->save();
 
+        //Event::fire('update.brand',$brand->all());
+        return response()->json(['estado'=>true]);
+    }
     public function find($id)
     {
         $stock = $this->stockRepo->find($id);
