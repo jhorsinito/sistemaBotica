@@ -539,7 +539,7 @@ foreach ($tallasDisponibles as $tallasD) {
         $database = \Config::get('database.connections.mysql');
         $time=time();
         $output = public_path() . '/report/'.$time.'_TiketVariante';        
-        $ext = "pdf";
+        $ext = "xls";
         
         \JasperPHP::process(
             public_path() . '/report/TiketVariante.jasper', 
@@ -547,7 +547,7 @@ foreach ($tallasDisponibles as $tallasD) {
             array($ext),
             //array(),
             //while($i<=3){};
-            ['idVariante'=>intval($id),'cant'=>intval($cant)],//Parametros
+            ['idVariante'=>intval($id)],//Parametros
            
 
             $database,

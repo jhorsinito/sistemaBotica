@@ -455,13 +455,13 @@ class ProductsController extends Controller
         //sleep(5);
         return response()->json($product);
     }
-<<<<<<< HEAD
+
    
    public function validarNombre($text){
         $product = $this->productRepo->validarNoRepitname($text);
         return response()->json($product);
     }
-=======
+
      public function searchProductAddVariant($q)
     {
         //$q = Input::get('q');
@@ -470,5 +470,4 @@ class ProductsController extends Controller
         return response()->json($products);
     }
 
->>>>>>> ea45188865f0296d4a097dde4d74ba081e6edca3
 }
