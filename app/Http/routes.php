@@ -714,7 +714,7 @@ Route::post('api/reportMovimientosVarianteRangoF/create/{fechaini}/{fechafin}/{t
 
 
 Route::post('api/Factura','SalesController@reporteFactura');
-Route::post('api/TiketReport2/create/{id}/{cant}','VariantsController@reportes2');
+Route::post('api/TiketReport2/create/{id}','VariantsController@reportes2');
 
 
 Route::get('api/listarVentasDia/search',['as'=>'person_search', 'uses'=>'DetSalesController@listarVentasDia']);

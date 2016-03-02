@@ -94,7 +94,7 @@
 				<imageExpression><![CDATA["/usr/share/nginx/html/salesfly/public/"+$F{image}]]></imageExpression>
 			</image>
 			<componentElement>
-				<reportElement x="339" y="43" width="85" height="49" uuid="31a666db-2391-4155-bff8-6649f94049e1"/>
+				<reportElement x="339" y="43" width="85" height="32" uuid="31a666db-2391-4155-bff8-6649f94049e1"/>
 				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
 					<jr:codeExpression><![CDATA[$F{sku}]]></jr:codeExpression>
 				</jr:Code128>
@@ -112,6 +112,10 @@
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Talla}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="335" y="75" width="100" height="20" uuid="44b75522-83d2-4a51-901a-d337c1a9eb2b"/>
+				<textFieldExpression><![CDATA[$F{sku}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

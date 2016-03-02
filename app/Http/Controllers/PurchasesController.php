@@ -469,7 +469,7 @@ class PurchasesController extends Controller {
         $database = \Config::get('database.connections.mysql');
         $time=time();
         $output = public_path() . '/report/'.$time.'_Tiket';        
-        $ext = "pdf";
+        $ext = "xls";
         
         \JasperPHP::process(
             public_path() . '/report/Tiket.jasper', 

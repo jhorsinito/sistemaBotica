@@ -664,11 +664,14 @@
                 $scope.cancelProduct = function(){
                     $scope.product = {};
                 }
+                $scope.tiketName="Generar Tikets";
                 $scope.generarTikets=function(){
-                    if($scope.CantidadRep > 0 && $scope.ProductoID!=undefined){
-                    crudService.Reportes('TiketReport2',$scope.ProductoID,$scope.CantidadRep).then(function(data)
+                    if($scope.ProductoID!=undefined){
+                        $scope.tiketName="Generando...";
+                    crudService.Reportes10('TiketReport2',$scope.ProductoID).then(function(data)
                     {
                         if(data != undefined){
+                            $scope.tiketName="Generar Tikets";
                            alert(data);
                            $window.open(data);
                         }else{

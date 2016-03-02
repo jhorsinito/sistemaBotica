@@ -534,7 +534,7 @@ foreach ($tallasDisponibles as $tallasD) {
         $len = strpos($string,$end,$ini) - $ini;
         return substr($string,$ini,$len);
     }
-    public function reportes2($id,$cant){
+    public function reportes2($id){
         
         $database = \Config::get('database.connections.mysql');
         $time=time();

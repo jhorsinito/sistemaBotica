@@ -125,6 +125,14 @@
                 });
                 return deferred.promise;
             }
+            function Reportes10(uri,id)
+            {
+                var deferred = $q.defer();
+                $http.post('/api/'+uri+'/create/'+id).success(function (data) {
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
 
             function reportPro(uri,id){
                 var deferred = $q.defer();
@@ -205,6 +213,7 @@
                 select:select,
                 byforeingKey: byforeingKey,
                 searchMes,searchMes,
+                Reportes10: Reportes10,
                 reportPro,reportPro,
                 reportProWare,reportProWare,
                 deudasSupplier: deudasSupplier,
