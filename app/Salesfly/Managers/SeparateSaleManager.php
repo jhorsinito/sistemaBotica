@@ -5,7 +5,7 @@ class SeparateSaleManager extends BaseManager {
     public function getRules()
     {
         $rules = [              
-            'fechaPedido'=> 'required',
+            'fechaPedido'=> '',
             'fechaEntrega'=> '',
             'montoTotal'=> '',
             'montoBruto'=> '',

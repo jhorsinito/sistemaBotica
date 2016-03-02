@@ -32,9 +32,15 @@ class DetSeparateSalesController extends Controller {
 
     public function edit(Request $request)
     {
+        //var_dump($request->all()); die();
+        $pendiente = $request->canPendiente;
         $detorderSale = $this->detSeparateSaleRepo->find($request->id);
+        $request->merge(['canPendiente' => 0]);
         $manager = new DetSeparateSaleManager($detorderSale,$request->all());
         $manager->save();
+
+        //$detorderSale->canPendiente = 0;
+        //$detorderSale->save();
 
         $stokRepo;
         $stokRepo = new StockRepo;
@@ -43,9 +49,9 @@ class DetSeparateSalesController extends Controller {
 
         $stock = $stokRepo->find($request->idStock);
         if ($request->estad==true) {
-            $stock->stockSeparados= $stock->stockSeparados-$request->canPendiente;
+            $stock->stockSeparados= $stock->stockSeparados-$pendiente;
         }else{
-            $stock->stockSeparados= $stock->stockSeparados+$request->canPendiente;
+            $stock->stockSeparados= $stock->stockSeparados+$pendiente;
         }
         
 

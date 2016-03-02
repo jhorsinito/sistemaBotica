@@ -123,6 +123,10 @@ Route::get('api/products/select','ProductsController@selectProducts');
 Route::get('api/products/validar/{text}','ProductsController@validarNombre');
 Route::get('api/consultaProductos/selectall/{codigo?}/{marca?}/{linea?}/{busColor?}/{busTaco?}/{busTalla?}/{busMate?}','ProductsController@consultaProductos');
 
+Route::post('api/products/actualizarDsctoGeneral','ProductsController@actualizarDsctoGeneral');
+
+
+
 //---------------------
 Route::get('api/productsSearchsku/misDatos/{store?}/{were?}/{q?}',['as'=>'person_find', 'uses'=>'ProductsController@searchsku']);
 Route::get('api/products/misDatos/{store?}/{were?}/{q?}',['as'=>'person_find', 'uses'=>'ProductsController@misDatos']);
@@ -586,6 +590,7 @@ Route::post('api/cashes/searchOpenCashxCashHeader','CashesController@searchOpenC
 
 //-----------------------------DetCashes---------------------------
 Route::get('api/ver_ventas/paginate/',['as'=>'person_search', 'uses'=>'DetCashController@ver_ventas']);
+Route::get('api/ver_ventasSeparate/paginate/',['as'=>'person_search', 'uses'=>'DetCashController@ver_ventasSeparate']);
 Route::get('detCashes',['as'=>'person','uses'=>'DetCashController@index']);
 //Route::get('detCashes',['as'=>'person','uses'=>'DetCashController@index']);
 Route::get('detCashes/create/{id?}',['as'=>'person_create','uses'=>'DetCashController@index']);

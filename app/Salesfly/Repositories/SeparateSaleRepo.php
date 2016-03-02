@@ -19,7 +19,8 @@ class SeparateSaleRepo extends BaseRepo{
     public function paginate($count){
         $separate = SeparateSale::leftjoin('salePayments','salePayments.separateSale_id','=','separateSales.id')
                         ->select('separateSales.*','salePayments.estado as estadoPago')
-                        ->with('customer','employee');
+                        ->with('customer','employee')
+                        ->orderBy('separateSales.id','DESC');
         return $separate->paginate($count);
     }
     public function find($id)

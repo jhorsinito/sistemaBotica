@@ -4,6 +4,7 @@ namespace Salesfly\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Mockery\Matcher\Type;
 use Salesfly\Http\Requests;
@@ -485,4 +486,35 @@ class ProductsController extends Controller
         $product = $this->productRepo->validarNoRepitname($text);
         return response()->json($product);
     }
+
+    public function actualizarDsctoGeneral(Request $request){
+        //var_dump($request->all()); die();
+        \DB::beginTransaction();
+        $product = $this->productRepo->find($request->input('DsctoProId'));
+        $variants = $product->variants;
+
+        $detPre = null;
+        $dsctCant = null;
+        foreach ($variants as $variant) {
+            //var_dump($variant->detPreONE->id);
+            $detPre = $variant->detPreONE;
+            //var_dump($detPre->id);
+            $detPre->dscto = $request->input('DsctoVal');
+            $dsctCant = $detPre->price*$request->input('DsctoVal')/100; //pq aun no se guarda el dato;
+            $detPre->dsctoCant = $dsctCant;
+            $detPre->pvp = $detPre->price -$dsctCant;
+            $detPre->save();
+        }
+
+        $product->dscto = $request->input('DsctoVal');
+        $product->save();
+
+        //die();
+
+        //var_dump(count($variants)); die();
+
+        \DB::commit();
+        return response()->json(['estado' => true]);
+    }
+
 }

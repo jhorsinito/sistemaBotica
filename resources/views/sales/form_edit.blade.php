@@ -70,7 +70,7 @@
                           <div class="col-md-3">
                             <div class="form-group" >
                                 <input ng-disabled="order1.estado==3" type="checkbox" ng-disabled="order1.estado==3" name="estado" ng-model="cancelPedido" ng-checked="cancelPedido" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="canPedido()">
-                                <label for="estado">Anular Pedido</label> 
+                                <label for="estado">Anular Venta Directa</label>
                             </div>
                           </div>
                         </div>

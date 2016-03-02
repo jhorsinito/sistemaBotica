@@ -61,6 +61,7 @@
                     <tr>
                       <th style="width: 10px">#</th>
                       <th>Código</th>
+                        <th>Descuento</th>
                       <th>Marca</th>
                       <th>Línea</th>
                         <th>Variantes</th>
@@ -74,8 +75,10 @@
                       <td>{{$index + 1}}</td>
 
                       <td><a ng-href="/products/show/{{row.proId}}">{{row.proCodigo }}</a></td>
-                      
-                      <td>{{row.braNombre}}</td>
+                        <td> <button popover-placement="bottom" popover-template="dsctoTemplate" type="button" class="btn btn-default btn-xs" ng-click="showDscto(row.proId,row.Dscto)">{{row.Dscto}}</button>
+
+
+                        <td>{{row.braNombre}}</td>
                       <td>{{row.typNombre}}</td>
                         <td>
                             <span ng-if="row.proHasVar == '1'">
@@ -204,6 +207,35 @@
         </div><!-- /.box-body -->
     </div>
 </script>
+
+
+<script type="text/ng-template" id="dsctoTemplate.html">
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Aplicar Dscto a todas las variantes</h3>
+
+        </div><!-- /.box-header -->
+
+            <div class="row">
+
+                <div class="col-md-8">
+                    <input type="text" class="form-control hidden" name="presentation.nombre" ng-model="presentation.nombre">
+                    <div class="form-group" >
+                        <label>Porcentaje de Dscto</label>
+                        <input type="number" class="form-control" name="DsctoVal" placeholder="0.00" ng-model="areaDscto.DsctoVal" step="1">
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                <input type="button" ng-click="ActualizarDsctoGeneral()" value="Enviar" >
+                    </div>
+            </div>
+
+    </div>
+</script>
+
 
 <style>
 .popover {

@@ -11,7 +11,7 @@ class DetPres extends \Eloquent {
 
     protected $table = 'detPres';
 
-    protected $fillable = ['variant_id','presentation_id','suppPri','markup','price'];
+    protected $fillable = ['variant_id','presentation_id','suppPri','markup','price','dscto','dsctoCant','pvp'];
 
     public function variant()
       {

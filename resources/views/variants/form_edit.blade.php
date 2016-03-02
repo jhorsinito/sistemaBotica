@@ -148,6 +148,9 @@
                                                 <th>Precio de Proveedor</th>
                                                 <th>% de Utilidad</th>
                                                 <th>Precio de Venta</th>
+                                                <th>% Descuento</th>
+                                                <th>Cant de Descuento</th>
+                                                <th>PVP</th>
                                                 <th>Opciones</th>
                                             </tr>
                                             <tr ng-repeat="row in variant.presentations">
@@ -157,6 +160,9 @@
                                                 <td>@{{row.markup}}</td>
 
                                                 <td>@{{row.price}}</td>
+                                                <td>@{{ row.dscto }}</td>
+                                                <td>@{{ row.dsctoCant }}</td>
+                                                <td>@{{ row.pvp }}</td>
                                                 <td>
                                                     <a href="" class="btn btn-danger btn-xs" ng-click="deletePres($index)"><i class="fa fa-fw fa-trash"></i></a>
                                                     <a href="" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#presentation" ng-click="editPresentation(row,variant.presentation_base)"><i class="fa fa-pencil fa-fw"></i></a>
@@ -313,6 +319,22 @@
                             <label for="suppPric">Precio de Venta</label>
                             <input type="number" class="form-control" name="price1" placeholder="0.00" ng-model="presentation.price" ng-blur="calculatePrice()" step="0.1">
                         </div>
+                    </div>
+                </div>
+                <h3>Descuentos</h3>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group" >
+                            <label for="suppPric">% Descuento</label>
+                            <input type="number" class="form-control" name="" string-to-number placeholder="0.00" ng-model="presentation.dscto" ng-change="calculateDscto()" step="0.1">
+                            <label for="suppPric">Cant Descuento</label>
+                            <input type="number" class="form-control" name="" string-to-number placeholder="0.00" ng-model="presentation.dsctoCant" ng-change="calculateDsctoCant()" step="0.1">
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="suppPric">% PVP</label>
+                        <input type="number" class="form-control" string-to-number  ng-model="presentation.pvp" step="0.1" ng-change="calculatePVP()">
                     </div>
                 </div>
 

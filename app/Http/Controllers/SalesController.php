@@ -166,6 +166,9 @@ class SalesController extends Controller
             $manager1->save();
             $request->merge(['detCash_id'=> $detCash_id]);
             $request->merge(['fechaPedido' => date('Y-m-d H:i:s')]);
+
+            if($payment['Saldo'] > 0) $request->merge(['estado' => 0]);
+
            $manager = new SaleManager($orderSale,$request->all());
         $manager->save();
         //----------------
@@ -330,14 +333,23 @@ class SalesController extends Controller
 
     public function createSeparateSale(Request $request) 
         {
-          
+          //var_dump($request->all()); die();
+            \DB::beginTransaction();
           //---------------------- 
           $orderRepo;
             $orderRepo = new SeparateSaleRepo;
             $cajaSave=$orderRepo->getModel();
             $cash1 = $orderRepo->find($request->id);
 
-            $manager1 = new SeparateSaleManager($cash1,$request->all());
+            /*
+            ADD ESTADOS A SALES
+            */
+            $request->merge(array('estado' => 2));
+            /*
+             *
+             */
+
+            $manager1 = new SeparateSaleManager($cash1,$request->except('fechaPedido'));
             $manager1->save();
         //---------------------
         $var = $request->detOrders;
@@ -356,86 +368,90 @@ class SalesController extends Controller
         $montoventa=0;
          $HeadStockRepo;
          $codigoHeadIS=0;
-       foreach($var as $object){
-          //------Actualizar pedido------
-          //$cajaAct = $request->caja;
-          //var_dump($object);die();
-            $saleDet;
-            $saleDet = new DetSeparateSaleRepo;
-            //$object=$saleDet->getModel();
-            
-            $saled = $saleDet->find($object['id'] );
-            //var_dump($saled);die();
+       foreach($var as $object) {
+           if ($object['estad'] == false){
+               //------Actualizar pedido------
+               //$cajaAct = $request->caja;
+               //var_dump($object);die();
+               $saleDet;
+           $saleDet = new DetSeparateSaleRepo;
+           //$object=$saleDet->getModel();
 
-            $manager2 = new DetSeparateSaleManager($saled,$object);
-            $manager2->save();
-          //-----------------------------
+           $saled = $saleDet->find($object['id']);
+           //var_dump($saled);die();
+
+           $manager2 = new DetSeparateSaleManager($saled, $object);
+           $manager2->save();
+           //-----------------------------
            $object['sale_id'] = $temporal;
            $object['cantidad'] = $object['parteEntregado'];
-           $object['subTotal'] = $object['precioVenta']*$object['parteEntregado'];
-           $montoventa=$montoventa+$object['subTotal'];
+           $object['subTotal'] = $object['precioVenta'] * $object['parteEntregado'];
+           $montoventa = $montoventa + $object['subTotal'];
            $detOrderrepox = new DetSaleRepo;
 
-           $insertar=new DetSaleManager($detOrderrepox->getModel(),$object);
-           if($object['parteEntregado']>0){$insertar->save();}
-           
-          
+           $insertar = new DetSaleManager($detOrderrepox->getModel(), $object);
+           if ($object['parteEntregado'] > 0) {
+               $insertar->save();
+           }
+
+
            $detOrderrepox = null;
 
            //-------------------------------------
-           
+
            $stockmodel = new StockRepo;
-                  $object['warehouse_id']=$object['idAlmacen'];
-                  $object["variant_id"]=$object['vari'];
-                  $stockac=$stockmodel->encontrar($object["variant_id"],$object['warehouse_id']);
-                  //var_dump($stockac);die();
+           $object['warehouse_id'] = $object['idAlmacen'];
+           $object["variant_id"] = $object['vari'];
+           $stockac = $stockmodel->encontrar($object["variant_id"], $object['warehouse_id']);
+           //var_dump($stockac);die();
 
-                  //--------------reporte stock------------
-          if($codigoHeadIS===0){
-            $object["warehouses_id"]=$object['idAlmacen'];
-            //$object["cantidad_llegado"]=$cantidaCalculada;
-            //$object['descripcion']='Entrada por compra';
-            $object['tipo']='Venta';
-            $object["user_id"]=auth()->user()->id;
-            $object["Fecha"]=$request->input("fechaPedido");
+           //--------------reporte stock------------
+           if ($codigoHeadIS === 0) {
+               $object["warehouses_id"] = $object['idAlmacen'];
+               //$object["cantidad_llegado"]=$cantidaCalculada;
+               //$object['descripcion']='Entrada por compra';
+               $object['tipo'] = 'Venta';
+               $object["user_id"] = auth()->user()->id;
+               $object["Fecha"] = $request->input("fechaPedido");
 
-            $HeadStockRepo = new HeadInputStockRepo;
-            $HeadStock=$HeadStockRepo->getModel();
-            $HeadStockinsert=new HeadInputStockManager($HeadStock,$object);
-            $HeadStockinsert->save();
-            $codigoHeadIS=$HeadStock->id;
-          }
+               $HeadStockRepo = new HeadInputStockRepo;
+               $HeadStock = $HeadStockRepo->getModel();
+               $HeadStockinsert = new HeadInputStockManager($HeadStock, $object);
+               $HeadStockinsert->save();
+               $codigoHeadIS = $HeadStock->id;
+           }
 
-          $object['headInputStock_id']=$codigoHeadIS;
-          $object["producto"]=$object['nameProducto']."(".$object['NombreAtributos'].")";
-          $object["cantidad_llegado"]=$object['cantidad'];
-          $object['descripcion']='Salida por Venta';
-          
-          $inputRepo;
-          $inputRepo = new InputStockRepo;
-            $inputstock=$inputRepo->getModel();
-            $inputInsert=new InputStockManager($inputstock,$object);
-            $inputInsert->save();
-          //---------------------------------------
+           $object['headInputStock_id'] = $codigoHeadIS;
+           $object["producto"] = $object['nameProducto'] . "(" . $object['NombreAtributos'] . ")";
+           $object["cantidad_llegado"] = $object['cantidad'];
+           $object['descripcion'] = 'Salida por Venta';
 
-            if(!empty($stockac)){
-             
-                if($object["equivalencia"]==null){
-                  $object["stockSeparados"]=$stockac->stockSeparados-($object["cantidad"]);
-                  $object["stockActual"]=$stockac->stockActual-($object["cantidad"]);//
-                  
-                }else{
-                  $object["stockActual"]=$stockac->stockActual-($object["cantidad"]*$object["equivalencia"]);
-                  $object["stockSeparados"]=$stockac->stockSeparados-($object["cantidad"]*$object["equivalencia"]);
-                }
-                  $manager = new StockManager($stockac,$object);
-                  $manager->save();
-                  //$stock=null;
-            }else{
-                
-            }
-            $stockac=null;
-            //-----------------------------------------------------
+           $inputRepo;
+           $inputRepo = new InputStockRepo;
+           $inputstock = $inputRepo->getModel();
+           $inputInsert = new InputStockManager($inputstock, $object);
+           $inputInsert->save();
+           //---------------------------------------
+
+           if (!empty($stockac)) {
+
+               if ($object["equivalencia"] == null) {
+                   $object["stockSeparados"] = $stockac->stockSeparados - ($object["cantidad"]);
+                   $object["stockActual"] = $stockac->stockActual - ($object["cantidad"]);//
+
+               } else {
+                   $object["stockActual"] = $stockac->stockActual - ($object["cantidad"] * $object["equivalencia"]);
+                   $object["stockSeparados"] = $stockac->stockSeparados - ($object["cantidad"] * $object["equivalencia"]);
+               }
+               $manager = new StockManager($stockac, $object);
+               $manager->save();
+               //$stock=null;
+           } else {
+
+           }
+           $stockac = null;
+           //-----------------------------------------------------
+       }
        }
             $subTotal=$montoventa/1.18;
             $montoIgv=$montoventa-$subTotal;
@@ -444,9 +460,22 @@ class SalesController extends Controller
             $request->merge(array('igv' => $montoIgv));
             $request->merge(array('montoBruto' => $subTotal));
 
+            /*
+             ADD ESTADOS A SALES
+             */
+                $request->merge(array('estado' => 1));
+            //fecha
+                $request->merge(array('fechaPedido' => date('Y-m-d H:i:s')));
+            /*
+             *
+             */
+
             $sales=$this->saleRepo->find($temporal);
             $manager = new SaleManager($sales,$request->all());
             $manager->save();
+
+            \DB::commit();
+
      return response()->json(['estado'=>true, 'nombres'=>$orderSale->nombres]);
     }
 
@@ -622,13 +651,13 @@ class SalesController extends Controller
     }
     public function edit(Request $request)
     {
-        //var_dump( );
+        //var_dump($request->all());
         //die();
         \DB::beginTransaction();
         $varDetOrders = $request->detOrder;
         $varPayment = $request->payment;
         $movimiento = $request->movimiento;
-        if ($movimiento['montoMovimientoEfectivo']>0) {
+        if ($movimiento['montoMovimientoEfectivo']>0) { //si considera los pagos en tarjeta, calculados en controllers.js
             //---create movimiento--- 
             //var_dump($request->movimiento);die();
             $detCashrepo;

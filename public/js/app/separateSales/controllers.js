@@ -66,7 +66,7 @@
             }
             $scope.inicializar();
 
-            $scope.estadoMostrarEntrega = function () {
+                $scope.estadoMostrarEntrega = function () {
                     if ($scope.order1.estado!=0) {$scope.banderaMostrarEntrega=true;}else{
                         $scope.banderaMostrarEntrega=false;
                     }
@@ -97,17 +97,22 @@
                     //$scope.paginateDetPay();
                     crudServiceSeparates.byId(id,'separateSales').then(function (data) {
                         $scope.order1 = data;
-                        //$log.log($scope.order1);
+                        $log.log($scope.order1);
                         if ($scope.order1.estado==0) {$scope.cancelPedido=false}else if($scope.order1.estado==3){$scope.cancelPedido=true};
                         //alert($scope.order1.estado);
                         $scope.estadoMostrarEntrega();
 
                        crudServiceSeparates.search('DetSeparateSales',$scope.order1.id,1).then(function (data){
                            $scope.detOrders = data.data;
-                           $scope.detOrdersFijo = data.data;
+                           $scope.detOrdersFijo = data.data
+
+                           //$log.log($scope.detOrders);
 
                             crudServiceSeparates.search('salePaymentSeparate',$scope.order1.id,1).then(function (data){
                                 $scope.payment = data.data;
+                                $log.log('payment')
+                                $log.log($scope.payment);
+                                $log.log('fin payment')
                                 $scope.calcularPorcentaje();
                                 $scope.calculospedido();
                                 
@@ -124,6 +129,13 @@
                         });
 
                     });
+
+                    crudServiceSeparates.Comprueba_caj_for_user().then(function (data) {
+                        //alert($scope.cashfinal);
+                        $scope.cashfinal = data;
+                    });
+
+
                     crudServiceSeparates.select('saleMethodPayments','select').then(function (data) {                        
                         $scope.saleMethodPayments = data;
 
@@ -161,7 +173,7 @@
                         $scope.cashHeaders=data;
                     });
 
-                    crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                    /*crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
                         var canCashes=data.total;
                         var pagActual=Math.ceil(canCashes/15);
                         crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
@@ -178,15 +190,48 @@
                                 //$log.log($scope.detCashes);
                             });
                         });
+                    });*/
+
+                    crudServiceSeparates.Comprueba_caj_for_user().then(function (data){
+                        //alert($scope.cashfinal);
+                        $scope.cashfinal=data;
+                        /*crudServiceSeparates.search('detCashesSeparateSale',$scope.cashfinal.id,1).then(function (data){
+                            $scope.detCashes = data.data;
+                            $scope.maxSize1 = 5;
+                            $scope.totalItems1 = data.total;
+                            $scope.currentPage1 = data.current_page;
+                            $scope.itemsperPage1 = 15;
+
+                            //$log.log($scope.detCashes);
+                        });*/
+
+                        crudServiceSeparates.paginate('ver_ventasSeparate',1).then(function (data){
+                            //$scope.detCashes = data.data;
+                            //crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,1).then(function (data){
+                            //$log.log($scope.detCashes);
+                            $scope.detCashes = data.data;
+                            $scope.maxSize1 = 5;
+                            $scope.totalItems1 = data.total;
+                            $scope.currentPage1 = data.current_page;
+                            $scope.itemsperPage1 = 15;
+                        });
+
+
                     });
+
                 }
                 $scope.calculospedido =function () {
-                    $scope.montoAcuenta=0;
-                    $scope.montosaldo=0;
-                    for (var i = $scope.detOrders.length - 1; i >= 0; i--) {
+
+                    $scope.montoAcuenta= $scope.payment[0].Acuenta;
+                    $scope.montosaldo= $scope.payment[0].Saldo;
+
+                    //$scope.montoAcuenta=0;
+                    //$scope.montosaldo=0;
+                    /*for (var i = $scope.detOrders.length - 1; i >= 0; i--) {
                         $scope.montoAcuenta+=(Number($scope.detOrders[i].canEntregado)*Number($scope.detOrders[i].precioVenta))
                     };
-                    $scope.montosaldo=Number($scope.payment[0].Acuenta)-$scope.montoAcuenta;
+                    $scope.montosaldo=Number($scope.payment[0].Acuenta)-$scope.montoAcuenta;*/
+
                     //alert($scope.montosaldo);
                 }
 
@@ -225,6 +270,37 @@
                     templateUrl: 'myPopoverTemplate6.html',
                     title: 'Notas',
                 };
+
+
+                $scope.actualizarCaja= function(){
+                    //$log.log($scope.cashfinal);
+                    $scope.detCashes={};
+                    if ($scope.cashfinal.estado == 0) {
+                        alert("Caja Cerrada");
+                    }else{
+                        /*crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                         var canCashes=data.total;
+                         var pagActual=Math.ceil(canCashes/15);
+                         crudServiceOrders.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
+                         $scope.cashes = data.data;
+                         $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                         */ //$log.log($scope.cashfinal);
+                        crudServiceSeparates.paginate('ver_ventasSeparate',1).then(function (data){
+                            //$scope.detCashes = data.data;
+                            //crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,1).then(function (data){
+                            //$log.log($scope.detCashes);
+                            $scope.detCashes = data.data;
+                            $scope.maxSize1 = 5;
+                            $scope.totalItems1 = data.total;
+                            $scope.currentPage1 = data.current_page;
+                            $scope.itemsperPage1 = 15;
+                        });
+                        //  });
+                        //});
+                    }
+
+                }
+
                 //$scope.estadoOrderProduc=1;
                 //---------------------------------------------------------------
                 //***************************************************************
@@ -237,20 +313,24 @@
                     $log.log(row);
                 };
                 $scope.atenderOrderEstado = function(row) {
-                    
+                    //alert('hol');
                     //alert($scope.banderaModificar);
                     for (var i = $scope.detOrders.length - 1; i >= 0; i--) {
                             if ($scope.detOrders[i].estado==0) {
                                 $scope.detOrders[i].estad=false;
+                                //$scope.detOrders[i].estad=true;
                             }else{
                                 $scope.detOrders[i].estad=true;
+                                //$scope.detOrders[i].estad=false;
                             }
 
                             if ($scope.detOrders[i].estado==1 && $scope.detOrders[i].canPendiente==0){
                                 $scope.detOrders[i].estad1=true;
+                                //$scope.detOrders[i].estad1=false;
                                 //alert("wwwwwwww"+$scope.detOrders[i].cantidad);
                             }else{
-                                $scope.detOrders[i].estad1=false; 
+                                $scope.detOrders[i].estad1=false;
+                                //$scope.detOrders[i].estad1=true;
                             }
                         }; 
                 }
@@ -306,6 +386,7 @@
                     }
                     $scope.order1.detOrder=$scope.detOrders;
                     $scope.order1.payment=$scope.payment[0];
+                    $scope.order1.caja = $scope.cashfinal;
                     //$scope.createsalidaCaja();
                     crudServiceSeparates.update($scope.order1,'separateSales').then(function (data){
 
@@ -406,10 +487,21 @@
                     
                     $scope.createCompra=$scope.order1;
 
+                    $log.log("----------");
+                    $log.log($scope.order1);
+                    $log.log("---FIN $scope.order1---");
+
+                    $log.log("----------");
+                    $log.log($scope.detOrders);
+                    $log.log("---FIN $scope.detOrders---");
+
+
                         for (var i = $scope.detOrders.length - 1; i >= 0; i--) {
                             //------------------------------------------------
                             if ($scope.detOrders[i].estad==true && $scope.detOrders[i].estado==0 && $scope.detOrders[i].canPendiente!=0) {
                                 $scope.detOrders[i].estado=1;
+                                //alert(i);alert('primer if');
+                                //return false;
                                 crudServiceSeparates.update($scope.detOrders[i],'DetSeparateSales').then(function (data){
                                 })
                                 //$scope.totalParteEntrega=1;
@@ -418,6 +510,8 @@
                             }
                             if ($scope.detOrders[i].estad==false && $scope.detOrders[i].estado==1 && $scope.detOrders[i].canPendiente!=0) {
                                 $scope.detOrders[i].estado=0;
+                                //alert(i);alert('segundo if');
+                                //return false;
                                 crudServiceSeparates.update($scope.detOrders[i],'DetSeparateSales').then(function (data){
                                 })
                                 $scope.banderaCancel=true;
@@ -430,8 +524,11 @@
                             $scope.montoPagoCompra=$scope.montoPagoCompra+($scope.detOrders[i].precioVenta*$scope.detOrders[i].canEntregado);
                             $scope.totalParteEntrega+=Number($scope.detOrders[i].parteEntregado);
                             if ($scope.detOrders[i].estado==0) {$scope.banderaEstadoOrderSale=false;};
-                            if (($scope.detOrders[i].stock-$scope.detOrders[i].separados)<$scope.detOrders[i].parteEntregado) {
+                            //if (($scope.detOrders[i].stock-$scope.detOrders[i].separados)<$scope.detOrders[i].parteEntregado-1) {
+                            if (($scope.detOrders[i].stock-$scope.detOrders[i].separados)<0) {
+
                                 $scope.banderaStokPedidos=false;
+                                //alert('holi');
                             };
                             
                         }; 
@@ -444,6 +541,8 @@
                         if ($scope.banderaStokPedidos==false) {
                             alert("STOCK INSUFICIENTE");
                         }else{
+                            //alert('no m inte');
+                            //return false;
                             if ($scope.montoPagoCompra>$scope.payment[0].Acuenta) {
                                 alert("PAGO INSUFICIENTE");
                             }else if($scope.totalParteEntrega==0){
@@ -749,6 +848,7 @@
                         $scope.sale.customer_id=$scope.customersSelected.id;
                         $scope.sale.cliente=$scope.customersSelected.busqueda;
                         $scope.customersSelected=undefined;
+                        $log.log($scope.sale.customer_id);
                     };
                 }
                 $scope.deleteCliente= function(){
@@ -889,7 +989,7 @@
                         }else{
                             //Inicio Pago Contado 
                             //alert("Contado");
-                            if($scope.customersSelected==undefined){
+                            if($scope.sale.customer_id==undefined){
                                 alert("Elija Cliente");
                             }else{
                             if ($scope.pago.tarjeta+$scope.pago.cash>$scope.sale.montoTotal) {
@@ -954,39 +1054,42 @@
 
                 }
                 $scope. createorder = function(tipo){
-                    crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                    /*crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
                         var canCashes=data.total;
                         var pagActual=Math.ceil(canCashes/15);
                         crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
 
                             $scope.cashes = data.data;
-                            $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                            $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];*/
 
-                            $scope.createmovCaja(tipo);
-                            for (var i = 0; i < $scope.sale.saledetPayments.length; i++) {
-                                $scope.sale.saledetPayments[i].numCaja=$scope.detCash.cash_id;
-                            };
-                            $log.log($scope.sale);
+                            crudServiceSeparates.Comprueba_caj_for_user().then(function (data){
+                                $scope.cashfinal=data;
 
-                             crudServiceSeparates.create($scope.sale, 'separateSales').then(function (data) {
-                           
-                                    if (data['estado'] == true) {
-                                        $scope.success = data['nombres'];
-                                        $('#miventana1').modal('hide');
-                                    alert('grabado correctamente');
-                                    
-                                        //crudServiceOrders.reportProWare('productsFavoritos',$scope.store.id,$scope.warehouse.id,'1').then(function(data){    
-                                            //$scope.favoritos=data;
-                                            //$log.log($scope.favoritos);
-                                        //});                        
-                                    } else {
-                                        $scope.errors = data;
-                                    }
+                                $scope.createmovCaja(tipo);
+                                for (var i = 0; i < $scope.sale.saledetPayments.length; i++) {
+                                    $scope.sale.saledetPayments[i].numCaja=$scope.detCash.cash_id;
+                                };
+                                $log.log($scope.sale);
+
+                                 crudServiceSeparates.create($scope.sale, 'separateSales').then(function (data) {
+
+                                        if (data['estado'] == true) {
+                                            $scope.success = data['nombres'];
+                                            $('#miventana1').modal('hide');
+                                        alert('grabado correctamente');
+
+                                            //crudServiceOrders.reportProWare('productsFavoritos',$scope.store.id,$scope.warehouse.id,'1').then(function(data){
+                                                //$scope.favoritos=data;
+                                                //$log.log($scope.favoritos);
+                                            //});
+                                        } else {
+                                            $scope.errors = data;
+                                        }
+                                });
+
+                                $scope.inicializar();
                             });
-
-                            $scope.inicializar();
-                        })    
-                    });
+                    //});
                 }
                 $scope.createmovCaja = function(tipo){
                     $scope.detCash={};
@@ -1028,14 +1131,19 @@
                     crudServiceSeparates.search('warehousesStore',$scope.store.id,1).then(function (data){
                         $scope.warehouses=data.data;
                     });
-                    crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                    /*crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
                         var canCashes=data.total;
                         var pagActual=Math.ceil(canCashes/15);
                         crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
                             $scope.cashes = data.data;
                             $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
                         });
-                    });    
+                    });*/
+
+                    crudServiceSeparates.Comprueba_caj_for_user().then(function (data) {
+                        $scope.cashfinal = data;
+                    });
+
                 }
                 $scope.editseparate = function(row){
                     $location.path('/separateSales/edit/'+row.id);
@@ -1046,7 +1154,7 @@
                         alert("Numero no valido");
                     }else{
                         $scope.pagoCredito=$scope.payment[0]; 
-                        crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                        /*crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
                         var canCashes=data.total;
                         var pagActual=Math.ceil(canCashes/15);
                             //alert(pagActual);
@@ -1054,7 +1162,9 @@
                             crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){    
                                 $scope.cashes = data.data;
 
-                                $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                                $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];*/
+                            crudServiceSeparates.Comprueba_caj_for_user().then(function (data){
+                                $scope.cashfinal=data;
 
                                 if ($scope.cashfinal.estado=='1') {
 
@@ -1128,7 +1238,7 @@
 
                             }else{alert("Caja Cerrada");}
                             });
-                        }); 
+                        //});
                     }
 
                 }
@@ -1201,12 +1311,14 @@
 
                 $scope.destroyPay = function(row){
                 $scope.cash1.cashHeader_id=row.cashHeaders_id;
-                crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                /*crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
                     var canCashes=data.total;
                     var pagActual=Math.ceil(canCashes/15);
                     crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
                         $scope.cashes = data.data;
-                        $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                        $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];*/
+                    crudServiceSeparates.Comprueba_caj_for_user().then(function (data){
+                        $scope.cashfinal=data;
                         if ($scope.cashfinal.id==row.numCaja&&$scope.cashfinal.estado=='1') {
                             if(confirm("Esta segura de querer eliminar este pago!!!") == true){
                                 $scope.payment[0].detpayment_id=row.id;
@@ -1231,7 +1343,7 @@
                         }
 
                     });
-                })
+                //})
             }
             $scope.PagoAnterior;
             $scope.mostrarBtnGEd=false;
@@ -1241,12 +1353,14 @@
                 //$log.log(row);
                 $scope.cash1.cashHeader_id=row.cashHeaders_id;
                 $scope.opcionalRow=row.monto;
-                crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
+                /*crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
                     var canCashes=data.total;
                     var pagActual=Math.ceil(canCashes/15);
                     crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,pagActual).then(function (data){
                         $scope.cashes = data.data;
-                        $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];
+                        $scope.cashfinal=$scope.cashes[$scope.cashes.length-1];*/
+                crudServiceSeparates.Comprueba_caj_for_user().then(function (data){
+                    $scope.cashfinal=data;
                         if ($scope.cashfinal.id==row.numCaja&&$scope.cashfinal.estado=='1') {
                             $scope.detPago=row;
                             $scope.detPago.fecha=new Date(row.fecha);
@@ -1260,7 +1374,7 @@
                             alert("Caja Cerrada");    
                         }
                     });
-                });    
+                //});
             }  
             $scope.editPayment = function(){
                 if (Number($scope.payment[0].Acuenta)-Number($scope.opcionalRow) +Number($scope.detPago.monto) <= Number($scope.payment[0].MontoTotal)) {

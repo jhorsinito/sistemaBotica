@@ -55,7 +55,7 @@ class SaleDetPaymentController extends Controller {
     //------------------------------------------------------
     public function create(Request $request)
     {
-        //var_dump($request->detPayments);die();
+        //var_dump($request->all());die();
         \DB::beginTransaction();
         $saldo=$request->input("Saldo");
         if ($request->input("tipo")=='order') {
@@ -89,13 +89,13 @@ class SaleDetPaymentController extends Controller {
     
                 $orderEdit = $orderSave->find($saleTemporal1);
                 //var_dump($orderEdit);die();
-                if($saldo=='0'){$var2['estado']='0';}
+                if($saldo=='0'){$var2['estado']='1';}
                 $manager = new SaleManager($orderEdit,$var2);
                 $manager->save();   
 
                 $temporal=$request->input("sale_id");
             }else if ($request->input("tipo")=='separate') {
-                $var3=$request->sale;
+                $var3=$request->sale; //separate sales se refiere
                 
                 $saleTemporal2=$var3["id"];
     
@@ -106,7 +106,7 @@ class SaleDetPaymentController extends Controller {
     
                 $orderEdit = $separateSave->find($saleTemporal2);
                 //var_dump($var2);die();
-                if($saldo=='0'){$var3['estado']='0';}
+                if($saldo=='0'){$var3['estado']='1';} //1->terminado
                 $manager = new SeparateSaleManager($orderEdit,$var3);
                 $manager->save();   
 
@@ -146,7 +146,7 @@ class SaleDetPaymentController extends Controller {
 
         $payment1 = $paymentSave->find($temporal);
         //if($saldo=='0'){$request->input("estado")='0';}
-        $manager = new SalePaymentManager($payment1,$request->all());
+        $manager = new SalePaymentManager($payment1,$request->except('id'));
         $manager->save();
 
         //------------------------------------

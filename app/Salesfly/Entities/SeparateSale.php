@@ -23,4 +23,9 @@ class SeparateSale extends \Eloquent {
     public function employee(){
         return $this->belongsTo('Salesfly\Salesfly\Entities\Employee','employee_id');
     }
+
+	public function sale(){
+		return $this->hasOne('Salesfly\Salesfly\Entities\Sale','separateSale_id');
+	}
+
 }

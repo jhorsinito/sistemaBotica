@@ -221,11 +221,12 @@
                       <th style="width: 10px">#</th>
                       <th>Fecha</th>
                       <th>Hora</th>
-                      <th>Tipo</th>
+                      <th>Usuario</th>
+                        <th>Documento</th>
                       
                       <th>S/.Tarjeta</th>
                       <th>S/.Efectivo</th>
-                      
+                      <th>Estado</th>
                       <th>Ver Venta</th>
                     </tr>
                     
@@ -233,13 +234,18 @@
                       <td>@{{$index + 1}}</td>
                       <td>@{{row.fecha}}</td>
                       <td>@{{row.hora}}</td>
-                      <td>@{{row.cash_motive.nombre}}</td>
+                      <td>@{{row.name}}</td>
+                      <td ng-if="row.NumDocument!=null">@{{ row.NumDocument }}</td>
+                        <td ng-if="row.NumDocument==null">-</td>
+                      <td>@{{row.tarjeta}}</td>
+                      <td>@{{row.efectivo}}</td>
+                        <td ng-if="row.estado==1"><span style="color: yellow;">Pag. sin entre.</span></td>
+                        <td ng-if="row.estado==0"><span style="color: cornflowerblue;">Pend. sin entre.</span></td>
+                        <td ng-if="row.estado==2"><span style="color: green;">Pag y entre.</span></td>
+                        <td ng-if="row.estado==3"><span style="color: red;">Anulado</span></td>
                       
-                      <td>@{{row.montoMovimientoTarjeta}}</td>
-                      <td>@{{row.montoMovimientoEfectivo}}</td>
-                      
-                      <td ng-if="row.cashMotive_id==19 || row.cashMotive_id==20"><a href="/separateSales/edit/@{{row.observacion}}" target="_blank">ver separado</a></td>
-                      <td ng-if="row.cashMotive_id!=19 && row.cashMotive_id!=20">@{{row.observacion}}</td>
+                      <td ><a href="/separateSales/edit/@{{row.id}}" target="_blank">ver separado</a></td>
+
                     </tr>                   
                   </table>
                   <div class="box-footer clearfix">
