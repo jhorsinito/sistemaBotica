@@ -664,14 +664,30 @@
                 $scope.cancelProduct = function(){
                     $scope.product = {};
                 }
-                $scope.tiketName="Generar Tikets";
+                $scope.tiketName="Generar Tikets Planta";
+                $scope.tiketName2="Generar Tikets Caja";
                 $scope.generarTikets=function(){
                     if($scope.ProductoID!=undefined){
-                        $scope.tiketName="Generando...";
+                        $scope.tiketName="Generando Tikets Planta...";
                     crudService.Reportes10('TiketReport2',$scope.ProductoID).then(function(data)
                     {
                         if(data != undefined){
-                            $scope.tiketName="Generar Tikets";
+                            $scope.tiketName="Generar Tikets Planta";
+                           alert(data);
+                           $window.open(data);
+                        }else{
+                            alert("Error No se a generado Tikets");
+                        }
+                    });
+                  }
+                }
+                $scope.generarTikets2=function(){
+                    if($scope.ProductoID!=undefined){
+                        $scope.tiketName2="Generando Tikets Caja...";
+                    crudService.Reportes10('TiketReport3',$scope.ProductoID).then(function(data)
+                    {
+                        if(data != undefined){
+                            $scope.tiketName2="Generar Tikets Caja";
                            alert(data);
                            $window.open(data);
                         }else{
