@@ -161,7 +161,7 @@
                   <label>Producto</label>
               
                   <input  typeahead-on-select="Inventario()" type="text" ng-model="producto.proId" placeholder="Locations loaded via $http" 
-                  typeahead="variant as variant.proNombre+'('+(variant.BraName==null ? '': variant.BraName+'/')+(variant.TName==null ? '' : variant.TName+'/')+(variant.Mnombre==null ? '':variant.Mnombre+'/')+(variant.NombreAtributos==null ? '':variant.NombreAtributos)+')' for variant in variants1 | filter:$viewValue | limitTo:8" 
+                  typeahead="variant as variant.proCodigo+'-'+variant.proNombre+'('+(variant.BraName==null ? '': variant.BraName+'/')+(variant.TName==null ? '' : variant.TName+'/')+(variant.Mnombre==null ? '':variant.Mnombre+'/')+(variant.NombreAtributos==null ? '':variant.NombreAtributos)+')' for variant in variants1 | filter:$viewValue | limitTo:8" 
                   typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
                   tooltip="Ingrese caracteres para busacar producto por codigo unico"
                   >

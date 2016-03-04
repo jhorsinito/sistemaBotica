@@ -197,7 +197,7 @@ WHERE variants.id = varid) as stoStockActual'),
                                 INNER JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=varid
                                 GROUP BY variants.id) as NombreAtributos'))->groupBy('variants.codigo')
-                            ->paginate();
+                            ->paginate(10000);
 
                               /*,(SELECT GROUP_CONCAT(detAtr.descripcion SEPARATOR "-") FROM variants
                                 INNER JOIN detAtr ON detAtr.variant_id = variants.id

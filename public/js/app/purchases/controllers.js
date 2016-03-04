@@ -566,7 +566,7 @@
                $scope.obcional={};
                $scope.mostrarTallas=function(taco){
                     //alert($scope.codigoVarP);
-                    alert(taco);
+                    //alert(taco);
                     if(taco!=null){
                     crudOPurchase.getTallas($scope.codigoVarP,"selectStocksTalla",taco,$scope.purchase.warehouses_id).then(function (data) {
                           $scope.atributes=data.data;

@@ -115,7 +115,7 @@
               <label>Producto(Stock Actual:@{{inputStock.CantidaStock}})</label>
                 
                <input ng-Disabled="check" typeahead-on-select="asignarProduc1()" type="text" ng-model="product.proId"  name="empresa" placeholder="Locations loaded via $http" 
-               typeahead="product as product.proNombre+'('+(product.BraName==null ? '': product.BraName+'/')+(product.TName==null ? '' : product.TName+'/')+(product.Mnombre==null ? '':product.Mnombre+'/')+')' for product in products | filter:$viewValue | limitTo:8" 
+               typeahead="product as product.proCodigo+'-'+product.proNombre+'('+(product.BraName==null ? '': product.BraName+'/')+(product.TName==null ? '' : product.TName+'/')+(product.Mnombre==null ? '':product.Mnombre+'/')+')' for product in products | filter:$viewValue | limitTo:8" 
                typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control"
                tooltip="Ingrese caracteres para busacar producto por nombre"
             required >
