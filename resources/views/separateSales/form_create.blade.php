@@ -1,11 +1,11 @@
  <section class="content-header"> 
           <h1>
-            Separado Venta
+            Crear PEDIDO/SEPARADO
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="/stores">Separado Venta</li>
+            <li class="/stores">Ped/Sep</li>
             <li class="active">Crear</li>
           </ol>
  
@@ -18,7 +18,7 @@
 
           <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Crear Separado Venta</h3>
+                  <h3 class="box-title">Crear Ped/Sep</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form name="storeCreateForm" role="form" novalidate>

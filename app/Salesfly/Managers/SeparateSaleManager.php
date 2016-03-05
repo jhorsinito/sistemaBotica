@@ -15,7 +15,8 @@ class SeparateSaleManager extends BaseManager {
             'employee_id'=> '',
             'customer_id'=> '',
             'igv'=> '',
-            'notas'=> ''
+            'notas'=> '',
+            'tipo' => ''
                   ];
         return $rules;
     }} 

@@ -70,7 +70,10 @@ class SeparateSaleController extends Controller {
 public function create(Request $request) {
 
 
-    var_dump($request->all());die();
+    //var_dump($request->all());die();//tipo
+
+    $tipo = $request->input('tipo');
+
     \DB::beginTransaction();
 
         $orderSale = $this->separateSaleRepo->getModel();
@@ -103,6 +106,8 @@ public function create(Request $request) {
 
             $movimiento['fecha'] = date('Y-m-d');
             $movimiento['hora'] = date('H:i:s');
+
+            if($tipo == 2) $movimiento['cashMotive_id'] = 16;
         
             $insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
             $insertarMovimiento->save();
@@ -165,13 +170,24 @@ public function create(Request $request) {
                   $object["variant_id"]=$object['vari'];
                   $stockac=$stockmodel->encontrar($object["variant_id"],$object['warehouse_id']);
             if(!empty($stockac)){
-             
-                if($object["equivalencia"]==null){
-                  $object["stockSeparados"]=$stockac->stockSeparados+($object["cantidad"]);//
-                  
-                }else{
-                  $object["stockSeparados"]=$stockac->stockSeparados+($object["cantidad"]*$object["equivalencia"]);
+
+                if($tipo == 2){ //PEDIDOS
+                    if($object["equivalencia"]==null){
+                        $object["stockPedidos"]=$stockac->stockPedidos+($object["cantidad"]);//
+
+                    }else{
+                        $object["stockPedidos"]=$stockac->stockPedidos+($object["cantidad"]*$object["equivalencia"]);
+                    }
+                }elseif($tipo == 1){ //SEPARADOS
+                    if($object["equivalencia"]==null){
+                        $object["stockSeparados"]=$stockac->stockSeparados+($object["cantidad"]);//
+
+                    }else{
+                        $object["stockSeparados"]=$stockac->stockSeparados+($object["cantidad"]*$object["equivalencia"]);
+                    }
                 }
+             
+
                   $manager = new StockManager($stockac,$object);
                   $manager->save();
             }else{
@@ -243,6 +259,9 @@ public function create(Request $request) {
         //var_dump($separateSale->sale->id);
         //die();
         \DB::beginTransaction();
+
+        $tipo = $request->input('tipo');
+
         $varDetOrders = $request->detOrder;
         $varPayment = $request->payment;
         $cajaAct = $request->caja;
@@ -313,7 +332,7 @@ public function create(Request $request) {
         $codigoHeadIS=0;
 
         //$detOrderSaleRepo;
-        foreach($varDetOrders as $object){
+        foreach($varDetOrders as $object){ //DETORDERS
             //$detOrderSaleRepo = new DetSaleRepo;
 
             //$detorderSale = $detOrderSaleRepo->find($object['id']);
@@ -327,8 +346,13 @@ public function create(Request $request) {
 
             $stock = $stokRepo->find($object['idStock']);
             //+++if ($object['estad']==true) {
-            $stock->stockActual= $stock->stockActual+$object['canEntregado'];
-            $stock->stockSeparados = 0; // eliminar todos los separados
+            if($tipo == 2){ //PEDIDOS
+                $stock->stockActual = $stock->stockActual + $object['canEntregado'];
+                $stock->stockPedidos = $stock->stockPedidos - $object['canPendiente'];
+            }elseif($tipo == 1) { //SEPARADOS
+                $stock->stockActual = $stock->stockActual + $object['canEntregado'];
+                $stock->stockSeparados = $stock->stockSeparados - $object['canPendiente']; // eliminar todos los separados
+            }
             //+++}else{
             //+++$stock->stockPedidos= $stock->stockPedidos+$object['canPendiente'];
             //+++}

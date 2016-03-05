@@ -335,6 +335,7 @@ class SalesController extends Controller
         {
           //var_dump($request->all()); die();
             \DB::beginTransaction();
+            $tipo = $request->input('tipo');
           //---------------------- 
           $orderRepo;
             $orderRepo = new SeparateSaleRepo;
@@ -368,7 +369,7 @@ class SalesController extends Controller
         $montoventa=0;
          $HeadStockRepo;
          $codigoHeadIS=0;
-       foreach($var as $object) {
+       foreach($var as $object) { //detORDERS
            if ($object['estad'] == false){
                //------Actualizar pedido------
                //$cajaAct = $request->caja;
@@ -383,7 +384,7 @@ class SalesController extends Controller
            $manager2 = new DetSeparateSaleManager($saled, $object);
            $manager2->save();
            //-----------------------------
-           $object['sale_id'] = $temporal;
+           $object['sale_id'] = $temporal; //detSALE
            $object['cantidad'] = $object['parteEntregado'];
            $object['subTotal'] = $object['precioVenta'] * $object['parteEntregado'];
            $montoventa = $montoventa + $object['subTotal'];
@@ -435,13 +436,27 @@ class SalesController extends Controller
 
            if (!empty($stockac)) {
 
-               if ($object["equivalencia"] == null) {
-                   $object["stockSeparados"] = $stockac->stockSeparados - ($object["cantidad"]);
-                   $object["stockActual"] = $stockac->stockActual - ($object["cantidad"]);//
+               if($tipo == 2){ //PEDIDOS
 
-               } else {
-                   $object["stockActual"] = $stockac->stockActual - ($object["cantidad"] * $object["equivalencia"]);
-                   $object["stockSeparados"] = $stockac->stockSeparados - ($object["cantidad"] * $object["equivalencia"]);
+                   if ($object["equivalencia"] == null) {
+
+                       $object["stockPedidos"] = $stockac->stockPedidos - ($object["cantidad"]);
+                       $object["stockActual"] = $stockac->stockActual - ($object["cantidad"]);//
+
+                   } else {
+                       $object["stockActual"] = $stockac->stockActual - ($object["cantidad"] * $object["equivalencia"]);
+                       $object["stockPedidos"] = $stockac->stockPedidos - ($object["cantidad"] * $object["equivalencia"]);
+                   }
+               }elseif($tipo == 1) { //SEPARADOS
+
+                   if ($object["equivalencia"] == null) {
+                       $object["stockSeparados"] = $stockac->stockSeparados - ($object["cantidad"]);
+                       $object["stockActual"] = $stockac->stockActual - ($object["cantidad"]);//
+
+                   } else {
+                       $object["stockActual"] = $stockac->stockActual - ($object["cantidad"] * $object["equivalencia"]);
+                       $object["stockSeparados"] = $stockac->stockSeparados - ($object["cantidad"] * $object["equivalencia"]);
+                   }
                }
                $manager = new StockManager($stockac, $object);
                $manager->save();

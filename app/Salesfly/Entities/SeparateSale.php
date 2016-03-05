@@ -15,7 +15,8 @@ class SeparateSale extends \Eloquent {
     						'employee_id',
     						'estado',
     						'igv',
-    						'notas']; 
+    						'notas',
+							'tipo'];
 
     public function customer(){
         return $this->belongsTo('Salesfly\Salesfly\Entities\Customer','customer_id');

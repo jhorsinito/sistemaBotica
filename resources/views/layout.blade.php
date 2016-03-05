@@ -178,7 +178,7 @@
              </li>
              <li class="">
                           <a href="/separateSales/create">
-                            <i class="fa fa-shopping-cart"></i> <span>Separados!</span>
+                            <i class="fa fa-shopping-cart"></i> <span>Pedid./Separ.</span>
                           </a>
              </li>
             <li class="treeview">

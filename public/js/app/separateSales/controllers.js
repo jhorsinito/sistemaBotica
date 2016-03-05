@@ -60,7 +60,7 @@
                 $scope.montosaldo=0;
                 //$scope.calculospedido();
                 //$scope.cancelPedido=false;
-                $scope.cashfinal={};
+                //$scope.cashfinal={};
                 $scope.sale.fechaEntrega=new Date();
                 //$scope.sale.tipo = 1;
                 //$scope.sale.tipo;
@@ -74,6 +74,7 @@
             }
             $scope.inicializar();
                 $scope.sale.tipo = 1; //1->separado, 2->pedido
+                $scope.cashfinal={}; //la caja se obtiene independientemente si es ped o sep.
                 //$scope.order1 = {};
                 //$scope.order1.devolucion = 0; //si devuleve el dinero en caja o no al anularlo..
 
@@ -205,7 +206,7 @@
                     });*/
 
                     crudServiceSeparates.Comprueba_caj_for_user().then(function (data){
-                        //alert($scope.cashfinal);
+                        //$log.log(data);
                         $scope.cashfinal=data;
                         /*crudServiceSeparates.search('detCashesSeparateSale',$scope.cashfinal.id,1).then(function (data){
                             $scope.detCashes = data.data;
@@ -978,6 +979,7 @@
                 }
                 //--------------Calcular Vuelto-------------
                 $scope.calcularVuelto = function () {
+                    //$log.log($scope.cashfinal);
                     if ($scope.pago.tarjeta+$scope.pago.cash>$scope.sale.montoTotal) {
                         if ($scope.pago.tarjeta>$scope.sale.montoTotal) {
                             $scope.pago.tarjeta=$scope.sale.montoTotal;
@@ -997,7 +999,8 @@
                     }
                     */
                 }
-                $scope.realizarPago = function () {   
+                $scope.realizarPago = function () {
+                    $log.log($scope.cashfinal);
                 if ($scope.cashfinal.estado=='1') {
                     $scope.salePayment.MontoTotal=$scope.sale.montoTotal;
                     $scope.salePayment.Acuenta=0;

@@ -120,6 +120,15 @@ class DetCashRepo extends BaseRepo{
             ->orWhere('detCash.cashMotive_id','=','20')
             ->where('users.id','=',$user)
             ->where('cashes.estado','=',1)
+
+            ->orWhere('detCash.cashMotive_id','=','15')
+            ->where('users.id','=',$user)
+            ->where('cashes.estado','=',1)
+
+            ->orWhere('detCash.cashMotive_id','=','16')
+            ->where('users.id','=',$user)
+            ->where('cashes.estado','=',1)
+
             ->groupBy('separateSales.id')
             ->orderBy('separateSales.id','DESC')
             ->paginate(15);

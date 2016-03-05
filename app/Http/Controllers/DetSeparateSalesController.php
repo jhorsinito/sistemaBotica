@@ -32,7 +32,7 @@ class DetSeparateSalesController extends Controller {
 
     public function edit(Request $request)
     {
-        //var_dump($request->all()); die();
+        var_dump($request->all()); die();
         \DB::beginTransaction();
         $pendiente = $request->canPendiente;
         $detorderSale = $this->detSeparateSaleRepo->find($request->id);

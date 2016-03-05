@@ -119,6 +119,8 @@ class SaleDetPaymentController extends Controller {
             $movimiento['observacion']=$temporal;
             $detCashrepo = new DetCashRepo;
             $movimientoSave=$detCashrepo->getModel();
+
+            if($var3['tipo'] == 2) $movimiento['cashMotive_id'] = 17; //si el tipo es 2(pedido) , el cashmotive_id es 17 (pago credito pedido)
         
             $insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
             $insertarMovimiento->save();
