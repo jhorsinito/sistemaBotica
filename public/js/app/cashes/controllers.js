@@ -263,6 +263,8 @@
                 $scope.createcash = function(){
                     //$log.log($scope.cash.montoInicial);
                     //if ($scope.cashCreateForm.$valid) {
+                    //alert('ho');
+                    //var $btn = $('#btn_generate').button('loading');
                     if ($scope.cash.montoInicial==undefined) {
                         alert("Ingrese monto Inicio");
                     }else{

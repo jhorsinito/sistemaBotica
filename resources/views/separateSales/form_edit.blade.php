@@ -179,7 +179,7 @@
                       </div>
             </div>
             <div>
-              <button class=" label-default" type='submit'  ng-click="crearCompra()">Registrar Entrega</button>  
+              <button id="btn_generateEntrega" data-loading-text="Enviando.." class=" label-default" type='submit'  ng-click="crearCompra()">Registrar Entrega</button>
             </div>
           </div>
 
@@ -359,7 +359,7 @@
 
                   
                   <div ng-hide="mostrarBtnGEd" class="form-group" >
-                    <button class=" label-default" type='submit' ng-click='createdetPayment()' >Registrar Pago</button>
+                    <button id="btn_generateDetPay" data-loading-text="Enviando.." class=" label-default" type='submit' ng-click='createdetPayment()' >Registrar Pago</button>
                     </div>
                     <div ng-show="mostrarBtnGEd" class="form-group" >
                       <button class=" label-default" type='submit' ng-click='editPayment()'>Edit Pago</button>  

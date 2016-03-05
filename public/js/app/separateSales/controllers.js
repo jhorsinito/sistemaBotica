@@ -371,30 +371,33 @@
                 }
                 $scope.ActualizarPartStock= function(row,$index) {
                    //alert($scope.detOrdersFijo[$index].canEntregado);
-                   
-                   
+
+                    var $btn = $('#btn_generateEntrega').button('loading');
+
                    crudServiceSeparates.byId(id,'separateSales').then(function (data) {
                         $scope.order1 = data;
                        crudServiceSeparates.search('DetSeparateSales',$scope.order1.id,1).then(function (data){
                            $scope.detOrdersFijo = data.data;
 
-                   if (Number($scope.detOrders[$index].parteEntregado)>Number($scope.detOrdersFijo[$index].canPendiente)) {
-                        $scope.detOrders[$index].canEntregado=$scope.detOrdersFijo[$index].canEntregado;
-                        $scope.detOrders[$index].canPendiente =$scope.detOrdersFijo[$index].canPendiente;
-                        $scope.detOrders[$index].parteEntregado=0.00;
-                        alert("Excede cantidad");
-                   }else{
-                        //alert($scope.detOrdersFijo[$index].canEntregado);
-                        $scope.detOrders[$index].canEntregado=Number($scope.detOrdersFijo[$index].canEntregado)+Number($scope.detOrders[$index].parteEntregado);
-                        $scope.detOrders[$index].canPendiente =$scope.detOrdersFijo[$index].cantidad-$scope.detOrders[$index].canEntregado;
-                        if ($scope.detOrders[$index].canPendiente==0) {
-                            $scope.detOrders[$index].estado=1;
-                        }else{
-                            $scope.detOrders[$index].estado=0;
-                        }
-                   }
+                           if (Number($scope.detOrders[$index].parteEntregado)>Number($scope.detOrdersFijo[$index].canPendiente)) {
+                                $scope.detOrders[$index].canEntregado=$scope.detOrdersFijo[$index].canEntregado;
+                                $scope.detOrders[$index].canPendiente =$scope.detOrdersFijo[$index].canPendiente;
+                                $scope.detOrders[$index].parteEntregado=0.00;
+                                alert("Excede cantidad");
+                               $btn.button('reset');
+                           }else{
+                                //alert($scope.detOrdersFijo[$index].canEntregado);
+                                $scope.detOrders[$index].canEntregado=Number($scope.detOrdersFijo[$index].canEntregado)+Number($scope.detOrders[$index].parteEntregado);
+                                $scope.detOrders[$index].canPendiente =$scope.detOrdersFijo[$index].cantidad-$scope.detOrders[$index].canEntregado;
+                                if ($scope.detOrders[$index].canPendiente==0) {
+                                    $scope.detOrders[$index].estado=1;
+                                }else{
+                                    $scope.detOrders[$index].estado=0;
+                                }
+                               $btn.button('reset');
+                           }
 
-                    $scope.calculospedido();
+                            $scope.calculospedido();
                         });
                     });
 
@@ -512,6 +515,7 @@
                     };
                 }
                 $scope.crearCompra = function() {
+                    var $btn = $('#btn_generateEntrega').button('loading');
                     $scope.banderaEstadoOrderSale=true;
                     $scope.banderaStokPedidos=true;
                     $scope.banderaCancel=false;
@@ -575,11 +579,13 @@
                         //$log.log($scope.order1.estado);
                         if ($scope.banderaStokPedidos==false) {
                             alert("STOCK INSUFICIENTE");
+                            $btn.button('reset');
                         }else{
                             //alert('no m inte');
                             //return false;
                             if ($scope.montoPagoCompra>$scope.payment[0].Acuenta) {
                                 alert("PAGO INSUFICIENTE");
+                                $btn.button('reset');
                             }else if($scope.totalParteEntrega==0){
                                 if ($scope.banderaCancel) {
                                     crudServiceSeparates.byId(id,'separateSales').then(function (data) {
@@ -592,6 +598,7 @@
                                         $scope.atenderOrder=false;
                                 }else{
                                     alert("Ingrese cantidad entrega");
+                                    $btn.button('reset');
                                 }
                             }else{
                                 $scope.createCompra.detOrders=$scope.detOrders;
@@ -1000,7 +1007,8 @@
                     */
                 }
                 $scope.realizarPago = function () {
-                    $log.log($scope.cashfinal);
+                    //$log.log($scope.cashfinal);
+                    var $btn = $('#btn_generate').button('loading');
                 if ($scope.cashfinal.estado=='1') {
                     $scope.salePayment.MontoTotal=$scope.sale.montoTotal;
                     $scope.salePayment.Acuenta=0;
@@ -1012,14 +1020,17 @@
                             //alert("Credito");
                             if($scope.sale.customer_id==undefined){
                                 alert("Elija Cliente");
+                                $btn.button('reset');
                             }else{
                                 $scope.salePayment.estado=1;
                                 $scope.sale.estado=1;
                                 if ($scope.pago.tarjeta+$scope.pago.cash>$scope.sale.montoTotal){
                                     alert("Usa Pago Contado");
+                                    $btn.button('reset');
                                 }else{
                                     if ($scope.radioModel!=undefined && $scope.pago.tarjeta==0) {
                                         alert("Elija monto Pago Tarjeta");
+                                        $btn.button('reset');
                                     }else if($scope.radioModel!=undefined && $scope.pago.tarjeta>0){
                                     $scope.salePayment.Acuenta=$scope.salePayment.Acuenta+$scope.pago.tarjeta;
                                     $scope.saledetPayment.fecha=$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate()+' '+$scope.date.getHours()+':'+$scope.date.getMinutes()+':'+$scope.date.getSeconds();
@@ -1032,6 +1043,7 @@
                                     }
                                     else if($scope.radioModel==undefined && $scope.pago.tarjeta>0){
                                     alert("Elija Tarjeta.");
+                                        $btn.button('reset');
                                     $scope.banderaPagosTarjeta=false;
                                     }
     
@@ -1062,6 +1074,7 @@
                             //alert("Contado");
                             if($scope.sale.customer_id==undefined){
                                 alert("Elija Cliente");
+                                $btn.button('reset');
                             }else{
                             if ($scope.pago.tarjeta+$scope.pago.cash>$scope.sale.montoTotal) {
                                 //alert("Vuelto : "+(Number($scope.pago.tarjeta)+Number($scope.pago.cash)-Number($scope.sale.montoTotal)));
@@ -1069,14 +1082,17 @@
                             };
                             if ($scope.pago.tarjeta+$scope.pago.cash<$scope.sale.montoTotal) {
                                 alert("Pago menor a la compra");
+                                $btn.button('reset');
                             }else if($scope.pago.tarjeta>$scope.sale.montoTotal){
                                 alert("Pago tarjeta mayor a la compra");
+                                $btn.button('reset');
                                 $scope.pago.cash=0;
                             }else{
                                 $scope.salePayment.estado=0;
                                 $scope.sale.estado=1;
                                 if ($scope.radioModel!=undefined && $scope.pago.tarjeta==0) {
                                     alert("Elija monto Pago Tarjeta");
+                                    $btn.button('reset');
                                 }else if($scope.radioModel!=undefined && $scope.pago.tarjeta>0){
                                     $scope.salePayment.Acuenta=$scope.salePayment.Acuenta+$scope.pago.tarjeta;
                                     $scope.saledetPayment.fecha=$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate()+' '+$scope.date.getHours()+':'+$scope.date.getMinutes()+':'+$scope.date.getSeconds();
@@ -1089,6 +1105,7 @@
                                 }
                                 else if($scope.radioModel==undefined && $scope.pago.tarjeta>0){
                                     alert("Elija Tarjeta");
+                                    $btn.button('reset');
                                     $scope.banderaPagosTarjeta=false;
                                 }
                                 if($scope.pago.cash>0 && $scope.banderaPagosTarjeta){
@@ -1116,10 +1133,12 @@
                         
                         }else{
                             alert("No puede realizar pago");
+                        $btn.button('reset');
                         }
                     //--
                     }else{
                         alert("Caja Cerrada");
+                    $btn.button('reset');
                         //$scope.createcash();
                     }
 
@@ -1221,8 +1240,10 @@
                 };
 
                 $scope.createdetPayment = function(){
+                    var $btn = $('#btn_generateDetPay').button('loading');
                     if($scope.detPago.monto<0){
                         alert("Numero no valido");
+                        $btn.button('reset');
                     }else{
                         $scope.pagoCredito=$scope.payment[0]; 
                         /*crudServiceSeparates.search('cashes',$scope.cash1.cashHeader_id,1).then(function (data){
@@ -1297,6 +1318,7 @@
                                                     $route.reload(); 
                                                     $scope.pagoCredito={};
                                                     $scope.detPago={};
+                                                    //$btn.button('reset');
                                                 } else {
                                                     $scope.errors = data;
 
@@ -1305,9 +1327,10 @@
                                         });
                                     }else{
                                         alert("Pago mayor a la deuda");
+                                        $btn.button('reset');
                                     }
 
-                            }else{alert("Caja Cerrada");}
+                            }else{alert("Caja Cerrada");$btn.button('reset');}
                             });
                         //});
                     }

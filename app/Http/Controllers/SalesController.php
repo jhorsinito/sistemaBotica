@@ -413,7 +413,8 @@ class SalesController extends Controller
                //$object['descripcion']='Entrada por compra';
                $object['tipo'] = 'Venta';
                $object["user_id"] = auth()->user()->id;
-               $object["Fecha"] = $request->input("fechaPedido");
+               //$object["Fecha"] = $request->input("fechaPedido");
+               $object["Fecha"] = date('Y-m-d H:i:s');
 
                $HeadStockRepo = new HeadInputStockRepo;
                $HeadStock = $HeadStockRepo->getModel();

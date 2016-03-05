@@ -22,6 +22,8 @@
                 }
                 $scope.createcash = function(){
 
+                    var $btn = $('#btn_generate').button('loading');
+
                     if ($scope.cashCreateForm.$valid) {
                             $scope.detCash.cash_id=$scope.cash.id;
                             $scope.detCash.fecha=$scope.date.getFullYear()+'-'+$scope.date.getMonth()+'-'+$scope.date.getDay();

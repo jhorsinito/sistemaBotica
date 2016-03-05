@@ -657,7 +657,8 @@ $scope.validaDocumento=function(){
                 $scope.realizarPago = function () {
                 //$log.log($scope.cashfinal.estado);
 
-                //$scope.mostrarAlmacenCaja();  
+                //$scope.mostrarAlmacenCaja();
+                    var $btn = $('#btn_generate').button('loading');
             crudServiceOrders.Comprueba_caj_for_user().then(function (data){  
                 if(data.id != undefined){
                 if ($scope.cashfinal.estado=='1') {
@@ -671,15 +672,18 @@ $scope.validaDocumento=function(){
                             //alert("credito");
                             if($scope.sale.customer_id==undefined){
                                 alert("Elija Cliente");
+                                $btn.button('reset');
                             }
                             else{
                                 $scope.salePayment.estado=1;
                                 $scope.sale.estado=1;
                                 if ($scope.pago.tarjeta+$scope.pago.cash>=$scope.sale.montoTotal){
                                     alert("Usa Pago Contado");
+                                    $btn.button('reset');
                                 }else{
                                 if ($scope.radioModel!=undefined && $scope.pago.tarjeta==0) {
                                     alert("Elija monto Pago Tarjeta");
+                                    $btn.button('reset');
                                 }else if($scope.radioModel!=undefined && $scope.pago.tarjeta>0){
                                     $scope.salePayment.Acuenta=$scope.salePayment.Acuenta+$scope.pago.tarjeta;
                                     $scope.saledetPayment.fecha=$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate()+' '+$scope.date.getHours()+':'+$scope.date.getMinutes()+':'+$scope.date.getSeconds();
@@ -692,6 +696,7 @@ $scope.validaDocumento=function(){
                                 }
                                 else if($scope.radioModel==undefined && $scope.pago.tarjeta>0){
                                     alert("Elija Tarjeta.");
+                                    $btn.button('reset');
                                     $scope.banderaPagosTarjeta=false;
                                 }
 
@@ -727,8 +732,10 @@ $scope.validaDocumento=function(){
                             };
                             if ($scope.pago.tarjeta+$scope.pago.cash<$scope.sale.montoTotal) {
                                 alert("Pago menor a la compra");
+                                $btn.button('reset');
                             }else if($scope.pago.tarjeta>$scope.sale.montoTotal){
                                 alert("Pago tarjeta mayor a la compra");
+                                $btn.button('reset');
                                 $scope.pago.cash=0;
                             }else{
                             //alert("Contado");
@@ -737,6 +744,7 @@ $scope.validaDocumento=function(){
                             $scope.sale.estado=1;
                             if ($scope.radioModel!=undefined && $scope.pago.tarjeta==0) {
                                 alert("Elija monto Pago Tarjeta");
+                                $btn.button('reset');
                             }else if($scope.radioModel!=undefined && $scope.pago.tarjeta>0){
                                 $scope.salePayment.Acuenta=$scope.salePayment.Acuenta+$scope.pago.tarjeta;
                                 $scope.saledetPayment.fecha=$scope.date.getFullYear()+'-'+($scope.date.getMonth()+1)+'-'+$scope.date.getDate()+' '+$scope.date.getHours()+':'+$scope.date.getMinutes()+':'+$scope.date.getSeconds();
@@ -749,6 +757,7 @@ $scope.validaDocumento=function(){
                             }
                             else if($scope.radioModel==undefined && $scope.pago.tarjeta>0){
                                 alert("Elija Tarjeta");
+                                $btn.button('reset');
                                 $scope.banderaPagosTarjeta=false;
                             }
                             if($scope.pago.cash>0 && $scope.banderaPagosTarjeta){
@@ -776,16 +785,19 @@ $scope.validaDocumento=function(){
                     }
                     else{
                             alert("No puede realizar pago");
+                        $btn.button('reset');
 
                     }
                     //--
                     
                     }else{
                         alert("Caja Cerrada");
+                    $btn.button('reset');
                         //$scope.createcash();
                     }
                 }else{
                     alert("usted no tiene permisos sobre esta caja");
+                    $btn.button('reset');
                 }
                 });
 

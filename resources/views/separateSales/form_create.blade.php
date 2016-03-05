@@ -791,7 +791,7 @@
 
                         <!--================================================-->
                         <div class="modal-footer" >
-                          <button type="submit" class="btn btn-primary" ng-click="realizarPago()">Cobrar</button>
+                          <button id="btn_generate" data-loading-text="Enviando.." type="submit" class="btn btn-primary" ng-click="realizarPago()">Cobrar</button>
                           <a  class="btn btn-danger" data-dismiss="modal" aria-hidden="ngenabled">Salir</a>
                       </div>
                     </form>

@@ -18,7 +18,7 @@
 
           <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Crear Cajas</h3>
+                  <h3 class="box-title">Ingresar Movimiento de caja</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form name="cashCreateForm" role="form" novalidate>
@@ -101,7 +101,7 @@
 
                                   
                   <div class="box-footer">
-                    <a ng-if="cash.estado==1" ng-click="createcash()" type="submit" class="btn btn-primary">Crear</a>
+                    <a id="btn_generate" data-loading-text="Enviando.." ng-if="cash.estado==1" ng-click="createcash()" type="submit" class="btn btn-primary">Crear</a>
                     <a ng-click="salir()" ng-href="@{{rutaCash}}" target="_self" class="btn btn-danger">Cancelar</a>
                   </div>
 
