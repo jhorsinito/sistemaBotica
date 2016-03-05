@@ -100,7 +100,7 @@ class DetCashRepo extends BaseRepo{
             ->join('cashHeaders','cashHeaders.id','=','cashes.cashHeader_id')
             ->leftjoin('sales','sales.separateSale_id','=','separateSales.id')
             ->leftjoin('headInvoices as hi','hi.venta_id','=','sales.id')
-            ->select(\DB::raw("separateSales.id,cashHeaders.nombre,users.name,separateSales.estado,
+            ->select(\DB::raw("separateSales.id,cashHeaders.nombre,users.name,separateSales.estado,separateSales.tipo,
                             hi.tipoDoc,hi.id as idDocu,cashMotives.nombre as Motivo,detCash.montoMovimientoTarjeta as tarjeta,
                             detCash.montoMovimientoEfectivo as efectivo,cashMotives.id as cashMotive_id,CONCAT((SUBSTRING(separateSales.fechaPedido,9,2)),'-',
                                 (SUBSTRING(separateSales.fechaPedido,6,2)),'-',

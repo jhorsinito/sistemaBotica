@@ -28,7 +28,10 @@
                     </ul> 
                   </div> 
                                     
- <div class="box">  
+ <div class="box">
+        <div class="row">
+
+            <div class="col-md-6">
                        <div  class="input-group">
 
 
@@ -44,6 +47,24 @@
                                <label>Fecha de Venta:</label>
                                <spam>@{{order1.fechaPedido}}</spam>
                          </div>
+        </div>
+            <div class="col-md-6">
+
+                <h3>TIPO: <span ng-if="order1.tipo==1" style="color:coral">SEPARADO.</span>
+                    <span ng-if="order1.tipo==2" style="color:coral">PEDIDO.</span></h3>
+
+                <h3>ESTADO:
+
+                    <span ng-if="order1.estado==1" style="color: yellow;">Pagado sin entregar.</span>
+                    <span ng-if="order1.estado==0" style="color: cornflowerblue;">Pendiente sin entregar.</span>
+                    <span ng-if="order1.estado==2" style="color: green;">Pagado y entregado.</span>
+                    <span ng-if="order1.estado==3" style="color: red;">Anulado</span>
+
+                </h3>
+
+            </div>
+
+        </div>
                          <div>
                          <label>Venta</label>
                           <div class="row" >
@@ -59,18 +80,30 @@
                           <div class="row" ng-show="banderaMostrarEntrega">
                           <div class="col-md-3">
                           <div class="form-group" >
-                                <input ng-disabled="order1.estado==3" type="checkbox" name="estado" ng-model="atenderOrder" ng-checked="atenderOrder" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="atenderOrderEstado()">
-                                <label for="estado">Atender Orden</label> 
+                                <input ng-disabled="order1.estado==3 || cancelPedido" type="checkbox" name="estado" ng-model="atenderOrder" ng-checked="atenderOrder" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="atenderOrderEstado()">
+                                <label for="estado">Atender <span ng-if="order1.tipo==1">SEPARADO</span>
+                                    <span ng-if="order1.tipo==2">PEDIDO</span>
+                                </label>
                           </div>
                           </div>
 
                           <div class="col-md-3">
                           <div class="form-group" >
                                 <input ng-disabled="order1.estado==3" type="checkbox" name="estado" ng-model="cancelPedido" ng-checked="cancelPedido" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="canPedido()">
-                                <label for="estado">Anular Pedido</label> 
+                                <label for="estado">Anular <span ng-if="order1.tipo==1">SEPARADO</span>
+                                    <span ng-if="order1.tipo==2">PEDIDO</span></label>
                           </div>
                           </div>
-                          
+
+                              <div class="col-md-3">
+                                  <select ng-model="order1.devolucion" ng-show="cancelPedido" class="form-control">
+                                      <option value="0">Sin Devolución</option>
+                                      <option value="1">Con Devolución</option>
+
+                                  </select>
+                              </div>
+
+
                           </div>
                            
                          </div>
@@ -81,7 +114,7 @@
 <!--==========================================Agregar Producto====================================-->
       <div class="box box-default"  id="price">
         <div class="box-header with-border">
-          <h3 class="box-title">Lista de Producto</h3>
+          <h3 class="box-title">Lista de Productos</h3>
           <div class="box-tools pull-right">
             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
           </div><!-- /.box-tools -->
@@ -92,6 +125,8 @@
               <th style="width: 10px">#</th>
               <th>Producto</th>
               <th>Atributos</th>
+                <th>SKU</th>
+                <th>Codigo Var</th>
               <th>Presentacion</th>
               <th>Precio Venta </th>
               <th>Descuento</th>
@@ -108,6 +143,8 @@
                       <td>@{{$index + 1}}</td>
                       <td><a popover-template="dynamicPopover5.templateUrl" popover-trigger="mouseenter">@{{row.nameProducto}}</td>
                       <td>@{{row.NombreAtributos}}</a></td>
+                        <td>@{{ row.sku }}</td>
+                        <td>@{{ row.codigo }}</td>
                       <td>@{{row.presentacion}}</td>
                       <td ng-hide="true">@{{row.purchases_id}}</td>
                       <td ng-hide="true">@{{row.detPres_id}}</td>

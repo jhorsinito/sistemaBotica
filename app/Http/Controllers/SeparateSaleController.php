@@ -70,7 +70,7 @@ class SeparateSaleController extends Controller {
 public function create(Request $request) {
 
 
-    //var_dump($request->all());die();
+    var_dump($request->all());die();
     \DB::beginTransaction();
 
         $orderSale = $this->separateSaleRepo->getModel();
@@ -201,8 +201,9 @@ public function create(Request $request) {
     } 
     public function edit(Request $request)
     {
-        /*var_dump($request->all()); die();
-        \DB::beginTransaction();
+        //var_dump($request->all()); die();
+
+        /*\DB::beginTransaction();
 
         $varDetOrders = $request->detOrder;
         
@@ -247,52 +248,66 @@ public function create(Request $request) {
         $cajaAct = $request->caja;
         //$movimiento = $request->movimiento;
         $movimiento = [];
-        if ($varPayment['Acuenta']>0) { //si considera los pagos en tarjeta, calculados en controllers.js
-            //---create movimiento---
-            //var_dump($request->movimiento);die();
-            $detCashrepo;
-            $movimiento['observacion']="temporal";
-            $movimiento['fecha'] = date('Y-m-d');
-            $movimiento['hora'] = date('H:i:s');
-            $movimiento['montoCaja'] = $cajaAct['montoBruto'];
-            $movimiento['montoMovimientoEfectivo'] = $varPayment['Acuenta'];
-            $movimiento['montoFinal'] = $movimiento['montoCaja']-$movimiento['montoMovimientoEfectivo'];
-            $movimiento['estado'] = 1;
-            $movimiento['cashMotive_id'] = 18;
-            $movimiento['cash_id'] = $cajaAct['id'];
-            $detCashrepo = new DetCashRepo;
-            $movimientoSave=$detCashrepo->getModel();
+        $devolucion = $request->input('devolucion');
 
-            $insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
-            $insertarMovimiento->save();
-            //---Autualizar Caja---
+        /*********************************************************************************************/
+        /***MOVIMIENTO DE CAJA***/
+
+        if($devolucion == 1) { //si desea devolucion, es negativo cuando se pasa de la fecha maxima de recojo..
+
+            if ($varPayment['Acuenta'] > 0) { //si considera los pagos en tarjeta, calculados en controllers.js
+                //---create movimiento---
+                //var_dump($request->movimiento);die();
+                $detCashrepo;
+                $movimiento['observacion'] = "temporal";
+                $movimiento['fecha'] = date('Y-m-d');
+                $movimiento['hora'] = date('H:i:s');
+                $movimiento['montoCaja'] = $cajaAct['montoBruto'];
+                $movimiento['montoMovimientoEfectivo'] = $varPayment['Acuenta'];
+                $movimiento['montoFinal'] = $movimiento['montoCaja'] - $movimiento['montoMovimientoEfectivo'];
+                $movimiento['estado'] = 1;
+                $movimiento['cashMotive_id'] = 18;
+                $movimiento['cash_id'] = $cajaAct['id'];
+                $detCashrepo = new DetCashRepo;
+                $movimientoSave = $detCashrepo->getModel();
+
+                $insertarMovimiento = new DetCashManager($movimientoSave, $movimiento);
+                $insertarMovimiento->save();
+                //---Autualizar Caja---
 
 
-            $cashrepo;
-            $cashrepo = new CashRepo;
-            $cajaSave=$cashrepo->getModel();
-            $cash1 = $cashrepo->find($cajaAct["id"]);
+                $cashrepo;
+                $cashrepo = new CashRepo;
+                $cajaSave = $cashrepo->getModel();
+                $cash1 = $cashrepo->find($cajaAct["id"]);
 
-            $cash1->montoBruto = $movimiento['montoFinal'];
+                $cash1->montoBruto = $movimiento['montoFinal'];
 
-            //$manager1 = new CashManager($cash1,$cajaAct);
-            //$manager1->save();
-            $cash1->save();
-            //----------------
+                //$manager1 = new CashManager($cash1,$cajaAct);
+                //$manager1->save();
+                $cash1->save();
+                //----------------
 
-            $salePaymentRepo;
-            $salePaymentRepo = new SalePaymentRepo;
-            //$payment = $salePaymentRepo->find($varPayment['id']);
-            $payment = $salePaymentRepo->find($varPayment['id']);
+                $salePaymentRepo;
+                $salePaymentRepo = new SalePaymentRepo;
+                //$payment = $salePaymentRepo->find($varPayment['id']);
+                $payment = $salePaymentRepo->find($varPayment['id']);
 
-            $payment->Acuenta = 0;
-            $payment->Saldo = $varPayment['Acuenta'];
-            $payment->save();
+                $payment->Acuenta = 0;
+                $payment->Saldo = $varPayment['Acuenta'];
+                $payment->save();
 
-            //$manager = new SalePaymentManager($payment,$varPayment);
-            //$manager->save();
+                //$manager = new SalePaymentManager($payment,$varPayment);
+                //$manager->save();
 
+            }
         }
+        /*********************************************************************************************/
+        /***FIN MOVIMIENTO DE CAJA***/
+
+
+        /*********************************************************************************************/
+        /***REPOSICIÓN DE STOCK ***/
 
         $HeadStockRepo;
         $codigoHeadIS=0;
@@ -352,6 +367,8 @@ public function create(Request $request) {
             $inputInsert->save();
             //---------------------------------------
         }
+        /*********************************************************************************************/
+        /***FIN REPOSICIÓN DE STOCK ***/
 
         $separateSale = $this->separateSaleRepo->find($request->id);
 

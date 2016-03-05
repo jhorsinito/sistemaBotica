@@ -31,7 +31,7 @@
                 <div class="box-header with-border">
                   <h3 class="box-title">Pedidos</h3>
                   <div class="box-tools">
-                  <form ng-keyup="searchorder()">
+                  <form ng-keyup="searchOrder()">
                     <div class="input-group" style="width: 200px;">
                       <input type="text" ng-model="query"  name="table_search" class="form-control input-sm pull-right" placeholder="Search" />
                       <div class="input-group-btn">
@@ -66,6 +66,7 @@
                       <th>Total</th>                                             
                       <th>Cliente</th>
                       <th>Vendedor</th>
+                      <th>Tipo</th>
                       <th>Estado Pago</th>
                       <th>Estado Venta</th>
                       <th style="width: 40px">Detalle</th>
@@ -81,10 +82,15 @@
                       <td>{{row.montoTotal}}</td>                      
                       <td>{{row.customer.nombres+' '+row.customer.apellidos+' - '+row.customer.empresa}}</td>
                       <td>{{row.employee.nombres+' '+row.employee.apellidos}}</td>
+
+                      <td ng-if="row.tipo==1">Separ.</td>
+                      <td ng-if="row.tipo==2">Pedid.</td>
+
                       <td ng-if="row.estado==1"><span style="color: yellow;">Pag. sin entre.</span></td>
                       <td ng-if="row.estado==0"><span style="color: cornflowerblue;">Pend. sin entre.</span></td>
                       <td ng-if="row.estado==2"><span style="color: green;">Pag y entre.</span></td>
                       <td ng-if="row.estado==3"><span style="color: red;">Anulado</span></td>
+
                       <td>{{row.estadoPago==1? 'Credito':'Contado'}}</td>
                       <td><a ng-click="editseparate(row)" class="btn btn-warning btn-xs">Ver</a></td>
                       

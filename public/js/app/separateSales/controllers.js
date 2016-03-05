@@ -61,10 +61,21 @@
                 //$scope.calculospedido();
                 //$scope.cancelPedido=false;
                 $scope.cashfinal={};
-                $scope.sale.fechaEntrega=undefined;
+                $scope.sale.fechaEntrega=new Date();
+                //$scope.sale.tipo = 1;
+                //$scope.sale.tipo;
                 //$scope.payment.PorPagado;
+                $scope.sale.tipo = ($scope.sale.tipo == 1) ? 1 : 2;
+                /*if($scope.sale.tipo == 1){
+                    $scope.sale.tipo = 1;
+                }else{
+                    $scope.sale.tipo = 2;
+                }*/
             }
             $scope.inicializar();
+                $scope.sale.tipo = 1; //1->separado, 2->pedido
+                //$scope.order1 = {};
+                //$scope.order1.devolucion = 0; //si devuleve el dinero en caja o no al anularlo..
 
                 $scope.estadoMostrarEntrega = function () {
                     if ($scope.order1.estado!=0) {$scope.banderaMostrarEntrega=true;}else{
@@ -97,6 +108,7 @@
                     //$scope.paginateDetPay();
                     crudServiceSeparates.byId(id,'separateSales').then(function (data) {
                         $scope.order1 = data;
+                        $scope.order1.devolucion = 1;
                         $log.log($scope.order1);
                         if ($scope.order1.estado==0) {$scope.cancelPedido=false}else if($scope.order1.estado==3){$scope.cancelPedido=true};
                         //alert($scope.order1.estado);
@@ -220,6 +232,28 @@
                     });
 
                 }
+
+                $scope.searchOrder = function(){
+                    if ($scope.query.length > 0) {
+                        crudServiceSeparates.search('separateSales',$scope.query,1).then(function (data){
+                         $scope.separateSales = data.data;
+                         $scope.totalItems1 = data.total;
+                         $scope.currentPage1 = data.current_page;
+                        });
+                        //alert('ho');
+                    }else{
+                        crudServiceSeparates.paginate('separateSales',1).then(function (data) {
+                            $scope.separateSales = data.data;
+                            $scope.maxSize = 5;
+                            $scope.totalItems = data.total;
+                            $scope.currentPage = data.current_page;
+                            $scope.itemsperPage = 15;
+                            //$log.log($scope.orderSales);
+                        });
+                    }
+
+                };
+
                 $scope.calculospedido =function () {
 
                     $scope.montoAcuenta= $scope.payment[0].Acuenta;
@@ -612,16 +646,20 @@
                             $scope.varianteSkuSelected1={};
                             $scope.varianteSkuSelected1=data;
                             $log.log($scope.varianteSkuSelected1);
-                            if ($scope.varianteSkuSelected1.length>0) {
-                                if (($scope.varianteSkuSelected1[0].Stock-$scope.varianteSkuSelected1[0].stockPedidos-$scope.varianteSkuSelected1[0].stockSeparados)>0) { 
+                            if($scope.sale.tipo == 1) { //si sale es pedido , no se toma en cuenta el stock
+                                if ($scope.varianteSkuSelected1.length > 0) {
+                                    if (($scope.varianteSkuSelected1[0].Stock - $scope.varianteSkuSelected1[0].stockPedidos - $scope.varianteSkuSelected1[0].stockSeparados) > 0) {
+                                        $scope.Jalar(size);
+                                    } else {
+                                        alert("STOCK INSUFICIENTE");
+                                        $scope.varianteSkuSelected = undefined;
+                                    }
+                                } else {
                                     $scope.Jalar(size);
-                                }else{
-                                    alert("STOCK INSUFICIENTE");
-                                    $scope.varianteSkuSelected=undefined;
-                                }  
+                                }
                             }else{
-                               $scope.Jalar(size);     
-                            }                                                        
+                                $scope.Jalar(size); // tomado del último else;
+                            }
                         //});
                     //}
                     });
@@ -666,6 +704,11 @@
                         $scope.varianteSkuSelected="";
                     } 
                 }
+
+                $scope.borraCompras = function(){
+                    $scope.inicializar();
+                }
+
                 $scope.recalcularCompra=function(){
                     $scope.sale.montoTotalSinDescuento=$scope.sale.montoTotal;
                     $scope.sale.montoTotal=((100-Number($scope.sale.descuento))*Number($scope.sale.montoTotalSinDescuento))/100;    
@@ -673,10 +716,12 @@
                     $scope.sale.montoBruto=Number($scope.sale.montoTotal)/1.18;
                     $scope.sale.igv=$scope.sale.montoTotal-$scope.sale.montoBruto;  
                 };
-                $scope.calcularmontos=function(index){ 
-                    if($scope.compras[index].cantidad>($scope.compras[index].Stock-$scope.compras[index].stockPedidos-$scope.compras[index].stockSeparados)){
-                        $scope.compras[index].cantidad=1;
-                        alert("Cantidad excede el STOCK");
+                $scope.calcularmontos=function(index){
+                    if($scope.sale.tipo == 1) { //si es pedido, no importa el stock
+                        if ($scope.compras[index].cantidad > ($scope.compras[index].Stock - $scope.compras[index].stockPedidos - $scope.compras[index].stockSeparados)) {
+                            $scope.compras[index].cantidad = 1;
+                            alert("Cantidad excede el STOCK");
+                        }
                     }
                     if($scope.compras[index].cantidad<1){
                        $scope.compras[index].cantidad=1;
@@ -697,18 +742,29 @@
                     $scope.bandera=false; 
                 };
                 $scope.aumentarCantidad= function(index){
-                    if ($scope.compras[index].equivalencia!=undefined) {
-                        $scope.compras[index].cantidad=$scope.compras[index].cantidad+1;
-                        if($scope.compras[index].cantidad*$scope.compras[index].equivalencia>($scope.compras[index].Stock-$scope.compras[index].stockPedidos-$scope.compras[index].stockSeparados)){
-                            alert("STOK INSUFICIENTE");
-                            $scope.compras[index].cantidad=$scope.compras[index].cantidad-1;
-                        }else{
-                            $scope.calcularmontos(index);    
+
+                    //if($scope.sale.tipo == 1) { //si sale es pedido , no se toma en cuenta el stock
+
+                        if ($scope.compras[index].equivalencia != undefined) {
+                            $scope.compras[index].cantidad = $scope.compras[index].cantidad + 1;
+                            if($scope.sale.tipo == 1) { //si sale es pedido , no se toma en cuenta el stock
+                                if ($scope.compras[index].cantidad * $scope.compras[index].equivalencia > ($scope.compras[index].Stock - $scope.compras[index].stockPedidos - $scope.compras[index].stockSeparados)) {
+                                    alert("STOK INSUFICIENTE");
+                                    $scope.compras[index].cantidad = $scope.compras[index].cantidad - 1;
+                                } else {
+                                    $scope.calcularmontos(index);
+                                }
+                            }else{
+                                $scope.calcularmontos(index); //copiado del ultimo else;
+                            }
+                        } else {
+                            $scope.compras[index].cantidad = $scope.compras[index].cantidad + 1;
+                            $scope.calcularmontos(index);
                         }
-                    }else{
-                        $scope.compras[index].cantidad=$scope.compras[index].cantidad+1;
-                        $scope.calcularmontos(index);  
-                    }
+                    //}else{
+                    //    $scope.compras[index].cantidad = $scope.compras[index].cantidad + 1; // copie el 2do else;
+                    //    $scope.calcularmontos(index);
+                    //}
                                 
                 };
                 $scope.disminuirCantidad= function(index){
@@ -800,19 +856,31 @@
                         $scope.presentations = data;
                         if($scope.base){
                             if ($scope.atributoSelected.NombreAtributos!=undefined) {
-                                //if ($scope.atributoSelected.Stock>0) {       
-                                    $scope.atributoSelected.cantidad=1;
-                                    $scope.atributoSelected.descuento=0;
-                                    $scope.atributoSelected.subTotal=$scope.atributoSelected.cantidad*Number($scope.atributoSelected.precioProducto);
-                                    $scope.atributoSelected.precioVenta=Number($scope.atributoSelected.precioProducto);
-                    
-                                    $scope.compras.push($scope.atributoSelected);  
+                                if($scope.sale.tipo == 1) { //si sale es pedido , no se toma en cuenta el stock
+                                    if ($scope.atributoSelected.Stock > 0) {
+                                        $scope.atributoSelected.cantidad = 1;
+                                        $scope.atributoSelected.descuento = 0;
+                                        $scope.atributoSelected.subTotal = $scope.atributoSelected.cantidad * Number($scope.atributoSelected.precioProducto);
+                                        $scope.atributoSelected.precioVenta = Number($scope.atributoSelected.precioProducto);
 
-                                    $scope.sale.montoTotal=$scope.sale.montoTotalSinDescuento+$scope.atributoSelected.subTotal;
+                                        $scope.compras.push($scope.atributoSelected);
+
+                                        $scope.sale.montoTotal = $scope.sale.montoTotalSinDescuento + $scope.atributoSelected.subTotal;
+                                        $scope.recalcularCompra();
+                                    } else {
+                                        alert("STOK INSUFICIENTE");
+                                    }
+                                }else{
+                                    $scope.atributoSelected.cantidad = 1;
+                                    $scope.atributoSelected.descuento = 0;
+                                    $scope.atributoSelected.subTotal = $scope.atributoSelected.cantidad * Number($scope.atributoSelected.precioProducto);
+                                    $scope.atributoSelected.precioVenta = Number($scope.atributoSelected.precioProducto);
+
+                                    $scope.compras.push($scope.atributoSelected);
+
+                                    $scope.sale.montoTotal = $scope.sale.montoTotalSinDescuento + $scope.atributoSelected.subTotal;
                                     $scope.recalcularCompra();
-                                //}else{
-                                  //  alert("STOK INSUFICIENTE");
-                                //}   
+                                }
                             }else{
                                 alert("Seleccione Producto Correctamente");
                                 $scope.atributoSelected=undefined;

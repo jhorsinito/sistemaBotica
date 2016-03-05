@@ -33,6 +33,7 @@ class DetSeparateSalesController extends Controller {
     public function edit(Request $request)
     {
         //var_dump($request->all()); die();
+        \DB::beginTransaction();
         $pendiente = $request->canPendiente;
         $detorderSale = $this->detSeparateSaleRepo->find($request->id);
         $request->merge(['canPendiente' => 0]);
@@ -61,7 +62,7 @@ class DetSeparateSalesController extends Controller {
 
         //$manager1 = new StockManager($stockOri,$stock);
         //$manager1->save();
-
+        \DB::commit();
         return response()->json(['estado'=>true, 'nombre'=>$detorderSale->nombre]);
 
     }  

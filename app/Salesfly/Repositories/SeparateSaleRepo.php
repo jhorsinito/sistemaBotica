@@ -11,9 +11,16 @@ class SeparateSaleRepo extends BaseRepo{
     }
     public function search($q)
     {
-        $separate =SeparateSale::where('nombre','like', $q.'%')
-                    //with(['customer','employee'])
-                    ->paginate(15);
+        $separate = SeparateSale::leftjoin('salePayments','salePayments.separateSale_id','=','separateSales.id')
+            ->leftjoin('customers','separateSales.customer_id','=','customers.id')
+            ->select('separateSales.*','salePayments.estado as estadoPago')
+            ->with('customer','employee')
+            ->where('separateSales.fechaPedido','like', $q.'%')
+            ->orWhere('customers.nombres','like',$q.'%')
+            ->orWhere('customers.apellidos','like',$q.'%')
+            ->orWhere('customers.empresa','like',$q.'%')
+            ->orderBy('separateSales.id','DESC')
+            ->paginate(15);
         return $separate;
     }
     public function paginate($count){

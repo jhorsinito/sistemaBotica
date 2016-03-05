@@ -66,6 +66,13 @@
                       </div>  
                       
                     </div>
+                          <div class="col-md-3">
+                              <label for="">TIPO:</label>
+                              <select class="form-control" name="" id="" ng-model="sale.tipo" ng-change="borraCompras()">
+                                  <option value="1">SEPARADO</option>
+                                  <option value="2">PEDIDO</option>
+                              </select>
+                          </div>
                     </div>
 
                     <div class="row">
@@ -226,6 +233,7 @@
                       
                       <th>S/.Tarjeta</th>
                       <th>S/.Efectivo</th>
+                        <th>Tipo</th>
                       <th>Estado</th>
                       <th>Ver Venta</th>
                     </tr>
@@ -239,12 +247,16 @@
                         <td ng-if="row.NumDocument==null">-</td>
                       <td>@{{row.tarjeta}}</td>
                       <td>@{{row.efectivo}}</td>
+
+                        <td ng-if="row.tipo==1">Separ.</td>
+                        <td ng-if="row.tipo==2">Pedid.</td>
+
                         <td ng-if="row.estado==1"><span style="color: yellow;">Pag. sin entre.</span></td>
                         <td ng-if="row.estado==0"><span style="color: cornflowerblue;">Pend. sin entre.</span></td>
                         <td ng-if="row.estado==2"><span style="color: green;">Pag y entre.</span></td>
                         <td ng-if="row.estado==3"><span style="color: red;">Anulado</span></td>
                       
-                      <td ><a href="/separateSales/edit/@{{row.id}}" target="_blank">ver separado</a></td>
+                      <td ><a href="/separateSales/edit/@{{row.id}}" target="_blank">Ver</a></td>
 
                     </tr>                   
                   </table>
