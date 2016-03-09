@@ -65,7 +65,8 @@ class DetSaleRepo extends BaseRepo{
 
                     ->where('cashes.user_id','=', auth()->user()->id)
                     ->where('cashes.estado','=','1')    
-                    ->groupBy('detSales.id')    
+                    ->groupBy('detSales.id')
+                    ->orderBy('detSales.id','DESC')
                     //with(['customer','employee'])
                     ->paginate(15);
         return $detSales;

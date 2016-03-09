@@ -149,6 +149,9 @@ Route::get('api/variants/selectStocksTallaSinTaco/{id}/{alma}','VariantsControll
 
 Route::get('api/variantname/search/{q?}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@searchCodigo']);
 
+Route::post('api/products/actualizarDsctoGeneral','ProductsController@actualizarDsctoGeneral');
+
+
 //END VARIANTS ROUTES
 
 //Presentations routes
@@ -692,7 +695,7 @@ Route::get('api/separateSales/paginate/',['as' => 'person_paginate', 'uses' => '
 Route::post('api/separateSales/create',['as'=>'person_create', 'uses'=>'SeparateSaleController@create']);
 Route::put('api/separateSales/edit',['as'=>'person_edit', 'uses'=>'SeparateSaleController@edit']);
 Route::post('api/separateSales/destroy',['as'=>'person_destroy', 'uses'=>'SeparateSaleController@destroy']);
-Route::get('api/separateSales/search/{q?}',['as'=>'person_search', 'uses'=>'SeparateSaleController@search']);
+Route::get('api/separateSales/search/{q}/{x}',['as'=>'person_search', 'uses'=>'SeparateSaleController@search']);
 Route::get('api/separateSales/find/{id}',['as'=>'person_find', 'uses'=>'SeparateSaleController@find']);
 
 //--------------------------------------------------------------
@@ -718,5 +721,6 @@ Route::post('api/TiketReport2/create/{id}','VariantsController@reportes2');
 Route::post('api/TiketReport3/create/{id}','VariantsController@reportes3');
 
 Route::get('api/listarVentasDia/search',['as'=>'person_search', 'uses'=>'DetSalesController@listarVentasDia']);
+Route::get('api/listarVentasDiaSep/search',['as'=>'person_search', 'uses'=>'DetSeparateSalesController@listarVentasDia']);
 
 Route::get('api/cantidadProductos/cantidades',['as'=>'person_search', 'uses'=>'ProductsController@cantidadProductos']);

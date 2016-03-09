@@ -82,8 +82,11 @@ public function create(Request $request) {
         $saledetPayments = $request->saledetPayments;
 
         $request->merge(['fechaPedido' => date('Y-m-d H:i:s')]);
-        $request->merge(['estado' => 0 ]);
-
+        if($payment['Saldo'] == 0){
+            $request->merge(['estado' => 1]);
+        }else {
+            $request->merge(['estado' => 0]);
+        }
         $manager = new SeparateSaleManager($orderSale,$request->all());
         $manager->save();
         /*
@@ -208,10 +211,10 @@ public function create(Request $request) {
         return response()->json($material);
     }
 
-    public function search($q)
+    public function search($q,$x)
     {
         //$q = Input::get('q');
-        $separateSales = $this->separateSaleRepo->search($q);
+        $separateSales = $this->separateSaleRepo->search($q,$x);
 
         return response()->json($separateSales);
     } 

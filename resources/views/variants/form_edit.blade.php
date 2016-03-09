@@ -325,16 +325,16 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group" >
-                            <label for="suppPric">% Descuento</label>
-                            <input type="number" class="form-control" name="" string-to-number placeholder="0.00" ng-model="presentation.dscto" ng-change="calculateDscto()" step="0.1">
-                            <label for="suppPric">Cant Descuento</label>
-                            <input type="number" class="form-control" name="" string-to-number placeholder="0.00" ng-model="presentation.dsctoCant" ng-change="calculateDsctoCant()" step="0.1">
+                            <label for="dscto">% Descuento</label>
+                            <input type="number" class="form-control" name="dscto"  string-to-number placeholder="0.00" ng-model="presentation.dscto" ng-change="calculateDscto()" step="0.1">
+                            <label for="dsctoCant">Cant Descuento</label>
+                            <input type="number" class="form-control" name="dsctoCant" string-to-number placeholder="0.00" ng-model="presentation.dsctoCant" ng-change="calculateDsctoCant()" step="0.1">
 
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <label for="suppPric">% PVP</label>
-                        <input type="number" class="form-control" string-to-number  ng-model="presentation.pvp" step="0.1" ng-change="calculatePVP()">
+                        <label for="pvp">% PVP</label>
+                        <input type="number" class="form-control"  name="pvp" string-to-number ng-model="presentation.pvp" step="0.1" ng-change="calculatePVP()">
                     </div>
                 </div>
 

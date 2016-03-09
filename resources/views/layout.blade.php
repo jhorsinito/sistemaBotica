@@ -181,6 +181,16 @@
                             <i class="fa fa-shopping-cart"></i> <span>Pedid./Separ.</span>
                           </a>
              </li>
+            <li class="">
+              <a href="/sales">
+                <i class="fa fa-list-ol"></i> <span>Lista de Ventas en Total</span>
+              </a>
+            </li>
+            <li class="">
+              <a href="/separateSales">
+                <i class="fa fa-list-ol"></i> <span>Lista de Ped/Sep en Total</span>
+              </a>
+            </li>
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-calculator"></i>

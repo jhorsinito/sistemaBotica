@@ -52,6 +52,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
             ->groupBy('products.id')
             ->where('products.nombre','like',$q.'%')
             ->orWhere('products.codigo','like',$q.'%')
+            ->orderBy('products.id','DESC')
             ->paginate(15);
         return $products;
     }
@@ -135,6 +136,7 @@ INNER JOIN presentation ON detPres.presentation_id = presentation.id
 WHERE products.presentation_base = presentation.id and products.id = proId and products.hasVariants = false ) as detPresPri'))
                             //->having()
                             ->groupBy('products.id')
+                            ->orderBy('products.id','DESC')
                             ->paginate($qantity);
         return $products;
     }

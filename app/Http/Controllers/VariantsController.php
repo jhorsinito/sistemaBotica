@@ -103,6 +103,7 @@ class VariantsController extends Controller
 
     public function create(Request $request)
     {
+        //var_dump($request->all()); die();
      \DB::beginTransaction();
         $tallasDisponibles=$request->otros;
         $cantTallas=$request->cantTallas;
@@ -116,9 +117,10 @@ class VariantsController extends Controller
         
             //si viene el prod y ademas es prod con variantes
         if(!empty($oProd) && $oProd->hasVariants == 1){
-$n=0;
- if($request->input('checkTallas')==true){
-foreach ($tallasDisponibles as $tallasD) {
+            $n=0;
+            //ADD MULTIPLE VARIANTS -------------------------------------------------------------------------
+                if($request->input('checkTallas')==true){
+            foreach ($tallasDisponibles as $tallasD) {
         //var_dump($tallasD); die();
         $request->merge(["track"=>1]);
         $variant = $this->variantRepo->getModel();
@@ -217,6 +219,9 @@ foreach ($tallasDisponibles as $tallasD) {
             //================================./ADD IMAGE TO VAR==============================//
            $n++;
          }
+
+                    //END ADD MULTIPLE VARIANTS
+
      }else{
         $variant = $this->variantRepo->getModel();
 
@@ -581,5 +586,35 @@ foreach ($tallasDisponibles as $tallasD) {
         return '/report/'.$time.'_TiketVariante2.'.$ext;
     }
     /*./ fx ayuda para img*/
+
+    public function actualizarDsctoVar(Request $request){
+        //var_dump($request->all()); die();
+        \DB::beginTransaction();
+        $variant = $this->variantRepo->find($request->input('DsctoProId')); //DStoProID es el id de la variant
+        //$variants = $product->variants;
+
+        $detPre = null;
+        $dsctCant = null;
+        //foreach ($variants as $variant) {
+            //var_dump($variant->detPreONE->id);
+        $detPre = $variant->detPreONE;
+            //var_dump($detPre->id);
+        $detPre->dscto = $request->input('DsctoVal');
+        $dsctCant = $detPre->price*$request->input('DsctoVal')/100; //pq aun no se guarda el dato;
+        $detPre->dsctoCant = $dsctCant;
+        $detPre->pvp = $detPre->price -$dsctCant;
+        $detPre->save();
+        //}
+
+        //$product->dscto = $request->input('DsctoVal');
+        //$product->save();
+
+        //die();
+
+        //var_dump(count($variants)); die();
+
+        \DB::commit();
+        return response()->json(['estado' => true]);
+    }
 
 }

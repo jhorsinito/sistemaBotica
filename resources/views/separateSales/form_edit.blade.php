@@ -77,9 +77,9 @@
                               </table>
                             </div> 
                           </div>
-                          <div class="row" ng-show="banderaMostrarEntrega">
+                          <div class="row" >
                           <div class="col-md-3">
-                          <div class="form-group" >
+                          <div class="form-group" ng-show="banderaMostrarEntrega">
                                 <input ng-disabled="order1.estado==3 || cancelPedido" type="checkbox" name="estado" ng-model="atenderOrder" ng-checked="atenderOrder" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="atenderOrderEstado()">
                                 <label for="estado">Atender <span ng-if="order1.tipo==1">SEPARADO</span>
                                     <span ng-if="order1.tipo==2">PEDIDO</span>
@@ -154,8 +154,9 @@
                       <td>@{{row.canEntregado}}</td>
                       <td>@{{row.canPendiente}}</td>
                       <td ng-if="atenderOrder"><input style="width: 45px" ng-disabled="row.estad" ng-model="row.parteEntregado" string-to-number ng-change="ActualizarPartStock(row,$index)" type="number" min="0" placeholder="@{{row.canPendiente}}" ></td>
-                      <td ng-if="atenderOrder"><input type="checkbox" ng-disabled="row.estad1" ng-click="cancelOrderProduc(row,$index)" name="estado" ng-model="row.estad" ng-checked="row.estad" class="ng-valid ng-dirty ng-valid-parse ng-touched"></td>
-                      
+                      <!--<td ng-if="atenderOrder"><input type="checkbox" ng-disabled="row.estad1" ng-click="cancelOrderProduc(row,$index)" name="estado" ng-model="row.estad" ng-checked="row.estad" class="ng-valid ng-dirty ng-valid-parse ng-touched"></td>-->
+                      <td ng-if="atenderOrder"><input type="checkbox" ng-disabled="true" ng-click="cancelOrderProduc(row,$index)" name="estado" ng-model="row.estad" ng-checked="row.estad" class="ng-valid ng-dirty ng-valid-parse ng-touched"></td>
+
                       <!--<td><a ng-click="sacarRow(row.index,row.montoTotal)" class="btn btn-warning btn-xs">Sacar</a></td>
                       <td><a ng-click="EditarDetalles(row,row.index)" data-target="#miventanaEditRow" data-toggle="modal" class="btn btn-warning btn-xs">Edit</a></td>
                     -->
@@ -270,7 +271,7 @@
                                         <div class="input-group-addon"> 
                                               <i class="fa fa-calendar"></i>
                                         </div>
-                                      <input  type="date"   class="form-control" name="fecha" ng-model="detPago.fecha" required>
+                                      <input ng-disabled="true" type="date"   class="form-control" name="fecha" ng-model="detPago.fecha" required>
                                    </div>   
                                   
                      
@@ -279,12 +280,12 @@
                <div class="form-group" ng-class="{true: 'has-error'}[ orderPurchaseCreateForm.warehouse.$error.required && orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.warehouse.$dirty && orderPurchaseCreateForm.warehouse.$invalid]">
                        
                        <select ng-hide="show" class="form-control" name="warehouse" ng-click="" ng-model="detPago.saleMethodPayment_id" ng-options="item.id as item.nombre for item in saleMethodPayments" required>
-                       <option value="">--Elija Modo de Pago--</option>
+
                        </select>
                        <label ng-show="orderPurchaseCreateForm.$submitted || orderPurchaseCreateForm.warehouse.$dirty && orderPurchaseCreateForm.warehouse.$invalid">
                                 <span ng-show="orderPurchaseCreateForm.warehouse.$invalid"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>
-                       
+
                     </div>
               </td>
               <td>

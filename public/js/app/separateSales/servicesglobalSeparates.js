@@ -126,6 +126,26 @@
                 return deferred.promise;
             }
 
+            function search2(uri,query1,query2,page){
+                var deferred = $q.defer();
+                var result = $http.get('/api/'+uri+'/search/'+query1+'/'+query2+'/?page='+page);
+
+                result.success(function(data){
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
+
+            function search1(uri,page){
+                var deferred = $q.defer();
+                var result = $http.get('/api/'+uri+'/search/?page='+page);
+
+                result.success(function(data){
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
+
             function searchMes(uri,mes,year,conc,page){
                 var deferred = $q.defer();
                 var result = $http.get('/api/'+uri+'/search/'+mes+'/'+year+'/'+conc+'/?page='+page);
@@ -201,7 +221,9 @@
                 reportProWare,reportProWare,
                 getPres, setPres,
                 editFavoritoId,editFavoritoId,
-                Comprueba_caj_for_user: Comprueba_caj_for_user
+                Comprueba_caj_for_user: Comprueba_caj_for_user,
+                search1: search1,
+                search2: search2
             }
         }])
         .factory('socketService', function ($rootScope) {
