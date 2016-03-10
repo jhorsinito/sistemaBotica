@@ -36,11 +36,14 @@
                   <!--<input type="text" ng-model="product.canttoalProducts">-->
                     <span style="font-size: 16px; color: red; font-weight: bold;">{{product.canttoalProducts}}</span>
                   <label>----->Total en Stock:</label>
-                  <!--<input type="text" ng-model="product.stockA">-->
-                   
-                   <span style="font-size: 16px; color: red; font-weight: bold;">{{product.stockA | number:0}}</span>
-                  <span>Con. Stock</span><input    type="checkbox"  name="variantes" ng-model="check" />
+<<<<<<< HEAD
+                  <input type="text" ng-model="product.stockA">
+                   <span>Con. Stock</span><input    type="checkbox"  name="variantes" ng-model="check" />
                            
+=======
+                  <!--<input type="text" ng-model="product.stockA">-->
+                    <span style="font-size: 16px; color: red; font-weight: bold;">{{product.stockA | number:0}}</span>
+>>>>>>> adafa379e775a51480129fc0c74589467aaea976
                   <div class="box-tools">
                   <form ng-keyup="searchProduct()">
                     <div class="input-group" style="width: 200px;">
@@ -96,7 +99,11 @@
                                         <span ng-if="row.proQuantvar == '0'">-</span>
                                 </span>
                         </td>
+<<<<<<< HEAD
                         <td> <button popover-placement="bottom"  popover-template="stockTemplate" type="button" class="btn btn-default btn-xs" ng-click="showStock(row.proId)">{{row.stoStockActual}}</button>
+=======
+                        <td> <button popover-placement="bottom" popover-template="stockTemplate" type="button" class="btn btn-default btn-xs" ng-click="showStock(row.proId)">{{row.stoStockActual | number:0}}</button>
+>>>>>>> adafa379e775a51480129fc0c74589467aaea976
                         </td>
                       <td ng-show="check" style="width:90px;"><input type="number" class="form-control" ng-blur="llenarDatosTemp(row.proId,row)" ng-model="temporal[row.proId].stockReal"></td>
                       <td><a ng-click="editProduct(row)" class="btn btn-warning btn-xs">Editar</a></td>

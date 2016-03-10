@@ -35,7 +35,7 @@
                 };
                 $scope.descriReport="Generar Reporte";
                 $scope.generarReporteDetCash=function(){
-                    alert($routeParams.id);
+                    
                      $scope.descriReport="Generarando...";
                     crudService.Reportes10('Reportedetcash',$routeParams.id).then(function (data){
                         if(data!=undefined){
