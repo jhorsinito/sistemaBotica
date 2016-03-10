@@ -133,6 +133,7 @@
                     <tr ng-repeat="row in headInputStocks">
                       <td>@{{$index + 1}}</td>
                       <td >@{{row.Fecha}}</td>
+                      <td ng-if="row.tipo=='Entrada-Anulado'"><span class="badge bg-yellow">Entrada-Anulado</span></td> 
                       <td ng-if="row.tipo=='Entrada'"><span class="badge bg-red">Entrada</span></td> 
                       <td ng-if="row.tipo=='Transferencia'"><span class="badge bg-yellow">Transferencia</span></td> 
                       <td ng-if="row.tipo=='Salida'"><span class="badge bg-green">Salida</span></td> 

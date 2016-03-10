@@ -135,7 +135,12 @@
                       </div><!-- /.box -->
                     </div>
                   </div>
-
+                  <div class="row">
+                    <div class="col-md-10"> </div>
+                      <div class="col-md-2">
+                        <button ng-click="generarReporteDetCash()" type="submit" class="btn btn-primary" >@{{descriReport}}</button>
+                      </div>
+                  </div>
                   <table class="table table-bordered">
                     <tr>
                       <th style="width: 10px">#</th>

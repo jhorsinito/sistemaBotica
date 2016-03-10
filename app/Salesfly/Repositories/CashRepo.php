@@ -17,7 +17,13 @@ class CashRepo extends BaseRepo{
         }
         $cashes =Cash::join("users","users.id","=","cashes.user_id")
                     ->join("cashHeaders","cashHeaders.id","=","cashes.cashHeader_id")
-                    ->select("cashes.*","cashes.estado as estado1","users.name as nomUser")
+                    ->select(\DB::raw("cashes.*,cashes.estado as estado1,users.name as nomUser,
+                                CONCAT((SUBSTRING(cashes.fechaInicio,9,2)),'-',
+                                (SUBSTRING(cashes.fechaInicio,6,2)),'-',
+                                (SUBSTRING(cashes.fechaInicio,1,4)))as fechainicio2,
+                            CONCAT((SUBSTRING(cashes.fechaFin,9,2)),'-',
+                                (SUBSTRING(cashes.fechaFin,6,2)),'-',
+                                (SUBSTRING(cashes.fechaFin,1,4)))as fechafin2"))
                      ->where('cashes.cashHeader_id','like', $q)
                     //with(['customer','employee'])
                     ->orderby('cashes.fechaInicio','DESC')
@@ -29,7 +35,13 @@ class CashRepo extends BaseRepo{
         
         $cashes =Cash::join("users","users.id","=","cashes.user_id")
                     ->join("cashHeaders","cashHeaders.id","=","cashes.cashHeader_id")
-                    ->select("cashes.*","cashes.estado as estado1","users.name as nomUser")
+                    ->select(\DB::raw("cashes.*,cashes.estado as estado1,users.name as nomUser,
+                                CONCAT((SUBSTRING(cashes.fechaInicio,9,2)),'-',
+                                (SUBSTRING(cashes.fechaInicio,6,2)),'-',
+                                (SUBSTRING(cashes.fechaInicio,1,4)))as fechainicio2,
+                            CONCAT((SUBSTRING(cashes.fechaFin,9,2)),'-',
+                                (SUBSTRING(cashes.fechaFin,6,2)),'-',
+                                (SUBSTRING(cashes.fechaFin,1,4)))as fechafin2"))
                     //with(['customer','employee'])
                         ->orderby('cashes.fechaInicio','DESC')
                     ->paginate(15);

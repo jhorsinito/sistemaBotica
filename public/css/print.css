@@ -62,8 +62,20 @@ body{
 input{
 	width: 100px;
 }
-
+.contenedor{
+	position: absolute !important;
+	margin-left: -50px !important;
+	width: 60% !important;
+}
+.contenedor2{
+	width: 60% !important;
+	
+}
+.tablajaa{
+	width: 100% !important;
+}
 #printx { 
+	
 	visibility:visible; 
   	 display: block !important; 
 }

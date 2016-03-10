@@ -15,8 +15,8 @@
 
 <!-- Main content -->
 <section class="content">
-
-    <div class="row">
+ 
+    <div class="row noPrintx">
         <div class="col-md-12">
         <div class="box">
           <div class="box-header with-border">
@@ -44,7 +44,8 @@
                       <b>Código de Proveedor:</b> @{{ product.suppCode }} <br/>
             <b>Estación:</b> @{{ product.station.nombre }} <br/> <br/>
                       <b>Modelo:</b> @{{ product.modelo }}
-
+                <br>
+                <span>Con. Stock</span><input    type="checkbox"  name="variantes" ng-model="check" />
 
                   </div>
                   <div class="col-md-4">
@@ -86,6 +87,7 @@
                                   <th style="">Ganacia</th>
                                   <th style="">Precio Venta</th>
                                   <th style="">En stock</th>
+                                  <th ng-show="check">Stock Real</th>
                                     <th>Editar</th>
                                     <th >Opción</th>
                                     <th >Eliminar</th>
@@ -106,6 +108,8 @@
                                     <td>@{{row.det_pre[0].markup}}</td>
                                     <td>@{{row.det_pre[0].price}}</td>
                                     <td>@{{row.stock[0].stockActual}}</td>
+
+                                    <td ng-show="check" style="width:90px;"><input type="number" class="form-control" ng-blur="llenarDatosTemp2(row.id,row)" ng-model="temporal[row.id].stockReal"></td>
                                     <td><a ng-click="editVariant(row)" class="btn btn-warning btn-xs">Editar</a></td>
                                     <td>
                                         <span ng-if="row.estado == 1">
@@ -123,6 +127,8 @@
 
                               </tbody></table>
                             </div><!-- /.box-body -->
+                            <button type="button" class="btn btn-info" ng-click="inprimirDatosTemp()">Llenar Datos</button><br>
+             
                           </div>
 
                   </span>
@@ -203,4 +209,45 @@
         </div><!-- /.box -->
         </div>
     </div>
-</section>
+     <!--================================================================================-->
+                  <section id="printx" style="display:none;" >
+                <div class="row contenedor">
+      
+      <div class="col-md-12">
+      <h1 style="text-aling:center;">Reporte Cuadre de Stock</h1><br>
+       <form class="">
+          
+          <div class="">
+          
+          <table class="table table-bordered table-hover tablajaa">
+                <thead>
+                  <th>#</th>
+                  <th>Codigo</th>
+                  <th>Sku</th>
+                  <th>Producto</th>
+                  <th>Stock Actual</th>
+                  <th>Stock Fisico</th>
+                  <th>Cuadre</th>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="row in temporal2">
+                      <td>@{{$index + 1}}</td>
+                      <td>@{{row.codigo}}</td>
+                      <td>@{{row.sku}}</td>
+                      <td>@{{row.producto}}</td>
+                      <td>@{{row.stock}}</td>
+                      <td>@{{row.stockReal}}</td>
+                      <td>@{{row.cuadre}}</td>
+                  </tr>
+                </tbody>
+           </table>
+           
+          </div>
+        
+        </form>
+      
+   </div>
+  </div></section></section>
+              <!--================================================================================-->
+
+

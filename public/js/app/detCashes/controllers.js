@@ -100,7 +100,7 @@
                     $scope.detCash.montoMovimientoEfectivo=0;
                     
                 };
-
+                 
                 $scope.pageChanged = function() {
                     if ($scope.query.length > 0) {
                         crudService.search('detCashes',$scope.query,$scope.currentPage).then(function (data){

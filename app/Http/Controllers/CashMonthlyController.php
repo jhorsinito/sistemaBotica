@@ -118,4 +118,28 @@ class CashMonthlyController extends Controller {
         return response()->json($cashMonthlys);
         //return $m+$a+$c;
     }
+
+    public function reporteCajaMensual($fech1,$fech2,$concep){
+        if($concep==0){
+            $concep='';
+        }
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_CajaMensual';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/CajaMensual.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini' => $fech1,'fechafin'=>$fech2,'concepto'=>$concep],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_CajaMensual.'.$ext;
+    }
 }

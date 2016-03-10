@@ -288,24 +288,27 @@
                }
                 $scope.comproStock={};
                 $scope.Inventario=function(){
+              $scope.comproStock.producto=$scope.producto.proId.proCodigo+'-'+$scope.producto.proId.proNombre+
+              '('+($scope.producto.proId.BraName==null ? '': $scope.producto.proId.BraName+'/')+($scope.producto.proId.TName==null ? '' : $scope.producto.proId.TName+'/')+($scope.producto.proId.Mnombre==null ? '':$scope.producto.proId.Mnombre+'/')+($scope.producto.proId.NombreAtributos==null ? '':$scope.producto.proId.NombreAtributos)+')';
+                 //alert($scope.producto.proId);
                   crudOPurchase.StockActual("stocks",$scope.producto.proId.varid,$scope.purchase.almacen).then(function (data){
                    $scope.comproStock.stockActual=data.stockActual;
                    $scope.comproStock.stockActualID=data.id;
-                 });
+                });
                 }
+                $scope.objectto=[];
                 $scope.ActualizarStock=function(){
-                  if ($scope.comproStock.stockReal>=0) {
-                        crudOPurchase.update($scope.comproStock,'stocks1').then(function(data)
-                        {
-                            if(data['estado'] == true){
-                                $scope.success = data['nombres'];
-                                alert('editado correctamente');
-                                $route.reload();
-                            }else{
-                                $scope.errors =data;
-                            }
-                        });
-                    }
+                  if($scope.comproStock.stockActual==$scope.comproStock.stockReal){
+                      $scope.limpiarCardex();
+                  }else{
+                 $scope.objectto.push($scope.comproStock);
+                 $scope.comproStock={};
+                 $scope.producto.proId="";
+               }
+                }
+                $scope.limpiarCardex=function(){
+                  $scope.comproStock={};
+                 $scope.producto.proId="";
                 }
                 $scope.ListarinputStocks=function(row){
                 
@@ -1665,8 +1668,42 @@
 //reportesCardexVariantFecha
                 }
                 
-
-
+ $scope.decriboton="Generar Reporte Clientes";
+                $scope.ReportMejoresCliente=function(){
+                    if($scope.fechainicio!=undefined && $scope.fechafin!=undefined){
+                    $scope.fechainicio1=$scope.fechainicio.getFullYear()+"-"+($scope.fechainicio.getMonth()+1)+"-"+$scope.fechainicio.getDate();
+                    $scope.fechafin2=$scope.fechafin.getFullYear()+"-"+($scope.fechafin.getMonth()+1)+"-"+$scope.fechafin.getDate();
+                    //alert($scope.fechainicio+"---"+$scope.fechafin);
+                     $scope.decriboton="Generando..";
+                     crudOPurchase.movimientoFechasTipo('ReportMejoresCliente',$scope.fechainicio1,$scope.fechafin2,$scope.limit).then(function(data)
+                    {
+                        if(data!=undefined){
+                            $window.open(data);
+                            $scope.decriboton="Generar Reporte Clientes";
+                        }else{
+                            $scope.errors = data;
+                        }
+                    });
+                 }
+                }
+$scope.decriboton1="Generar Reporte Empleados";
+                $scope.ReportMejoresEmpleados=function(){
+                    if($scope.fechainicio!=undefined && $scope.fechafin!=undefined){
+                    $scope.fechainicio1=$scope.fechainicio.getFullYear()+"-"+($scope.fechainicio.getMonth()+1)+"-"+$scope.fechainicio.getDate();
+                    $scope.fechafin2=$scope.fechafin.getFullYear()+"-"+($scope.fechafin.getMonth()+1)+"-"+$scope.fechafin.getDate();
+                    //alert($scope.fechainicio+"---"+$scope.fechafin);
+                     $scope.decriboton1="Generando..";
+                     crudOPurchase.movimientoFechasTipo('ReportMejoresEmpleados',$scope.fechainicio1,$scope.fechafin2,$scope.limit).then(function(data)
+                    {
+                        if(data!=undefined){
+                            $window.open(data);
+                            $scope.decriboton1="Generar Reporte Empleados";
+                        }else{
+                            $scope.errors = data;
+                        }
+                    });
+                 }
+                }
 
                 //===========================================fin report Cardex=============================
 

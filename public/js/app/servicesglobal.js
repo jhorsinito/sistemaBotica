@@ -125,6 +125,22 @@
                 });
                 return deferred.promise;
             }
+            function reporteCajaMensual(uri,fechaini,fechafin,concepto)
+            {
+                var deferred = $q.defer();
+                $http.post('/api/'+uri+'/create/'+fechaini+'/'+fechafin+'/'+concepto).success(function (data) {
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
+            function reporteRangFechas(uri,fechaini,fechafin){
+                var deferred = $q.defer();
+                $http.post('/api/'+uri+'/create/'+fechaini+'/'+fechafin).success(function (data) {
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+
+            }
             function Reportes10(uri,id)
             {
                 var deferred = $q.defer();
@@ -210,7 +226,9 @@
                 update:update,
                 destroy:destroy,
                 search: search,
+                reporteRangFechas:reporteRangFechas,
                 select:select,
+                reporteCajaMensual: reporteCajaMensual,
                 byforeingKey: byforeingKey,
                 searchMes,searchMes,
                 Reportes10: Reportes10,

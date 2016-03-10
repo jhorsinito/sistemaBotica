@@ -150,11 +150,48 @@
        <div class="row">
             <div class="col-md-1"></div>
               <div  class="col-md-6">
-               <h2>Cuadre de Inventario</h2>
+               <h2>Reporte Mejores Clientes/Empleados</h2>
               </div>
 
-       </div>          
+       </div>   <hr>   
         <div class="row">
+                <div class="col-md-1">  </div>
+                    <div class="col-md-4">                             
+                            <label for="fechaPedido">Fecha Inicio: </label>
+                            <div ng-hide="show" class="input-group">
+                                <div class="input-group-addon">
+                                      <i class="fa fa-calendar"></i>
+                                </div>
+                                  <input type="date" class="form-control"  name="fechainicio" ng-model="fechainicio" >
+                            </div>                          
+                        </div> 
+                         <div class="col-md-4">                             
+                            <label for="fechaPedido">Fecha Fin: </label>
+                            <div ng-hide="show" class="input-group">
+                                <div class="input-group-addon">
+                                      <i class="fa fa-calendar"></i>
+                                </div>
+                                  <input type="date" class="form-control"  ng-model="fechafin" >
+                            </div>                          
+                        </div>
+                        <div class="col-md-2"> 
+                        <label>Cantidad</label> <br>
+                        <input  type="number" class="form-control" ng-model="limit">
+                        </div>
+                </div>
+                 <div class="row">
+                      <div class="col-md-1">  </div>
+                      <div class="col-md-2"> 
+                        <label></label> <br>
+                        <input ng-disabled="fechafin<fechainicio" type="button" class="btn btn-warning" ng-click="ReportMejoresCliente()" value="@{{decriboton}}">
+                      </div>
+                      <div class="col-md-2"> 
+                        <label></label> <br>
+                        <input ng-disabled="fechafin<fechainicio" type="button" class="btn btn-warning" ng-click="ReportMejoresEmpleados()" value="@{{decriboton1}}">
+                      </div>
+                 </div>
+                <br>    
+       <!-- <div class="row">
         <div class="col-md-1"></div>
               <div  class="col-md-6">
                      <div class="input-group" style="width: 100%;">
@@ -178,7 +215,7 @@
                 <select   ng-change="" class="form-control"   ng-model="purchase.almacen" ng-options="item.id as item.nombre for item in almacenes">
                   
                 </select>
-                <!--@{{variants.varid}}-->
+                <!--@{{variants.varid}}-
                 </div>
           </div>
         </div> 
@@ -196,7 +233,30 @@
                <label></label><br>
                <input type="submit" class="btn btn-info" ng-click="ActualizarStock()" value="Actualizar Stock">
            </div>
-        </div>           
+           <div class="col-md-2">
+               <label></label><br>
+               <input type="submit" class="btn btn-success" ng-click="limpiarCardex()" value="Limpiar">
+           </div>
+        </div> 
+        <div class="row"> 
+           <div class="col-md-1"></div>
+           <div class="col-md-10">
+               <table class="table table-striped">
+                 <thead>
+                   <th>Variante</th>
+                   <th>Stock Actual</th>
+                   <th>Stock Real</th>
+                 </thead>
+                 <tbody>
+                   <tr ng-repeat="row in objectto">
+                     <td>@{{row.producto}}</td>
+                     <td>@{{row.stockActual}}</td>
+                     <td>@{{row.stockReal}}</td>
+                   </tr>
+                 </tbody>
+               </table>
+           </div>
+        </div>    -->      
      <div class="box-footer">
                     <a href="/purchases" class="btn btn-danger">Salir</a>
                   </div>

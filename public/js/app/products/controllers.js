@@ -41,6 +41,7 @@
                 $scope.stations = {};
                 $scope.product.estado = true;
                 $scope.product.hasVariants = true;
+                $scope.temporal=[];
 
                 $scope.presentation = {};
                 $scope.presentations = [];
@@ -84,7 +85,54 @@
                 /*
                 ./ de variants create
                  */
+                 $scope.temporal2=[];
+                $scope.llenarDatosTemp=function(index,row){
+                      //alert($scope.temporal[index].stockReal);
+                      if($scope.temporal[index].stockReal!=undefined || $scope.temporal[index].stockReal!='' ){
 
+                      $scope.temporal[index].producto=row.proCodigo+"-("+row.braNombre+"/"+row.typNombre+")";
+                      $scope.temporal[index].stock=row.stoStockActual;
+                      if($scope.temporal[index].stock==$scope.temporal[index].stockReal)
+                      {
+                        $scope.temporal[index].cuadre="Correcto";
+                      }else{
+                        $scope.temporal[index].cuadre="Incorrecto";
+                      }
+                      }
+                }
+                $scope.llenarDatosTemp2=function(index,row){
+                    $log.log(row);
+                      //alert($scope.temporal[index].stockReal);
+                      if($scope.temporal[index].stockReal!=undefined || $scope.temporal[index].stockReal!='' ){
+                      $scope.temporal[index].codigo=row.codigo;
+                      $scope.temporal[index].sku=row.sku;
+                      $scope.temporal[index].producto="";
+                      var i=0;
+                      for (i=0;i<row.det_atr.length;i++) { 
+                        $scope.temporal[index].producto=$scope.temporal[index].producto+"/"+row.det_atr[i].descripcion;
+                      }
+                      $scope.temporal[index].stock=row.stock[0].stockActual;
+                      if($scope.temporal[index].stock==$scope.temporal[index].stockReal)
+                      {
+                        $scope.temporal[index].cuadre="Correcto";
+                      }else{
+                        $scope.temporal[index].cuadre="Incorrecto";
+                      }
+                      }
+                }
+                $scope.check50=false;
+                $scope.inprimirDatosTemp=function(){
+                   //for (i = 0; i < $scope.temporal.length; i++) { 
+                   //     alert($scope.temporal[i].stock);
+                         $scope.temporal.forEach(ShowResults);
+                         $scope.check50=true;
+                         $scope.check=false;
+                   //}
+                }
+               function ShowResults(item, index) {
+                      $scope.temporal2.push($scope.temporal[index]);
+                      //demoP.innerHTML = demoP.innerHTML + "index[" + index + "]: " + item + "<br />";
+                }
 
                 $scope.calculateSuppPric = function() {//presentation.markup
                     //alert('holi');alert($scope.presentation.suppPri);
@@ -673,7 +721,7 @@
                     {
                         if(data != undefined){
                             $scope.tiketName="Generar Tikets Planta";
-                           alert(data);
+                           //alert(data);
                            $window.open(data);
                         }else{
                             alert("Error No se a generado Tikets");
@@ -808,7 +856,8 @@
                           if(aregloSubcadena.length>1){
                             codigodes=codigodes+(aregloSubcadena[0].substring(0,1)+aregloSubcadena[1].substring(0,1)).toLowerCase();
                           }else{
-                            codigodes.codigo=codigodes+(aregloSubcadena[0].substring(0,2)).toLowerCase();
+                            
+                            codigodes=codigodes+(aregloSubcadena[0].substring(0,2)).toLowerCase();
                           }
                       }else{
                            if($scope.variant.detAtr[0].descripcion!=undefined){
@@ -886,8 +935,10 @@
                  }
                  $scope.editCod=function(attr_id){
                     crudService.byId($scope.product.codigo,'consultCodigo').then(function (data){
-                        if(data.descripcion!=null){
-                               $scope.variant.codigo=data.codigo+data.descripcion.substring(0,1);
+                        if(data.nombre!=null){
+
+                               $scope.variant.codigo=data.codigo+data.nombre.substring(0,1);
+                               
                                $scope.capAttr10(attr_id);
                            }else{
                                $scope.variant.codigo=data.codigo;
@@ -1411,7 +1462,44 @@
                 function isEmpty(obj) {
                     return Object.keys(obj).length === 0;
                 }
+               //============================================================= 
+var 
+    form = $('.form'),
+    cache_width = form.width(),
+    a4  =[ 595.28,  841.89];  // for a4 size paper width and height
 
+$('#create_pdf').on('click',function(){
+    $('body').scrollTop(0);
+    $scope.createPDF();
+});
+//create pdf
+$scope.createPDF=function(){
+   
+    $scope.getCanvas().then(function(canvas){
+        var 
+        img = canvas.toDataURL("image/png"),
+        doc = new jsPDF({
+          unit:'px', 
+          format:'a4'
+        });     
+        doc.addImage(img, 'JPEG', 20, 20);
+        doc.save('techumber-html-to-pdf.pdf');
+        form.width(cache_width);
+    });
+}
+
+// create canvas object
+$scope.getCanvas=function(){
+    form.width((a4[0]*1.33333) -80).css('max-width','none');
+    return html2canvas(form,{
+        imageTimeout:2000,
+        removeContainer:true
+    }); 
+}
+
+
+
+   //======================================================================
 
             }]);
 })();

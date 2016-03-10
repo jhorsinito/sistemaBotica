@@ -487,6 +487,26 @@ class PurchasesController extends Controller {
         
         return '/report/'.$time.'_Tiket.'.$ext;
     }
+    public function ReportVentas($fecha1,$fecha2){
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_ReporteCajas';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/ReporteCajas.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['SUBREPORT_DIR'=> public_path() . '/report/','fechaini'=>$fecha1,'fechafin'=>$fecha2],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_ReporteCajas.'.$ext;
+    }
      public function reportesCod($id){
      // var_dump("hola commd");die();
         $database = \Config::get('database.connections.mysql');
@@ -595,6 +615,46 @@ class PurchasesController extends Controller {
             false
         )->execute();
         return '/report/'.$time.'_reporteCompraLike.'.$ext;
+    }
+      public function ReportMejoresEmpleados($fecha1,$fecha2,$can){
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_MejoresClientes';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/MejoresClientes.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini'=>$fecha1,'fechafin'=>$fecha2,'cant'=>$can],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_MejoresClientes.'.$ext;
+    }
+     public function ReportMejoresCliente($fecha1,$fecha2,$can){
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_MejoresClientes2';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/MejoresClientes2.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini'=>$fecha1,'fechafin'=>$fecha2,'cant'=>$can],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_MejoresClientes2.'.$ext;
     }
     public function find($id)
     {

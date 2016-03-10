@@ -811,4 +811,26 @@ class SalesController extends Controller
         )->execute();
         return '/report/'.$time.'Boleta.'.$ext;
     }
+    
+    public function ReportVentas($fecha1,$fecha2){
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_SubReportVentas';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/SubReportVentas.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['SUBREPORT_DIR'=> public_path() . '/report/','fechaini'=>$fecha1,'fechafin'=>$fecha2],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_SubReportVentas.'.$ext;
+    }
+
 }

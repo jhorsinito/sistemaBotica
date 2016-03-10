@@ -1,7 +1,7 @@
 (function(){
     angular.module('cashMonthlys.controllers',[])
-        .controller('CashMonthlyController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log',
-            function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log){
+        .controller('CashMonthlyController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$window','$log',
+            function($scope, $routeParams,$location,crudService,socket,$filter,$route,$window,$log){
                 $scope.cashMonthlys = [];
                 $scope.cashMonthly = {};
                 $scope.expenseMonthlys = [];
@@ -99,7 +99,24 @@
                                 //$scope.calcularAcumulado();
                             });
                 }
-
+                $scope.generarReporteCajaMen=function(){
+                    if($scope.cashMonthly.expenseMonthlys_id==null ){
+                                $scope.cashMonthly.expenseMonthlys_id=0;
+                            }
+                            $scope.fecha1=$scope.fechaInicio.getFullYear()+'-'+($scope.fechaInicio.getMonth()+1)+'-'+$scope.fechaInicio.getDate();
+                            $scope.fecha2=$scope.fechaFin.getFullYear()+'-'+($scope.fechaFin.getMonth()+1)+'-'+$scope.fechaFin.getDate();
+                            
+                    alert($scope.fecha1+"//"+$scope.fecha2+"-----"+$scope.cashMonthly.expenseMonthlys_id);
+                    crudService.reporteCajaMensual('reporteCajaMensual',$scope.fecha1,$scope.fecha2,$scope.cashMonthly.expenseMonthlys_id).then(function (data){
+                    if(data != undefined){
+                            //$scope.tiketName="Generar Tikets Planta";
+                          //alert(data);
+                           $window.open(data);
+                        }else{
+                            alert("Error No se a generado Tikets");
+                        }
+                    });
+                }
                 $scope.pageChanged = function() {
                     if ($scope.query.length > 0) {
                         crudService.search('cashMonthlys',$scope.query,$scope.currentPage).then(function (data){

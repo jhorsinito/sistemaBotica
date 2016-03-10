@@ -14,7 +14,7 @@ class ProductRepo extends BaseRepo{
       $products = Product::leftjoin('types','products.type_id','=','types.id')
                           ->where('codigo','=',$cod)
                           ->groupBy('products.id')
-                          ->select('products.codigo','types.descripcion')
+                          ->select('products.codigo','types.nombre')
                           ->first();
                     return $products;      
    }

@@ -14,7 +14,14 @@
 
                 return deferred.promise;
             }
+            function reporteRangFechas(uri,fechaini,fechafin){
+                var deferred = $q.defer();
+                $http.post('/api/'+uri+'/create/'+fechaini+'/'+fechafin).success(function (data) {
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
 
+            }
             function paginate(uri,page)
             {
                 var deferred = $q.defer();
@@ -37,6 +44,19 @@
             {
                 var deferred = $q.defer();
                 $http.post( '/api/'+uri+'/create', area )
+                    .success(function (data)
+                    {
+                        deferred.resolve(data);
+                    }).error(function(data)
+                {
+                    alert('No se puede Agregar');
+                });
+                return deferred.promise;
+            }
+             function createReportes(id,uri)
+            {
+                var deferred = $q.defer();
+                $http.post( '/api/'+uri+'/create/'+id)
                     .success(function (data)
                     {
                         deferred.resolve(data);
@@ -237,8 +257,10 @@ function Document_venta_Factura()
                 create1:create1,
                 byId:byId,
                 update:update,
+                createReportes:createReportes,
                 search1:search1,
                 destroy:destroy,
+                reporteRangFechas: reporteRangFechas,
                 search: search,
                 select:select,
                 byforeingKey: byforeingKey,

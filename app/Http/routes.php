@@ -716,7 +716,14 @@ Route::post('api/reportMovimientosVarianteRangoF/create/{fechaini}/{fechafin}/{t
 Route::post('api/Factura','SalesController@reporteFactura');
 Route::post('api/TiketReport2/create/{id}','VariantsController@reportes2');
 Route::post('api/TiketReport3/create/{id}','VariantsController@reportes3');
+Route::post('api/Reportedetcash/create/{id}','CashesController@Reportedetcash');
+Route::post('api/ReportCashes/create/{fechaini}/{fechafin}','CashesController@ReportCashes');
+Route::post('api/ReportVentas/create/{fechaini}/{fechafin}','SalesController@ReportVentas');
+Route::post('api/ReportMejoresCliente/create/{fechaini}/{fechafin}/{cant}','PurchasesController@ReportMejoresCliente');
+Route::post('api/ReportMejoresEmpleados/create/{fechaini}/{fechafin}/{cant}','PurchasesController@ReportMejoresEmpleados');
 
 Route::get('api/listarVentasDia/search',['as'=>'person_search', 'uses'=>'DetSalesController@listarVentasDia']);
 
 Route::get('api/cantidadProductos/cantidades',['as'=>'person_search', 'uses'=>'ProductsController@cantidadProductos']);
+
+Route::post('api/reporteCajaMensual/create/{fechaini}/{fechafin}/{concepto}','CashMonthlyController@reporteCajaMensual');

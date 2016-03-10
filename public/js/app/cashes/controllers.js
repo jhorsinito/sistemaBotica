@@ -1,7 +1,7 @@
 (function(){
     angular.module('cashes.controllers',[])
-        .controller('CashesController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log',
-            function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log){
+        .controller('CashesController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$window','$log',
+            function($scope, $routeParams,$location,crudService,socket,$filter,$route,$window,$log){
                 $scope.cashes = [];
                 $scope.cash={};
                 $scope.errors = null;
@@ -33,6 +33,19 @@
                     }
                     
                 };
+                $scope.descriReport="Generar Reporte";
+                $scope.generarReporteDetCash=function(){
+                    alert($routeParams.id);
+                     $scope.descriReport="Generarando...";
+                    crudService.Reportes10('Reportedetcash',$routeParams.id).then(function (data){
+                        if(data!=undefined){
+                            $window.open(data);
+                            $scope.descriReport="Generar Reporte";
+                        }else{
+                            alert("Error al generar reporte");
+                        }
+                    });
+                 }
                 $scope.cargarCajasDiarias = function () {
                     //if (true) {};
                     //alert($scope.cash.cashHeader_id);
@@ -69,7 +82,7 @@
                 $scope.calculardescuadre = function () {
                     $scope.cash.descuadre=Number($scope.cash.montoReal)-Number($scope.cash.montoBruto);
                 };
-                    
+                $scope.caj_id=1;
                 $scope.verCaja = function () {
                     $scope.cash1={};
                     if ($scope.cashes.length==0) {
@@ -92,6 +105,7 @@
                                     $scope.cash1 = data;
                                     alert("Caja Abierta");
                                     $scope.ruta='/cashes/edit/'+$scope.cash1.id;
+                                    $scope.caj_id=$scope.cash1.id;
                                     $scope.bandera=false;
                                 }
                                 else
@@ -290,6 +304,7 @@
                 }
 
                 $scope.editcash = function(row){
+                    $scope.caj_id=row.id;
                  crudService.Comprueba_caj_for_user1(row.id).then(function (data){
               if(data.id!=undefined && data.id!=''){
                     
@@ -324,6 +339,24 @@
 
                 $scope.cancelcash = function(){
                     $scope.cash = {};
+                }
+                $scope.decriboton="Generar Reporte";
+                $scope.GenReporteCajas=function(){
+                    if($scope.fechainicio!=undefined && $scope.fechafin!=undefined){
+                    $scope.fechainicio1=$scope.fechainicio.getFullYear()+"-"+($scope.fechainicio.getMonth()+1)+"-"+$scope.fechainicio.getDate();
+                    $scope.fechafin2=$scope.fechafin.getFullYear()+"-"+($scope.fechafin.getMonth()+1)+"-"+$scope.fechafin.getDate();
+                    //alert($scope.fechainicio+"---"+$scope.fechafin);
+                     $scope.decriboton="Generando..";
+                     crudService.reporteRangFechas('ReportCashes',$scope.fechainicio1,$scope.fechafin2).then(function(data)
+                    {
+                        if(data!=undefined){
+                            $window.open(data);
+                            $scope.decriboton="Generar Reporte";
+                        }else{
+                            $scope.errors = data;
+                        }
+                    });
+                 }
                 }
 
                 $scope.destroycash = function(){
