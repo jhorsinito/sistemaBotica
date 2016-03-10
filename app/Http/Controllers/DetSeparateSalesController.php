@@ -30,6 +30,14 @@ class DetSeparateSalesController extends Controller {
         return response()->json($detorderSale);
     }
 
+    public function listarVentasDia()
+    {
+        //$q = Input::get('q');
+        $detSale = $this->detSeparateSaleRepo->listarVentasDia();
+
+        return response()->json($detSale);
+    }
+
     public function edit(Request $request)
     {
         var_dump($request->all()); die();
@@ -65,5 +73,5 @@ class DetSeparateSalesController extends Controller {
         \DB::commit();
         return response()->json(['estado'=>true, 'nombre'=>$detorderSale->nombre]);
 
-    }  
+    }
 }

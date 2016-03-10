@@ -7,6 +7,7 @@
                 $scope.separateSale = {};
                 $scope.errors = null; 
                 $scope.success;
+                $scope.query2 = '0';
                 $scope.query = '';
                 $scope.store={};
                 $scope.warehouse={};
@@ -62,6 +63,7 @@
                 //$scope.cancelPedido=false;
                 //$scope.cashfinal={};
                 $scope.sale.fechaEntrega=new Date();
+                //$scope.detPago.fecha = new Date();
                 //$scope.sale.tipo = 1;
                 //$scope.sale.tipo;
                 //$scope.payment.PorPagado;
@@ -72,9 +74,12 @@
                     $scope.sale.tipo = 2;
                 }*/
             }
+                //$scope.detPago = {};
             $scope.inicializar();
                 $scope.sale.tipo = 1; //1->separado, 2->pedido
                 $scope.cashfinal={}; //la caja se obtiene independientemente si es ped o sep.
+                //$scope.detPago = {};
+                //$scope.detPago.saleMethodPayment_id='2';
                 //$scope.order1 = {};
                 //$scope.order1.devolucion = 0; //si devuleve el dinero en caja o no al anularlo..
 
@@ -88,8 +93,9 @@
                 };
 
                 $scope.pageChanged = function() {
-                    if ($scope.query.length > 0) {
-                        crudServiceSeparates.search('separateSales',$scope.query,$scope.currentPage).then(function (data){
+                    if ($scope.query.length > 0 || $scope.query2 != '0') {
+                        if($scope.query == '') $scope.query = ' ';
+                        crudServiceSeparates.search2('separateSales',$scope.query,$scope.query2,$scope.currentPage).then(function (data){
                             $scope.separateSales = data.data;
                         });
                     }else{
@@ -151,6 +157,7 @@
 
                     crudServiceSeparates.select('saleMethodPayments','select').then(function (data) {                        
                         $scope.saleMethodPayments = data;
+                        $scope.detPago.saleMethodPayment_id = '1';
 
                     });
                     crudServiceSeparates.select('stores','select').then(function (data) {                        
@@ -234,12 +241,29 @@
 
                 }
 
+                $scope.cargarVentasProduct=function(){
+                    crudServiceSeparates.search1("listarVentasDiaSep",1).then(function(data){
+                        $scope.ventas=data.data;
+                        $scope.maxSizeV= 5;
+                        $scope.totalItemsV = data.total;
+                        $scope.currentPageV= data.current_page;
+                        $scope.itemsperPageV= 15;
+                    });
+                }
+
+                $scope.pageChangedV=function(){
+                    crudServiceSeparates.search1("listarVentasDiaSep",$scope.currentPageV).then(function(data){
+                        $scope.ventas=data.data;
+                    });
+                }
+
                 $scope.searchOrder = function(){
-                    if ($scope.query.length > 0) {
-                        crudServiceSeparates.search('separateSales',$scope.query,1).then(function (data){
+                    if ($scope.query.length > 0 || $scope.query2 != '0') {
+                        if($scope.query == '') $scope.query = ' ';
+                        crudServiceSeparates.search2('separateSales',$scope.query,$scope.query2,1).then(function (data){
                          $scope.separateSales = data.data;
-                         $scope.totalItems1 = data.total;
-                         $scope.currentPage1 = data.current_page;
+                         $scope.totalItems = data.total;
+                         $scope.currentPage = data.current_page;
                         });
                         //alert('ho');
                     }else{
@@ -335,6 +359,28 @@
                     }
 
                 }
+
+                $scope.pageChanged1 = function() {
+                    if ($scope.query.length > 0) { //no definido aún
+                        //crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,$scope.currentPage1).then(function (data){
+                        //    $scope.detCashes = data.data;
+                        //});
+                    }else{
+                        //crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,$scope.currentPage1).then(function (data){
+                        //    $scope.detCashes = data.data;
+                        //});
+                        crudServiceSeparates.paginate('ver_ventasSeparate',$scope.currentPage1).then(function (data){
+                            //$scope.detCashes = data.data;
+                            //crudServiceOrders.search('detCashesSale',$scope.cashfinal.id,1).then(function (data){
+                            //$log.log($scope.detCashes);
+                            $scope.detCashes = data.data;
+                            //$scope.maxSize1 = 5;
+                            //$scope.totalItems1 = data.total;
+                            //$scope.currentPage1 = data.current_page;
+                            //$scope.itemsperPage1 = 5;
+                        });
+                    }
+                };
 
                 //$scope.estadoOrderProduc=1;
                 //---------------------------------------------------------------
@@ -564,11 +610,23 @@
                             $scope.totalParteEntrega+=Number($scope.detOrders[i].parteEntregado);
                             if ($scope.detOrders[i].estado==0) {$scope.banderaEstadoOrderSale=false;};
                             //if (($scope.detOrders[i].stock-$scope.detOrders[i].separados)<$scope.detOrders[i].parteEntregado-1) {
-                            if (($scope.detOrders[i].stock-$scope.detOrders[i].separados)<0) {
 
-                                $scope.banderaStokPedidos=false;
-                                //alert('holi');
-                            };
+                            if ($scope.order1.tipo == 1) {
+
+                                if (($scope.detOrders[i].stock - $scope.detOrders[i].separados) < 0) {
+
+                                    $scope.banderaStokPedidos = false;
+                                    //alert('holi');
+                                };
+
+                            }else if ($scope.order1.tipo == 2){
+
+                                if (($scope.detOrders[i].stock - $scope.detOrders[i].pedidos) < 0) {
+
+                                    $scope.banderaStokPedidos = false;
+                                    //alert('holi');
+                                };
+                            }
                             
                         }; 
                         //alert($scope.banderaStokPedidos);

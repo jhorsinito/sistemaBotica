@@ -43,5 +43,37 @@ class DetSeparateSaleRepo extends BaseRepo{
                     ->paginate(15);
         return $separate;
     }
+
+    public function listarVentasDia(){
+        $detSales =\DB::table('detSeparateSales')
+            ->leftjoin("detPres","detPres.id","=","detSeparateSales.detPre_id")
+            ->leftjoin("variants","variants.id","=","detPres.variant_id")
+            ->leftjoin("products","products.id","=","variants.product_id")
+            ->leftjoin('brands','products.brand_id','=','brands.id')
+            ->leftjoin('types','products.type_id','=','types.id')
+            ->leftjoin('stations','products.station_id','=','stations.id')
+            ->join('separateSales','detSeparateSales.separateSale_id','=','separateSales.id')
+            ->join('detCash','separateSales.id','=','detCash.observacion')
+            ->join('cashes','detCash.cash_id','=','cashes.id')
+
+            ->join('salePayments','salePayments.separateSale_id','=','separateSales.id')
+            ->leftjoin('saledetPayments','saledetPayments.salePayment_id','=','salePayments.id')
+            ->leftjoin('saleMethodPayments','saleMethodPayments.id','=','saledetPayments.saleMethodPayment_id')
+
+            ->select(\DB::raw('variants.id as varid,variants.sku,brands.nombre as marca,products.codigo,types.nombre as linea,stations.nombre as estacion,products.modelo,detSeparateSales.subTotal,separateSales.estado as estado,detSeparateSales.cantidad,saleMethodPayments.nombre as SMPNombre'),
+                \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Color" ) as color'),
+                \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Taco" ) as Taco'),
+                \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Talla" ) as Talla'))
+
+            ->where('cashes.user_id','=', auth()->user()->id)
+            ->where('cashes.estado','=','1')
+            //->where('detCash.observacion','=','20')
+            ->whereIn('detCash.cashMotive_id',array(15,16,17,19,20,21))
+            ->groupBy('detSeparateSales.id')
+            ->orderBy('detSeparateSales.id','DESC')
+            //with(['customer','employee'])
+            ->paginate(15);
+        return $detSales;
+    }
     
 } 

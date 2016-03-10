@@ -38,7 +38,9 @@
                 <ul class="nav nav-tabs">
                   <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Venta</a></li>
                   <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false" ng-click="actualizarCaja()">Caja Venta</a></li>
-                  <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Opciones</a></li>
+                    <li class=""><a href="#tab_6" data-toggle="tab" aria-expanded="false" ng-click="cargarVentasProduct()">Ventas Productos</a></li>
+
+                    <!--<li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Opciones</a></li>-->
                   
                 </ul>
                 <div class="tab-content">
@@ -267,6 +269,57 @@
                   </div>                    
 
                   </div><!-- /.tab-pane -->
+
+                    <div class="tab-pane" id="tab_6">
+
+
+
+                        <table class="table table-bordered">
+                            <tr>
+                                <th style="width: 10px">#</th>
+                                <th>Marca</th>
+                                <th>Codigo</th>
+                                <th>sku</th>
+                                <th>Cantidad</th>
+                                <th>Vestir/Sport</th>
+                                <th>Estacion</th>
+                                <th>Modelo</th>
+                                <th>Color</th>
+                                <th>Taco</th>
+                                <th>Talla</th>
+                                <th>Separado/Pedido</th>
+                                <th>Modo de Pago</th>
+                                <th>Monto</th>
+                            </tr>
+
+                            <tr  ng-repeat="row in ventas track by $index">
+                                <td>@{{$index + 1}}</td>
+                                <td>@{{row.marca}}</td>
+                                <td>@{{row.codigo}}</td>
+                                <td>@{{row.sku}}</td>
+                                <td>@{{row.cantidad | number:0}}</td>
+                                <td>@{{row.linea}}</td>
+                                <td>@{{row.estacion}}</td>
+                                <td>@{{row.modelo}}</td>
+                                <td>@{{row.color}}</td>
+                                <td>@{{row.Taco}}</td>
+                                <td>@{{row.Talla}}</td>
+                                <td>@{{row.Material}}</td>
+                                <td>@{{row.SMPNombre}}</td>
+
+                                <td ng-if="row.estado==0" style="color: cornflowerblue;">S/. @{{row.subTotal}}</td>
+                                <td ng-if="row.estado==1" style="color: yellow;">S/. @{{row.subTotal}}</td>
+                                <td ng-if="row.estado==2" style="color: green;">S/. @{{row.subTotal}}</td>
+                                <td ng-if="row.estado==3" style="color: red;">S/. @{{row.subTotal}}</td>
+                            </tr>
+
+
+                        </table>
+                        <div class="box-footer clearfix">
+                            <pagination total-items="totalItemsV" ng-model="currentPageV" max-size="maxSizeV" class="pagination-sm no-margin pull-right"
+                                        items-per-page="itemsperPageV" boundary-links="true" rotate="false" num-pages="numPages" ng-change="pageChangedV()"></pagination>
+                        </div>
+                    </div>
 
                   <div class="tab-pane" id="tab_3">
                   <div class="row">

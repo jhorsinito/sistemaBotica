@@ -39,10 +39,11 @@
                 <ul class="nav nav-tabs">
                   <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Venta</a></li>
                   <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false" ng-click="actualizarCaja()">Caja Venta</a></li>
-                  <li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Opciones</a></li>
+                    <li class=""><a href="#tab_6" data-toggle="tab" aria-expanded="false" ng-click="cargarVentasProduct()">Ventas Productos</a></li>
+
+                    <!--<li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">Opciones</a></li>-->
                    <li class=""><a href="#tab_5" data-toggle="tab" aria-expanded="false" ng-click="cargarConsulta()">Consultas</a></li>
-                   <li class=""><a href="#tab_6" data-toggle="tab" aria-expanded="false" ng-click="cargarVentasProduct()">Ventas Productos</a></li>
-                </ul>
+                    </ul>
                 <div class="tab-content">
 
 

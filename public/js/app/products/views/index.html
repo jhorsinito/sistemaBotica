@@ -33,10 +33,13 @@
                 <div class="box-header with-border">
                   <h3 class="box-title">Productos</h3>
                   <label>----->Total Productos:</label>
-                  <input type="text" ng-model="product.canttoalProducts">
+                  <!--<input type="text" ng-model="product.canttoalProducts">-->
+                    <span style="font-size: 16px; color: red; font-weight: bold;">{{product.canttoalProducts}}</span>
                   <label>----->Total en Stock:</label>
-                  <input type="text" ng-model="product.stockA">
+                  <!--<input type="text" ng-model="product.stockA">-->
                    <span>Con. Stock</span><input    type="checkbox"  name="variantes" ng-model="check" />
+                   <span style="font-size: 16px; color: red; font-weight: bold;">{{product.stockA | number:0}}</span>
+
                            
                   <div class="box-tools">
                   <form ng-keyup="searchProduct()">
@@ -206,8 +209,8 @@
                 <tr ng-repeat="row in stockVariants">
                     <td>{{$index + 1}}</td>
                     <td>{{row.codigo}}</td>                    
-                    <td>{{row.stockActual}}</td>
-                    <td>{{row.porLlegar}}</td>
+                    <td>{{row.stockActual | number:0}}</td>
+                    <td>{{row.porLlegar | number:0}}</td>
                     <td>{{row.nombre}}</td>
                     
                     

@@ -81,6 +81,7 @@
                                   <th style="width: 10px">#</th>
                                     <th>Código</th>
                                   <th>SKU</th>
+                                    <th>Descuento</th>
                                   <th>Variante</th>
                                     <th>Creado por</th>
                                   <th style="">Precio</th>
@@ -97,6 +98,8 @@
                                     <td>@{{$index + 1}}</td>
                                     <td>@{{ row.codigo }}</td>
                                     <td>@{{ row.sku }}</td>
+                                    <td> <button popover-placement="bottom" popover-template="dsctoTemplate" type="button" class="btn btn-default btn-xs" ng-click="showDscto(row.id,row.det_pre[0].dscto)">@{{row.det_pre[0].dscto}}</button>
+
                                     <td><a ng-href="/variants/edit/@{{row.id}}">@{{row.product.nombre}}
                                             <span ng-repeat="row2 in row.det_atr ">
                                         / @{{row2.descripcion}}
@@ -209,6 +212,7 @@
         </div><!-- /.box -->
         </div>
     </div>
+    
      <!--================================================================================-->
                   <section id="printx" style="display:none;" >
                 <div class="row contenedor">
@@ -247,7 +251,34 @@
         </form>
       
    </div>
-  </div></section></section>
+  </div></section>
+  <script type="text/ng-template" id="dsctoTemplate.html">
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Aplicar Dscto a la Variante</h3>
+
+        </div><!-- /.box-header -->
+
+        <div class="row">
+
+            <div class="col-md-8">
+                <input type="text" class="form-control hidden" name="presentation.nombre" ng-model="presentation.nombre">
+                <div class="form-group" >
+                    <label>Porcentaje de Dscto</label>
+                    <input type="number" class="form-control" name="DsctoVal" placeholder="0.00" ng-model="areaDscto.DsctoVal" step="1">
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <input type="button" ng-click="ActualizarDsctoVar()" value="Enviar" >
+            </div>
+        </div>
+
+    </div>
+</script>
+</section>
               <!--================================================================================-->
 
 

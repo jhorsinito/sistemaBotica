@@ -56,6 +56,7 @@ class DetCashRepo extends BaseRepo{
                              ))))))as NumDocument"))
             ->where('detCash.cash_id','=', $q)
             ->groupBy('detCash.id')
+            ->orderBy('detCash.id','DESC')
             ->paginate(15);
 
         return $detCashs;

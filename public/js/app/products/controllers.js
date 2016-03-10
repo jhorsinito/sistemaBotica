@@ -160,23 +160,38 @@
                 $scope.calculateDscto = function() {
                     //alert('holi');
                     //if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
-                    $scope.presentation.pvp = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.dscto) * parseFloat($scope.presentation.price) / 100;
-                    $scope.presentation.pvp = parseFloat($scope.presentation.pvp).toFixed(2);
+                    //if(angular.isNumber($scope.presentation.pvp) && angular.isNumber($scope.presentation.price) && angular.isNumber($scope.presentation.dscto) && angular.isNumber($scope.presentation.dsctoCant)){
 
-                    $scope.presentation.dsctoCant = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvp);
-                    $scope.presentation.dsctoCant = parseFloat($scope.presentation.dsctoCant).toFixed(2);
+                        $scope.presentation.pvp = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.dscto) * parseFloat($scope.presentation.price) / 100;
+                        $scope.presentation.pvp = parseFloat($scope.presentation.pvp).toFixed(2);
+
+                        $scope.presentation.dsctoCant = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvp);
+                        $scope.presentation.dsctoCant = parseFloat($scope.presentation.dsctoCant).toFixed(2);
                     //}
                 };
                 $scope.calculateDsctoCant = function() {
                     //alert('holi');
                     //if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
-                    $scope.presentation.pvp = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.dsctoCant);
+                    //if(angular.isNumber($scope.presentation.pvp) && angular.isNumber($scope.presentation.price) && angular.isNumber($scope.presentation.dscto) && angular.isNumber($scope.presentation.dsctoCant)){
+
+                        $scope.presentation.pvp = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.dsctoCant);
                     $scope.presentation.pvp = parseFloat($scope.presentation.pvp).toFixed(2);
 
                     $scope.presentation.dscto = (parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvp)) * 100 / parseFloat($scope.presentation.price);
                     $scope.presentation.dscto = parseFloat($scope.presentation.dscto).toFixed(2);
                     //}
                 };
+                $scope.calculatePVP = function(){
+                    //if(angular.isNumber($scope.presentation.pvp) && angular.isNumber($scope.presentation.price) && angular.isNumber($scope.presentation.dscto) && angular.isNumber($scope.presentation.dsctoCant)) {
+
+                        $scope.presentation.dscto = (parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvp)) * 100 / parseFloat($scope.presentation.price);
+                        $scope.presentation.dscto = parseFloat($scope.presentation.dscto).toFixed(2);
+
+                        $scope.presentation.dsctoCant = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvp);
+                        $scope.presentation.dsctoCant = parseFloat($scope.presentation.dsctoCant).toFixed(2);
+                    //}
+                    
+                }
 
 
                 $scope.toggle = function () {
@@ -1028,7 +1043,8 @@
                     }
                 }
                 $scope.editPresentation=function(row,preBase){
-                    alert(row.id);
+                    //alert(row.id);
+                    $log.log(row);
                     $scope.presentation.suppPri=Number(row.suppPri);
                     $scope.presentation.markup=Number(row.markup);
                     $scope.presentation.price=Number(row.price);
@@ -1053,6 +1069,7 @@
                             });
                             $scope.presentationSelect = $scope.presentations[0];
                         });
+
                     }
                     if($location.path() == '/variants/create/'+$routeParams.product_id || $location.path() == '/variants/edit/'+$routeParams.id){
                         crudService.byforeingKey('presentations','all_by_base',preBase).then(function(data){
@@ -1066,6 +1083,11 @@
                                 cant:'Pre. base'
                             });
                             $scope.presentationSelect = $scope.presentations[0];
+                            //dsctos
+                            //$scope.presentation.dscto = 0;
+                            //$scope.presentation.dsctoCant = 0;
+                            //$scope.presentation.pvp = 0;
+                            //fin
                         });
                     }
 
@@ -1134,6 +1156,9 @@
                             $scope.presentation.suppPri = 0;
                             $scope.presentation.markup = 0;
                             $scope.presentation.price = 0;
+                            $scope.presentation.dscto = 0;
+                            $scope.presentation.dsctoCant = 0;
+                            $scope.presentation.pvp = 0;
                        // } else {
                           //  alert('Item duplicado o vacío');
                         //}
@@ -1155,6 +1180,9 @@
                     $scope.presentation.suppPri = 0;
                     $scope.presentation.markup = 0;
                     $scope.presentation.price = 0;
+                    $scope.presentation.dscto = 0;
+                    $scope.presentation.dsctoCant = 0;
+                    $scope.presentation.pvp = 0;
                 }
 
                 $scope.changePreBase = function(){
@@ -1219,6 +1247,7 @@
                 };
 
                 $scope.showDscto = function(proId,Dscto){
+                    //$('.popover').css('display','none');
                     $scope.areaDscto.DsctoVal = Number(Dscto);
                     $scope.areaDscto.DsctoProId = proId;
                 };
@@ -1230,6 +1259,17 @@
                       }else{
                           alert('No se pudo realizar la operación');
                       }
+                    })
+                    //$log.log($scope.areaDscto);
+                }
+
+                $scope.ActualizarDsctoVar = function(){
+                    crudService.selectPost($scope.areaDscto,'variants','actualizarDsctoVar').then(function (data){
+                        if(data['estado']==true){
+                            alert('Se actualizó el Descto con éxito');
+                        }else{
+                            alert('No se pudo realizar la operación');
+                        }
                     })
                     //$log.log($scope.areaDscto);
                 }

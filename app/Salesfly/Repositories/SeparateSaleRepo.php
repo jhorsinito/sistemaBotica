@@ -3,22 +3,46 @@ namespace Salesfly\Salesfly\Repositories;
 use Salesfly\Salesfly\Entities\SeparateSale;
 
 class SeparateSaleRepo extends BaseRepo{
+
+    protected $q;
     
     public function getModel()
     {
         
         return new SeparateSale;
     }
-    public function search($q)
+    public function search($q,$x)
     {
+
+        $this->q = $q;
+
+        if($x == 0){
+            $x = [1,2];
+        }elseif($x == 1){
+            $x = [1];
+        }elseif($x == 2){
+            $x = [2];
+        }else{
+            $x = [0];
+        }
+
+        if($this->q == ' ') $this->q = '%';
+
+        //var_dump($x);
+        //var_dump($q); die();
+
         $separate = SeparateSale::leftjoin('salePayments','salePayments.separateSale_id','=','separateSales.id')
             ->leftjoin('customers','separateSales.customer_id','=','customers.id')
             ->select('separateSales.*','salePayments.estado as estadoPago')
             ->with('customer','employee')
-            ->where('separateSales.fechaPedido','like', $q.'%')
-            ->orWhere('customers.nombres','like',$q.'%')
-            ->orWhere('customers.apellidos','like',$q.'%')
-            ->orWhere('customers.empresa','like',$q.'%')
+            ->where(function($query) {
+                //$q = $this->q;
+                $query->orWhere('separateSales.fechaPedido', 'like', $this->q . '%')
+                    ->orWhere('customers.nombres', 'like', $this->q . '%')
+                    ->orWhere('customers.apellidos', 'like', $this->q . '%')
+                    ->orWhere('customers.empresa', 'like', $this->q . '%');
+                    })
+            ->whereIn('separateSales.tipo',$x)
             ->orderBy('separateSales.id','DESC')
             ->paginate(15);
         return $separate;
