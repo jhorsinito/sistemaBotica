@@ -45,7 +45,7 @@
             <b>Estación:</b> @{{ product.station.nombre }} <br/> <br/>
                       <b>Modelo:</b> @{{ product.modelo }}
                 <br>
-                <span>Con. Stock</span><input    type="checkbox"  name="variantes" ng-model="check" />
+                <span>Con. Inventario</span><input    type="checkbox"  name="variantes" ng-model="check" />
 
                   </div>
                   <div class="col-md-4">

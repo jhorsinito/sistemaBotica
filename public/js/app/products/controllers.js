@@ -92,11 +92,17 @@
 
                       $scope.temporal[index].producto=row.proCodigo+"-("+row.braNombre+"/"+row.typNombre+")";
                       $scope.temporal[index].stock=row.stoStockActual;
+                      if($scope.temporal[index].stock>$scope.temporal[index].stockReal)
+                      {
+                        $scope.temporal[index].cuadre="Sobran "+($scope.temporal[index].stock-$scope.temporal[index].stockReal);
+                      }
+                      if($scope.temporal[index].stock<$scope.temporal[index].stockReal)
+                      {
+                        $scope.temporal[index].cuadre="Faltan "+($scope.temporal[index].stock-$scope.temporal[index].stockReal);
+                      }
                       if($scope.temporal[index].stock==$scope.temporal[index].stockReal)
                       {
                         $scope.temporal[index].cuadre="Correcto";
-                      }else{
-                        $scope.temporal[index].cuadre="Incorrecto";
                       }
                       }
                 }
@@ -115,8 +121,14 @@
                       if($scope.temporal[index].stock==$scope.temporal[index].stockReal)
                       {
                         $scope.temporal[index].cuadre="Correcto";
-                      }else{
-                        $scope.temporal[index].cuadre="Incorrecto";
+                      }
+                      if($scope.temporal[index].stock>$scope.temporal[index].stockReal)
+                      {
+                        $scope.temporal[index].cuadre="Sobran "+($scope.temporal[index].stock-$scope.temporal[index].stockReal);
+                      }
+                      if($scope.temporal[index].stock<$scope.temporal[index].stockReal)
+                      {
+                        $scope.temporal[index].cuadre="Faltan "+($scope.temporal[index].stock-$scope.temporal[index].stockReal);
                       }
                       }
                 }

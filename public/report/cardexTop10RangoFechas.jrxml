@@ -31,18 +31,11 @@
 			<frame>
 				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="719fc3ed-2e42-43e9-89ca-811efbb8fade"/>
 				<staticText>
-					<reportElement x="20" y="20" width="234" height="43" forecolor="#FFFFFF" uuid="7bf422c2-5fab-495c-bc52-60e68ed2f266"/>
+					<reportElement x="20" y="20" width="434" height="43" forecolor="#FFFFFF" uuid="7bf422c2-5fab-495c-bc52-60e68ed2f266"/>
 					<textElement>
 						<font size="34" isBold="true"/>
 					</textElement>
-					<text><![CDATA[TITLE]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="395" y="43" width="180" height="20" forecolor="#FFFFFF" uuid="27539afd-bff7-464b-903f-5dba2b77a37b"/>
-					<textElement textAlignment="Right">
-						<font size="14" isBold="false"/>
-					</textElement>
-					<text><![CDATA[Add a description here]]></text>
+					<text><![CDATA[Top 10 Mas Vendidos]]></text>
 				</staticText>
 			</frame>
 		</band>
@@ -99,36 +92,36 @@
 			</line>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="186" y="0" width="89" height="20" uuid="1b7df686-95d8-47da-8b44-ca6eebfae4e7"/>
-				<textElement>
-					<font size="14"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="275" y="0" width="71" height="20" uuid="1d032ccc-a280-4a15-8243-8382b2513b32"/>
-				<textElement>
-					<font size="14"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sku}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
 				<reportElement x="434" y="0" width="121" height="20" uuid="44150f28-9d69-4506-a1ab-60e1e67e86a1"/>
-				<textElement>
-					<font size="14"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{created_at}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="346" y="0" width="88" height="20" uuid="a0d54807-8fc6-4e22-b705-8440a454816e"/>
-				<textElement>
-					<font size="14"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cantida}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="0" width="186" height="20" uuid="af1d110b-ec13-4c8e-bf81-884da2779e4f"/>
 				<textElement>
-					<font size="14"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
 			</textField>

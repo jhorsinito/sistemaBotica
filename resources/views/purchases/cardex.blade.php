@@ -190,8 +190,17 @@
                         <input ng-disabled="fechafin<fechainicio" type="button" class="btn btn-warning" ng-click="ReportMejoresEmpleados()" value="@{{decriboton1}}">
                       </div>
                  </div>
-                <br>    
-       <!-- <div class="row">
+                <br>   
+                <hr>
+        <div class="row">
+        <div class="col-md-1"></div>
+              <div  class="col-md-6">
+                   <h2>Reporte Inventario por Producto</h2>
+              </div>
+        </div> 
+        <hr>
+       <div class="row">
+
         <div class="col-md-1"></div>
               <div  class="col-md-6">
                      <div class="input-group" style="width: 100%;">
@@ -215,7 +224,7 @@
                 <select   ng-change="" class="form-control"   ng-model="purchase.almacen" ng-options="item.id as item.nombre for item in almacenes">
                   
                 </select>
-                <!--@{{variants.varid}}-
+                
                 </div>
           </div>
         </div> 
@@ -256,7 +265,7 @@
                  </tbody>
                </table>
            </div>
-        </div>    -->      
+        </div>       
      <div class="box-footer">
                     <a href="/purchases" class="btn btn-danger">Salir</a>
                   </div>

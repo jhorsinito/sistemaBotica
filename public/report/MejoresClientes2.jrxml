@@ -13,7 +13,7 @@
 		<defaultValueExpression><![CDATA[10]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select e.nombres,e.apellidos,SUM(s.montoBruto) as totSollesVentas,SUM(ds.cantidad) from sales s inner join customers e on e.id=s.customer_id inner join detSales ds on ds.sale_id=s.id where s.fechaPedido between $P{fechaini} and $P{fechafin} group by e.id order by totSollesVentas desc limit $P{cant};]]>
+		<![CDATA[select e.nombres,e.apellidos,SUM(s.montoBruto) as totSollesVentas,SUM(ds.cantidad) as totcantidad from sales s inner join customers e on e.id=s.customer_id inner join detSales ds on ds.sale_id=s.id where s.fechaPedido between $P{fechaini} and $P{fechafin} group by e.id order by totcantidad desc limit $P{cant};]]>
 	</queryString>
 	<field name="nombres" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -22,7 +22,7 @@
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="totSollesVentas" class="java.math.BigDecimal"/>
-	<field name="SUM(ds.cantidad)" class="java.math.BigDecimal"/>
+	<field name="totcantidad" class="java.math.BigDecimal"/>
 	<background>
 		<band/>
 	</background>
@@ -95,7 +95,7 @@
 				<textElement>
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{SUM(ds.cantidad)}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{totcantidad}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
