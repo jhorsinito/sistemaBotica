@@ -47,6 +47,7 @@ class CashRepo extends BaseRepo{
                     ->paginate(15);
         return $cashes;
     }
+    
      public function searchuserincaja($id){
         $cashes =Cash::where('user_id','=', $id)
                      ->where('estado','=',1)

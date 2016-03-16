@@ -58,7 +58,7 @@ class DetSaleRepo extends BaseRepo{
                     ->join('saledetPayments','saledetPayments.salePayment_id','=','salePayments.id')
                     ->join('saleMethodPayments','saleMethodPayments.id','=','saledetPayments.saleMethodPayment_id')
 
-                    ->select(\DB::raw('variants.id as varid,detPres.suppPri as precioCompra,(detPres.subTotal-detSales.suppPri)as ganacia,variants.sku,brands.nombre as marca,products.codigo,types.nombre as linea,stations.nombre as estacion,products.modelo,detSales.subTotal,sales.estado as estado,detSales.cantidad,saleMethodPayments.nombre as SMPNombre'),
+                    ->select(\DB::raw('variants.id as varid,detPres.suppPri as precioCompra,(detSales.subTotal-detPres.suppPri)as ganacia,variants.sku,brands.nombre as marca,products.codigo,types.nombre as linea,stations.nombre as estacion,products.modelo,detSales.subTotal,sales.estado as estado,detSales.cantidad,saleMethodPayments.nombre as SMPNombre'),
                          \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Color" ) as color'),
                          \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Taco" ) as Taco'),
                          \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Talla" ) as Talla'))

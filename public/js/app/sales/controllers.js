@@ -47,7 +47,7 @@
                     $scope.orders = [];
                     $scope.sale={};
                     //$scope.stores={};
-                    
+                    var $btn = $('#btn_generate').button('loading');
                     //$scope.warehouses={};
                     $scope.sale.comprobante=true;
                     
@@ -90,14 +90,14 @@
                     $scope.customer.autogenerado=true;
                     //$scope.cashHeaders={};
                     
-                    
+                    $btn.button("reset");
                     $scope.cashes={};
                     $scope.cashfinal={};
                     $scope.banderaMostrarEntrega=false;
                     $scope.banderaModificar=false;
-
+                    
                 }
-                
+               
 
                 $scope.inicializar();
                 $scope.cash1={};
@@ -305,7 +305,7 @@
                                         $scope.success = data['nombres'];
                                         $('#miventana1').modal('hide');
                                     alert('grabado correctamente');
-                                    
+                                      
                                         crudServiceOrders.factura('detfactura',data['codFactura']).then(function(data){    
                                             $scope.detVoices=data;
                                         });
@@ -361,7 +361,7 @@
                                         $scope.errors = data;
                                     }
                             });
-
+                            
                             $scope.inicializar();
                         //})
                     });
@@ -575,6 +575,7 @@
                     if ($scope.sale.montoTotal==0) {
                         alert("Seleccione productos");
                     }else{
+
                         $scope.calcularVuelto();   
                         $scope.validaDocumento();   
                     }
