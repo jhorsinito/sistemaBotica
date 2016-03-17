@@ -356,14 +356,15 @@ class SalesController extends Controller
         $var = $request->detOrders;
         $request->merge(array('estado' => '0'));
         //$request->merge(array('estado' => '0'));
-        $orderSale = $this->saleRepo->getModel();
+            //ELIMINAR ENVIAR A VENTAS SEPARADO UNA VEZ TERMINADO
+        /*$orderSale = $this->saleRepo->getModel();
         $manager = new SaleManager($orderSale,$request->all());
         $manager->save();
  
         $orderSale->save();
-        $temporal=$orderSale->id;
+        $temporal=$orderSale->id;*/
         
-          //----------------------      
+          //----------------------    elimn
 
         $detOrderrepox;
         $montoventa=0;
@@ -384,11 +385,14 @@ class SalesController extends Controller
            $manager2 = new DetSeparateSaleManager($saled, $object);
            $manager2->save();
            //-----------------------------
-           $object['sale_id'] = $temporal; //detSALE
+               /** delete add detSAle */
+               /*$object['sale_id'] = $temporal; //detSALE
            $object['cantidad'] = $object['parteEntregado'];
            $object['subTotal'] = $object['precioVenta'] * $object['parteEntregado'];
            $montoventa = $montoventa + $object['subTotal'];
-           $detOrderrepox = new DetSaleRepo;
+
+
+               $detOrderrepox = new DetSaleRepo;
 
            $insertar = new DetSaleManager($detOrderrepox->getModel(), $object);
            if ($object['parteEntregado'] > 0) {
@@ -396,7 +400,8 @@ class SalesController extends Controller
            }
 
 
-           $detOrderrepox = null;
+           $detOrderrepox = null;*/
+               /** end add detsale */
 
            //-------------------------------------
 
@@ -485,14 +490,14 @@ class SalesController extends Controller
             /*
              *
              */
-
-            $sales=$this->saleRepo->find($temporal);
+            /** delete create sale  */
+            /*$sales=$this->saleRepo->find($temporal);
             $manager = new SaleManager($sales,$request->all());
-            $manager->save();
+            $manager->save();*/
 
             \DB::commit();
 
-     return response()->json(['estado'=>true, 'nombres'=>$orderSale->nombres]);
+     return response()->json(['estado'=>true]);
     }
 
     public function createSale(Request $request) 

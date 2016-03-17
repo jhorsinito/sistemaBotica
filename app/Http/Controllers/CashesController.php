@@ -116,12 +116,21 @@ class CashesController extends Controller
     }
     public function create(Request $request)
     {
-        $cash = $this->cashRepo->getModel();
-        $request->merge(['user_id'=>auth()->user()->id]);
-        $manager = new CashManager($cash,$request->all());
-        $manager->save();
+        //var_dump($request->all());
+        $cash = Cash::where('user_id',auth()->user()->id)
+                        ->where('estado','1')
+                        ->first();
+        //var_dump(count($cash)); die();
+        if(count($cash) > 0){
+            return response()->json(['estado'=>false]);
+        }else {
+            $cash = $this->cashRepo->getModel();
+            $request->merge(['user_id' => auth()->user()->id]);
+            $manager = new CashManager($cash, $request->all());
+            $manager->save();
+            return response()->json(['estado'=>true, 'nombre'=>$cash->fechaInicio]);
+        }
 
-        return response()->json(['estado'=>true, 'nombre'=>$cash->fechaInicio]);
     }
     public function edit(Request $request)
     {

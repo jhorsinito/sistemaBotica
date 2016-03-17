@@ -281,13 +281,14 @@
                                 <th>Codigo</th>
                                 <th>sku</th>
                                 <th>Cantidad</th>
-                                <th>Vestir/Sport</th>
+                                <th>Línea</th>
                                 <th>Estacion</th>
                                 <th>Modelo</th>
                                 <th>Color</th>
                                 <th>Taco</th>
                                 <th>Talla</th>
                                 <th>Separado/Pedido</th>
+                                <th>Pagos (A/S)</th>
                                 <th>Modo de Pago</th>
                                 <th>Monto</th>
                             </tr>
@@ -304,7 +305,9 @@
                                 <td>@{{row.color}}</td>
                                 <td>@{{row.Taco}}</td>
                                 <td>@{{row.Talla}}</td>
-                                <td>@{{row.Material}}</td>
+                                <td ng-if="row.tipo==1">SEPARADO</td>
+                                <td ng-if="row.tipo==2">PEDIDO</td>
+                                <td>S/. @{{ row.acuenta }} - @{{ row.saldo }}</td>
                                 <td>@{{row.SMPNombre}}</td>
 
                                 <td ng-if="row.estado==0" style="color: cornflowerblue;">S/. @{{row.subTotal}}</td>
@@ -608,7 +611,7 @@
                     <div class="form-group" >
                       <label for="ruc">RUC</label>
                       <input type="text" class="form-control" name="ruc" placeholder="ruc"
-                      ng-model="customer.ruc">
+                      ng-model="customer.ruc" ng-change="ValidarCamposRuc()">
                      </div>
                      </div>
                      <div class="col-md-3"> 
@@ -657,7 +660,7 @@
             <div class="form-group" >
                 <label for="dni">DNI</label>
                 <input type="text" class="form-control" name="dni" placeholder="8 dígitos"
-                       ng-model="customer.dni">
+                       ng-model="customer.dni" ng-change="ValidarCamposDni()">
             </div>
         </div>
                      </div>

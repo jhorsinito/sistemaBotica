@@ -68,11 +68,16 @@
                 //$scope.sale.tipo;
                 //$scope.payment.PorPagado;
                 $scope.sale.tipo = ($scope.sale.tipo == 1) ? 1 : 2;
+                //$scope.sale.tipo = 1;
                 /*if($scope.sale.tipo == 1){
                     $scope.sale.tipo = 1;
                 }else{
                     $scope.sale.tipo = 2;
                 }*/
+                $scope.customer={};
+                $scope.customer.autogenerado=true;
+                var $btn = $('#btn_generate').button('loading');
+                $btn.button("reset");
             }
                 //$scope.detPago = {};
             $scope.inicializar();
@@ -860,6 +865,29 @@
                     $scope.bandera=true;
                     $scope.calcularmontos(index);
                 };
+
+
+                $scope.ValidarCamposRuc=function(){
+                    if($scope.customer.ruc.length>1){
+                        crudServiceSeparates.byId($scope.customer.ruc,'ComprobarDatos').then(function (data){
+                            if(data.id!=undefined){
+                                alert("esta RUC ya existe escriba bien o ingrese nuevamente!!");
+                                $scope.customer.ruc="";
+                            }
+                        });
+                    }
+                }
+                $scope.ValidarCamposDni=function(){
+                    if($scope.customer.dni.length>1){
+                        crudServiceSeparates.byId($scope.customer.dni,'ComprobarDatos').then(function (data){
+                            if(data.id!=undefined){
+                                alert("esta DNI ya existe escriba bien o ingrese nuevamente!!");
+                                $scope.customer.dni="";
+                            }
+                        });
+                    }
+                }
+
  
                 $scope.aumentarTotalPedido= function(){
                     $scope.sale.montoTotal=Number($scope.sale.montoTotal)+1;
@@ -1023,6 +1051,9 @@
                                 $('#miventana2').modal('hide');
                                 alert('grabado correctamente');
                                 //$location.path('/customers');
+                                $scope.sale.customer_id=data.id;
+                                $scope.sale.cliente=data.nombres;
+                                $scope.customersSelected=undefined;
                                 
 
                             } else {
@@ -1230,12 +1261,14 @@
                                                 //$scope.favoritos=data;
                                                 //$log.log($scope.favoritos);
                                             //});
+                                            $scope.sale.tipo = 1;
                                         } else {
                                             $scope.errors = data;
                                         }
                                 });
 
                                 $scope.inicializar();
+                                $scope.sale.tipo = 1;
                             });
                     //});
                 }

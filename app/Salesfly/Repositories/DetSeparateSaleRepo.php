@@ -53,6 +53,7 @@ class DetSeparateSaleRepo extends BaseRepo{
             ->leftjoin('types','products.type_id','=','types.id')
             ->leftjoin('stations','products.station_id','=','stations.id')
             ->join('separateSales','detSeparateSales.separateSale_id','=','separateSales.id')
+            //->join('salePayments','salePayments.separateSale_id','=','separateSales.id')
             ->join('detCash','separateSales.id','=','detCash.observacion')
             ->join('cashes','detCash.cash_id','=','cashes.id')
 
@@ -60,7 +61,7 @@ class DetSeparateSaleRepo extends BaseRepo{
             ->leftjoin('saledetPayments','saledetPayments.salePayment_id','=','salePayments.id')
             ->leftjoin('saleMethodPayments','saleMethodPayments.id','=','saledetPayments.saleMethodPayment_id')
 
-            ->select(\DB::raw('variants.id as varid,variants.sku,brands.nombre as marca,products.codigo,types.nombre as linea,stations.nombre as estacion,products.modelo,detSeparateSales.subTotal,separateSales.estado as estado,detSeparateSales.cantidad,saleMethodPayments.nombre as SMPNombre'),
+            ->select(\DB::raw('variants.id as varid,variants.sku,brands.nombre as marca,products.codigo,types.nombre as linea,stations.nombre as estacion,products.modelo,detSeparateSales.subTotal,separateSales.estado as estado,detSeparateSales.cantidad,saleMethodPayments.nombre as SMPNombre,separateSales.tipo as tipo,salePayments.Acuenta as acuenta, salePayments.Saldo as saldo'),
                 \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Color" ) as color'),
                 \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Taco" ) as Taco'),
                 \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Talla" ) as Talla'))

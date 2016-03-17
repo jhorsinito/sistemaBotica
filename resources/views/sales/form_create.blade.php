@@ -413,13 +413,13 @@
                       <th>Codigo</th>
                       <th>sku</th>
                         <th>Cantidad</th>
-                      <th>Vestir/Sport</th>
+                      <th>Línea</th>
                       <th>Estacion</th>
                       <th>Modelo</th>
                       <th>Color</th>
                       <th>Taco</th>
                       <th>Talla</th>
-                      <th>Separado/Pedido</th>
+
                       <th>Modo de Pago</th>
                       <th>Monto</th>
                     </tr>
@@ -436,7 +436,7 @@
                       <td>@{{row.color}}</td>
                       <td>@{{row.Taco}}</td>
                       <td>@{{row.Talla}}</td>
-                      <td>@{{row.Material}}</td> 
+
                       <td>@{{row.SMPNombre}}</td>
                       <td ng-if="row.estado==3" style="color: red;">S/. @{{row.subTotal}}</td>
                         <td ng-if="row.estado!=3" style="color: green;">S/. @{{row.subTotal}}</td>
