@@ -137,11 +137,14 @@
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
           </div>
-
+          <?php $role = Auth()->user()->role_id; ?>
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">Navegación</li>
+            @if($role == 1)
             <li><a href="/"><i class="fa fa-home"></i> <span>Home</span></a></li>
+            @endif
+            @if($role == 1)
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-wrench"></i>
@@ -155,6 +158,8 @@
                 <li><a href="/warehouses"><i class="fa fa-circle-o"></i>Almacenes </a></li>
               </ul>
             </li>
+            @endif
+            @if($role == 1 || $role == 3)
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-barcode"></i>
@@ -162,7 +167,10 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
+                @if($role == 1 || $role == 3)
                 <li class=""><a href="/products" ><i class="fa fa-circle-o"></i>Productos</a></li>
+                @endif
+                  @if($role == 1)
                 <li class=""><a href="/purchases" ><i class="fa fa-circle-o"></i>Control de Stock</a></li>
                 <li class=""><a href="/brands" ><i class="fa fa-circle-o"></i>Marcas</a></li>
                 <li><a href="/types"><i class="fa fa-circle-o"></i>Líneas </a></li>
@@ -170,28 +178,38 @@
                 <li><a href="/stations"><i class="fa fa-circle-o"></i>Estaciones </a></li>
                 <li><a href="/atributes"><i class="fa fa-circle-o"></i>Atributos </a></li>
                 <li><a href="/suppliers"><i class="fa fa-circle-o"></i>Proveedores </a></li>
+                    @endif
               </ul>
             </li>
+            @endif
+            @if($role == 1 || $role == 2)
             <li class="">
                           <a href="/sales/create">
                             <i class="fa fa-shopping-cart"></i> <span>Vender!</span>
                           </a>
              </li>
+            @endif
+              @if($role == 1 || $role == 2)
              <li class="">
                           <a href="/separateSales/create">
                             <i class="fa fa-shopping-cart"></i> <span>Pedid./Separ.</span>
                           </a>
              </li>
+            @endif
+            @if($role == 1 || $role == 2)
             <li class="">
               <a href="/sales">
                 <i class="fa fa-list-ol"></i> <span>Lista de Ventas en Total</span>
               </a>
             </li>
+            @endif
+            @if($role == 1 || $role == 2)
             <li class="">
               <a href="/separateSales">
                 <i class="fa fa-list-ol"></i> <span>Lista de Ped/Sep en Total</span>
               </a>
             </li>
+            @endif
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-calculator"></i>
@@ -199,18 +217,24 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
+                @if($role == 1)
                 <li class=""><a href="/cashHeaders" ><i class="fa fa-circle-o"></i>Cajas</a></li>
                 <li class=""><a href="/cashMonthlys" ><i class="fa fa-circle-o"></i>Gastos de Caja Mensual</a></li>
+                @endif
+                  @if($role == 1 || $role == 2)
                 <li class=""><a href="/cashes" ><i class="fa fa-circle-o"></i>Ver Cajas Abiertas</a></li>
+                    @endif
 
               </ul>
             </li>
+            @if($role == 1)
             <li class="">
               <a href="/customers">
                 <i class="fa fa-users"></i> <span>Clientes</span>
               </a>
             </li>
-
+            @endif
+            @if($role == 1)
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-bar-chart-o"></i>
@@ -227,6 +251,7 @@
                 <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Productos por llegar </a></li>
               </ul>
             </li>
+              @endif
 
 
           </ul>
@@ -401,7 +426,7 @@
         <!-- Create the tabs -->
         <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
           <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-          
+
           <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
         </ul>
         <!-- Tab panes -->
@@ -448,7 +473,7 @@
               </li>
             </ul><!-- /.control-sidebar-menu -->
 
-            <h3 class="control-sidebar-heading">Tasks Progress</h3> 
+            <h3 class="control-sidebar-heading">Tasks Progress</h3>
             <ul class="control-sidebar-menu">
               <li>
                 <a href="javascript::;">
@@ -539,21 +564,21 @@
                 <label class="control-sidebar-subheading">
                   Show me as online
                   <input type="checkbox" class="pull-right" checked />
-                </label>                
+                </label>
               </div><!-- /.form-group -->
 
               <div class="form-group">
                 <label class="control-sidebar-subheading">
                   Turn off notifications
                   <input type="checkbox" class="pull-right" />
-                </label>                
+                </label>
               </div><!-- /.form-group -->
 
               <div class="form-group">
                 <label class="control-sidebar-subheading">
                   Delete chat history
                   <a href="javascript::;" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
-                </label>                
+                </label>
               </div><!-- /.form-group -->
             </form>
           </div><!-- /.tab-pane -->

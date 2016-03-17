@@ -29,6 +29,10 @@ class Kernel extends HttpKernel
         'auth' => \Salesfly\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \Salesfly\Http\Middleware\RedirectIfAuthenticated::class,
-        'role' => \Salesfly\Http\Middleware\RoleMiddleware::class
+        'role' => \Salesfly\Http\Middleware\RoleMiddleware::class,
+        'cashier' => \Salesfly\Http\Middleware\CashierMiddleware::class,
+        'role-cashier' => \Salesfly\Http\Middleware\RoleCashierMiddleware::class,
+        'role-asistant' => \Salesfly\Http\Middleware\RoleAsistantMiddleware::class,
+        'role-cashier-asistant' => \Salesfly\Http\Middleware\RoleCashierAsistantMiddleware::class
     ];
 }

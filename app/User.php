@@ -36,4 +36,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function store(){
         return $this->belongsTo('\Salesfly\Salesfly\Entities\Store');
     }
+
+
 }
