@@ -13,7 +13,7 @@
     "ng-phpdebugbar": "*",
     "angucomplete": "*",
     "angular-bootstrap": "*",
-    "font-awesome": "*",
+    "font-awesome": "~4.4.0",
     "ionicons": "*",
     "raphael": "*",
     "jquery": "*",
