@@ -1,7 +1,7 @@
 (function(){
     angular.module('separateSales.controllers',[])
-        .controller('SeparateSalesController',['$scope', '$routeParams','$location','crudServiceSeparates','socketService' ,'$filter','$route','$log','$modal',
-            function($scope, $routeParams,$location,crudServiceSeparates,socket,$filter,$route,$log,$modal){
+        .controller('SeparateSalesController',['$scope', '$routeParams','$location','crudServiceSeparates','socketService' ,'$filter','$route','$window','$log','$modal',
+            function($scope, $routeParams,$location,crudServiceSeparates,socket,$filter,$route,$window,$log,$modal){
             $scope.inicializar = function (){
                 $scope.separateSales = [];
                 $scope.separateSale = {};
@@ -1581,6 +1581,28 @@
                 //$scope.detPago={};
                 //$scope.mostrarBtnGEd=false; 
             }
+            $scope.decriboton="Generar Reporte";
+            $scope.tipo=0;
+            $scope.estado=0;
+                $scope.GenReporteCajas=function(){
+                    if($scope.fechainicio!=undefined && $scope.fechafin!=undefined){
+                    $scope.fechainicio1=$scope.fechainicio.getFullYear()+"-"+($scope.fechainicio.getMonth()+1)+"-"+$scope.fechainicio.getDate();
+                    $scope.fechafin2=$scope.fechafin.getFullYear()+"-"+($scope.fechafin.getMonth()+1)+"-"+$scope.fechafin.getDate();
+                   // alert($scope.fechainicio1+"---"+$scope.fechafin2+"---"+$scope.tipo+"--"+$scope.estado);
+                     $scope.decriboton="Generando..";
+                    crudServiceSeparates.reporteseparPedido('ReportePedidos',$scope.fechainicio1,$scope.fechafin2,$scope.tipo,$scope.estado).then(function(data)
+                    {
+                        if(data!=undefined){
+                            $window.open(data);
+                            $scope.decriboton="Generar Reporte";
+                        }else{
+                            $scope.errors = data;
+                        }
+                    });
+                 }
+                }
+
+            
                 
             }]);
 

@@ -52,7 +52,7 @@ class VariantRepo extends BaseRepo{
         return $variants;
         
     }
-    /* public function findVariant($id){
+    public function findVariant($id){
        $variants=Variant::join('detAtr','variants.id','=','detAtr.variant_id')
                         ->join('products','products.id','=','variants.product_id')
                         ->leftjoin('brands','products.brand_id','=','brands.id')
@@ -67,7 +67,7 @@ class VariantRepo extends BaseRepo{
                             ,types.nombre as Tnombre,materials.nombre as Mnombre'))->groupBy('variants.id')->first();
        
         return $variants;
-    } */
+    }
     public function selectByID($id,$var){
         $variant=Variant::leftjoin('detAtr','detAtr.variant_id','=','variants.id')
                           ->leftjoin('atributes','atributes.id','=','detAtr.atribute_id')

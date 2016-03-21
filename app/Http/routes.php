@@ -776,6 +776,7 @@ Route::post('api/ReportCashes/create/{fechaini}/{fechafin}','CashesController@Re
 Route::post('api/ReportVentas/create/{fechaini}/{fechafin}','SalesController@ReportVentas');
 Route::post('api/ReportMejoresCliente/create/{fechaini}/{fechafin}/{cant}','PurchasesController@ReportMejoresCliente');
 Route::post('api/ReportMejoresEmpleados/create/{fechaini}/{fechafin}/{cant}','PurchasesController@ReportMejoresEmpleados');
+Route::post('api/ReportePedidos/create/{fechaini}/{fechafin}/{tipo}/{estado}','SeparateSaleController@ReportePedidos');
 
 Route::get('api/listarVentasDia/search',['as'=>'person_search', 'uses'=>'DetSalesController@listarVentasDia']);
 Route::get('api/listarVentasDiaSep/search',['as'=>'person_search', 'uses'=>'DetSeparateSalesController@listarVentasDia']);

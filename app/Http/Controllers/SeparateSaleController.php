@@ -430,4 +430,30 @@ public function create(Request $request) {
 
 
     }
+    public function ReportePedidos($fecha1,$fecha2,$tipo,$estado){
+        if($tipo==0){
+            $tipo="%%";
+        }
+         if($estado==0){
+            $estado="%%";
+        }
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_SubReportVentas2';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/SubReportVentas2.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['SUBREPORT_DIR'=> public_path() . '/report/','fechaini'=>$fecha1,'fechafin'=>$fecha2,'tipo'=>$tipo,'estado'=>$estado],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_SubReportVentas2.'.$ext;
+    }
 }

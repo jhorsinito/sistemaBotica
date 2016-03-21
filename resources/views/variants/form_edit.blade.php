@@ -76,7 +76,7 @@
 
                         <div class="form-group">
                             <label for="notas">Notas</label>
-                      <textarea type="notas" class="form-control" style="text-transform: uppercase" name="notas" placeholder="..."
+                      <textarea type="notas" class="form-control" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" name="notas" placeholder="..."
                                 ng-model="variant.nota" rows="4" cols="50"></textarea>
                         </div>
                             </div>

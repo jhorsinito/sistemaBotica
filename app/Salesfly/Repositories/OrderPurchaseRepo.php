@@ -31,7 +31,7 @@ class OrderPurchaseRepo extends BaseRepo{
     $purchases=OrderPurchase::join('suppliers','orderPurchases.supplier_id','=','suppliers.id')
                        ->join('warehouses','warehouses.id','=','orderPurchases.warehouses_id')
                        ->select('orderPurchases.*','suppliers.id as supID','suppliers.empresa as empresa','warehouses.nombre as almacen')->orderBy('orderPurchases.id','dsc')
-                       ->paginate(15);
+                       ->paginate(1000);
         return $purchases;
    }
    public function searchEstados($estado){

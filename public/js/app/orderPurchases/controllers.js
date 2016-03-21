@@ -385,9 +385,9 @@
                                     $scope.company.talla='TL:'+String(talla);
                                   if(atributos!=null){
                                        
-                                    $scope.company.producto=$scope.detailOrderPurchase.proNombre+"("+atributos+")";
+                                    $scope.company.producto=$scope.detailOrderPurchase.proCodigo+"-"+$scope.detailOrderPurchase.proNombre+"("+atributos+")";
                                    }else{
-                                     $scope.company.producto=$scope.detailOrderPurchase.proNombre+"("+$scope.product.proId.varCodigo+")";
+                                     $scope.company.producto=$scope.detailOrderPurchase.proCodigo+"-"+$scope.detailOrderPurchase.proNombre+"("+$scope.product.proId.varCodigo+")";
                                    }
                       
                                     $scope.company.Codigovar=varCodigo;
@@ -471,7 +471,7 @@
                     $scope.activarCampCantidad=true;
                     $scope.check1;;
                     $scope.asignarProduc1=function(){
-                       //alert($scope.check1);
+                       
                         $scope.checked1=false;
                         $scope.cantidad=[];
                         $scope.n=0;
@@ -485,14 +485,15 @@
                         $scope.detailOrderPurchase.material=$scope.product.proId.Mnombre;
                         $scope.detailOrderPurchase.tipo=$scope.product.proId.TName;
                         $scope.detailOrderPurchase.proNombre=$scope.product.proId.proNombre;
+                         $scope.detailOrderPurchase.proCodigo=$scope.product.proId.proCodigo;
                         $scope.codigoVarP=$scope.product.proId.varCodigo;
                         $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
                         $scope.detailOrderPurchase.CodigoPCompra=$scope.product.proId.varcode;
                         $scope.detailOrderPurchase.codigoEspecifico=$scope.product.proId.varCodigo;
                         if($scope.product.proId.NombreAtributos!=null){
-                           $scope.detailOrderPurchase.producto=$scope.detailOrderPurchase.proNombre+"("+$scope.product.proId.NombreAtributos+")";
+                           $scope.detailOrderPurchase.producto=$scope.detailOrderPurchase.proCodigo+"-"+$scope.detailOrderPurchase.proNombre+"("+$scope.product.proId.NombreAtributos+")";
                         }else{
-                           $scope.detailOrderPurchase.producto=$scope.detailOrderPurchase.proNombre+"("+$scope.product.proId.proCodigo+")";
+                           $scope.detailOrderPurchase.producto=$scope.detailOrderPurchase.proCodigo+"-"+$scope.detailOrderPurchase.proNombre+"("+$scope.product.proId.proCodigo+")";
                         }
 
                            $scope.detailOrderPurchase.nombre=$scope.product.proId.proNombre;
@@ -539,9 +540,9 @@
                                                    $scope.detailOrderPurchase.Codigovar=$scope.product.proId.varid;
                                                    if($scope.product.proId.NombreAtributos!=null)
                                                    {
-                                                   $scope.detailOrderPurchase.producto=$scope.detailOrderPurchase.proNombre+"("+$scope.product.proId.NombreAtributos+")";
+                                                   $scope.detailOrderPurchase.producto=$scope.detailOrderPurchase.proCodigo+"-"+$scope.detailOrderPurchase.proNombre+"("+$scope.product.proId.NombreAtributos+")";
                                                    }else{
-                                                    $scope.detailOrderPurchase.producto=$scope.detailOrderPurchase.proNombre+"("+$scope.product.proId.proCodigo+")";
+                                                    $scope.detailOrderPurchase.producto=$scope.detailOrderPurchase.proCodigo+"-"+$scope.detailOrderPurchase.proNombre+"("+$scope.product.proId.proCodigo+")";
                                                    }
                                                    $scope.mostrarPresentacion=true;
                                                    $scope.detailOrderPurchase.cantidad='';

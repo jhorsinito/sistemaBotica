@@ -33,13 +33,13 @@
                         <div class="col-md-4">
                     <div class="form-group" >
                       <label for="nombres">Nombre</label>
-                      <input type="text" style="text-transform: uppercase" class="form-control" name="nombre" placeholder="Nombre" ng-model="product.nombre" ng-blur="validaNombre2(product.nombre)" typeahead-on-select="validarNombre()" typeahead="product as product.proNombre for product in products | filter:$viewValue | limitTo:8" >
+                      <input type="text" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" name="nombre" placeholder="Nombre" ng-model="product.nombre" ng-blur="validaNombre2(product.nombre)" typeahead-on-select="validarNombre()" typeahead="product as product.proNombre for product in products | filter:$viewValue | limitTo:8" >
                       
                     </div></div>
                         <div class="col-md-4">
                     <div class="form-group" ng-class="{true: 'has-error'}[ productCreateForm.codigo.$error.required && productCreateForm.$submitted || productCreateForm.codigo.$dirty && productCreateForm.codigo.$invalid]">
                       <label for="codigo">Código de Producto</label>
-                      <input type="text" class="form-control" style="text-transform: uppercase" name="codigo" placeholder="1000"
+                      <input type="text" class="form-control" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" name="codigo" placeholder="1000"
                       ng-model="product.codigo" ng-keyup="duplicateCodProveedor()" required>
                       <label ng-show="productCreateForm.$submitted || productCreateForm.codigo.$dirty && productCreateForm.codigo.$invalid">
 
@@ -50,7 +50,7 @@
                     <div class="col-md-4">
                     <div class="form-group" ng-class="{true: 'has-error'}[ productCreateForm.suppCode.$error.required && productCreateForm.$submitted || productCreateForm.suppCode.$dirty && productCreateForm.suppCode.$invalid]">
                                           <label for="suppCode">Código de Proveedor</label>
-                                          <input type="text" style="text-transform: uppercase" class="form-control" name="suppCode" placeholder="1000"
+                                          <input type="text" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" name="suppCode" placeholder="1000"
                                           ng-model="product.suppCode" required>
                                           <label ng-show="productCreateForm.$submitted || productCreateForm.suppCode.$dirty && productCreateForm.suppCode.$invalid">
 
@@ -124,7 +124,7 @@
 
                     <div class="form-group" >
                       <label for="notas">Descripción</label>
-                      <textarea type="notas" style="text-transform: uppercase" class="form-control" name="notas" placeholder="..."
+                      <textarea type="notas" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" name="notas" placeholder="..."
                       ng-model="product.descripcion" rows="4" cols="50"></textarea>
                      </div>
 
@@ -276,7 +276,7 @@
 
                                                                                                  <div class="box-tools">
                                                                                                      <div class="input-group" style="width: 150px;">
-                                                                                                         <input type="text" style="text-transform: uppercase" name="table_search" class="form-control input-sm pull-right" placeholder="Search" ng-model="query">
+                                                                                                         <input type="text" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" name="table_search" class="form-control input-sm pull-right" placeholder="Search" ng-model="query">
                                                                                                          <div class="input-group-btn">
                                                                                                              <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                                                                                                          </div>
@@ -353,7 +353,7 @@
                                 <div class="row">
                                 <div class="col-md-12">
                                 <div class="form-group">
-                                 <select name="" ng-click="selectPres()"  style="text-transform: uppercase" class="form-control" id="" ng-model="presentationSelect" ng-options="item as item.nombre+' / '+item.shortname+' / '+item.cant for item in presentations">
+                                 <select name="" ng-click="selectPres()"  style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" id="" ng-model="presentationSelect" ng-options="item as item.nombre+' / '+item.shortname+' / '+item.cant for item in presentations">
                                         <option value="">-- Elige Presentación--</option>
                                  </select>
 
@@ -362,7 +362,7 @@
                                 </div>
                                 <div class="row">
                                  <div class="col-md-4">
-                                 <input type="text" style="text-transform: uppercase" class="form-control hidden" name="presentation.nombre" ng-model="presentation.nombre" ng-disabled="product.hasVariants">
+                                 <input type="text" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control hidden" name="presentation.nombre" ng-model="presentation.nombre" ng-disabled="product.hasVariants">
                                  <div class="form-group" >
                                   <label for="suppPric">Precio de Compra</label>
                                   <input type="number" class="form-control" name="suppPric1" placeholder="0.00" ng-model="presentation.suppPri" ng-disabled="product.hasVariants"  ng-blur="calculateSuppPric()" step="0.1">
@@ -408,12 +408,12 @@
                         <input type="hidden" class="form-control" name="preAdd.preBase_id" ng-model="product.presentation_base">
                         <div class="form-group" >
                             <label for="suppPric">Nombre</label>
-                            <input type="text" style="text-transform: uppercase" class="form-control" name="nombre" placeholder="Docena" ng-model="preAdd.nombre">
+                            <input type="text" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" name="nombre" placeholder="Docena" ng-model="preAdd.nombre">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group" > <label for="suppPric">Shortname</label>
-                            <input type="text" style="text-transform: uppercase" class="form-control" name="shortname" placeholder="DO12" ng-model="preAdd.shortname">
+                            <input type="text" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" name="shortname" placeholder="DO12" ng-model="preAdd.shortname">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -453,21 +453,21 @@
 
                 <div class="form-group" ng-class="{true: 'has-error'}[ brandCreateForm.nombre.$error.required && brandCreateForm.$submitted || brandCreateForm.nombre.$dirty && brandCreateForm.nombre.$invalid]">
                     <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control" style="text-transform: uppercase" ng-blur="AutogenerateCod(brand.nombre)" name="nombre" placeholder="Nombre" ng-model="brand.nombre" required>
+                    <input type="text" class="form-control" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" ng-blur="AutogenerateCod(brand.nombre)" name="nombre" placeholder="Nombre" ng-model="brand.nombre" required>
                     <label ng-show="brandCreateForm.$submitted || brandCreateForm.nombre.$dirty && brandCreateForm.nombre.$invalid">
                         <span ng-show="brandCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                     </label>
                 </div>
                 <div class="form-group" ng-class="{true: 'has-error'}[ brandCreateForm.shortname.$error.required && brandCreateForm.$submitted || brandCreateForm.shortname.$dirty && brandCreateForm.shortname.$invalid]">
                     <label for="shortname">ShortName</label>
-                    <input type="text" class="form-control" style="text-transform: uppercase" name="shortname" placeholder="ShortName" ng-model="brand.shortname" required>
+                    <input type="text" class="form-control" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" name="shortname" placeholder="ShortName" ng-model="brand.shortname" required>
                     <label ng-show="brandCreateForm.$submitted || brandCreateForm.shortname.$dirty && brandCreateForm.shortname.$invalid">
                         <span ng-show="brandCreateForm.shortname.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                     </label>
                 </div>
                 <div class="form-group" >
                     <label for="notas">Descripcion</label>
-                      <textarea type="notas" class="form-control" style="text-transform: uppercase" name="notas" placeholder="Descripcion"
+                      <textarea type="notas" class="form-control" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" name="notas" placeholder="Descripcion"
                                 ng-model="brand.descripcion" rows="4" cols="50"></textarea>
                 </div>
 
@@ -503,21 +503,21 @@
 
                 <div class="form-group" ng-class="{true: 'has-error'}[ TtypeCreateForm.nombre.$error.required && TtypeCreateForm.$submitted || TtypeCreateForm.nombre.$dirty && TtypeCreateForm.nombre.$invalid]">
                     <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control" style="text-transform: uppercase" name="nombre" ng-blur="AutogenerateCod(Ttype.nombre)" placeholder="Nombre" ng-model="Ttype.nombre" required>
+                    <input type="text" class="form-control" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" name="nombre" ng-blur="AutogenerateCod(Ttype.nombre)" placeholder="Nombre" ng-model="Ttype.nombre" required>
                     <label ng-show="TtypeCreateForm.$submitted || TtypeCreateForm.nombre.$dirty && TtypeCreateForm.nombre.$invalid">
                         <span ng-show="TtypeCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                     </label>
                 </div>
                 <div class="form-group" ng-class="{true: 'has-error'}[ TtypeCreateForm.shortname.$error.required && TtypeCreateForm.$submitted || TtypeCreateForm.shortname.$dirty && TtypeCreateForm.shortname.$invalid]">
                     <label for="nombre">ShortName</label>
-                    <input type="text" class="form-control" style="text-transform: uppercase" name="shortname" placeholder="Nombre" ng-model="Ttype.shortname" required>
+                    <input type="text" class="form-control" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" name="shortname" placeholder="Nombre" ng-model="Ttype.shortname" required>
                     <label ng-show="TtypeCreateForm.$submitted || TtypeCreateForm.shortname.$dirty && TtypeCreateForm.shortname.$invalid">
                         <span ng-show="TtypeCreateForm.shortname.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                     </label>
                 </div>
                 <div class="form-group" >
                     <label for="descripcion">Descripcion</label>
-                      <textarea type="descripcion" class="form-control" style="text-transform: uppercase" name="descripcion" placeholder="Decripcion"
+                      <textarea type="descripcion" class="form-control" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" name="descripcion" placeholder="Decripcion"
                                 ng-model="Ttype.descripcion" rows="4" cols="50"></textarea>
                 </div>
 
@@ -554,21 +554,21 @@
 
                 <div class="form-group" ng-class="{true: 'has-error'}[ materialCreateForm.nombre.$error.required && materialCreateForm.$submitted || materialCreateForm.nombre.$dirty && materialCreateForm.nombre.$invalid]">
                     <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control" style="text-transform: uppercase" name="nombre" placeholder="Nombre" ng-model="material.nombre" required>
+                    <input type="text" class="form-control" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" name="nombre" placeholder="Nombre" ng-model="material.nombre" required>
                     <label ng-show="materialCreateForm.$submitted || materialCreateForm.nombre.$dirty && materialCreateForm.nombre.$invalid">
                         <span ng-show="materialCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                     </label>
                 </div>
                 <div class="form-group" ng-class="{true: 'has-error'}[ materialCreateForm.shortname.$error.required && materialCreateForm.$submitted || materialCreateForm.shortname.$dirty && materialCreateForm.shortname.$invalid]">
                     <label for="shortname">ShortName</label>
-                    <input type="text" class="form-control" style="text-transform: uppercase" name="shortname" placeholder="ShortName" ng-model="material.shortname" required>
+                    <input type="text" class="form-control" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" name="shortname" placeholder="ShortName" ng-model="material.shortname" required>
                     <label ng-show="materialCreateForm.$submitted || materialCreateForm.shortname.$dirty && materialCreateForm.shortname.$invalid">
                         <span ng-show="materialCreateForm.shortname.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                     </label>
                 </div>
                 <div class="form-group" >
                     <label for="notas">Descripcion</label>
-                      <textarea type="notas" class="form-control" style="text-transform: uppercase" name="notas" placeholder="Descripcion"
+                      <textarea type="notas" class="form-control" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" name="notas" placeholder="Descripcion"
                                 ng-model="material.descripcion" rows="4" cols="50"></textarea>
                 </div>
 
@@ -605,21 +605,21 @@
 
                 <div class="form-group" ng-class="{true: 'has-error'}[ stationCreateForm.nombre.$error.required && stationCreateForm.$submitted || stationCreateForm.nombre.$dirty && stationCreateForm.nombre.$invalid]">
                     <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control" style="text-transform: uppercase" name="nombre" ng-blur="AutogenerateCod(station.nombre)" placeholder="Nombre" ng-model="station.nombre" required>
+                    <input type="text" class="form-control" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" name="nombre" ng-blur="AutogenerateCod(station.nombre)" placeholder="Nombre" ng-model="station.nombre" required>
                     <label ng-show="stationCreateForm.$submitted || stationCreateForm.nombre.$dirty && stationCreateForm.nombre.$invalid">
                         <span ng-show="stationCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                     </label>
                 </div>
                 <div class="form-group" ng-class="{true: 'has-error'}[ stationCreateForm.shortname.$error.required && stationCreateForm.$submitted || stationCreateForm.shortname.$dirty && stationCreateForm.shortname.$invalid]">
                     <label for="shortname">ShortName</label>
-                    <input type="text" class="form-control" style="text-transform: uppercase" name="shortname" placeholder="ShortName" ng-model="station.shortname" required>
+                    <input type="text" class="form-control" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" name="shortname" placeholder="ShortName" ng-model="station.shortname" required>
                     <label ng-show="stationCreateForm.$submitted || stationCreateForm.shortname.$dirty && stationCreateForm.shortname.$invalid">
                         <span ng-show="stationCreateForm.shortname.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                     </label>
                 </div>
                 <div class="form-group" >
                     <label for="notas">Descripcion</label>
-                      <textarea type="notas" class="form-control" style="text-transform: uppercase" name="notas" placeholder="Descripcion"
+                      <textarea type="notas" class="form-control" style="text-transform: uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();" name="notas" placeholder="Descripcion"
                                 ng-model="station.descripcion" rows="4" cols="50"></textarea>
                 </div>
 

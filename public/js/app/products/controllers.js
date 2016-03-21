@@ -1177,6 +1177,7 @@
                     }
                 }
                  $scope.duplicateCodProveedor=function(){
+                    
                     $scope.product.suppCode=$scope.product.codigo;
                  }
                 $scope.deletePres = function($index){

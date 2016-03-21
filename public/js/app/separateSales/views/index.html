@@ -53,6 +53,48 @@
                   </div>
                 </div><!-- /.box-header -->
                 <div class="box-body">
+                <div class="row">
+                
+                    <div class="col-md-3">                             
+                            <label for="fechaPedido">Fecha Inicio: </label>
+                            <div ng-hide="show" class="input-group">
+                                <div class="input-group-addon">
+                                      <i class="fa fa-calendar"></i>
+                                </div>
+                                  <input type="date" class="form-control"  name="fechainicio" ng-model="fechainicio" >
+                            </div>                          
+                        </div> 
+                         <div class="col-md-3">                             
+                            <label for="fechaPedido">Fecha Fin: </label>
+                            <div ng-hide="show" class="input-group">
+                                <div class="input-group-addon">
+                                      <i class="fa fa-calendar"></i>
+                                </div>
+                                  <input type="date" class="form-control"  ng-model="fechafin" >
+                            </div>                          
+                        </div>
+                        <div class="col-md-2">
+                            <label>Tipo</label>
+                            <select class="form-control" ng-model="tipo">
+                              <option value="0">Todos</option>
+                              <option value="1">Separados</option>
+                              <option value="2">Pedidos</option>
+                            </select>
+                        </div>
+                         <div class="col-md-2">
+                            <label>Tipo</label>
+                            <select class="form-control" ng-model="estado">
+                              <option value="0">Todos</option>
+                              <option value="1">Pendiente</option>
+                              <option value="2">Atendidos</option>
+                              <option value="3">Anulados</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2"> 
+                        <label></label> <br>
+                        <input ng-disabled="fechafin<fechainicio" type="button" class="btn btn-warning" ng-click="GenReporteCajas()" value="{{decriboton}}">
+                        </div>
+                </div><br>
                 <!--
                     <div class="row">
                         <div class="col-sm-10">

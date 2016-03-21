@@ -204,9 +204,18 @@
 
                 return deferred.promise;
             }
+             function reporteseparPedido(uri,fechaini,fechafin,tipo,estado){
+                var deferred = $q.defer();
+                $http.post('/api/'+uri+'/create/'+fechaini+'/'+fechafin+'/'+tipo+'/'+estado).success(function (data) {
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+
+            }
 
             return {
                 all: all,
+                reporteseparPedido: reporteseparPedido,
                 paginate: paginate,
                 create:create,
                 create1:create1,
