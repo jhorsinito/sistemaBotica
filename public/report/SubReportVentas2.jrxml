@@ -32,8 +32,7 @@
                      left join saledetPayments on saledetPayments.salePayment_id=salePayments.id
                      left join saleMethodPayments on saleMethodPayments.id=saledetPayments.saleMethodPayment_id
 
-                    where separateSales.estado like $P{estado} and separateSales.tipo like $P{tipo} and detSeparateSales.created_at between $P{fechaini} and $P{fechafin}
-                   ]]>
+                    where separateSales.estado like $P{estado} and separateSales.tipo like $P{tipo} and detSeparateSales.created_at between $P{fechaini} and $P{fechafin}]]>
 	</queryString>
 	<field name="totalUnidades" class="java.math.BigDecimal"/>
 	<field name="totalPrecioCompra" class="java.math.BigDecimal"/>

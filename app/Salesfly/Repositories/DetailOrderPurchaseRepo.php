@@ -22,7 +22,7 @@ class DetailOrderPurchaseRepo extends BaseRepo{
       ->leftjoin("equiv","equiv.preFin_id","=","presentation.id")
       ->select('detailOrderPurchases.*',"variants.id as Codigovar","variants.sku as CodigoPCompra","products.nombre as nombre","equiv.cant as equivalencia","presentation.base as esbase")
      ->where("detailOrderPurchases.orderPurchases_id","=",$id)
-      ->paginate(15);
+      ->paginate(1000);
       return $detailOrderPurchase;
     }
     public function paginaporEstados($estado){

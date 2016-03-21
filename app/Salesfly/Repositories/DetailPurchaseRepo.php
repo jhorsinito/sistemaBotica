@@ -19,7 +19,7 @@ class DetailPurchaseRepo extends BaseRepo{
       ->join("variants","variants.id","=","detPres.variant_id")
       ->join("products","products.id","=","variants.product_id")
       ->select('detailPurchases.*',"variants.sku as CodigoPCompra","products.nombre as nombre")->where("detailPurchases.purchases_id","=",$id)
-      ->paginate();
+      ->paginate(1000);
       return $detailpurchase;
     }
     public function Eliminar($id){
