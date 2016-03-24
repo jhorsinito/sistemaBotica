@@ -304,13 +304,13 @@
                           <button type="button" class="btn btn-danger btn-flat btn-xs pull-right" ng-click="delFavEst()"> <span class="glyphicon glyphicon-trash"></span> </button></h4>
                         </div>
                           <div class="box-body">
-                            <button ng-if="!banderadeleteFavorito" type="button" class="btn btn-default" ng-repeat="row in favoritos" style="width: 115px;height: 60px; overflow-x:hidden;" title="@{{row.NombreAtributos}}"
+                            <button ng-if="!banderadeleteFavorito" type="button" class="btn btn-default" ng-repeat="row in favoritos" style="width: 450px;height: 60px; overflow-x:hidden;" title="@{{row.NombreAtributos}}"
                                     ng-click="deleteFavoritos(row)">   
                                     <a type="button" class="glyphicon glyphicon-remove" ng-click="deleteFavoritos(row)"></a>                         
                                 @{{row.NombreAtributos}}
 
                             </button>  
-                            <button ng-if="banderadeleteFavorito" type="button" class="btn btn-default" ng-repeat="row in favoritos" style="width: 115px;height: 60px; overflow-x:hidden;" title="@{{row.NombreAtributos}}"
+                            <button ng-if="banderadeleteFavorito" type="button" class="btn btn-default" ng-repeat="row in favoritos" style="width: 450px;height: 60px; overflow-x:hidden;" title="@{{row.NombreAtributos}}"
                                     ng-click="cargarFavoritos(row)">                           
                                 @{{row.NombreAtributos}}
 
@@ -335,7 +335,7 @@
                       
                       <th>S/.Tarjeta</th>
                       <th>S/.Efectivo</th>
-
+                      <th>Notas</th>
                         <th>Estado</th>
 
                       <th>Ver Venta</th>
@@ -349,6 +349,7 @@
                       <td><a href="#tab_4" data-toggle="tab" aria-expanded="false" ng-click="traerDoumento(row)">@{{row.tipoDoc+"-"+row.NumDocument}}</a></td>
                       <td>@{{row.tarjeta}}</td>
                       <td>@{{row.efectivo}}</td>
+                      <td>@{{row.notas}}</td>
                         <td ng-if="row.estado==0" style="color: yellow;">Pend.</td>
                         <td ng-if="row.estado==1" style="color: green;">Term.</td>
                         <td ng-if="row.estado==3" style="color: red;">Anul.</td>

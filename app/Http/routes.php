@@ -769,6 +769,8 @@ Route::post('api/reportMovimientosVarianteRangoF/create/{fechaini}/{fechafin}/{t
 
 
 Route::post('api/Factura','SalesController@reporteFactura');
+Route::post('api/TiketReportCompra2/create/{id}','PurchasesController@reportes2');
+Route::post('api/TiketReportCompra3/create/{id}','PurchasesController@reportes3');
 Route::post('api/TiketReport2/create/{id}','VariantsController@reportes2');
 Route::post('api/TiketReport3/create/{id}','VariantsController@reportes3');
 Route::post('api/Reportedetcash/create/{id}','CashesController@Reportedetcash');
@@ -784,3 +786,12 @@ Route::get('api/listarVentasDiaSep/search',['as'=>'person_search', 'uses'=>'DetS
 Route::get('api/cantidadProductos/cantidades',['as'=>'person_search', 'uses'=>'ProductsController@cantidadProductos']);
 
 Route::post('api/reporteCajaMensual/create/{fechaini}/{fechafin}/{concepto}','CashMonthlyController@reporteCajaMensual');
+
+Route::post('api/cardextopUnoRFechasProduct/create/{fechaini}/{fechafin}/{tienda}/{tipo}','PurchasesController@cardextopUnoRFechasProduct');
+Route::post('api/cardextopmenRFechasProduct/create/{fechaini}/{fechafin}/{tienda}/{tipo}','PurchasesController@cardextopmenRFechasProduct');
+Route::post('api/cardexto10masFechasProduct/create/{fechaini}/{fechafin}/{tienda}/{tipo}','PurchasesController@cardexto10masFechasProduct');
+Route::post('api/cardexto10menFechasProduct/create/{fechaini}/{fechafin}/{tienda}/{tipo}','PurchasesController@cardexto10menFechasProduct');
+Route::post('api/cardexProductsTipeMov/create/{fechaini}/{fechafin}/{tipo}/{tienda}/{id}','PurchasesController@cardexProductsTipeMov');
+Route::post('api/cardexPagoProveedores/create/{fechaini}/{fechafin}','PurchasesController@cardexPagoProveedores');
+
+

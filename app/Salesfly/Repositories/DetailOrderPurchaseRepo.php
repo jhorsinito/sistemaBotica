@@ -20,7 +20,7 @@ class DetailOrderPurchaseRepo extends BaseRepo{
       ->join("products","products.id","=","variants.product_id")
       ->join("presentation","presentation.id","=","detPres.presentation_id")
       ->leftjoin("equiv","equiv.preFin_id","=","presentation.id")
-      ->select('detailOrderPurchases.*',"variants.id as Codigovar","variants.sku as CodigoPCompra","products.nombre as nombre","equiv.cant as equivalencia","presentation.base as esbase")
+      ->select('detailOrderPurchases.*',"detailOrderPurchases.cantidad as cantidad1","variants.id as Codigovar","variants.sku as CodigoPCompra","products.nombre as nombre","equiv.cant as equivalencia","presentation.base as esbase")
      ->where("detailOrderPurchases.orderPurchases_id","=",$id)
       ->paginate(1000);
       return $detailOrderPurchase;

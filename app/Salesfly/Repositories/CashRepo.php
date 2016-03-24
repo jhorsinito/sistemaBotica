@@ -25,6 +25,9 @@ class CashRepo extends BaseRepo{
                                 (SUBSTRING(cashes.fechaFin,6,2)),'-',
                                 (SUBSTRING(cashes.fechaFin,1,4)))as fechafin2"))
                      ->where('cashes.cashHeader_id','like', $q)
+                     ->orWhere('users.name','like', $q)
+                     ->orWhere('cashes.fechainicio','like','%'.$q.'%')
+                     ->orWhere('cashes.fechafin','like','%'.$q.'%')
                     //with(['customer','employee'])
                     ->orderby('cashes.fechaInicio','DESC')
                     ->paginate(15);

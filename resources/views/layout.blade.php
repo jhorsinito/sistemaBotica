@@ -242,13 +242,13 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li class=""><a href="#" ><i class="fa fa-circle-o"></i>Reporte de Ventas</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Inventario </a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Pagos a Proveedores </a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Cajas </a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Ventas por Vendedores </a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Movimientos de Almacén </a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Reporte de Productos por llegar </a></li>
+                <li class=""><a href="/sales" ><i class="fa fa-circle-o"></i>Reporte de Ventas</a></li>
+                <li><a href="/separateSales"><i class="fa fa-circle-o"></i>Reporte de Seeparados </a></li>
+                <li><a href="/purchases/cardex#PagoProveedores"><i class="fa fa-circle-o"></i>Reporte de Pagos a Proveedores </a></li>
+                <li><a href="/cashes"><i class="fa fa-circle-o"></i>Reporte de Cajas </a></li>
+                <li><a href="/purchases/cardex#mejoresEmplCli"><i class="fa fa-circle-o"></i>Reporte de Mejores Vendedores/clientes </a></li>
+                <li><a href="/purchases/create"><i class="fa fa-circle-o"></i>Reporte de Movimientos de Almacén </a></li>
+                <li><a href="/purchases/cardex#reportProduct"><i class="fa fa-circle-o"></i>Reporte Cardex </a></li>
               </ul>
             </li>
               @endif

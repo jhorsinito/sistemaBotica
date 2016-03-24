@@ -656,6 +656,52 @@ class PurchasesController extends Controller {
         )->execute();
         return '/report/'.$time.'_MejoresClientes2.'.$ext;
     }
+    public function reportes2($id){
+        
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_TiketVarianteCompras';        
+        $ext = "xls";
+        
+        \JasperPHP::process(
+            public_path() . '/report/TiketVarianteCompras.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['idVariante'=>intval($id)],//Parametros
+           
+
+            $database,
+            false,
+            false
+        )->execute();
+        
+        return '/report/'.$time.'_TiketVarianteCompras.'.$ext;
+    }
+    public function reportes3($id){
+        
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_TiketVarianteCompra2';        
+        $ext = "xls";
+        
+        \JasperPHP::process(
+            public_path() . '/report/TiketVarianteCompra2.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['idVariante'=>intval($id)],//Parametros
+           
+
+            $database,
+            false,
+            false
+        )->execute();
+        
+        return '/report/'.$time.'_TiketVarianteCompra2.'.$ext;
+    }
     public function find($id)
     {
         $purchase = $this->purchaseRepo->select($id);
@@ -795,6 +841,117 @@ class PurchasesController extends Controller {
         return '/report/'.$time.'_cardexUnoRagoFechas.'.$ext;
    
     }
+    public function cardextopUnoRFechasProduct($fechaini,$fechafin,$tienda,$tipo){
+     //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_cardexMejorProducts';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/cardexMejorProducts.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini'=>$fechaini,'fechafin'=>$fechafin,'tienda'=>intval($tienda),'tipo'=>$tipo],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_cardexMejorProducts.'.$ext;
+   
+    }
+    public function cardextopmenRFechasProduct($fechaini,$fechafin,$tienda,$tipo){
+     //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_cardexPeorProducts';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/cardexPeorProducts.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini'=>$fechaini,'fechafin'=>$fechafin,'tienda'=>intval($tienda),'tipo'=>$tipo],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_cardexPeorProducts.'.$ext;
+   
+    }
+     public function cardexto10masFechasProduct($fechaini,$fechafin,$tienda,$tipo){
+     //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_cardexTop10RangoFechas2';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/cardexTop10RangoFechas2.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini'=>$fechaini,'fechafin'=>$fechafin,'tienda'=>intval($tienda),'tipo'=>$tipo],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_cardexTop10RangoFechas2.'.$ext;
+   
+    }
+    public function cardexto10menFechasProduct($fechaini,$fechafin,$tienda,$tipo){
+     //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_cardexTopMen10RangoFechas2';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/cardexTopMen10RangoFechas2.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini'=>$fechaini,'fechafin'=>$fechafin,'tienda'=>intval($tienda),'tipo'=>$tipo],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_cardexTopMen10RangoFechas2.'.$ext;
+   
+    }
+    public function cardexProductsTipeMov($fechaini,$fechafin,$tipo,$tienda,$id){
+     //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_CardexProductRangoF';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/CardexProductRangoF.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini'=>$fechaini,'fechafin'=>$fechafin,'tienda'=>intval($tienda),'tipo'=>$tipo,'productId'=>$id],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_CardexProductRangoF.'.$ext;
+   
+    }
+
      public function cardextopUnomen($fecha,$tienda,$tipo){
      //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
         $database = \Config::get('database.connections.mysql');
@@ -969,6 +1126,29 @@ class PurchasesController extends Controller {
             false
         )->execute();
         return '/report/'.$time.'_reportMovimientosVarianteRangoF.'.$ext;
+   
+    }
+
+     public function cardexPagoProveedores($fechaini,$fechafin){
+     //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
+        $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_ReportePagoProveedores';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/ReportePagoProveedores.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['fechaini'=>$fechaini,'fechafin'=>$fechafin],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_ReportePagoProveedores.'.$ext;
    
     }
     //=============================================fin reportCardex=============================

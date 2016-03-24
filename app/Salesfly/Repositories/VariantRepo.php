@@ -158,14 +158,14 @@ class VariantRepo extends BaseRepo{
         $variants=Variant::leftjoin('detAtr','variants.id','=','detAtr.variant_id')
                         ->join('products','products.id','=','variants.product_id')
                         ->leftjoin('brands','products.brand_id','=','brands.id')
-                        //->join('detPres','detPres.variant_id','=','variants.id')
+                        ->leftjoin('stock','stock.variant_id','=','variants.id')
                         //->join('presentation','detPres.presentation_id','=','presentation.id')
                         ->leftjoin('types','products.type_id','=','types.id')
                         ->leftjoin('materials','materials.id','=','products.material_id')
                         ->where('variants.sku','=',$sku)
                             //->leftjoin('variants','products.id','=','variants.product_id')
                             //->leftjoin("atributes","atributes.id","=","detAtr.atribute_id")
-                            ->select(\DB::raw('products.id as proId,brands.nombre as BraName,types.nombre as TName,products.codigo as proCodigo,products.nombre as proNombre,
+                            ->select(\DB::raw('products.id as proId,stock.stockActual,brands.nombre as BraName,types.nombre as TName,products.codigo as proCodigo,products.nombre as proNombre,
                               variants.id as varid,variants.sku as varcode,variants.suppPri as varPrice,variants.price as precioProducto,
                                products.hasVariants as TieneVariante,products.created_at as proCreado,brands.id as BraID,materials.id as MId
                               ,materials.nombre as Mnombre,variants.codigo as varCodigo,detAtr.descripcion as descripcion,products.quantVar as proQuantvar,(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR "/") FROM variants

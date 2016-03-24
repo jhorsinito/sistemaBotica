@@ -13,7 +13,7 @@
 		<defaultValueExpression><![CDATA[10]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select e.nombres,e.apellidos,SUM(s.montoBruto) as totSollesVentas,SUM(ds.cantidad) as totCantidad from sales s inner join employees e on e.id=s.employee_id inner join detSales ds on ds.sale_id=s.id where s.fechaPedido between $P{fechaini} and $P{fechafin}  group by e.id order by totCantidad desc limit $P{cant};]]>
+		<![CDATA[select e.nombres,e.apellidos,SUM(s.montoTotal) as totSollesVentas,SUM(ds.cantidad) as totCantidad from sales s inner join employees e on e.id=s.employee_id inner join detSales ds on ds.sale_id=s.id where s.fechaPedido between $P{fechaini} and $P{fechafin}  group by e.id order by totSollesVentas desc limit $P{cant};]]>
 	</queryString>
 	<field name="nombres" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -85,14 +85,14 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="262" y="0" width="152" height="20" uuid="2e46ada7-7eb6-48f6-9004-a7128b42caca"/>
-				<textElement>
+				<textElement textAlignment="Center">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA["S/."+$F{totSollesVentas}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="414" y="0" width="138" height="20" uuid="521ef23f-3964-4764-bf8c-69ab2a52ca95"/>
-				<textElement>
+				<textElement textAlignment="Center">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totCantidad}]]></textFieldExpression>

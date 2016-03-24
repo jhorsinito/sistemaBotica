@@ -492,7 +492,8 @@
                         <button type="button" class="btn btn-xs " ng-disabled="" ng-click="lessCant(row,$index)">
                         <span type="button" class="glyphicon glyphicon-minus"></span><button type="button" class="btn btn-danger btn-xs"  ng-click="sacarRow($index,row.montoTotal)">
                         <span class="glyphicon glyphicon-trash"></span></td>
-                      <td ng-if="orderPurchase.estados==0" ng-show="estados1" alingn="center"><input style="width: 45px" ng-model="row.cantidad1" ng-blur="ComprovarCantidad(row,$index)"  type="number" placeholder="@{{row.cantidad}}" required></td>
+                        
+                      <td ng-if="orderPurchase.estados==0" ng-show="estados1" alingn="center"><input string-to-number style="width: 45px" ng-model="row.cantidad1" ng-blur="ComprovarCantidad(row,$index)"  type="number"  required></td>
                       <!--
                       <td ng-if="orderPurchase.estados==0" ng-show="estados" ><a data-target="#miventanaEditRow" ng-click="EditarDetalles(row,$index)" data-toggle="modal" class="btn btn-warning btn-xs" href="" ><i class="fa fa-fw fa-pencil"></i></a>
                           <a  class="btn btn-danger btn-xs" ng-click="sacarRow($index,row.montoTotal)"><i class="fa fa-fw fa-trash"></i></a>
