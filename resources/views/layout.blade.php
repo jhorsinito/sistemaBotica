@@ -243,6 +243,7 @@
               </a>
               <ul class="treeview-menu">
                 <li class=""><a href="/sales" ><i class="fa fa-circle-o"></i>Reporte de Ventas</a></li>
+                <li class=""><a href="/purchases/cardex#detCajas" ><i class="fa fa-circle-o"></i>Reporte detalles caja</a></li>
                 <li><a href="/separateSales"><i class="fa fa-circle-o"></i>Reporte de Seeparados </a></li>
                 <li><a href="/purchases/cardex#PagoProveedores"><i class="fa fa-circle-o"></i>Reporte de Pagos a Proveedores </a></li>
                 <li><a href="/cashes"><i class="fa fa-circle-o"></i>Reporte de Cajas </a></li>

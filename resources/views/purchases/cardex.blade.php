@@ -323,7 +323,7 @@
        <div class="row">
             <div class="col-md-1"></div>
               <div  class="col-md-6">
-               <h2>Reporte Detalles de Caja</h2>
+               <h2>Reporte Detalles de Caja en el Mes</h2>
               </div>
 
        </div>   <hr>   
