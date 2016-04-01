@@ -317,6 +317,51 @@
                 </div>  
                 <hr>
        
+
+       <!--==================================================================================================-->
+       <div id="detCajas">
+       <div class="row">
+            <div class="col-md-1"></div>
+              <div  class="col-md-6">
+               <h2>Reporte Detalles de Caja</h2>
+              </div>
+
+       </div>   <hr>   
+        <div class="row">
+                <div class="col-md-1">  </div>
+                    <div class="col-md-4">                             
+                            <label for="fechaPedido">Fecha Inicio: </label>
+                            <div ng-hide="show" class="input-group">
+                                <div class="input-group-addon">
+                                      <i class="fa fa-calendar"></i>
+                                </div>
+                                  <input type="date" class="form-control"  name="fechainicio" ng-model="fechainicioCaja" >
+                            </div>                          
+                        </div> 
+                         <div class="col-md-4">                             
+                            <label for="fechaPedido">Fecha Fin: </label>
+                            <div ng-hide="show" class="input-group">
+                                <div class="input-group-addon">
+                                      <i class="fa fa-calendar"></i>
+                                </div>
+                                  <input type="date" class="form-control"  ng-model="fechafinCaja" >
+                            </div>                          
+                        </div>
+                </div>
+                 <div class="row">
+                      <div class="col-md-1">  </div>
+                      <div class="col-md-3"> 
+                        <label></label> <br>
+                        <input ng-disabled="fechafinCaja<fechainicioCaja" type="button" class="btn btn-warning" ng-click="ReportDetCajasResumido()" value="@{{decribotonCaja}}">
+                      </div>
+                      <div class="col-md-3"> 
+                        <label></label> <br>
+                        <input ng-disabled="fechafinCaja<fechainicioCaja" type="button" class="btn btn-warning" ng-click="ReportDetCajasDetallado()" value="@{{decribotonCaja1}}">
+                      </div>
+                 </div>
+                <br> 
+                </div>  
+                <hr>
         <!--==================================================================================================-->
       <div id="PagoProveedores">
        <div class="row">

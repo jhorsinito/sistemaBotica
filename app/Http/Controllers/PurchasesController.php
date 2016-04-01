@@ -1128,7 +1128,46 @@ class PurchasesController extends Controller {
         return '/report/'.$time.'_reportMovimientosVarianteRangoF.'.$ext;
    
     }
-
+     public function ReportDetCashesResumido($f1,$f2){
+           $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_ReportDetCashmes';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/ReportDetCashmes.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+            ['SUBREPORT_DIR'=> public_path() . '/report/','fechaini'=>$f1,'fechafin'=>$f2],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_ReportDetCashmes.'.$ext;
+     }
+      public function ReportDetCashesDetallado($f1,$f2){
+           $database = \Config::get('database.connections.mysql');
+        $time=time();
+        $output = public_path() . '/report/'.$time.'_ReportDetCashMenusal';        
+        $ext = "pdf";
+        
+        \JasperPHP::process(
+            public_path() . '/report/ReportDetCashMenusal.jasper', 
+            $output, 
+            array($ext),
+            //array(),
+            //while($i<=3){};
+             ['SUBREPORT_DIR'=> public_path() . '/report/','fechaini'=>$f1,'fechafin'=>$f2],//Parametros
+              
+            $database,
+            false,
+            false
+        )->execute();
+        return '/report/'.$time.'_ReportDetCashMenusal.'.$ext;
+     }
      public function cardexPagoProveedores($fechaini,$fechafin){
      //var_dump("hola commd".$tipo.$fechaini.$fechafin);die();
         $database = \Config::get('database.connections.mysql');

@@ -1853,7 +1853,42 @@ $scope.decriboton1="Generar Reporte Empleados";
                     });
                  }
                 }
-
+$scope.decribotonCaja="Generar Reporte Resumido";
+                $scope.ReportDetCajasResumido=function(){
+                    if($scope.fechainicioCaja!=undefined && $scope.fechafinCaja!=undefined){
+                    $scope.fechainicio1=$scope.fechainicioCaja.getFullYear()+"-"+($scope.fechainicioCaja.getMonth()+1)+"-"+$scope.fechainicioCaja.getDate();
+                    $scope.fechafin2=$scope.fechafinCaja.getFullYear()+"-"+($scope.fechafinCaja.getMonth()+1)+"-"+$scope.fechafinCaja.getDate();
+                    //alert($scope.fechainicio+"---"+$scope.fechafin);
+                     $scope.decribotonCaja="Generando..";
+                     crudOPurchase.reportesMovFecha('ReportDetCashes',$scope.fechainicio1,$scope.fechafin2).then(function(data)
+                    {
+                        if(data!=undefined){
+                            $window.open(data);
+                            $scope.decribotonCaja="Generar Reporte Resumido";
+                        }else{
+                            $scope.errors = data;
+                        }
+                    });
+                 }
+                }
+$scope.decribotonCaja1="Generar Reporte Detallado";
+                $scope.ReportDetCajasDetallado=function(){
+                    if($scope.fechainicioCaja!=undefined && $scope.fechafinCaja!=undefined){
+                    $scope.fechainicio1=$scope.fechainicioCaja.getFullYear()+"-"+($scope.fechainicioCaja.getMonth()+1)+"-"+$scope.fechainicioCaja.getDate();
+                    $scope.fechafin2=$scope.fechafinCaja.getFullYear()+"-"+($scope.fechafinCaja.getMonth()+1)+"-"+$scope.fechafinCaja.getDate();
+                    //alert($scope.fechainicio+"---"+$scope.fechafin);
+                     $scope.decribotonCaja1="Generando..";
+                     crudOPurchase.reportesMovFecha('ReportDetCashes2',$scope.fechainicio1,$scope.fechafin2).then(function(data)
+                    {
+                        if(data!=undefined){
+                            $window.open(data);
+                            $scope.decribotonCaja1="Generar Reporte Detallado";
+                        }else{
+                            $scope.errors = data;
+                        }
+                    });
+                 }
+                }
                 //===========================================fin report Cardex=============================
 
 $scope.random = function() {
