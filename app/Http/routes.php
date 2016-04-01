@@ -794,5 +794,6 @@ Route::post('api/cardexto10masFechasProduct/create/{fechaini}/{fechafin}/{tienda
 Route::post('api/cardexto10menFechasProduct/create/{fechaini}/{fechafin}/{tienda}/{tipo}','PurchasesController@cardexto10menFechasProduct');
 Route::post('api/cardexProductsTipeMov/create/{fechaini}/{fechafin}/{tipo}/{tienda}/{id}','PurchasesController@cardexProductsTipeMov');
 Route::post('api/cardexPagoProveedores/create/{fechaini}/{fechafin}','PurchasesController@cardexPagoProveedores');
-
+Route::post('api/ReportDetCashes/create/{fechaini}/{fechafin}','PurchasesController@ReportDetCashesResumido');
+Route::post('api/ReportDetCashes2/create/{fechaini}/{fechafin}','PurchasesController@ReportDetCashesDetallado');
 
