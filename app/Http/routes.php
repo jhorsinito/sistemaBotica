@@ -139,6 +139,7 @@ Route::get('api/products/validar/{text}','ProductsController@validarNombre');
 Route::get('api/consultaProductos/selectall/{codigo?}/{marca?}/{linea?}/{busColor?}/{busTaco?}/{busTalla?}/{busMate?}','ProductsController@consultaProductos');
 
 Route::post('api/products/actualizarDsctoGeneral','ProductsController@actualizarDsctoGeneral');
+//Route::post('api/products/actualizarDsctoGeneral','ProductsController@actualizarDsctoVar');
 
 
 
@@ -164,7 +165,7 @@ Route::get('api/variants/selectStocksTallaSinTaco/{id}/{alma}','VariantsControll
 
 Route::get('api/variantname/search/{q?}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@searchCodigo']);
 
-Route::post('api/products/actualizarDsctoGeneral','ProductsController@actualizarDsctoGeneral');
+Route::post('api/variants/actualizarDsctoVar','VariantsController@actualizarDsctoVar');
 
 
 //END VARIANTS ROUTES

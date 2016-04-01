@@ -95,6 +95,7 @@
                         var $btn = $('#btn_generate').button('loading');
                         var f = document.getElementById('userImage').files[0] ? document.getElementById('userImage').files[0] : null;
                         //alert(f);
+                        if(f){
                         if(f.size <= 400000) {
                         var r = new FileReader();
                         r.onloadend = function(e) {
@@ -117,7 +118,7 @@
                         }else{
                             alert('Peso de imagen mayor a 400Kb.');
                             $btn.button('reset');
-                        }
+                        }}
                         if(!document.getElementById('userImage').files[0]){
                         crudService.create($scope.user,'users').then(function (data){
                             if (data['estado'] == true) {
