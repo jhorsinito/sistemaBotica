@@ -68,6 +68,7 @@
                       <th>Vendedor</th>
                       <th>Estado Pago</th>
                       <th>Estado Venta</th>
+                      <th>Notas</th>
                       <th style="width: 40px">Detalle</th>
                     </tr>
                     
@@ -80,6 +81,7 @@
                       <td>{{row.employee.nombres+' '+row.employee.apellidos}}</td>
                       <td>{{row.estado==1? 'Por Entregar':row.estado==0? 'Entregado':'Anulado'}}</td>
                       <td>{{row.estadoPago==1? 'Credito':'Contado'}}</td>
+                      <td>{{row.notas}}</td>
                       <td><a ng-click="editorder(row)" class="btn btn-warning btn-xs">Ver</a></td>
                       
                       
