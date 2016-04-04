@@ -69,14 +69,6 @@
 				<reportElement mode="Opaque" x="432" y="2" width="123" height="20" backcolor="#E0E000" uuid="5ef8ec16-a401-4d2d-a6a9-57fd5e3c1b71"/>
 				<textFieldExpression><![CDATA[$F{tipo}.equals("Transferencia")?$F{almcen_uno}+"->"+$F{almacen_dos}:$F{almcen_uno}]]></textFieldExpression>
 			</textField>
-			<subreport>
-				<reportElement x="0" y="22" width="555" height="100" uuid="f6851c9e-2801-4d59-abab-413e86778c8e"/>
-				<subreportParameter name="inputStocks_id">
-					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "SubreporteMovimientos.jasper"]]></subreportExpression>
-			</subreport>
 		</band>
 	</detail>
 	<columnFooter>
