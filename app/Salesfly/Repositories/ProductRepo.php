@@ -360,7 +360,7 @@ WHERE variants.id = varid) as stoStockActual'),
 
                                 materials.nombre as Material,
                                 stock.stockPedidos as stockPedidos,stock.stockSeparados as stockSeparados,
-                              warehouses.nombre as Almacen,stock.stockActual as Stock,detPres.price as precioProducto,
+                              warehouses.nombre as Almacen,stock.stockActual as Stock,detPres.price as precioProducto, detPres.pvp as pvp, detPres.dscto as dscto,
                               IF(products.hasVariants=1 , CONCAT(variants.codigo," - ",products.nombre,"/ ",(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /") FROM variants
                                 LEFT JOIN detAtr ON detAtr.variant_id = variants.id
                                 LEFT JOIN atributes ON atributes.id = detAtr.atribute_id
@@ -395,7 +395,7 @@ WHERE variants.id = varid) as stoStockActual'),
                             ->join('presentation as T2','T2.id','=','detPres.presentation_id')
                             ->leftjoin('equiv','equiv.preFin_id','=','T2.id')
                             ->select(\DB::raw('variants.sku as SKU ,detPres.id as detPre_id,products.nombre as NombreProducto,materials.nombre as Material,
-                              warehouses.nombre as Almacen,stock.stockActual as Stock,detPres.price as precioProducto,
+                              warehouses.nombre as Almacen,stock.stockActual as Stock,detPres.price as precioProductox, detPres.pvp as pvp, detPres.dscto as dscto,
                               stock.stockPedidos as stockPedidos,stock.stockSeparados as stockSeparados,
                               variants.id as vari , IF(products.hasVariants=1 , CONCAT(variants.codigo," - ",products.nombre,"/ ",(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /") FROM variants
                                 LEFT JOIN detAtr ON detAtr.variant_id = variants.id

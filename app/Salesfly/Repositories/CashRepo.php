@@ -3,7 +3,7 @@ namespace Salesfly\Salesfly\Repositories;
 use Salesfly\Salesfly\Entities\Cash;
 
 class CashRepo extends BaseRepo{
-    
+    protected $q;
     public function getModel()
     {
         
@@ -12,9 +12,11 @@ class CashRepo extends BaseRepo{
 
     public function search($q)
     {
-        if($q==0){
+        $this->q = $q;
+
+        /*if($q==0){
             $q='%%';
-        }
+        }*/
         $cashes =Cash::join("users","users.id","=","cashes.user_id")
                     ->join("cashHeaders","cashHeaders.id","=","cashes.cashHeader_id")
                     ->select(\DB::raw("cashes.*,cashes.estado as estado1,users.name as nomUser,
@@ -24,10 +26,13 @@ class CashRepo extends BaseRepo{
                             CONCAT((SUBSTRING(cashes.fechaFin,9,2)),'-',
                                 (SUBSTRING(cashes.fechaFin,6,2)),'-',
                                 (SUBSTRING(cashes.fechaFin,1,4)))as fechafin2"))
-                     ->where('cashes.cashHeader_id','like', $q)
-                     ->orWhere('users.name','like', $q)
-                     ->orWhere('cashes.fechainicio','like','%'.$q.'%')
-                     ->orWhere('cashes.fechafin','like','%'.$q.'%')
+            ->where(function($query) {
+
+                $query->orWhere('cashes.cashHeader_id', 'like', $this->q . '%')
+                    ->orWhere('users.name', 'like', $this->q . '%')
+                    ->orWhere('cashes.fechainicio', 'like', '%' . $this->q . '%')
+                    ->orWhere('cashes.fechafin', 'like', '%' . $this->q . '%');
+                    })
                     //with(['customer','employee'])
                     ->orderby('cashes.fechaInicio','DESC')
                     ->paginate(15);

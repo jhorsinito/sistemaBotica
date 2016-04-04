@@ -122,6 +122,7 @@
                       <th>Tipo</th>
                       <th>Estado Pago</th>
                       <th>Estado Venta</th>
+                        <th>Notas</th>
                       <th style="width: 40px">Detalle</th>
                     </tr>
 
@@ -145,6 +146,7 @@
                       <td ng-if="row.estado==3"><span style="color: red;">Anulado</span></td>
 
                       <td>{{row.estadoPago==1? 'Credito':'Contado'}}</td>
+                        <td><i>{{row.notas}}</i></td>
                       <td><a ng-click="editseparate(row)" class="btn btn-warning btn-xs">Ver</a></td>
                       
                       

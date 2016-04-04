@@ -742,10 +742,13 @@
                             $scope.presentations = data;
                             if($scope.base){                
                                     $scope.varianteSkuSelected1[0].cantidad=1;
-                                    $scope.varianteSkuSelected1[0].descuento=0;
-                                    $scope.varianteSkuSelected1[0].subTotal=$scope.varianteSkuSelected1[0].cantidad*Number($scope.varianteSkuSelected1[0].precioProducto);
-                                    $scope.varianteSkuSelected1[0].precioVenta=Number($scope.varianteSkuSelected1[0].precioProducto);
-                        
+                                    //$scope.varianteSkuSelected1[0].descuento=0;
+                                    $scope.varianteSkuSelected1[0].descuento=Number($scope.varianteSkuSelected1[0].dscto);
+                                    //$scope.varianteSkuSelected1[0].subTotal=$scope.varianteSkuSelected1[0].cantidad*Number($scope.varianteSkuSelected1[0].precioProducto);
+                                    $scope.varianteSkuSelected1[0].subTotal=$scope.varianteSkuSelected1[0].cantidad*Number($scope.varianteSkuSelected1[0].pvp);
+                                    //$scope.varianteSkuSelected1[0].precioVenta=Number($scope.varianteSkuSelected1[0].precioProducto);
+                                    $scope.varianteSkuSelected1[0].precioVenta=Number($scope.varianteSkuSelected1[0].pvp);
+
                                    $scope.compras.push($scope.varianteSkuSelected1[0]);  
     
                                     $scope.sale.montoTotal=$scope.sale.montoTotalSinDescuento+$scope.varianteSkuSelected1[0].subTotal;

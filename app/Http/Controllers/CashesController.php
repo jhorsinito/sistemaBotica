@@ -116,12 +116,20 @@ class CashesController extends Controller
     }
     public function create(Request $request)
     {
-        //var_dump($request->all());
-        $cash = Cash::where('user_id',auth()->user()->id)
+        //var_dump($request->cashHeader_id);
+        //die();
+
+        $cash1 = Cash::where('cashHeader_id',$request->cashHeader_id)
                         ->where('estado','1')
                         ->first();
-        //var_dump(count($cash)); die();
-        if(count($cash) > 0){
+
+        $cash2 = Cash::where('user_id',auth()->user()->id)
+                        ->where('estado','1')
+                        ->first();
+        //var_dump(count($cash1));
+        //var_dump(count($cash2));
+        //die();
+        if(count($cash1) > 0 or count($cash2) > 0){
             return response()->json(['estado'=>false]);
         }else {
             $cash = $this->cashRepo->getModel();
