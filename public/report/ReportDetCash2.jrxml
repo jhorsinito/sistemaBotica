@@ -10,7 +10,7 @@
 		<defaultValueExpression><![CDATA["/usr/share/nginx/html/salesfly/public/report/"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select cashes.fechaInicio,cashMotives.nombre,SUM(montoMovimientoTarjeta) as totMovTar,SUM(montoMovimientoEfectivo)as totMovEfec,cashMotives.observacion from detCash inner join cashMotives on cashMotives.id=detCash.cashMotive_id inner join cashes on cashes.id=detCash.cash_id where cashMotives.tipo="-" and cashes.id=$P{cash_id} group by cashMotives.id order by cashMotives.tipo;]]>
+		<![CDATA[select cashes.fechaInicio,cashMotives.nombre,montoMovimientoTarjeta as totMovTar,montoMovimientoEfectivo as totMovEfec,detCash.observacion from detCash inner join cashMotives on cashMotives.id=detCash.cashMotive_id inner join cashes on cashes.id=detCash.cash_id where cashMotives.tipo="-" and cashes.id=$P{cash_id} order by cashMotives.tipo;]]>
 	</queryString>
 	<field name="fechaInicio" class="java.sql.Timestamp">
 		<fieldDescription><![CDATA[]]></fieldDescription>

@@ -336,7 +336,7 @@ class InputStocksController extends Controller
             array($ext),
             //array(),
             //while($i<=3){};
-            ['SUBREPORT_DIR'=> public_path() . '/report/','tipo'=>$tipo],//Parametros
+            ['tipo'=>$tipo,'SUBREPORT_DIR'=> public_path() . '/report/'],//Parametros
               
             $database,
             false,
