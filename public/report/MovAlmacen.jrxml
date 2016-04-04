@@ -70,12 +70,12 @@
 				<textFieldExpression><![CDATA[$F{tipo}.equals("Transferencia")?$F{almcen_uno}+"->"+$F{almacen_dos}:$F{almcen_uno}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="0" y="29" width="555" height="42" uuid="4c518107-0b0d-4231-b9ad-877999dc4d80"/>
-				<subreportParameter name="inputStocks_id">
+				<reportElement x="0" y="19" width="555" height="53" uuid="2d9d5cc8-b21b-44e0-862d-6e5e082f8ec6"/>
+				<subreportParameter name="mov_id">
 					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "SubreporteMovimientos.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "SubreportMovimientos.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
