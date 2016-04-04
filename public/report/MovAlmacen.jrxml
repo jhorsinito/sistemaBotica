@@ -49,7 +49,7 @@
 		<band/>
 	</columnHeader>
 	<detail>
-		<band height="129">
+		<band height="76">
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="97a9e107-1184-494a-99e2-b1a00cf53453"/>
 			</line>
@@ -69,6 +69,14 @@
 				<reportElement mode="Opaque" x="432" y="2" width="123" height="20" backcolor="#E0E000" uuid="5ef8ec16-a401-4d2d-a6a9-57fd5e3c1b71"/>
 				<textFieldExpression><![CDATA[$F{tipo}.equals("Transferencia")?$F{almcen_uno}+"->"+$F{almacen_dos}:$F{almcen_uno}]]></textFieldExpression>
 			</textField>
+			<subreport>
+				<reportElement x="0" y="29" width="555" height="42" uuid="4c518107-0b0d-4231-b9ad-877999dc4d80"/>
+				<subreportParameter name="inputStocks_id">
+					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "SubreporteMovimientos.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</detail>
 	<columnFooter>
