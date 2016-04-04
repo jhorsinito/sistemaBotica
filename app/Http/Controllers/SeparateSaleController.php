@@ -439,21 +439,21 @@ public function create(Request $request) {
         }
         $database = \Config::get('database.connections.mysql');
         $time=time();
-        $output = public_path() . '/report/'.$time.'_SubReportVentas2';        
+        $output = public_path() . '/report/'.$time.'_RporteVentasPrincipal2';        
         $ext = "pdf";
         
         \JasperPHP::process(
-            public_path() . '/report/SubReportVentas2.jasper', 
+            public_path() . '/report/RporteVentasPrincipal2.jasper', 
             $output, 
             array($ext),
             //array(),
             //while($i<=3){};
-            ['SUBREPORT_DIR'=> public_path() . '/report/','fechaini'=>$fecha1,'fechafin'=>$fecha2,'tipo'=>$tipo,'estado'=>$estado],//Parametros
+            ['fechaini'=>$fecha1,'fechafin'=>$fecha2,'SUBREPORT_DIR'=> public_path() . '/report/','tipo'=>$tipo,'estado'=>$estado],//Parametros
               
             $database,
             false,
             false
         )->execute();
-        return '/report/'.$time.'_SubReportVentas2.'.$ext;
+        return '/report/'.$time.'_RporteVentasPrincipal2.'.$ext;
     }
 }

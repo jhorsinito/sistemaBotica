@@ -30,7 +30,7 @@
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="555" height="50" forecolor="#1D1111" backcolor="#927575" uuid="8f2a46e8-7122-4f99-8fe5-87b78290f4ba"/>
 				<textElement>
-					<font size="30"/>
+					<font size="25"/>
 				</textElement>
 				<text><![CDATA[Reporte Detalles de Cajas en el mes.]]></text>
 			</staticText>
