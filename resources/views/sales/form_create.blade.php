@@ -460,7 +460,7 @@
                   <div class="tab-pane" id="tab_5">
                       
                       
-                    
+                    <div class="box-body table-responsive no-padding">
                     <table class="table table-bordered">
                     <tr>
                       <th style="width: 10px">#</th>
@@ -536,6 +536,7 @@
                     
                     
                   </table>
+                  </div>
                     <div class="box-footer clearfix">
                         <pagination total-items="totalItemsZ" ng-model="currentPageZ" max-size="maxSizeZ" class="pagination-sm no-margin pull-right" 
                         items-per-page="itemsperPageZ" boundary-links="true" rotate="false" num-pages="numPages" ng-change="pageChangedZ()"></pagination>
