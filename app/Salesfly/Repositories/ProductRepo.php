@@ -143,13 +143,13 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
     public function consultaProductos($codigo,$marca,$linea,$busColor,$busTaco,$busTalla,$busMate){
 
 
-      if($codigo=='undefined' || empty($codigo)){$codigo="%%";}else{}
-      if($marca==0 || empty($marca) ){$marca="%%";}else{}
-      if($linea==0 || empty($linea) ){$linea="%%";}else{}
-      if($busColor=='undefined'|| empty($busColor) ){$busColor="%%";}else{}
-      if($busTaco=='undefined' || empty($busTaco) ){$busTaco="%%";}else{}
-      if($busTalla=='undefined' || empty($busTalla) ){$busTalla="%%";}else{}
-      if($busMate=='undefined' || empty($busMate) ){$busMate="%%";}else{}
+      if($codigo=='undefined' || empty($codigo)){$codigo="%";}else{}
+      if($marca==0 || empty($marca) ){$marca="%";}else{}
+      if($linea==0 || empty($linea) ){$linea="%";}else{}
+      if($busColor=='undefined'|| empty($busColor) ){$busColor="%";}else{}
+      if($busTaco=='undefined' || empty($busTaco) ){$busTaco="%";}else{}
+      if($busTalla=='undefined' || empty($busTalla) ){$busTalla="%";}else{}
+      if($busMate=='undefined' || empty($busMate) ){$busMate="%";}else{}
        $products = Product::leftjoin('brands','products.brand_id','=','brands.id')
                             ->leftjoin('types','products.type_id','=','types.id')
                             ->leftjoin('variants','products.id','=','variants.product_id')
@@ -159,8 +159,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->select('variants.codigo','variants.sku','variants.id as varid','products.estado as proEstado',
                                'brands.nombre as braNombre','products.hasVariants as TieneVariante','types.nombre as typNombre',
                               \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Color" and dt.descripcion like "'.$busColor.'%") as color'),
-                              \DB::raw('(SELECT sum(stock.stockActual)
-      
+                              \DB::raw('(SELECT sum(stock.stockActual)     
 FROM products
 INNER JOIN variants ON products.id = variants.product_id
 INNER JOIN stock ON variants.id = stock.variant_id
