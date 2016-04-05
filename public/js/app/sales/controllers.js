@@ -1297,7 +1297,10 @@ $scope.validaDocumento=function(){
                     $scope.pageChangedZ=function(){
                         crudServiceOrders.selectall("consultaProductos",$scope.busCodigo,$scope.materialid,$scope.lineaid,$scope.busColor,$scope.busTaco,$scope.busTalla,$scope.busMaterial,$scope.currentPageZ).then(function(data){
                         $scope.variants1=data.data;
-                        
+                        $scope.maxSizeZ= 5;
+                        $scope.totalItemsZ = data.total;
+                        $scope.currentPageZ= data.current_page;
+                        $scope.itemsperPageZ= 15;
                        });
                     }
                     $scope.materialid=0;$scope.lineaid=0;
@@ -1323,7 +1326,9 @@ $scope.validaDocumento=function(){
                     if($scope.busMaterial==''){$scope.busMaterial=undefined;}
                     if($scope.busCodigo==''){$scope.busCodigo=undefined;}
                     crudServiceOrders.selectall("consultaProductos",$scope.busCodigo,$scope.materialid,$scope.lineaid,$scope.busColor,$scope.busTaco,$scope.busTalla,$scope.busMaterial,1).then(function(data){
-                        $scope.variants1=data.data;
+                        $scope.variants1=data;
+                        $log.log("hola");
+                        $log.log(data);
                         $scope.maxSizeZ= 5;
                         $scope.totalItemsZ = data.total;
                         $scope.currentPageZ= data.current_page;

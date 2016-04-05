@@ -141,8 +141,9 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
         return $products;
     }
     public function consultaProductos($codigo,$marca,$linea,$busColor,$busTaco,$busTalla,$busMate){
-
-
+       
+      $products2=array();
+      $i=0;
       if($codigo=='undefined' || empty($codigo)){$codigo="%";}else{}
       if($marca==0 || empty($marca) ){$marca="%";}else{}
       if($linea==0 || empty($linea) ){$linea="%";}else{}
@@ -174,8 +175,21 @@ WHERE variants.id = varid) as stoStockActual'),
                             ->where('brands.id','like',$marca.'%')
                             ->where('types.id','like',$linea.'%')                            
                             ->groupBy('variants.id')
-                            ->paginate(15);
-        return $products;
+                            ->get();
+                          foreach ($products as $object) {
+                                //return $products[0]; die();
+                                  if(empty($object["color"]) || empty($object["Taco"]) || empty($object["Talla"]) || empty($object["Material"]))
+                                  {  
+                                     //unset($products[$i]);
+                                   }else{
+                                     $products2[$i]=($object);
+                                       $i++;
+                                   }
+                                
+                            }
+
+
+       return $products2;
     }
     public function Autocomplit(){
             $products = Product::leftjoin('variants','products.id','=','variants.product_id')
