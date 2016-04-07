@@ -820,11 +820,11 @@ class SalesController extends Controller
     public function ReportVentas($fecha1,$fecha2){
         $database = \Config::get('database.connections.mysql');
         $time=time();
-        $output = public_path() . '/report/'.$time.'_RporteVentasPrincipal';        
+        $output = public_path() . '/report/'.$time.'_SubReportVentas';        
         $ext = "pdf";
         
         \JasperPHP::process(
-            public_path() . '/report/RporteVentasPrincipal.jasper', 
+            public_path() . '/report/SubReportVentas.jasper', 
             $output, 
             array($ext),
             //array(),
@@ -835,7 +835,7 @@ class SalesController extends Controller
             false,
             false
         )->execute();
-        return '/report/'.$time.'_RporteVentasPrincipal.'.$ext;
+        return '/report/'.$time.'_SubReportVentas.'.$ext;
     }
 
 }

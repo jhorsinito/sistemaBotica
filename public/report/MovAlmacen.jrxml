@@ -8,15 +8,16 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select headInputStocks.id,headInputStocks.warehouDestino_id as idCabeseara,headInputStocks.Fecha,headInputStocks.tipo,users.name,warehouses.nombre as almcen_uno,(select warehouses.nombre from headInputStocks inner join users on users.id= headInputStocks.user_id inner join warehouses on warehouses.id=headInputStocks.warehouses_id where warehouses.id=idCabeseara limit 1)as almacen_dos from headInputStocks inner join users on users.id= headInputStocks.user_id inner join warehouses on warehouses.id=headInputStocks.warehouses_id where headInputStocks.tipo=$P{tipo};]]>
+		<![CDATA[select headInputStocks.id,headInputStocks.warehouDestino_id as idCabeseara,SUBSTRING(headInputStocks.Fecha,1,10) AS Fecha,headInputStocks.Fecha as fecha2 ,headInputStocks.tipo,users.name,warehouses.nombre as almcen_uno,(select warehouses.nombre from headInputStocks inner join users on users.id= headInputStocks.user_id inner join warehouses on warehouses.id=headInputStocks.warehouses_id where warehouses.id=idCabeseara limit 1)as almacen_dos from headInputStocks inner join users on users.id= headInputStocks.user_id inner join warehouses on warehouses.id=headInputStocks.warehouses_id where headInputStocks.tipo=$P{tipo} group by SUBSTRING(headInputStocks.fecha,1,10);]]>
 	</queryString>
-	<field name="id" class="java.lang.Integer">
+	<field name="id" class="java.lang.Long">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="idCabeseara" class="java.lang.Long"/>
-	<field name="Fecha" class="java.sql.Timestamp">
+	<field name="Fecha" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<field name="fecha2" class="java.sql.Timestamp"/>
 	<field name="tipo" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
@@ -37,7 +38,7 @@
 					<textElement>
 						<font size="34" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Movimientos de Alamcen]]></text>
+					<text><![CDATA[Movimientos de Almacen]]></text>
 				</staticText>
 			</frame>
 		</band>
@@ -63,16 +64,19 @@
 			</textField>
 			<textField pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="false">
 				<reportElement mode="Opaque" x="0" y="2" width="84" height="20" backcolor="#E0E000" uuid="d3a6a7e6-5502-4fa8-b344-2036eb981931"/>
-				<textFieldExpression><![CDATA[$F{Fecha}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{fecha2}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="432" y="2" width="123" height="20" backcolor="#E0E000" uuid="5ef8ec16-a401-4d2d-a6a9-57fd5e3c1b71"/>
 				<textFieldExpression><![CDATA[$F{tipo}.equals("Transferencia")?$F{almcen_uno}+"->"+$F{almacen_dos}:$F{almcen_uno}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="0" y="19" width="555" height="53" uuid="2d9d5cc8-b21b-44e0-862d-6e5e082f8ec6"/>
+				<reportElement x="0" y="22" width="555" height="43" uuid="74edc9f7-bccc-4096-8718-55660be07498"/>
 				<subreportParameter name="mov_id">
-					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$F{Fecha}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="tipo">
+					<subreportParameterExpression><![CDATA[$P{tipo}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "SubreportMovimientos.jasper"]]></subreportExpression>

@@ -49,49 +49,49 @@
 			</line>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="100" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="d96f917b-a023-4067-b858-c54250071c2f"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Left">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="100" y="0" width="79" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="0eb57c2c-563c-4ec6-999b-a908a9b86c14"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Left">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[montoInicial]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="179" y="0" width="55" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="6758321c-8e76-4e00-8651-338806de8db0"/>
-				<textElement textAlignment="Center">
+				<reportElement mode="Opaque" x="179" y="0" width="74" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="6758321c-8e76-4e00-8651-338806de8db0"/>
+				<textElement textAlignment="Left">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ingresos]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="234" y="0" width="72" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="6e0dc0fa-8cfa-4154-934c-04bb83d8b202"/>
-				<textElement textAlignment="Center">
+				<reportElement mode="Opaque" x="253" y="0" width="64" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="6e0dc0fa-8cfa-4154-934c-04bb83d8b202"/>
+				<textElement textAlignment="Left">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[gastos]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="306" y="0" width="84" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="b3953d57-cfda-4b78-9e13-a8714537a1f9"/>
-				<textElement textAlignment="Center">
+				<reportElement mode="Opaque" x="317" y="0" width="83" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="b3953d57-cfda-4b78-9e13-a8714537a1f9"/>
+				<textElement textAlignment="Left">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[montoBruto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="390" y="0" width="85" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="e5a5ffd5-c892-43c7-b230-08a828796cb6"/>
-				<textElement textAlignment="Center">
+				<reportElement mode="Opaque" x="400" y="0" width="89" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="e5a5ffd5-c892-43c7-b230-08a828796cb6"/>
+				<textElement textAlignment="Left">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[montoReal]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="475" y="0" width="80" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="978741a5-92c7-4b3a-b898-46bd3bba0044"/>
-				<textElement textAlignment="Center">
+				<reportElement mode="Opaque" x="489" y="0" width="66" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="978741a5-92c7-4b3a-b898-46bd3bba0044"/>
+				<textElement textAlignment="Left">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[descuadre]]></text>
@@ -104,20 +104,20 @@
 				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="daa553b7-cefa-4c5f-b4be-377d569d5168"/>
 			</line>
 			<textField>
-				<reportElement x="390" y="0" width="85" height="20" forecolor="#0000FF" uuid="016e0781-dd6a-4e8f-8ecd-607713d57cd2"/>
+				<reportElement x="400" y="0" width="89" height="20" forecolor="#0000FF" uuid="016e0781-dd6a-4e8f-8ecd-607713d57cd2"/>
 				<textFieldExpression><![CDATA["S/:"+$F{montoReal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="306" y="0" width="84" height="20" forecolor="#FFC800" uuid="31b208ff-c88f-432a-a95e-869967ca1572"/>
+				<reportElement x="317" y="0" width="83" height="20" forecolor="#FFC800" uuid="31b208ff-c88f-432a-a95e-869967ca1572"/>
 				<textFieldExpression><![CDATA["S/:"+$F{montoBruto}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="179" y="0" width="57" height="20" forecolor="#0000FF" uuid="14b48319-1efc-4639-bb53-1ec9792db54c"/>
-				<textFieldExpression><![CDATA["S/:"+$F{gastos}]]></textFieldExpression>
+				<reportElement x="179" y="0" width="74" height="20" forecolor="#0000FF" uuid="14b48319-1efc-4639-bb53-1ec9792db54c"/>
+				<textFieldExpression><![CDATA["S/:"+$F{ingresos}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="236" y="0" width="70" height="20" forecolor="#FF0000" uuid="d9894c4a-3272-41a2-9575-a45233953024"/>
-				<textFieldExpression><![CDATA["S/:"+$F{ingresos}]]></textFieldExpression>
+				<reportElement x="253" y="0" width="64" height="20" forecolor="#FF0000" uuid="d9894c4a-3272-41a2-9575-a45233953024"/>
+				<textFieldExpression><![CDATA["S/:"+$F{gastos}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="100" y="0" width="79" height="20" uuid="3948b092-4aeb-46a8-bd66-2c3bc537f1c2"/>
@@ -128,7 +128,7 @@
 				<textFieldExpression><![CDATA[$F{fechaInicio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Transparent" x="475" y="0" width="80" height="20" forecolor="#FF0000" backcolor="#FFFFFF" uuid="fedffdc2-8b9f-4f30-854f-2e420441da81"/>
+				<reportElement mode="Transparent" x="489" y="0" width="66" height="20" forecolor="#FF0000" backcolor="#FFFFFF" uuid="fedffdc2-8b9f-4f30-854f-2e420441da81"/>
 				<textFieldExpression><![CDATA["S/:"+$F{descuadre}]]></textFieldExpression>
 			</textField>
 		</band>

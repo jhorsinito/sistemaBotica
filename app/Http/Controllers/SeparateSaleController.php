@@ -439,11 +439,11 @@ public function create(Request $request) {
         }
         $database = \Config::get('database.connections.mysql');
         $time=time();
-        $output = public_path() . '/report/'.$time.'_RporteVentasPrincipal2';        
+        $output = public_path() . '/report/'.$time.'_SubReportVentas2';        
         $ext = "pdf";
         
         \JasperPHP::process(
-            public_path() . '/report/RporteVentasPrincipal2.jasper', 
+            public_path() . '/report/SubReportVentas2.jasper', 
             $output, 
             array($ext),
             //array(),
@@ -454,6 +454,6 @@ public function create(Request $request) {
             false,
             false
         )->execute();
-        return '/report/'.$time.'_RporteVentasPrincipal2.'.$ext;
+        return '/report/'.$time.'_SubReportVentas2.'.$ext;
     }
 }

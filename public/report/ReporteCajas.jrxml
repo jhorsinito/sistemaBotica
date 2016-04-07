@@ -28,11 +28,11 @@
 			<frame>
 				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="77" backcolor="#006699" uuid="8b7138cd-e545-487a-8347-48418f6f50f1"/>
 				<staticText>
-					<reportElement x="20" y="20" width="368" height="43" forecolor="#FFFFFF" uuid="155b6fad-73d1-4491-816a-cd9845c51f49"/>
+					<reportElement x="20" y="20" width="500" height="43" forecolor="#FFFFFF" uuid="155b6fad-73d1-4491-816a-cd9845c51f49"/>
 					<textElement>
 						<font size="34" isBold="true"/>
 					</textElement>
-					<text><![CDATA[REPORTE CAJAS]]></text>
+					<text><![CDATA[REPORTE CAJAS Diarias ]]></text>
 				</staticText>
 			</frame>
 		</band>
@@ -44,7 +44,7 @@
 		<band/>
 	</columnHeader>
 	<detail>
-		<band height="181">
+		<band height="237">
 			<staticText>
 				<reportElement x="34" y="13" width="134" height="20" uuid="7ffa7cdb-1845-48ea-b5e6-e8a24003a662"/>
 				<textElement>
@@ -126,6 +126,51 @@
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subreportCaja.jasper"]]></subreportExpression>
 			</subreport>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="489" y="172" width="64" height="20" forecolor="#FF0000" uuid="8d531d19-f233-446a-ae61-2bd667a6e0ce"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["s/."+$F{totDescuadre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="255" y="172" width="61" height="20" forecolor="#FF0000" uuid="96b771e7-a213-421f-b017-405278c90018"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["s/."+$F{totGastos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="400" y="172" width="89" height="20" forecolor="#0000FF" uuid="db916fb6-cbdd-4a02-af21-533f227b4e3f"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["s/."+$F{totMontoReal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="180" y="172" width="75" height="20" forecolor="#0000FF" uuid="81871851-b077-48fa-be13-7a55efe92581"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["s/."+$F{totIngresos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="316" y="172" width="84" height="20" forecolor="#0000FF" uuid="e438d8cb-c081-4247-91ea-7389f1713a82"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["s/."+$F{totMontoBruto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="136" y="172" width="44" height="20" uuid="eb877ce3-f248-4cff-8d06-92997a44b08e"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="136" y="193" width="417" height="1" uuid="524b186f-3dd4-475a-b300-c49c273995ab"/>
+			</line>
 		</band>
 	</detail>
 	<columnFooter>

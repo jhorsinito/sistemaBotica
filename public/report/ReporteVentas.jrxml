@@ -10,7 +10,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select detSales.created_at as fecha,variants.id as varid,ROUND((detPres.suppPri*detSales.cantidad),2) as precioCompra,ROUND((detSales.subTotal-(detPres.suppPri*detSales.cantidad)),2)as ganacia,variants.sku,brands.nombre as marca,products.codigo,types.nombre as linea,stations.nombre as estacion,products.modelo,detSales.subTotal,sales.estado as estado,detSales.cantidad,saleMethodPayments.nombre as SMPNombre,(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Color" ) as color,(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Taco" ) as Taco, (select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Talla" ) as Talla from detSales left join detPres on detPres.id=detSales.detPre_id
+		<![CDATA[select detSales.created_at as fecha,variants.id as varid,ROUND((detPres.suppPri*detSales.cantidad),2) as precioCompra,ROUND((detSales.subTotal-(detPres.suppPri*detSales.cantidad)),2)as ganacia,variants.sku,brands.nombre as marca,products.codigo,types.nombre as linea,Round(detCash.montoMovimientoEfectivo,2) as totEfectivo,Round(detCash.montoMovimientoTarjeta,2) as totTarjeta,stations.nombre as estacion,products.modelo,detSales.subTotal,sales.estado as estado,detSales.cantidad,saleMethodPayments.nombre as SMPNombre,sales.id,(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Color" ) as color,(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Taco" ) as Taco, (select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Talla" ) as Talla from detSales left join detPres on detPres.id=detSales.detPre_id
                      left join variants on variants.id=detPres.variant_id
                      left join products on products.id=variants.product_id
                      left join brands on products.brand_id=brands.id
@@ -23,7 +23,7 @@
                      inner join saledetPayments on saledetPayments.salePayment_id=salePayments.id
                      inner join saleMethodPayments on saleMethodPayments.id=saledetPayments.saleMethodPayment_id
 
-                    where detSales.created_at between $P{fechaini} and $P{fechafin}
+                    where sales.estado<>'3' and detSales.created_at between $P{fechaini} and $P{fechafin}
                     group by detSales.id]]>
 	</queryString>
 	<field name="fecha" class="java.sql.Timestamp"/>
@@ -38,6 +38,8 @@
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="linea" class="java.lang.String"/>
+	<field name="totEfectivo" class="java.math.BigDecimal"/>
+	<field name="totTarjeta" class="java.math.BigDecimal"/>
 	<field name="estacion" class="java.lang.String"/>
 	<field name="modelo" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -52,6 +54,9 @@
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="SMPNombre" class="java.lang.String"/>
+	<field name="id" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="color" class="java.lang.String"/>
 	<field name="Taco" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -75,108 +80,108 @@
 			</line>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="52" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="9ed9a9a2-961e-4d9f-93ab-fad1536e15a7"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[fecha]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="52" y="0" width="32" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="e93c7d98-e2a8-4c22-84a8-10417619c80c"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[sku]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="84" y="0" width="32" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="873d867b-1740-43aa-864a-0a6b9506fe71"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[marca]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="116" y="0" width="32" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="44b5aa93-6d09-4359-9ad2-b9ea5977a537"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[codigo]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="148" y="0" width="45" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="6a9ec950-d8b5-4700-9545-75e477dd7895"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[linea]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="192" y="0" width="52" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="2067b2cd-756a-4ba1-9224-d564d230d003"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[estacion]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="244" y="0" width="51" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="f2c8de3e-151f-4090-9290-b603c8c1d77e"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7" isBold="true"/>
-				</textElement>
-				<text><![CDATA[modelo]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="515" y="0" width="40" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="deff3f93-d5c3-45a8-9f66-d1bc9b93329e"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7" isBold="true"/>
-				</textElement>
-				<text><![CDATA[P. Venta]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="421" y="0" width="26" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="f828a0b6-02a4-47a5-a951-63492843ed2f"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement mode="Opaque" x="336" y="0" width="26" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="f828a0b6-02a4-47a5-a951-63492843ed2f"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cant.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="295" y="0" width="44" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="336f5b53-4c71-4563-95ca-65095a20ae6c"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Tipo Pago]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="339" y="0" width="36" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="9385fd36-9d03-4435-8f9d-811d96db38f3"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement mode="Opaque" x="244" y="0" width="36" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="9385fd36-9d03-4435-8f9d-811d96db38f3"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[color]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="376" y="0" width="22" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="f3696814-db01-4537-8b80-d2df228d0edf"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement mode="Opaque" x="281" y="0" width="22" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="f3696814-db01-4537-8b80-d2df228d0edf"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Taco]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="398" y="0" width="22" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="7148febb-ff05-4b15-885e-c5d25387a19b"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement mode="Opaque" x="304" y="0" width="31" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="7148febb-ff05-4b15-885e-c5d25387a19b"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Talla]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="448" y="0" width="33" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="df345938-84d2-447a-949f-2dec179b67ed"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement mode="Opaque" x="459" y="0" width="49" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="df345938-84d2-447a-949f-2dec179b67ed"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[P. Com.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="481" y="0" width="34" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="13c2b3a2-12fd-49f5-a639-c49fcb919837"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement mode="Opaque" x="508" y="0" width="46" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="13c2b3a2-12fd-49f5-a639-c49fcb919837"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Gan.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="363" y="1" width="95" height="9" forecolor="#006699" backcolor="#E6E6E6" uuid="c91eba97-d9f2-4383-99bf-eac91b93ea25"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo Pago]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="363" y="11" width="47" height="9" forecolor="#1F3ADC" backcolor="#E6E6E6" uuid="0930e497-7b25-48be-9931-6058b852b2d0"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Efectivo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="411" y="11" width="47" height="9" forecolor="#490099" backcolor="#E6E6E6" uuid="06165279-82dd-407c-b2a4-5096542d15e6"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tarjeta]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -221,35 +226,21 @@
 				<textFieldExpression><![CDATA[$F{estacion}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="244" y="0" width="51" height="20" uuid="9bd4a909-2146-4a50-ba67-c1bb94f38995"/>
-				<textElement verticalAlignment="Middle">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{modelo}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="295" y="0" width="44" height="20" uuid="3d49abc4-d782-440e-97e3-6eb7a575b639"/>
-				<textElement verticalAlignment="Middle">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{SMPNombre}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="339" y="0" width="36" height="20" uuid="1694a45e-17c1-4673-94b0-7d529be80d5b"/>
+				<reportElement x="244" y="0" width="36" height="20" uuid="1694a45e-17c1-4673-94b0-7d529be80d5b"/>
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{color}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="376" y="0" width="22" height="20" uuid="c632eb6f-7b60-4e7f-92a2-65862774fc03"/>
+				<reportElement x="281" y="0" width="22" height="20" uuid="c632eb6f-7b60-4e7f-92a2-65862774fc03"/>
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Taco}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="398" y="0" width="22" height="20" uuid="c71514e3-9c07-4c53-8c25-fcf67dba41af"/>
+				<reportElement x="304" y="0" width="31" height="20" uuid="c71514e3-9c07-4c53-8c25-fcf67dba41af"/>
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
@@ -263,32 +254,39 @@
 				<textFieldExpression><![CDATA[$F{linea}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="420" y="0" width="27" height="20" uuid="922f0791-7a5f-4120-9edd-6c69c9161e3a"/>
+				<reportElement x="335" y="0" width="27" height="20" uuid="922f0791-7a5f-4120-9edd-6c69c9161e3a"/>
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="515" y="0" width="40" height="20" forecolor="#0000FF" uuid="1c21289b-1ac1-435d-99cd-beed1f35af29"/>
-				<textElement verticalAlignment="Middle">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA["S/."+$F{subTotal}]]></textFieldExpression>
-			</textField>
 			<textField>
-				<reportElement x="448" y="0" width="33" height="20" forecolor="#FF0000" uuid="34465faa-1e79-44ba-9b61-8f29d6f93f80"/>
+				<reportElement x="459" y="0" width="49" height="20" forecolor="#FF0000" uuid="34465faa-1e79-44ba-9b61-8f29d6f93f80"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA["S/."+$F{precioCompra}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="481" y="0" width="34" height="20" forecolor="#00FF00" uuid="734310c4-199f-4580-a0b8-6c0c7ff0ef9e"/>
+				<reportElement x="508" y="0" width="46" height="20" forecolor="#00FF00" uuid="734310c4-199f-4580-a0b8-6c0c7ff0ef9e"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA["S/."+$F{ganacia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="363" y="0" width="47" height="20" forecolor="#1F3ADC" uuid="f4b8c3d2-2855-48b3-b4ff-f1086c7591af"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totEfectivo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="411" y="0" width="47" height="20" forecolor="#490099" uuid="d8f003f7-07cb-496a-813c-3e12d6052bef"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totTarjeta}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
