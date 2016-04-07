@@ -141,7 +141,7 @@
 				<textFieldExpression><![CDATA["s/."+$F{totIngresos}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="FixRelativeToBottom" x="316" y="172" width="84" height="20" forecolor="#0000FF" uuid="e438d8cb-c081-4247-91ea-7389f1713a82"/>
+				<reportElement positionType="FixRelativeToBottom" x="316" y="172" width="84" height="20" forecolor="#FFC800" uuid="e438d8cb-c081-4247-91ea-7389f1713a82"/>
 				<textElement>
 					<font size="10" isBold="true"/>
 				</textElement>
