@@ -60,9 +60,11 @@
                       <th style="width: 10px">#</th>
                       <th>Nombre Completo </th>
                       <th>Codigo</th>
+                        <th>Cargo</th>
                       <th>E-mail</th>
                       <th>Direcion</th>
                       <th>Estado</th>
+
                       <th style="width: 40px">Costos</th>
                       <th style="width: 40px">Editar</th>
                       <th style="width: 40px">Eliminar</th>
@@ -73,6 +75,7 @@
 
                       <td>{{row.nombres+ " " + row.apellidos }}</td>
                       <td>{{row.codigo}}</td>
+                        <td>{{row.cargo}}</td>
                       <td>{{row.email}}</td>
                       <td>{{row.direccioncontacto}}</td>
                       <td><div ng-if="row.estado==='1'">

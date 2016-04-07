@@ -4,7 +4,8 @@ namespace Salesfly\Http\Controllers\Auth;
 
 
 
-use Illuminate\Support\Facades\Request;
+//use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Salesfly\User;
 use Salesfly\Salesfly\Entities\Store;
@@ -37,7 +38,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => ['getLogout','indexU','all','paginate','form_create','form_edit','store_select','postRegister','search','find','edit','disableuser','changePass']]);
+        $this->middleware('guest', ['except' => ['getLogout','indexU','all','paginate','form_create','form_edit','store_select','postRegister','search','find','edit','disableuser','changePass','destroy']]);
         //$this->middleware('auth',['only' => 'index']);
     }
 
@@ -205,6 +206,15 @@ class AuthController extends Controller
         //die();
 
         \DB::commit();
+        return response()->json(['estado'=>true]);
+    }
+
+    public function destroy(Request $request)
+    {
+        //var_dump($request->all());
+        $user= User::find($request->id);
+        $user->delete();
+        //Event::fire('update.atribut',$atribut->all());
         return response()->json(['estado'=>true]);
     }
 

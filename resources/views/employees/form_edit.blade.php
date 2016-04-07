@@ -158,6 +158,15 @@
                       ng-model="employee.email">
                   </div>
           </div>
+
+              <div class="col-md-6">
+                  <div class="form-group" >
+                      <label for="cargo">Cargo</label>
+                      <input type="text" class="form-control" name="cargo" placeholder="cargo" ng-model="employee.cargo" >
+
+                  </div>
+              </div>
+
        </div>
    </div>
    <div class="col-md-4">
