@@ -23,7 +23,8 @@ class Customer extends \Eloquent {
     						'provincia',
     						'departamento',
     						'pais',
-    						'notas'
+    						'notas',
+                            'puntos'
     						];
 
 }

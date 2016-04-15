@@ -61,7 +61,13 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Valor en Puntos</label><br>
+                                    <input type="number" class="form-control" ng-model="variant.puntos" id="puntos" name="puntos"/>
 
+                                </div>
+                            </div>
 
 
                         </div>

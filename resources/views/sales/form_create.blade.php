@@ -86,6 +86,7 @@
                           <table class="table table-bordered">
                                              
                             <tr ng-repeat="row in compras track by $index">
+                             <td tooltip="Seleccione para usar puntos del cliente con este producto"><input type="checkbox" ng-click="puntos($index,row)" ng-model="compras[$index].puntos2" ></td>
                               <td>
                                   <button data-toggle="popover" popover-template="dynamicPopover.templateUrl" type="button" class="btn btn-default">@{{compras[$index].cantidad}}</button>
                               </td>
@@ -145,8 +146,8 @@
                                     
                                     </div>
                                     <div class="col-md-5" >
-                                      <a ng-if="sale.montoTotal>0" class="btn btn-default ng-binding" data-toggle="modal" data-target="#miventana1" ng-click="pagar()">PAGAR</a>
-                                      <a ng-if="sale.montoTotal==0"class="btn btn-default ng-binding" ng-click="pagar()">PAGAR</a>
+                                      <a ng-if="sale.montoTotal>=0" class="btn btn-default ng-binding" data-toggle="modal" data-target="#miventana1" ng-click="pagar()">PAGAR</a>
+                                      <a ng-if="sale.montoTotal<0"class="btn btn-default ng-binding" ng-click="pagar()">PAGAR</a>
                                     </div>
                                   </div>
                                 </tr>
@@ -178,6 +179,11 @@
                               </table>
                             </div>
                         </div>
+                         <div class="row">
+                                    <div class="col-md-7" >
+                                     <label>Puntos Acumulados del cliente  @{{sale.puntos}}</label>
+                                    </div>
+                          </div>
                       </div> 
 
                     </div>

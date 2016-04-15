@@ -266,6 +266,8 @@
                                     $scope.product.track = (data.track == 1 ); //de variants
                                     $scope.product.presentations = data.det_pre;
                                     $scope.product.stock = data.stock;
+                                    $scope.product.puntos=Number(data.puntos);
+                                    $scope.product.autogenerado=true;
                                     crudService.all('warehouses').then(function (data){
                                         $scope.warehouses = data;
                                     });
@@ -341,7 +343,7 @@
                             $scope.variant.category = data.category;
                             $scope.variant.codigo = data.codigo;
                             $scope.variant.created_at = data.created_at;
-
+                            $scope.variant.puntos=Number(data.puntos);
                             //$scope.variant.favorite: data.favorite
                             $scope.variant.id = data.id;
                             $scope.variant.image = data.image;

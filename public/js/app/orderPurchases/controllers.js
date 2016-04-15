@@ -486,6 +486,9 @@
                   }
                   $scope.codigoVarP;
                   $scope.mostrardetalles=true;
+                  $scope.mostrarDetalles=function(){
+                    alert();
+                  }
                   $scope.mostrarTallas=function(taco){
                     //alert($scope.codigoVarP+"/el taco es/"+taco);
                     if(taco!=null){

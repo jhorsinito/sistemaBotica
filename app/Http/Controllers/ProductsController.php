@@ -152,7 +152,7 @@ class ProductsController extends Controller
 
             $product->quantVar = 0;
             $product->save();
-            $managerVar = new VariantManager($variant,$request->only('sku','suppPri','markup','price','track','product_id','codigo','user_id'));
+            $managerVar = new VariantManager($variant,$request->only('sku','suppPri','markup','price','track','product_id','codigo','user_id','puntos'));
             $managerVar->save();
 
 
@@ -269,7 +269,7 @@ class ProductsController extends Controller
             $product->quantVar = 0; //aunq presenta una fila en la tabla variantes por defecto
             $product->save();
             $variant = $this->variantRepo->getModel()->where('product_id',$product->id)->first();
-            $managerVar = new VariantManager($variant,$request->only('sku','suppPri','markup','price','track','codigo','product_id','user_id'));
+            $managerVar = new VariantManager($variant,$request->only('sku','suppPri','markup','price','track','codigo','product_id','user_id','puntos'));
             $managerVar->save();
 
             //var_dump($request->input('presentations')); die();

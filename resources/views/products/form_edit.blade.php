@@ -283,6 +283,13 @@
                                             <input type="checkbox" ng-model="product.autogenerado"> Autogenerado
                                         </div>
                                     </div>
+                                      <div class="col-md-4">
+                                                                            <div class="form-group">
+                                                                                <label>Valor en Puntos</label><br>
+                                                                                <input type="number" class="form-control" ng-model="product.puntos" id="puntos" name="puntos"/>
+
+                                                                            </div>
+                                                                      </div>
                                 </div>
                                 <div class="form-group" >
                                     <label for="variantes">¿Desea seguir el stock del Producto?</label>

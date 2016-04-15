@@ -512,7 +512,7 @@
                   
                 $scope.pagar = function () {
                     $scope.validaDocumento();
-                    if ($scope.sale.montoTotal==0) {
+                    if ($scope.sale.montoTotal<0) {
                         alert("Seleccione productos");
                     }else{
                         $scope.calcularVuelto();      
@@ -551,7 +551,7 @@
                     $scope.salePayment.Acuenta=0;
                     $scope.salePayment.customer_id=$scope.sale.customer_id;
 
-                    if($scope.pago.tarjeta>0 || $scope.pago.cash>0){
+                    if($scope.pago.tarjeta>0 || $scope.pago.cash>=0){
                         if($scope.acuenta){
                             //Inicia Pago Credito 
                             //alert("credito");
@@ -719,14 +719,17 @@
                             $scope.varianteSkuSelected1={};
                             $scope.varianteSkuSelected1=data;
                            
-                              
+                                if($scope.varianteSkuSelected1[0]!=undefined){
                                    if (($scope.varianteSkuSelected1[0].Stock-$scope.varianteSkuSelected1[0].stockPedidos-$scope.varianteSkuSelected1[0].stockSeparados)>0) { 
                                          $scope.Jalar(size);
                                    }else{
                                        alert("STOCK INSUFICIENTE");
                                       $scope.varianteSkuSelected=undefined;
                                   } 
-                           
+                               }else{
+                                  alert("NO EXISTE PRODUCTO");
+                                  $scope.varianteSkuSelected=undefined;
+                               }
                                                                                      
                         });
                     //}
@@ -757,7 +760,8 @@
                                     //$scope.varianteSkuSelected1[0].descuento=0;
                                     $scope.varianteSkuSelected1[0].subTotal=$scope.varianteSkuSelected1[0].cantidad*Number($scope.varianteSkuSelected1[0].precioProducto);
                                     $scope.varianteSkuSelected1[0].precioVenta=Number($scope.varianteSkuSelected1[0].precioProducto);
-                        
+                                  //alert($scope.varianteSkuSelected1[0].puntos);
+
                                    $scope.compras.push($scope.varianteSkuSelected1[0]); 
 
 
@@ -887,6 +891,8 @@
                 $scope.selecionarCliente = function() {
                     //$log.log($scope.customersSelected.busqueda);
                     if ($scope.customersSelected!=undefined) {
+                        
+                        $scope.sale.puntos=$scope.customersSelected.puntos;
                         $scope.sale.customer_id=$scope.customersSelected.id;
                         $scope.sale.cliente=$scope.customersSelected.busqueda;
                         $scope.customersSelected=undefined;
@@ -907,6 +913,7 @@
                 }
 
                 $scope.deleteCliente= function(){
+                    $scope.sale.puntos=0;
                     $scope.sale.customer_id=undefined;
                     $scope.sale.cliente=undefined;
                     $scope.customersSelected=undefined;    
@@ -1197,7 +1204,31 @@
                         $scope.sale.descuento=0;    
                     }
                 }
-
+               $scope.puntos=function(index,row){
+                if($scope.sale.customer_id!=undefined){
+                    if(Number($scope.sale.puntos)>=Number(row.puntos)){
+                   if($scope.compras[index].puntos2==true){
+                        row.subTotal=row.subTotal-row.precioVenta;
+                        $scope.sale.puntos=$scope.sale.puntos-row.puntos;
+                        $scope.compras.splice(index,1,row);
+                        $scope.sale.montoTotal=$scope.sale.montoTotalSinDescuento-($scope.compras[index].precioVenta);
+                        $scope.recalcularCompra();
+                  }else{
+                        row.subTotal=row.subTotal+row.precioVenta;
+                        $scope.sale.puntos=$scope.sale.puntos+row.puntos;
+                        $scope.compras.splice(index,1,row);
+                        $scope.sale.montoTotal=$scope.sale.montoTotalSinDescuento+($scope.compras[index].precioVenta);
+                        $scope.recalcularCompra();
+                  }
+              }else{
+                alert("Los puntos de este cliente no son suficiente para canjear este producto!!")
+                $scope.compras[index].puntos2=false;
+              }
+              }else{
+                alert('Para usar descuento por puntos Primero seleccione un cliente por favor!!');
+                $scope.compras[index].puntos2=false;
+              }
+               }
                 $scope.recalcularCompra=function(){
                     $scope.sale.montoTotalSinDescuento=$scope.sale.montoTotal;
                     $scope.sale.montoTotal=((100-Number($scope.sale.descuento))*Number($scope.sale.montoTotalSinDescuento))/100;    

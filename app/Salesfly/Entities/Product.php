@@ -22,7 +22,8 @@ class Product extends Model
                             'estado',
                             'modelo',
                             'presentation_base',
-                            'user_id'
+                            'user_id',
+                            'puntos'
                             ];
     public function brand(){
         return $this->belongsTo('Salesfly\Salesfly\Entities\Brand');

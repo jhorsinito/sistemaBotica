@@ -234,7 +234,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->leftjoin('equiv','equiv.preFin_id','=','T1.id')
                             ->join('detPres','detPres.variant_id','=','variants.id')
                             ->join('presentation as T2','T2.id','=','detPres.presentation_id')
-                            ->select(\DB::raw('variants.sku as SKU ,detPres.id as detPre_id,variants.id as vari ,
+                            ->select(\DB::raw('variants.puntos,variants.sku as SKU ,detPres.id as detPre_id,variants.id as vari ,
 
                                 IF(products.hasVariants=1 , CONCAT(products.nombre,"(",products.nombre,"/ ",(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /")
                                  FROM variants
@@ -292,7 +292,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->leftjoin('equiv','equiv.preFin_id','=','T1.id')
                             ->join('detPres','detPres.variant_id','=','variants.id')             
                             ->join('presentation as T2','T2.id','=','detPres.presentation_id')
-                            ->select(\DB::raw('variants.sku as SKU ,detPres.id as detPre_id,variants.id as vari ,
+                            ->select(\DB::raw('variants.puntos,variants.sku as SKU ,detPres.id as detPre_id,variants.id as vari ,
 
                                 IF(products.hasVariants=1 , CONCAT(products.nombre,"(",products.nombre,"/ ",(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /")
                                  FROM variants
@@ -321,7 +321,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->where('variants.sku','=', $q)
                             /////--------------------
                             ->where('products.estado','=','1')
-                            ->where('variants.estado','=','1')
+                            //->where('variants.estado','=','1')
                             /////--------------------
                             //->where('variants.codigo','like', $q.'%')
                             ->where('T2.base','=','1')
@@ -341,7 +341,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
 
                             ->join('presentation as T2','T2.id','=','detPres.presentation_id')
                             ->leftjoin('equiv','equiv.preFin_id','=','T2.id')
-                            ->select(\DB::raw('variants.sku as SKU ,detPres.id as detPre_id,products.nombre as NombreProducto,materials.nombre as Material,
+                            ->select(\DB::raw('variants.puntos,variants.sku as SKU ,detPres.id as detPre_id,products.nombre as NombreProducto,materials.nombre as Material,
                               warehouses.nombre as Almacen,stock.stockActual as Stock,detPres.price as precioProducto,
 
                                 detPres.fecIniDscto as FechaInicioDescuento,detPres.fecFinDscto as FechaFinDescuento,

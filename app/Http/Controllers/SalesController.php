@@ -112,9 +112,10 @@ class SalesController extends Controller
 
     public function create(Request $request) 
         {
-        //var_dump($request->all());die();
+        //var_dump($request->input('customer_id'));die();
         \DB::beginTransaction();
         $vuelto=$request->input("vuelto");
+       
         $orderSale = $this->saleRepo->getModel();
         $var = $request->detOrders;
         $payment = $request->salePayment;
@@ -357,6 +358,16 @@ class SalesController extends Controller
    }
        //-----------------Creacion de Cabecera Factura-------
        //$cajaPrueba=$request->saledetPayments;
+        if(!empty($request->input("customer_id"))){
+           $cliente4=new CustomerRepo;
+           $cliente=$cliente4->find($request->input("customer_id"));
+           $request->merge(["puntos"=>(floatval($cliente->puntos)+floatval($request->input("montoTotal")))]);
+           $request->merge(["nombres"=>$cliente->nombres]);
+           $request->merge(["apellidos"=>$cliente->apellidos]);
+           $request->merge(["codigo"=>$cliente->codigo]);
+           $insertarPuntos=new CustomerManager($cliente,$request->only("nombres","apellidos","codigo","puntos"));
+           $insertarPuntos->save();
+        }
        \DB::commit();
        if(!empty($codigoFactura)){
                 return response()->json(['estado'=>true,'codFactura'=>$codigoFactura,'nombres'=>$orderSale->nombres]);

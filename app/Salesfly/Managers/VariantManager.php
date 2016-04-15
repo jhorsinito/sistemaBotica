@@ -20,7 +20,8 @@ class VariantManager extends BaseManager{
             'category' => 'integer',
             'favorite'=>'boolean',
             'user_id' => 'required|integer',
-            'fvenc' => ''
+            'fvenc' => '',
+            'puntos'=>''
         ];
         return $rules;
     }

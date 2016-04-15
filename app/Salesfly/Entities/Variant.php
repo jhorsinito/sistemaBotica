@@ -19,7 +19,8 @@ class Variant extends \Eloquent {
                             'category',
                             'favorite',
                             'user_id',
-                            'fvenc'
+                            'fvenc',
+                            'puntos'
                             ];
 
     public function atributes(){
