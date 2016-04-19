@@ -14,6 +14,13 @@
                     $scope.show = !$scope.show;
                 };
 
+                $scope.yearToAge= function(y) {
+                    var YYYY = y.substr(0, 4);
+                    return new Date().getFullYear() - YYYY;
+                }
+
+
+
                 $scope.pageChanged = function() {
                     if ($scope.query.length > 0) {
                         crudService.search('customers',$scope.query,$scope.currentPage).then(function (data){
