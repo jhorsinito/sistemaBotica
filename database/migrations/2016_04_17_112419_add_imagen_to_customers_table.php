@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddPuntosToSalesTable extends Migration
+class AddImagenToCustomersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class AddPuntosToSalesTable extends Migration
      */
     public function up()
     {
-        Schema::table('sales', function (Blueprint $table) {
-            $table->decimal('puntos',10,2)->default(0);
+        Schema::table('customers', function (Blueprint $table) {
+            $table->text('imagen');
         });
     }
 
@@ -24,7 +24,7 @@ class AddPuntosToSalesTable extends Migration
      */
     public function down()
     {
-        Schema::table('sales', function (Blueprint $table) {
+        Schema::table('customers', function (Blueprint $table) {
             //
         });
     }

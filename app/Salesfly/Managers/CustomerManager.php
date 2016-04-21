@@ -25,7 +25,8 @@ class CustomerManager extends BaseManager {
                     'departamento'=> '',
                     'pais'=> '',
                     'notas'=> '',
-                    'puntos'=>''                  ];
+                    'puntos'=>'',
+                    'imagen'=>''];
         return $rules;
     }
 } 

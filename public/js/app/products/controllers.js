@@ -1376,7 +1376,49 @@
 
                     });
                 };
-
+                $scope.partCod1="";
+                $scope.partCod2="";
+                $scope.generarCodigoProduct=function(){
+                    var separador = " ";
+                    var aregloSubcadena=new Array();
+                   // var aregloSubcadena=$scope.variant.detAtr[3].descripcion.split(separador);
+                    //$log.log($scope.product.brand_id);
+                    crudService.byId($scope.product.brand_id,'brands').then(function (data) {
+                        alert(data.nombre);
+                        var aregloSubcadena=data.nombre.split(separador);
+                          if(aregloSubcadena.length>1){
+                            $scope.partCod1=(aregloSubcadena[0].substring(0,1)+aregloSubcadena[1].substring(0,1)).toUpperCase()+"-";
+                          }else{                            
+                            $scope.partCod1=(aregloSubcadena[0].substring(0,3)).toUpperCase()+"-";
+                          }
+                          if($scope.partCod2==undefined ||  $scope.partCod1==''){
+                               $scope.product.codigo=$scope.partCod1;
+                          }else{
+                               $scope.product.codigo=$scope.partCod2+$scope.partCod1;
+                          }
+                    });
+                }
+                $scope.generarCodigoProduct2=function(){
+                    var separador = " ";
+                    var aregloSubcadena=new Array();
+                   // var aregloSubcadena=$scope.variant.detAtr[3].descripcion.split(separador);
+                    //$log.log($scope.product.brand_id);
+                    crudService.byId($scope.product.type_id,'types').then(function (data) {
+                       // alert(data.nombre);
+                        var aregloSubcadena=data.nombre.split(separador);
+                        if(aregloSubcadena.length>1){
+                            $scope.partCod2=(aregloSubcadena[0].substring(0,1)+aregloSubcadena[1].substring(0,1)).toUpperCase()+"-";
+                          }else{                            
+                            $scope.partCod2=(aregloSubcadena[0].substring(0,3)).toUpperCase()+"-";
+                          }
+                          if($scope.partCod1==undefined ||  $scope.partCod1==''){
+                               $scope.product.codigo=$scope.partCod2;
+                          }else{
+                               $scope.product.codigo=$scope.partCod2+$scope.partCod1;
+                          }
+                        
+                    });
+                }
                 $scope.addStation = function (size) {
 
                     var modalInstance = $modal.open({

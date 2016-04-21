@@ -2,11 +2,14 @@
 
 namespace Salesfly\Http\Controllers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 use Salesfly\Salesfly\Repositories\CustomerRepo;
 use Salesfly\Salesfly\Managers\CustomerManager;
+
+use Intervention\Image\Facades\Image;
 
 class CustomersController extends Controller {
 
@@ -50,6 +53,7 @@ class CustomersController extends Controller {
 
     public function create(Request $request)
     {
+        \DB::beginTransaction();
         $customer = $this->customerRepo->getModel();
 
         //===================autogenerado========================//
@@ -70,10 +74,23 @@ class CustomersController extends Controller {
         //var_dump($request->all());
         //die();
         //print($customer); die();
-        $manager = new CustomerManager($customer,$request->except('fechaNac'));
+        $manager = new CustomerManager($customer,$request->except('fechaNac','imagen'));
         //print_r($manager->entity->apellidos); die();
         //print_r($customer->nombres); die();
         $manager->save();
+        if($request->has('imagen') and substr($request->input('imagen'),5,5) === 'image'){
+            $imagen = $request->input('imagen');
+            $mime = $this->get_string_between($imagen,'/',';');
+            $imagen = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagen));
+            Image::make($imagen)->resize(200,200)->save('images/customers/'.$customer->id.'.'.$mime);
+            $customer->imagen='/images/customers/'.$customer->id.'.'.$mime;
+            $customer->save();
+        }else{
+            $customer->imagen='/images/customers/default.jpg';
+            $customer->save();
+        }
+
+        
         //if (!empty($request->input('fechaNac'))) {
         //    $customer->fechaNac = date("Y-m-d", strtotime($request->input('fechaNac')));
         //}
@@ -89,7 +106,7 @@ class CustomersController extends Controller {
         //print_r($request->all()); die();
         //print_r($customer->nombres); die();
         //Event::fire('update.customer',$customer->all());
-
+      \DB::commit();
         return response()->json(['estado'=>true, 'nombres'=>$customer->nombres]);
     }
 
@@ -101,6 +118,7 @@ class CustomersController extends Controller {
 
     public function edit(Request $request)
     {
+        \DB::beginTransaction();
         $customer = $this->customerRepo->find($request->id);
         //===================autogenerado========================//
 
@@ -119,14 +137,25 @@ class CustomersController extends Controller {
         //================fin auto==============================//
         //var_dump($request->except('fechaNac'));
         //die();
-        $manager = new CustomerManager($customer,$request->except('fechaNac'));
+        $manager = new CustomerManager($customer,$request->except('fechaNac','imagen'));
         $manager->save();
+        if($request->has('imagen') and substr($request->input('imagen'),5,5) === 'image'){
+            $imagen = $request->input('imagen');
+            $mime = $this->get_string_between($imagen,'/',';');
+            $imagen = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagen));
+            Image::make($imagen)->resize(200,200)->save('images/customers/'.$customer->id.'.'.$mime);
+            $customer->imagen='/images/customers/'.$customer->id.'.'.$mime;
+            $customer->save();
+        }else{
+            $customer->imagen='/images/customers/default.jpg';
+            $customer->save();
+        }
         if($this->customerRepo->validateDate(substr($request->input('fechaNac'),0,10))){
             //$customer->fechaNac = date("Y-m-d", strtotime($request->input('fechaNac')));
             $customer->fechaNac = substr($request->input('fechaNac'),0,10);
             $customer->save();
         }
-
+      \DB::commit();
         //Event::fire('update.customer',$customer->all());
         return response()->json(['estado'=>true, 'nombre'=>$customer->nombre]);
     }
@@ -153,5 +182,13 @@ class CustomersController extends Controller {
         $customers = $this->customerRepo->searchVenta($q);
 
         return response()->json($customers);
+    }
+     public function get_string_between($string, $start, $end){
+        $string = " ".$string;
+        $ini = strpos($string,$start);
+        if ($ini == 0) return "";
+        $ini += strlen($start);
+        $len = strpos($string,$end,$ini) - $ini;
+        return substr($string,$ini,$len);
     }
 }

@@ -145,6 +145,12 @@
                        ng-model="customer.dni">
             </div>
         </div>
+        <div class="col-md-4">
+    <div class="form-group">
+                       <label>Imagen</label>
+                       <input type="file" ng-model="customer.imagen" id="customerImage" name="imagen"/>
+                       </div>
+  </div>
     </div>
     </div>
 

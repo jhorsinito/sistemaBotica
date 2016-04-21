@@ -95,6 +95,11 @@ class ProductsController extends Controller
         $products = $this->productRepo->variantsAllInventary($store,$were,$q,$type,$brand,$product);
         return response()->json($products);
     } 
+     public function consultaProductos($codigo,$marca,$linea,$busColor,$busTaco,$busTalla,$busMate){
+        
+        $products = $this->productRepo->consultaProductos($codigo,$marca,$linea,$busColor,$busTaco,$busTalla,$busMate);
+        return response()->json($products);
+    }
 
     public function form_create()
     {
@@ -468,4 +473,5 @@ class ProductsController extends Controller
         $product = $this->productRepo->validarNoRepitname($text);
         return response()->json($product);
     }
+    
 }

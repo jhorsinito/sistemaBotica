@@ -15,15 +15,15 @@ class DetCashRepo extends BaseRepo{
         $detCashs =DetCash::join('cashMotives','cashMotives.id','=','detCash.cashMotive_id')
                            ->join('cashes','cashes.id','=','detCash.cash_id')
                            ->join('users','users.id','=','cashes.user_id')
-                           ->join('sales','sales.detCash_id','=','detCash.id')
+                           ->leftjoin('sales','sales.detCash_id','=','detCash.id')
                            ->join('cashHeaders','cashHeaders.id','=','cashes.cashHeader_id')
                            ->leftjoin('headInvoices as hi','hi.venta_id','=','sales.id')
-                           ->select(\DB::raw("detCash.id as idCajaDiaria,sales.id,cashHeaders.nombre,users.name,
+                           ->select(\DB::raw("IF(sales.puntos>0,sales.puntos,'0')as puntos,detCash.observacion,detCash.id as idCajaDiaria,sales.id,cashHeaders.nombre,users.name,
                             (SELECT detCash.montoMovimientoEfectivo from detCash where detCash.id=idCajaDiaria)as efectivo2,
                             hi.tipoDoc,hi.id as idDocu,cashMotives.nombre as Motivo,detCash.montoMovimientoTarjeta as tarjeta,
-                            detCash.montoMovimientoEfectivo as efectivo,cashMotives.id as cashMotive_id,CONCAT((SUBSTRING(sales.fechaPedido,9,2)),'-',
-                                (SUBSTRING(sales.fechaPedido,6,2)),'-',
-                                (SUBSTRING(sales.fechaPedido,1,4)))as fecha,SUBSTRING(sales.fechaPedido,12) as hora,
+                            detCash.montoMovimientoEfectivo as efectivo,cashMotives.id as cashMotive_id,CONCAT((SUBSTRING(detCash.fecha,9,2)),'-',
+                                (SUBSTRING(detCash.fecha,6,2)),'-',
+                                (SUBSTRING(detCash.fecha,1,4)))as fecha,detCash.hora,
                             IF(hi.numero<10,CONCAT('000000',hi.numero),
                              IF(hi.numero<100,CONCAT('00000',hi.numero),
                              IF(hi.numero<1000,CONCAT('0000',hi.numero),
@@ -36,7 +36,7 @@ class DetCashRepo extends BaseRepo{
                     ->paginate(15);
         return $detCashs;
     }
-    public function ver_ventas($user){
+   /* public function ver_ventas($user){
         $detCashs =DetCash::join('cashMotives','cashMotives.id','=','detCash.cashMotive_id')
                            ->join('cashes','cashes.id','=','detCash.cash_id')
                            ->join('users','users.id','=','cashes.user_id')
@@ -64,6 +64,38 @@ class DetCashRepo extends BaseRepo{
                            ->where('users.id','=',$user)
                            ->where('cashes.estado','=',1)
                            ->groupBy('sales.id')
+                           ->paginate(15);
+        return $detCashs; 
+    }*/
+     public function ver_ventas($user){
+        $detCashs =DetCash::join('cashMotives','cashMotives.id','=','detCash.cashMotive_id')
+                           ->join('cashes','cashes.id','=','detCash.cash_id')
+                           ->join('users','users.id','=','cashes.user_id')
+                           ->join('sales','sales.detCash_id','=','detCash.id')
+                           ->join('cashHeaders','cashHeaders.id','=','cashes.cashHeader_id')
+                           ->leftjoin('headInvoices as hi','hi.venta_id','=','sales.id')
+                           ->select(\DB::raw("sales.puntos,sales.id,cashHeaders.nombre,users.name,sales.estado,sales.notas,
+                            hi.tipoDoc,hi.id as idDocu,cashMotives.nombre as Motivo,detCash.montoMovimientoTarjeta as tarjeta,
+                            detCash.montoMovimientoEfectivo as efectivo,cashMotives.id as cashMotive_id,CONCAT((SUBSTRING(sales.fechaPedido,9,2)),'-',
+                                (SUBSTRING(sales.fechaPedido,6,2)),'-',
+                                (SUBSTRING(sales.fechaPedido,1,4)))as fecha,SUBSTRING(sales.fechaPedido,12) as hora,
+                            IF(hi.numero<10,CONCAT('000000',hi.numero),
+                             IF(hi.numero<100,CONCAT('00000',hi.numero),
+                             IF(hi.numero<1000,CONCAT('0000',hi.numero),
+                             IF(hi.numero<10000,CONCAT('000',hi.numero),
+                             IF(hi.numero<100000,CONCAT('00',hi.numero),
+                             IF(hi.numero<100000,CONCAT('0',hi.numero),hi.numero
+                             ))))))as NumDocument"))
+                          // ->where('detCash.cash_id','=', $q)
+                           ->where('detCash.cashMotive_id','=','1')
+                           ->where('users.id','=',$user)
+                           ->where('cashes.estado','=',1)
+                           //->orWhere('detCash.cash_id','=', $q)
+                           ->orWhere('detCash.cashMotive_id','=','14')
+                           ->where('users.id','=',$user)
+                           ->where('cashes.estado','=',1)
+                           ->groupBy('sales.id')
+                            ->orderBy('sales.id','DESC')
                            ->paginate(15);
         return $detCashs; 
     }

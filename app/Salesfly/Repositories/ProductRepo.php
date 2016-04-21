@@ -365,6 +365,42 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->get();
             return $datos;
     }
+    public function consultaProductos($codigo,$marca,$linea,$busColor,$busTaco,$busTalla,$busMate){
+      if($codigo=='undefined' || empty($codigo)){$codigo="%%";}else{}
+      if($marca==0 || empty($marca) ){$marca="%%";}else{}
+      if($linea==0 || empty($linea) ){$linea="%%";}else{}
+      if($busColor=='undefined'|| empty($busColor) ){$busColor="%%";}else{}
+      if($busTaco=='undefined' || empty($busTaco) ){$busTaco="%%";}else{}
+      if($busTalla=='undefined' || empty($busTalla) ){$busTalla="%%";}else{}
+      if($busMate=='undefined' || empty($busMate) ){$busMate="%%";}else{}
+       $products = Product::leftjoin('brands','products.brand_id','=','brands.id')
+                            ->leftjoin('types','products.type_id','=','types.id')
+                            ->leftjoin('variants','products.id','=','variants.product_id')
+                            ->leftjoin('detPres','variants.id','=','detPres.variant_id')
+                            ->leftjoin('presentation','detPres.presentation_id','=','presentation.id')
+                            ->leftjoin('stock','stock.variant_id','=','variants.id')
+                            ->select('variants.codigo','variants.sku','variants.id as varid','products.estado as proEstado',
+                               'brands.nombre as braNombre','products.hasVariants as TieneVariante','types.nombre as typNombre',
+                              \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Color" and dt.descripcion like "'.$busColor.'%") as color'),
+                              \DB::raw('(SELECT sum(stock.stockActual)
+      
+FROM products
+INNER JOIN variants ON products.id = variants.product_id
+INNER JOIN stock ON variants.id = stock.variant_id
+WHERE variants.id = varid) as stoStockActual'),
+                              \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Talla" and dt.descripcion like "'.$busTalla.'%") as Talla'),
+                              \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Taco" and dt.descripcion like "'.$busTaco.'%") as Taco'),
+                              \DB::raw('(select dt.descripcion from detAtr dt inner join variants v on v.id=dt.variant_id inner join atributes atr on atr.id=dt.atribute_id where v.id=varid and atr.nombre="Material" and dt.descripcion like "'.$busMate.'%") as Material'),
+                              'detPres.suppPri','detPres.price'
+                              )
+                            //->having()
+                            ->where('variants.codigo','like',$codigo.'%')
+                            ->where('brands.id','like',$marca.'%')
+                            ->where('types.id','like',$linea.'%')                            
+                            ->groupBy('variants.id')
+                            ->paginate(15);
+        return $products;
+    }
     public function favoritos($store,$were,$q){
       $datos = \DB::table('products')->leftjoin('materials','products.material_id','=','materials.id')
                            ->leftjoin('variants','products.id','=','variants.product_id')
@@ -433,7 +469,7 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                             ->join ('warehouses as T8','T8.id','=', 'T7.warehouse_id')
                             ->join ('stores as T9', 'T9.id', '=', 'T8.store_id')  
 
-                            ->select(\DB::raw('products.nombre as Producto,T6.sku as codigo,T6.id as vari ,T7.stockActual as stock,T10.nombre as Linea,T12.nombre as Mate,
+                            ->select(\DB::raw('T6.puntos,products.nombre as Producto,T6.sku as codigo,T6.id as vari ,T7.stockActual as stock,T10.nombre as Linea,T12.nombre as Mate,
                                                 T13.price as Precio,T13.dsctoRange,
 
                                                 IF( T13.fecIniDscto<="'.$q.'" and T13.fecFinDscto>="'.$q.'",T13.dsctoRange,T13.dscto) as Descuento ,
@@ -459,5 +495,40 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
                     //->with(['customer','employee'])
                     ->first();
         return $products;
+    }
+     public function ProductosSugeridos(){
+      $datos = \DB::table('products')->leftjoin('materials','products.material_id','=','materials.id')
+                           ->leftjoin('variants','products.id','=','variants.product_id')
+                            ->leftjoin('stock','variants.id','=','stock.variant_id')
+                            ->leftjoin('warehouses','warehouses.id','=','stock.warehouse_id')
+                            ->leftjoin('stores','stores.id','=','warehouses.store_id')
+                            ->leftjoin('presentation as T1','T1.id','=','products.presentation_base')
+                            ->leftjoin('equiv','equiv.preFin_id','=','T1.id')
+                            ->join('detPres','detPres.variant_id','=','variants.id')             
+                            ->join('presentation as T2','T2.id','=','detPres.presentation_id')
+                            ->select(\DB::raw('variants.puntos,variants.sku as SKU ,detPres.id as detPre_id,variants.id as vari ,
+
+                                IF(products.hasVariants=1 , CONCAT(products.nombre,"(",products.nombre,"/ ",(SELECT GROUP_CONCAT(CONCAT(atributes.shortname,":",detAtr.descripcion) SEPARATOR " /")
+                                 FROM variants
+                                LEFT JOIN detAtr ON detAtr.variant_id = variants.id
+                                LEFT JOIN atributes ON atributes.id = detAtr.atribute_id
+                                where variants.id=vari
+                                GROUP BY variants.id),")"),  products.nombre ) as NombreProducto,
+
+                                stock.stockActual '))
+                             
+                              //'T1.nombre as Base')
+                            ->where('stores.id','=','1')
+                            /////--------------------
+                            ->where('products.estado','=','1')
+                            //->where('variants.estado','=','1')
+                            /////--------------------
+                            //->where('variants.codigo','like', $q.'%')
+                            ->where('T2.base','=','1')
+                            ->groupBy('variants.id')
+                            ->orderBy('stock.stockActual','desc')
+                            ->limit('5')
+                            ->get();
+            return $datos;
     }
 }

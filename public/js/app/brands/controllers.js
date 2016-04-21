@@ -119,7 +119,9 @@
                 $scope.deleteBrand = function(row){
                     $scope.brand = row;
                 }
-
+                $scope.probandolayout=function(){
+                    alert("listo");
+                }
                 $scope.cancelBrand = function(){
                     $scope.brand = {};
                 }

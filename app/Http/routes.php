@@ -713,3 +713,8 @@ Route::post('api/reportMovimientosVarianteRangoF/create/{fechaini}/{fechafin}/{t
 
 
 
+Route::get('api/consultaProductos/selectall/{codigo?}/{marca?}/{linea?}/{busColor?}/{busTaco?}/{busTalla?}/{busMate?}','ProductsController@consultaProductos');
+
+Route::get('api/consultaProductos/ProductosSugeridos','ProductsController@ProductosSugeridos');
+
+

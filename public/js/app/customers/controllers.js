@@ -1,7 +1,7 @@
 (function(){
     angular.module('customers.controllers',[])
-        .controller('CustomerController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log',
-            function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log){
+        .controller('CustomerController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log','$modal',
+            function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log,$modal){
                 $scope.customers = [];
                 $scope.customer = {};
                 $scope.generos = [{name:'Masculino'},{name:'Femenino'}];
@@ -77,7 +77,29 @@
                 $scope.createCustomer = function(){
 
                     if ($scope.customerCreateForm.$valid) {
-                        crudService.create($scope.customer, 'customers').then(function (data) {
+                        var f = document.getElementById('customerImage').files[0] ? document.getElementById('customerImage').files[0] : null;
+                        //alert(f);
+
+                        var r = new FileReader();
+                        r.onloadend = function(e) {
+                            $scope.customer.imagen = e.target.result;
+                           // alert("aqui estoy");
+                            crudService.create($scope.customer, 'customers').then(function (data) {
+
+                                if (data['estado'] == true) {
+                                    $scope.success = data['nombres'];
+                                    alert('Grabado correctamente');
+                                    $location.path('/customers');
+
+                                } else {
+                                    $scope.errors = data;
+
+                                }
+                            });
+                        }
+                       
+                       if(!document.getElementById('customerImage').files[0]){
+                            crudService.create($scope.customer, 'customers').then(function (data) {
                            
                             if (data['estado'] == true) {
                                 $scope.success = data['nombres'];
@@ -89,6 +111,10 @@
 
                             }
                         });
+                       }
+                       if(document.getElementById('customerImage').files[0]){
+                            r.readAsDataURL(f);
+                        }
                     }
                 }
                 $scope.createcashMonthlysss = function(){
@@ -98,9 +124,25 @@
                 $scope.editCustomer = function(row){
                     $location.path('/customers/edit/'+row.id);
                 };
+                $scope.editModal=function(id){
+                     crudService.byId(id,'customers').then(function (data) {
+                        $scope.customer = data;
+                        if(data.fechaNac=='0000-00-00 00:00:00'){
+                                $scope.customer.fechaNac='';
+                        }else{
+                        var fech= new Date(data.fechaNac);
+                       $scope.customer.fechaNac=fech.getDate()+'/'+
+                       (fech.getMonth()+1)+'/'+fech.getFullYear();
+                                 }   
 
+                        
+                    });
+                    
+
+                    
+                }
                 $scope.updateCustomer = function(){
-                    if ($scope.customerCreateForm.$valid) {
+                    /*if ($scope.customerCreateForm.$valid) {
                         crudService.update($scope.customer,'customers').then(function(data)
                         {
                             if(data['estado'] == true){
@@ -111,15 +153,57 @@
                                 $scope.errors =data;
                             }
                         });
+                    }*/
+                     if ($scope.customerCreateForm.$valid) {
+                        var f = document.getElementById('customerImage').files[0] ? document.getElementById('customerImage').files[0] : null;
+                        //alert(f);
+
+                        var r = new FileReader();
+                        r.onloadend = function(e) {
+                            $scope.customer.imagen = e.target.result;
+                           // alert("aqui estoy");
+                            crudService.update($scope.customer, 'customers').then(function (data) {
+
+                                if (data['estado'] == true) {
+                                    $scope.success = data['nombres'];
+                                    alert('Editado correctamente');
+                                    $location.path('/customers');
+
+                                } else {
+                                    $scope.errors = data;
+
+                                }
+                            });
+                        }
+                       
+                       if(!document.getElementById('customerImage').files[0]){
+                            crudService.update($scope.customer, 'customers').then(function (data) {
+                           
+                            if (data['estado'] == true) {
+                                $scope.success = data['nombres'];
+                                alert('Editado correctamente');
+                                $location.path('/customers');
+
+                            } else {
+                                $scope.errors = data;
+
+                            }
+                        });
+                       }
+                       if(document.getElementById('customerImage').files[0]){
+                            r.readAsDataURL(f);
+                        }
                     }
                 };
 
                 $scope.deleteCustomer = function(row){
                     $scope.customer = row;
+                    $scope.cliente=$scope.customer.id;
                 }
 
                 $scope.cancelCustomer = function(){
                     $scope.customer = {};
+                    $scope.cliente = 0;
                 }
 
                 $scope.destroyCustomer = function(){

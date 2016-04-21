@@ -48,7 +48,8 @@ use Salesfly\Salesfly\Managers\SaleDetPaymentManager;
 use Salesfly\Salesfly\Repositories\SaleDetPaymentRepo;
 use Salesfly\Salesfly\Managers\StockManager;
 use Salesfly\Salesfly\Repositories\StockRepo;
-
+use Salesfly\Salesfly\Repositories\ProductRepo;
+use Salesfly\Salesfly\Managers\ProductManager;
 use Salesfly\Salesfly\Repositories\CashHeaderRepo;
 
 use Salesfly\Salesfly\Managers\HeadInvoiceManager;
@@ -133,7 +134,13 @@ class SalesController extends Controller
             $insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
             $insertarMovimiento->save();
             $detCash_id=$movimientoSave->id;
+            //var_dump($request->input("puntosTemporales"));die();
         $request->merge(["cash_id"=>$cajaAct['id']]);
+        if(floatval($request->input("puntosTemporales"))>0){
+               $request->merge(["puntos"=>$request->input("puntosTemporales")]);
+           }else{
+              $request->merge(["puntos"=>0]);
+           }
         //$almacen_id=$var->input("idAlmacen");
         //$variante_id=$var->input("vari");
         $request->merge(['detCash_id'=> $detCash_id]);
@@ -268,11 +275,18 @@ class SalesController extends Controller
         $detOrderrepox;
         $HeadStockRepo;
          $codigoHeadIS=0;
+        
        foreach($var as $object){
         $object['sale_id'] = $temporal;
+         
+           if(!empty($object['puntos2'])){
+                $object['puntos2']=1;
 
-           
-
+           }else{
+                $object['puntos2']=0;
+                $object['puntos']=0;
+           }
+        
            $detOrderrepox = new DetSaleRepo;
 
            $insertar=new DetSaleManager($detOrderrepox->getModel(),$object);
@@ -349,6 +363,20 @@ class SalesController extends Controller
          
             //------------------------------------------------------
        }
+       if(!empty($request->input("customer_id"))){
+           $cliente4=new CustomerRepo;
+           $cliente=$cliente4->find($request->input("customer_id"));
+           if(floatval($request->input("puntosTemporales"))>0){
+              $request->merge(["puntos"=>(floatval($cliente->puntos)-floatval($request->input("puntosTemporales")))]);
+           }else{
+           $request->merge(["puntos"=>(floatval($cliente->puntos)+floatval($request->input("montoTotal")))]);
+           }
+           $request->merge(["nombres"=>$cliente->nombres]);
+           $request->merge(["apellidos"=>$cliente->apellidos]);
+           $request->merge(["codigo"=>$cliente->codigo]);
+           $insertarPuntos=new CustomerManager($cliente,$request->only("nombres","apellidos","codigo","puntos"));
+           $insertarPuntos->save();
+        }
      if(!empty($request->input("comprobante"))){
       if($request->input("tipoDoc")=='TF' || $request->input("tipoDoc")=='TB' ){
         $this->generate_factura($codigoFactura,$vuelto,$cajaId,$cajaAct["id"],$request->input("tipoDoc"),$request->input('descuento'));
@@ -358,16 +386,7 @@ class SalesController extends Controller
    }
        //-----------------Creacion de Cabecera Factura-------
        //$cajaPrueba=$request->saledetPayments;
-        if(!empty($request->input("customer_id"))){
-           $cliente4=new CustomerRepo;
-           $cliente=$cliente4->find($request->input("customer_id"));
-           $request->merge(["puntos"=>(floatval($cliente->puntos)+floatval($request->input("montoTotal")))]);
-           $request->merge(["nombres"=>$cliente->nombres]);
-           $request->merge(["apellidos"=>$cliente->apellidos]);
-           $request->merge(["codigo"=>$cliente->codigo]);
-           $insertarPuntos=new CustomerManager($cliente,$request->only("nombres","apellidos","codigo","puntos"));
-           $insertarPuntos->save();
-        }
+        
        \DB::commit();
        if(!empty($codigoFactura)){
                 return response()->json(['estado'=>true,'codFactura'=>$codigoFactura,'nombres'=>$orderSale->nombres]);
@@ -419,7 +438,9 @@ class SalesController extends Controller
     public function generate_factura($idFactura,$vuelto,$caja,$cajadiari,$tipo,$descuento){
 
       $headInvoiceRepo=new HeadInvoiceRepo;
-      $detailInvoiceRepo=new DetailInvoiceRepo;      
+      $detailInvoiceRepo=new DetailInvoiceRepo;   
+      $productRepo=new ProductRepo;   
+      $productos=$productRepo->ProductosSugeridos();
         $cabeceraFactura=$headInvoiceRepo->consult($idFactura);
         $detalleFactura=$detailInvoiceRepo->detFactura($idFactura);
         $tipoPago="E/T";
@@ -459,14 +480,15 @@ class SalesController extends Controller
               $printer -> text("Ticket                  <original>\n");
               $printer -> text("-------------------------------------\n");';
               if($tipo=="TF"){
-                    $txt .= '$printer -> text("TIPO:'.$tipoPago.' RUC N°:'.$cabeceraFactura->ruc.'\n");';
+                    $txt .= '$printer -> text("TIPO:'.$tipoPago.'    RUC N°:'.$cabeceraFactura->ruc.'\n");';
               }else{
-                    $txt .= '$printer -> text("TIPO:'.$tipoPago.' DNI N°:'.$cabeceraFactura->dni.'\n");';                     
+                    $txt .= '$printer -> text("TIPO:'.$tipoPago.'    DNI N°:'.$cabeceraFactura->dni.'\n");';                     
               }
 
               
              $txt .= '
               $printer -> text("Cliente: '.$cabeceraFactura->cliente.'\n");
+              $printer -> text("Puntos Acumulado: '.$cabeceraFactura->puntos.'\n");
               $printer -> feed();
               $printer -> text("Direccion: '.$cabeceraFactura->direccion.'\n");
               $printer -> feed();
@@ -474,37 +496,46 @@ class SalesController extends Controller
               $printer -> text("Vendedor: '.$cabeceraFactura->nomEmpleado.'\n");
               $printer -> text("-------------------------------------\n");
               $printer -> text("Descripcion \n");
-              $printer -> text("Precio      cant           Total \n");
-              $printer -> text("-------------------------------------\n");
+                              $printer -> text("Precio      cant             Total \n");
+                              $printer -> text("-------------------------------------\n");
               ';
               foreach($detalleFactura as $detalleFactura){
                       $txt .='$printer -> text("'.$detalleFactura["descripcion"].'\n");
                               
                               $printer -> text("'.
                                                 $detalleFactura["PrecioUnit"].'       '.$detalleFactura["cantidad"].
-                                                '          '.$detalleFactura["PrecioVent"].'\n");
+                                                '            '.$detalleFactura["PrecioVent"].'\n");
                               ';
                             }
                               $txt.='$printer -> text("-------------------------------------\n");
-                              $printer -> text("IGV(18%)               S/.'.$cabeceraFactura->igv.'\n");                            
-                              $printer -> text("Subtotal               S/.'.$cabeceraFactura->subTotal.'\n");
+                              $printer -> text("IGV(18%)                     S/.'.$cabeceraFactura->igv.'\n");                            
+                              $printer -> text("Subtotal                     S/.'.$cabeceraFactura->subTotal.'\n");
                               
                               
-                              $printer -> text("Pago adelantado(anticipo)    0.00\n");
-                              $printer -> text("Vale de Consumo              0.00\n");
-                              $printer -> text("descuento especial         S/.'.$descuento.'\n");
+                              $printer -> text("Pago adelantado(anticipo)    S/.0.00\n");
+                              $printer -> text("Vale de Consumo              S/.0.00\n");
+                              $printer -> text("descuento especial           S/.'.$descuento.'\n");
                               $printer -> text("-------------------------------------\n");
-                              $printer -> text("Monto P. Tarjeta     S/.'.$cabeceraFactura->tarjeta.'\n"); 
-                              $printer -> text("Monto P. Efectivo    S/.'.$cabeceraFactura->efectivo.'\n"); 
-                              $printer -> text("TOTAL                S/.'.$cabeceraFactura->Total.'\n");
+                              $printer -> text("Puntos Cajeados                 '.$cabeceraFactura->puntosCanjeados.'\n");
+                              $printer -> text("Monto P. Tarjeta             S/.'.$cabeceraFactura->tarjeta.'\n"); 
+                              $printer -> text("Monto P. Efectivo            S/.'.$cabeceraFactura->efectivo.'\n"); 
+                              $printer -> text("TOTAL                        S/.'.$cabeceraFactura->Total.'\n");
                               $printer -> feed(); 
                               $printer -> text("-------------------------------------\n");
-                              $printer -> text("Importe Pagado             S/.'.($cabeceraFactura->Total+$vuelto).'\n");
-                              $printer -> text("Vuelto                 S/.'.$vuelto.'\n"); 
+                              $printer -> text("Importe Pagado               S/.'.($cabeceraFactura->Total+$vuelto).'\n");
+                              $printer -> text("Vuelto                       S/.'.$vuelto.'\n"); 
                               $printer -> text("-------------------------------------\n"); 
-                              $printer -> text("-------------------------------------\n"); 
+                              $printer -> text("-------------------------------------\n");
+                              $printer -> text("\n"); 
+                              $printer -> text("\n");
+                              $printer -> cut();$printer -> pulse(); 
+                              $printer -> text("  Aqui algunos productos Cajeables\n");
                               ';
-              
+               foreach($productos as $pro){
+                      $txt .='$printer -> text("'.$pro->NombreProducto.'\n");
+                              $printer -> text("Puntos: '.$pro->puntos.'\n");
+                      ';
+               }
               
              $txt.='$printer -> setEmphasis(true);';
               
@@ -527,7 +558,7 @@ class SalesController extends Controller
         $cmd = 'php '.base_path("/resources/").'ticket.php  > '.base_path("resources/").'ticket.txt';
         //$cmd = 'lpr -P Photosmart-Plus-B209a-m /var/www/html/4Rest/public/newfile.php';
         shell_exec($cmd);//exec('sudo -u myuser ls /');
-        $cmd2 = 'lpr -P impresora_prueba -o raw '.base_path("resources/").'ticket.txt';
+        $cmd2 = 'lpr -P impresora1 -o raw '.base_path("resources/").'ticket.txt';
         shell_exec($cmd2);
         return response()->json('estado');
     }
@@ -822,18 +853,140 @@ class SalesController extends Controller
      * @param  int  $id
      * @return Response
      */
-    
     public function edit(Request $request)
     {
-       \DB::beginTransaction();
+         //var_dump($request->all());
+        //die();
+        \DB::beginTransaction();
         $varDetOrders = $request->detOrder;
         $varPayment = $request->payment;
         $movimiento = $request->movimiento;
-        if ($movimiento['montoMovimientoEfectivo']>0) {
+        if ($movimiento['montoMovimientoEfectivo']>0) { //si considera los pagos en tarjeta, calculados en controllers.js
             //---create movimiento--- 
             //var_dump($request->movimiento);die();
             $detCashrepo;
             $movimiento['observacion']="temporal";
+            $detCashrepo = new DetCashRepo;
+            $movimientoSave=$detCashrepo->getModel();
+            $cajaAct = $request->caja;
+            $cashrepo;
+            $cashrepo = new CashRepo;
+            $cajaSave=$cashrepo->getModel();
+            $cash1 = $cashrepo->find($cajaAct["id"]);
+            $movimiento['montoCaja']=$cash1->montoBruto;
+            $movimiento['montoFinal']=(floatval($cash1->montoBruto)-floatVal($movimiento['montoMovimientoEfectivo']));
+            
+            $insertarMovimiento=new DetCashManager($movimientoSave,$movimiento);
+            $insertarMovimiento->save();
+    //---Autualizar Caja---
+            
+             $cajaAct["gastos"]=floatval($cash1->gastos)+floatval($movimiento['montoMovimientoEfectivo']);
+             $cajaAct['fechaInicio']=$cash1->fechaInicio;
+             $cajaAct['fechaFin']=$cash1->fechaFin;
+             $cajaAct['montoInicial']=$cash1->montoInicial;
+             $cajaAct['ingresos']=$cash1->ingresos;
+             $cajaAct['montoBruto']=floatval($cash1->montoBruto)-floatval($movimiento['montoMovimientoEfectivo']);
+             $cajaAct['montoReal']=$cash1->montoReal;
+             $cajaAct['descuadre']=$cash1->descuadre;
+             $cajaAct['estado']=$cash1->estado;
+             $cajaAct['notas']=$cash1->notas;
+             $cajaAct['cashHeader_id']=$cash1->cashHeader_id;
+             
+             if($cash1->user_id==auth()->user()->id  && $cash1->estado==1){
+              $cajaAct['user_id']=$cash1->user_id;
+             }else{
+              return response()->json(['estado'=>'Usted no tiene permisos sobre esta caja o la caja esta cerrada??']);
+             }
+            
+            $manager1 = new CashManager($cash1,$cajaAct);
+            $manager1->save();
+        //----------------
+            $salePaymentRepo;
+        $salePaymentRepo = new SalePaymentRepo;
+        //$payment = $salePaymentRepo->find($varPayment['id']);
+        $payment = $salePaymentRepo->find($varPayment['idPAY']);
+        $manager = new SalePaymentManager($payment,$varPayment);
+        $manager->save();
+        }
+        
+        $HeadStockRepo;
+         $codigoHeadIS=0;
+         
+        //$detOrderSaleRepo;
+        foreach($varDetOrders as $object){
+            //$detOrderSaleRepo = new DetSaleRepo;
+            //$detorderSale = $detOrderSaleRepo->find($object['id']);
+            //$manager = new DetSaleManager($detorderSale,$object);
+            //$manager->save();
+            $stokRepo;
+            $stokRepo = new StockRepo;
+            $cajaSave=$stokRepo->getModel();
+            $stockOri = $stokRepo->find($object['id']);
+            $stock = $stokRepo->find($object['idStock']);
+            //+++if ($object['estad']==true) {
+                $stock->stockActual= $stock->stockActual+$object['cantidad'];
+            //+++}else{
+                //+++$stock->stockPedidos= $stock->stockPedidos+$object['canPendiente'];
+            //+++}
+            $stock->save();
+            //--------------reporte stock------------
+            $object["variant_id"]=$object['vari'];
+          if($codigoHeadIS===0){
+            $object["warehouses_id"]=$object['idAlmacen'];
+            //$object["cantidad_llegado"]=$cantidaCalculada;
+            //$object['descripcion']='Entrada por compra';
+            //$object['tipo']='Entrada Venta';
+            $object['tipo']='Entrada-Anulado';
+            $object["user_id"]=auth()->user()->id;
+            //$object["Fecha"]=$request->input("fechaPedido");
+            $object["Fecha"]= date('Y-m-d H:i:s');
+            $HeadStockRepo = new HeadInputStockRepo;
+            $HeadStock=$HeadStockRepo->getModel();
+            $HeadStockinsert=new HeadInputStockManager($HeadStock,$object);
+            $HeadStockinsert->save();
+            $codigoHeadIS=$HeadStock->id;
+          }
+          $object['headInputStock_id']=$codigoHeadIS;
+          $object["producto"]=$object['nameProducto']."(".$object['NombreAtributos'].")";
+          $object["cantidad_llegado"]=$object['cantidad'];
+          $object['descripcion']='Entrada-Venta-Anulada';
+          
+          $inputRepo;
+          $inputRepo = new InputStockRepo;
+            $inputstock=$inputRepo->getModel();
+            $inputInsert=new InputStockManager($inputstock,$object);
+            $inputInsert->save();
+          //---------------------------------------
+        }
+        $orderSale = $this->saleRepo->find($request->id);
+        if($request->input('estado') == '3'){
+            $request->merge(array('fechaAnulado' => date('Y-m-d H:i:s')));
+        }
+        $manager = new SaleManager($orderSale,$request->all());
+        $manager->save();
+        \DB::commit();
+        return response()->json(['estado'=>true, 'nombre'=>$orderSale->nombre]);
+    }
+     public function edit5(Request $request)
+    {
+        
+        \DB::beginTransaction();
+        $varDetOrders = $request->detOrder;
+        $varPayment = $request->payment;
+        $movimiento = $request->movimiento;
+       // var_dump($movimiento['montoMovimientoEfectivo']);die();
+        if ($movimiento['montoMovimientoEfectivo']>0) { //si considera los pagos en tarjeta, calculados en controllers.js
+            //---create movimiento--- 
+             $cajaAct = $request->caja;
+            $cashrepo;
+            $cashrepo = new CashRepo;
+            $cajaSave=$cashrepo->getModel();
+            $cash1 = $cashrepo->find($cajaAct["id"]);
+            var_dump($movimiento['montoBruto']);die();
+            $detCashrepo;
+            $movimiento['observacion']="Reembolso";
+            $movimiento['montoCaja']=$cash1->montoBruto;
+            $movimiento['montoFinal']=(floatval($cash1->montoBruto)-floatVal($movimiento['montoMovimientoEfectivo']));
             $detCashrepo = new DetCashRepo;
             $movimientoSave=$detCashrepo->getModel();
         
@@ -841,11 +994,7 @@ class SalesController extends Controller
             $insertarMovimiento->save();
     //---Autualizar Caja---
             
-            $cajaAct = $request->caja;
-            $cashrepo;
-            $cashrepo = new CashRepo;
-            $cajaSave=$cashrepo->getModel();
-            $cash1 = $cashrepo->find($cajaAct["id"]);
+            
 
             $manager1 = new CashManager($cash1,$cajaAct);
             $manager1->save();
@@ -853,7 +1002,8 @@ class SalesController extends Controller
 
             $salePaymentRepo;
         $salePaymentRepo = new SalePaymentRepo;
-        $payment = $salePaymentRepo->find($varPayment['id']);
+        //$payment = $salePaymentRepo->find($varPayment['id']);
+        $payment = $salePaymentRepo->find($varPayment['idPAY']);
         $manager = new SalePaymentManager($payment,$varPayment);
         $manager->save();
 
@@ -890,9 +1040,11 @@ class SalesController extends Controller
             $object["warehouses_id"]=$object['idAlmacen'];
             //$object["cantidad_llegado"]=$cantidaCalculada;
             //$object['descripcion']='Entrada por compra';
-            $object['tipo']='Entrada Venta';
+            //$object['tipo']='Entrada Venta';
+            $object['tipo']='Entrada-Anulado';
             $object["user_id"]=auth()->user()->id;
-            $object["Fecha"]=$request->input("fechaPedido");
+            //$object["Fecha"]=$request->input("fechaPedido");
+            $object["Fecha"]= date('Y-m-d H:i:s');
 
             $HeadStockRepo = new HeadInputStockRepo;
             $HeadStock=$HeadStockRepo->getModel();
@@ -904,7 +1056,7 @@ class SalesController extends Controller
           $object['headInputStock_id']=$codigoHeadIS;
           $object["producto"]=$object['nameProducto']."(".$object['NombreAtributos'].")";
           $object["cantidad_llegado"]=$object['cantidad'];
-          $object['descripcion']='Entrada Venta Anulada';
+          $object['descripcion']='Entrada-Venta-Anulada';
           
           $inputRepo;
           $inputRepo = new InputStockRepo;
@@ -915,12 +1067,15 @@ class SalesController extends Controller
         }
 
         $orderSale = $this->saleRepo->find($request->id);
+        if($request->input('estado') == '3'){
+            $request->merge(array('fechaAnulado' => date('Y-m-d H:i:s')));
+        }
         $manager = new SaleManager($orderSale,$request->all());
         $manager->save();
 
-        
 
-         \DB::commit();
+
+        \DB::commit();
 
         return response()->json(['estado'=>true, 'nombre'=>$orderSale->nombre]);
     }

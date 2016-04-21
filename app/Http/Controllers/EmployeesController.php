@@ -50,6 +50,7 @@ class EmployeesController extends Controller {
     public function create(Request $request)
     {
         //var_dump($request->all()); die();
+        \DB::beginTransaction();
         $employee = $this->employeeRepo->getModel();
 
         //===================autogenerado========================//
@@ -93,7 +94,7 @@ class EmployeesController extends Controller {
         }
 
         $employee->save();
-
+       \DB::commit();
         return response()->json(['estado'=>true, 'nombres'=>$employee->nombres]);
     }
 

@@ -66,46 +66,35 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <div class="form-group" >
-                                                    <label for="apellidos">Empresa / Razón Social</label>
-                                                    <input type="text" class="form-control" name="empresa" placeholder="empresa"
-                                                           ng-model="customer.empresa">
-                                                </div>
-                                            </div></div>
+                                                  <div class="form-group">
+                                                     <label>Imagen</label>
+                                                     <input type="file" ng-model="customer.imagen" id="customerImage" name="imagen"/>
+                                                  </div>
+                                            </div>
+                                        </div>
+        <div class="row">
+         <div class="col-md-8">
                                         <div class="row">
 
-                                            <div class="col-md-4">
+                                            <div class="col-md-6">
                                                 <div class="form-group" >
                                                     <label for="direccFiscal">Dirección Fiscal</label>
                                                     <input type="text" class="form-control" name="direccFiscal" placeholder="dirección fiscal"
                                                            ng-model="customer.direccFiscal">
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-6">
                                                 <div class="form-group" >
                                                     <label for="ruc">RUC</label>
                                                     <input type="text" class="form-control" name="ruc" placeholder="ruc"
                                                            ng-model="customer.ruc">
                                                 </div>
                                             </div>
-                                            <div class="col-md-2">
-                                                <div class="form-group" >
-                                                    <label for="codigo">Código de Cliente</label>
-                                                    <input type="text" class="form-control" name="codigo" placeholder="codigo de cliente"
-                                                           ng-model="customer.codigo" ng-disabled="customer.autogenerado" ng-required="!customer.autogenerado">
-                                                    <span style="color:#dd4b39;" ng-show="customerCreateForm.codigo.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label for="apellidos">Autogenerado</label><br>
-                                                    <input type="checkbox" ng-model="customer.autogenerado"> Cód. gen.
-                                                </div>
-                                            </div>
+                                            
                                         </div>
                                         <div class="row">
 
-                                            <div class="col-md-4">
+                                            <div class="col-md-6">
                                                 <div class="form-group" ng-class="{true: 'has-error'}[ customerCreateForm.fechaNac.$error.required && customerCreateForm.$submitted || customerCreateForm.fechaNac.$dirty && customerCreateForm.fechaNac.$invalid]">
                                                     <label for="fechaNac">Fecha de Nac.</label>
                                                     <div class="input-group">
@@ -119,7 +108,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Género</label>
                                                     <select name="genero" class="form-control" ng-model="customer.genero">
@@ -130,22 +119,53 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group" >
-                                                    <label for="fijo">Teléfono fijo</label>
-                                                    <input type="text" class="form-control" name="fijo" placeholder="###"
-                                                           ng-model="customer.fijo">
-                                                </div>
-                                            </div></div>
+                                            </div>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-6">
                                                 <div class="form-group" >
                                                     <label for="dni">DNI</label>
                                                     <input type="text" class="form-control" name="dni" placeholder="8 dígitos"
                                                            ng-model="customer.dni">
                                                 </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group" >
+                                                    <label for="apellidos">Empresa / Razón Social</label>
+                                                    <input type="text" class="form-control" name="empresa" placeholder="empresa"
+                                                           ng-model="customer.empresa">
+                                                </div>
+                                            </div>
                                         </div>
+                                         <div class="row">
+                                             <div class="col-md-3">
+                                                <div class="form-group" >
+                                                    <label for="codigo">Código de Cliente</label>
+                                                    <input type="text" class="form-control" name="codigo" placeholder="codigo de cliente"
+                                                           ng-model="customer.codigo" ng-disabled="customer.autogenerado" ng-required="!customer.autogenerado">
+                                                    <span style="color:#dd4b39;" ng-show="customerCreateForm.codigo.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="apellidos">Autogenerado</label><br>
+                                                    <input type="checkbox" ng-model="customer.autogenerado"> Cód. gen.
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group" >
+                                                    <label for="fijo">Teléfono fijo</label>
+                                                    <input type="text" class="form-control" name="fijo" placeholder="###"
+                                                           ng-model="customer.fijo">
+                                                </div>
+                                            </div>
+                                         </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group" align="center">
+                                             <img ng-src="@{{customer.imagen}}" alt="" class="img-thumbnail"/>
+                       </div>
+                    </div>
+            </div>
 
                                     </div>
 

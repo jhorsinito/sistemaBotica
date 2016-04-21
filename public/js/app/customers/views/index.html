@@ -45,7 +45,7 @@
                     <div class="callout callout-info"  ng-show="success">
                         <strong>Ha agregado correctamente a {{success}}.</strong>
                     </div>
-                <div class="callout callout-info"  ng-show="customer.id > 0">
+                <div class="callout callout-info"  ng-show="cliente> 0">
                     <h4>¿ Estás seguro que deseas eliminar a "{{customer.nombres}}" ?</h4>
                     <p>
                       <button type="button" class="btn btn-danger" ng-click="destroyCustomer()">Si</button>
@@ -60,6 +60,7 @@
                       <th>Código</th>
                       <th>Email</th>
                       <th>S/. Compras</th>
+                      <th>Puntos</th>
                       <th style="width: 40px">Editar</th>
                       <th style="width: 40px">Eliminar</th>
                     </tr>
@@ -72,9 +73,10 @@
                       <td>{{row.codigo}}</td>
                       <td>{{row.email}}</td>
                       <td>-</td>
+                      <td>{{row.puntos}}</td>
                       <td><a ng-click="editCustomer(row)" class="btn btn-warning btn-xs">Editar</a></td>
                       <td><a ng-click="deleteCustomer(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
-                      
+                      <td> <button type="button" ng-click="editModal(row.id)" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal">Detalles</button></td>
                     </tr>
                     
                     
@@ -90,3 +92,93 @@
             </div>  
           </div>
         </section>
+        <!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="row">
+           <div class="col-md-6">
+               <H4>Datos del  Cliente</H4>
+           </div>
+           <div class="col-md-5" style="text-aling:rigth;">
+           <label>Pt. Acumulados:<spam style="font-size:30px; color:blue;">{{customer.puntos}}</spam> </label>
+           </div>
+        </div>
+       
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4">
+                       <div class="form-group" align="center">
+                                             <img ng-src="{{customer.imagen}}" alt="" class="img-thumbnail"/>
+                       </div><br>
+                       
+               <spam style="color:blue;font-size:25px;">{{customer.nombres}} {{customer.apellidos}}</spam>
+               </h4>
+           
+                
+          </div>
+          <div class="col-md-8">
+              
+              <div class="row">
+                  <div class="row">
+                     <div class="col-md-4"><label>Nombre:</label><br></div>
+                     <div class="col-md-8"><spam>{{customer.nombres}} {{customer.apellidos}}</spam></div>
+
+                  </div> 
+                  <div class="row">                
+                    <div class="col-md-4"><label>F.Nacimiento:</label><br></div>
+                    <div class="col-md-8"><spam >{{customer.fechaNac}}</spam></div>
+                  </div> 
+                  <div class="row">  
+                    <div class="col-md-4"><label>Empresa:</label><br></div>
+                    <div class="col-md-8"><spam>{{customer.empresa}}</spam></div>
+                  </div> 
+                  <div class="row">  
+                    <div class="col-md-4"><label>E-mail:</label><br></div>
+                    <div class="col-md-8"><spam>{{customer.email}}</spam></div>
+                  </div> 
+                  <div class="row">  
+                    <div class="col-md-4"><label>Direccion:</label><br></div>
+                    <div class="col-md-8"><spam>{{customer.direccContac}}</spam></div>
+                  </div> 
+                  <div class="row">  
+                    <div class="col-md-4"><label>Telf. Movil:</label><br></div>
+                    <div class="col-md-8"><spam>{{customer.movil}}</spam></div>
+                  </div> 
+                  <div class="row">  
+                    <div class="col-md-4"><label>Telf. Fijo:</label><br></div>
+                    <div class="col-md-8"><spam>{{customer.fijo}}</spam></div>
+                  </div> 
+                  <div class="row">  
+                    <div class="col-md-4"><label>Distrito:</label><br></div>
+                    <div class="col-md-8"><spam>{{customer.distrito}}</spam></div>
+                  </div> 
+                  <div class="row">  
+                    <div class="col-md-4"><label>Provincia:</label><br></div>
+                    <div class="col-md-8"><spam>{{customer.provincia}}</spam></div>
+                  </div> 
+                  <div class="row">  
+                    <div class="col-md-4"><label>Departamento:</label><br></div>
+                    <div class="col-md-8"><spam>{{customer.departamento}}</spam></div>
+                  </div> 
+                  <div class="row">  
+                    <div class="col-md-4"><label>Pais:</label><br></div>
+                    <div class="col-md-8"><spam>{{customer.pais}}</spam></div>
+                  </div> 
+                  <div class="row">  
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

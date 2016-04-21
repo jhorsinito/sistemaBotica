@@ -11,5 +11,7 @@ class DetSale extends \Eloquent {
     						'descuento',
     						'subTotal',
     						'sale_id',
-    						'detPre_id'];
+    						'detPre_id',
+    						'puntos2',
+    						'puntos'];
 }

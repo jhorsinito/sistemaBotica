@@ -11,6 +11,8 @@ class DetSaleManager extends BaseManager {
             'descuento'=> '',
             'subTotal'=> '',
             'sale_id'=> '',
-            'detPre_id'=> ''];
+            'detPre_id'=> '',
+            'puntos2'=>'',
+            'puntos'=>''];
         return $rules;
     }}

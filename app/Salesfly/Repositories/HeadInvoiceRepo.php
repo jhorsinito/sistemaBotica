@@ -17,8 +17,9 @@ class HeadInvoiceRepo extends BaseRepo{
                                  ->join("cashHeaders","cashHeaders.id","=","cashes.cashHeader_id")
                                  ->join("stores","stores.id","=","cashHeaders.store_id")
                               ->select(\DB::raw("headInvoices.*,IF(employees.id>0,CONCAT(employees.nombres,' ',employees.apellidos),'.....') as nomEmpleado,
+                                IF(customers.id>0,customers.puntos,'0') as puntos,
                               	stores.ruc,stores.razonSocial,stores.direccion as direccionEmpresa, detCash.montoMovimientoTarjeta as tarjeta,
-                              	detCash.montoMovimientoEfectivo as efectivo,sales.descuento,stores.provincia,stores.departamento,cashes.id as cajaid,
+                              	detCash.montoMovimientoEfectivo as efectivo,sales.puntos as puntosCanjeados,sales.descuento,stores.provincia,stores.departamento,cashes.id as cajaid,
                               	stores.email"))
     	                      ->where("headInvoices.id","=",$id)
     	                      ->first();

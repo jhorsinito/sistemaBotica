@@ -24,7 +24,8 @@ class Customer extends \Eloquent {
     						'departamento',
     						'pais',
     						'notas',
-                            'puntos'
+                            'puntos',
+                            'imagen'
     						];
 
 }

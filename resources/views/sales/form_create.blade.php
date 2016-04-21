@@ -86,7 +86,7 @@
                           <table class="table table-bordered">
                                              
                             <tr ng-repeat="row in compras track by $index">
-                             <td tooltip="Seleccione para usar puntos del cliente con este producto"><input type="checkbox" ng-click="puntos($index,row)" ng-model="compras[$index].puntos2" ></td>
+                             <td ><input tooltip="Seleccione para usar puntos del cliente con este producto" type="checkbox" ng-click="puntos($index,row)" ng-model="compras[$index].puntos2" ></td>
                               <td>
                                   <button data-toggle="popover" popover-template="dynamicPopover.templateUrl" type="button" class="btn btn-default">@{{compras[$index].cantidad}}</button>
                               </td>
@@ -228,14 +228,14 @@
                       <th style="width: 10px">#</th>
                       <th>Fecha</th>
                       <th>Hora</th>
-                      <th>Caja</th>
                       <th>Usuario</th>
                       <th>Documento</th>
-                      <th>Tipo</th>
-                      
+                      <th>Puntos</th>
                       <th>S/.Tarjeta</th>
                       <th>S/.Efectivo</th>
-                      
+                      <th>Notas</th>
+                        <th>Estado</th>
+
                       <th>Ver Venta</th>
                     </tr>
                     
@@ -243,14 +243,17 @@
                       <td>@{{$index + 1}}</td>
                       <td>@{{row.fecha}}</td>
                       <td>@{{row.hora}}</td>
-                      <td>@{{row.nombre}}</td>
                       <td>@{{row.name}}</td>
-                      <td><a href="#tab_7" data-toggle="tab" aria-expanded="false" ng-click="traerDoumento(row)">@{{row.tipoDoc+"-"+row.NumDocument}}</a></td>
-                      <td>@{{row.Motivo}}</td>
-                      
+                      <td ng-if="row.NumDocument!=null"><a href="#tab_4" data-toggle="tab" aria-expanded="false" ng-click="traerDoumento(row)">@{{row.tipoDoc+"-"+row.NumDocument}}</a></td>
+                      <td ng-if="row.NumDocument==null">-</td>
+                      <td>@{{row.puntos}}</td>
                       <td>@{{row.tarjeta}}</td>
                       <td>@{{row.efectivo}}</td>
-                      
+                      <td>@{{row.notas}}</td>
+                        <td ng-if="row.estado==0" style="color: yellow;">Pend.</td>
+                        <td ng-if="row.estado==1" style="color: green;">Term.</td>
+                        <td ng-if="row.estado==3" style="color: red;">Anul.</td>
+
                       <td ng-if="row.cashMotive_id==1 || row.cashMotive_id==14"><a href="/sales/edit/@{{row.id}}" target="_blank">ver venta</a></td>
                       <td ng-if="row.cashMotive_id!=1 && row.cashMotive_id!=14">@{{row.id}}</td>
                     </tr>                   
@@ -458,6 +461,7 @@
                       <th>Descuento Rango</th>
                       <th>Precio Normal</th>
                       <th>Precio Oferta</th>
+                      <th>Puntos</th>
                     </tr>
                     
                     <tr ng-repeat="row in variants1 track by $index">
@@ -474,7 +478,7 @@
                       <td>@{{row.Precio}}</td>
                       <td ng-if="row.Estado=='SI'" style="color:blue">@{{row.PrecioVenta}}</td>
                       <td ng-if="row.Estado=='NO'">@{{row.PrecioVenta}}</td>
-                      
+                      <td>@{{row.puntos}}</td>
                     </tr>
                     
                     

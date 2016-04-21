@@ -61,6 +61,7 @@
                                 <td><label>Sub total</label></td> <td>@{{order1.montoBruto}}</td>
                                 <td><label>IGV</label></td> <td>@{{order1.igv}}</td>
                                 <td><label>Descuento</label></td> <td>@{{order1.descuento+'%'}}</td>
+                                <td><label>Puntos</label></td> <td>@{{order1.puntos}}</td>
                               </table>
                             </div> 
                           </div>
@@ -70,7 +71,7 @@
                           <div class="col-md-3">
                             <div class="form-group" >
                                 <input ng-disabled="order1.estado==3" type="checkbox" ng-disabled="order1.estado==3" name="estado" ng-model="cancelPedido" ng-checked="cancelPedido" class="ng-valid ng-dirty ng-valid-parse ng-touched" ng-click="canPedido()">
-                                <label for="estado">Anular Pedido</label> 
+                                <label for="estado">Anular Venta Directa</label>
                             </div>
                           </div>
                         </div>
@@ -112,13 +113,15 @@
               <th style="width: 10px">#</th>
               <th>Producto</th>
               <th>Atributos</th>
+              <th>Sku</th>
+              <th>Codigo</th>
               <th>Presentacion</th>
               <th>Precio Producto</th>
               <th>Precio Venta </th>
               <th>Cantidad</th>
               <th>Descuento</th>
               <th>Total</th>
-
+              <th>Puntos</th>
 
               
             </tr>
@@ -126,6 +129,8 @@
                       <td>@{{$index + 1}}</td>
                       <td>@{{row.nameProducto}}</td>
                       <td>@{{row.NombreAtributos}}</td>
+                      <td>@{{row.sku}}</td>
+                      <td>@{{row.codigo}}</td>
                       <td>@{{row.presentacion}}</td>
                       <td ng-hide="true">@{{row.purchases_id}}</td>
                       <td ng-hide="true">@{{row.detPres_id}}</td>
@@ -134,7 +139,7 @@
                       <td>@{{row.cantidad}}</td>
                       <td>@{{row.descuento}}</td>
                       <td>@{{row.subTotal}}</td>
-
+                      <td>@{{row.puntos}}</td>
                       
                       <!--<td><a ng-click="sacarRow(row.index,row.montoTotal)" class="btn btn-warning btn-xs">Sacar</a></td>
                       <td><a ng-click="EditarDetalles(row,row.index)" data-target="#miventanaEditRow" data-toggle="modal" class="btn btn-warning btn-xs">Edit</a></td>
@@ -323,7 +328,7 @@
 
           
 
-                    <a class="btn btn-success btn-xs" ng-show="banderaModificar" ng-click="grabarCanPedido()">Modificar</a>
+                    <button type="submit" class="btn btn-success btn-xs" ng-show="banderaModificar" ng-click="grabarCanPedido()">Modificar</button>
                    <a href="/sales" class="btn btn-success btn-xs">Regresar</a>
                   </div>
                 </form>

@@ -24,6 +24,7 @@ class CustomerTableSeeder extends Seeder
             'provincia' => 'Chiclayo',
             'departamento' => 'Lambayeque',
             'pais' => 'Peru',
+            'imagen'=>'/images/customers/default.jpg'
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);
