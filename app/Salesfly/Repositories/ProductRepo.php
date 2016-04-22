@@ -173,7 +173,8 @@ WHERE variants.id = varid) as stoStockActual'),
                             //->having()
                             ->where('variants.codigo','like',$codigo.'%')
                             ->where('brands.id','like',$marca.'%')
-                            ->where('types.id','like',$linea.'%')                            
+                            ->where('types.id','like',$linea.'%')
+                            ->where('stock.stockActual','>','0')
                             ->groupBy('variants.id')
                             ->get();
                           foreach ($products as $object) {
@@ -299,7 +300,7 @@ WHERE variants.id = varid) as stoStockActual'),
                             ->leftjoin('stores','stores.id','=','warehouses.store_id')
                             ->leftjoin('presentation as T1','T1.id','=','products.presentation_base')
                             ->leftjoin('equiv','equiv.preFin_id','=','T1.id')
-          ->leftjoin('detAtr','variants.id','=','detAtr.variant_id')
+                            ->leftjoin('detAtr','variants.id','=','detAtr.variant_id')
                             ->join('detPres','detPres.variant_id','=','variants.id')
                             ->join('presentation as T2','T2.id','=','detPres.presentation_id')
                             ->select(\DB::raw('variants.sku as SKU ,detPres.id as detPre_id,variants.id as vari ,
@@ -329,6 +330,7 @@ WHERE variants.id = varid) as stoStockActual'),
                             /////--------------------
                             ->where('products.estado','=','1')
                             ->where('variants.estado','=','1')
+                            ->where('stock.stockActual','>','0')
                     //->where('detAtr.descripcion','like','%'.$q.'%')
                             /////--------------------
                             //->where('variants.estado','=','1')
@@ -340,6 +342,7 @@ WHERE variants.id = varid) as stoStockActual'),
                             /////--------------------
                             ->where('products.estado','=','1')
                             ->where('variants.estado','=','1')
+                            ->where('stock.stockActual','>','0')
           //->where('detAtr.descripcion','likes','%'.$q.'%')
                             /////--------------------
                             //->where('variants.estado','=','1')

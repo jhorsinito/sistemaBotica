@@ -58,6 +58,9 @@
                       <th>Nombre de Contacto</th>
                       <th>Empresa</th>
                       <th>Código</th>
+                        <th>Fec. Nac.</th>
+                        <th>Edad</th>
+                        <th>Teléfonos</th>
                       <th>Email</th>
                       <th>S/. Compras</th>
                       <th style="width: 40px">Editar</th>
@@ -70,6 +73,11 @@
                       <td>{{row.nombres+ " " + row.apellidos }}</td>
                       <td>{{row.empresa}}</td>
                       <td>{{row.codigo}}</td>
+                        <td ng-if="row.fechaNac=='0000-00-00 00:00:00'">-</td>
+                        <td ng-if="row.fechaNac!='0000-00-00 00:00:00'">{{row.fechaNac | limitTo: 10}}</td>
+                        <td ng-if="row.fechaNac=='0000-00-00 00:00:00'">-</td>
+                        <td ng-if="row.fechaNac!='0000-00-00 00:00:00'">{{yearToAge(row.fechaNac)}}</td>
+                        <td>{{row.fijo}} / {{row.movil}}</td>
                       <td>{{row.email}}</td>
                       <td>-</td>
                       <td><a ng-click="editCustomer(row)" class="btn btn-warning btn-xs">Editar</a></td>

@@ -10,7 +10,7 @@
                 $scope.errors;
                 $scope.success;
                 $scope.query = '';
-                $scope.roles = [{key1:'1',value1:'Administrador'},{key1:'2',value1:'Cajero'}];
+                $scope.roles = [{key1:'1',value1:'Administrador'},{key1:'2',value1:'Cajero'},{key1:'3',value1:'Asistente'}];
                 $scope.user.role_id = '2';
                 $scope.estados = [{key:'0',value:'Deshabilitado'},{key:'1',value:'Habilitado'}];
                 $scope.user.estado = '1';

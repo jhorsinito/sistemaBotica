@@ -23,6 +23,7 @@ class Employee extends \Eloquent {
     						'pais',
     						'notas',
                             'estado',
-                            'dni'
+                            'dni',
+							'cargo'
     						];
 }
