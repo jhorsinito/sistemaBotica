@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubReportVentas" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="a79d4afb-19d5-41e9-81e3-a24b10014a80">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="214"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fechaini" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -129,28 +129,28 @@ from detSales left join detPres on detPres.id=detSales.detPre_id
 				<textFieldExpression><![CDATA[$F{totCant}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="FixRelativeToBottom" x="460" y="115" width="49" height="20" forecolor="#FF0000" uuid="0c18aa83-557d-41c9-bc23-68838e747237"/>
+				<reportElement positionType="FixRelativeToBottom" x="442" y="115" width="38" height="20" forecolor="#FF0000" uuid="0c18aa83-557d-41c9-bc23-68838e747237"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["S/."+$F{precioCompra}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="FixRelativeToBottom" x="509" y="115" width="45" height="20" forecolor="#00FF00" uuid="b622117b-2e57-42af-8cd8-0801035689fd"/>
+				<reportElement positionType="FixRelativeToBottom" x="483" y="115" width="39" height="20" forecolor="#0035FF" uuid="b622117b-2e57-42af-8cd8-0801035689fd"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["S/."+$F{ganacia}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="FixRelativeToBottom" x="355" y="115" width="53" height="20" forecolor="#1F3ADC" uuid="0210037e-5d61-4258-8ed0-bfb7a936458c"/>
+				<reportElement positionType="FixRelativeToBottom" x="355" y="115" width="43" height="20" forecolor="#1F3ADC" uuid="0210037e-5d61-4258-8ed0-bfb7a936458c"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["S/."+$F{totEfectivo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="FixRelativeToBottom" x="409" y="115" width="51" height="20" forecolor="#490099" uuid="cefbb924-0d6c-486b-8398-23e0eaa0b052"/>
+				<reportElement positionType="FixRelativeToBottom" x="398" y="115" width="44" height="20" forecolor="#490099" uuid="cefbb924-0d6c-486b-8398-23e0eaa0b052"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -170,6 +170,13 @@ from detSales left join detPres on detPres.id=detSales.detPre_id
 				</textElement>
 				<text><![CDATA[T. Uni.]]></text>
 			</staticText>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="525" y="115" width="30" height="20" uuid="89575376-d994-4fab-91ec-412ed2297be6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totaSubtotal}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>

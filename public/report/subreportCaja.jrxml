@@ -10,7 +10,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select fechaInicio,ingresos,gastos,montoBruto,montoReal,descuadre,montoInicial from cashes where fechaInicio between $P{fechaini} and $P{fechafin}]]>
+		<![CDATA[select c.fechaInicio,c.ingresos,c.gastos,c.montoBruto,c.montoReal,c.descuadre,c.montoInicial from cashes c  where fechaInicio between $P{fechaini} and $P{fechafin}]]>
 	</queryString>
 	<field name="fechaInicio" class="java.sql.Timestamp">
 		<fieldDescription><![CDATA[]]></fieldDescription>
