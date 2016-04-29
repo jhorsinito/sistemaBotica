@@ -244,7 +244,7 @@
                       <td>@{{row.fecha}}</td>
                       <td>@{{row.hora}}</td>
                       <td>@{{row.name}}</td>
-                      <td ng-if="row.NumDocument!=null"><a href="#tab_4" data-toggle="tab" aria-expanded="false" ng-click="traerDoumento(row)">@{{row.tipoDoc+"-"+row.NumDocument}}</a></td>
+                      <td ng-if="row.NumDocument!=null"><a href="#tab_7" data-toggle="tab" aria-expanded="false" ng-click="traerDoumento(row)">@{{row.tipoDoc+"-"+row.NumDocument}}</a></td>
                       <td ng-if="row.NumDocument==null">-</td>
                       <td>@{{row.puntos}}</td>
                       <td>@{{row.tarjeta}}</td>
@@ -307,8 +307,8 @@
                                     <h4 style="margin-bottom:0px;"> RUC.- @{{documento.rucTienda}}</h4>
                                     <h1 ng-if="documento.tipoDoc=='F'" style="margin-top: 0xp; padding-top:0px;">Factura</h1>
                                     <h1 ng-if="documento.tipoDoc=='B'" style="margin-top: 0xp; padding-top:0px;">Boleta</h1>
-                                    <h1 ng-if="documento.tipoDoc=='TF'" style="margin-top: 0xp; padding-top:0px;">Tiket Factura</h1>
-                                    <h1 ng-if="documento.tipoDoc=='TB'" style="margin-top: 0xp; padding-top:0px;">Tiket Boleta</h1>
+                                    <h1 ng-if="documento.tipoDoc=='TF'" style="margin-top: 0xp; padding-top:0px;">Tiket</h1>
+                                    
                                     <h3 style="color:red;">N°.-00@{{documento.cashHeader_id}}-@{{documento.NumDocument}}</h3>
                                </table>
                            </div>

@@ -8,6 +8,7 @@
                 $scope.query = ''; 
                 $scope.promocion={};
                 $scope.promociones=[];
+
                 /*
 
                 $scope.orders = [];
@@ -515,6 +516,7 @@
                       if(tipo=='F' || tipo=='B'){
                           $scope.datosFactura(idFactura);
                           alert("Factura generada XD");
+                          $scope.imprimir_factura();
                       }else{
                           $scope.imprimir_factura();
                       }
@@ -523,6 +525,7 @@
                 $scope.pagar = function () {
                     $scope.validaDocumento();
                     if ($scope.sale.montoTotal<0) {
+                        $scope.sale.tipoDoc='B';
                         alert("Seleccione productos");
                     }else{
                         $scope.calcularVuelto();      
@@ -1423,7 +1426,7 @@
                     if($scope.sale.comprobante==true )
                     {
                         if($scope.sale.cliente!=null){
-                        $scope.sale.tipoDoc="F";
+                        $scope.sale.tipoDoc="B";
                                crudServiceOrders.numeracion("sales","F",$scope.cash1.cashHeader_id).then(function (data){
                                           //$scope.numActual="0000"+(Number(data.numFactura)+1);
                                         $scope.numeracionMostrar(data.numFactura);

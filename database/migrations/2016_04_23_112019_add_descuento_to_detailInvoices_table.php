@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddPuntosToDetSalesTable extends Migration
+class AddDescuentoToDetailInvoicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,8 @@ class AddPuntosToDetSalesTable extends Migration
      */
     public function up()
     {
-        Schema::table('detSales', function (Blueprint $table) {
-            $table->tinyInteger('puntos2')->default(0);
-            $table->decimal('puntos',10,2)->default(0);
+        Schema::table('detailInvoices', function (Blueprint $table) {
+            $table->decimal('descuento',10,2)->default(0);
         });
     }
 
@@ -25,7 +24,7 @@ class AddPuntosToDetSalesTable extends Migration
      */
     public function down()
     {
-        Schema::table('detSales', function (Blueprint $table) {
+        Schema::table('detailInvoices', function (Blueprint $table) {
             //
         });
     }

@@ -710,7 +710,8 @@ Route::post('api/cardextop10Peores/generate/{fecha}/{tienda}/{tipo}','PurchasesC
 Route::post('api/cardextop10peoresFechas/create/{fechaini}/{fechafin}/{tienda}/{tipo}','PurchasesController@cardextop10peoresFechas');
 Route::post('api/reportMovimientoVarianteDMA/generate/{tipo}/{fecha}/{tienda}/{var}','PurchasesController@reportMovimientoVarianteDMA');
 Route::post('api/reportMovimientosVarianteRangoF/create/{fechaini}/{fechafin}/{tipo}/{tienda}/{var}','PurchasesController@reportMovimientosVarianteRangoF');
-
+ 
+Route::get('api/encontrarUltimo/all','ProductsController@encontrarUltimo');
 
 
 Route::get('api/consultaProductos/selectall/{codigo?}/{marca?}/{linea?}/{busColor?}/{busTaco?}/{busTalla?}/{busMate?}','ProductsController@consultaProductos');

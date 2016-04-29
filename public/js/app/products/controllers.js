@@ -172,8 +172,32 @@
                     $scope.presentation.dsctoCant = parseFloat($scope.presentation.dsctoCant).toFixed(2);
                     //$scope.presentation.pvp = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.dscto) * parseFloat($scope.presentation.price) / 100;
                     //$scope.presentation.pvp = parseFloat($scope.presentation.pvp).toFixed(2);
+                    $scope.calDescuento1();
                 }
-
+                 /*$scope.calDescuento10=function(){
+                    //alert("hola mundo");
+                    $scope.presentation.markup = (parseFloat($scope.presentation.pvp) - parseFloat($scope.presentation.suppPri)) * 100 / parseFloat($scope.presentation.suppPri);
+                    $scope.presentation.markup = parseFloat($scope.presentation.markup).toFixed(2)
+                    $scope.presentation.markupCant = parseFloat($scope.presentation.pvp) - parseFloat($scope.presentation.suppPri);
+                    $scope.presentation.markupCant = parseFloat($scope.presentation.markupCant).toFixed(2);
+                 }*/
+                 $scope.calDescuento1=function(){
+                    //alert("hola mundo");
+                    $scope.presentation.markup1 = (parseFloat($scope.presentation.pvp) - parseFloat($scope.presentation.suppPri)) * 100 / parseFloat($scope.presentation.suppPri);
+                    $scope.presentation.markup1 = parseFloat($scope.presentation.markup1).toFixed(2)
+                    $scope.presentation.markupCant1 = parseFloat($scope.presentation.pvp) - parseFloat($scope.presentation.suppPri);
+                    $scope.presentation.markupCant1 = parseFloat($scope.presentation.markupCant1).toFixed(2);
+                    //$scope.presentation.price=$scope.presentation.pvp+$scope.presentation.dsctoCant;
+                    //$scope.calDescuento10();
+                 }
+                 $scope.calDescuento2=function(){
+                    $scope.presentation.markup2 = (parseFloat($scope.presentation.pvpRange) - parseFloat($scope.presentation.suppPri)) * 100 / parseFloat($scope.presentation.suppPri);
+                    $scope.presentation.markup2 = parseFloat($scope.presentation.markup2).toFixed(2)
+                    $scope.presentation.markupCant2 = parseFloat($scope.presentation.pvpRange) - parseFloat($scope.presentation.suppPri);
+                    $scope.presentation.markupCant2 = parseFloat($scope.presentation.markupCant2).toFixed(2);
+                    //$scope.presentation.price=$scope.presentation.pvp+$scope.presentation.dsctoCant;
+                    //$scope.calDescuento10();
+                 }
                 $scope.calculateDscto = function() {
                     //alert('holi');
                     //if(angular.isNumber($scope.presentation.suppPri) && angular.isNumber($scope.presentation.markup) && angular.isNumber($scope.presentation.price)){
@@ -182,6 +206,7 @@
 
                     $scope.presentation.dsctoCant = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvp);
                     $scope.presentation.dsctoCant = parseFloat($scope.presentation.dsctoCant).toFixed(2);
+                    $scope.calDescuento1();
                     //}
                 };
                 $scope.calculateDsctoCant = function() {
@@ -192,6 +217,7 @@
 
                     $scope.presentation.dscto = (parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvp)) * 100 / parseFloat($scope.presentation.price);
                     $scope.presentation.dscto = parseFloat($scope.presentation.dscto).toFixed(2);
+                    $scope.calDescuento1();
                     //}
                 };
 
@@ -203,6 +229,7 @@
 
                     $scope.presentation.dsctoCantRange = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvpRange);
                     $scope.presentation.dsctoCantRange = parseFloat($scope.presentation.dsctoCantRange).toFixed(2);
+                    $scope.calDescuento2();
                     //}
                 };
 
@@ -214,6 +241,7 @@
 
                     $scope.presentation.dsctoRange = (parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvpRange)) * 100 / parseFloat($scope.presentation.price);
                     $scope.presentation.dsctoRange = parseFloat($scope.presentation.dsctoRange).toFixed(2);
+                    $scope.calDescuento2();
                     //}
                 };
 
@@ -223,6 +251,7 @@
 
                     $scope.presentation.dsctoCantRange = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.pvpRange);
                     $scope.presentation.dsctoCantRange = parseFloat($scope.presentation.dsctoCantRange).toFixed(2);
+                    $scope.calDescuento2();
                     //$scope.presentation.pvp = parseFloat($scope.presentation.price) - parseFloat($scope.presentation.dscto) * parseFloat($scope.presentation.price) / 100;
                     //$scope.presentation.pvp = parseFloat($scope.presentation.pvp).toFixed(2);
                 }
@@ -1175,7 +1204,8 @@
                     row.activateDsctoRange == '1' ? row.activateDsctoRange = true : row.activateDsctoRange = false;
 
                     $scope.presentation.activateDsctoRange = row.activateDsctoRange;
-
+                    $scope.calDescuento1();
+                    $scope.calDescuento2();
                     $('#presentation').modal('show');
                 }
 
@@ -1384,18 +1414,31 @@
                    // var aregloSubcadena=$scope.variant.detAtr[3].descripcion.split(separador);
                     //$log.log($scope.product.brand_id);
                     crudService.byId($scope.product.brand_id,'brands').then(function (data) {
-                        alert(data.nombre);
+                        //alert(data.nombre);
                         var aregloSubcadena=data.nombre.split(separador);
+                        var nombreCorti=data.shortname;
+                          crudService.all('encontrarUltimo').then(function (data) {
                           if(aregloSubcadena.length>1){
-                            $scope.partCod1=(aregloSubcadena[0].substring(0,1)+aregloSubcadena[1].substring(0,1)).toUpperCase()+"-";
+                            $scope.partCod1=(nombreCorti).toUpperCase()+"-";
                           }else{                            
-                            $scope.partCod1=(aregloSubcadena[0].substring(0,3)).toUpperCase()+"-";
+                            $scope.partCod1=(nombreCorti).toUpperCase()+"-";
                           }
-                          if($scope.partCod2==undefined ||  $scope.partCod1==''){
-                               $scope.product.codigo=$scope.partCod1;
-                          }else{
-                               $scope.product.codigo=$scope.partCod2+$scope.partCod1;
-                          }
+                         // alert($location.path()+" "+id);
+                          if($location.path() == '/products/edit/'+id){
+                            
+                                 if($scope.partCod2==undefined ||  $scope.partCod2==''){
+                                      $scope.product.codigo=$scope.partCod1+id;
+                                 }else{
+                                      $scope.product.codigo=$scope.partCod2+$scope.partCod1+id;
+                                 }
+                         }else{
+                                 if($scope.partCod2==undefined ||  $scope.partCod2==''){
+                                      $scope.product.codigo=$scope.partCod1+(Number(data.id)+1);
+                                 }else{
+                                      $scope.product.codigo=$scope.partCod2+$scope.partCod1+(Number(data.id)+1);
+                                 }
+                         }
+                      });       
                     });
                 }
                 $scope.generarCodigoProduct2=function(){
@@ -1404,18 +1447,30 @@
                    // var aregloSubcadena=$scope.variant.detAtr[3].descripcion.split(separador);
                     //$log.log($scope.product.brand_id);
                     crudService.byId($scope.product.type_id,'types').then(function (data) {
-                       // alert(data.nombre);
                         var aregloSubcadena=data.nombre.split(separador);
+                        var nombreCorti=data.shortname;
+                        crudService.all('encontrarUltimo').then(function (data) {
+                       // alert(data.nombre);
+                        
                         if(aregloSubcadena.length>1){
-                            $scope.partCod2=(aregloSubcadena[0].substring(0,1)+aregloSubcadena[1].substring(0,1)).toUpperCase()+"-";
+                            $scope.partCod2=(nombreCorti).toUpperCase()+"-";
                           }else{                            
-                            $scope.partCod2=(aregloSubcadena[0].substring(0,3)).toUpperCase()+"-";
+                            $scope.partCod2=(nombreCorti).toUpperCase()+"-";
                           }
-                          if($scope.partCod1==undefined ||  $scope.partCod1==''){
-                               $scope.product.codigo=$scope.partCod2;
-                          }else{
-                               $scope.product.codigo=$scope.partCod2+$scope.partCod1;
-                          }
+                          if($location.path() == '/products/edit/'+id){
+                                         if($scope.partCod1==undefined ||  $scope.partCod1==''){
+                                              $scope.product.codigo=$scope.partCod2+id;
+                                         }else{
+                                              $scope.product.codigo=$scope.partCod2+$scope.partCod1+id;
+                                         }
+                         }else{
+                                       if($scope.partCod1==undefined ||  $scope.partCod1==''){
+                                              $scope.product.codigo=$scope.partCod2+(Number(data.id)+1);
+                                         }else{
+                                              $scope.product.codigo=$scope.partCod2+$scope.partCod1+(Number(data.id)+1);
+                                         }
+                         }
+                      });
                         
                     });
                 }

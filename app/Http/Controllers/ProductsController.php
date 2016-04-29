@@ -68,6 +68,10 @@ class ProductsController extends Controller
          $products = $this->productRepo->Autocomplit();
         return response()->json($products);
     }
+     public function encontrarUltimo(){
+        $products = $this->productRepo->encontrarUltimo();
+        return response()->json($products);
+    }
         public function pag(){
         $products = $this->productRepo->pag();
         return response()->json($products);

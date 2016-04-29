@@ -83,7 +83,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Marca <a class="btn btn-xs btn-info btn-flat" ng-click="addBrand()">+</a> </label>
-                                            <select name="brand" class="form-control" ng-model="product.brand_id" ng-options="k as v for (k, v) in brands">
+                                            <select name="brand" class="form-control" ng-change="generarCodigoProduct()" ng-model="product.brand_id" ng-options="k as v for (k, v) in brands">
                                                 <option value="">--Elige Marca--</option>
 
                                             </select>
@@ -93,7 +93,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Línea <a class="btn btn-xs btn-info btn-flat" ng-click="addLine()">+</a></label>
-                                            <select name="ttype" class="form-control" ng-model="product.type_id" ng-options="k as v for (k, v) in types">
+                                            <select name="ttype" class="form-control" ng-change="generarCodigoProduct2()" ng-model="product.type_id" ng-options="k as v for (k, v) in types">
                                                 <option value="">--Elige Categoría--</option>
                                             </select>
                                         </div></div>

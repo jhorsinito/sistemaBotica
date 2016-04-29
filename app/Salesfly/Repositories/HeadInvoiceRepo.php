@@ -10,6 +10,8 @@ class HeadInvoiceRepo extends BaseRepo{
 
     public function consult($id){
     	$headInvoice=HeadInvoice::join("sales","sales.id","=","headInvoices.venta_id")
+                                 ->leftjoin("salePayments","salePayments.sale_id","=","sales.id")
+                                // ->leftjoin("saledetPayments","saledetPayments.salePayment_id","=","salePayments.id")
                                  ->leftjoin("customers","customers.id","=","headInvoices.cliente_id")
                                  ->leftjoin("employees","employees.id","=","sales.employee_id")
                                  ->join("detCash","detCash.id","=","sales.detCash_id")
@@ -18,6 +20,9 @@ class HeadInvoiceRepo extends BaseRepo{
                                  ->join("stores","stores.id","=","cashHeaders.store_id")
                               ->select(\DB::raw("headInvoices.*,IF(employees.id>0,CONCAT(employees.nombres,' ',employees.apellidos),'.....') as nomEmpleado,
                                 IF(customers.id>0,customers.puntos,'0') as puntos,
+                                salePayments.id as idPagoventa,
+                                (SELECT SM.nombre FROM saledetPayments SP INNER JOIN saleMethodPayments SM on SM.id=SP.saleMethodPayment_id
+                                    WHERE SP.salePayment_id=idPagoventa AND SM.id<>1 limit 1) as tarjetaTipo,
                               	stores.ruc,stores.razonSocial,stores.direccion as direccionEmpresa, detCash.montoMovimientoTarjeta as tarjeta,
                               	detCash.montoMovimientoEfectivo as efectivo,sales.puntos as puntosCanjeados,sales.descuento,stores.provincia,stores.departamento,cashes.id as cajaid,
                               	stores.email"))
