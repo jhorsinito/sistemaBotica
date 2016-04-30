@@ -72,6 +72,10 @@ class ProductsController extends Controller
         $products = $this->productRepo->encontrarUltimo();
         return response()->json($products);
     }
+    public function find10($id){
+        $products = $this->productRepo->find10($id);
+        return response()->json($products);
+    }
         public function pag(){
         $products = $this->productRepo->pag();
         return response()->json($products);
@@ -86,8 +90,14 @@ class ProductsController extends Controller
         return response()->json($products);
     }
     public function searchsku($store,$were,$q)
-    {
-        $products = $this->productRepo->searchsku($store, $were, $q);
+    {   
+        $variants = $this->variantRepo->traerCodigoBarras($q);
+        if($variants->sku==$q){
+            $products = $this->productRepo->searchsku($store, $were, $q);
+        }else{
+            $products = $this->productRepo->searchsku2($store, $were, $q);
+        }
+        
         return response()->json($products);
     }
     public function favoritos($store,$were,$q){

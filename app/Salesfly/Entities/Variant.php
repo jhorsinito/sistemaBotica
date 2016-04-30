@@ -7,6 +7,7 @@ class Variant extends \Eloquent {
 
     protected $fillable = ['codigo',
                             'sku',
+                            'sku2',
                             /*'suppPri',
                             'markup',
                             'price',*/

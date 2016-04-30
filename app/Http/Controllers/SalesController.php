@@ -277,6 +277,7 @@ class SalesController extends Controller
          $codigoHeadIS=0;
         
        foreach($var as $object){
+        //var_dump($object);die();
         $object['sale_id'] = $temporal;
          
            if(!empty($object['puntos2'])){
@@ -316,10 +317,28 @@ class SalesController extends Controller
             $HeadStockinsert->save();
             $codigoHeadIS=$HeadStock->id;
           }
+           if(!empty($stockac)){
+             
+                if($object["equivalencia"]==null){
+                  $object["stockActual"]=$stockac->stockActual-($object["cantidad"]);//
+                  $object["cantidad_llegado"]=$object['cantidad'];
+                  
+                }else{
+                  $object["stockActual"]=$stockac->stockActual-($object["cantidad"]*$object["equivalencia"]);
+                  $object["cantidad_llegado"]=$object['cantidad']*$object["equivalencia"];
+                  
+                }
+                  $manager = new StockManager($stockac,$object);
+                  $manager->save();
+                  //$stock=null;
+            }else{
+                
+            }
+            $stockac=null;
 
           $object['headInputStock_id']=$codigoHeadIS;
           $object["producto"]=$object['NombreProducto'];
-          $object["cantidad_llegado"]=$object['cantidad'];
+          
           $object['descripcion']='Salida por Venta';
           
           $inputRepo;
@@ -330,22 +349,7 @@ class SalesController extends Controller
           //---------------------------------------
 
 
-            if(!empty($stockac)){
-             
-                if($object["equivalencia"]==null){
-                  $object["stockActual"]=$stockac->stockActual-($object["cantidad"]);//
-                  
-                }else{
-                  $object["stockActual"]=$stockac->stockActual-($object["cantidad"]*$object["equivalencia"]);
-                  
-                }
-                  $manager = new StockManager($stockac,$object);
-                  $manager->save();
-                  //$stock=null;
-            }else{
-                
-            }
-            $stockac=null;
+           
             //-----------------------------------------------------
             //Create det Documento Venta 
             //-------------------------------------------------------

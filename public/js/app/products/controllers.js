@@ -21,7 +21,7 @@
                 $scope.product.track = true;
                 $scope.variant.track = true;
                 $scope.product.autogenerado = true;
-                $scope.variant.autogenerado = true;
+                $scope.variant.autogenerado = false;
                 //$scope.variant.detAtr = [];
                 $scope.product.presentations = [];
                 $scope.variant.presentations = [];
@@ -403,6 +403,7 @@
                             });
 
                             $scope.variant.sku = data.sku;
+                            $scope.variant.sku2 = data.sku2;
                             //$scope.variant.detAtrT = data.det_atr;
                             //for (i = 0; i < data.det_atr.length; i++) {
                                 //$scope.variant.detAtr[data.det_atr[i].atribute_id].descripcion = data.det_atr[i].descripcion;
@@ -496,8 +497,16 @@
                         crudService.byId($routeParams.product_id,'products').then(function (data) {
                             $log.log(data);
                             $scope.product = data;
-                            if($scope.product.type) $scope.variant.codigo = $scope.product.codigo+$scope.product.type.nombre.charAt(0); else{$scope.variant.codigo = $scope.product.codigo;}
+                            if($scope.product.type) $scope.variant.codigo = $scope.product.codigo; else{$scope.variant.codigo = $scope.product.codigo;}
                                 //espero q se llene product y de ahi agrego Unidades por defecto
+                            crudService.byId($routeParams.product_id,"cantvariantes").then(function (data) {
+                                if((Number(data.cantidad)+1)<10){
+                                    $scope.variant.codigo=$scope.variant.codigo+'-0'+(Number(data.cantidad)+1);
+                                }else{
+                                    $scope.variant.codigo=$scope.variant.codigo+'-'+(Number(data.cantidad)+1);
+                                }
+                                
+                            });
                             crudService.all('presentations_base').then(function(data){
                                 $log.log(data);
                                 $scope.presentations_base = data;
@@ -547,7 +556,16 @@
                 };
 
 
-
+                $scope.asignarFecha=function(){
+                    //alert($scope.variant.fvenc1.substring(0,2));
+                    var fechasjkks='';
+                    fechasjkks=fechasjkks+$scope.variant.fvenc1.substring(6,10)+'/'+$scope.variant.fvenc1.substring(3,5)+'/'+$scope.variant.fvenc1.substring(0,2);
+                     
+                     $scope.variant.fvenc = new Date(fechasjkks);
+                     $scope.variant.fvenc.setDate($scope.variant.fvenc.getDate());
+                     $scope.variant.fvenc.setMonth($scope.variant.fvenc.getMonth());
+                     $scope.variant.fvenc.setFullYear($scope.variant.fvenc.getFullYear());
+                }
                 $scope.createProduct = function(){
 
                     if ($scope.productCreateForm.$valid) {
@@ -1420,33 +1438,32 @@
                         var nombreCorti=data.shortname;
                           crudService.all('encontrarUltimo').then(function (data) {
                           if(aregloSubcadena.length>1){
-                            $scope.partCod1=(nombreCorti).toUpperCase()+"-";
+                            $scope.partCod1=(nombreCorti).toUpperCase()+"/";
                           }else{                            
 
-                            $scope.partCod1=(nombreCorti).toUpperCase()+"-";
+                            $scope.partCod1=(nombreCorti).toUpperCase()+"/";
                           }
                           if($scope.partCod2==undefined ||  $scope.partCod2==''){
                                $scope.product.codigo=$scope.partCod1+data.id;
                           }else{
                                $scope.product.codigo=$scope.partCod2+$scope.partCod1+data.id;
                           }
-                      });
+                      //});
 
-                            $scope.partCod1=(nombreCorti).toUpperCase()+"-";
-                          }
+                           
                          // alert($location.path()+" "+id);
                           if($location.path() == '/products/edit/'+id){
                             
                                  if($scope.partCod2==undefined ||  $scope.partCod2==''){
-                                      $scope.product.codigo=$scope.partCod1+id;
+                                      $scope.product.codigo=$scope.partCod1+$scope.agregaCeros(Number(id));
                                  }else{
-                                      $scope.product.codigo=$scope.partCod2+$scope.partCod1+id;
+                                      $scope.product.codigo=$scope.partCod2+$scope.partCod1+$scope.agregaCeros(Number(id));
                                  }
                          }else{
                                  if($scope.partCod2==undefined ||  $scope.partCod2==''){
-                                      $scope.product.codigo=$scope.partCod1+(Number(data.id)+1);
+                                      $scope.product.codigo=$scope.partCod1+$scope.agregaCeros(Number(data.id)+1);
                                  }else{
-                                      $scope.product.codigo=$scope.partCod2+$scope.partCod1+(Number(data.id)+1);
+                                      $scope.product.codigo=$scope.partCod2+$scope.partCod1+$scope.agregaCeros(Number(data.id)+1);
                                  }
                          }
                       }); 
@@ -1464,9 +1481,9 @@
                        // alert(data.nombre);
                         
                         if(aregloSubcadena.length>1){
-                            $scope.partCod2=(nombreCorti).toUpperCase()+"-";
+                            $scope.partCod2=(nombreCorti).toUpperCase()+"/";
                           }else{   
-                            $scope.partCod2=(nombreCorti).toUpperCase()+"-";
+                            $scope.partCod2=(nombreCorti).toUpperCase()+"/";
                           }
                           if($scope.partCod1==undefined ||  $scope.partCod1==''){
                                $scope.product.codigo=$scope.partCod2+data.id;
@@ -1474,24 +1491,37 @@
                                $scope.product.codigo=$scope.partCod2+$scope.partCod1+data.id;
                           }
 
-                            $scope.partCod2=(nombreCorti).toUpperCase()+"-";
-                          }
+                           
                           if($location.path() == '/products/edit/'+id){
                                          if($scope.partCod1==undefined ||  $scope.partCod1==''){
-                                              $scope.product.codigo=$scope.partCod2+id;
+                                              $scope.product.codigo=$scope.partCod2+$scope.agregaCeros(Number(id));
                                          }else{
-                                              $scope.product.codigo=$scope.partCod2+$scope.partCod1+id;
+                                              $scope.product.codigo=$scope.partCod2+$scope.partCod1+$scope.agregaCeros(Number(id));
                                          }
                          }else{
                                        if($scope.partCod1==undefined ||  $scope.partCod1==''){
-                                              $scope.product.codigo=$scope.partCod2+(Number(data.id)+1);
+                                              $scope.product.codigo=$scope.partCod2+$scope.agregaCeros(Number(data.id)+1);
                                          }else{
-                                              $scope.product.codigo=$scope.partCod2+$scope.partCod1+(Number(data.id)+1);
+                                              $scope.product.codigo=$scope.partCod2+$scope.partCod1+$scope.agregaCeros(Number(data.id)+1);
                                          }
                          }
                       });
                         
                     });
+                }
+                $scope.agregaCeros=function(num){
+                       if(num<10){
+                          return '000'+num;
+                       }
+                       if(num>9 && num<100){
+                          return '00'+num;
+                       }
+                       if(num>99 && num<1000){
+                          return '0'+num;
+                       }
+                       if(num>999 && num<10000){
+                          return num;
+                       }
                 }
                 $scope.addStation = function (size) {
 

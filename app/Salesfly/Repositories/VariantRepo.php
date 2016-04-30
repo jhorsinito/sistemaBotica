@@ -28,6 +28,14 @@ class VariantRepo extends BaseRepo{
                     ->get();
         return $products;
     }
+    public function traerCodigoBarras($q){
+      $products =Variant::select('sku','sku2')
+                    //with(['customer','employee'])
+                    ->where('variants.sku','=', $q)
+                    ->orWhere('variants.sku2','=',$q)
+                    ->first();
+        return $products;
+    }
     public function getVariantid($q)
     {
         $variant =Variant::select('id','sku')

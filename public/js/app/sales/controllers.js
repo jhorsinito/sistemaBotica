@@ -738,7 +738,17 @@
                                 if($scope.varianteSkuSelected1[0]!=undefined){
                                    if (($scope.varianteSkuSelected1[0].Stock-$scope.varianteSkuSelected1[0].stockPedidos-$scope.varianteSkuSelected1[0].stockSeparados)>0) { 
                                          //alert("en principal"+$scope.ofertajajjaja);
-                                         $scope.Jalar(size,$scope.ofertajajjaja);
+                                         
+                                         if($scope.varianteSkuSelected1[0].equivalencia==undefined){
+                                            $scope.Jalar(size,$scope.ofertajajjaja);
+                                        }else{
+                                            if($scope.varianteSkuSelected1[0].equivalencia<=$scope.varianteSkuSelected1[0].Stock){
+                                                $scope.Jalar(size,$scope.ofertajajjaja);
+                                            }else{
+                                                alert("STOCK INSUFICIENTE");
+                                                $scope.varianteSkuSelected=undefined;
+                                            }
+                                        }
                                    }else{
                                        alert("STOCK INSUFICIENTE");
                                       $scope.varianteSkuSelected=undefined;
@@ -773,7 +783,8 @@
                              }
                             $log.log($scope.varianteSkuSelected1.descuento);
 
-                            if($scope.base){                
+                            if($scope.base){    
+
                                     $scope.varianteSkuSelected1[0].cantidad=1;
                                     //$scope.varianteSkuSelected1[0].descuento=0;
                                     $scope.varianteSkuSelected1[0].subTotal=$scope.varianteSkuSelected1[0].cantidad*Number($scope.varianteSkuSelected1[0].precioProducto);

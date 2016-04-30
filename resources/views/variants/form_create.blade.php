@@ -46,15 +46,14 @@
                                     </select>
                                 </div>
                             </div>
+                            
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Fecha de Vencimiento</label>
-                                    <input type="date" class="form-control" ng-model="variant.fvenc" placeholder="yyyy-MM-dd" />
+                                    <label>Fecha Vencimiento Formato Text</label><br>
+                                    <input type="text" class="form-control" ng-model="variant.fvenc1" ng-change="asignarFecha()" id="puntos" placeholder="DD-MM-YYYY"/>
 
                                 </div>
-
                             </div>
-                          
 
                                 </div>
 
@@ -73,7 +72,14 @@
 
                                 </div>
                             </div>
+                           <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Fecha de Vencimiento Formato Fecha</label>
+                                    <input type="date" class="form-control" ng-model="variant.fvenc" placeholder="yyyy-MM-dd" />
 
+                                </div>
+
+                            </div>
 
 
                         </div>
@@ -236,13 +242,25 @@
                                 <div class="row">
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label for="sku">Sku: <br>(Stock Keep Unit) </label>
+                                            <label for="sku">Sku Unidades: <br>(Stock Keep Unit) </label>
 
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <input class="form-control" name="sku" type="text" ng-model="variant.sku" ng-disabled="variant.autogenerado" ng-required="!variant.autogenerado"/>
+                                            <span style="color:#dd4b39;" ng-show="variantCreateForm.sku.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="sku">Sku caja: <br>(Stock Keep Caja) </label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <input class="form-control" name="sku" type="text" ng-model="variant.sku2" ng-disabled="variant.autogenerado" ng-required="!variant.autogenerado"/>
                                             <span style="color:#dd4b39;" ng-show="variantCreateForm.sku.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                                         </div>
                                     </div>
@@ -270,6 +288,7 @@
                                         </div>
 
                                                                                                 <span ng-repeat="row in warehouses | filter:query">
+                                                                                                <div class="row">
                                                                                                 <div class="col-md-3 col-md-offset-1">
                                                                                                     <div class="form-group" >
                                                                                                         <label for=""></label>
@@ -289,9 +308,9 @@
                                                                                                         <label for="suppPric">Stock Mínimo</label>
                                                                                                         <input type="number" class="form-control" name="markup" min="0" placeholder="0.00"  ng-model="variant.stock[$index].stockMin" ng-disabled="!variant.track" step="0.1">
                                                                                                     </div>
-                                                                                                </div>
-
-                                                                                                 </span>
+                                                                                               </div>
+                                                                                                </div> 
+                                                                                                 </span><br>
 
 
                                     </div>

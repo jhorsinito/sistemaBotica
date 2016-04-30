@@ -217,13 +217,25 @@
                                 <div class="row">
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label for="sku">Sku: <br>(Stock Keep Unit) </label>
+                                            <label for="sku">Sku Unidadess: <br>(Stock Keep Unit) </label>
 
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <input class="form-control" name="sku" type="text" ng-disabled="variant.autogenerado" ng-model="variant.sku" ng-disabled="variant.autogenerado" ng-required="!variant.autogenerado"/>
+                                            <span style="color:#dd4b39;" ng-show="variantCreateForm.sku.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                                        </div>
+                                    </div>
+                                     <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="sku">Sku caja: <br>(Stock Keep Caja) </label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <input class="form-control" name="sku" type="text" ng-model="variant.sku2" ng-disabled="variant.autogenerado" ng-required="!variant.autogenerado"/>
                                             <span style="color:#dd4b39;" ng-show="variantCreateForm.sku.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                                         </div>
                                     </div>
@@ -251,6 +263,7 @@
                                         </div>
 
                                                                                                 <span ng-repeat="row in warehouses | filter:query">
+                                                                                                <div class="row">
                                                                                                 <div class="col-md-3 col-md-offset-1">
                                                                                                     <div class="form-group" >
                                                                                                         <label for=""></label>
@@ -271,7 +284,7 @@
                                                                                                         <input type="number" class="form-control" name="markup" ng-attr-min="@{{minNumber}}" string-to-number placeholder="0.00"  ng-model="variant.stock[$index].stockMin" ng-disabled="!variant.track" step="0.1">
                                                                                                     </div>
                                                                                                 </div>
-
+                                                                                                </div>
                                                                                                  </span>
 
 
