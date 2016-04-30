@@ -1416,11 +1416,14 @@
                     crudService.byId($scope.product.brand_id,'brands').then(function (data) {
                         //alert(data.nombre);
                         var aregloSubcadena=data.nombre.split(separador);
+
+                        var nombreCorti=data.shortname;
                           crudService.all('encontrarUltimo').then(function (data) {
                           if(aregloSubcadena.length>1){
-                            $scope.partCod1=(aregloSubcadena[0].substring(0,1)+aregloSubcadena[1].substring(0,1)).toUpperCase()+"-";
+                            $scope.partCod1=(nombreCorti).toUpperCase()+"-";
                           }else{                            
-                            $scope.partCod1=(aregloSubcadena[0].substring(0,3)).toUpperCase()+"-";
+
+                            $scope.partCod1=(nombreCorti).toUpperCase()+"-";
                           }
                           if($scope.partCod2==undefined ||  $scope.partCod2==''){
                                $scope.product.codigo=$scope.partCod1+data.id;
@@ -1428,6 +1431,25 @@
                                $scope.product.codigo=$scope.partCod2+$scope.partCod1+data.id;
                           }
                       });
+
+                            $scope.partCod1=(nombreCorti).toUpperCase()+"-";
+                          }
+                         // alert($location.path()+" "+id);
+                          if($location.path() == '/products/edit/'+id){
+                            
+                                 if($scope.partCod2==undefined ||  $scope.partCod2==''){
+                                      $scope.product.codigo=$scope.partCod1+id;
+                                 }else{
+                                      $scope.product.codigo=$scope.partCod2+$scope.partCod1+id;
+                                 }
+                         }else{
+                                 if($scope.partCod2==undefined ||  $scope.partCod2==''){
+                                      $scope.product.codigo=$scope.partCod1+(Number(data.id)+1);
+                                 }else{
+                                      $scope.product.codigo=$scope.partCod2+$scope.partCod1+(Number(data.id)+1);
+                                 }
+                         }
+                      }); 
                     });
                 }
                 $scope.generarCodigoProduct2=function(){
@@ -1437,19 +1459,36 @@
                     //$log.log($scope.product.brand_id);
                     crudService.byId($scope.product.type_id,'types').then(function (data) {
                         var aregloSubcadena=data.nombre.split(separador);
+                        var nombreCorti=data.shortname;
                         crudService.all('encontrarUltimo').then(function (data) {
                        // alert(data.nombre);
                         
                         if(aregloSubcadena.length>1){
-                            $scope.partCod2=(aregloSubcadena[0].substring(0,1)+aregloSubcadena[1].substring(0,1)).toUpperCase()+"-";
-                          }else{                            
-                            $scope.partCod2=(aregloSubcadena[0].substring(0,3)).toUpperCase()+"-";
+                            $scope.partCod2=(nombreCorti).toUpperCase()+"-";
+                          }else{   
+                            $scope.partCod2=(nombreCorti).toUpperCase()+"-";
                           }
                           if($scope.partCod1==undefined ||  $scope.partCod1==''){
                                $scope.product.codigo=$scope.partCod2+data.id;
                           }else{
                                $scope.product.codigo=$scope.partCod2+$scope.partCod1+data.id;
                           }
+
+                            $scope.partCod2=(nombreCorti).toUpperCase()+"-";
+                          }
+                          if($location.path() == '/products/edit/'+id){
+                                         if($scope.partCod1==undefined ||  $scope.partCod1==''){
+                                              $scope.product.codigo=$scope.partCod2+id;
+                                         }else{
+                                              $scope.product.codigo=$scope.partCod2+$scope.partCod1+id;
+                                         }
+                         }else{
+                                       if($scope.partCod1==undefined ||  $scope.partCod1==''){
+                                              $scope.product.codigo=$scope.partCod2+(Number(data.id)+1);
+                                         }else{
+                                              $scope.product.codigo=$scope.partCod2+$scope.partCod1+(Number(data.id)+1);
+                                         }
+                         }
                       });
                         
                     });
