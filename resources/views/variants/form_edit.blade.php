@@ -366,6 +366,12 @@
                         <label for="suppPric">% PVP</label>
                         <input type="number" class="form-control" string-to-number  ng-model="presentation.pvp" step="0.1" ng-change="calculatePVP()">
                     </div>
+                    <div class="col-md-4">
+                        <div class="form-group" > <label for="suppPric">% de Ganancia</label> <input ng-disabled="true" type="number" class="form-control" name="markup1" string-to-number placeholder="0.00" ng-model="presentation.markup1"  step="0.1">
+                            <label for="suppPric">Cant. de Ganancia</label>
+                            <input ng-disabled="true" type="number" class="form-control" name="markup1" string-to-number placeholder="0.00" ng-model="presentation.markupCant1"  step="0.1">
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
@@ -405,6 +411,12 @@
                             <label for="suppPric">% PVP (Rango)</label>
                             <input type="number" class="form-control" string-to-number ng-model="presentation.pvpRange" ng-change="calculatePVPRange()">
 
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group" > <label for="suppPric">% de Ganancia</label> <input ng-disabled="true" type="number" class="form-control" name="markup1" string-to-number placeholder="0.00" ng-model="presentation.markup2" ng-change="calculateMarkup()" step="0.1">
+                            <label for="suppPric">Cant. de Ganancia</label>
+                            <input ng-disabled="true" type="number" class="form-control" name="markup1" string-to-number placeholder="0.00" ng-model="presentation.markupCant2" ng-change="calculateMarkupCant()" step="0.1">
                         </div>
                     </div>
                 </div>

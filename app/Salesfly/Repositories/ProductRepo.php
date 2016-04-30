@@ -10,7 +10,12 @@ class ProductRepo extends BaseRepo{
     public function getModel(){
         return new Product;
     }
-
+    public function encontrarUltimo(){
+         $products = Product::select("id")
+         ->orderBy("id",'desc')
+         ->first();
+         return $products;
+    }
     public function search($q)
     {
         //$promotion =Product::select('id','nombre','codigo','estado')->where('nombre','like', $q.'%')
@@ -474,7 +479,7 @@ WHERE variants.id = varid) as stoStockActual'),
 
                                                 IF( T13.fecIniDscto<="'.$q.'" and T13.fecFinDscto>="'.$q.'",T13.dsctoRange,T13.dscto) as Descuento ,
                                                 IF( T13.fecIniDscto<="'.$q.'" and T13.fecFinDscto>="'.$q.'",T13.pvpRange,T13.pvp) as PrecioVenta ,
-                                                IF( T13.fecIniDscto<="'.$q.'" and T13.fecFinDscto>="'.$q.'","SI","NO") as Estado ,
+                                                IF( T13.fecIniDscto<="'.$q.'" and T13.fecFinDscto>="'.$q.'","SI","NO") as Estado , (T13.pvp-T13.suppPri) as ganancia,(T13.pvpRange-T13.suppPri) as ganancia2,
 
                                               (select T20.descripcion FROM detAtr T20 where T20.variant_id=vari and T20.atribute_id=4) as Material,
                                               (select T20.descripcion FROM detAtr T20 where T20.variant_id=vari and T20.atribute_id=1) as Color,

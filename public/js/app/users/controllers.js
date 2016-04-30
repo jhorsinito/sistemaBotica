@@ -99,7 +99,7 @@
                             crudService.create($scope.user, 'users').then(function (data) {
                                 if (data['estado'] == true) {
                                     $scope.success = data['nombres'];
-
+                                     alert("Usuario creado correctamente");
                                     $location.path('/users');
 
                                 } else {

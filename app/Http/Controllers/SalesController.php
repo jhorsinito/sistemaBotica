@@ -232,7 +232,7 @@ class SalesController extends Controller
                  $request->merge(["direccion"=>$direccion["direccContac"]]);
                  $request->merge(["numero"=>(intval($num->numBoleta)+1)]);
                  $request->merge(["numBoleta"=>$request->input("numero")]);
-                 $request->merge(["numTiketBoleta"=>(intval($num->numTiketBoleta)+1)]);
+                 $request->merge(["numTiketFactura"=>(intval($num->numTiketFactura)+1)]);
                  $request->merge(["ruc"=>$direccion["dni"]]);
                  $inputfbnumber=new FBnumberManager($numbers,$request->only("numBoleta","numTiketBoleta"));
                  $inputfbnumber->save();
@@ -418,6 +418,27 @@ class SalesController extends Controller
             }
             
     }
+    Public function numfacturaBolet($num){
+            $numTicket='';
+            if($num<10){
+              return $numTicket.='00000'.$num;
+            }
+            if($num<100){
+              return $numTicket.='0000'.$num;
+            }
+            if($num<1000){
+              return $numTicket.='000'.$num;
+            }
+            if($num<10000){
+              return $numTicket.='00'.$num;
+            }
+            if($num<100000){
+              return $numTicket.='0'.$num;
+            }else{
+              return $numTicket.=''.$num;
+            }
+            
+    }
      public function editPromocion(Request $request)
     {
         $promocion = $this->promocionRepo->find($request->id);
@@ -443,6 +464,8 @@ class SalesController extends Controller
       $productos=$productRepo->ProductosSugeridos();
         $cabeceraFactura=$headInvoiceRepo->consult($idFactura);
         $detalleFactura=$detailInvoiceRepo->detFactura($idFactura);
+        $totArticulos=0;
+        $descuentoTotal=0;
         $tipoPago="E/T";
              if($cabeceraFactura->efectivo>0){
                  $tipoPago="Efec.";
@@ -460,12 +483,28 @@ class SalesController extends Controller
         //{
                     $txt .= '
                              $printer ->  setEmphasis(true);
-                             $printer -> text("FACTURA \n");
-                             $printer -> text("'.$cabeceraFactura->razonSocial.' \n");
+                             $printer -> selectPrintMode(Escpos::MODE_DOUBLE_HEIGHT);  
+                             $printer -> text("* GO HARD NUTRITION *\n");
+                             $printer -> text("E.I.R.L. \n");
+                             $printer -> selectPrintMode();
                              $printer -> text("C'.$cabeceraFactura->direccionEmpresa.' '.$cabeceraFactura->provincia.'-'.$cabeceraFactura->departamento.' \n");
                              $printer -> text("ruc:'.$cabeceraFactura->ruc.' \n");
-                             $printer -> text("TICKET \n");
-                             $printer -> text("00'.$caja.'-'.$this->codTicket($tipo,$caja).'\n");
+                             ';
+
+                    if($tipo=="F"){
+                      //var_dump($tipo);die();
+                    $txt.='$printer -> text("FACTURA \n");
+                             $printer -> text("00'.$caja.'-'.$this->numfacturaBolet($cabeceraFactura->numero).'\n");';
+                      }else{
+                        if($tipo=="B"){
+                          $txt.='$printer -> text("BOLETA \n");
+                             $printer -> text("00'.$caja.'-'.$this->numfacturaBolet($cabeceraFactura->numero).'\n");';
+                        }else{
+                          $txt.='$printer -> text("TICKET \n");
+                             $printer -> text("00'.$caja.'-'.$this->codTicket($tipo,$caja).'\n");';
+                        }
+                      }
+                    $txt.='
                              $printer -> setEmphasis(false);
                              $printer -> feed();
                              $printer -> setJustification();'; 
@@ -475,57 +514,74 @@ class SalesController extends Controller
         //}
         $txt .= '
               $printer -> setFont(Escpos::FONT_C);
-              $printer -> feed();
-              $printer -> text("#CAJA:'.$cabeceraFactura->cajaid.'       '.date("d-m-Y").' '.date("H:i:s").'\n");
-              $printer -> text("Ticket                  <original>\n");
-              $printer -> text("-------------------------------------\n");';
-              if($tipo=="TF"){
-                    $txt .= '$printer -> text("TIPO:'.$tipoPago.'    RUC N°:'.$cabeceraFactura->ruc.'\n");';
+              
+              $printer -> text("Fecha:'.date("d-m-Y").'    Hora:'.date("H:i:s").'\n");
+              $printer -> text("Tienda:01   Caja:'.$cabeceraFactura->cajaid.'  Tiket:'.$this->codTicket($tipo,$caja).'\n");
+              
+              $printer -> text("---------------------------------\n");
+              $printer -> text("Cliente: '.$cabeceraFactura->cliente.'\n");';
+              if($tipo=="F"){
+                    $txt .= '$printer -> text("RUC N°:'.$cabeceraFactura->ruc.'\n");';
               }else{
-                    $txt .= '$printer -> text("TIPO:'.$tipoPago.'    DNI N°:'.$cabeceraFactura->dni.'\n");';                     
+                    $txt .= '$printer -> text("DNI N°:'.$cabeceraFactura->dni.'\n");';                     
               }
 
               
              $txt .= '
-              $printer -> text("Cliente: '.$cabeceraFactura->cliente.'\n");
-              $printer -> text("Puntos Acumulado: '.$cabeceraFactura->puntos.'\n");
-              $printer -> feed();
               $printer -> text("Direccion: '.$cabeceraFactura->direccion.'\n");
+              
+              
+              
               $printer -> feed();
               $printer -> text("Cajero: '.auth()->user()->name.'\n");
               $printer -> text("Vendedor: '.$cabeceraFactura->nomEmpleado.'\n");
-              $printer -> text("-------------------------------------\n");
+              $printer -> text("---------------------------------\n");
               $printer -> text("Descripcion \n");
-                              $printer -> text("Precio      cant             Total \n");
-                              $printer -> text("-------------------------------------\n");
+              $printer -> text("Cant.  Precio    Desct.     Total");
+              $printer -> text("---------------------------------\n");
               ';
               foreach($detalleFactura as $detalleFactura){
-                      $txt .='$printer -> text("'.$detalleFactura["descripcion"].'\n");
+      $txt .='$printer -> text("'.$detalleFactura["descripcion"].'\n");
                               
-                              $printer -> text("'.
-                                                $detalleFactura["PrecioUnit"].'       '.$detalleFactura["cantidad"].
-                                                '            '.$detalleFactura["PrecioVent"].'\n");
+              $printer -> text("'.
+        $detalleFactura["cantidad"].'   '.$detalleFactura["PrecioUnit"].
+                                             '    '.$detalleFactura["descuento"].
+                                                       '    '.$detalleFactura["PrecioVent"].'\n");
                               ';
+                              $totArticulos=$totArticulos+$detalleFactura["cantidad"];
+                              $descuentoTotal=$descuentoTotal+$detalleFactura["descuento"];
                             }
-                              $txt.='$printer -> text("-------------------------------------\n");
-                              $printer -> text("IGV(18%)                     S/.'.$cabeceraFactura->igv.'\n");                            
-                              $printer -> text("Subtotal                     S/.'.$cabeceraFactura->subTotal.'\n");
-                              
-                              
-                              $printer -> text("Pago adelantado(anticipo)    S/.0.00\n");
-                              $printer -> text("Vale de Consumo              S/.0.00\n");
-                              $printer -> text("descuento especial           S/.'.$descuento.'\n");
-                              $printer -> text("-------------------------------------\n");
-                              $printer -> text("Puntos Cajeados                 '.$cabeceraFactura->puntosCanjeados.'\n");
-                              $printer -> text("Monto P. Tarjeta             S/.'.$cabeceraFactura->tarjeta.'\n"); 
-                              $printer -> text("Monto P. Efectivo            S/.'.$cabeceraFactura->efectivo.'\n"); 
-                              $printer -> text("TOTAL                        S/.'.$cabeceraFactura->Total.'\n");
+                              $txt.='$printer -> text("---------------------------------\n");
+                              $printer -> text("Cantidad de Articulos:    '.$totArticulos.'\n"); 
+                              $printer -> text("Total Descuento:       S/.'.$descuentoTotal.'\n");
+                              $printer -> text("Subtotal:              S/.'.$cabeceraFactura->subTotal.'\n");
+                              $printer -> text("IGV(18%):              S/.'.$cabeceraFactura->igv.'\n"); 
+                              ';
+                              if($cabeceraFactura->$descuento>0){
+                                $txt.='$printer -> text("Descuento especial:    S/.'.$cabeceraFactura->$descuento.'\n");';
+                              }
+                              $txt.='
+                              $printer -> text("TOTAL A PAGAR:         S/.'.$cabeceraFactura->Total.'\n");
                               $printer -> feed(); 
-                              $printer -> text("-------------------------------------\n");
-                              $printer -> text("Importe Pagado               S/.'.($cabeceraFactura->Total+$vuelto).'\n");
-                              $printer -> text("Vuelto                       S/.'.$vuelto.'\n"); 
-                              $printer -> text("-------------------------------------\n"); 
-                              $printer -> text("-------------------------------------\n");
+                              $printer -> text("---------------------------------\n");
+                              
+                              ';
+                              if($cabeceraFactura->tarjeta>0){
+                                $txt.=' $printer -> text("Monto P. Tarjeta:      S/.'.$cabeceraFactura->tarjeta.'\n");';
+                              }
+                              $txt.=' 
+                              $printer -> text("Monto P. Efectivo:     S/.'.$cabeceraFactura->efectivo.'\n");                              
+                              $printer -> text("Importe Pagado:        S/.'.($cabeceraFactura->Total+$vuelto).'\n");
+                              $printer -> text("Vuelto:                S/.'.$vuelto.'\n"); ';
+                              if($cabeceraFactura->tarjeta>0){
+                                $txt.='$printer -> text("Tipo Tarjeta:     '.$cabeceraFactura->tarjetaTipo.'\n");';
+                              }
+                              $txt.='                              
+                              $printer -> text("---------------------------------\n"); 
+                              $printer -> text("Puntos Ganados:           '.$cabeceraFactura->Total.'\n");
+                              $printer -> text("Puntos Acumulados:        '.$cabeceraFactura->puntos.'\n");
+                              $printer -> text("---------------------------------\n");
+                              $printer -> text("---------------------------------\n");
                               $printer -> text("\n"); 
                               $printer -> text("\n");
                               $printer -> cut();$printer -> pulse(); 
@@ -537,12 +593,13 @@ class SalesController extends Controller
                       ';
                }
               
-             $txt.='$printer -> setEmphasis(true);';
-              
-        $txt .= '$printer -> text("-------------------------------------\n");';
+             $txt.='$printer -> setEmphasis(true);
+              $printer -> text("\n");';
+        $txt .= '$printer -> text("---------------------------------\n");';
         $txt .= '$printer -> setEmphasis(true);';
-        $txt .= '$printer -> text("Comuniquense con nosotros al:\n");';
-        $txt .= '$printer -> text("'.$cabeceraFactura->email.'\n");';
+        $txt .= '$printer -> text("Para mas informacion comuniquese al:\n");';
+        $txt .= '$printer -> text("telf:074209192 Wsp/Rpm:#951831525 \n");';
+        $txt .= '$printer -> text("E-mail:'.$cabeceraFactura->email.'\n");';
         $txt .= '$printer -> setEmphasis(false);';
         $txt .= '$printer -> feed();';
        

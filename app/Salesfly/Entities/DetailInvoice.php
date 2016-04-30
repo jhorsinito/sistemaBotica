@@ -9,6 +9,7 @@ class DetailInvoice extends \Eloquent {
     						'descripcion',
     						'PrecioUnit',
     						'PrecioVent',
-                            'headInvoice_id'];
+                            'headInvoice_id',
+                            'descuento'];
     
 }

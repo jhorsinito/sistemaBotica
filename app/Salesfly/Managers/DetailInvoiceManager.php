@@ -9,7 +9,8 @@ class DetailInvoiceManager extends BaseManager {
                             'descripcion'=>'',
                             'PrecioUnit'=>'',
                             'PrecioVent'=>'',
-                            'headInvoice_id'=>''];
+                            'headInvoice_id'=>'',
+                            'descuento'=>''];
         return $rules;
     }
 }

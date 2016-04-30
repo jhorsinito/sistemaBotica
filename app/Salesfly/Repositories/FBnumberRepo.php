@@ -20,10 +20,11 @@ class FBnumberRepo extends BaseRepo{
         return $number;
     }
      public function numeracionTiket($tipo,$id){
-        if($tipo=="TF" || $tipo=="TB"){
+      
+        if($tipo=="TF" || $tipo=="F" || $tipo=="B"){
               $number=FBnumber::select("numTiketFactura")->where("caja_id","=",$id)->first();
 
-        }else{ $numer=0; }
+        }
         return $number;
     }
 }
