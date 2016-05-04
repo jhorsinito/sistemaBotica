@@ -43,17 +43,17 @@ class UserTableSeeder extends Seeder
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ]);
-
+           */
             DB::table('users')->insert([
-                'name' => 'Enny Ruth Peña Flores',
-                'email' => 'rpenha@honeysoft.pe',
-                'password' => bcrypt('123456'),
+                'name' => 'Angel',
+                'email' => 'GH@gohard.pe',
+                'password' => bcrypt('gohardP'),
                 'estado' => 1,
                 'role_id' => 1,
                 'store_id' => 1,
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
-            ]);*/
+            ]);
 
             DB::table('users')->insert([
                 'name' => 'soporte',

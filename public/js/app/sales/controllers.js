@@ -736,14 +736,14 @@
                             $scope.varianteSkuSelected1=data;
                            
                                 if($scope.varianteSkuSelected1[0]!=undefined){
-                                   if (($scope.varianteSkuSelected1[0].Stock-$scope.varianteSkuSelected1[0].stockPedidos-$scope.varianteSkuSelected1[0].stockSeparados)>0) { 
+                                   if ((Number($scope.varianteSkuSelected1[0].Stock)-Number($scope.varianteSkuSelected1[0].stockPedidos)-Number($scope.varianteSkuSelected1[0].stockSeparados))>0) { 
                                          //alert("en principal"+$scope.ofertajajjaja);
                                          
                                          if($scope.varianteSkuSelected1[0].equivalencia==undefined){
-                                            $scope.Jalar(size,$scope.ofertajajjaja);
+                                              $scope.Jalar(size,$scope.ofertajajjaja);
                                         }else{
-                                            if($scope.varianteSkuSelected1[0].equivalencia<=$scope.varianteSkuSelected1[0].Stock){
-                                                $scope.Jalar(size,$scope.ofertajajjaja);
+                                            if(Number($scope.varianteSkuSelected1[0].equivalencia)<=Number($scope.varianteSkuSelected1[0].Stock)){
+                                               $scope.Jalar(size,$scope.ofertajajjaja);
                                             }else{
                                                 alert("STOCK INSUFICIENTE");
                                                 $scope.varianteSkuSelected=undefined;
