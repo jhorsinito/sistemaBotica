@@ -51,7 +51,7 @@
                     //$scope.stores={};
                     
                     //$scope.warehouses={};
-                    
+                    $scope.ActivaOfertasx=true;
                     
                     $scope.atributos={};
                     $scope.compras=[];
@@ -1105,7 +1105,7 @@
                     if($scope.compras[index].cantidad>=1){
                     crudServiceOrders.confirmarVariante($scope.compras[index].vari,$scope.fechaActual).then(function(data){
                           if(data.sku!=undefined && data.cantidad<=$scope.compras[index].cantidad ){
-                               if($scope.compras[index].oferta==0){
+                               if($scope.compras[index].oferta==0 && $scope.ActivaOfertasx==true){
                                   if(confirm("Desea cargar oferta") == true){
                                    // alert(data.descuento);
                                       $scope.descuento10=data.descuento;
@@ -1142,41 +1142,56 @@
                             $scope.compras[index].cantidad=$scope.compras[index].cantidad-1;
                         }else{
                             //$scope.compras[index].cantidad=$scope.compras[index].cantidad+1;
+                            $scope.ActivaOfertasx=true;
                             $scope.calcularmontos(index);    
                         }
                     }else{
                         //$log.log($scope.compras);
+                        $scope.ActivaOfertasx=true;
                         $scope.compras[index].cantidad=$scope.compras[index].cantidad+1;
                         $scope.calcularmontos(index); 
                         //$log.log($scope.sale);   
                     }
                                 
                 };
+                $scope.recalCatidad=function(index){
+                    $scope.ActivaOfertasx=true;
+                    $scope.calcularmontos(index);
+                }
                 $scope.disminuirCantidad= function(index){
                     $scope.compras[index].cantidad=$scope.compras[index].cantidad-1;
-                    
+                    $scope.ActivaOfertasx=true;
                     $scope.calcularmontos(index);
                 };
                 $scope.aumentarPrecio= function(index){
                     $scope.compras[index].precioVenta=Number($scope.compras[index].precioVenta)+1;
+                    $scope.ActivaOfertasx=false;
                     $scope.calcularmontos(index);
                 };
                 $scope.disminuirPrecio= function(index){
                     $scope.compras[index].precioVenta=Number($scope.compras[index].precioVenta)-1;
+                    $scope.ActivaOfertasx=false;
                     $scope.calcularmontos(index);
                 };
                 $scope.aumentarDescuento= function(index){
                     $scope.compras[index].descuento=Number($scope.compras[index].descuento)+1;
                     $scope.bandera=true;
+                    $scope.ActivaOfertasx=false;
                     $scope.calcularmontos(index);
                 };
                 $scope.disminuirDescuento= function(index){
                     $scope.compras[index].descuento=Number($scope.compras[index].descuento)-1;
                     $scope.bandera=true;
+                    $scope.ActivaOfertasx=false;
                     $scope.calcularmontos(index);
                 };
+                $scope.modifMontosFinales=function(index){
+                    $scope.ActivaOfertasx=false;
+                    $scope.calcularmontos(index);
+                }
                 $scope.keyUpDescuento= function(index){
                     $scope.bandera=true;
+                    $scope.ActivaOfertasx=false;
                     $scope.calcularmontos(index);
                 };
 

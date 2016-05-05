@@ -916,8 +916,8 @@ class SalesController extends Controller
      */
     public function edit(Request $request)
     {
-         //var_dump($request->all());
-        //die();
+        // var_dump($request->detOrder);
+       // die();
         \DB::beginTransaction();
         $varDetOrders = $request->detOrder;
         $varPayment = $request->payment;
@@ -984,11 +984,13 @@ class SalesController extends Controller
             $cajaSave=$stokRepo->getModel();
             $stockOri = $stokRepo->find($object['id']);
             $stock = $stokRepo->find($object['idStock']);
-            //+++if ($object['estad']==true) {
-                $stock->stockActual= $stock->stockActual+$object['cantidad'];
-            //+++}else{
-                //+++$stock->stockPedidos= $stock->stockPedidos+$object['canPendiente'];
-            //+++}
+            if(floatval($object['cant'])>0){
+                $stock->stockActual= $stock->stockActual+($object['cantidad']*floatval($object['cant']));
+                 $object["cantidad_llegado"]=$object['cantidad']*floatval($object['cant']);
+            }else{
+                $stock->stockPedidos= $stock->stockPedidos+$object['canPendiente'];
+                $object["cantidad_llegado"]=$object['cantidad'];
+            }
             $stock->save();
             //--------------reporte stock------------
             $object["variant_id"]=$object['vari'];
@@ -1009,7 +1011,7 @@ class SalesController extends Controller
           }
           $object['headInputStock_id']=$codigoHeadIS;
           $object["producto"]=$object['nameProducto']."(".$object['NombreAtributos'].")";
-          $object["cantidad_llegado"]=$object['cantidad'];
+          
           $object['descripcion']='Entrada-Venta-Anulada';
           
           $inputRepo;

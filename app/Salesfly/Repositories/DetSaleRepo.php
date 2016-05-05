@@ -34,10 +34,10 @@ class DetSaleRepo extends BaseRepo{
                                 INNER JOIN detAtr ON detAtr.variant_id = variants.id
                                 INNER JOIN atributes ON atributes.id = detAtr.atribute_id
                                 where variants.id=vari
-                                GROUP BY variants.id) as NombreAtributos'))
+                                GROUP BY variants.id) as NombreAtributos,equiv.cant'))
 
                     ->where('sale_id','=', $id.'%')
-                            
+                    ->groupBy('detSales.id')    
                     //with(['customer','employee'])
                     ->paginate(15);
         return $detSales;

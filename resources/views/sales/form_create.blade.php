@@ -784,7 +784,7 @@
           <label>@{{dynamicPopover.title}}</label>
           <div class="row" >
           <div class="col-md-9">
-            <input type="number" min="0" ng-model="compras[$index].cantidad" ng-change="calcularmontos($index)" class="form-control">
+            <input type="number" min="0" ng-model="compras[$index].cantidad" ng-change="recalCatidad($index)" class="form-control">
             </div>
             <button type="button" class="btn btn-xs" ng-click="aumentarCantidad($index)">
             <span type="button" class="glyphicon glyphicon-plus"></span></button>
@@ -818,7 +818,7 @@
             <label>@{{dynamicPopover1.title}}</label>
             <div class="row" >
             <div class="col-md-9">
-            <input type="number" min="0" ng-change="calcularmontos($index)" ng-model="compras[$index].precioVenta" class="form-control">
+            <input type="number" min="0" ng-change="modifMontosFinales($index)" ng-model="compras[$index].precioVenta" class="form-control">
           </div>
          <button type="button" class="btn btn-xs" ng-click="aumentarPrecio($index)">
           <span type="button" class="glyphicon glyphicon-plus"></span></button>
