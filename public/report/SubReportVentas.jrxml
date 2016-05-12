@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubReportVentas" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="a79d4afb-19d5-41e9-81e3-a24b10014a80">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="214"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fechaini" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -27,7 +27,7 @@ from detSales left join detPres on detPres.id=detSales.detPre_id
                      inner join saledetPayments on saledetPayments.salePayment_id=salePayments.id
                      inner join saleMethodPayments on saleMethodPayments.id=saledetPayments.saleMethodPayment_id
 
-                    where detSales.created_at between $P{fechaini} and $P{fechafin}]]>
+                    where sales.estado<>'3' and detSales.created_at between $P{fechaini} and $P{fechafin}]]>
 	</queryString>
 	<field name="totalUnidades" class="java.math.BigDecimal"/>
 	<field name="totalPrecioCompra" class="java.math.BigDecimal"/>

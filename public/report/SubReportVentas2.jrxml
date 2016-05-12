@@ -19,7 +19,14 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select ROUND(SUM(detSeparateSales.cantidad),0) AS totalUnidades, ROUND(SUM(detPres.suppPri*detSeparateSales.cantidad),2) as totalPrecioCompra, ROUND(SUM(detSeparateSales.subTotal),2)as totalVentas, ROUND(SUM(detSeparateSales.subTotal-(detPres.suppPri*detSeparateSales.cantidad)),2) as totalGanacia,ROUND(SUM(salePayments.Acuenta),2) as totAcuenta,ROUND(SUM(salePayments.Saldo),2) AS totoSaldo from detSeparateSales
+		<![CDATA[select (select ROUND(SUM(detSeparateSales.cantidad),0) from detSeparateSales inner join separateSales on separateSales.id=detSeparateSales.separateSale_id  where separateSales.estado like $P{estado} and separateSales.tipo like $P{tipo} and detSeparateSales.created_at between $P{fechaini} and $P{fechafin}) AS totalUnidades,
+(select ROUND(SUM(detPres.suppPri*detSeparateSales.cantidad),2) from detSeparateSales inner join separateSales on separateSales.id=detSeparateSales.separateSale_id left join detPres on detPres.id=detSeparateSales.detPre_id where separateSales.estado like $P{estado} and separateSales.tipo like $P{tipo} and detSeparateSales.created_at between $P{fechaini} and $P{fechafin}) as totalPrecioCompra,
+(select ROUND(SUM(detSeparateSales.subTotal-(detPres.suppPri*detSeparateSales.cantidad)),2) from detSeparateSales inner join separateSales on separateSales.id=detSeparateSales.separateSale_id left join detPres on detPres.id=detSeparateSales.detPre_id where separateSales.estado like $P{estado} and separateSales.tipo like $P{tipo} and detSeparateSales.created_at between $P{fechaini} and $P{fechafin}) as totalGanacia,
+(select ROUND(SUM(detSeparateSales.subTotal),2) from detSeparateSales inner join separateSales on separateSales.id=detSeparateSales.separateSale_id  where separateSales.estado like $P{estado} and separateSales.tipo like $P{tipo} and detSeparateSales.created_at between $P{fechaini} and $P{fechafin}) AS totalVentas,
+(select ROUND(SUM(salePayments.Acuenta),2) from detSeparateSales inner join separateSales on separateSales.id=detSeparateSales.separateSale_id left join salePayments on salePayments.separateSale_id=detSeparateSales.id where separateSales.estado like $P{estado} and separateSales.tipo like $P{tipo} and detSeparateSales.created_at between $P{fechaini} and $P{fechafin}) AS totAcuenta,
+
+(select ROUND(SUM(salePayments.Saldo),2) from detSeparateSales inner join separateSales on separateSales.id=detSeparateSales.separateSale_id left join salePayments on salePayments.separateSale_id=detSeparateSales.id where separateSales.estado like $P{estado} and separateSales.tipo like $P{tipo} and detSeparateSales.created_at between $P{fechaini} and $P{fechafin}) AS totoSaldo,
+ ROUND(SUM(detPres.suppPri*detSeparateSales.cantidad),2) as totalPrecioCompra1, ROUND(SUM(detSeparateSales.subTotal),2)as totalVentas1, ROUND(SUM(detSeparateSales.subTotal-(detPres.suppPri*detSeparateSales.cantidad)),2) as totalGanacia1,ROUND(SUM(salePayments.Acuenta),2) as totAcuenta1,ROUND(SUM(salePayments.Saldo),2) AS totoSaldo1 from detSeparateSales
                      left join detPres on detPres.id=detSeparateSales.detPre_id
                      left join variants on variants.id=detPres.variant_id
                      left join products on products.id=variants.product_id
@@ -36,10 +43,15 @@
 	</queryString>
 	<field name="totalUnidades" class="java.math.BigDecimal"/>
 	<field name="totalPrecioCompra" class="java.math.BigDecimal"/>
-	<field name="totalVentas" class="java.math.BigDecimal"/>
 	<field name="totalGanacia" class="java.math.BigDecimal"/>
+	<field name="totalVentas" class="java.math.BigDecimal"/>
 	<field name="totAcuenta" class="java.math.BigDecimal"/>
 	<field name="totoSaldo" class="java.math.BigDecimal"/>
+	<field name="totalPrecioCompra1" class="java.math.BigDecimal"/>
+	<field name="totalVentas1" class="java.math.BigDecimal"/>
+	<field name="totalGanacia1" class="java.math.BigDecimal"/>
+	<field name="totAcuenta1" class="java.math.BigDecimal"/>
+	<field name="totoSaldo1" class="java.math.BigDecimal"/>
 	<background>
 		<band/>
 	</background>

@@ -7,7 +7,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select cashes.id,cashes.fechaInicio,cashMotives.nombre,montoMovimientoTarjeta as totMovTar,montoMovimientoEfectivo as totMovEfec ,cashMotives.observacion from detCash inner join cashMotives on cashMotives.id=detCash.cashMotive_id inner join cashes on cashes.id=detCash.cash_id where cashMotives.tipo="+" and cashes.id=$P{cash_id} group by detCash.id order by cashMotives.tipo;]]>
+		<![CDATA[select cashes.id,cashes.fechaInicio,cashMotives.nombre,montoMovimientoTarjeta as totMovTar,montoMovimientoEfectivo as totMovEfec ,detCash.observacion from detCash inner join cashMotives on cashMotives.id=detCash.cashMotive_id inner join cashes on cashes.id=detCash.cash_id where cashMotives.tipo="+" and cashes.id=$P{cash_id} group by detCash.id order by cashMotives.tipo;]]>
 	</queryString>
 	<field name="id" class="java.lang.Long">
 		<fieldDescription><![CDATA[]]></fieldDescription>

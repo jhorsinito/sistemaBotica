@@ -256,7 +256,7 @@
 				<textFieldExpression><![CDATA["S/."+$F{precioCompra}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Opaque" x="552" y="0" width="43" height="20" forecolor="#00FF00" backcolor="#4DBAD5" uuid="734310c4-199f-4580-a0b8-6c0c7ff0ef9e"/>
+				<reportElement mode="Opaque" x="552" y="0" width="43" height="20" forecolor="#000099" backcolor="#4DBAD5" uuid="734310c4-199f-4580-a0b8-6c0c7ff0ef9e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
@@ -326,12 +326,15 @@
 				<textFieldExpression><![CDATA[$F{nomCliente}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="18" y="20" width="577" height="26" uuid="72b302b4-a968-4aab-a248-057c3c3132b9"/>
-				<subreportParameter name="salePaymentid">
+				<reportElement x="21" y="20" width="574" height="21" uuid="a3b91f23-336a-4583-b5e2-fec9c9ddc0cd"/>
+				<subreportParameter name="idSeparate">
 					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
 				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "reportDePagosSepPed.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "reportePagosSepAd.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
