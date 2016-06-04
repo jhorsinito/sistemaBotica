@@ -2,7 +2,7 @@
     angular.module('brands.controllers',[])
         .controller('BrandController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log',
             function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log){
-                $scope.brands = [];
+                $scope.brands = [];//Hola
                 $scope.brand = {};
                 $scope.errors = null;
                 $scope.success;
