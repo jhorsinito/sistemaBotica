@@ -49,16 +49,7 @@
                         <span ng-show="userCreateForm.email1.$error.email"><i class="fa fa-times-circle-o"></i>Formato incorrecto.</span>
                       </label>
                     </div>
-                    <div class="form-group" ng-class="{true: 'has-error'}[ userCreateForm.store.$error.required  && userCreateForm.$submitted || userCreateForm.store.$dirty && userCreateForm.store.$invalid]">
-                                              <label>Tienda</label>
-                                                   <select name="store" class="form-control" ng-model="user.store_id" ng-options="k as v for (k, v) in stores">
-
-                                                </select>
-                                                <label ng-show="userCreateForm.$submitted || userCreateForm.store.$dirty && userCreateForm.store.$invalid">
-                                                                        <span ng-show="userCreateForm.store.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
-
-                                                                      </label>
-                                         </div>
+                    
                                          <div class="row">
                                          <div class="col-md-6">
                                          <div class="form-group" ng-class="{true: 'has-error'}[ userCreateForm.role.$error.required  && userCreateForm.$submitted || userCreateForm.role.$dirty && userCreateForm.role.$invalid]">

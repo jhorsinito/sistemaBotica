@@ -3,7 +3,7 @@
 Categorias
 @stop
 @section('base_url')
-<base href="{{URL::to('/')}}/stations"/>
+<base href="{{URL::to('/')}}/categories"/>
 @stop
 @section('css-customize')
 @stop
@@ -16,15 +16,15 @@ Categorias
 </section>-->
 
 <!-- Main content -->
-<section ng-app="stations">
+<section ng-app="categories">
     <div ng-view>
 
     </div>
 </section>
 
 @section('js-customize')
-<script src="/js/app/stations/app.js"></script>
-    <script src="/js/app/stations/controllers.js"></script>
+<script src="/js/app/categories/app.js"></script>
+    <script src="/js/app/categories/controllers.js"></script>
 @stop
 
 @stop

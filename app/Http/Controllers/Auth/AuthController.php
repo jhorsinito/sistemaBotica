@@ -8,7 +8,7 @@ namespace Salesfly\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Salesfly\User;
-use Salesfly\Salesfly\Entities\Store;
+//use Salesfly\Salesfly\Entities\Store;
 use Validator;
 use Salesfly\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -38,7 +38,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => ['getLogout','indexU','all','paginate','form_create','form_edit','store_select','postRegister','search','find','edit','disableuser','changePass','destroy']]);
+        $this->middleware('guest', ['except' => ['getLogout','indexU','all','paginate','form_create','form_edit','postRegister','search','find','edit','disableuser','changePass','destroy']]);
         //$this->middleware('auth',['only' => 'index']);
     }
 
@@ -54,7 +54,7 @@ class AuthController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
-            'store_id' => 'required|integer',
+            //'store_id' => 'required|integer',
             'role_id' => 'required|integer',
             'estado' => 'required|integer',
             'image' => ''
@@ -73,7 +73,7 @@ class AuthController extends Controller
         return Validator::make($data, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users,email,'.$user->id,
-            'store_id' => 'required|integer',
+            //'store_id' => 'required|integer',
             'role_id' => 'required|integer',
             'estado' => 'required|integer',
             'image' => ''
@@ -92,10 +92,10 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'store_id' => $data['store_id'],
+            //'store_id' => $data['store_id'],
             'role_id' => $data['role_id'],
-            'estado' => $data['estado']
-            //'image' => $data['image']
+            'estado' => $data['estado'],
+            'image' => $data['image']
         ]);
     }
 
@@ -111,7 +111,7 @@ class AuthController extends Controller
          $user->update([
             'name' => $data['name'],
             'email' => $data['email'],
-            'store_id' => $data['store_id'],
+            //'store_id' => $data['store_id'],
             'role_id' => $data['role_id'],
             'estado' => $data['estado']
             //'image' => $data['image']
@@ -145,14 +145,10 @@ class AuthController extends Controller
 
     protected  function paginate(){
         if(\Auth::check()) {
-            $users = User::with(array('store'=>function($query){
-                $query->select('id','nombreTienda');
-            }))->paginate(15);
-            /*$users = User::where('name','like','%234')->get();
-            foreach($users as $user){
-                print_r(response()->json($user->store()->get()));
-            }
-            $tienda = $user->store()->get();*/
+            $users = User:://with(array('store'=>function($query){
+                //$query->select('id','nombreTienda');}))
+            paginate(15);
+            
             return response()->json($users);
 
         }else{
@@ -168,11 +164,11 @@ class AuthController extends Controller
     {
         return View('auth.users.form_edit');
     }
-    public function store_select()
-    {
-        $stores = Store::lists('nombreTienda','id');
-        return response()->json($stores);
-    }
+    //public function store_select()
+    //{
+      //  $stores = Store::lists('nombreTienda','id');
+        ///return response()->json($stores);
+    //}
     public function search($q){
         $users =User::where('name','like', $q.'%')
             ->orWhere('email','like',$q.'%')

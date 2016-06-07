@@ -47,9 +47,9 @@
                         $scope.userPass.id = $scope.user.id;
 
                     });
-                    crudService.select('users','stores').then(function (data){
-                        $scope.stores = data;
-                    });
+                    //crudService.select('users','stores').then(function (data){
+                      //  $scope.stores = data;
+                    //});
                 }else{
                     crudService.paginate('users',1).then(function (data) {
                         $scope.users = data.data;
@@ -59,11 +59,11 @@
                         $scope.itemsperPage = 15;
 
                     });
-                    crudService.select('users','stores').then(function (data){
-                        $scope.stores = data;
+                    //crudService.select('users','stores').then(function (data){
+                      //  $scope.stores = data;
                        // $scope.user.store_id;
-                        $scope.user.store_id = '1';
-                    });
+                        //$scope.user.store_id = '1';
+                    //});
                 }
 
                 socket.on('user.update', function (data) {
@@ -100,17 +100,23 @@
                         var r = new FileReader();
                         r.onloadend = function(e) {
                             $scope.user.image = e.target.result;
-
+                            $log.log("Con Imagen");
                             crudService.create($scope.user, 'users').then(function (data) {
                                 if (data['estado'] == true) {
+                                    $log.log("crea");
                                     $scope.success = data['nombres'];
 
-                                    $location.path('/users');
+                                    //$location.path('/users');
+                                    alert('grabado correctamente');
+                                    $location.path('/');
+                                    
 
                                 } else {
+                                    $log.log("No crea");
                                     $scope.errors = data;
                                     $btn.button('reset');
                                     //alert(data);
+                                    
 
                                 }
                             });
@@ -120,6 +126,7 @@
                             $btn.button('reset');
                         }}
                         if(!document.getElementById('userImage').files[0]){
+                            $log.log("Sin Imagen");
                         crudService.create($scope.user,'users').then(function (data){
                             if (data['estado'] == true) {
                                 $scope.success = data['nombres'];

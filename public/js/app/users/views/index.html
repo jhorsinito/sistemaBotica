@@ -58,7 +58,6 @@
                       <th>Nombre</th>
                       <th>email</th>
                       <th>Rol</th>
-                      <th>Tienda</th>
                       <th>Editar</th>
                       <th >Opción</th>
                       <th >Eliminar</th>
@@ -70,9 +69,8 @@
                       <td>{{row.name }}</td>
                       <td>{{row.email}}</td>
                       <td ng-if="row.role_id == '1'">Admin</td>
-                        <td ng-if="row.role_id == '2'">Cajero</td>
-                        <td ng-if="row.role_id == 3">Visitante</td>
-                      <td>{{row.store.nombreTienda}}</td>
+                        <td ng-if="row.role_id == '2'">Administrativo</td>
+                        <td ng-if="row.role_id == 3">Tecnico</td>
 
                       <td><a ng-click="editUser(row)" class="btn btn-warning btn-xs">Editar</a></td>
                         <td>

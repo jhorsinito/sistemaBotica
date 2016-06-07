@@ -1,11 +1,11 @@
 <!-- Content Header (Page header) -->
         <section class="content-header">
-          <h1>Productos
+          <h1>Categorias
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Productos</li>
+            <li class="active">Categorias</li>
           </ol>
 
           
@@ -17,7 +17,7 @@
         <section class="content">
         <div class="row">
         <div class="col-md-12">
-          <a href="/products/create" type="submit" class="btn btn-primary pull-left">Agrgar Producto</a> 
+          <a href="/categories/create" type="submit" class="btn btn-primary pull-left">Agregar Categoria</a> 
           </div>
         </div>
         </br>
@@ -28,9 +28,9 @@
               <div class="box">
 
                 <div class="box-header with-border">
-                  <h3 class="box-title">Productos</h3>
+                  <h3 class="box-title">Categorias</h3>
                   <div class="box-tools">
-                  <form ng-keyup="searchProduct()">
+                  <form ng-keyup="searchCategory()">
                     <div class="input-group" style="width: 200px;">
                       <input type="text" ng-model="query"  name="table_search" class="form-control input-sm pull-right" placeholder="Search" />
                       <div class="input-group-btn">
@@ -48,46 +48,31 @@
                             </div>
                         </div>
                     </div>
-                <div class="callout callout-info"  ng-show="product.id">
-                    <h4>¿ Estás seguro que deseas eliminar a "{{product.nombre}}" ?</h4>
+                <div class="callout callout-info"  ng-show="category.id">
+                    <h4>¿ Estás seguro que deseas eliminar a "{{category.nombre}}" ?</h4>
                     <p>
-                      <button type="button" class="btn btn-danger" ng-click="destroyproduct()">Si</button>
-                      <button type="button" class="btn btn-default" ng-click="cancelproduct()">No</button>
+                      <button type="button" class="btn btn-danger" ng-click="destroyCategory()">Si</button>
+                      <button type="button" class="btn btn-default" ng-click="cancelCategory()">No</button>
                     </p>
                   </div>
                   <table class="table table-bordered">
                     <tr>
                       <th style="width: 10px">#</th>
                       <th>Nombre</th>
-                      <th>Codigo</th>
-                      <th>Categoria</th>
-                      <th>Stock</th>
-                      <th>StockAlmacen</th>
-                      <th>StockTecnicos</th>
+                      <th>ShortName</th>
+                      <th>Descripcion</th>
                       
                       <th style="width: 40px">Editar</th>
-                      <th style="width: 40px">Accion</th>
                       <th style="width: 40px">Eliminar</th>
                     </tr>
                     
-                    <tr ng-repeat="row in products">
+                    <tr ng-repeat="row in categories">
                       <td>{{$index + 1}}</td>
                       <td>{{row.nombre}}</td>
-                      <td>{{row.codigo}}</td>
-                      <td>{{row.category.nombre}}</td>
-                      <td>{{row.stock}}</td>
-                      <td>{{row.stockAlmacen}}</td>
-                      <td>{{row.stockTecnico}}</td>
-                      <td><a ng-click="editproduct(row)" class="btn btn-warning btn-xs">Editar</a></td>
-                      <td>
-                        <span ng-if="row.estado == 1">
-                          <a ng-click="disableProduct(row)" class="btn bg-purple-active color-palette btn-xs">Desactivar</a>
-                        </span>
-                        <span ng-if="row.estado == 0">
-                          <a ng-click="disableProduct(row)" class="btn bg-purple-active color-palette btn-xs">Activar</a>
-                        </span>
-                      </td>
-                      <td><a ng-click="deleteproduct(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
+                      <td>{{row.shortname}}</td>
+                      <td>{{row.descripcion}}</td>
+                      <td><a ng-click="editCategory(row)" class="btn btn-warning btn-xs">Editar</a></td>
+                      <td><a ng-click="deleteCategory(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
                       
                     </tr>
                     

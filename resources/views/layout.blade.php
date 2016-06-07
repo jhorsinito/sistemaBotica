@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Salesfly | @section('module')Dashboard @show</title>
+    <title>CyR | @section('module')Dashboard @show</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.4 -->
@@ -47,9 +47,9 @@
         <!-- Logo -->
         <a href="/" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>SL</b>F</span>
+          <span class="logo-mini"><b>Cy</b>R</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Sales</b>Fly</span>
+          <span class="logo-lg"><b>CyR</b>Telecomunicaciones</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -153,7 +153,7 @@
               </a>
               <ul class="treeview-menu">
                 <li class=""><a href="/users" ><i class="fa fa-circle-o"></i>Usuarios</a></li>
-                <li class=""><a href="/employees" ><i class="fa fa-circle-o"></i>Empleados</a></li>
+                <li class=""><a href="" ><i class="fa fa-circle-o"></i>Empleados</a></li>
                   <li><a href="/stores"><i class="fa fa-circle-o"></i>Tienda </a></li>
                 <li><a href="/warehouses"><i class="fa fa-circle-o"></i>Almacenes </a></li>
               </ul>
@@ -630,14 +630,11 @@
     <script src="/js/app/persons/app.js"></script>
     <script src="/js/app/persons/controllers.js"></script>
 
-    <script src="/js/app/stores/app.js"></script>
-    <script src="/js/app/stores/controllers.js"></script>
-    <script src="/js/app/brands/app.js"></script>
-    <script src="/js/app/brands/controllers.js"></script>
-    <script src="/js/app/atributes/app.js"></script>
-    <script src="/js/app/atributes/controllers.js"></script>
-    <script src="/js/app/types/app.js"></script>
-    <script src="/js/app/types/controllers.js"></script>
+    
+    
+    
+    <script src="/js/app/stations/controllers.js"></script>
+
     <script src="/vendor/angular-ui-slider/src/slider.js"></script>
     <!-- endinject -->
     @section('js-customize')

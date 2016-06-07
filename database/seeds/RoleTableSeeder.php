@@ -17,9 +17,14 @@ class RoleTableSeeder extends Seeder
             'descripcion' => 'Administrador General del Sistema',
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")),
-            array('name' => 'Cajero',
-                'shortname' => 'ca',
-                'descripcion' => 'Cajero del Sistema',
+            array('name' => 'Administrativo',
+                'shortname' => 'ofic',
+                'descripcion' => 'Operador ingresa ordenes y verifica material',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")),
+            array('name' => 'Tecnico',
+                'shortname' => 'Tecnico',
+                'descripcion' => 'Trabajador de la empresa en campo',
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s"))
     ));

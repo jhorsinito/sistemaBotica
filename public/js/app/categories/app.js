@@ -1,9 +1,9 @@
 (function(){
-    var app = angular.module('products',[
+    var app = angular.module('categories',[
         'ngRoute',
         'btford.socket-io',
         'ngSanitize',
-        'products.controllers',
+        'categories.controllers',
         'crud.services',
         'routes',
         'ui.bootstrap'

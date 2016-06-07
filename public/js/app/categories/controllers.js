@@ -1,9 +1,9 @@
 (function(){
-    angular.module('products.controllers',[])
-        .controller('ProductController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log',
+    angular.module('categories.controllers',[])
+        .controller('CategoryController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log',
             function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log){
-                $scope.products = [];
-                $scope.product = {};
+                $scope.categories = [];
+                $scope.category = {};
                 $scope.errors = null;
                 $scope.success;
                 $scope.query = '';
@@ -14,12 +14,12 @@
 
                 $scope.pageChanged = function() {
                     if ($scope.query.length > 0) {
-                        crudService.search('products',$scope.query,$scope.currentPage).then(function (data){
-                        $scope.products = data.data;
+                        crudService.search('categories',$scope.query,$scope.currentPage).then(function (data){
+                        $scope.categories = data.data;
                     });
                     }else{
-                        crudService.paginate('products',$scope.currentPage).then(function (data) {
-                            $scope.products = data.data;
+                        crudService.paginate('categories',$scope.currentPage).then(function (data) {
+                            $scope.categories = data.data;
                         });
                     }
                 };
@@ -29,12 +29,12 @@
 
                 if(id)
                 {
-                    crudService.byId(id,'products').then(function (data) {
-                        $scope.product = data;
+                    crudService.byId(id,'categories').then(function (data) {
+                        $scope.category = data;
                     });
                 }else{
-                    crudService.paginate('products',1).then(function (data) {
-                        $scope.products = data.data;
+                    crudService.paginate('categories',1).then(function (data) {
+                        $scope.categories = data.data;
                         $scope.maxSize = 5;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
@@ -43,20 +43,20 @@
                     });
                 }
 
-                socket.on('product.update', function (data) {
-                    $scope.products=JSON.parse(data);
+                socket.on('category.update', function (data) {
+                    $scope.categories=JSON.parse(data);
                 });
 
-                $scope.searchProduct = function(){
+                $scope.searchCategory = function(){
                 if ($scope.query.length > 0) {
-                    crudService.search('products',$scope.query,1).then(function (data){
-                        $scope.products = data.data;
+                    crudService.search('categories',$scope.query,1).then(function (data){
+                        $scope.categories = data.data;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                     });
                 }else{
-                    crudService.paginate('products',1).then(function (data) {
-                        $scope.products = data.data;
+                    crudService.paginate('categories',1).then(function (data) {
+                        $scope.categories = data.data;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                     });
@@ -64,15 +64,15 @@
                     
                 };
 
-                $scope.createProduct = function(){
+                $scope.createCategory = function(){
                     //$scope.atribut.estado = 1;
-                    if ($scope.ProductCreateForm.$valid) {
-                        crudService.create($scope.product, 'products').then(function (data) {
+                    if ($scope.categoryCreateForm.$valid) {
+                        crudService.create($scope.category, 'categories').then(function (data) {
                           
                             if (data['estado'] == true) {
                                 $scope.success = data['nombres'];
                                 alert('grabado correctamente');
-                                $location.path('/products');
+                                $location.path('/categories');
 
                             } else {
                                 $scope.errors = data;
@@ -83,54 +83,54 @@
                 }
 
 
-                $scope.editProduct = function(row){
-                    $location.path('/products/edit/'+row.id);
+                $scope.editCategory = function(row){
+                    $location.path('/categories/edit/'+row.id);
                 };
 
-                $scope.updateProduct = function(){
+                $scope.updateCategory = function(){
 
-                    if ($scope.ProductCreateForm.$valid) {
-                        crudService.update($scope.product,'products').then(function(data)
+                    if ($scope.categoryCreateForm.$valid) {
+                        crudService.update($scope.category,'categories').then(function(data)
                         {
                             if(data['estado'] == true){
                                 $scope.success = data['nombres'];
                                 alert('editado correctamente');
-                                $location.path('/products');
+                                $location.path('/categories');
                             }else{
                                 $scope.errors =data;
                             }
                         });
                     }
                 };
-                 $scope.validanomProduct=function(texto){
+                 $scope.validanomCategory=function(texto){
                  alert("hola");
                    if(texto!=undefined){
-                        crudService.validar('products',texto).then(function (data){
-                        $scope.product = data;
-                        alert($scope.product);
+                        crudService.validar('categories',texto).then(function (data){
+                        $scope.category = data;
+                        alert($scope.category);
                         if(data!=null){
                            alert("Usted no puede crear dos Marcas con el mismo nombre");
-                           $scope.product.nombre=''; 
-                           $scope.product.shortname=''; 
+                           $scope.category.nombre=''; 
+                           $scope.category.shortname=''; 
                         }
                     });
                     }
                }
-                $scope.deleteProduct = function(row){
+                $scope.deleteCategory = function(row){
                     
-                    $scope.product = row;
+                    $scope.category = row;
                 }
 
-                $scope.cancelProduct = function(){
-                    $scope.product = {};
+                $scope.cancelCategory = function(){
+                    $scope.category = {};
                 }
 
-                $scope.destroyProduct = function(){
-                    crudService.destroy($scope.product,'products').then(function(data)
+                $scope.destroyCategory = function(){
+                    crudService.destroy($scope.category,'categories').then(function(data)
                     {
                         if(data['estado'] == true){
                             $scope.success = data['nombre'];
-                            $scope.product = {};
+                            $scope.category = {};
                             //alert('hola');
                             $route.reload();
 

@@ -6,12 +6,11 @@ Productos
 <base href="{{URL::to('/')}}/products"/>
 @stop
 @section('css-customize')
-<link rel="stylesheet" type="text/css" href="/css/print.css" media="print">
 @stop
 @section('content')
 <!--<section class="content-header">
     <h1>
-        Productos
+        CLIENTES
         <small>Panel de Control</small>
     </h1>
 </section>-->
@@ -24,10 +23,8 @@ Productos
 </section>
 
 @section('js-customize')
-
-    <script src="/js/app/products/app.js"></script>
+<script src="/js/app/products/app.js"></script>
     <script src="/js/app/products/controllers.js"></script>
-    
 @stop
 
 @stop

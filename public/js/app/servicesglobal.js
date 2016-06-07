@@ -41,7 +41,7 @@
                     }).error(function(data)
                 {
                     //$log.log(data);
-                    alert('No se puede Agregar: Datos incorrectos o repetidos');
+                    //alert('No se puede Agregar: Datos incorrectos o repetidos');
                 });
                 //    .error(function (data) //add for user , error send by 422 status
                 //    {
