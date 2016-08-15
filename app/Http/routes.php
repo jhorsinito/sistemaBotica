@@ -87,7 +87,7 @@ Route::group(['middleware' => 'role'], function () {
 
 
 
-    //PRODUCTOS ROUTES
+//UBIGEOS ROUTES
     Route::get('ubigeos', ['as' => 'person', 'uses' => 'UbigeosController@index']);
     Route::get('ubigeos/create', ['as' => 'person_create', 'uses' => 'UbigeosController@index']);
     Route::get('ubigeos/edit/{id?}', ['as' => 'person_edit', 'uses' => 'UbigeosController@index']);
@@ -104,3 +104,17 @@ Route::group(['middleware' => 'role'], function () {
     Route::get('api/ubigeos/validar/{text}','UbigeosController@validarCodigo');
 //END CATEGORIAS ROUTES
 
+//UBIGEOS ROUTES
+    Route::get('acreditadoras', ['as' => 'person', 'uses' => 'AcreditadorasController@index']);
+    Route::get('acreditadoras/create', ['as' => 'person_create', 'uses' => 'AcreditadorasController@index']);
+    Route::get('acreditadoras/edit/{id?}', ['as' => 'person_edit', 'uses' => 'AcreditadorasController@index']);
+    Route::get('acreditadoras/form-create', ['as' => 'person_form_create', 'uses' => 'AcreditadorasController@form_create']);
+    Route::get('acreditadoras/form-edit', ['as' => 'person_form_edit', 'uses' => 'AcreditadorasController@form_edit']);
+    Route::get('api/acreditadoras/all', ['as' => 'person_all', 'uses' => 'AcreditadorasController@all']);
+    Route::get('api/acreditadoras/paginate/', ['as' => 'person_paginate', 'uses' => 'AcreditadorasController@paginatep']);
+    Route::post('api/acreditadoras/create', ['as' => 'person_create', 'uses' => 'AcreditadorasController@create']);
+    Route::put('api/acreditadoras/edit', ['as' => 'person_edit', 'uses' => 'AcreditadorasController@edit']);
+    Route::post('api/acreditadoras/destroy', ['as' => 'person_destroy', 'uses' => 'AcreditadorasController@destroy']);
+    Route::get('api/acreditadoras/search/{q?}', ['as' => 'person_search', 'uses' => 'AcreditadorasController@search']);
+    Route::get('api/acreditadoras/find/{id}', ['as' => 'person_find', 'uses' => 'AcreditadorasController@find']);
+//END CATEGORIAS ROUTES

@@ -11,16 +11,16 @@ class UbigeoRepo extends BaseRepo{
 
     public function search($q)
     {
-        $categories =Ubigeo::where('distrito','like', $q.'%')
+        $ubigeos =Ubigeo::where('distrito','like', $q.'%')
                     ->orwhere('provincia','like', $q.'%')
                     ->orwhere('departamento','like', $q.'%')
                     ->orwhere('codigo','like', $q.'%')
                     ->paginate(15);
-        return $categories;
+        return $ubigeos;
     }
     public function validarNoRepitCodigo($text){
-        $products =Ubigeo::where('codigo','=', $text)
+        $ubigeo =Ubigeo::where('codigo','=', $text)
                     ->first();
-        return $products;
+        return $ubigeo;
     }
 } 

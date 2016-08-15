@@ -32,7 +32,7 @@
                 })
                 
                 //------------------
-                //RUTES PRODUCTOS
+                //RUTES UBIGEOS
                 .when('/ubigeos', {
                     templateUrl: '/js/app/ubigeos/views/index.html',
                     controller: 'UbigeoController'
@@ -44,6 +44,20 @@
                 .when('/ubigeos/edit/:id',{
                     templateUrl:'/ubigeos/form-edit',
                     controller: 'UbigeoController'
+                }) 
+                //------------------
+                //RUTES ACREDITADORAS
+                .when('/acreditadoras', {
+                    templateUrl: '/js/app/acreditadoras/views/index.html',
+                    controller: 'AcreditadoraController'
+                })
+                .when('/acreditadoras/create',{
+                    templateUrl:'/acreditadoras/form-create',
+                    controller: 'AcreditadoraController'
+                })
+                .when('/acreditadoras/edit/:id',{
+                    templateUrl:'/acreditadoras/form-edit',
+                    controller: 'AcreditadoraController'
                 }) 
                 //------------------
                 .otherwise({
