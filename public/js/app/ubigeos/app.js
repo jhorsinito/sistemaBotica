@@ -1,9 +1,9 @@
 (function(){
-    var app = angular.module('categories',[
+    var app = angular.module('ubigeos',[
         'ngRoute',
-        'btford.socket-io',
+        //'btford.socket-io',
         'ngSanitize',
-        'categories.controllers',
+        'ubigeos.controllers',
         'crud.services',
         'routes',
         'ui.bootstrap'

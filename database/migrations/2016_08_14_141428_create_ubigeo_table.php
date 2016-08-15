@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreteCategoriesTable extends Migration
+class CreateUbigeoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,12 @@ class CreteCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('ubigeos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre',50)->unique();
-            $table->string('shortname',30)->unique();
-            $table->string('descripcion',100);
+            $table->string('codigo')->nullable();
+            $table->string('distrito')->nullable();
+            $table->string('provincia')->nullable();
+            $table->string('departamento')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreteCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('categories');
+        Schema::drop('ubigeos');
     }
 }

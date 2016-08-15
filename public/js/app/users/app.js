@@ -1,7 +1,7 @@
 (function(){
     var app = angular.module('users',[
         'ngRoute',
-        'btford.socket-io',
+        //'btford.socket-io',
         'ngSanitize',
         'users.controllers',
         'crud.services',

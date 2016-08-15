@@ -4,19 +4,6 @@
             $routeProvider
             // ------------------------------------------------------
             
-                //---------------------------------------------------
-                .when('/stations', {
-                    templateUrl: '/js/app/stations/views/index.html',
-                    controller: 'StationController'
-                })
-                .when('/stations/create',{
-                    templateUrl:'/stations/form-create',
-                    controller: 'StationController'
-                })
-                .when('/stations/edit/:id',{
-                    templateUrl:'/stations/form-edit',
-                    controller: 'StationController'
-                }) 
            // ------------------------------------------------------
                            
                 .when('/persons', {
@@ -43,32 +30,20 @@
                     templateUrl:'/users/form-edit',
                     controller: 'UserController'
                 })
-                //RUTES CATEGORIAS
-                .when('/categories', {
-                    templateUrl: '/js/app/categories/views/index.html',
-                    controller: 'CategoryController'
-                })
-                .when('/categories/create',{
-                    templateUrl:'/categories/form-create',
-                    controller: 'CategoryController'
-                })
-                .when('/categories/edit/:id',{
-                    templateUrl:'/categories/form-edit',
-                    controller: 'CategoryController'
-                }) 
+                
                 //------------------
                 //RUTES PRODUCTOS
-                .when('/products', {
-                    templateUrl: '/js/app/products/views/index.html',
-                    controller: 'ProductController'
+                .when('/ubigeos', {
+                    templateUrl: '/js/app/ubigeos/views/index.html',
+                    controller: 'UbigeoController'
                 })
-                .when('/products/create',{
-                    templateUrl:'/products/form-create',
-                    controller: 'ProductController'
+                .when('/ubigeos/create',{
+                    templateUrl:'/ubigeos/form-create',
+                    controller: 'UbigeoController'
                 })
-                .when('/products/edit/:id',{
-                    templateUrl:'/products/form-edit',
-                    controller: 'ProductController'
+                .when('/ubigeos/edit/:id',{
+                    templateUrl:'/ubigeos/form-edit',
+                    controller: 'UbigeoController'
                 }) 
                 //------------------
                 .otherwise({

@@ -47,9 +47,9 @@
         <!-- Logo -->
         <a href="/" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>Cy</b>R</span>
+          <span class="logo-mini"><b>E</b>G</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>CyR</b>Telecomunicaciones</span>
+          <span class="logo-lg"><b>Eknowledge </b>Group</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -153,106 +153,16 @@
               </a>
               <ul class="treeview-menu">
                 <li class=""><a href="/users" ><i class="fa fa-circle-o"></i>Usuarios</a></li>
-                <li class=""><a href="" ><i class="fa fa-circle-o"></i>Empleados</a></li>
-                  <li><a href="/stores"><i class="fa fa-circle-o"></i>Tienda </a></li>
-                <li><a href="/warehouses"><i class="fa fa-circle-o"></i>Almacenes </a></li>
+                <li class=""><a href="/ubigeos" ><i class="fa fa-circle-o"></i>Ubigeos</a></li>
               </ul>
             </li>
             @endif
-            @if($role == 1 || $role == 3)
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-barcode"></i>
-                <span>Productos</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                @if($role == 1 || $role == 3)
-                <li class=""><a href="/products" ><i class="fa fa-circle-o"></i>Productos</a></li>
-                @endif
-                  @if($role == 1)
-                <li class=""><a href="/purchases" ><i class="fa fa-circle-o"></i>Control de Stock</a></li>
-                <li class=""><a href="/brands" ><i class="fa fa-circle-o"></i>Marcas</a></li>
-                <li><a href="/types"><i class="fa fa-circle-o"></i>Líneas </a></li>
-                <li><a href="/materials"><i class="fa fa-circle-o"></i>Materiales </a></li>
-                <li><a href="/stations"><i class="fa fa-circle-o"></i>Estaciones </a></li>
-                <li><a href="/atributes"><i class="fa fa-circle-o"></i>Atributos </a></li>
-                <li><a href="/suppliers"><i class="fa fa-circle-o"></i>Proveedores </a></li>
-                    @endif
-              </ul>
-            </li>
-            @endif
-            @if($role == 1 || $role == 2)
-            <li class="">
-                          <a href="/sales/create">
-                            <i class="fa fa-shopping-cart"></i> <span>Vender!</span>
-                          </a>
-             </li>
-            @endif
-              @if($role == 1 || $role == 2)
-             <li class="">
-                          <a href="/separateSales/create">
-                            <i class="fa fa-shopping-cart"></i> <span>Pedid./Separ.</span>
-                          </a>
-             </li>
-            @endif
-            @if($role == 1 || $role == 2)
-            <li class="">
-              <a href="/sales">
-                <i class="fa fa-list-ol"></i> <span>Lista de Ventas en Total</span>
-              </a>
-            </li>
-            @endif
-            @if($role == 1 || $role == 2)
-            <li class="">
-              <a href="/separateSales">
-                <i class="fa fa-list-ol"></i> <span>Lista de Ped/Sep en Total</span>
-              </a>
-            </li>
-            @endif
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-calculator"></i>
-                <span>Cajas</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                @if($role == 1)
-                <li class=""><a href="/cashHeaders" ><i class="fa fa-circle-o"></i>Cajas</a></li>
-                <li class=""><a href="/cashMonthlys" ><i class="fa fa-circle-o"></i>Gastos de Caja Mensual</a></li>
-                @endif
-                  @if($role == 1 || $role == 2)
-                <li class=""><a href="/cashes" ><i class="fa fa-circle-o"></i>Ver Cajas Abiertas</a></li>
-                    @endif
-
-              </ul>
-            </li>
-            @if($role == 1)
-            <li class="">
-              <a href="/customers">
-                <i class="fa fa-users"></i> <span>Clientes</span>
-              </a>
-            </li>
-            @endif
-            @if($role == 1)
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-bar-chart-o"></i>
-                <span>Reportes</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li class=""><a href="/sales" ><i class="fa fa-circle-o"></i>Reporte de Ventas</a></li>
-                <li class=""><a href="/purchases/cardex#detCajas" ><i class="fa fa-circle-o"></i>Reporte detalles caja</a></li>
-                <li><a href="/separateSales"><i class="fa fa-circle-o"></i>Reporte de Seeparados </a></li>
-                <li><a href="/purchases/cardex#PagoProveedores"><i class="fa fa-circle-o"></i>Reporte de Pagos a Proveedores </a></li>
-                <li><a href="/cashes"><i class="fa fa-circle-o"></i>Reporte de Cajas </a></li>
-                <li><a href="/purchases/cardex#mejoresEmplCli"><i class="fa fa-circle-o"></i>Reporte de Mejores Vendedores/clientes </a></li>
-                <li><a href="/purchases/create"><i class="fa fa-circle-o"></i>Reporte de Movimientos de Almacén </a></li>
-                <li><a href="/purchases/cardex#reportProduct"><i class="fa fa-circle-o"></i>Reporte Cardex </a></li>
-              </ul>
-            </li>
-              @endif
+            
+              
+              
+            
+            
+            
 
 
           </ul>
@@ -419,7 +329,7 @@
         <div class="pull-right hidden-xs">
           <b>Version</b> 1.01
         </div>
-        <strong>Copyright &copy; 2014-2015 <a href="#">Salesfly</a>.</strong> Todos los derechos reservados.
+        <strong>Copyright &copy; 2016 <a href="#">ToBal</a>.</strong> Todos los derechos reservados.
       </footer>
 
       <!-- Control Sidebar -->
@@ -611,7 +521,7 @@
     <!-- AdminLTE for demo purposes -->
     <script src="/vendor/adminlte/dist/js/demo.js" type="text/javascript"></script>
 
-    <script src="/dev2/socket.io/socket.io.js"></script>
+    <!--<script src="/dev2/socket.io/socket.io.js"></script>-->
   <!-- bower:js -->
   <script src="/vendor/angular/angular.js"></script>
   <script src="/vendor/moment/moment.js"></script>
@@ -632,8 +542,6 @@
 
     
     
-    
-    <script src="/js/app/stations/controllers.js"></script>
 
     <script src="/vendor/angular-ui-slider/src/slider.js"></script>
     <!-- endinject -->

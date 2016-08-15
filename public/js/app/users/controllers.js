@@ -1,7 +1,7 @@
 (function(){
     angular.module('users.controllers',[])
-        .controller('UserController',['$scope', '$routeParams','$location','crudService','socketService' ,'$filter','$route','$log',
-            function($scope, $routeParams,$location,crudService,socket,$filter,$route,$log){
+        .controller('UserController',['$scope', '$routeParams','$location','crudService' ,'$filter','$route','$log',
+            function($scope, $routeParams,$location,crudService,$filter,$route,$log){
                 $scope.users = [];
                 $scope.user = {};
                 $scope.userPass = {}; //usuario para cambiar contraseña
@@ -66,10 +66,7 @@
                     //});
                 }
 
-                socket.on('user.update', function (data) {
-                    $scope.users=JSON.parse(data);
-                });
-
+                
                 $scope.searchUser = function(){
                 if ($scope.query.length > 0) {
                     crudService.search('users',$scope.query,1).then(function (data){

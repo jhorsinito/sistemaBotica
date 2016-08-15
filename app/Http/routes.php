@@ -84,66 +84,23 @@ Route::group(['middleware' => 'role'], function () {
 //END PERSONS ROUTES
 
 
-Route::group(['middleware' => 'role'], function () {
-    Route::get('stations', ['as' => 'warehouse', 'uses' => 'StationsController@index']);
-    Route::get('stations/create', ['as' => 'warehouse_create', 'uses' => 'StationsController@index']);
-    Route::get('stations/edit/{id?}', ['as' => 'atribut_edit', 'uses' => 'StationsController@index']);
-    Route::get('stations/form-create', ['as' => 'atribut_form_create', 'uses' => 'StationsController@form_create']);
-    Route::get('stations/form-edit', ['as' => 'atribut_form_edit', 'uses' => 'StationsController@form_edit']);
-});
 
 
-Route::get('api/stations/all',['as'=>'atribut_all', 'uses'=>'StationsController@all']);
-Route::get('api/stations/paginate/',['as' => 'atribut_paginate', 'uses' => 'StationsController@paginatep']);
-Route::post('api/stations/create',['as'=>'atribut_create', 'uses'=>'StationsController@create']);
-Route::put('api/stations/edit',['as'=>'atribut_edit', 'uses'=>'StationsController@edit']);
-Route::post('api/stations/destroy',['as'=>'atribut_destroy', 'uses'=>'StationsController@destroy']);
-Route::get('api/stations/search/{q?}',['as'=>'atribut_search', 'uses'=>'StationsController@search']);
-Route::get('api/stations/find/{id}',['as'=>'atribut_find', 'uses'=>'StationsController@find']);
-Route::get('api/stations/validar/{text}',['as'=>'atribut_find', 'uses'=>'StationsController@validastationname']);
 
+    //PRODUCTOS ROUTES
+    Route::get('ubigeos', ['as' => 'person', 'uses' => 'UbigeosController@index']);
+    Route::get('ubigeos/create', ['as' => 'person_create', 'uses' => 'UbigeosController@index']);
+    Route::get('ubigeos/edit/{id?}', ['as' => 'person_edit', 'uses' => 'UbigeosController@index']);
+    Route::get('ubigeos/form-create', ['as' => 'person_form_create', 'uses' => 'UbigeosController@form_create']);
+    Route::get('ubigeos/form-edit', ['as' => 'person_form_edit', 'uses' => 'UbigeosController@form_edit']);
+    Route::get('api/ubigeos/all', ['as' => 'person_all', 'uses' => 'UbigeosController@all']);
+    Route::get('api/ubigeos/paginate/', ['as' => 'person_paginate', 'uses' => 'UbigeosController@paginatep']);
+    Route::post('api/ubigeos/create', ['as' => 'person_create', 'uses' => 'UbigeosController@create']);
+    Route::put('api/ubigeos/edit', ['as' => 'person_edit', 'uses' => 'UbigeosController@edit']);
+    Route::post('api/ubigeos/destroy', ['as' => 'person_destroy', 'uses' => 'UbigeosController@destroy']);
+    Route::get('api/ubigeos/search/{q?}', ['as' => 'person_search', 'uses' => 'UbigeosController@search']);
+    Route::get('api/ubigeos/find/{id}', ['as' => 'person_find', 'uses' => 'UbigeosController@find']);
 
-//-----------------------------Promociones---------------------------
-Route::get('promotions',['as'=>'person','uses'=>'PromotionsController@index']);
-Route::get('promotions/create',['as'=>'person_create','uses'=>'PromotionsController@index']);
-Route::get('promotions/edit/{id?}', ['as' => 'person_edit', 'uses' => 'PromotionsController@index']);
-Route::get('promotions/form-create',['as'=>'person_form_create','uses'=>'PromotionsController@form_create']);
-Route::get('promotions/form-edit',['as'=>'person_form_edit','uses'=>'PromotionsController@form_edit']);
-Route::get('api/promotions/all',['as'=>'person_all', 'uses'=>'PromotionsController@all']);
-Route::get('api/promotions/paginate/',['as' => 'person_paginate', 'uses' => 'PromotionsController@paginatep']);
-Route::post('api/promotions/create',['as'=>'person_create', 'uses'=>'PromotionsController@create']);
-Route::put('api/promotions/edit',['as'=>'person_edit', 'uses'=>'PromotionsController@edit']);
-Route::post('api/promotions/destroy',['as'=>'person_destroy', 'uses'=>'PromotionsController@destroy']);
-Route::get('api/promotions/search/{q?}',['as'=>'person_search', 'uses'=>'PromotionsController@search']);
-Route::get('api/promotions/find/{id}',['as'=>'person_find', 'uses'=>'PromotionsController@find']);
-Route::get('api/promotions/mostrarCostos/{id}','PromotionsController@mostrarCostos');
-//--------------------------Fin Promociones--------------------
-//CATEGORIAS ROUTES
-    Route::get('categories', ['as' => 'person', 'uses' => 'CategoriesController@index']);
-    Route::get('categories/create', ['as' => 'person_create', 'uses' => 'CategoriesController@index']);
-    Route::get('categories/edit/{id?}', ['as' => 'person_edit', 'uses' => 'CategoriesController@index']);
-    Route::get('categories/form-create', ['as' => 'person_form_create', 'uses' => 'CategoriesController@form_create']);
-    Route::get('categories/form-edit', ['as' => 'person_form_edit', 'uses' => 'CategoriesController@form_edit']);
-    Route::get('api/categories/all', ['as' => 'person_all', 'uses' => 'CategoriesController@all']);
-    Route::get('api/categories/paginate/', ['as' => 'person_paginate', 'uses' => 'CategoriesController@paginatep']);
-    Route::post('api/categories/create', ['as' => 'person_create', 'uses' => 'CategoriesController@create']);
-    Route::put('api/categories/edit', ['as' => 'person_edit', 'uses' => 'CategoriesController@edit']);
-    Route::post('api/categories/destroy', ['as' => 'person_destroy', 'uses' => 'CategoriesController@destroy']);
-    Route::get('api/categories/search/{q?}', ['as' => 'person_search', 'uses' => 'CategoriesController@search']);
-    Route::get('api/categories/find/{id}', ['as' => 'person_find', 'uses' => 'CategoriesController@find']);
-//END CATEGORIAS ROUTES
-//PRODUCTOS ROUTES
-    Route::get('products', ['as' => 'person', 'uses' => 'ProductsController@index']);
-    Route::get('products/create', ['as' => 'person_create', 'uses' => 'ProductsController@index']);
-    Route::get('products/edit/{id?}', ['as' => 'person_edit', 'uses' => 'ProductsController@index']);
-    Route::get('products/form-create', ['as' => 'person_form_create', 'uses' => 'ProductsController@form_create']);
-    Route::get('products/form-edit', ['as' => 'person_form_edit', 'uses' => 'ProductsController@form_edit']);
-    Route::get('api/products/all', ['as' => 'person_all', 'uses' => 'ProductsController@all']);
-    Route::get('api/products/paginate/', ['as' => 'person_paginate', 'uses' => 'ProductsController@paginatep']);
-    Route::post('api/products/create', ['as' => 'person_create', 'uses' => 'ProductsController@create']);
-    Route::put('api/products/edit', ['as' => 'person_edit', 'uses' => 'ProductsController@edit']);
-    Route::post('api/products/destroy', ['as' => 'person_destroy', 'uses' => 'ProductsController@destroy']);
-    Route::get('api/products/search/{q?}', ['as' => 'person_search', 'uses' => 'ProductsController@search']);
-    Route::get('api/products/find/{id}', ['as' => 'person_find', 'uses' => 'ProductsController@find']);
+    Route::get('api/ubigeos/validar/{text}','UbigeosController@validarCodigo');
 //END CATEGORIAS ROUTES
 

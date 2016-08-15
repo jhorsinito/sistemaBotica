@@ -240,7 +240,7 @@
                 cantidadProductos:cantidadProductos
             }
         }])
-        .factory('socketService', function ($rootScope) {
+        /*.factory('socketService', function ($rootScope) {
             var host = window.location.hostname;
             //var host = '192.168.0.26';
             var socket = io.connect('http://'+host+':3001');
@@ -264,5 +264,5 @@
                     })
                 }
             };
-        });
+        });*/
 })();

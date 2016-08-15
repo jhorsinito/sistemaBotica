@@ -14,7 +14,7 @@ class UserTableSeeder extends Seeder
         
             DB::table('users')->insert([
                 'name' => 'soporte',
-                'email' => 'soporte@cyrtelecomunicaciones.pe',
+                'email' => 'soporte@eknowledgegroup.com',
                 'password' => bcrypt('1234567'),
                 'estado' => 1,
                 'role_id' => 1,
