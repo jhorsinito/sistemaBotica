@@ -86,4 +86,11 @@ class UbigeosController extends Controller {
         $ubigeos = $this->ubigeoRepo->validarNoRepitCodigo($text);
         return response()->json($ubigeos);
     }
+
+    //-------------------------
+    public function ubigeoDepartament()
+    {
+        $ubigeos = $this->ubigeoRepo->ubigeoDepartament();
+        return response()->json($ubigeos);
+    }
 }

@@ -216,6 +216,16 @@
 
                 return deferred.promise;
             }
+            function recuperarUnValor(uri,valor)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/recuperaruno/'+valor)
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
             return {
                 all: all,
                 paginate: paginate,

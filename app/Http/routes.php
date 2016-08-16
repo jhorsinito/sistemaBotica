@@ -102,6 +102,7 @@ Route::group(['middleware' => 'role'], function () {
     Route::get('api/ubigeos/find/{id}', ['as' => 'person_find', 'uses' => 'UbigeosController@find']);
 
     Route::get('api/ubigeos/validar/{text}','UbigeosController@validarCodigo');
+    Route::get('api/ubigeoDepartamento/all', ['as' => 'person_all', 'uses' => 'UbigeosController@ubigeoDepartament']); 
 //END CATEGORIAS ROUTES
 
 //UBIGEOS ROUTES

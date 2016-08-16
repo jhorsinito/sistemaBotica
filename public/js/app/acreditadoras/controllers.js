@@ -4,11 +4,12 @@
             function($scope, $routeParams,$location,crudService,$filter,$route,$log){
                 $scope.acreditadoras = [];
                 $scope.acreditadora = {};
+                $scope.departamentos ={};
                 $scope.errors = null;
                 $scope.success;
                 $scope.query = '';
 
-                $scope.toggle = function () {
+                $scope.toggle = function () { 
                     $scope.show = !$scope.show; 
                 };
 
@@ -41,6 +42,14 @@
                         $scope.itemsperPage = 15;
 
                     });
+
+                    //-------------------------------------------------------------
+                    
+                    crudService.all('ubigeoDepartamento').then(function(data){  
+                        $scope.departamentos = data;
+                        $log.log($scope.departamentos);
+                    });
+                    
                 }
 
                 
@@ -124,5 +133,6 @@
                         }
                     });
                 }
+
             }]);
 })();

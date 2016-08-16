@@ -23,4 +23,9 @@ class UbigeoRepo extends BaseRepo{
                     ->first();
         return $ubigeo;
     }
+    public function ubigeoDepartament(){
+        $ubigeo =Ubigeo::groupBy('departamento')
+                    ->get();
+        return $ubigeo;
+    } 
 } 
