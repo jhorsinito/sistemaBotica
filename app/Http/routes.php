@@ -135,3 +135,17 @@ Route::group(['middleware' => 'role'], function () {
     Route::get('api/motivoVentas/search/{q?}', ['as' => 'person_search', 'uses' => 'MotivoVentasController@search']);
     Route::get('api/motivoVentas/find/{id}', ['as' => 'person_find', 'uses' => 'MotivoVentasController@find']);
 //END CATEGORIAS ROUTES
+    //UBIGEOS ROUTES
+    Route::get('bancos', ['as' => 'person', 'uses' => 'BancosController@index']);
+    Route::get('bancos/create', ['as' => 'person_create', 'uses' => 'BancosController@index']);
+    Route::get('bancos/edit/{id?}', ['as' => 'person_edit', 'uses' => 'BancosController@index']);
+    Route::get('bancos/form-create', ['as' => 'person_form_create', 'uses' => 'BancosController@form_create']);
+    Route::get('bancos/form-edit', ['as' => 'person_form_edit', 'uses' => 'BancosController@form_edit']);
+    Route::get('api/bancos/all', ['as' => 'person_all', 'uses' => 'BancosController@all']);
+    Route::get('api/bancos/paginate/', ['as' => 'person_paginate', 'uses' => 'BancosController@paginatep']);
+    Route::post('api/bancos/create', ['as' => 'person_create', 'uses' => 'BancosController@create']);
+    Route::put('api/bancos/edit', ['as' => 'person_edit', 'uses' => 'BancosController@edit']);
+    Route::post('api/bancos/destroy', ['as' => 'person_destroy', 'uses' => 'BancosController@destroy']);
+    Route::get('api/bancos/search/{q?}', ['as' => 'person_search', 'uses' => 'BancosController@search']);
+    Route::get('api/bancos/find/{id}', ['as' => 'person_find', 'uses' => 'BancosController@find']);
+//END CATEGORIAS ROUTES

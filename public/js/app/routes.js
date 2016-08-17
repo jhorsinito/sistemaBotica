@@ -74,6 +74,20 @@
                     controller: 'MotivoVentaController'
                 }) 
                 //------------------
+                //RUTES ACREDITADORAS
+                .when('/bancos', {
+                    templateUrl: '/js/app/bancos/views/index.html',
+                    controller: 'BancoController'
+                })
+                .when('/bancos/create',{
+                    templateUrl:'/bancos/form-create',
+                    controller: 'BancoController'
+                })
+                .when('/bancos/edit/:id',{
+                    templateUrl:'/bancos/form-edit',
+                    controller: 'BancoController'
+                }) 
+                //------------------
                 .otherwise({
                     redirectTo: '/'
                 });

@@ -1,11 +1,11 @@
 <!-- Content Header (Page header) -->
         <section class="content-header">
-          <h1>Motivo de Ventas
+          <h1>Bancos
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Motivo de Ventas</li>
+            <li class="active">Bancos</li>
           </ol>
 
           
@@ -17,7 +17,7 @@
         <section class="content">
         <div class="row">
         <div class="col-md-12">
-          <a href="/motivoVentas/create" type="submit" class="btn btn-primary pull-left">Agregar Motivo de Venta</a> 
+          <a href="/bancos/create" type="submit" class="btn btn-primary pull-left">Agregar Bancos</a> 
           </div>
         </div>
         </br>
@@ -28,9 +28,9 @@
               <div class="box"> 
 
                 <div class="box-header with-border">
-                  <h3 class="box-title">Motivo de Ventas</h3>
+                  <h3 class="box-title">Bancos</h3>
                   <div class="box-tools">
-                  <form ng-keyup="searchMotivoVenta()">
+                  <form ng-keyup="searchBanco()">
                     <div class="input-group" style="width: 200px;">
                       <input type="text" ng-model="query"  name="table_search" class="form-control input-sm pull-right" placeholder="Search" />
                       <div class="input-group-btn">
@@ -48,28 +48,28 @@
                             </div>
                         </div>
                     </div>
-                <div class="callout callout-info"  ng-show="motivoVenta.id">
-                    <h4>¿ Estás seguro que deseas eliminar a "{{motivoVenta.descripcion}}" ?</h4>
+                <div class="callout callout-info"  ng-show="banco.id">
+                    <h4>¿ Estás seguro que deseas eliminar a "{{banco.nombre}}" ?</h4>
                     <p>
-                      <button type="button" class="btn btn-danger" ng-click="destroyMotivoVenta()">Si</button>
-                      <button type="button" class="btn btn-default" ng-click="cancelMotivoVenta()">No</button>
+                      <button type="button" class="btn btn-danger" ng-click="destroyBanco()">Si</button>
+                      <button type="button" class="btn btn-default" ng-click="cancelBanco()">No</button>
                     </p>
                   </div>
                   <div class="box-body table-responsive no-padding">
                     <table class="table table-bordered">
                       <tr>
                         <th style="width: 10px">#</th>
-                        <th>Descripcion</th>
+                        <th>Nombre</th>
                       
                         <th style="width: 40px">Editar</th>
                         <th style="width: 40px">Eliminar</th>
                       </tr>
                     
-                      <tr ng-repeat="row in motivoVentas">
+                      <tr ng-repeat="row in bancos">
                         <td>{{$index + 1}}</td>
-                        <td>{{row.descripcion}}</td>
-                        <td><a ng-click="editMotivoVenta(row)" class="btn btn-warning btn-xs">Editar</a></td>
-                        <td><a ng-click="deleteMotivoVenta(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
+                        <td>{{row.nombre}}</td>
+                        <td><a ng-click="editBanco(row)" class="btn btn-warning btn-xs">Editar</a></td>
+                        <td><a ng-click="deleteBanco(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
                       
                       </tr>
                     
