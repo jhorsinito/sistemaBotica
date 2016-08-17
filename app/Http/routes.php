@@ -103,6 +103,8 @@ Route::group(['middleware' => 'role'], function () {
 
     Route::get('api/ubigeos/validar/{text}','UbigeosController@validarCodigo');
     Route::get('api/ubigeoDepartamento/all', ['as' => 'person_all', 'uses' => 'UbigeosController@ubigeoDepartament']); 
+    Route::get('api/ubigeoProvincia/recuperarUnDato/{d?}', ['as' => 'person_all', 'uses' => 'UbigeosController@ubigeoProvincia']); 
+    Route::get('api/ubigeoDistrito/recuperarDosDato/{d?}/{p?}', ['as' => 'person_all', 'uses' => 'UbigeosController@ubigeoDistrito']); 
 //END CATEGORIAS ROUTES
 
 //UBIGEOS ROUTES

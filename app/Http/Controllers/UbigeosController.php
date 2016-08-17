@@ -93,4 +93,15 @@ class UbigeosController extends Controller {
         $ubigeos = $this->ubigeoRepo->ubigeoDepartament();
         return response()->json($ubigeos);
     }
+    //-------------------------
+    public function ubigeoProvincia($d)
+    {
+        $ubigeos = $this->ubigeoRepo->ubigeoProvincia($d);
+        return response()->json($ubigeos);
+    }
+    public function ubigeoDistrito($d,$p)
+    {
+        $ubigeos = $this->ubigeoRepo->ubigeoDistrito($d,$p);
+        return response()->json($ubigeos);
+    }
 }

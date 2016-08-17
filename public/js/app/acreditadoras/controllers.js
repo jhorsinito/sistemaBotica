@@ -5,7 +5,13 @@
                 $scope.acreditadoras = [];
                 $scope.acreditadora = {};
                 $scope.departamentos ={};
+                $scope.depertamentoSelect;
+                $scope.provincias ={};
+                $scope.provinciaSelect;
+                $scope.distritos ={};
+                $scope.distritoSelect;
                 $scope.errors = null;
+                $scope.ubigeo ={};
                 $scope.success;
                 $scope.query = '';
 
@@ -32,7 +38,25 @@
                 {
                     crudService.byId(id,'acreditadoras').then(function (data) {
                         $scope.acreditadora = data;
+                        crudService.byId($scope.acreditadora.ubigeo_id,'ubigeos').then(function (data) {
+                            $scope.ubigeo = data;
+                            crudService.all('ubigeoDepartamento').then(function(data){  
+                                $scope.departamentos = data;
+                                $scope.depertamentoSelect=$scope.ubigeo.departamento;
+                            });
+                            crudService.recuperarUnDato('ubigeoProvincia',$scope.ubigeo.departamento).then(function(data){  
+                                $scope.provincias = data;
+                                $scope.provinciaSelect=$scope.ubigeo.provincia;;
+                            });
+                            crudService.recuperarDosDato('ubigeoDistrito',$scope.ubigeo.departamento,$scope.ubigeo.provincia).then(function(data){  
+                                $scope.distritos = data;
+                                $scope.distritoSelect=$scope.ubigeo.id;
+                            });
+                        });
                     });
+                    
+                    
+
                 }else{
                     crudService.paginate('acreditadoras',1).then(function (data) {
                         $scope.acreditadoras = data.data;
@@ -47,7 +71,7 @@
                     
                     crudService.all('ubigeoDepartamento').then(function(data){  
                         $scope.departamentos = data;
-                        $log.log($scope.departamentos);
+                        //$scope.depertamentoSelect=data[0].departamento;
                     });
                     
                 }
@@ -73,19 +97,25 @@
 
                 $scope.createAcreditadora = function(){
                     //$scope.atribut.estado = 1;
-                    if ($scope.ubigeoCreateForm.$valid) {
-                        crudService.create($scope.acreditadora, 'acreditadoras').then(function (data) {
+                    $log.log($scope.distritoSelect);
+                    if ($scope.acreditadoraCreateForm.$valid) {
+                        if($scope.distritoSelect!=null){
+                            $scope.acreditadora.ubigeo_id=$scope.distritoSelect;
+                            crudService.create($scope.acreditadora, 'acreditadoras').then(function (data) {
                           
-                            if (data['estado'] == true) {
-                                $scope.success = data['nombres'];
-                                alert('grabado correctamente');
-                                $location.path('/acreditadoras');
+                                if (data['estado'] == true) {
+                                 $scope.success = data['nombres'];
+                                    alert('grabado correctamente');
+                                    $location.path('/acreditadoras');
 
-                            } else {
-                                $scope.errors = data;
+                                } else {
+                                    $scope.errors = data;
 
-                            }
-                        });
+                                }
+                            });
+                        }else{
+                            alert('Selecione Direcion Correctamente');
+                        }
                     }
                 }
 
@@ -96,17 +126,23 @@
 
                 $scope.updateAcreditadora = function(){
 
-                    if ($scope.ubigeoCreateForm.$valid) {
-                        crudService.update($scope.acreditadora,'acreditadoras').then(function(data)
-                        {
-                            if(data['estado'] == true){
-                                $scope.success = data['nombres'];
-                                alert('editado correctamente');
-                                $location.path('/acreditadoras');
-                            }else{
-                                $scope.errors =data;
-                            }
-                        });
+                    if ($scope.acreditadoraEditForm.$valid) {
+                        if($scope.distritoSelect!=null){
+                            $scope.acreditadora.ubigeo_id=$scope.distritoSelect;
+
+                            crudService.update($scope.acreditadora,'acreditadoras').then(function(data)
+                            {
+                                if(data['estado'] == true){
+                                    $scope.success = data['nombres'];
+                                    alert('editado correctamente');
+                                    $location.path('/acreditadoras');
+                                }else{
+                                    $scope.errors =data;
+                                }
+                            });
+                        }else{
+                            alert('Selecione Direcion Correctamente');
+                        }
                     }
                 };
 
@@ -133,6 +169,24 @@
                         }
                     });
                 }
+                $scope.cargarProvincia = function(){
+                    $scope.provincias ={};
+                    $scope.provinciaSelect=null;
+                    $scope.distritoSelect=null;
+                    crudService.recuperarUnDato('ubigeoProvincia',$scope.depertamentoSelect).then(function(data){  
+                        $scope.provincias = data;
+                        //$scope.provinciaSelect=data[0].provincia;
+                    });
+                }
+                $scope.cargarDistrito = function(){
+                    $scope.distritos ={};
+                    $scope.distritoSelect=null;
+                    crudService.recuperarDosDato('ubigeoDistrito',$scope.depertamentoSelect,$scope.provinciaSelect).then(function(data){  
+                        $scope.distritos = data;
+                        
+                    });
+                }
+
 
             }]);
 })();

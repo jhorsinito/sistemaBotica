@@ -28,4 +28,16 @@ class UbigeoRepo extends BaseRepo{
                     ->get();
         return $ubigeo;
     } 
+    public function ubigeoProvincia($d){
+        $ubigeo =Ubigeo::where('departamento','=', $d)
+                    ->groupBy('provincia')
+                    ->get();
+        return $ubigeo;
+    } 
+    public function ubigeoDistrito($d,$p){
+        $ubigeo =Ubigeo::where('departamento','=', $d)
+                    ->where('provincia','=', $p)
+                    ->get();
+        return $ubigeo;
+    } 
 } 

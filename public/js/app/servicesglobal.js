@@ -216,10 +216,20 @@
 
                 return deferred.promise;
             }
-            function recuperarUnValor(uri,valor)
+            function recuperarUnDato(uri,dato)
             {
                 var deferred = $q.defer();
-                $http.get('/api/'+uri+'/recuperaruno/'+valor)
+                $http.get('/api/'+uri+'/recuperarUnDato/'+dato)
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    });
+
+                return deferred.promise;
+            }
+            function recuperarDosDato(uri,dato1,dato2)
+            {
+                var deferred = $q.defer();
+                $http.get('/api/'+uri+'/recuperarDosDato/'+dato1+'/'+dato2)
                     .success(function (data) {
                         deferred.resolve(data);
                     });
@@ -247,6 +257,8 @@
                 deudasSupplier: deudasSupplier,
                 selectPost: selectPost,
                 Reportes: Reportes,
+                recuperarUnDato:recuperarUnDato,
+                recuperarDosDato:recuperarDosDato,
                 cantidadProductos:cantidadProductos
             }
         }])
