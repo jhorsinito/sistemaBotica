@@ -149,3 +149,17 @@ Route::group(['middleware' => 'role'], function () {
     Route::get('api/bancos/search/{q?}', ['as' => 'person_search', 'uses' => 'BancosController@search']);
     Route::get('api/bancos/find/{id}', ['as' => 'person_find', 'uses' => 'BancosController@find']);
 //END CATEGORIAS ROUTES
+    //UBIGEOS ROUTES
+    Route::get('profesiones', ['as' => 'person', 'uses' => 'ProfesionesController@index']);
+    Route::get('profesiones/create', ['as' => 'person_create', 'uses' => 'ProfesionesController@index']);
+    Route::get('profesiones/edit/{id?}', ['as' => 'person_edit', 'uses' => 'ProfesionesController@index']);
+    Route::get('profesiones/form-create', ['as' => 'person_form_create', 'uses' => 'ProfesionesController@form_create']);
+    Route::get('profesiones/form-edit', ['as' => 'person_form_edit', 'uses' => 'ProfesionesController@form_edit']);
+    Route::get('api/profesiones/all', ['as' => 'person_all', 'uses' => 'ProfesionesController@all']);
+    Route::get('api/profesiones/paginate/', ['as' => 'person_paginate', 'uses' => 'ProfesionesController@paginatep']);
+    Route::post('api/profesiones/create', ['as' => 'person_create', 'uses' => 'ProfesionesController@create']);
+    Route::put('api/profesiones/edit', ['as' => 'person_edit', 'uses' => 'ProfesionesController@edit']);
+    Route::post('api/profesiones/destroy', ['as' => 'person_destroy', 'uses' => 'ProfesionesController@destroy']);
+    Route::get('api/profesiones/search/{q?}', ['as' => 'person_search', 'uses' => 'ProfesionesController@search']);
+    Route::get('api/profesiones/find/{id}', ['as' => 'person_find', 'uses' => 'ProfesionesController@find']);
+//END CATEGORIAS ROUTES

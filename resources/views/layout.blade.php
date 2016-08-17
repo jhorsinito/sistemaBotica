@@ -156,6 +156,8 @@
                 <li class=""><a href="/ubigeos" ><i class="fa fa-circle-o"></i>Ubigeos</a></li>
                 <li class=""><a href="/acreditadoras" ><i class="fa fa-circle-o"></i>Acreditadoras</a></li>
                 <li class=""><a href="/motivoVentas" ><i class="fa fa-circle-o"></i>Motivo Ventas</a></li>
+                <li class=""><a href="/bancos" ><i class="fa fa-circle-o"></i>Bancos</a></li>
+                <li class=""><a href="/profesiones" ><i class="fa fa-circle-o"></i>Profesiones</a></li>
               </ul>
             </li>
             @endif

@@ -1,9 +1,9 @@
 (function(){
-    angular.module('bancos.controllers',[])
-        .controller('BancoController',['$scope', '$routeParams','$location','crudService' ,'$filter','$route','$log',
+    angular.module('profesiones.controllers',[])
+        .controller('ProfesionController',['$scope', '$routeParams','$location','crudService' ,'$filter','$route','$log',
             function($scope, $routeParams,$location,crudService,$filter,$route,$log){
-                $scope.bancos = [];
-                $scope.banco = {};
+                $scope.profesiones = [];
+                $scope.profesion = {};
                 $scope.errors = null;
                 $scope.success;
                 $scope.query = '';
@@ -14,12 +14,12 @@
 
                 $scope.pageChanged = function() {
                     if ($scope.query.length > 0) {
-                        crudService.search('bancos',$scope.query,$scope.currentPage).then(function (data){
-                        $scope.bancos = data.data;
+                        crudService.search('profesiones',$scope.query,$scope.currentPage).then(function (data){
+                        $scope.profesiones = data.data;
                     });
                     }else{
-                        crudService.paginate('bancos',$scope.currentPage).then(function (data) {
-                            $scope.bancos = data.data;
+                        crudService.paginate('profesiones',$scope.currentPage).then(function (data) {
+                            $scope.profesiones = data.data;
                         });
                     }
                 };
@@ -29,12 +29,12 @@
 
                 if(id)
                 {
-                    crudService.byId(id,'bancos').then(function (data) {
-                        $scope.banco = data;
+                    crudService.byId(id,'profesiones').then(function (data) {
+                        $scope.profesion = data;
                     });
                 }else{
-                    crudService.paginate('bancos',1).then(function (data) {
-                        $scope.bancos = data.data;
+                    crudService.paginate('profesiones',1).then(function (data) {
+                        $scope.profesiones = data.data;
                         $scope.maxSize = 5;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
@@ -45,16 +45,16 @@
 
                 
 
-                $scope.searchBanco= function(){
+                $scope.searchProfesion= function(){
                 if ($scope.query.length > 0) {
-                    crudService.search('bancos',$scope.query,1).then(function (data){
-                        $scope.bancos = data.data;
+                    crudService.search('profesiones',$scope.query,1).then(function (data){
+                        $scope.profesiones = data.data;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                     });
                 }else{
-                    crudService.paginate('bancos',1).then(function (data) {
-                        $scope.bancos = data.data;
+                    crudService.paginate('profesiones',1).then(function (data) {
+                        $scope.profesiones = data.data;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                     });
@@ -62,15 +62,15 @@
                     
                 };
 
-                $scope.createBanco = function(){
+                $scope.createProfesion = function(){
                     //$scope.atribut.estado = 1;
-                    if ($scope.bancoCreateForm.$valid) {
-                        crudService.create($scope.banco, 'bancos').then(function (data) {
+                    if ($scope.profesionCreateForm.$valid) {
+                        crudService.create($scope.profesion, 'profesiones').then(function (data) {
                           
                             if (data['estado'] == true) {
                                 $scope.success = data['nombres'];
                                 alert('grabado correctamente');
-                                $location.path('/bancos');
+                                $location.path('/profesiones');
 
                             } else {
                                 $scope.errors = data;
@@ -81,19 +81,19 @@
                 }
 
 
-                $scope.editBanco = function(row){
-                    $location.path('/bancos/edit/'+row.id);
+                $scope.editProfesion= function(row){
+                    $location.path('/profesiones/edit/'+row.id);
                 };
 
-                $scope.updateBanco = function(){
+                $scope.updateProfesion = function(){
 
-                    if ($scope.bancoEditForm.$valid) {
-                        crudService.update($scope.banco,'bancos').then(function(data)
+                    if ($scope.profesionEditForm.$valid) {
+                        crudService.update($scope.profesion,'profesiones').then(function(data)
                         {
                             if(data['estado'] == true){
                                 $scope.success = data['nombres'];
                                 alert('editado correctamente');
-                                $location.path('/bancos');
+                                $location.path('/profesiones');
                             }else{
                                 $scope.errors =data;
                             }
@@ -101,21 +101,21 @@
                     }
                 };
 
-                $scope.deleteBanco= function(row){
+                $scope.deleteProfesion= function(row){
                     
-                    $scope.banco = row;
+                    $scope.profesion = row;
                 }
 
-                $scope.cancelBanco = function(){
-                    $scope.banco = {};
+                $scope.cancelProfesion = function(){
+                    $scope.profesion = {};
                 }
 
-                $scope.destroyBanco = function(){
-                    crudService.destroy($scope.banco,'bancos').then(function(data)
+                $scope.destroyProfesion = function(){
+                    crudService.destroy($scope.profesion,'profesiones').then(function(data)
                     {
                         if(data['estado'] == true){
                             $scope.success = data['nombre'];
-                            $scope.banco = {};
+                            $scope.profesion = {};
                             //alert('hola');
                             $route.reload();
 

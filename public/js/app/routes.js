@@ -60,7 +60,7 @@
                     controller: 'AcreditadoraController'
                 }) 
                 //------------------
-                //RUTES ACREDITADORAS
+                //RUTES MOTIVO VENTAS
                 .when('/motivoVentas', {
                     templateUrl: '/js/app/motivoVentas/views/index.html',
                     controller: 'MotivoVentaController'
@@ -74,7 +74,7 @@
                     controller: 'MotivoVentaController'
                 }) 
                 //------------------
-                //RUTES ACREDITADORAS
+                //RUTES BANCOS
                 .when('/bancos', {
                     templateUrl: '/js/app/bancos/views/index.html',
                     controller: 'BancoController'
@@ -86,6 +86,20 @@
                 .when('/bancos/edit/:id',{
                     templateUrl:'/bancos/form-edit',
                     controller: 'BancoController'
+                }) 
+                //------------------
+                //RUTES PROFESIONEs
+                .when('/profesiones', {
+                    templateUrl: '/js/app/profesiones/views/index.html',
+                    controller: 'ProfesionController'
+                })
+                .when('/profesiones/create',{
+                    templateUrl:'/profesiones/form-create',
+                    controller: 'ProfesionController'
+                })
+                .when('/profesiones/edit/:id',{
+                    templateUrl:'/profesiones/form-edit',
+                    controller: 'ProfesionController'
                 }) 
                 //------------------
                 .otherwise({
