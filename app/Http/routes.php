@@ -121,3 +121,17 @@ Route::group(['middleware' => 'role'], function () {
     Route::get('api/acreditadoras/search/{q?}', ['as' => 'person_search', 'uses' => 'AcreditadorasController@search']);
     Route::get('api/acreditadoras/find/{id}', ['as' => 'person_find', 'uses' => 'AcreditadorasController@find']);
 //END CATEGORIAS ROUTES
+    //UBIGEOS ROUTES
+    Route::get('motivoVentas', ['as' => 'person', 'uses' => 'MotivoVentasController@index']);
+    Route::get('motivoVentas/create', ['as' => 'person_create', 'uses' => 'MotivoVentasController@index']);
+    Route::get('motivoVentas/edit/{id?}', ['as' => 'person_edit', 'uses' => 'MotivoVentasController@index']);
+    Route::get('motivoVentas/form-create', ['as' => 'person_form_create', 'uses' => 'MotivoVentasController@form_create']);
+    Route::get('motivoVentas/form-edit', ['as' => 'person_form_edit', 'uses' => 'MotivoVentasController@form_edit']);
+    Route::get('api/motivoVentas/all', ['as' => 'person_all', 'uses' => 'MotivoVentasController@all']);
+    Route::get('api/motivoVentas/paginate/', ['as' => 'person_paginate', 'uses' => 'MotivoVentasController@paginatep']);
+    Route::post('api/motivoVentas/create', ['as' => 'person_create', 'uses' => 'MotivoVentasController@create']);
+    Route::put('api/motivoVentas/edit', ['as' => 'person_edit', 'uses' => 'MotivoVentasController@edit']);
+    Route::post('api/motivoVentas/destroy', ['as' => 'person_destroy', 'uses' => 'MotivoVentasController@destroy']);
+    Route::get('api/motivoVentas/search/{q?}', ['as' => 'person_search', 'uses' => 'MotivoVentasController@search']);
+    Route::get('api/motivoVentas/find/{id}', ['as' => 'person_find', 'uses' => 'MotivoVentasController@find']);
+//END CATEGORIAS ROUTES

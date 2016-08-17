@@ -154,6 +154,8 @@
               <ul class="treeview-menu">
                 <li class=""><a href="/users" ><i class="fa fa-circle-o"></i>Usuarios</a></li>
                 <li class=""><a href="/ubigeos" ><i class="fa fa-circle-o"></i>Ubigeos</a></li>
+                <li class=""><a href="/acreditadoras" ><i class="fa fa-circle-o"></i>Acreditadoras</a></li>
+                <li class=""><a href="/motivoVentas" ><i class="fa fa-circle-o"></i>Motivo Ventas</a></li>
               </ul>
             </li>
             @endif

@@ -60,6 +60,20 @@
                     controller: 'AcreditadoraController'
                 }) 
                 //------------------
+                //RUTES ACREDITADORAS
+                .when('/motivoVentas', {
+                    templateUrl: '/js/app/motivoVentas/views/index.html',
+                    controller: 'MotivoVentaController'
+                })
+                .when('/motivoVentas/create',{
+                    templateUrl:'/motivoVentas/form-create',
+                    controller: 'MotivoVentaController'
+                })
+                .when('/motivoVentas/edit/:id',{
+                    templateUrl:'/motivoVentas/form-edit',
+                    controller: 'MotivoVentaController'
+                }) 
+                //------------------
                 .otherwise({
                     redirectTo: '/'
                 });
