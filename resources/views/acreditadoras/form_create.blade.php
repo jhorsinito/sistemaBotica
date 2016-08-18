@@ -18,7 +18,7 @@
 
           <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Agregar Acreditadra</h3>
+                  <h3 class="box-title">Agregar Acreditadora</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form name="acreditadoraCreateForm" role="form" novalidate>

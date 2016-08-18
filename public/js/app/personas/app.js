@@ -1,9 +1,9 @@
-(function(){
-    var app = angular.module('bancos',[
+ (function(){
+    var app = angular.module('personas',[
         'ngRoute',
         //'btford.socket-io',
         'ngSanitize',
-        'bancos.controllers',
+        'personas.controllers',
         'crud.services',
         'routes',
         'ui.bootstrap'

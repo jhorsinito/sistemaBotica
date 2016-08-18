@@ -88,7 +88,7 @@
                     controller: 'BancoController'
                 }) 
                 //------------------
-                //RUTES PROFESIONEs
+                //RUTES PROFESIONES
                 .when('/profesiones', {
                     templateUrl: '/js/app/profesiones/views/index.html',
                     controller: 'ProfesionController'
@@ -100,6 +100,20 @@
                 .when('/profesiones/edit/:id',{
                     templateUrl:'/profesiones/form-edit',
                     controller: 'ProfesionController'
+                }) 
+                //------------------
+                //RUTES PERSONAS
+                .when('/personas', {
+                    templateUrl: '/js/app/personas/views/index.html',
+                    controller: 'PersonaController'
+                })
+                .when('/personas/create',{
+                    templateUrl:'/personas/form-create',
+                    controller: 'PersonaController'
+                })
+                .when('/personas/edit/:id',{
+                    templateUrl:'/personas/form-edit',
+                    controller: 'PersonaController'
                 }) 
                 //------------------
                 .otherwise({
