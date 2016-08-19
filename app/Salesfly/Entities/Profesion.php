@@ -5,6 +5,6 @@ class Profesion extends \Eloquent {
 
 	protected $table = 'profesiones';
     
-    protected $fillable = ['nombre','descripcion'];
+    protected $fillable = ['nombre','descripcion','orden'];
 
 }

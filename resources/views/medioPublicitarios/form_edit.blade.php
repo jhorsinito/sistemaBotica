@@ -1,12 +1,12 @@
 <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Motivo de Ventas
+            Medios Publicitarios
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class=""><a href="/motivoVentas">Motivo de Ventas</a> </li>
+            <li class=""><a href="/medioPublicitarios">Medios Publicitarios</a> </li>
             <li class="active">Editar</li>
           </ol>
 
@@ -19,10 +19,10 @@
 
           <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Editar Motivo Venta</h3>
+                  <h3 class="box-title">Editar Medio Publicitario</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
-                <form name="motivoVentaEditForm" role="form" novalidate>
+                <form name="medioPublicitarioEditForm" role="form" novalidate>
                   <div class="box-body">
                   <div class="callout callout-danger" ng-show="errors">
                                                   <ul>
@@ -30,19 +30,19 @@
                                               </ul>
                                             </div>
                     
-                     <div class="form-group" ng-class="{true: 'has-error'}[ motivoVentaEditForm.descripcion.$error.required && motivoVentaEditForm.$submitted || motivoVentaEditForm.descripcion.$dirty && motivoVentaEditForm.descripcion.$invalid]">
+                     <div class="form-group" ng-class="{true: 'has-error'}[ medioPublicitarioEditForm.descripcion.$error.required && medioPublicitarioEditForm.$submitted || medioPublicitarioEditForm.descripcion.$dirty && medioPublicitarioEditForm.descripcion.$invalid]">
                       <label for="descripcion">Descripcion</label>
-                      <input type="text" class="form-control" name="descripcion" placeholder="Descripcion" ng-model="motivoVenta.descripcion" required>
-                      <label ng-show="motivoVentaEditForm.$submitted || motivoVentaEditForm.descripcion.$dirty && motivoVentaEditForm.descripcion.$invalid">
-                        <span ng-show="motivoVentaEditForm.descripcion.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                      <input type="text" class="form-control" name="descripcion" placeholder="Descripcion" ng-model="medioPublicitario.descripcion" required>
+                      <label ng-show="medioPublicitarioEditForm.$submitted || medioPublicitarioEditForm.descripcion.$dirty && medioPublicitarioEditForm.descripcion.$invalid">
+                        <span ng-show="medioPublicitarioEditForm.descripcion.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>
                     </div>
 
                 </div><!-- /.box-body -->
 
                   <div class="box-footer">
-                    <button type="submit" class="btn btn-primary" ng-click="updateMotivoVenta()">Modificar</button>
-                    <a href="/motivoVentas" class="btn btn-danger">Cancelar</a>
+                    <button type="submit" class="btn btn-primary" ng-click="updateMedioPublicitario()">Modificar</button>
+                    <a href="/medioPublicitarios" class="btn btn-danger">Cancelar</a>
                   </div>
                 </form>
               </div><!-- /.box -->

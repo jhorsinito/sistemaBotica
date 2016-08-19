@@ -1,9 +1,9 @@
 (function(){
-    angular.module('motivoVentas.controllers',[])
-        .controller('MotivoVentaController',['$scope', '$routeParams','$location','crudService' ,'$filter','$route','$log',
+    angular.module('medioPublicitarios.controllers',[])
+        .controller('MedioPublicitarioController',['$scope', '$routeParams','$location','crudService' ,'$filter','$route','$log',
             function($scope, $routeParams,$location,crudService,$filter,$route,$log){
-                $scope.motivoVentas = [];
-                $scope.motivoVenta = {};
+                $scope.medioPublicitarios = [];
+                $scope.medioPublicitario = {};
                 $scope.errors = null;
                 $scope.success;
                 $scope.query = '';
@@ -14,12 +14,12 @@
 
                 $scope.pageChanged = function() {
                     if ($scope.query.length > 0) {
-                        crudService.search('motivoVentas',$scope.query,$scope.currentPage).then(function (data){
-                        $scope.motivoVentas = data.data;
+                        crudService.search('medioPublicitarios',$scope.query,$scope.currentPage).then(function (data){
+                        $scope.medioPublicitarios = data.data;
                     });
                     }else{
-                        crudService.paginate('motivoVentas',$scope.currentPage).then(function (data) {
-                            $scope.motivoVentas = data.data;
+                        crudService.paginate('medioPublicitarios',$scope.currentPage).then(function (data) {
+                            $scope.medioPublicitarios = data.data;
                         });
                     }
                 };
@@ -29,12 +29,12 @@
 
                 if(id)
                 {
-                    crudService.byId(id,'motivoVentas').then(function (data) {
-                        $scope.motivoVenta = data;
+                    crudService.byId(id,'medioPublicitarios').then(function (data) {
+                        $scope.medioPublicitario = data;
                     });
                 }else{
-                    crudService.paginate('motivoVentas',1).then(function (data) {
-                        $scope.motivoVentas = data.data;
+                    crudService.paginate('medioPublicitarios',1).then(function (data) {
+                        $scope.medioPublicitarios = data.data;
                         $scope.maxSize = 5;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
@@ -45,16 +45,16 @@
 
                 
 
-                $scope.searchMotivoVenta= function(){
+                $scope.searchMedioPublicitario= function(){
                 if ($scope.query.length > 0) {
-                    crudService.search('motivoVentas',$scope.query,1).then(function (data){
-                        $scope.motivoVentas = data.data;
+                    crudService.search('medioPublicitarios',$scope.query,1).then(function (data){
+                        $scope.medioPublicitarios = data.data;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                     });
                 }else{
-                    crudService.paginate('motivoVentas',1).then(function (data) {
-                        $scope.motivoVentas = data.data;
+                    crudService.paginate('medioPublicitarios',1).then(function (data) {
+                        $scope.medioPublicitarios = data.data;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                     });
@@ -62,15 +62,14 @@
                     
                 };
 
-                $scope.createMotivoVenta = function(){
-                    //$scope.atribut.estado = 1;
-                    if ($scope.motivoVentaCreateForm.$valid) {
-                        crudService.create($scope.motivoVenta, 'motivoVentas').then(function (data) {
+                $scope.createMedioPublicitario = function(){
+                    if ($scope.medioPublicitarioCreateForm.$valid) {
+                        crudService.create($scope.medioPublicitario, 'medioPublicitarios').then(function (data) {
                           
                             if (data['estado'] == true) {
                                 $scope.success = data['nombres'];
                                 alert('grabado correctamente');
-                                $location.path('/motivoVentas');
+                                $location.path('/medioPublicitarios');
 
                             } else {
                                 $scope.errors = data;
@@ -81,50 +80,50 @@
                 }
 
 
-                $scope.editMotivoVenta = function(row){
-                    $location.path('/motivoVentas/edit/'+row.id);
+                $scope.editMedioPublicitario = function(row){
+                    $location.path('/medioPublicitarios/edit/'+row.id);
                 };
 
-                $scope.updateMotivoVenta = function(){
+                $scope.updateMedioPublicitario = function(){
 
-                    if ($scope.motivoVentaEditForm.$valid) {
-                        crudService.update($scope.motivoVenta,'motivoVentas').then(function(data)
+                    if ($scope.medioPublicitarioEditForm.$valid) {
+                        crudService.update($scope.medioPublicitario,'medioPublicitarios').then(function(data)
                         {
                             if(data['estado'] == true){
                                 $scope.success = data['nombres'];
                                 alert('editado correctamente');
-                                $location.path('/motivoVentas');
+                                $location.path('/medioPublicitarios');
                             }else{
                                 $scope.errors =data;
                             }
                         });
                     }
                 };
-                 $scope.validanomMotivoVenta=function(texto){
+                 $scope.validanomMedioPublicitario=function(texto){
                    if(texto!=undefined){
-                        crudService.validar('motivoVentas',texto).then(function (data){
+                        crudService.validar('medioPublicitarios',texto).then(function (data){
                             if(data.codigo!=undefined){
                                 alert("Codigo Ubigeo Registrado!!");
-                                $scope.motivoVenta.codigo='';
+                                $scope.medioPublicitario.codigo='';
                             }
                         });
                     }
                }
-                $scope.deleteMotivoVenta= function(row){
+                $scope.deleteMedioPublicitario= function(row){
                     
-                    $scope.motivoVenta = row;
+                    $scope.medioPublicitario = row;
                 }
 
-                $scope.cancelMotivoVenta = function(){
-                    $scope.motivoVenta = {};
+                $scope.cancelMedioPublicitario = function(){
+                    $scope.medioPublicitario = {};
                 }
 
-                $scope.destroyMotivoVenta = function(){
-                    crudService.destroy($scope.motivoVenta,'motivoVentas').then(function(data)
+                $scope.destroyMedioPublicitario = function(){
+                    crudService.destroy($scope.medioPublicitario,'medioPublicitarios').then(function(data)
                     {
                         if(data['estado'] == true){
                             $scope.success = data['nombre'];
-                            $scope.motivoVenta = {};
+                            $scope.medioPublicitario = {};
                             //alert('hola');
                             $route.reload();
 

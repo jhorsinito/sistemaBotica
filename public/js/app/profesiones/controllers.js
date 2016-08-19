@@ -65,6 +65,7 @@
                 $scope.createProfesion = function(){
                     //$scope.atribut.estado = 1;
                     if ($scope.profesionCreateForm.$valid) {
+                        $scope.profesion.orden=$scope.profesion.nombre;
                         crudService.create($scope.profesion, 'profesiones').then(function (data) {
                           
                             if (data['estado'] == true) {

@@ -1,9 +1,9 @@
 (function(){
-    var app = angular.module('motivoVentas',[
+    var app = angular.module('medioPublicitarios',[
         'ngRoute',
         //'btford.socket-io',
         'ngSanitize',
-        'motivoVentas.controllers',
+        'medioPublicitarios.controllers',
         'crud.services',
         'routes',
         'ui.bootstrap'

@@ -122,18 +122,18 @@ Route::group(['middleware' => 'role'], function () {
     Route::get('api/acreditadoras/find/{id}', ['as' => 'person_find', 'uses' => 'AcreditadorasController@find']);
 //END CATEGORIAS ROUTES
     //UBIGEOS ROUTES
-    Route::get('motivoVentas', ['as' => 'person', 'uses' => 'MotivoVentasController@index']);
-    Route::get('motivoVentas/create', ['as' => 'person_create', 'uses' => 'MotivoVentasController@index']);
-    Route::get('motivoVentas/edit/{id?}', ['as' => 'person_edit', 'uses' => 'MotivoVentasController@index']);
-    Route::get('motivoVentas/form-create', ['as' => 'person_form_create', 'uses' => 'MotivoVentasController@form_create']);
-    Route::get('motivoVentas/form-edit', ['as' => 'person_form_edit', 'uses' => 'MotivoVentasController@form_edit']);
-    Route::get('api/motivoVentas/all', ['as' => 'person_all', 'uses' => 'MotivoVentasController@all']);
-    Route::get('api/motivoVentas/paginate/', ['as' => 'person_paginate', 'uses' => 'MotivoVentasController@paginatep']);
-    Route::post('api/motivoVentas/create', ['as' => 'person_create', 'uses' => 'MotivoVentasController@create']);
-    Route::put('api/motivoVentas/edit', ['as' => 'person_edit', 'uses' => 'MotivoVentasController@edit']);
-    Route::post('api/motivoVentas/destroy', ['as' => 'person_destroy', 'uses' => 'MotivoVentasController@destroy']);
-    Route::get('api/motivoVentas/search/{q?}', ['as' => 'person_search', 'uses' => 'MotivoVentasController@search']);
-    Route::get('api/motivoVentas/find/{id}', ['as' => 'person_find', 'uses' => 'MotivoVentasController@find']);
+    Route::get('medioPublicitarios', ['as' => 'person', 'uses' => 'MedioPublicitariosController@index']);
+    Route::get('medioPublicitarios/create', ['as' => 'person_create', 'uses' => 'MedioPublicitariosController@index']);
+    Route::get('medioPublicitarios/edit/{id?}', ['as' => 'person_edit', 'uses' => 'MedioPublicitariosController@index']);
+    Route::get('medioPublicitarios/form-create', ['as' => 'person_form_create', 'uses' => 'MedioPublicitariosController@form_create']);
+    Route::get('medioPublicitarios/form-edit', ['as' => 'person_form_edit', 'uses' => 'MedioPublicitariosController@form_edit']);
+    Route::get('api/medioPublicitarios/all', ['as' => 'person_all', 'uses' => 'MedioPublicitariosController@all']);
+    Route::get('api/medioPublicitarios/paginate/', ['as' => 'person_paginate', 'uses' => 'MedioPublicitariosController@paginatep']);
+    Route::post('api/medioPublicitarios/create', ['as' => 'person_create', 'uses' => 'MedioPublicitariosController@create']);
+    Route::put('api/medioPublicitarios/edit', ['as' => 'person_edit', 'uses' => 'MedioPublicitariosController@edit']);
+    Route::post('api/medioPublicitarios/destroy', ['as' => 'person_destroy', 'uses' => 'MedioPublicitariosController@destroy']);
+    Route::get('api/medioPublicitarios/search/{q?}', ['as' => 'person_search', 'uses' => 'MedioPublicitariosController@search']);
+    Route::get('api/medioPublicitarios/find/{id}', ['as' => 'person_find', 'uses' => 'MedioPublicitariosController@find']);
 //END CATEGORIAS ROUTES
     //UBIGEOS ROUTES
     Route::get('bancos', ['as' => 'person', 'uses' => 'BancosController@index']);

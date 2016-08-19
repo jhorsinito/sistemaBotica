@@ -15,4 +15,9 @@ class ProfesionRepo extends BaseRepo{
                     ->paginate(15);
         return $profesiones;
     }
+    public function paginaterepo($c){
+        $profesiones = Profesion::orderBy('orden', 'asc')
+                    ->paginate($c);
+        return $profesiones;
+    }
 } 

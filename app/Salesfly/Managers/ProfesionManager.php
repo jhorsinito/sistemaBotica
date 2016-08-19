@@ -6,7 +6,8 @@ class ProfesionManager extends BaseManager {
     {
         $rules = [              
             'nombre'=> 'required',
-            'descripcion'=> ''
+            'descripcion'=> '',
+            'orden'=> ''
                   ];
         return $rules;
     }}

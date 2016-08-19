@@ -24,12 +24,12 @@ class ProfesionesController extends Controller {
 
     public function all()
     {
-        $profesiones = $this->profesionRepo->paginate(15);
+        $profesiones = $this->profesionRepo->paginaterepo(15);
         return response()->json($profesiones);
     }
 
     public function paginatep(){
-        $profesiones = $this->profesionRepo->paginate(15);
+        $profesiones = $this->profesionRepo->paginaterepo(15);
         return response()->json($profesiones);
     }
 

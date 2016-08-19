@@ -60,18 +60,18 @@
                     controller: 'AcreditadoraController'
                 }) 
                 //------------------
-                //RUTES MOTIVO VENTAS
-                .when('/motivoVentas', {
-                    templateUrl: '/js/app/motivoVentas/views/index.html',
-                    controller: 'MotivoVentaController'
+                //RUTES MEDIOS PUBLICITARIOS
+                .when('/medioPublicitarios', {
+                    templateUrl: '/js/app/medioPublicitarios/views/index.html',
+                    controller: 'MedioPublicitarioController'
                 })
-                .when('/motivoVentas/create',{
-                    templateUrl:'/motivoVentas/form-create',
-                    controller: 'MotivoVentaController'
+                .when('/medioPublicitarios/create',{
+                    templateUrl:'/medioPublicitarios/form-create',
+                    controller: 'MedioPublicitarioController'
                 })
-                .when('/motivoVentas/edit/:id',{
-                    templateUrl:'/motivoVentas/form-edit',
-                    controller: 'MotivoVentaController'
+                .when('/medioPublicitarios/edit/:id',{
+                    templateUrl:'/medioPublicitarios/form-edit',
+                    controller: 'MedioPublicitarioController'
                 }) 
                 //------------------
                 //RUTES BANCOS

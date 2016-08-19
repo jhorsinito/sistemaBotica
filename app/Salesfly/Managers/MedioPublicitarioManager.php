@@ -1,6 +1,6 @@
 <?php
 namespace Salesfly\Salesfly\Managers;
-class MotivoVentasManager extends BaseManager {
+class MedioPublicitarioManager extends BaseManager {
 
     public function getRules()
     {

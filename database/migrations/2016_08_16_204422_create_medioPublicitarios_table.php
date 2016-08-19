@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMotivoVentasTable extends Migration
+class CreateMedioPublicitariosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateMotivoVentasTable extends Migration
      */
     public function up()
     {
-        Schema::create('motivoVentas', function (Blueprint $table) {
+        Schema::create('medioPublicitarios', function (Blueprint $table) {
             $table->increments('id');
             $table->string('descripcion')->nullable();
             $table->timestamps();
@@ -26,6 +26,6 @@ class CreateMotivoVentasTable extends Migration
      */
     public function down()
     {
-        Schema::drop('motivoVentas');
+        Schema::drop('medioPublicitarios');
     }
 }
