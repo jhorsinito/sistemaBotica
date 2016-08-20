@@ -116,6 +116,20 @@
                     controller: 'PersonaController'
                 }) 
                 //------------------
+                //RUTES CUENTAS BANCARIAS
+                .when('/cuentaBancarias', {
+                    templateUrl: '/js/app/cuentaBancarias/views/index.html',
+                    controller: 'CuentaBancariaController'
+                })
+                .when('/cuentaBancarias/create',{
+                    templateUrl:'/cuentaBancarias/form-create',
+                    controller: 'CuentaBancariaController'
+                })
+                .when('/cuentaBancarias/edit/:id',{
+                    templateUrl:'/cuentaBancarias/form-edit',
+                    controller: 'CuentaBancariaController'
+                }) 
+                //------------------
                 .otherwise({
                     redirectTo: '/'
                 });

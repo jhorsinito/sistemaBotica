@@ -82,4 +82,9 @@ class BancosController extends Controller {
 
         return response()->json($bancos);
     }
+    public function CargarBancos()
+    {
+        $bancos = $this->bancoRepo->CargarBancos();
+        return response()->json($bancos); 
+    }
 }

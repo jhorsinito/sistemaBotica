@@ -107,7 +107,7 @@ Route::group(['middleware' => 'role'], function () {
     Route::get('api/ubigeoDistrito/recuperarDosDato/{d?}/{p?}', ['as' => 'person_all', 'uses' => 'UbigeosController@ubigeoDistrito']); 
 //END CATEGORIAS ROUTES
 
-//UBIGEOS ROUTES
+//ACREDITADORAS ROUTES
     Route::get('acreditadoras', ['as' => 'person', 'uses' => 'AcreditadorasController@index']);
     Route::get('acreditadoras/create', ['as' => 'person_create', 'uses' => 'AcreditadorasController@index']);
     Route::get('acreditadoras/edit/{id?}', ['as' => 'person_edit', 'uses' => 'AcreditadorasController@index']);
@@ -121,7 +121,7 @@ Route::group(['middleware' => 'role'], function () {
     Route::get('api/acreditadoras/search/{q?}', ['as' => 'person_search', 'uses' => 'AcreditadorasController@search']);
     Route::get('api/acreditadoras/find/{id}', ['as' => 'person_find', 'uses' => 'AcreditadorasController@find']);
 //END CATEGORIAS ROUTES
-    //UBIGEOS ROUTES
+    //MEDIOS PUBLICITARIO ROUTES
     Route::get('medioPublicitarios', ['as' => 'person', 'uses' => 'MedioPublicitariosController@index']);
     Route::get('medioPublicitarios/create', ['as' => 'person_create', 'uses' => 'MedioPublicitariosController@index']);
     Route::get('medioPublicitarios/edit/{id?}', ['as' => 'person_edit', 'uses' => 'MedioPublicitariosController@index']);
@@ -135,7 +135,7 @@ Route::group(['middleware' => 'role'], function () {
     Route::get('api/medioPublicitarios/search/{q?}', ['as' => 'person_search', 'uses' => 'MedioPublicitariosController@search']);
     Route::get('api/medioPublicitarios/find/{id}', ['as' => 'person_find', 'uses' => 'MedioPublicitariosController@find']);
 //END CATEGORIAS ROUTES
-    //UBIGEOS ROUTES
+    //BANCOS ROUTES
     Route::get('bancos', ['as' => 'person', 'uses' => 'BancosController@index']);
     Route::get('bancos/create', ['as' => 'person_create', 'uses' => 'BancosController@index']);
     Route::get('bancos/edit/{id?}', ['as' => 'person_edit', 'uses' => 'BancosController@index']);
@@ -148,8 +148,10 @@ Route::group(['middleware' => 'role'], function () {
     Route::post('api/bancos/destroy', ['as' => 'person_destroy', 'uses' => 'BancosController@destroy']);
     Route::get('api/bancos/search/{q?}', ['as' => 'person_search', 'uses' => 'BancosController@search']);
     Route::get('api/bancos/find/{id}', ['as' => 'person_find', 'uses' => 'BancosController@find']);
+
+    Route::get('api/cargarBancos/all', ['as' => 'person_all', 'uses' => 'BancosController@CargarBancos']);
 //END CATEGORIAS ROUTES
-    //UBIGEOS ROUTES
+    //PROFESIONES ROUTES
     Route::get('profesiones', ['as' => 'person', 'uses' => 'ProfesionesController@index']);
     Route::get('profesiones/create', ['as' => 'person_create', 'uses' => 'ProfesionesController@index']);
     Route::get('profesiones/edit/{id?}', ['as' => 'person_edit', 'uses' => 'ProfesionesController@index']);
@@ -165,7 +167,7 @@ Route::group(['middleware' => 'role'], function () {
 
     Route::get('api/cargarProfesiones/all', ['as' => 'person_all', 'uses' => 'ProfesionesController@CargarProfeciones']);
 //END CATEGORIAS ROUTES
-    //UBIGEOS ROUTES
+    //PERSONAS ROUTES
     Route::get('personas', ['as' => 'person', 'uses' => 'PersonasController@index']);
     Route::get('personas/create', ['as' => 'person_create', 'uses' => 'PersonasController@index']);
     Route::get('personas/edit/{id?}', ['as' => 'person_edit', 'uses' => 'PersonasController@index']);
@@ -181,4 +183,18 @@ Route::group(['middleware' => 'role'], function () {
     
     Route::get('api/personas/validar/{text}','PersonasController@validarDni');
     Route::get('api/personas/disablePersona/{id}',['as'=>'product_disabled', 'uses'=>'PersonasController@disablePersona']);
+//END CATEGORIAS ROUTES
+    //CUENTAS BANCARIAS ROUTES
+    Route::get('cuentaBancarias', ['as' => 'person', 'uses' => 'CuentaBancariasController@index']);
+    Route::get('cuentaBancarias/create', ['as' => 'person_create', 'uses' => 'CuentaBancariasController@index']);
+    Route::get('cuentaBancarias/edit/{id?}', ['as' => 'person_edit', 'uses' => 'CuentaBancariasController@index']);
+    Route::get('cuentaBancarias/form-create', ['as' => 'person_form_create', 'uses' => 'CuentaBancariasController@form_create']);
+    Route::get('cuentaBancarias/form-edit', ['as' => 'person_form_edit', 'uses' => 'CuentaBancariasController@form_edit']);
+    Route::get('api/cuentaBancarias/all', ['as' => 'person_all', 'uses' => 'CuentaBancariasController@all']);
+    Route::get('api/cuentaBancarias/paginate/', ['as' => 'person_paginate', 'uses' => 'CuentaBancariasController@paginatep']);
+    Route::post('api/cuentaBancarias/create', ['as' => 'person_create', 'uses' => 'CuentaBancariasController@create']);
+    Route::put('api/cuentaBancarias/edit', ['as' => 'person_edit', 'uses' => 'CuentaBancariasController@edit']);
+    Route::post('api/cuentaBancarias/destroy', ['as' => 'person_destroy', 'uses' => 'CuentaBancariasController@destroy']);
+    Route::get('api/cuentaBancarias/search/{q?}', ['as' => 'person_search', 'uses' => 'CuentaBancariasController@search']);
+    Route::get('api/cuentaBancarias/find/{id}', ['as' => 'person_find', 'uses' => 'CuentaBancariasController@find']);
 //END CATEGORIAS ROUTES

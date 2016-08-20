@@ -15,4 +15,9 @@ class BancoRepo extends BaseRepo{
                     ->paginate(15);
         return $bancos;
     }
+    public function CargarBancos(){
+        $bancos = Banco::orderBy('nombre', 'asc')
+                    ->get();
+        return $bancos;
+    }
 } 
