@@ -25,4 +25,9 @@ class PersonaRepo extends BaseRepo{
                     ->paginate($c);
         return $personas;
     }
+    public function validarDni($text){
+        $persona =Persona::where('dni','=', $text)
+                    ->first();
+        return $persona;
+    }
 } 

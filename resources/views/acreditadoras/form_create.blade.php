@@ -49,7 +49,7 @@
 
                     <div>
                         <label>Distrito</label>
-                        <select ng-disabled="depertamentoSelect==null || provinciaSelect==undefined" ng-click="selectPlan1()" class="form-control ng-pristine ng-valid ng-touched" name="" ng-model="distritoSelect" ng-options="item.id as item.distrito for item in distritos"><option value="">-- Elige Didtrito --</option></select>
+                        <select ng-disabled="depertamentoSelect==null || provinciaSelect==undefined" ng-click="selectPlan1()" class="form-control ng-pristine ng-valid ng-touched" name="" ng-model="distritoSelect" ng-options="item.id as item.distrito for item in distritos"><option value="">-- Elige Distrito --</option></select>
                     </div>
                     
 

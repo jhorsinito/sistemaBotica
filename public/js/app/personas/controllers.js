@@ -4,14 +4,25 @@
             function($scope, $routeParams,$location,crudService,$filter,$route,$log){
                 $scope.personas = [];
                 $scope.persona = {};
-                $scope.departamentos ={};
-                $scope.depertamentoSelect;
-                $scope.provincias ={};
-                $scope.provinciaSelect;
-                $scope.distritos ={};
-                $scope.distritoSelect;
+                //----------------------
+                $scope.TrabajoDepartamentos ={};
+                $scope.TrabajoDepertamentoSelect;
+                $scope.TrabajoProvincias ={};
+                $scope.TrabajoProvinciaSelect;
+                $scope.TrabajoDistritos ={};
+                $scope.TrabajoDistritoSelect;
+                //----------------------
+                $scope.DomicilioDepartamentos ={};
+                $scope.DomicilioDepertamentoSelect;
+                $scope.DomicilioProvincias ={};
+                $scope.DomicilioProvinciaSelect;
+                $scope.DomicilioDistritos ={};
+                $scope.DomicilioDistritoSelect;
+                //----------------------
+                $scope.profesiones={};
                 $scope.errors = null;
-                $scope.ubigeo ={};
+                $scope.ubigeoTrabajo ={};
+                $scope.ubigeoDomicilio ={};
                 $scope.success;
                 $scope.query = '';
 
@@ -38,24 +49,52 @@
                 {
                     crudService.byId(id,'personas').then(function (data) {
                         $scope.persona = data;
-                        crudService.byId($scope.persona.ubigeo_id,'ubigeos').then(function (data) {
-                            $scope.ubigeo = data;
+                        
+                        if($scope.persona != null) {
+                            if ($scope.persona.fechaNac.length > 0) {
+                                $scope.persona.fechaNac = new Date($scope.persona.fechaNac);
+                            }
+                        }
+
+                        crudService.byId($scope.persona.ubigeoTrabajo_id,'ubigeos').then(function (data) {
+                            $scope.ubigeoTrabajo = data;
                             crudService.all('ubigeoDepartamento').then(function(data){  
-                                $scope.departamentos = data;
-                                $scope.depertamentoSelect=$scope.ubigeo.departamento;
+                                $scope.TrabajoDepartamentos = data;
+                                $scope.TrabajoDepertamentoSelect=$scope.ubigeoTrabajo.departamento;
                             });
-                            crudService.recuperarUnDato('ubigeoProvincia',$scope.ubigeo.departamento).then(function(data){  
-                                $scope.provincias = data;
-                                $scope.provinciaSelect=$scope.ubigeo.provincia;;
+                            crudService.recuperarUnDato('ubigeoProvincia',$scope.ubigeoTrabajo.departamento).then(function(data){  
+                                $scope.TrabajoProvincias = data;
+                                $scope.TrabajoProvinciaSelect=$scope.ubigeoTrabajo.provincia;;
                             });
-                            crudService.recuperarDosDato('ubigeoDistrito',$scope.ubigeo.departamento,$scope.ubigeo.provincia).then(function(data){  
-                                $scope.distritos = data;
-                                $scope.distritoSelect=$scope.ubigeo.id;
+                            crudService.recuperarDosDato('ubigeoDistrito',$scope.ubigeoTrabajo.departamento,$scope.ubigeoTrabajo.provincia).then(function(data){  
+                                $scope.TrabajoDistritos = data;
+                                $scope.TrabajoDistritoSelect=$scope.ubigeoTrabajo.id;
                             });
                         });
+
+                        crudService.byId($scope.persona.ubigeoDireccion_id,'ubigeos').then(function (data) {
+                            $scope.ubigeoDomicilio = data;
+                            crudService.all('ubigeoDepartamento').then(function(data){  
+                                $scope.DomicilioDepartamentos = data;
+                                $scope.DomicilioDepertamentoSelect=$scope.ubigeoDomicilio.departamento;
+                            });
+                            crudService.recuperarUnDato('ubigeoProvincia',$scope.ubigeoDomicilio.departamento).then(function(data){  
+                                $scope.DomicilioProvincias = data;
+                                $scope.DomicilioProvinciaSelect=$scope.ubigeoDomicilio.provincia;;
+                            });
+                            crudService.recuperarDosDato('ubigeoDistrito',$scope.ubigeoDomicilio.departamento,$scope.ubigeoDomicilio.provincia).then(function(data){  
+                                $scope.DomicilioDistritos = data;
+                                $scope.DomicilioDistritoSelect=$scope.ubigeoDomicilio.id;
+                            });
+                        });
+
+
+
                     });
                     
-                    
+                    crudService.all('cargarProfesiones').then(function(data){  
+                        $scope.profesiones = data;
+                    });
 
                 }else{
                     crudService.paginate('personas',1).then(function (data) {
@@ -70,15 +109,18 @@
                     //-------------------------------------------------------------
                     
                     crudService.all('ubigeoDepartamento').then(function(data){  
-                        $scope.departamentos = data;
-                        //$scope.depertamentoSelect=data[0].departamento;
+                        $scope.TrabajoDepartamentos = data;
+                        $scope.DomicilioDepartamentos = data;
                     });
                     
+                    crudService.all('cargarProfesiones').then(function(data){  
+                        $scope.profesiones = data;
+                    });
                 }
 
                 
 
-                $scope.searchAcreditadora = function(){
+                $scope.searchPersona = function(){
                 if ($scope.query.length > 0) {
                     crudService.search('personas',$scope.query,1).then(function (data){
                         $scope.personas = data.data;
@@ -95,67 +137,77 @@
                     
                 };
 
-                $scope.createAcreditadora = function(){
+                $scope.createPersona = function(){
                     //$scope.atribut.estado = 1;
-                    $log.log($scope.distritoSelect);
-                    if ($scope.acreditadoraCreateForm.$valid) {
-                        if($scope.distritoSelect!=null){
-                            $scope.persona.ubigeo_id=$scope.distritoSelect;
-                            crudService.create($scope.persona, 'personas').then(function (data) {
+                    $log.log($scope.persona);
+                    if ($scope.personaCreateForm.$valid) {
+                        if($scope.TrabajoDistritoSelect!=null){
+                            if($scope.DomicilioDistritoSelect!=null){
+                                $scope.persona.ubigeoTrabajo_id=$scope.TrabajoDistritoSelect;
+                                $scope.persona.ubigeoDireccion_id=$scope.DomicilioDistritoSelect;
+                                $scope.persona.estado="Activo";
+                                crudService.create($scope.persona, 'personas').then(function (data) {
                           
-                                if (data['estado'] == true) {
-                                 $scope.success = data['nombres'];
-                                    alert('grabado correctamente');
-                                    $location.path('/personas');
+                                    if (data['estado'] == true) {
+                                    $scope.success = data['nombres'];
+                                        alert('grabado correctamente');
+                                        $location.path('/personas');
 
-                                } else {
-                                    $scope.errors = data;
+                                    } else {
+                                        $scope.errors = data;
 
-                                }
-                            });
+                                    }
+                                });
+                            }else{
+                                alert('Selecione Direcion de Domicilio Correctamente');  
+                            }
                         }else{
-                            alert('Selecione Direcion Correctamente');
+                            alert('Selecione Direcion de Trabajo Correctamente');
                         }
                     }
                 }
 
 
-                $scope.editAcreditadora = function(row){
+                $scope.editPersona = function(row){
                     $location.path('/personas/edit/'+row.id);
                 };
 
-                $scope.updateAcreditadora = function(){
+                $scope.updatePersona = function(){
 
-                    if ($scope.acreditadoraEditForm.$valid) {
-                        if($scope.distritoSelect!=null){
-                            $scope.persona.ubigeo_id=$scope.distritoSelect;
-
-                            crudService.update($scope.persona,'personas').then(function(data)
-                            {
-                                if(data['estado'] == true){
-                                    $scope.success = data['nombres'];
-                                    alert('editado correctamente');
-                                    $location.path('/personas');
-                                }else{
-                                    $scope.errors =data;
-                                }
-                            });
+                    if ($scope.PersonaEditForm.$valid) {
+                        if($scope.TrabajoDistritoSelect!=null){
+                            if($scope.DomicilioDistritoSelect!=null){
+                                $scope.persona.ubigeoTrabajo_id=$scope.TrabajoDistritoSelect;
+                                $scope.persona.ubigeoDireccion_id=$scope.DomicilioDistritoSelect;
+                                crudService.update($scope.persona,'personas').then(function(data)
+                                {
+                                    if(data['estado'] == true){
+                                        $scope.success = data['nombres'];
+                                        alert('editado correctamente');
+                                        $location.path('/personas');
+                                    }else{
+                                        $scope.errors =data;
+                                    }
+                                });
+                         }else{
+                                alert('Selecione Direcion de Domicilio Correctamente');  
+                            }
                         }else{
-                            alert('Selecione Direcion Correctamente');
+                            alert('Selecione Direcion de Trabajo Correctamente');
                         }
                     }
                 };
 
-                $scope.deleteAcreditadora= function(row){
+                $scope.deletePersona= function(row){
                     
                     $scope.persona = row;
                 }
 
-                $scope.cancelAcreditadora = function(){
+                $scope.cancelPersona = function(){
                     $scope.persona = {};
                 }
 
-                $scope.destroyAcreditadora = function(){
+                $scope.destroyPersona = function(){
                     crudService.destroy($scope.persona,'personas').then(function(data)
                     {
                         if(data['estado'] == true){
@@ -169,24 +221,64 @@
                         }
                     });
                 }
-                $scope.cargarProvincia = function(){
-                    $scope.provincias ={};
-                    $scope.provinciaSelect=null;
-                    $scope.distritoSelect=null;
-                    crudService.recuperarUnDato('ubigeoProvincia',$scope.depertamentoSelect).then(function(data){  
-                        $scope.provincias = data;
+                $scope.TrabajoCargarProvincia = function(){
+                    $scope.TrabajoProvincias ={};
+                    $scope.TrabajoProvinciaSelect=null;
+                    $scope.TrabajoDistritoSelect=null;
+                    crudService.recuperarUnDato('ubigeoProvincia',$scope.TrabajoDepertamentoSelect).then(function(data){  
+                        $scope.TrabajoProvincias = data;
                         //$scope.provinciaSelect=data[0].provincia;
                     });
                 }
-                $scope.cargarDistrito = function(){
-                    $scope.distritos ={};
-                    $scope.distritoSelect=null;
-                    crudService.recuperarDosDato('ubigeoDistrito',$scope.depertamentoSelect,$scope.provinciaSelect).then(function(data){  
-                        $scope.distritos = data;
+                $scope.TrabajoCargarDistrito = function(){
+                    $scope.TrabajoDistritos ={};
+                    $scope.TrabajoDistritoSelect=null;
+                    crudService.recuperarDosDato('ubigeoDistrito',$scope.TrabajoDepertamentoSelect,$scope.TrabajoProvinciaSelect).then(function(data){  
+                        $scope.TrabajoDistritos = data;
+                        $log.log($scope.TrabajoDistritos);
+                    });
+                }
+                $scope.DomicilioCargarProvincia = function(){
+                    $scope.DomicilioProvincias ={};
+                    $scope.DomicilioProvinciaSelect=null;
+                    $scope.DomicilioDistritoSelect=null;
+                    crudService.recuperarUnDato('ubigeoProvincia',$scope.DomicilioDepertamentoSelect).then(function(data){  
+                        $scope.DomicilioProvincias = data;
+                        //$scope.provinciaSelect=data[0].provincia;
+                    });
+                }
+                $scope.DomicilioCargarDistrito = function(){
+                    $scope.DomicilioDistritos ={};
+                    $scope.DomicilioDistritoSelect=null;
+                    crudService.recuperarDosDato('ubigeoDistrito',$scope.DomicilioDepertamentoSelect,$scope.DomicilioProvinciaSelect).then(function(data){  
+                        $scope.DomicilioDistritos = data;
                         
                     });
                 }
+                $scope.validaDni=function(texto){
 
+                   if(texto!=undefined){
+
+                        crudService.validar('personas',texto).then(function (data){
+                            $log.log(data);
+                            if(data.dni!=undefined){
+                                alert("DNI Registrado!!");
+                                $scope.persona.dni='';
+                            }
+                        });
+                    }
+               }
+               $scope.disableProduct = function(row){
+                    //$log.log(row);
+                    crudService.byforeingKey('personas','disablePersona',row.id).then(function(data)
+                    {
+                        if(data['estado'] == true){
+                            $route.reload();
+                        }else{
+                            alert('No se pudo cambiar el estado');
+                        }
+                    });
+                }
 
             }]);
 })();

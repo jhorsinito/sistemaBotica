@@ -49,7 +49,7 @@
                         </div>
                     </div>
                 <div class="callout callout-info"  ng-show="persona.id">
-                    <h4>¿ Estás seguro que deseas eliminar a "{{persona.nombre}}" ?</h4>
+                    <h4>¿ Estás seguro que deseas eliminar a "{{persona.nombres}}" ?</h4>
                     <p>
                       <button type="button" class="btn btn-danger" ng-click="destroyPersona()">Si</button>
                       <button type="button" class="btn btn-default" ng-click="cancelPersona()">No</button>
@@ -67,6 +67,7 @@
                         <th>TELEFONO</th>
                       
                         <th style="width: 40px">Editar</th>
+                        <th style="width: 50px">Estado</th>
                         <th style="width: 40px">Eliminar</th>
                       </tr>
                     
@@ -79,6 +80,15 @@
                         <td>{{row.email}}</td>
                         <td>{{row.telefono}}</td>
                         <td><a ng-click="editPersona(row)" class="btn btn-warning btn-xs">Editar</a></td>
+                        <td>
+                            <span ng-if="row.estado == 'Activo'">
+                              <a ng-click="disableProduct(row)" class="btn bg-purple-active color-palette btn-xs">Desactivar</a>
+                            </span>
+                            <span ng-if="row.estado == 'Inactivo'">
+                              <a ng-click="disableProduct(row)" class="btn bg-purple-active color-palette btn-xs">Activar</a>
+                            </span>
+
+                        </td>
                         <td><a ng-click="deletePersona(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
                       
                       </tr>

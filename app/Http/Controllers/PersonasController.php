@@ -10,7 +10,7 @@ use Salesfly\Salesfly\Managers\PersonaManager;
  
 class PersonasController extends Controller {
 
-    protected $personaRepo;
+    protected $personaRepo; 
 
     public function __construct(PersonaRepo $personaRepo)
     {
@@ -81,5 +81,25 @@ class PersonasController extends Controller {
         $personas = $this->personaRepo->search($q);
 
         return response()->json($personas);
+    }
+    public function validarDni($text){
+        $personas = $this->personaRepo->validarDni($text);
+        return response()->json($personas);
+    }
+
+    public function disablePersona($id){
+        \DB::beginTransaction();
+        $persona = $this->personaRepo->find($id);
+        $estado = $persona->estado;
+            if ($estado == 'Activo') {
+                $persona->estado = 'Inactivo';
+            } else {
+                $persona->estado = 'Activo';
+            }
+        
+        $persona->save();
+        //die();
+        \DB::commit();
+        return response()->json(['estado'=>true]);
     }
 }

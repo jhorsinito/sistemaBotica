@@ -1,15 +1,16 @@
-<section class="content-header">
+<!-- Content Header (Page header) -->
+        <section class="content-header">
           <h1>
             Personas
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class=""><a href="/personas">Personas</a></li>
-            <li class="active">Crear</li>
+            <li class=""><a href="/personas">Personas</a> </li>
+            <li class="active">Editar</li>
           </ol>
 
-          
+
         </section>
 
         <section class="content">
@@ -18,40 +19,40 @@
 
           <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Agregar Persona</h3>
+                  <h3 class="box-title">Editar Persona</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
-                <form name="personaCreateForm" role="form" novalidate>
+                <form name="PersonaEditForm" role="form" novalidate>
                   <div class="box-body">
-                  <div class="callout callout-danger" ng-show="errors"> 
+                  <div class="callout callout-danger" ng-show="errors">
                                                   <ul>
                                               <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
                                               </ul>
                                             </div>
                     
-                   <div class="form-group" ng-class="{true: 'has-error'}[ personaCreateForm.nombres.$error.required && personaCreateForm.$submitted || personaCreateForm.z.$dirty && personaCreateForm.nombres.$invalid]">
+                    <div class="form-group" ng-class="{true: 'has-error'}[ PersonaEditForm.nombres.$error.required && PersonaEditForm.$submitted || PersonaEditForm.z.$dirty && PersonaEditForm.nombres.$invalid]">
                       <label for="nombres">Nombres</label>
                       <input type="text" class="form-control" name="nombres"  placeholder="Nombres" ng-model="persona.nombres" required>
-                      <label ng-show="personaCreateForm.$submitted || personaCreateForm.nombres.$dirty && personaCreateForm.nombres.$invalid">
-                        <span ng-show="personaCreateForm.nombres.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                      <label ng-show="PersonaEditForm.$submitted || PersonaEditForm.nombres.$dirty && PersonaEditForm.nombres.$invalid">
+                        <span ng-show="PersonaEditForm.nombres.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>
                     </div>
 
-                    <div class="form-group" ng-class="{true: 'has-error'}[ personaCreateForm.apellidos.$error.required && personaCreateForm.$submitted || personaCreateForm.z.$dirty && personaCreateForm.apellidos.$invalid]">
+                    <div class="form-group" ng-class="{true: 'has-error'}[ PersonaEditForm.apellidos.$error.required && PersonaEditForm.$submitted || PersonaEditForm.z.$dirty && PersonaEditForm.apellidos.$invalid]">
                       <label for="apellidos">Apellidos</label>
                       <input type="text" class="form-control" name="apellidos"  placeholder="Apellidos" ng-model="persona.apellidos" required>
-                      <label ng-show="personaCreateForm.$submitted || personaCreateForm.apellidos.$dirty && personaCreateForm.apellidos.$invalid">
-                        <span ng-show="personaCreateForm.apellidos.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                      <label ng-show="PersonaEditForm.$submitted || PersonaEditForm.apellidos.$dirty && PersonaEditForm.apellidos.$invalid">
+                        <span ng-show="PersonaEditForm.apellidos.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>
                     </div>
                     
                     <div class="row">
                       <div  class="col-md-4">
-                        <div class="form-group" ng-class="{true: 'has-error'}[ personaCreateForm.dni.$error.required && personaCreateForm.$submitted || personaCreateForm.z.$dirty && personaCreateForm.dni.$invalid]">
+                        <div class="form-group" ng-class="{true: 'has-error'}[ PersonaEditForm.dni.$error.required && PersonaEditForm.$submitted || PersonaEditForm.z.$dirty && PersonaEditForm.dni.$invalid]">
                           <label for="dni">DNI</label>
                           <input ng-blur="validaDni(persona.dni)" type="text" class="form-control" name="dni"  placeholder="DNI" ng-model="persona.dni" required>
-                          <label ng-show="personaCreateForm.$submitted || personaCreateForm.dni.$dirty && personaCreateForm.dni.$invalid">
-                            <span ng-show="personaCreateForm.dni.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                          <label ng-show="PersonaEditForm.$submitted || PersonaEditForm.dni.$dirty && PersonaEditForm.dni.$invalid">
+                            <span ng-show="PersonaEditForm.dni.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                           </label>
                         </div>
                       </div>
@@ -110,21 +111,21 @@
 
                     <div class="row">
                       <div  class="col-md-8">
-                        <div class="form-group" ng-class="{true: 'has-error'}[ personaCreateForm.email.$error.required && personaCreateForm.$submitted || personaCreateForm.z.$dirty && personaCreateForm.email.$invalid]">
+                        <div class="form-group" ng-class="{true: 'has-error'}[ PersonaEditForm.email.$error.required && PersonaEditForm.$submitted || PersonaEditForm.z.$dirty && PersonaEditForm.email.$invalid]">
                           <label for="email">Email</label>
                           <input type="text" class="form-control" name="email"  placeholder="Email" ng-model="persona.email" required>
-                          <label ng-show="personaCreateForm.$submitted || personaCreateForm.email.$dirty && personaCreateForm.email.$invalid">
-                            <span ng-show="personaCreateForm.email.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                          <label ng-show="PersonaEditForm.$submitted || PersonaEditForm.email.$dirty && PersonaEditForm.email.$invalid">
+                            <span ng-show="PersonaEditForm.email.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                           </label>
                         </div>
                       </div>
                       
                       <div  class="col-md-4">
-                        <div class="form-group" ng-class="{true: 'has-error'}[ personaCreateForm.telefono.$error.required && personaCreateForm.$submitted || personaCreateForm.z.$dirty && personaCreateForm.telefono.$invalid]">
+                        <div class="form-group" ng-class="{true: 'has-error'}[ PersonaEditForm.telefono.$error.required && PersonaEditForm.$submitted || PersonaEditForm.z.$dirty && PersonaEditForm.telefono.$invalid]">
                           <label for="telefono">Telefono</label>
                           <input type="text" class="form-control" name="telefono"  placeholder="Telefono" ng-model="persona.telefono" required>
-                          <label ng-show="personaCreateForm.$submitted || personaCreateForm.telefono.$dirty && personaCreateForm.telefono.$invalid">
-                            <span ng-show="personaCreateForm.telefono.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                          <label ng-show="PersonaEditForm.$submitted || PersonaEditForm.telefono.$dirty && PersonaEditForm.telefono.$invalid">
+                            <span ng-show="PersonaEditForm.telefono.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                           </label>
                         </div>
                       </div>
@@ -132,11 +133,11 @@
                       
                     </div>
                     
-                    <div class="form-group" ng-class="{true: 'has-error'}[ personaCreateForm.institucionTrabajo.$error.required && personaCreateForm.$submitted || personaCreateForm.z.$dirty && personaCreateForm.institucionTrabajo.$invalid]">
+                    <div class="form-group" ng-class="{true: 'has-error'}[ PersonaEditForm.institucionTrabajo.$error.required && PersonaEditForm.$submitted || PersonaEditForm.z.$dirty && PersonaEditForm.institucionTrabajo.$invalid]">
                       <label for="institucionTrabajo">Institucion de Trabajo</label>
                       <input type="text" class="form-control" name="institucionTrabajo"  placeholder="Institucion de Trabajo" ng-model="persona.institucionTrabajo" required>
-                      <label ng-show="personaCreateForm.$submitted || personaCreateForm.institucionTrabajo.$dirty && personaCreateForm.institucionTrabajo.$invalid">
-                        <span ng-show="personaCreateForm.institucionTrabajo.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                      <label ng-show="PersonaEditForm.$submitted || PersonaEditForm.institucionTrabajo.$dirty && PersonaEditForm.institucionTrabajo.$invalid">
+                        <span ng-show="PersonaEditForm.institucionTrabajo.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>
                     </div>
 
@@ -164,11 +165,11 @@
                       </div>
                     </div>
                     
-                    <div class="form-group" ng-class="{true: 'has-error'}[ personaCreateForm.direccion.$error.required && personaCreateForm.$submitted || personaCreateForm.z.$dirty && personaCreateForm.direccion.$invalid]">
+                    <div class="form-group" ng-class="{true: 'has-error'}[ PersonaEditForm.direccion.$error.required && PersonaEditForm.$submitted || PersonaEditForm.z.$dirty && PersonaEditForm.direccion.$invalid]">
                       <label for="direccion">Domicilio</label>
                       <input type="text" class="form-control" name="direccion"  placeholder="Domicilio" ng-model="persona.direccion" required>
-                      <label ng-show="personaCreateForm.$submitted || personaCreateForm.direccion.$dirty && personaCreateForm.direccion.$invalid">
-                        <span ng-show="personaCreateForm.direccion.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                      <label ng-show="PersonaEditForm.$submitted || PersonaEditForm.direccion.$dirty && PersonaEditForm.direccion.$invalid">
+                        <span ng-show="PersonaEditForm.direccion.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>
                     </div>
 
@@ -196,13 +197,10 @@
                       </div>
                     </div>
 
-
-                    
-
                 </div><!-- /.box-body -->
 
                   <div class="box-footer">
-                    <button type="submit" class="btn btn-primary" ng-click="createPersona()">Crear</button>
+                    <button type="submit" class="btn btn-primary" ng-click="updatePersona()">Modificar</button>
                     <a href="/personas" class="btn btn-danger">Cancelar</a>
                   </div>
                 </form>

@@ -162,6 +162,8 @@ Route::group(['middleware' => 'role'], function () {
     Route::post('api/profesiones/destroy', ['as' => 'person_destroy', 'uses' => 'ProfesionesController@destroy']);
     Route::get('api/profesiones/search/{q?}', ['as' => 'person_search', 'uses' => 'ProfesionesController@search']);
     Route::get('api/profesiones/find/{id}', ['as' => 'person_find', 'uses' => 'ProfesionesController@find']);
+
+    Route::get('api/cargarProfesiones/all', ['as' => 'person_all', 'uses' => 'ProfesionesController@CargarProfeciones']);
 //END CATEGORIAS ROUTES
     //UBIGEOS ROUTES
     Route::get('personas', ['as' => 'person', 'uses' => 'PersonasController@index']);
@@ -176,4 +178,7 @@ Route::group(['middleware' => 'role'], function () {
     Route::post('api/personas/destroy', ['as' => 'person_destroy', 'uses' => 'PersonasController@destroy']);
     Route::get('api/personas/search/{q?}', ['as' => 'person_search', 'uses' => 'PersonasController@search']);
     Route::get('api/personas/find/{id}', ['as' => 'person_find', 'uses' => 'PersonasController@find']);
+    
+    Route::get('api/personas/validar/{text}','PersonasController@validarDni');
+    Route::get('api/personas/disablePersona/{id}',['as'=>'product_disabled', 'uses'=>'PersonasController@disablePersona']);
 //END CATEGORIAS ROUTES

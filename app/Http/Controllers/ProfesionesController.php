@@ -27,6 +27,11 @@ class ProfesionesController extends Controller {
         $profesiones = $this->profesionRepo->paginaterepo(15);
         return response()->json($profesiones);
     }
+    public function CargarProfeciones()
+    {
+        $profesiones = $this->profesionRepo->CargarProfeciones();
+        return response()->json($profesiones); 
+    }
 
     public function paginatep(){
         $profesiones = $this->profesionRepo->paginaterepo(15);

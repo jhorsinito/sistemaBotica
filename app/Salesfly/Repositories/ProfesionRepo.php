@@ -20,4 +20,9 @@ class ProfesionRepo extends BaseRepo{
                     ->paginate($c);
         return $profesiones;
     }
+    public function CargarProfeciones(){
+        $profesiones = Profesion::orderBy('orden', 'asc')
+                    ->get();
+        return $profesiones;
+    }
 } 
