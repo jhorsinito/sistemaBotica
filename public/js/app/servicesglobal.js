@@ -236,8 +236,31 @@
 
                 return deferred.promise;
             }
+            function uploadFile(uri,file, name)
+            {
+                var deferred = $q.defer();
+                var formData = new FormData();
+                formData.append("name", name);
+                formData.append("file", file);
+                return $http.post('/api/'+uri+'/uploadFile', formData, {
+                    headers: {
+                        "Content-type": undefined
+                    },
+                    transformRequest: angular.identity
+                })
+                .success(function(data)
+                {
+                    deferred.resolve(data);
+                })
+                .error(function(msg, code)
+                {
+                    deferred.reject(msg);
+                })
+                return deferred.promise;
+            }
             return {
                 all: all,
+                uploadFile:uploadFile,
                 paginate: paginate,
                 Comprueba_caj_for_user1: Comprueba_caj_for_user1,
                 create:create,

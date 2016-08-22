@@ -198,3 +198,22 @@ Route::group(['middleware' => 'role'], function () {
     Route::get('api/cuentaBancarias/search/{q?}', ['as' => 'person_search', 'uses' => 'CuentaBancariasController@search']);
     Route::get('api/cuentaBancarias/find/{id}', ['as' => 'person_find', 'uses' => 'CuentaBancariasController@find']);
 //END CATEGORIAS ROUTES
+    //PERSONAS ROUTES
+    Route::get('docentes', ['as' => 'person', 'uses' => 'DocentesController@index']);
+    Route::get('docentes/create', ['as' => 'person_create', 'uses' => 'DocentesController@index']);
+    Route::get('docentes/edit/{id?}', ['as' => 'person_edit', 'uses' => 'DocentesController@index']);
+    Route::get('docentes/form-create', ['as' => 'person_form_create', 'uses' => 'DocentesController@form_create']);
+    Route::get('docentes/form-edit', ['as' => 'person_form_edit', 'uses' => 'DocentesController@form_edit']);
+    Route::get('api/docentes/all', ['as' => 'person_all', 'uses' => 'DocentesController@all']);
+    Route::get('api/docentes/paginate/', ['as' => 'person_paginate', 'uses' => 'DocentesController@paginatep']);
+    Route::post('api/docentes/create', ['as' => 'person_create', 'uses' => 'DocentesController@create']);
+    Route::put('api/docentes/edit', ['as' => 'person_edit', 'uses' => 'DocentesController@edit']);
+    Route::post('api/docentes/destroy', ['as' => 'person_destroy', 'uses' => 'DocentesController@destroy']);
+    Route::get('api/docentes/search/{q?}', ['as' => 'person_search', 'uses' => 'DocentesController@search']);
+    Route::get('api/docentes/find/{id}', ['as' => 'person_find', 'uses' => 'DocentesController@find']);
+    
+    Route::get('api/docentes/validar/{text}','DocentesController@validarDni');
+    Route::get('api/docentes/disablePersona/{id}',['as'=>'product_disabled', 'uses'=>'DocentesController@disablePersona']);
+
+    Route::post('api/docentes/uploadFile',['as'=>'product_disabled', 'uses'=>'DocentesController@uploadFile']);
+//END CATEGORIAS ROUTES

@@ -130,6 +130,21 @@
                     controller: 'CuentaBancariaController'
                 }) 
                 //------------------
+                //------------------
+                //RUTES PERSONAS
+                .when('/docentes', {
+                    templateUrl: '/js/app/docentes/views/index.html',
+                    controller: 'DocenteController'
+                })
+                .when('/docentes/create',{
+                    templateUrl:'/docentes/form-create',
+                    controller: 'DocenteController'
+                })
+                .when('/docentes/edit/:id',{
+                    templateUrl:'/docentes/form-edit',
+                    controller: 'DocenteController'
+                }) 
+                //------------------
                 .otherwise({
                     redirectTo: '/'
                 });

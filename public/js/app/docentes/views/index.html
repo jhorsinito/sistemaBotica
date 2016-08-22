@@ -1,11 +1,11 @@
 <!-- Content Header (Page header) -->
         <section class="content-header">
-          <h1>Cuentas Bancarias
+          <h1>Docentes
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Cuentas Bancarias</li>
+            <li class="active">Docentes</li>
           </ol>
 
           
@@ -17,7 +17,7 @@
         <section class="content">
         <div class="row">
         <div class="col-md-12">
-          <a href="/cuentaBancarias/create" type="submit" class="btn btn-primary pull-left">Agregar Cuenta Bancaria</a> 
+          <a href="/docentes/create" type="submit" class="btn btn-primary pull-left">Agregar Docente</a> 
           </div>
         </div>
         </br>
@@ -28,9 +28,9 @@
               <div class="box"> 
 
                 <div class="box-header with-border">
-                  <h3 class="box-title">Cuenta Bancaria</h3>
+                  <h3 class="box-title">Docentes</h3>
                   <div class="box-tools">
-                  <form ng-keyup="searchCuentaBancaria()">
+                  <form ng-keyup="searchDocente()">
                     <div class="input-group" style="width: 200px;">
                       <input type="text" ng-model="query"  name="table_search" class="form-control input-sm pull-right" placeholder="Search" />
                       <div class="input-group-btn">
@@ -48,31 +48,50 @@
                             </div>
                         </div>
                     </div>
-                <div class="callout callout-info"  ng-show="cuentaBancaria.id">
-                    <h4>¿ Estás seguro que deseas eliminar a "{{cuentaBancaria.nombre}}" ?</h4>
+                <div class="callout callout-info"  ng-show="docente.id">
+                    <h4>¿ Estás seguro que deseas eliminar a "{{docente.nombres}}" ?</h4>
                     <p>
-                      <button type="button" class="btn btn-danger" ng-click="destroyCuentaBancaria()">Si</button>
-                      <button type="button" class="btn btn-default" ng-click="cancelCuentaBancaria()">No</button>
+                      <button type="button" class="btn btn-danger" ng-click="destroyDocente()">Si</button>
+                      <button type="button" class="btn btn-default" ng-click="cancelDocente()">No</button>
                     </p>
                   </div>
                   <div class="box-body table-responsive no-padding">
                     <table class="table table-bordered">
                       <tr>
                         <th style="width: 10px">#</th>
-                        <th>N° CUENTA</th>
-                        <th>BANCO</th>
-                      
+                        <th>NOMBRES</th>
+                        <th>APELLIDOS</th>
+                        <th>DNI</th>
+                        <th>DEPARTAMENTO TRABAJO</th>
+                        <th>EMAIL</th>
+                        <th>TELEFONO</th>
+
+                        <th style="width: 40px">Curriculo</th>
                         <th style="width: 40px">Editar</th>
+                        <th style="width: 50px">Estado</th>
                         <th style="width: 40px">Eliminar</th>
                       </tr>
                     
-                      <tr ng-repeat="row in cuentaBancarias">
+                      <tr ng-repeat="row in docentes">
                         <td>{{$index + 1}}</td>
-                        <td>{{row.numeroCuenta}}</td>
-                        <td>{{row.banco.nombre}}</td>
+                        <td>{{row.nombres}}</td>
+                        <td>{{row.apellidos}}</td>
+                        <td>{{row.dni}}</td>
+                        <td>{{row.departamento}}</td>
+                        <td>{{row.email}}</td>
+                        <td>{{row.telefono}}</td>
+                        <td><a  ng-disabled="row.curriculo==''" href="{{row.curriculo}}" target="_blank" class="btn btn-success btn-xs">Ver Curriculo</a></td>
+                        <td><a ng-click="editDocente(row)" class="btn btn-warning btn-xs">Editar</a></td>
+                        <td>
+                            <span ng-if="row.estado == 'Activo'">
+                              <a ng-click="disableProduct(row)" class="btn bg-purple-active color-palette btn-xs">Desactivar</a>
+                            </span>
+                            <span ng-if="row.estado == 'Inactivo'">
+                              <a ng-click="disableProduct(row)" class="btn bg-purple-active color-palette btn-xs">Activar</a>
+                            </span>
 
-                        <td><a ng-click="editCuentaBancaria(row)" class="btn btn-warning btn-xs">Editar</a></td>
-                        <td><a ng-click="deleteCuentaBancaria(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
+                        </td>
+                        <td><a ng-click="deleteDocente(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
                       
                       </tr>
                     
