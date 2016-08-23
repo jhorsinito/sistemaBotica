@@ -64,8 +64,11 @@ class DocentesController extends Controller {
         $station = $this->docenteRepo->find($request->id);
 
         if($request->curriculo!=$station->curriculo){
-            $rest = substr(__DIR__, 0, -21);
-            unlink($rest."/public".$station->curriculo);
+            if ($station->curriculo!="") {
+                $rest = substr(__DIR__, 0, -21);
+                unlink($rest."/public".$station->curriculo);
+            }
+            
         }
         $manager = new DocenteManager($station,$request->all());
         $manager->save();
