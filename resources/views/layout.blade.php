@@ -157,6 +157,7 @@
                 <li class=""><a href="/acreditadoras" ><i class="fa fa-circle-o"></i>Acreditadoras</a></li>
                 <li class=""><a href="/medioPublicitarios" ><i class="fa fa-circle-o"></i>Medios Publicitarios</a></li>
                 <li class=""><a href="/bancos" ><i class="fa fa-circle-o"></i>Bancos</a></li>
+                 <li class=""><a href="/cuentaBancarias" ><i class="fa fa-circle-o"></i>Cuentas Bancarias</a></li>
                 <li class=""><a href="/profesiones" ><i class="fa fa-circle-o"></i>Profesiones</a></li>
                 <li class=""><a href="/personas" ><i class="fa fa-circle-o"></i>Personas</a></li>
                 <li class=""><a href="/docentes" ><i class="fa fa-circle-o"></i>Docentes </a></li>
