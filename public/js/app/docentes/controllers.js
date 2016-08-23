@@ -289,7 +289,7 @@
                                                     $scope.updateDocente();
                                                 })    
                                             }else{
-                                                $scope.docente.curriculo="";
+                                                //$scope.docente.curriculo="";
                                                 $scope.updateDocente();
                                             }
                                         }else{
