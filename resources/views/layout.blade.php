@@ -161,6 +161,8 @@
                 <li class=""><a href="/profesiones" ><i class="fa fa-circle-o"></i>Profesiones</a></li>
                 <li class=""><a href="/personas" ><i class="fa fa-circle-o"></i>Personas</a></li>
                 <li class=""><a href="/docentes" ><i class="fa fa-circle-o"></i>Docentes </a></li>
+                <li class=""><a href="/cursos" ><i class="fa fa-circle-o"></i>Cursos</a></li>
+                <li class=""><a href="/ediciones" ><i class="fa fa-circle-o"></i>Ediciones </a></li>
               </ul>
             </li>
             @endif
