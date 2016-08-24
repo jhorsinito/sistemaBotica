@@ -217,3 +217,31 @@ Route::group(['middleware' => 'role'], function () {
 
     Route::post('api/docentes/uploadFile',['as'=>'product_disabled', 'uses'=>'DocentesController@uploadFile']);
 //END CATEGORIAS ROUTES
+//PERSONS ROUTES
+    Route::get('cursos', ['as' => 'person', 'uses' => 'CursosController@index']);
+    Route::get('cursos/create', ['as' => 'person_create', 'uses' => 'CursosController@index']);
+    Route::get('cursos/edit/{id?}', ['as' => 'person_edit', 'uses' => 'CursosController@index']);
+    Route::get('cursos/form-create', ['as' => 'person_form_create', 'uses' => 'CursosController@form_create']);
+    Route::get('cursos/form-edit', ['as' => 'person_form_edit', 'uses' => 'CursosController@form_edit']);
+    Route::get('api/cursos/all', ['as' => 'person_all', 'uses' => 'CursosController@all']);
+    Route::get('api/cursos/paginate/', ['as' => 'person_paginate', 'uses' => 'CursosController@paginatep']);
+    Route::post('api/cursos/create', ['as' => 'person_create', 'uses' => 'CursosController@create']);
+    Route::put('api/cursos/edit', ['as' => 'person_edit', 'uses' => 'CursosController@edit']);
+    Route::post('api/cursos/destroy', ['as' => 'person_destroy', 'uses' => 'CursosController@destroy']);
+    Route::get('api/cursos/search/{q?}', ['as' => 'person_search', 'uses' => 'CursosController@search']);
+    Route::get('api/cursos/find/{id}', ['as' => 'person_find', 'uses' => 'CursosController@find']);
+//END PERSONS ROUTES
+//PERSONS ROUTES
+    Route::get('ediciones', ['as' => 'person', 'uses' => 'EdicionesController@index']);
+    Route::get('ediciones/create', ['as' => 'person_create', 'uses' => 'EdicionesController@index']);
+    Route::get('ediciones/edit/{id?}', ['as' => 'person_edit', 'uses' => 'EdicionesController@index']);
+    Route::get('ediciones/form-create', ['as' => 'person_form_create', 'uses' => 'EdicionesController@form_create']);
+    Route::get('ediciones/form-edit', ['as' => 'person_form_edit', 'uses' => 'EdicionesController@form_edit']);
+    Route::get('api/ediciones/all', ['as' => 'person_all', 'uses' => 'EdicionesController@all']);
+    Route::get('api/ediciones/paginate/', ['as' => 'person_paginate', 'uses' => 'EdicionesController@paginatep']);
+    Route::post('api/ediciones/create', ['as' => 'person_create', 'uses' => 'EdicionesController@create']);
+    Route::put('api/ediciones/edit', ['as' => 'person_edit', 'uses' => 'EdicionesController@edit']);
+    Route::post('api/ediciones/destroy', ['as' => 'person_destroy', 'uses' => 'EdicionesController@destroy']);
+    Route::get('api/ediciones/search/{q?}', ['as' => 'person_search', 'uses' => 'EdicionesController@search']);
+    Route::get('api/ediciones/find/{id}', ['as' => 'person_find', 'uses' => 'EdicionesController@find']);
+//END PERSONS ROUTES

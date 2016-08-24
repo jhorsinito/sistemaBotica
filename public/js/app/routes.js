@@ -145,6 +145,34 @@
                     controller: 'DocenteController'
                 }) 
                 //------------------
+                //RUTES PERSONAS
+                .when('/cursos', {
+                    templateUrl: '/js/app/cursos/views/index.html',
+                    controller: 'CursoController'
+                })
+                .when('/cursos/create',{
+                    templateUrl:'/cursos/form-create',
+                    controller: 'CursoController'
+                })
+                .when('/cursos/edit/:id',{
+                    templateUrl:'/cursos/form-edit',
+                    controller: 'CursoController'
+                }) 
+                //------------------
+                //RUTES PERSONAS
+                .when('/ediciones', {
+                    templateUrl: '/js/app/ediciones/views/index.html',
+                    controller: 'EdicionController'
+                })
+                .when('/ediciones/create',{
+                    templateUrl:'/ediciones/form-create',
+                    controller: 'EdicionController'
+                })
+                .when('/ediciones/edit/:id',{
+                    templateUrl:'/ediciones/form-edit',
+                    controller: 'EdicionController'
+                }) 
+                //------------------
                 .otherwise({
                     redirectTo: '/'
                 });
