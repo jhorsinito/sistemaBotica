@@ -152,17 +152,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li class=""><a href="/users" ><i class="fa fa-circle-o"></i>Usuarios</a></li>
-                <li class=""><a href="/ubigeos" ><i class="fa fa-circle-o"></i>Ubigeos</a></li>
-                <li class=""><a href="/acreditadoras" ><i class="fa fa-circle-o"></i>Acreditadoras</a></li>
-                <li class=""><a href="/medioPublicitarios" ><i class="fa fa-circle-o"></i>Medios Publicitarios</a></li>
-                <li class=""><a href="/bancos" ><i class="fa fa-circle-o"></i>Bancos</a></li>
-                 <li class=""><a href="/cuentaBancarias" ><i class="fa fa-circle-o"></i>Cuentas Bancarias</a></li>
-                <li class=""><a href="/profesiones" ><i class="fa fa-circle-o"></i>Profesiones</a></li>
-                <li class=""><a href="/personas" ><i class="fa fa-circle-o"></i>Personas</a></li>
-                <li class=""><a href="/docentes" ><i class="fa fa-circle-o"></i>Docentes </a></li>
-                <li class=""><a href="/cursos" ><i class="fa fa-circle-o"></i>Cursos</a></li>
-                <li class=""><a href="/ediciones" ><i class="fa fa-circle-o"></i>Ediciones </a></li>
+                
               </ul>
             </li>
             @endif
