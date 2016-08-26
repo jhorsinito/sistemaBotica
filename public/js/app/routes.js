@@ -31,6 +31,19 @@
                     controller: 'UserController'
                 })
                 //-----------------------------
+                .when('/tiendas', {
+                    templateUrl: '/js/app/tiendas/views/index.html',
+                    controller: 'TiendaController'
+                })
+                .when('/tiendas/create',{
+                    templateUrl:'/tiendas/form-create',
+                    controller: 'TiendaController'
+                })
+                .when('/tiendas/edit/:id',{
+                    templateUrl:'/tiendas/form-edit',
+                    controller: 'TiendaController'
+                })
+                //-----------------------------
                 
                 .otherwise({
                     redirectTo: '/'

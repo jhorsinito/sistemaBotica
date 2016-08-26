@@ -82,5 +82,19 @@ Route::group(['middleware' => 'role'], function () {
     Route::get('api/persons/search/{q?}', ['as' => 'person_search', 'uses' => 'PersonsController@search']);
     Route::get('api/persons/find/{id}', ['as' => 'person_find', 'uses' => 'PersonsController@find']);
 //END PERSONS ROUTES
+    //PERSONS ROUTES
+    Route::get('tiendas', ['as' => 'person', 'uses' => 'TiendasController@index']);
+    Route::get('tiendas/create', ['as' => 'person_create', 'uses' => 'TiendasController@index']);
+    Route::get('tiendas/edit/{id?}', ['as' => 'person_edit', 'uses' => 'TiendasController@index']);
+    Route::get('tiendas/form-create', ['as' => 'person_form_create', 'uses' => 'TiendasController@form_create']);
+    Route::get('tiendas/form-edit', ['as' => 'person_form_edit', 'uses' => 'TiendasController@form_edit']);
+    Route::get('api/tiendas/all', ['as' => 'person_all', 'uses' => 'TiendasController@all']);
+    Route::get('api/tiendas/paginate/', ['as' => 'person_paginate', 'uses' => 'TiendasController@paginatep']);
+    Route::post('api/tiendas/create', ['as' => 'person_create', 'uses' => 'TiendasController@create']);
+    Route::put('api/tiendas/edit', ['as' => 'person_edit', 'uses' => 'TiendasController@edit']);
+    Route::post('api/tiendas/destroy', ['as' => 'person_destroy', 'uses' => 'TiendasController@destroy']);
+    Route::get('api/tiendas/search/{q?}', ['as' => 'person_search', 'uses' => 'TiendasController@search']);
+    Route::get('api/tiendas/find/{id}', ['as' => 'person_find', 'uses' => 'TiendasController@find']);
+//END PERSONS ROUTES
 
 

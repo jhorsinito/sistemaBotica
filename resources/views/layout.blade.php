@@ -152,7 +152,8 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                
+                <li class=""><a href="/users" ><i class="fa fa-circle-o"></i>Usuarios</a></li>
+                <li class=""><a href="/tiendas" ><i class="fa fa-circle-o"></i>Tiendas</a></li>
               </ul>
             </li>
             @endif
