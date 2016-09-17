@@ -7,8 +7,9 @@
                 $scope.errors = null;
                 $scope.success;
                 $scope.query = '';
+                $scope.tiendas={};
 
-                $scope.toggle = function () {
+                $scope.toggle = function () { 
                     $scope.show = !$scope.show; 
                 };
 
@@ -33,6 +34,7 @@
                     crudService.byId(id,'almacenes').then(function (data) {
                         $scope.almacen = data;
                     });
+
                 }else{
                     crudService.paginate('almacenes',1).then(function (data) {
                         $scope.almacenes = data.data;
@@ -41,6 +43,10 @@
                         $scope.currentPage = data.current_page;
                         $scope.itemsperPage = 15;
                         $log.log($scope.almacenes);
+                    });
+                    crudService.all('tiendasAll',1).then(function (data) {
+                        $scope.tiendas=data;
+                        $log.log($scope.tiendas);
                     });
                 }
 
@@ -65,7 +71,9 @@
 
                 $scope.createAlmacen= function(){
                     //$scope.atribut.estado = 1;
+                 
                     if ($scope.almacenCreateForm.$valid) {
+                        $scope.almacen
                         crudService.create($scope.almacen, 'almacenes').then(function (data) {
                           
                             if (data['estado'] == true) {

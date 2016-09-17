@@ -95,6 +95,7 @@ Route::group(['middleware' => 'role'], function () {
     Route::post('api/tiendas/destroy', ['as' => 'person_destroy', 'uses' => 'TiendasController@destroy']);
     Route::get('api/tiendas/search/{q?}', ['as' => 'person_search', 'uses' => 'TiendasController@search']);
     Route::get('api/tiendas/find/{id}', ['as' => 'person_find', 'uses' => 'TiendasController@find']);
+    Route::get('api/tiendasAll/all', ['as' => 'person_all', 'uses' => 'TiendasController@allTiendas']);
 //END PERSONS ROUTES
 
 

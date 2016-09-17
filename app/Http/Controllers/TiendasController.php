@@ -20,6 +20,13 @@ class TiendasController extends Controller {
         $tiendas = $this->tiendaRepo->paginate(15);
         return response()->json($tiendas);
     }
+
+    public function allTiendas()
+    {
+        
+        $tiendas = $this->tiendaRepo->allTiendas();
+        return response()->json($tiendas);
+    }
    
     public function paginatep(){
         $tiendas = $this->tiendaRepo->paginate(15);

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAlmacenesTable extends Migration
+class CreateAtributesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,11 @@ class CreateAlmacenesTable extends Migration
      */
     public function up()
     {
-        Schema::create('almacenes', function (Blueprint $table) {
+        Schema::create('atributes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombreAlmacen')->nullable();
-            $table->string('descripcion')->nullable();
-            $table->integer('tienda_id')->unsigned();
-            $table->foreign('tienda_id')->references('id')->on('tiendas');
+            $table->string('nombre');
+            $table->string('shortname');
+            $table->text('descripcion');
             $table->timestamps();
         });
     }

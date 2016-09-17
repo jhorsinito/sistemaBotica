@@ -39,24 +39,15 @@
                     </div>
 
 
-                     <div class="form-group" ng-class="{true: 'has-error'}[ almacenCreateForm.tiendas_id.$error.required && almacenCreateForm.$submitted || almacenCreateForm.tiendas_id.$dirty && almacenCreateForm.tiendas_id.$invalid]">
-                      <label for="tiendas_id">Tienda</label>
-
-                      
-                  <select>
-                      ("tiendas_id",$tiendas=/sistemaBotica/app/Salesfly/Entities/Tienda::lists('nombreTienda',id)->prepend('Seleccione la Tienda'), null,['id'=>'tiendas_id','class'=>'form-control'])</select>
-                   
                      
-                    </div>
-
-
-                    <div class="form-group" ng-class="{true: 'has-error'}[ almacenCreateForm.tienda.$error.required  && almacenCreateForm.$submitted || almacenCreateForm.tienda.$dirty && almacenCreateForm.tienda.$invalid]">
-                                               <label>Tienda</label>
-                                                    <select name="tienda" class="form-control" ng-model="tienda.tiendas_id" ng-options="tiendas.key1 as tienda.value1 for tienda in tiendas">
-
-                                                 </select>
-                                                
-                                          </div>
+                     <div class="form-group" ng-class="{'has-error': almacenCreateForm.tienda_id.$invalid,'has-success':almacenCreateForm.tienda_id.$invalid}">
+                            <label>Tienda</label>
+                            <select class="form-control ng-pristine ng-valid ng-touched" name="tienda_id" ng-model="almacen.tienda_id" ng-options="item.id as item.nombreTienda for item in tiendas" required><option value="">-- Elige Tienda --</option></select>
+                            <label ng-show="almacenCreateForm.tienda_id.$error.required">
+                                <span ng-show="almacenCreateForm.tienda_id.$error.required"><i class="fa fa-times-circle-o"></i>El campo DNI es Requerido. 
+                                </span>
+                              </label>
+                        </div>
 
 
 
@@ -66,7 +57,7 @@
                 </div><!-- /.box-body -->
 
                   <div class="box-footer">
-                    <button type="submit" class="btn btn-primary" ng-click="createTienda()">Crear</button>
+                    <button type="submit" class="btn btn-primary" ng-click="createAlmacen()">Crear</button>
                     <a href="/almacenes" class="btn btn-danger">Cancelar</a>
                   </div>
                 </form>

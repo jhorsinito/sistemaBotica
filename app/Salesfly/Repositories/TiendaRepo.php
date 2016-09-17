@@ -15,4 +15,11 @@ class TiendaRepo extends BaseRepo{
                     ->paginate(15);
         return $tienda;
     }
+    public function allTiendas()
+    {
+        $tienda =Tienda::orderBy('nombreTienda', 'asc')
+                        ->get();
+        return $tienda;
+    }
+     
 } 
