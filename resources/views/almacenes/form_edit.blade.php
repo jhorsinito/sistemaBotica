@@ -1,12 +1,12 @@
 <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Farmacias
+            Tiendas
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class=""><a href="/tiendas">Farmacias</a> </li>
+            <li class=""><a href="/tiendas">Tiendas</a> </li>
             <li class="active">Editar</li>
           </ol>
 
@@ -19,7 +19,7 @@
 
           <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Editar Farmacia</h3>
+                  <h3 class="box-title">Editar Tienda</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form name="TiendaEditForm" role="form" novalidate>
@@ -29,17 +29,17 @@
                                               <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
                                               </ul>
                                             </div>
-                    
 
-                  
+
+
                   <div class="form-group" ng-class="{true: 'has-error'}[ TiendaEditForm.nombreTienda.$error.required && TiendaEditForm.$submitted || TiendaEditForm.nombreTienda.$dirty && TiendaEditForm.nombreTienda.$invalid]">
-                      <label for="nombreTienda">Nombre Farmacia</label>
-                      <input type="text" class="form-control" name="nombreTienda" placeholder="Nombre Farmacia" ng-model="tienda.nombreTienda" required>
+                      <label for="nombreTienda">Nombre Tienda</label>
+                      <input type="text" class="form-control" name="nombreTienda" placeholder="Nombre Tienda" ng-model="tienda.nombreTienda" required>
                       <label ng-show="TiendaEditForm.$submitted || TiendaEditForm.nombreTienda.$dirty && TiendaEditForm.nombreTienda.$invalid">
                         <span ng-show="TiendaEditForm.nombreTienda.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>
                     </div>
-                    
+
                     <div class="form-group" ng-class="{true: 'has-error'}[ TiendaEditForm.razonSocial.$error.required && TiendaEditForm.$submitted || TiendaEditForm.razonSocial.$dirty && TiendaEditForm.razonSocial.$invalid]">
                       <label for="razonSocial">Razon Social</label>
                       <input type="text" class="form-control" name="razonSocial" placeholder="Razon Social" ng-model="tienda.razonSocial" required>
@@ -141,7 +141,7 @@
                     </div>
 
 
-                    
+
                 </div><!-- /.box-body -->
 
                   <div class="box-footer">

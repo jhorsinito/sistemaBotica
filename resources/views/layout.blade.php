@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>EG | @section('module')Dashboard @show</title>
+    <title>BV | @section('module')Dashboard @show</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.4 -->
@@ -13,8 +13,8 @@
     <link href="/vendor/ionicons/css/ionicons.min.css" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
     <link href="/vendor/adminlte/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
-    
-    <!-- AdminLTE Skins. Choose a skin from the css/skins 
+
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link href="/vendor/adminlte/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
     <!-- AdminLTE fonts OpenSans-->
@@ -47,9 +47,9 @@
         <!-- Logo -->
         <a href="/" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>E</b>G</span>
+          <span class="logo-mini"><b>B</b>V</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Eknowledge </b>Group</span>
+          <span class="logo-lg"><b>Botica Vencedor SRL</b></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -97,16 +97,16 @@
                       <a href="#">Followers</a>
                     </div>
                     <div class="col-xs-4 text-center">
-                      <a href="#">Sales</a>
+                      <a href="#">Ventas</a>
                     </div>
                     <div class="col-xs-4 text-center">
-                      <a href="#">Friends</a>
+                      <a href="#">Amigos</a>
                     </div>
                   </li>
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="/users/edit/{{Auth()->user()->id}}" class="btn btn-default btn-flat">Profile</a>
+                      <a href="/users/edit/{{Auth()->user()->id}}" class="btn btn-default btn-flat">Perfil</a>
                     </div>
                     <div class="pull-right">
                       <a href="/auth/logout" class="btn btn-default btn-flat">Salir</a>
@@ -148,21 +148,24 @@
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-wrench"></i>
-                <span>Configuración</span>
+                <span>Mantenimiento</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
                 <li class=""><a href="/users" ><i class="fa fa-circle-o"></i>Usuarios</a></li>
-                <li class=""><a href="/tiendas" ><i class="fa fa-circle-o"></i>Tiendas</a></li>
+                <li class=""><a href="/tiendas" ><i class="fa fa-circle-o"></i>Farmacias</a></li>
+                <li class=""><a href="/almacenes" ><i class="fa fa-circle-o"></i>Almacen</a></li>
+                <li class=""><a href="/productos" ><i class="fa fa-circle-o"></i>Productos</a></li>
+
               </ul>
             </li>
             @endif
-            
-              
-              
-            
-            
-            
+
+
+
+
+
+
 
 
           </ul>
@@ -329,7 +332,7 @@
         <div class="pull-right hidden-xs">
           <b>Version</b> 1.01
         </div>
-        <strong>Copyright &copy; 2016 <a href="#">ToBal</a>.</strong> Todos los derechos reservados.
+        <strong>Copyright &copy; 2016 <a href="#">ISF INGENIERO</a>.</strong> Todos los derechos reservados.
       </footer>
 
       <!-- Control Sidebar -->
@@ -540,8 +543,8 @@
     <script src="/js/app/persons/app.js"></script>
     <script src="/js/app/persons/controllers.js"></script>
 
-    
-    
+
+
 
     <script src="/vendor/angular-ui-slider/src/slider.js"></script>
     <!-- endinject -->
