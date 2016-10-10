@@ -1,22 +1,32 @@
 @extends('layout')
 @section('module')
-Farmacias
+Productos
 @stop
 @section('base_url')
-<base href="{{URL::to('/')}}/tiendas"/>
+<base href="{{URL::to('/')}}/productos"/>
 @stop
 @section('css-customize')
 @stop
 @section('content')
-<section ng-app="tiendas">
+<!--<section class="content-header">
+    <h1>
+        Productos
+        <small>Panel de Control</small>
+    </h1>
+</section>-->
+
+<!-- Main content -->
+<section ng-app="productos">
     <div ng-view>
 
     </div>
 </section>
 
 @section('js-customize')
-<script src="/js/app/tiendas/app.js"></script>
-    <script src="/js/app/tiendas/controllers.js"></script>
+
+    <script src="/js/app/productos/app.js"></script>
+    <script src="/js/app/productos/controllers.js"></script>
+    
 @stop
 
 @stop

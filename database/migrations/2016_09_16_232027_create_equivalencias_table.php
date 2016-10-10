@@ -17,8 +17,8 @@ class CreateEquivalenciasTable extends Migration
             $table->integer('preBase_id')->unsigned();
             $table->integer('preFin_id')->unsigned();
             $table->decimal('cant',10,2);
-            $table->foreign('preBase_id')->references('id')->on('presentation');
-            $table->foreign('preFin_id')->references('id')->on('presentation');
+            $table->foreign('preBase_id')->references('id')->on('presentaciones');
+            $table->foreign('preFin_id')->references('id')->on('presentaciones');
             $table->timestamps();
         });
     }

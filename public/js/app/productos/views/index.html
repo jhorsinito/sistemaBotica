@@ -1,36 +1,45 @@
 <!-- Content Header (Page header) -->
         <section class="content-header">
-          <h1>Productos
+          <h1>
+            Productos
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Farmacias</li>
+            <li class="active">Productos</li>
           </ol>
 
           
         </section>
 
-        
-
         <!-- Main content -->
         <section class="content">
         <div class="row">
         <div class="col-md-12">
-          <a href="/tiendas/create" type="submit" class="btn btn-primary pull-left">Agregar Producto</a> 
+          <a href="/productos/create" type="submit" class="btn btn-primary pull-left">Añadir Producto</a>
           </div>
+
         </div>
         </br>
           <div class="row">
             <div class="col-md-12">
+            <!--//////////////////////////////////////////////////////////////-->
+           
+     <!--///////////////////////////////////////////////////////////////////-->
 
-
-              <div class="box"> 
-
+              <div class="box">
+        <div class="row">
+        <div class="col-md-2">
+            <input type="submit" class="btn btn-success" value="Generar Codigos de Barra" ng-click="GenerarCodigoBarras(cantidad)">
+        </div>
+        <div class="col-md-2">
+            <input type="number" class="form-control" ng-model="cantidad">
+        </div>
+       </div>
                 <div class="box-header with-border">
-                  <h3 class="box-title">Farmacias</h3>
+                  <h3 class="box-title">Productos</h3>
                   <div class="box-tools">
-                  <form ng-keyup="searchTienda()">
+                  <form ng-keyup="searchProduct()">
                     <div class="input-group" style="width: 200px;">
                       <input type="text" ng-model="query"  name="table_search" class="form-control input-sm pull-right" placeholder="Search" />
                       <div class="input-group-btn">
@@ -39,52 +48,73 @@
                     </div>
                     </form>
                   </div>
-                </div><!-- /.box-header -->  
+                </div><!-- /.box-header -->
                 <div class="box-body">
-                    <div class="row">
-                        <div class="col-sm-10">
-                            <div ng-show="success" class="callout callout-info">
-                                <strong>{{success}} se ha creado correctamente!</strong>
-                            </div>
-                        </div>
+                    <div class="callout callout-info"  ng-show="success">
+                        <strong>Ha agregado correctamente a {{success}}.</strong>
                     </div>
-                <div class="callout callout-info"  ng-show="tienda.id">
-                    <h4>¿ Estás seguro que deseas eliminar a "{{tienda.nombreTienda}}" ?</h4>
+                <div class="callout callout-info"  ng-show="product.proId > 0">
+                    <h4>¿ Estás seguro que deseas eliminar a "{{product.proNombre}}" ?</h4>
                     <p>
-                      <button type="button" class="btn btn-danger" ng-click="destroyTienda()">Si</button>
-                      <button type="button" class="btn btn-default" ng-click="cancelTienda()">No</button>
+                      <button type="button" class="btn btn-danger" ng-click="destroyProduct()">Si</button>
+                      <button type="button" class="btn btn-default" ng-click="cancelProduct()">No</button>
                     </p>
                   </div>
                   <div class="box-body table-responsive no-padding">
-                    <table class="table table-bordered">
-                      <tr>
-                        <th style="width: 10px">#</th>
-                        <th>NOMBRE</th>
-                        <th>RAZON SOCIAL</th>
-                        <th>RUC</th>
-                        <th>DIRECCION</th>
-                        <th>TELEFONO MOVIL</th>
-                        <th>TELEFONO FIJO</th>
-                      
-                        <th style="width: 40px">Editar</th>
-                        <th style="width: 40px">Eliminar</th>
-                      </tr>
+                  <table class="table table-bordered table-hover">
+                    <tr>
+                      <th style="width: 10px">#</th>
+                      <th>Código</th>
+                      <th>Nombre</th>
+                        <th>Precio</th>
+                      <th>Marca</th>
+                      <th>Línea</th>
+                        <th>Creado</th>
+                        <th>Por</th>
+                        <th>Variantes</th>
+                        <th>Stock</th>
+                      <th style="width: 40px">Editar</th>
+                        <th>Estado</th>
+                      <th style="width: 40px">Eliminar</th>
+                    </tr>
                     
-                      <tr ng-repeat="row in tiendas">
-                        <td>{{$index + 1}}</td>
-                        <td>{{row.nombreTienda}}</td>
-                        <td>{{row.razonSocial}}</td>
-                        <td>{{row.ruc}}</td>
-                        <td>{{row.direccion}}</td>
-                        <td>{{row.telMovil}}</td>
-                        <td>{{row.telFijo}}</td>
-                        <td><a ng-click="editTienda(row)" class="btn btn-warning btn-xs">Editar</a></td>
-                        <td><a ng-click="deleteTienda(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
-                      
-                      </tr>
+                    <tr ng-repeat="row in productos">
+                      <td>{{$index + 1}}</td>
+
+                      <td>{{row.proCodigo }}</td>
+                      <td><a ng-href="/productos/show/{{row.proId}}">{{row.proNombre}}</a></td>
+                        <td>{{row.detPresPri}}</td>
+                      <td>{{row.braNombre}}</td>
+                      <td>{{row.typNombre}}</td>
+                        <td>{{row.proCreado}}</td>
+                        <td>{{row.userNombre}}</td>
+                        <td>
+                            <span ng-if="row.proHasVar == '1'">
+                                        <span ng-if="row.proQuantvar == '0'">0</span>
+                                        <a ng-if="row.proQuantvar != '0'" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" ng-click="showVariants(row)">{{row.proQuantvar}}</a>
+                                </span>
+                            <span ng-if="row.proHasVar == '0'">
+                                        <span ng-if="row.proQuantvar == '0'">-</span>
+                                </span>
+                        </td>
+                        <td> <button popover-placement="bottom" popover-template="stockTemplate" type="button" class="btn btn-default btn-xs" ng-click="showStock(row.proId)">{{row.stoStockActual}}</button>
+                        </td>
+                      <td><a ng-click="editProduct(row)" class="btn btn-warning btn-xs">Editar</a></td>
+                        <td>
+                            <span ng-if="row.proEstado == 1">
+                            <a ng-click="disableProduct(row)" class="btn bg-purple-active color-palette btn-xs">Desactivar</a>
+                        </span>
+                            <span ng-if="row.proEstado == 0">
+                            <a ng-click="disableProduct(row)" class="btn bg-purple-active color-palette btn-xs">Activar</a>
+                        </span>
+
+                        </td>
+                      <td><a ng-click="deleteProduct(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
+
+                    </tr>
                     
                     
-                    </table>
+                  </table>
                   </div>
                 </div><!-- /.box-body -->
                 <div class="box-footer clearfix">
@@ -93,7 +123,101 @@
 
 
                 </div>
+                  <!-- Modal -->
+
               </div><!-- /.box -->
             </div>  
           </div>
         </section>
+
+<!-- ===============================================Modal de Variants=============================================-->
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Variantes del Producto ...</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Variantes</h3>
+                    </div><!-- /.box-header -->
+
+                    <div class="box-body no-padding">
+                        <table class="table table-condensed">
+                            <tbody><tr>
+                                <th style="width: 10px">#</th>
+                                <th>Variante</th>
+                                <th>Precio</th>
+                                <th style="width: 40px">Stock</th>
+                            </tr>
+                            <tr ng-repeat="row in variants">
+                                <td>{{$index + 1}}</td>
+                                <td><a href="/variants/edit/{{row.id}}">{{row.product.nombre}}
+                                    <span ng-repeat="row2 in row.det_atr ">
+                                        / {{row2.descripcion}}
+                                    </span>
+
+                                </a></td>
+                                <td>{{row.det_pre[0].price}}</td>
+                                <td>{{row.stock[0].stockActual}}</td>
+                            </tr>
+
+                            </tbody></table>
+                    </div><!-- /.box-body -->
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--==============================================end modal de variantes===============================================-->
+
+<script type="text/ng-template" id="stockTemplate.html">
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Stock</h3>
+
+        </div><!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+            <table class="table table-hover">
+                <tbody><tr>
+                    <th>#</th>
+                    <th>Almacén</th>
+                    <th>Stock Actual</th>
+                    <th>Stock por llegar</th>
+                    <th>Ćodigo</th>
+                    <th>SKU</th>
+
+                </tr>
+                <tr ng-repeat="row in stockVariants">
+                    <td>{{$index + 1}}</td>
+                    <td>{{row.nombre}}</td>
+                    <td>{{row.stockActual}}</td>
+                    <td>{{row.porLlegar}}</td>
+                    <td>{{row.codigo}}</td>
+                    <td>{{row.sku}}</td>
+
+                </tr>
+
+
+
+                </tbody></table>
+        </div><!-- /.box-body -->
+    </div>
+</script>
+
+<style>
+.popover {
+min-width: 400px;
+width: auto;
+}
+</style>

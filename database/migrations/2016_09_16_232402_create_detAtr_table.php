@@ -14,10 +14,10 @@ class CreateDetAtrTable extends Migration
     {
         Schema::create('detAtr', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('variant_id')->unsigned();
+            $table->integer('variante_id')->unsigned();
             $table->integer('atribute_id')->unsigned();
             $table->string('descripcion');
-            $table->foreign('variant_id')->references('id')->on('variants');
+            $table->foreign('variante_id')->references('id')->on('variantes');
             $table->foreign('atribute_id')->references('id')->on('atributes');
             $table->timestamps();
         });

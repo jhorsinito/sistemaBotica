@@ -114,17 +114,74 @@ Route::group(['middleware' => 'role'], function () {
     Route::get('api/almacenes/find/{id}', ['as' => 'almacen_find', 'uses' => 'AlmacenesController@find']);
 //END ALMACENES ROUTES
 
-//PRODUCTOS ROUTES
-   Route::get('productos', ['as' => 'producto', 'uses' => 'ProductosController.php@index']);
-   Route::get('productos/create', ['as' => 'producto_create', 'uses' => 'ProductosController.php@index']);
-   Route::get('productos/edit/{id?}', ['as' => 'producto_edit', 'uses' => 'ProductosController.php@index']);
-   Route::get('productos/form-create', ['as' => 'producto_form_create', 'uses' => 'ProductosController.php@form_create']);
-   Route::get('productos/form-edit', ['as' => 'producto_form_edit', 'uses' => 'ProductosController.php@form_edit']);
-   Route::get('api/productos/all', ['as' => 'producto_all', 'uses' => 'ProductosController.php@all']);
-   Route::get('api/productos/paginate/', ['as' => 'producto_paginate', 'uses' => 'ProductosController.php@paginatep']);
-   Route::post('api/productos/create', ['as' => 'producto_create', 'uses' => 'ProductosController.php@create']);
-   Route::put('api/productos/edit', ['as' => 'producto_edit', 'uses' => 'ProductosController.php@edit']);
-   Route::post('api/productos/destroy', ['as' => 'producto_destroy', 'uses' => 'ProductosController.php@destroy']);
-   Route::get('api/productos/search/{q?}', ['as' => 'producto_search', 'uses' => 'ProductosController.php@search']);
-   Route::get('api/productos/find/{id}', ['as' => 'producto_find', 'uses' => 'ProductosController.php@find']);
-//END PRODUCTOS ROUTES
+   //PRODUCTS ROUTES
+Route::get('productos',['as'=>'product','uses'=>'ProductosController@index']);
+Route::get('productos/create',['as'=>'product_create','uses'=>'ProductosController@index']);
+Route::get('productos/edit/{id?}', ['as' => 'product_edit', 'uses' => 'ProductosController@index']);
+Route::get('productos/form-create',['as'=>'product_form_create','uses'=>'ProductosController@form_create']);
+Route::get('productos/form-edit',['as'=>'product_form_edit','uses'=>'ProductosController@form_edit']);
+Route::get('api/productos/all',['as'=>'product_all', 'uses'=>'ProductosController@all']);
+Route::get('api/productos/paginate/',['as' => 'product_paginate', 'uses' => 'ProductosController@paginate']);
+Route::get('api/productos/pag',['as' => 'prod_pag', 'uses' => 'ProductosController@pag']);
+Route::post('api/productos/create',['as'=>'product_create', 'uses'=>'ProductosController@create']);
+Route::put('api/productos/edit',['as'=>'product_edit', 'uses'=>'ProductosController@edit']);
+Route::post('api/productos/destroy',['as'=>'product_destroy', 'uses'=>'ProductosController@destroy']);
+Route::get('api/productos/disableprod/{id}',['as'=>'product_disabled', 'uses'=>'ProductosController@disableprod']);
+Route::get('api/productos/search/{q?}',['as'=>'product_search', 'uses'=>'ProductosController@search']);
+Route::get('api/productName/search/{q?}',['as'=>'product_search', 'uses'=>'ProductosController@searchProducts']);
+Route::get('api/productaddVariant/search/{q?}',['as'=>'product_search', 'uses'=>'ProductosController@searchProductAddVariant']);
+Route::get('api/productos/find/{id}',['as'=>'person_find', 'uses'=>'ProductosController@find']);
+Route::get('api/productos/marcas',['as' => 'products_brands_select','uses' => 'ProductosController@brands_select']);
+Route::get('api/productos/materials',['as' => 'products_materials_select','uses' => 'ProductosController@materials_select']);
+Route::get('api/productos/types',['as' => 'products_types_select','uses' => 'ProductosController@types_select']);
+Route::get('api/productos/stations',['as' => 'products_stations_select','uses' => 'ProductosController@stations_select']);
+Route::get('productos/show/{id?}',['as' => 'products_show_by_id','uses' => 'ProductosController@index']);
+Route::get('productos/view-show','ProductosController@show');
+Route::get('api/productos/autocomplit/','ProductosController@autocomplit');
+Route::get('api/productos/autocomplit2/','ProductosController@getAutocomplit2');
+Route::get('api/productos/select','ProductosController@selectProducts');
+Route::get('api/productos/validar/{text}','ProductosController@validarNombre');
+//---------------------
+Route::get('api/productsSearchsku/misDatos/{store?}/{were?}/{q?}',['as'=>'person_find', 'uses'=>'ProductosController@searchsku']);
+Route::get('api/productos/misDatos/{store?}/{were?}/{q?}',['as'=>'person_find', 'uses'=>'ProductosController@misDatos']);
+Route::get('api/productsVariantes/misDatos/{store?}/{were?}/{q?}',['as'=>'person_find', 'uses'=>'ProductosController@misDatosVariantes']);
+Route::get('api/productsFavoritos/misDatos/{store?}/{were?}/{q?}',['as'=>'person_find', 'uses'=>'ProductosController@favoritos']);
+Route::get('api/buquedarapida/misDatos/{store?}/{were?}/{q?}/{type?}/{marcas?}/{product?}/',['as'=>'person_find', 'uses'=>'ProductosController@variantsAllInventary']);
+//---------------------
+ 
+//END PRODUCTS ROUTES
+//VARIANTS ROUTES
+Route::get('api/variants/variant/{id}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@variant']);
+Route::get('api/variants/variants/{id}',['as' => 'variants_byproduct_id', 'uses' => 'VariantsController@variants']);
+Route::get('api/variants/autocomplit/{sku}','VariantsController@traer_por_Sku');
+Route::get('api/variants/Paginar_por_Variante','VariantsController@Paginar_por_Variante');
+Route::get('api/variants/paginatep/{id}/{var}','VariantsController@paginatep');
+Route::get('api/variants/selectTalla/{id}/{taco}','VariantsController@selectTalla');
+Route::get('api/variants/selectStocksTalla/{id}/{taco}/{alma}','VariantsController@selectStocksTalla');
+Route::get('api/variants/selectStocksTallaSinTaco/{id}/{alma}','VariantsController@selectStocksTallaSinTaco');
+Route::get('api/variantname/search/{q?}',['as' => 'variant_byproduct_id', 'uses' => 'VariantsController@searchCodigo']);
+//END VARIANTS ROUTES
+
+//Presentations routes
+Route::get('api/presentaciones/findVariant/{id}','PresentacionesController@findVariant');
+Route::get('api/presentaciones/all',['as'=>'presentation_all', 'uses'=>'PresentacionesController@all']);
+Route::get('api/presentations_base/all',['as'=>'presentation_base_all', 'uses'=>'PresentacionesController@all_base']);
+Route::get('api/presentaciones/all_by_base/{id}',['as'=>'presentation_by_base_all', 'uses'=>'PresentacionesController@all_by_base']);
+Route::post('api/presentaciones/create',['as'=>'presentation_create', 'uses'=>'PresentacionesController@create']);
+//End prese routes
+
+//route::controller('/', 'Layout\proban@prob'); 
+Route::get('marcas',['as'=>'brand','uses'=>'MarcasController@index']);
+ Route::get('marcas/create',['as'=>'brand_create','uses'=>'MarcasController@index']);
+ Route::get('marcas/edit/{id?}', ['as' => 'brand_edit', 'uses' => 'MarcasController@index']);
+ Route::get('marcas/form-create',['as'=>'brand_form_create','uses'=>'MarcasController@form_create']);
+ Route::get('marcas/form-edit',['as'=>'brand_form_edit','uses'=>'MarcasController@form_edit']);
+ Route::get('api/marcas/all',['as'=>'brand_all', 'uses'=>'MarcasController@all']);
+ Route::get('api/marcas/paginate/',['as' => 'brand_paginate', 'uses' => 'MarcasController@paginatep']);
+ Route::post('api/marcas/create',['as'=>'brand_create', 'uses'=>'MarcasController@create']);
+ Route::put('api/marcas/edit',['as'=>'brand_edit', 'uses'=>'MarcasController@edit']);
+ Route::post('api/marcas/destroy',['as'=>'brand_destroy', 'uses'=>'MarcasController@destroy']);
+ Route::get('api/marcas/search/{q?}',['as'=>'brand_search', 'uses'=>'MarcasController@search']);
+ Route::get('api/marcas/find/{id}',['as'=>'brand_find', 'uses'=>'MarcasController@find']);
+ Route::get('api/marcas/validar/{text}',['as'=>'brand_find', 'uses'=>'MarcasController@validaBrandname']);
+ //END STORE ROUTES

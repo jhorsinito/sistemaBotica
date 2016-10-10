@@ -1,7 +1,7 @@
 <?php
 namespace Salesfly\Salesfly\Entities;
-class Tienda extends \Eloquent {
-	protected $table = 'tiendas';
+class Producto extends \Eloquent {
+	protected $table = 'productos';
     
     protected $fillable = ['nombreTienda',
     						'razonSocial',
@@ -16,9 +16,5 @@ class Tienda extends \Eloquent {
     						'telFijo',
     						'webSite'];
 
-    public function almacen()
-    {
-
-        return $this-> hasmany(Almacen::class);
-    }
+    
 }

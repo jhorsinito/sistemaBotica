@@ -19,18 +19,20 @@ class CreateProductosTable extends Migration
           $table->string('tipo')->nullable();
           $table->string('codigo')->nullable();
           $table->string('descripcion')->nullable();
-          $table->string('inagen')->nullable();
-          $table->int('hasvariants')->nullable();
-          $table->int('estado')->nullable();
+          $table->string('imagen')->nullable();
+          $table->integer('hasvariants')->nullable();
+          $table->integer('estado')->nullable();
+          $table->integer('quantVar')->nullable();
           $table->string('presentacionBase')->nullable();
+          
 
-          $table->int('marca_id')->nullable();
-          $table->int('producto_id')->nullable();
+          $table->integer('marca_id')->unsigned()->nullable();
+          //$table->integer('producto_id')->unsigned()->nullable();
          
-          $table->int('user_id')->nullable();
+          $table->integer('user_id')->unsigned()->nullable();
 
           $table->foreign('marca_id')->references('id')->on('marcas');
-            $table->foreign('producto_id')->references('id')->on('productos');
+          //$table->foreign('producto_id')->references('id')->on('productos');
             $table->foreign('user_id')->references('id')->on('users');
           $table->timestamps();
       });

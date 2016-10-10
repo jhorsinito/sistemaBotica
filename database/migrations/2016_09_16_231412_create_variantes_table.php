@@ -16,8 +16,8 @@ class CreateVariantesTable extends Migration
             $table->increments('id');
             $table->bigInteger('sku'); //en base de datos poner inicio a 1000, true de increments
             
-            $table->integer('product_id')->unsigned();
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->integer('producto_id')->unsigned();
+            $table->foreign('producto_id')->references('id')->on('productos');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
