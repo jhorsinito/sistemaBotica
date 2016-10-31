@@ -3,7 +3,7 @@ namespace Salesfly\Salesfly\Entities;
 
 class Variant extends \Eloquent {
 
-    protected $table = 'variantes';
+    protected $table = 'variants';
 
     protected $fillable = ['codigo',
                             'sku',

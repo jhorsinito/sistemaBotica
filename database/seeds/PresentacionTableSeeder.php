@@ -12,7 +12,7 @@ class PresentacionTableSeeder extends Seeder
     public function run()
     {
         //
-        DB::table('presentaciones')->insert([
+        DB::table('presentation')->insert([
             'nombre' => 'Unidades',
             'shortname' => 'Un.',
             'descripcion' => '',
@@ -20,7 +20,7 @@ class PresentacionTableSeeder extends Seeder
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);
-        DB::table('presentaciones')->insert([
+        DB::table('presentation')->insert([
             'nombre' => 'Kilogramos',
             'shortname' => 'Kg.',
             'descripcion' => '',
@@ -28,7 +28,7 @@ class PresentacionTableSeeder extends Seeder
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);
-        DB::table('presentaciones')->insert([
+        DB::table('presentation')->insert([
             'nombre' => 'Litros',
             'shortname' => 'Lt.',
             'descripcion' => '',

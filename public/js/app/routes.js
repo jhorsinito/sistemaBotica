@@ -60,21 +60,113 @@
                 })
                 //-----------------------------
 
+// ------------------------------------------------------
+            .when('/atributes', {
+                    templateUrl: '/js/app/atributes/views/index.html',
+                    controller: 'AtributController'
+                })
+                .when('/atributes/create',{
+                    templateUrl:'/atributes/form-create',
+                    controller: 'AtributController'
+                })
+                .when('/atributes/edit/:id',{
+                    templateUrl:'/atributes/form-edit',
+                    controller: 'AtributController'
+                }) 
+                //----------------------------------------------------
+                  .when('/materials', {
+                    templateUrl: '/js/app/materials/views/index.html',
+                    controller: 'MaterialsController'
+                })
+                .when('/materials/create',{
+                    templateUrl:'/materials/form-create',
+                    controller: 'MaterialsController'
+                })
+                .when('/materials/preDolar',{
+                    templateUrl:'/materials/form-preDolar',
+                    controller: 'MaterialsController'
+                })
+                .when('/materials/listPreciDolar',{
+                    templateUrl:'/materials/form-listPreciDolar',
+                    controller: 'MaterialsController'
+                })
+                .when('/materials/editPreDolar/:id',{
+                    templateUrl:'/materials/form-editPreDolar',
+                    controller: 'MaterialsController'
+                }) 
+                .when('/materials/edit/:id',{
+                    templateUrl:'/materials/form-edit',
+                    controller: 'MaterialsController'
+                }) 
+                //---------------------------------------------------
+                .when('/stations', {
+                    templateUrl: '/js/app/stations/views/index.html',
+                    controller: 'StationController'
+                })
+                .when('/stations/create',{
+                    templateUrl:'/stations/form-create',
+                    controller: 'StationController'
+                })
+                .when('/stations/edit/:id',{
+                    templateUrl:'/stations/form-edit',
+                    controller: 'StationController'
+                }) 
+                // ------------------------------------------------------
+                // ------------------------------------------------------
+            .when('/types', {
+                    templateUrl: '/js/app/types/views/index.html',
+                    controller: 'TypeController'
+                })
+                .when('/types/create',{
+                    templateUrl:'/types/form-create',
+                    controller: 'TypeController'
+                })
+                .when('/types/edit/:id',{
+                    templateUrl:'/types/form-edit',
+                    controller: 'TypeController'
+                })    
 
-              //-----------------------------
-                .when('/productos', {
-                  templateUrl: '/js/app/productos/views/index.html',
-                  controller: 'ProductoController'
-                            })
-                .when('/productos/create',{
-                  templateUrl:'/productos/form-create',
-                  controller: 'ProductoController'
-                            })
-                .when('/productos/edit/:id',{
-                  templateUrl:'/productos/form-edit',
-                  controller: 'ProductoController'
-                          })
-                  //-----------------------------
+                //-------------------------------------------------------------        
+             .when('/brands', {
+                    templateUrl: '/js/app/brands/views/index.html',
+                    controller: 'BrandController'
+                })
+                .when('/brands/create',{
+                    templateUrl:'/brands/form-create',
+                    controller: 'BrandController'
+                })
+                .when('/brands/edit/:id',{
+                    templateUrl:'/brands/form-edit',
+                    controller: 'BrandController'
+                })  
+                      //----------------------------------------------------------------------
+                      //-------------------------------------------------
+                .when('/products', {
+                    templateUrl: '/js/app/products/views/index.html',
+                    controller: 'ProductController'
+                })
+                .when('/products/create',{
+                    templateUrl:'/products/form-create',
+                    controller: 'ProductController'
+                })
+                .when('/products/edit/:id',{
+                    templateUrl:'/products/form-edit',
+                    controller: 'ProductController'
+                })
+                .when('/products/show/:id',{
+                    templateUrl:'/products/view-show',
+                    controller: 'ProductController'
+                })
+                //-----------------------------------------------
+                .when('/variants/create/:product_id',{
+                    templateUrl: '/variants/form-create',
+                    controller: 'ProductController'
+                })
+                .when('/variants/edit/:id',{
+                    templateUrl: '/variants/form-edit',
+                    controller: 'ProductController'
+                })
+                //----------------------------------------- 
 
                 .otherwise({
                     redirectTo: '/'

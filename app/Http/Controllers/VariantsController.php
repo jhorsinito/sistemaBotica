@@ -27,6 +27,9 @@ use Salesfly\Salesfly\Managers\DetAtrManager;
 use Salesfly\Salesfly\Repositories\StockRepo;
 use Salesfly\Salesfly\Managers\StockManager;
 
+use Salesfly\Salesfly\Repositories\DetGrupoFarmaceuticoVarianteRepo;
+use Salesfly\Salesfly\Managers\DetGrupoFarmaceuticoVarianteManager;
+
 use Intervention\Image\Facades\Image;
 
 class VariantsController extends Controller
@@ -189,7 +192,7 @@ foreach ($tallasDisponibles as $tallasD) {
                     
                     $stock['variant_id'] = $variant->id;
                     $oStock = new StockRepo();
-                    $obj = $oStock->getModel()->where('variant_id',$stock['variant_id'])->where('warehouse_id',$stock['warehouse_id'])->first();
+                    $obj = $oStock->getModel()->where('variant_id',$stock['variant_id'])->where('almacen_id',$stock['almacen_id'])->first();
                      if(!empty($request->cantTallas[$n])){
                          $stock['stockActual']=$request->cantTallas[$n];
                      }else{
@@ -276,7 +279,7 @@ foreach ($tallasDisponibles as $tallasD) {
                     if (!isset($stock['stockMinSoles']) || $stock['stockMinSoles'] == NULL ||  $stock['stockMinSoles'] =='') $stock['stockMinSoles'] = 0;
                         $stock['variant_id'] = $variant->id;
                     $oStock = new StockRepo();
-                    $obj = $oStock->getModel()->where('variant_id',$stock['variant_id'])->where('warehouse_id',$stock['warehouse_id'])->first();
+                    $obj = $oStock->getModel()->where('variant_id',$stock['variant_id'])->where('almacen_id',$stock['almacen_id'])->first();
 
                     if(!isset($obj->id)){
                         $stockManager = new StockManager($oStock->getModel(), $stock);
@@ -303,6 +306,21 @@ foreach ($tallasDisponibles as $tallasD) {
                 $variant->save();
             }
      }
+                    $grupoFarmaceutico=$request->grupoFarmaceutico;
+                    $temporal=$variant->id;
+                    foreach($grupoFarmaceutico as $object){
+                      $object['variant_id'] = $temporal;
+                      $object['grupoFarmacologico_id'] = $object['id'];
+                      $object['id']=null;
+
+                      $detGrupoFarmaceuticoVarianteRepo;
+                      $detGrupoFarmaceuticoVarianteRepo = new DetGrupoFarmaceuticoVarianteRepo;
+                      $insertar=new DetGrupoFarmaceuticoVarianteManager($detGrupoFarmaceuticoVarianteRepo->getModel(),$object);
+                      $insertar->save();
+                      $detGrupoFarmaceuticoVarianteRepo = null;          
+                    }
+
+
            \DB::commit();
             return response()->json(['estado'=>true, 'nombres'=>$variant->nombre]);
         }else{
@@ -398,7 +416,7 @@ foreach ($tallasDisponibles as $tallasD) {
                         //var_dump($stock['variant_id']);
                         //var_dump($stock['warehouse_id']);
 
-                        $obj = $oStock->getModel()->where('variant_id',$stock['variant_id'])->where('warehouse_id',$stock['warehouse_id'])->first();
+                        $obj = $oStock->getModel()->where('variant_id',$stock['variant_id'])->where('almacen_id',$stock['almacen_id'])->first();
 
                         if(!isset($obj->id)){
                             $stockManager = new StockManager($oStock->getModel(), $stock);
@@ -483,7 +501,7 @@ foreach ($tallasDisponibles as $tallasD) {
                 $query->join('presentation','presentation.id','=','detPres.presentation_id')
                 ->where('presentation.id',$product->presentation_base);
             },'stock' => function($query){
-                $query->where('warehouse_id',1);
+                $query->where('almacen_id',1);
             },'user']);
             //echo 'hi';
 
