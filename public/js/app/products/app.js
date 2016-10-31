@@ -1,9 +1,9 @@
 (function(){
-    var app = angular.module('productos',[
+    var app = angular.module('products',[
         'ngRoute',
         //'btford.socket-io',
         'ngSanitize',
-        'productos.controllers',
+        'products.controllers',
         'crud.services',
         'routes',
         'ui.bootstrap',
@@ -37,12 +37,12 @@
     angular.module('ui.bootstrap').controller('ModalInstanceCtrl', function ($scope, $modalInstance, crudService) {
 
 
-        $scope.createMarca = function () {
+        $scope.createBrand = function () {
             //$modalInstance.close($scope.selected.item);
             //$scope.atribut.estado = 1;
-            if ($scope.marcaCreateForm.$valid) {
+            if ($scope.brandCreateForm.$valid) {
                 var $btn = $('#btn_generateMarca').button('loading');
-                crudService.create($scope.marca, 'marcas').then(function (data) {
+                crudService.create($scope.brand, 'brands').then(function (data) {
 
                     if (data['estado'] == true) {
                         $scope.success = data['nombres'];
@@ -59,7 +59,7 @@
             }
         };
 
-        $scope.cancelMarca = function () {
+        $scope.cancelBrand = function () {
             $modalInstance.dismiss('cancel');
         };
     });

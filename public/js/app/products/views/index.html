@@ -16,7 +16,7 @@
         <section class="content">
         <div class="row">
         <div class="col-md-12">
-          <a href="/productos/create" type="submit" class="btn btn-primary pull-left">Añadir Producto</a>
+          <a href="/products/create" type="submit" class="btn btn-primary pull-left">Añadir Producto</a>
           </div>
 
         </div>
@@ -78,11 +78,11 @@
                       <th style="width: 40px">Eliminar</th>
                     </tr>
                     
-                    <tr ng-repeat="row in productos">
+                    <tr ng-repeat="row in products">
                       <td>{{$index + 1}}</td>
 
                       <td>{{row.proCodigo }}</td>
-                      <td><a ng-href="/productos/show/{{row.proId}}">{{row.proNombre}}</a></td>
+                      <td><a ng-href="/products/show/{{row.proId}}">{{row.proNombre}}</a></td>
                         <td>{{row.detPresPri}}</td>
                       <td>{{row.braNombre}}</td>
                       <td>{{row.typNombre}}</td>
@@ -200,7 +200,7 @@
                 </tr>
                 <tr ng-repeat="row in stockVariants">
                     <td>{{$index + 1}}</td>
-                    <td>{{row.nombre}}</td>
+                    <td>{{row.nombreAlmacen}}</td>
                     <td>{{row.stockActual}}</td>
                     <td>{{row.porLlegar}}</td>
                     <td>{{row.codigo}}</td>
