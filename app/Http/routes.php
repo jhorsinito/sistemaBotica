@@ -114,5 +114,17 @@ Route::group(['middleware' => 'role'], function () {
     Route::get('api/almacenes/find/{id}', ['as' => 'almacen_find', 'uses' => 'AlmacenesController@find']);
 //END ALMACENES ROUTES
 
-
-
+//PRODUCTOS ROUTES
+   Route::get('productos', ['as' => 'producto', 'uses' => 'ProductosController.php@index']);
+   Route::get('productos/create', ['as' => 'producto_create', 'uses' => 'ProductosController.php@index']);
+   Route::get('productos/edit/{id?}', ['as' => 'producto_edit', 'uses' => 'ProductosController.php@index']);
+   Route::get('productos/form-create', ['as' => 'producto_form_create', 'uses' => 'ProductosController.php@form_create']);
+   Route::get('productos/form-edit', ['as' => 'producto_form_edit', 'uses' => 'ProductosController.php@form_edit']);
+   Route::get('api/productos/all', ['as' => 'producto_all', 'uses' => 'ProductosController.php@all']);
+   Route::get('api/productos/paginate/', ['as' => 'producto_paginate', 'uses' => 'ProductosController.php@paginatep']);
+   Route::post('api/productos/create', ['as' => 'producto_create', 'uses' => 'ProductosController.php@create']);
+   Route::put('api/productos/edit', ['as' => 'producto_edit', 'uses' => 'ProductosController.php@edit']);
+   Route::post('api/productos/destroy', ['as' => 'producto_destroy', 'uses' => 'ProductosController.php@destroy']);
+   Route::get('api/productos/search/{q?}', ['as' => 'producto_search', 'uses' => 'ProductosController.php@search']);
+   Route::get('api/productos/find/{id}', ['as' => 'producto_find', 'uses' => 'ProductosController.php@find']);
+//END PRODUCTOS ROUTES
