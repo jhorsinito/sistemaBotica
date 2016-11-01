@@ -155,7 +155,7 @@
                 <li class=""><a href="/users" ><i class="fa fa-circle-o"></i>Usuarios</a></li>
                 <li class=""><a href="/tiendas" ><i class="fa fa-circle-o"></i>Farmacias</a></li>
                 <li class=""><a href="/almacenes" ><i class="fa fa-circle-o"></i>Almacen</a></li>
-                <li class=""><a href="/productos" ><i class="fa fa-circle-o"></i>Productos</a></li>
+                <li class=""><a href="/products" ><i class="fa fa-circle-o"></i>Productos</a></li>
 
               </ul>
             </li>

@@ -39,12 +39,21 @@
                     </div>
 
 
+                    <div class="form-group" ng-class="{true: 'has-error'}[ almacenCreateForm.descripcionAlmacen.$error.required && almacenCreateForm.$submitted || almacenCreateForm.descripcionAlmacen.$dirty && almacenCreateForm.descripcionAlmacen.$invalid]">
+                      <label for="descripcionAlmacen">Descripción</label>
+                      <input type="text" class="form-control" name="descripcionAlmacen" placeholder="Descripción Almacen" ng-model="almacen.descripcionAlmacen" required>
+                      <label ng-show="almacenCreateForm.$submitted || almacenCreateForm.descripcionAlmacen.$dirty && almacenCreateForm.descripcionAlmacen.$invalid">
+                        <span ng-show="almacenCreateForm.descripcionAlmacen.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                      </label>
+                    </div>
+
+
                      
                      <div class="form-group" ng-class="{'has-error': almacenCreateForm.tienda_id.$invalid,'has-success':almacenCreateForm.tienda_id.$invalid}">
-                            <label>Tienda</label>
-                            <select class="form-control ng-pristine ng-valid ng-touched" name="tienda_id" ng-model="almacen.tienda_id" ng-options="item.id as item.nombreTienda for item in tiendas" required><option value="">-- Elige Tienda --</option></select>
+                            <label>Farmacia</label>
+                            <select class="form-control ng-pristine ng-valid ng-touched" name="tienda_id" ng-model="almacen.tienda_id" ng-options="item.id as item.nombreTienda for item in tiendas" required><option value="">-- Elige Farmacia --</option></select>
                             <label ng-show="almacenCreateForm.tienda_id.$error.required">
-                                <span ng-show="almacenCreateForm.tienda_id.$error.required"><i class="fa fa-times-circle-o"></i>El campo DNI es Requerido. 
+                                <span ng-show="almacenCreateForm.tienda_id.$error.required"><i class="fa fa-times-circle-o"></i>El campo Farmacia es Requerido. 
                                 </span>
                               </label>
                         </div>
