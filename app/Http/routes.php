@@ -289,7 +289,7 @@ Route::post('api/presentations/create',['as'=>'presentation_create', 'uses'=>'Pr
     Route::get('api/tipoProductos/find/{id}', ['as' => 'person_find', 'uses' => 'TipoProductosController@find']);
     Route::get('api/buscarProducto/recuperarDosDato/{dato1?}/{dato2?}', ['as' => 'person_all', 'uses' => 'ProductsController@buscarProducto']);
 //END PERSONS ROUTES
-    //PERSONS ROUTES
+    //LABORATORIOS ROUTES
     Route::get('laboratorios', ['as' => 'person', 'uses' => 'LaboratoriosController@index']);
     Route::get('laboratorios/create', ['as' => 'person_create', 'uses' => 'LaboratoriosController@index']);
     Route::get('laboratorios/edit/{id?}', ['as' => 'person_edit', 'uses' => 'LaboratoriosController@index']);
@@ -303,7 +303,7 @@ Route::post('api/presentations/create',['as'=>'presentation_create', 'uses'=>'Pr
     Route::get('api/laboratorios/search/{q?}', ['as' => 'person_search', 'uses' => 'LaboratoriosController@search']);
     Route::get('api/laboratorios/find/{id}', ['as' => 'person_find', 'uses' => 'LaboratoriosController@find']);
     Route::get('api/traerLaboratorios/all', ['as' => 'person_all', 'uses' => 'LaboratoriosController@traerLaboratorios']);
-//END PERSONS ROUTES
+//END LABORATORIOS ROUTES
     //PERSONS ROUTES
     Route::get('detComercialGenericos', ['as' => 'person', 'uses' => 'DetComercialGenericoController@index']);
     Route::get('detComercialGenericos/create', ['as' => 'person_create', 'uses' => 'DetComercialGenericoController@index']);
@@ -353,3 +353,6 @@ Route::post('api/presentations/create',['as'=>'presentation_create', 'uses'=>'Pr
     Route::get('api/cargarDetGrupoFarmaceuticoVariantes/recuperarUnDato/{dato1?}', ['as' => 'person_all', 'uses' => 'DetGrupoFarmaceuticoVarianteController@cargarDetGrupoFarmaceuticoVariantes']);
     
 //END PERSONS ROUTES
+
+
+

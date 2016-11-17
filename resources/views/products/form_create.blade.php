@@ -25,10 +25,11 @@
                 <form name="productCreateForm" role="form" novalidate>
                   <div class="box-body">
                   <div class="callout callout-danger" ng-show="errors">
-                                                  <ul>
-                                              <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
-                                              </ul>
-                        </div>
+                    <ul>
+                      <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong>
+                        </li>
+                    </ul>
+                  </div>
                         <div class="row">
                         <div class="col-md-4">
                     <div class="form-group" ng-class="{true: 'has-error'}[ productCreateForm.nombre.$error.required && productCreateForm.$submitted || productCreateForm.nombre.$dirty && productCreateForm.nombre.$invalid]">
@@ -77,20 +78,26 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="">Presentación Base:</label>
+                            <label for="">Presentación Base:  <button class="btn btn-xs btn-info btn-flat" data-toggle="modal" data-target="#createpresentation"  ng-disabled="enabled_createpresentation_button" >+</button>
+                            </label>
+
+
                             <select  class="form-control" ng-model="product.presentation_base_object" ng-change="changePreBase()" ng-options="item as item.nombre for item in presentations_base">
                                 <option value="">-- Elige Presentación Base--</option>
                             </select>
+
+
+
                         </div>
                         </div>
                        
                    <div class="col-md-4">
                           <div class="form-group">
-                                                <label>Marca <a class="btn btn-xs btn-info btn-flat" ng-click="addBrand()">+</a></label>
-                                                <select name="brand" class="form-control" ng-model="product.brand_id" ng-options="k as v for (k, v) in brands">
-                                                 <option value="">--Elige Marca--</option>
-                                                    <option value="">+Agrega Marca</option>
-                                                </select>
+                                <label>Marca <a class="btn btn-xs btn-info btn-flat" ng-click="addBrand()">+</a></label>
+                                <select name="brand" class="form-control" ng-model="product.brand_id" ng-options="k as v for (k, v) in brands">
+                                    <option value="">--Elige Marca--</option>
+                                    <option value="">+Agrega Marca</option>
+                                </select>
 
                           </div>
                     </div>
@@ -99,18 +106,18 @@
                     
                            <div class="col-md-4" >
                             <div class="form-group">
-                                                <label>Categoria <a class="btn btn-xs btn-info btn-flat" ng-click="addLine()">+</a></label>
-                                                <select name="ttype" class="form-control" ng-model="product.type_id" ng-options="k as v for (k, v) in types">
-                                                 <option value="">--Elige Categoria--</option>
+                                <label>Categoria <a class="btn btn-xs btn-info btn-flat" ng-click="addLine()">+</a></label>
+                                <select name="ttype" class="form-control" ng-model="product.type_id" ng-options="k as v for (k, v) in types">
+                                <option value="">--Elige Categoria--</option>
                                                 </select>
                           </div></div>
 
                           <div class="col-md-4" ng-show="product.tipoProducto_id==1">
                           <div class="form-group">
-                                                <label>Tipo Medicamento</label>
-                                                <select name="brand" class="form-control" ng-click="limpiarBuscarProducto()" ng-model="product.tipoMedicamento" >
-                                                 <option value="Comercial" selected>Comercial</option>
-                                                    <option value="Generico">Generico</option>
+                                    <label>Tipo Medicamento</label>
+                                      <select name="brand" class="form-control" ng-click="limpiarBuscarProducto()" ng-model="product.tipoMedicamento" >
+                                          <option value="Comercial" selected>Comercial</option>
+                                          <option value="Generico">Generico</option>
                                                 </select>
 
                           </div>
@@ -190,17 +197,17 @@
 
 
                       <div class="box box-default" id="variants">
-                                          <div class="box-header with-border">
-                                            <h3 class="box-title">Variantes</h3>
-                                            <div class="box-tools pull-right">
-                                              <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                            </div><!-- /.box-tools -->
-                                          </div><!-- /.box-header -->
-                                          <div class="box-body">
-                                            <div class="form-group" >
-                                                                                       <label for="variantes">¿Producto con Variantes?</label>
-                                                                                       <input type="checkbox" name="variantes" ng-model="product.hasVariants" ng-checked="product.hasVariants"/>
-                                                                    <span class="text-info"> <em> Si su producto cuenta con atributos específicos tales como: Color, Talla, etc. Active este item y agregue las variantes una vez creado el producto.</em></span>
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Variantes</h3>
+                                <div class="box-tools pull-right">
+                                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                </div><!-- /.box-tools -->
+                              </div><!-- /.box-header -->
+                              <div class="box-body">
+                                    <div class="form-group" >
+                                      <label for="variantes">¿Producto con Variantes?</label>
+                                          <input type="checkbox" name="variantes" ng-model="product.hasVariants" ng-checked="product.hasVariants"/>
+                                          <span class="text-info"> <em> Si su producto cuenta con atributos específicos tales como: Color, Talla, etc. Active este item y agregue las variantes una vez creado el producto.</em></span>
                                                                   </div>
                                           </div><!-- /.box-body -->
                                         </div><!-- /.box -->

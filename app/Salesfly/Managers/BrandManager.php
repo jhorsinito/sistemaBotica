@@ -6,7 +6,7 @@ class BrandManager extends BaseManager {
     {
         $rules = [              
             'nombre'=> 'required',
-            'shortname'=> 'required',
+            'shortname'=> '',
             'descripcion'=> ''
                   ];
         return $rules;

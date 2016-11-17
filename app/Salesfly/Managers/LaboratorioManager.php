@@ -6,7 +6,7 @@ class LaboratorioManager extends BaseManager {
     public function getRules()
     {
         $rules = [  
-                     'nombre'=> '',
+                     'nombre'=> 'required',
             		'descripcion'=>''
                   ];
         return $rules;

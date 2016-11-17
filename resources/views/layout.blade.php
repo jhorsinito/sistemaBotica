@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>BV | @section('module')Dashboard @show</title>
+    <title>BV | @section('module')Botica Vencedor SRL @show</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.4 -->
@@ -156,29 +156,20 @@
                 <li class=""><a href="/tiendas" ><i class="fa fa-circle-o"></i>Farmacias</a></li>
                 <li class=""><a href="/almacenes" ><i class="fa fa-circle-o"></i>Almacen</a></li>
                 <li class=""><a href="/products" ><i class="fa fa-circle-o"></i>Productos</a></li>
+                <li class=""><a href="/brands" ><i class="fa fa-circle-o"></i>Marcas</a></li>        <li class=""><a href="/laboratorios" ><i class="fa fa-circle-o"></i>Laboratorios</a></li>
 
               </ul>
             </li>
             @endif
-
-
-
-
-
-
-
 
           </ul>
         </section>
         <!-- /.sidebar -->
       </aside>
 
-
-
-                    <!-- Content Wrapper. Contains page content -->
+      <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
             @yield('content')
-
 
         @if(Request::is('/'))
 
@@ -288,21 +279,21 @@
                     <div class="col-sm-3 col-xs-6">
                       <div class="description-block border-right">
                         <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
-                        <h5 class="description-header">$35,210.43</h5>
+                        <h5 class="description-header">S/. 35,210.43</h5>
                         <span class="description-text">TOTAL REVENUE</span>
                       </div><!-- /.description-block -->
                     </div><!-- /.col -->
                     <div class="col-sm-3 col-xs-6">
                       <div class="description-block border-right">
                         <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
-                        <h5 class="description-header">$10,390.90</h5>
+                        <h5 class="description-header">S/. 10,390.90</h5>
                         <span class="description-text">TOTAL COST</span>
                       </div><!-- /.description-block -->
                     </div><!-- /.col -->
                     <div class="col-sm-3 col-xs-6">
                       <div class="description-block border-right">
                         <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
-                        <h5 class="description-header">$24,813.53</h5>
+                        <h5 class="description-header">S/. 24,813.53</h5>
                         <span class="description-text">TOTAL PROFIT</span>
                       </div><!-- /.description-block -->
                     </div><!-- /.col -->
