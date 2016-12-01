@@ -124,7 +124,8 @@
                     </div>
                     <div class="col-md-4" ng-show="product.tipoProducto_id==1">
                       <div class="form-group">
-                          <label>Laboratorio</label>
+                        
+                          <label>Laboratorio </label>
                                 <select class="form-control ng-pristine ng-valid ng-touched" ng-model="product.laboratorio_id" ng-options="item.id as item.nombre for item in laboratorios"><option value="">-- Elige Laboratorio --</option></select>
                               
                         </div>
@@ -291,78 +292,75 @@
 
 <!--  =============================================================================PRECIO DEL PRODUCTO.. ya no se usa===============================================================-->
 
-         <!--                                <div class="box box-default" id="price">
-                                                                    <div class="box-header with-border">
-                                                                      <h3 class="box-title">Precio del Producto</h3>
-                                                                      <div class="box-tools pull-right">
-                                                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                                                      </div>
-                                                                      </div>
-                                                                      <div class="box-body">
-                                                                                <div class="callout callout-default">
-                                                                                    <p>Si el producto presenta Variantes. El precio del mismo se establecerá al momento de crear las Variantes.</p>
-                                                                                  </div>
-                                                                                  <div class="row">
-                                                                                  <div class="col-md-2 col-md-offset-3">
-                                                                              <div class="form-group" >
+         <!--    <div class="box box-default" id="price">
+               <div class="box-header with-border">
+              <h3 class="box-title">Precio del Producto</h3>
+         <div class="box-tools pull-right">
+               <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            </div>
+              </div>
+                <div class="box-body">
+      <div class="callout callout-default">
+      <p>Si el producto presenta Variantes. El precio del mismo se establecerá al momento de crear las Variantes.</p>
+                      </div>
+                          <div class="row">
+                          <div class="col-md-2 col-md-offset-3">
+                            <div class="form-group" >
 
-                                                                                     <label for="suppPric">Precio de Compra</label>
-                                                                                      <input type="number" class="form-control" name="suppPric" placeholder="0.00"
+         <label for="suppPric">Precio de Compra</label>
+           <input type="number" class="form-control" name="suppPric" placeholder="0.00"
                                                                                                     ng-model="product.suppPri" ng-disabled="product.hasVariants"  ng-blur="calculateSuppPric()" step="0.1">
 
-                                                                              </div>
-                                                                              </div>
-                                                                               <div class="col-md-2"><div class="form-group" >
+                                  </div>
+                               </div>
+                 <div class="col-md-2"><div class="form-group" >
 
                                                                                                                                                                                     <label for="suppPric">% de Ganancia</label>
                                                                                                                                                                                      <input type="number" class="form-control" name="markup" placeholder="0.00"
                                                                                                                                                                                                    ng-model="product.markup" ng-blur="calculateMarkup()" ng-disabled="product.hasVariants" step="0.1">
 
-                                                                                                                                                                             </div></div>
-                                                                                <div class="col-md-2"><div class="form-group" >
+                                                                                                                                                                             </d<div class="col-md-2"><div class="form-group" >
 
                                                                                                                                                                                      <label for="suppPric">Precio de Venta</label>
                                                                                                                                                                                       <input type="number" class="form-control" name="price" placeholder="0.00"
-                                                                                                                                                                                                    ng-model="product.price" ng-blur="calculatePrice()" ng-disabled="product.hasVariants" step="0.1">
+                                                                                                                                                                                                    ng-model="product.price" ng-blur="calculatePrice()"           v>
+                                  </div>
+                                </div>
+               <div class="overlay" >
+             </div>
 
-                                                                                                                                                                              </div></div>
-                                                                      </div>
-                                                                    </div>
-                                                                        <div class="overlay" >
-                                                                        </div>
-
-                                                                  </div> -->
+       </div> -->
 
 <!--  =============================================================================FIN PRECIO DEL PRODUCTO.. ya no se usa===============================================================-->
 <!--  =============================================================================INVENTARIOS===============================================================-->
-                         <div class="box box-default" id="inventory" ng-hide="product.hasVariants">
-                                                                   <div class="box-header with-border">
-                                                                     <h3 class="box-title">Inventario</h3>
-                                                                     <div class="box-tools pull-right">
-                                                                       <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                                                     </div><!-- /.box-tools -->
-                                                                   </div><!-- /.box-header -->
-                                                                   <div class="box-body">
-                                                                   <div class="row">
-                                                                   <div class="col-md-2">
-                                                                   <div class="form-group">
-                                                                   <label for="sku">Sku: <br>(Stock Keep Unit) </label>
+          <div class="box box-default" id="inventory" ng-hide="product.hasVariants">
+            <div class="box-header with-border">
+              <h3 class="box-title">Inventario</h3>
+                <div class="box-tools pull-right">
+                 <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /.box-tools -->
+            </div><!-- /.box-header -->
+                <div class="box-body">
+                  <div class="row">
+                   <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="sku">Sku: <br>(Stock Keep Unit) </label>
 
-                                                                   </div>
-                                                                   </div>
-                                                                   <div class="col-md-2">
-                                                                   <div class="form-group">
-                                                                    <input class="form-control" name="sku" type="text" ng-model="product.sku" ng-disabled="product.hasVariants || product.autogenerado" ng-required="!product.hasVariants && !product.autogenerado"/>
-                                                                   <span style="color:#dd4b39;" ng-show="productCreateForm.sku.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
-                                                                   </div>
-                                                                   </div>
-                                                                       <div class="col-md-2">
-                                                                           <div class="form-group">
-                                                                               <input type="checkbox" ng-model="product.autogenerado"> Autogenerado
-                                                                               </div>
-                                                                       </div>
-                                                                   </div>
-                                                                     <div class="form-group" >
+                    </div>
+                   </div>
+                      <div class="col-md-2">
+                          <div class="form-group">
+                            <input class="form-control" name="sku" type="text" ng-model="product.sku" ng-disabled="product.hasVariants || product.autogenerado" ng-required="!product.hasVariants && !product.autogenerado"/>
+                              <span style="color:#dd4b39;" ng-show="productCreateForm.sku.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                          </div>
+                        </div>
+                          <div class="col-md-2">
+                            <div class="form-group">
+                               <input type="checkbox" ng-model="product.autogenerado"> Autogenerado
+                            </div>
+                             </div>
+                              </div>
+                              <div class="form-group" >
                                                                                                                 <label for="variantes">¿Desea seguir el stock del Producto?</label>
                                                                                                                 <input type="checkbox" name="trackeo" ng-model="product.track" ng-checked="product.track" ng-disabled="product.hasVariants"/>
 

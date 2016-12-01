@@ -152,11 +152,14 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li class=""><a href="/users" ><i class="fa fa-circle-o"></i>Usuarios</a></li>
+                <li class=""><a href="/users" ><i class="fa fa-circle-o" ></i>Usuarios</a></li>
                 <li class=""><a href="/tiendas" ><i class="fa fa-circle-o"></i>Farmacias</a></li>
                 <li class=""><a href="/almacenes" ><i class="fa fa-circle-o"></i>Almacen</a></li>
                 <li class=""><a href="/products" ><i class="fa fa-circle-o"></i>Productos</a></li>
-                <li class=""><a href="/brands" ><i class="fa fa-circle-o"></i>Marcas</a></li>        <li class=""><a href="/laboratorios" ><i class="fa fa-circle-o"></i>Laboratorios</a></li>
+                <li class=""><a href="/laboratorios" ><i class="fa fa-circle-o"></i>Laboratorios</a></li>
+                <li class=""><a href="/brands" ><i class="fa fa-circle-o"></i>Marcas</a></li>  
+                <li class=""><a href="/ventas" ><i class="fa fa-circle-o"></i>Ventas</a></li> 
+                <li class=""><a href="/clientes" ><i class="fa fa-circle-o"></i>Clientes</a></li>   
 
               </ul>
             </li>
@@ -175,7 +178,7 @@
 
           <section class="content-header">
             <h1>
-              ¡Empezando!
+              Bienvenido(a) a la Botica Vencedor
               <small>Version 2.0</small>
             </h1>
             <ol class="breadcrumb">
@@ -188,7 +191,7 @@
             <div class="col-md-12">
               <div class="box">
                 <div class="box-header with-border">
-                  <h3 class="box-title"><i class="fa fa-home"></i> SalesFly</h3>
+                  <h3 class="box-title"><i class="fa fa-home"></i> Sistema Botica Vencedor SRL.</h3>
                   <div class="box-tools pull-right">
                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     <div class="btn-group">
@@ -207,8 +210,7 @@
                 <div class="box-body">
                   <div class="row">
                     <div class="col-md-8 col-md-offset-0">
-                        <h4>Completa los primeros pasos para poder empezar a descubrir SalesFly o mira el video de la derecha y
-                        aprenda como hacer tu primera venta con los productos de demostración que hemos añadido para usted. </h4>
+                        <h4>Completa los primeros pasos para poder empezar a descubrir el Sistema para hacer tus ventas </h4>
                     </div>
 
                   </div><!-- /.row -->
@@ -227,7 +229,7 @@
                           <a href="/products/create" type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Producto</a>
                         </div><!-- /.box-header -->
                         <div class="box-body">
-                          Puedes agregar manualmente tus productos. Te hemos puesto productos de ejemplo.
+                          Puedes agregar manualmente tus productos. 
                         </div><!-- /.box-body -->
 
                       </div><!-- /.box -->
@@ -244,10 +246,10 @@
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
 
                           </div><!-- /.box-tools -->
-                          <a href="/customers/create" type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Cliente</a>
+                          <a href="/clientes/create" type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Cliente</a>
                         </div><!-- /.box-header -->
                         <div class="box-body">
-                          Puedes agregar manualmente tus productos. Te hemos puesto productos de ejemplo.
+                          Puedes agregar manualmente tus clientes. 
                         </div><!-- /.box-body -->
 
                       </div><!-- /.box -->
@@ -264,10 +266,10 @@
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
 
                           </div><!-- /.box-tools -->
-                          <a href="/employees/create" type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Empleado!</a>
+                          <a href="/users/create" type="button" class="btn  btn-info btn-flat pull-right btn-sm" style="margin-right: 25px;">Añade un Empleado!</a>
                         </div><!-- /.box-header -->
                         <div class="box-body">
-                          Puedes agregar manualmente tus productos. Te hemos puesto productos de ejemplo.
+                          Puedes agregar manualmente tus productos.
                         </div><!-- /.box-body -->
 
                       </div><!-- /.box -->
@@ -321,7 +323,7 @@
 
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
-          <b>Version</b> 1.01
+          <b>Version</b> 2.0
         </div>
         <strong>Copyright &copy; 2016 <a href="#">ISF INGENIERO</a>.</strong> Todos los derechos reservados.
       </footer>

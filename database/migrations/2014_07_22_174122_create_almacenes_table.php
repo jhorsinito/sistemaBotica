@@ -29,6 +29,6 @@ class CreateAlmacenesTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('almacenes');
     }
 }

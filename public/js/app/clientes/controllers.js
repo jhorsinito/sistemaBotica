@@ -1,9 +1,9 @@
 (function(){
-    angular.module('laboratorios.controllers',[])
-        .controller('LaboratoriosController',['$scope', '$routeParams','$location','crudService' ,'$filter','$route','$log',
+    angular.module('clientes.controllers',[])
+        .controller('ClienteController',['$scope', '$routeParams','$location','crudService' ,'$filter','$route','$log',
             function($scope, $routeParams,$location,crudService,$filter,$route,$log){
-                $scope.laboratorios = [];
-                $scope.laboratorio = {};
+                $scope.clientes = [];
+                $scope.cliente = {};
                 $scope.errors = null;
                 $scope.success;
                 $scope.query = '';
@@ -14,12 +14,12 @@
 
                 $scope.pageChanged = function() {
                     if ($scope.query.length > 0) {
-                        crudService.search('laboratorios',$scope.query,$scope.currentPage).then(function (data){
-                        $scope.laboratorios = data.data;
+                        crudService.search('clientes',$scope.query,$scope.currentPage).then(function (data){
+                        $scope.clientes = data.data;
                     });
                     }else{
-                        crudService.paginate('laboratorios',$scope.currentPage).then(function (data) {
-                            $scope.laboratorios = data.data;
+                        crudService.paginate('clientes',$scope.currentPage).then(function (data) {
+                            $scope.clientes = data.data;
                         });
                     }
                 };
@@ -29,12 +29,12 @@
 
                 if(id)
                 {
-                    crudService.byId(id,'laboratorios').then(function (data) {
-                        $scope.laboratorio = data;
+                    crudService.byId(id,'clientes').then(function (data) {
+                        $scope.brand = data;
                     });
                 }else{
-                    crudService.paginate('laboratorios',1).then(function (data) {
-                        $scope.laboratorios = data.data;
+                    crudService.paginate('clientes',1).then(function (data) {
+                        $scope.clientes = data.data;
                         $scope.maxSize = 5;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
@@ -44,45 +44,45 @@
                 }
 
 
-                $scope.searchLaboratorio = function(){
+                $scope.searchBrand = function(){
                 if ($scope.query.length > 0) {
-                    crudService.search('laboratorios',$scope.query,1).then(function (data){
-                        $scope.laboratorios = data.data;
+                    crudService.search('clientes',$scope.query,1).then(function (data){
+                        $scope.clientes = data.data;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                     });
                 }else{
-                    crudService.paginate('laboratorios',1).then(function (data) {
-                        $scope.laboratorios = data.data;
+                    crudService.paginate('clientes',1).then(function (data) {
+                        $scope.clientes = data.data;
                         $scope.totalItems = data.total;
                         $scope.currentPage = data.current_page;
                     });
                 }
                     
                 };
-                 $scope.validanomLaboratorio=function(texto){
+                 $scope.validanomCliente=function(texto){
                 
                    if(texto!=undefined){
-                        crudService.validar('laboratorios',texto).then(function (data){
-                        $scope.laboratorio = data;
-                        if($scope.laboratorio!=null){
-                           alert("Usted no puede crear dos Marcas con el mismo nombre");
-                           $scope.laboratorio.nombre=''; 
-                           $scope.laboratorio.shortname=''; 
+                        crudService.validar('clientes',texto).then(function (data){
+                        $scope.cliente = data;
+                        if($scope.cliente!=null){
+                           alert("Usted no puede crear dos Clientes con el mismo nombre");
+                           $scope.cliente.nombre=''; 
+                           $scope.cliente.shortname=''; 
                         }
                     });
                     }
                }
 
-                $scope.createLaboratorio = function(){
+                $scope.createCliente = function(){
                     //$scope.atribut.estado = 1;
-                    if ($scope.LaboratorioCreateForm.$valid) {
-                        crudService.create($scope.laboratorio, 'laboratorios').then(function (data) {
+                    if ($scope.clienteCreateForm.$valid) {
+                        crudService.create($scope.cliente, 'clientes').then(function (data) {
                           
                             if (data['estado'] == true) {
                                 $scope.success = data['nombres'];
                                 alert('grabado correctamente');
-                                $location.path('/laboratorios');
+                                $location.path('/clientes');
 
                             } else {
                                 $scope.errors = data;
@@ -93,19 +93,19 @@
                 }
 
 
-                $scope.editLaboratorio = function(row){
-                    $location.path('/laboratorios/edit/'+row.id);
+                $scope.editCliente = function(row){
+                    $location.path('/clientes/edit/'+row.id);
                 };
 
-                $scope.updateLaboratorio = function(){
+                $scope.updateCliente = function(){
 
-                    if ($scope.LaboratorioCreateForm.$valid) {
-                        crudService.update($scope.laboratorio,'laboratorios').then(function(data)
+                    if ($scope.clienteCreateForm.$valid) {
+                        crudService.update($scope.cliente,'clientes').then(function(data)
                         {
                             if(data['estado'] == true){
                                 $scope.success = data['nombres'];
                                 alert('editado correctamente');
-                                $location.path('/laboratorios');
+                                $location.path('/clientes');
                             }else{
                                 $scope.errors =data;
                             }
@@ -113,20 +113,20 @@
                     }
                 };
 
-                $scope.deleteLaboratorio = function(row){
-                    $scope.laboratorio = row;
+                $scope.deleteCliente = function(row){
+                    $scope.cliente = row;
                 }
 
-                $scope.cancelLaboratorio = function(){
-                    $scope.laboratorio = {};
+                $scope.cancelCliente = function(){
+                    $scope.cliente = {};
                 }
 
-                $scope.destroyLaboratorio = function(){
-                    crudService.destroy($scope.laboratorio,'laboratorios').then(function(data)
+                $scope.destroyCliente = function(){
+                    crudService.destroy($scope.cliente,'clientes').then(function(data)
                     {
                         if(data['estado'] == true){
                             $scope.success = data['nombre'];
-                            $scope.laboratorio = {};
+                            $scope.cliente = {};
                             //alert('hola');
                             $route.reload();
 

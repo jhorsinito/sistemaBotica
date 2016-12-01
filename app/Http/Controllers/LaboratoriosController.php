@@ -26,11 +26,7 @@ class LaboratoriosController extends Controller {
     {
         $laboratorios = $this->laboratorioRepo->paginate(15);
         return response()->json($laboratorios);
-    }
-    public function traerLaboratorios()
-    {
-        $laboratorios = $this->laboratorioRepo->traerLaboratorios();
-        return response()->json($laboratorios);
+        //var_dump($laboratorios);
     }
 
     public function paginatep(){
@@ -51,12 +47,15 @@ class LaboratoriosController extends Controller {
 
     public function create(Request $request)
     {
-
-        $laboratorio = $this->laboratorioRepo->getModel();    
-        $manager = new LaboratorioManager($laboratorio,$request->all());
+        $laboratorios = $this->laboratorioRepo->getModel();
+        //var_dump($request->all());
+        //die();
+        $manager = new LaboratorioManager($laboratorios,$request->all());
+        //print_r($manager); die();
         $manager->save();
+        //Event::fire('update.brand',$brand->all());
 
-        return response()->json(['estado'=>true, 'nombre'=>$laboratorio->nombre]);
+        return response()->json(['estado'=>true, 'nombre'=>$laboratorios->nombre]);
     }
 
     public function find($id)
@@ -68,8 +67,12 @@ class LaboratoriosController extends Controller {
     public function edit(Request $request)
     {
         $laboratorio = $this->laboratorioRepo->find($request->id);
+        //var_dump($brand);
+        //die(); 
         $manager = new LaboratorioManager($laboratorio,$request->all());
         $manager->save();
+
+        //Event::fire('update.brand',$brand->all());
         return response()->json(['estado'=>true, 'nombre'=>$laboratorio->nombre]);
     }
 
@@ -77,12 +80,20 @@ class LaboratoriosController extends Controller {
     {
         $laboratorio= $this->laboratorioRepo->find($request->id);
         $laboratorio->delete();
+        //Event::fire('update.brand',$brand->all());
         return response()->json(['estado'=>true, 'nombre'=>$laboratorio->nombre]);
     }
 
     public function search($q)
     {
+        //$q = Input::get('q');
         $laboratorios = $this->laboratorioRepo->search($q);
+
+        return response()->json($laboratorios);
+    }
+    public function validaLaboratorioname($text){
+        
+        $laboratorios = $this->laboratorioRepo->validarNoRepit($text);
 
         return response()->json($laboratorios);
     }

@@ -289,7 +289,7 @@ Route::post('api/presentations/create',['as'=>'presentation_create', 'uses'=>'Pr
     Route::get('api/tipoProductos/find/{id}', ['as' => 'person_find', 'uses' => 'TipoProductosController@find']);
     Route::get('api/buscarProducto/recuperarDosDato/{dato1?}/{dato2?}', ['as' => 'person_all', 'uses' => 'ProductsController@buscarProducto']);
 //END PERSONS ROUTES
-    //LABORATORIOS ROUTES
+  //LABORATORIO ROUTES
     Route::get('laboratorios', ['as' => 'person', 'uses' => 'LaboratoriosController@index']);
     Route::get('laboratorios/create', ['as' => 'person_create', 'uses' => 'LaboratoriosController@index']);
     Route::get('laboratorios/edit/{id?}', ['as' => 'person_edit', 'uses' => 'LaboratoriosController@index']);
@@ -302,8 +302,8 @@ Route::post('api/presentations/create',['as'=>'presentation_create', 'uses'=>'Pr
     Route::post('api/laboratorios/destroy', ['as' => 'person_destroy', 'uses' => 'LaboratoriosController@destroy']);
     Route::get('api/laboratorios/search/{q?}', ['as' => 'person_search', 'uses' => 'LaboratoriosController@search']);
     Route::get('api/laboratorios/find/{id}', ['as' => 'person_find', 'uses' => 'LaboratoriosController@find']);
-    Route::get('api/traerLaboratorios/all', ['as' => 'person_all', 'uses' => 'LaboratoriosController@traerLaboratorios']);
-//END LABORATORIOS ROUTES
+    Route::get('api/laboratoriosAll/all', ['as' => 'person_all', 'uses' => 'LaboratoriosController@allTiendas']);
+//END LABORATORIO ROUTES
     //PERSONS ROUTES
     Route::get('detComercialGenericos', ['as' => 'person', 'uses' => 'DetComercialGenericoController@index']);
     Route::get('detComercialGenericos/create', ['as' => 'person_create', 'uses' => 'DetComercialGenericoController@index']);
@@ -355,4 +355,19 @@ Route::post('api/presentations/create',['as'=>'presentation_create', 'uses'=>'Pr
 //END PERSONS ROUTES
 
 
+//CLIENTES ROUTES
+    Route::get('clientes', ['as' => 'person', 'uses' => 'ClientesController@index']);
+    Route::get('clientes/create', ['as' => 'person_create', 'uses' => 'ClientesController@index']);
+    Route::get('clientes/edit/{id?}', ['as' => 'person_edit', 'uses' => 'ClientesController@index']);
+    Route::get('clientes/form-create', ['as' => 'person_form_create', 'uses' => 'ClientesController@form_create']);
+    Route::get('clientes/form-edit', ['as' => 'person_form_edit', 'uses' => 'ClientesController@form_edit']);
+    Route::get('api/clientes/all', ['as' => 'person_all', 'uses' => 'ClientesController@all']);
+    Route::get('api/clientes/paginate/', ['as' => 'person_paginate', 'uses' => 'ClientesController@paginatep']);
+    Route::post('api/clientes/create', ['as' => 'person_create', 'uses' => 'ClientesController@create']);
+    Route::put('api/clientes/edit', ['as' => 'person_edit', 'uses' => 'ClientesController@edit']);
+    Route::post('api/clientes/destroy', ['as' => 'person_destroy', 'uses' => 'ClientesController@destroy']);
+    Route::get('api/clientes/search/{q?}', ['as' => 'person_search', 'uses' => 'ClientesController@search']);
+    Route::get('api/clientes/find/{id}', ['as' => 'person_find', 'uses' => 'ClientesController@find']);
+    Route::get('api/clientesAll/all', ['as' => 'person_all', 'uses' => 'ClientesController@allTiendas']);
+//END CLIENTES ROUTES
 

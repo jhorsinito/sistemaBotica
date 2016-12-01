@@ -1,6 +1,8 @@
 <?php
 namespace Salesfly\Salesfly\Entities;
+
 class Almacen extends \Eloquent {
+	
 	protected $table = 'almacenes';
     
     protected $fillable = ['nombreAlmacen',

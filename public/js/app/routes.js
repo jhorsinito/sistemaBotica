@@ -166,8 +166,35 @@
                     templateUrl: '/variants/form-edit',
                     controller: 'ProductController'
                 })
-                //----------------------------------------- 
+                
+                 //-------------------------------------------------------------        
+             .when('/laboratorios', {
+                    templateUrl: '/js/app/laboratorios/views/index.html',
+                    controller: 'LaboratorioController'
+                })
+                .when('/laboratorios/create',{
+                    templateUrl:'/laboratorios/form-create',
+                    controller: 'LaboratorioController'
+                })
+                .when('/laboratorios/edit/:id',{
+                    templateUrl:'/laboratorios/form-edit',
+                    controller: 'LaboratorioController'
+                }) 
 
+                //-------------------------------------------------------------        
+             .when('/clientes', {
+                    templateUrl: '/js/app/clientes/views/index.html',
+                    controller: 'ClienteController'
+                })
+                .when('/clientes/create',{
+                    templateUrl:'/clientes/form-create',
+                    controller: 'ClienteController'
+                })
+                .when('/clientes/edit/:id',{
+                    templateUrl:'/clientes/form-edit',
+                    controller: 'ClienteController'
+                }) 
+                //------------------------------------------------------------- 
                 .otherwise({
                     redirectTo: '/'
                 });

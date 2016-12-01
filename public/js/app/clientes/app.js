@@ -1,8 +1,8 @@
 (function(){
-    var app = angular.module('laboratorios',[
+    var app = angular.module('clientes',[
         'ngRoute',
         'ngSanitize',
-        'laboratorios.controllers',
+        'clientes.controllers',
         'crud.services',
         'routes',
         'ui.bootstrap'
