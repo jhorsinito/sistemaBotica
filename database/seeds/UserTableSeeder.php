@@ -17,11 +17,34 @@ class UserTableSeeder extends Seeder
                 'email' => 'soporte@vencedor.com',
                 'password' => bcrypt('1234567'),
                 'estado' => 1,
+                'role_id' => 3,
+                'image' => '/images/users/default.jpg',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ]);
+
+            DB::table('users')->insert([
+                'name' => 'Isaac Sanchez Fernandez',
+                'email' => 'isanchezf26@vencedor.com',
+                'password' => bcrypt('1234567'),
+                'estado' => 1,
                 'role_id' => 1,
                 'image' => '/images/users/default.jpg',
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ]);
+
+            DB::table('users')->insert([
+                'name' => 'Eduard Bringas Vargas',
+                'email' => 'ebringasv@vencedor.com',
+                'password' => bcrypt('1234567'),
+                'estado' => 1,
+                'role_id' => 2,
+                'image' => '/images/users/default.jpg',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ]);
+
 
 
     }

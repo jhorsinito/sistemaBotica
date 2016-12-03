@@ -141,24 +141,26 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">Navegación</li>
-            @if($role == 1)
-            <li><a href="/"><i class="fa fa-home"></i> <span>Home</span></a></li>
+            @if($role == 3)
+            
+            <li><a href="/ventas"><i class="fa fa-shopping-cart"></i> <span>Ventas</span></a></li>
             @endif
             @if($role == 1)
+            <li><a href="/"><i class="fa fa-home"></i> <span>Home</span></a></li>
+            <li><a href="/ventas"><i class="fa fa-shopping-cart"></i> <span>Ventas</span></a></li>
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-wrench"></i>
+                <i class="fa fa-laptop"></i>
                 <span>Mantenimiento</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li class=""><a href="/users" ><i class="fa fa-circle-o" ></i>Usuarios</a></li>
+                <li class=""><a href="/users" ><i class="fa fa-user" ></i>Usuarios</a></li>
                 <li class=""><a href="/tiendas" ><i class="fa fa-circle-o"></i>Farmacias</a></li>
-                <li class=""><a href="/almacenes" ><i class="fa fa-circle-o"></i>Almacen</a></li>
+                <li class=""><a href="/almacenes" ><i class="fa fa-wrench"></i>Almacen</a></li>
                 <li class=""><a href="/products" ><i class="fa fa-circle-o"></i>Productos</a></li>
                 <li class=""><a href="/laboratorios" ><i class="fa fa-circle-o"></i>Laboratorios</a></li>
                 <li class=""><a href="/brands" ><i class="fa fa-circle-o"></i>Marcas</a></li>  
-                <li class=""><a href="/ventas" ><i class="fa fa-circle-o"></i>Ventas</a></li> 
                 <li class=""><a href="/clientes" ><i class="fa fa-circle-o"></i>Clientes</a></li>   
 
               </ul>
