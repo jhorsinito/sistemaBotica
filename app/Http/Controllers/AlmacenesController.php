@@ -64,4 +64,3 @@ class AlmacenesController extends Controller {
         return response()->json($almacenes);
     }
 }
-//dfjkchdjkhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhsjjjjjjjjjjjjj

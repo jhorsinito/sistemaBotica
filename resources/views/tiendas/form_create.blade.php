@@ -24,10 +24,10 @@
                 <form name="tiendaCreateForm" role="form" novalidate>
                   <div class="box-body">
                   <div class="callout callout-danger" ng-show="errors">
-                                                  <ul>
-                                              <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
-                                              </ul>
-                                            </div>
+                   <ul>
+                     <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
+                   </ul>
+                  </div>
                     
                    <div class="form-group" ng-class="{true: 'has-error'}[ tiendaCreateForm.nombreTienda.$error.required && tiendaCreateForm.$submitted || tiendaCreateForm.nombreTienda.$dirty && tiendaCreateForm.nombreTienda.$invalid]">
                       <label for="nombreTienda">Nombre Farmacia</label>

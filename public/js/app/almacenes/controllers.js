@@ -69,6 +69,21 @@
                     
                 };
 
+
+
+                $scope.validanomMarca=function(texto){
+                
+                   if(texto!=undefined){
+                        crudService.validar('almacenes',texto).then(function (data){
+                        $scope.almacen = data;
+                        if($scope.almacen!=null){
+                           alert("Usted no puede crear dos Marcas con el mismo nombre");
+                           $scope.almacen.nombre=''; 
+                           $scope.almacen.descripcion=''; 
+                        }
+                    });
+                    }
+               }
                 $scope.createAlmacen= function(){
                     //$scope.atribut.estado = 1;
                  

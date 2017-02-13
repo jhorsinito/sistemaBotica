@@ -302,7 +302,7 @@ Route::post('api/presentations/create',['as'=>'presentation_create', 'uses'=>'Pr
     Route::post('api/laboratorios/destroy', ['as' => 'person_destroy', 'uses' => 'LaboratoriosController@destroy']);
     Route::get('api/laboratorios/search/{q?}', ['as' => 'person_search', 'uses' => 'LaboratoriosController@search']);
     Route::get('api/laboratorios/find/{id}', ['as' => 'person_find', 'uses' => 'LaboratoriosController@find']);
-    Route::get('api/laboratoriosAll/all', ['as' => 'person_all', 'uses' => 'LaboratoriosController@allTiendas']);
+    Route::get('api/laboratoriosAll/all', ['as' => 'person_all', 'uses' => 'LaboratoriosController@allLaboratorios']);
 //END LABORATORIO ROUTES
     //PERSONS ROUTES
     Route::get('detComercialGenericos', ['as' => 'person', 'uses' => 'DetComercialGenericoController@index']);

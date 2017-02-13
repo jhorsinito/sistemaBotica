@@ -66,7 +66,7 @@
                         crudService.validar('laboratorios',texto).then(function (data){
                         $scope.laboratorio = data;
                         if($scope.laboratorio!=null){
-                           alert("Usted no puede crear dos Marcas con el mismo nombre");
+                           alert("Usted no puede crear dos Laboratorios con el mismo nombre");
                            $scope.laboratorio.nombre=''; 
                            $scope.laboratorio.shortname=''; 
                         }

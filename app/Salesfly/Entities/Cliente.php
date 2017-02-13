@@ -25,6 +25,6 @@ class Cliente extends \Eloquent {
 
    	public function venta()
     {
-        //return $this->belongsTo('\Salesfly\Salesfly\Entities\Tienda');
+        return $this->belongsTo('\Salesfly\Salesfly\Entities\Venta');
     }
 }

@@ -7,6 +7,7 @@ class LaboratorioManager extends BaseManager {
     {
         $rules = [  
                      'nombre'=> 'required',
+            		'shortName'=>'',
             		'descripcion'=>''
                   ];
         return $rules;

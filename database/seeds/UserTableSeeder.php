@@ -29,7 +29,7 @@ class UserTableSeeder extends Seeder
                 'password' => bcrypt('1234567'),
                 'estado' => 1,
                 'role_id' => 1,
-                'image' => '/images/users/default.jpg',
+                'image' => '/images/users/Isaac.jpg',
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ]);

@@ -18,7 +18,11 @@ class Tienda extends \Eloquent {
 
     public function almacen()
     {
-
         return $this-> hasmany(Almacen::class);
+    }
+
+     public function caja()
+    {
+        return $this-> hasmany(Caja::class);
     }
 }
