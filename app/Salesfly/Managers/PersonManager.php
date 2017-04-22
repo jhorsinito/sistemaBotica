@@ -12,4 +12,3 @@ class PersonManager extends BaseManager {
         return $rules;
     }
 } 
-

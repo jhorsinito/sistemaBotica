@@ -1,6 +1,6 @@
 @extends('layout')
 @section('module')
-Tiendas
+Farmacias
 @stop
 @section('base_url')
 <base href="{{URL::to('/')}}/tiendas"/>

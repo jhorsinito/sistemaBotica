@@ -1,11 +1,11 @@
 <!-- Content Header (Page header) -->
         <section class="content-header">
-          <h1>Tiendas
+          <h1>Farmacias
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Tiendas</li>
+            <li class="active">Farmacias</li>
           </ol>
 
           
@@ -17,7 +17,7 @@
         <section class="content">
         <div class="row">
         <div class="col-md-12">
-          <a href="/tiendas/create" type="submit" class="btn btn-primary pull-left">Agregar Tienda</a> 
+          <a href="/tiendas/create" type="submit" class="btn btn-primary pull-left">Agregar Farmacia</a> 
           </div>
         </div>
         </br>
@@ -28,7 +28,7 @@
               <div class="box"> 
 
                 <div class="box-header with-border">
-                  <h3 class="box-title">Tiendas</h3>
+                  <h3 class="box-title">Farmacias</h3>
                   <div class="box-tools">
                   <form ng-keyup="searchTienda()">
                     <div class="input-group" style="width: 200px;">
@@ -63,8 +63,8 @@
                         <th>RAZON SOCIAL</th>
                         <th>RUC</th>
                         <th>DIRECCION</th>
-                        <th>TELEFONO MOVIL</th>
-                        <th>TELEFONO FIJO</th>
+                        <th>TELEFONO</th>
+                        <th>PÁGINA WEB</th>
                       
                         <th style="width: 40px">Editar</th>
                         <th style="width: 40px">Eliminar</th>
@@ -77,7 +77,7 @@
                         <td>{{row.ruc}}</td>
                         <td>{{row.direccion}}</td>
                         <td>{{row.telMovil}}</td>
-                        <td>{{row.telFijo}}</td>
+                        <td>{{row.webSite}}</td>
                         <td><a ng-click="editTienda(row)" class="btn btn-warning btn-xs">Editar</a></td>
                         <td><a ng-click="deleteTienda(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
                       
