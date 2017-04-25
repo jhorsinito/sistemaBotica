@@ -62,6 +62,12 @@
 
                       </div>
                     </div>
+
+                    
+
+
+                    </div>
+
                     </div>
 
                     <div class="row">
@@ -69,6 +75,7 @@
                         <div class="form-group">
                                                <label>Imagen</label>
                                                <input type="file" ng-model="product.image" id="productImage" name="productImage"/>
+
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -80,6 +87,7 @@
                             <select  class="form-control" ng-model="product.presentation_base_object" ng-change="changePreBase()" ng-options="item as item.nombre for item in presentations_base">
                                 <option value="">-- Elige Presentación Base--</option>
                             </select>
+
                         </div>
                         </div>
                        
@@ -104,6 +112,8 @@
                                 </select>
                           </div>
                           </div>
+                                                </select>
+                          </div></div>
 
                           <div class="col-md-4" ng-show="product.tipoProducto_id==1">
                           <div class="form-group">
@@ -126,6 +136,14 @@
                                 </select>
                           </div>
 
+
+                    <div class="col-md-4" ng-show="product.tipoProducto_id==1">
+                      <div class="form-group">
+                        
+                          <label>Laboratorio </label>
+                                <select class="form-control ng-pristine ng-valid ng-touched" ng-model="product.laboratorio_id" ng-options="item.id as item.nombre for item in laboratorios"><option value="">-- Elige Laboratorio --</option></select>
+                              
+                        </div>
                       </div>
                            <!--<div class="col-md-3">
                             <div class="form-group">
@@ -176,6 +194,21 @@
                     </div>
                     </div>
                     
+
+                      <td><a ng-click="eliminarProducto($index)" class="btn btn-danger btn-xs">Eliminar</a></td>
+                      
+                    </tr>
+                    
+                    
+                  </table>
+                    </div>
+                    <div class="box-footer" >
+                      
+                    </div>
+                    </div>
+                    
+
+
                     <div class="form-group" >
                       <label for="estado">¿Puede ser vendido/comprado?</label>
                       <input type="checkbox" name="estado" ng-model="product.estado" ng-checked="product.estado"/>
@@ -207,6 +240,10 @@
 PRESENTACIONES===============================================================-->
 <div class="box box-default" id="price" ng-hide="product.hasVariants">
               <div class="box box-default" id="price">
+
+<!--  =============================================================================PRESENTACIONES===============================================================-->
+<div class="box box-default" id="price" ng-hide="product.hasVariants">
+                                                                  <div class="box box-default" id="price">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Presentaciones del Producto     </h3>
                                 <button class="btn btn-xs btn-info btn-flat" data-toggle="modal" data-target="#presentation" ng-click="traerPres(variant.presentation_base)" ng-disabled="enabled_presentation_button" >Añadir Presentación</button>
@@ -261,11 +298,13 @@ PRESENTACIONES===============================================================-->
                                                     <td>@{{row.dsctoRange}}</td>
                                                     <td>@{{row.dsctoCantRange}}</td>
                                                     <td>@{{row.pvpRange}}</td>
+
                                                     <td>
                                                         <a href="" class="btn btn-warning btn-xs" ng-click="editPres(row, $index)"><i class="fa fa-fw fa-pencil"></i></a>
                                                         <a href="" class="btn btn-danger btn-xs" ng-click="deletePres($index)"><i class="fa fa-fw fa-trash"></i></a>
                                                     </td>
                                                 </tr>
+
                                                 </tbody>
                                                 </table>
                                                 </div> <!--div responsive-->
@@ -278,6 +317,23 @@ PRESENTACIONES===============================================================-->
 <!--  =============================================================================
 PRECIO DEL PRODUCTO.. ya no se usa
 ===============================================================-->
+
+
+
+
+                                                </tbody></table></div> <!--div responsive-->
+                                    </div>
+
+
+                                </div>
+                            </div><!-- /.box-body -->
+
+
+                        </div><!-- /.box -->
+
+                                                                  </div><!-- /.box -->
+
+<!--  =============================================================================PRECIO DEL PRODUCTO.. ya no se usa===============================================================-->
 
          <!--    <div class="box box-default" id="price">
                <div class="box-header with-border">

@@ -22,4 +22,18 @@ class Caja extends \Eloquent {
         return $this->belongsTo('Salesfly\Salesfly\Entities\Almacen');
     }
 
+
+	
+	protected $table = 'cajas';
+    
+    protected $fillable = [ 'nombreCaja', 
+    						'ambiente', 
+    						'descripcion', 
+    						'tienda_id'
+                            ];
+   	public function tienda()
+    {
+        return $this->belongsTo('\Salesfly\Salesfly\Entities\Tienda');
+    }
+
 }

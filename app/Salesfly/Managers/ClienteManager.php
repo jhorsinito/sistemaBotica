@@ -16,6 +16,7 @@ class ClienteManager extends BaseManager {
                             'email', 
                             'webSite', 
                              'notas'];
+        
     						];
         return $rules;
     }}

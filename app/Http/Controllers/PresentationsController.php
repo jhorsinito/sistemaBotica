@@ -65,5 +65,5 @@ class PresentationsController extends Controller
         $presentations = $this->presentationRepo->all_by_base($id);
         return response()->json($presentations);
     }
-
+}
 }

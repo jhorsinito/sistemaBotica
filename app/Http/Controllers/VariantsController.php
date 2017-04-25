@@ -561,3 +561,5 @@ foreach ($tallasDisponibles as $tallasD) {
     /*./ fx ayuda para img*/
 
 }
+
+}

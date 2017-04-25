@@ -18,6 +18,11 @@ class Cliente extends \Eloquent {
     						'email', 
     						'webSite', 
     						 'notas'];
+    						'pais', 
+    						'departamento', 
+    						'provincia', 
+    						'distrito', 
+    						'notas'];
 
    	public function venta()
     {

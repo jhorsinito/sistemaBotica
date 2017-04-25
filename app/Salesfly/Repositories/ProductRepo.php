@@ -500,4 +500,8 @@ WHERE products.presentation_base = presentation.id and products.id = proId and p
         return $products;
     }
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 165781028c8f2498a68939d90bd11eab813a4920

@@ -47,4 +47,7 @@ class DetPresController extends Controller
 
         return response()->json($presentations);
     }
+
+}
+
 }

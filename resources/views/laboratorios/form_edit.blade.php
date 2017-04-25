@@ -7,6 +7,8 @@
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
             <li class=""><a href="/laboratorios">Laboratorio</a> </li>
+
+            <li class=""><a href="/brands">Laboratorio</a> </li>
             <li class="active">Editar</li>
           </ol>
 
@@ -23,6 +25,8 @@
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form name="LaboratorioEditForm" role="form" novalidate>
+
+                <form name="laboratorioCreateForm" role="form" novalidate>
                   <div class="box-body">
                   <div class="callout callout-danger" ng-show="errors">
                     <ul>
@@ -52,6 +56,17 @@
                    </div>
 
                   <div class="col-md-4">
+
+                    <div class="form-group" >
+                      <label for="nombre">Nombre</label>
+                      <input type="text" class="form-control" name="nombre" placeholder="Nombre"
+                      ng-model="laboratorio.nombre">
+                     </div>
+                    <div class="form-group" >
+                      <label for="pais">ShortName</label>
+                      <input type="text" class="form-control" name="pais" placeholder="ShortName"
+                      ng-model="laboratorio.shortname">
+                     </div>
                     <div class="form-group" >
                       <label for="notas">Descripcion</label>
                       <textarea type="notas" class="form-control" name="notas" placeholder="Descripcion"
@@ -60,10 +75,13 @@
                   </div>
                   </div>
 
+
                 </div><!-- /.box-body -->
 
                   <div class="box-footer">
                     <button type="submit" class="btn btn-primary" ng-click="updateLaboratorio()">Modificar</button>
+
+                    <button type="submit" class="btn btn-primary" ng-click="updateBrand()">Modificar</button>
                     <a href="/laboratorios" class="btn btn-danger">Cancelar</a>
                   </div>
                 </form>

@@ -17,4 +17,7 @@ class DetPres extends \Eloquent {
       {
         return $this->belongsTo('\Salesfly\Salesfly\Entities\Presentation');
       }
+
+}
+
 }

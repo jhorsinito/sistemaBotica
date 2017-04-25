@@ -11,4 +11,8 @@ class GruposFarmacologicoManager extends BaseManager {
                   ];
         return $rules;
     }
+
 } 
+
+} 
+

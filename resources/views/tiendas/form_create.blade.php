@@ -1,6 +1,6 @@
 <section class="content-header">
           <h1>
-            Tiendas
+            Farmacias
             <small>Panel de Control</small>
           </h1>
           <ol cla<section class="content-header">
@@ -35,7 +35,8 @@
                   </div>
                 <div class="row">
                   <div class="col-md-3">
-                   <div class="form-group" ng-class="{true: 'has-error'}[ tiendaCreateForm.nombreTienda.$error.required && tiendaCreateForm.$submitted || tiendaCreateForm.nombreTienda.$dirty && tiendaCreateForm.nombreTienda.$invalid]">
+
+                                       <div class="form-group" ng-class="{true: 'has-error'}[ tiendaCreateForm.nombreTienda.$error.required && tiendaCreateForm.$submitted || tiendaCreateForm.nombreTienda.$dirty && tiendaCreateForm.nombreTienda.$invalid]">
                       <label for="nombreTienda">Nombre Farmacia</label>
                       <input type="text" class="form-control" name="nombreTienda" placeholder="Nombre Farmacia" ng-model="tienda.nombreTienda" required>
                       <label ng-show="tiendaCreateForm.$submitted || tiendaCreateForm.nombreTienda.$dirty && tiendaCreateForm.nombreTienda.$invalid">

@@ -37,4 +37,8 @@ class PresentacionTableSeeder extends Seeder
             'updated_at' => date("Y-m-d H:i:s")
         ]);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 165781028c8f2498a68939d90bd11eab813a4920

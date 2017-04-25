@@ -87,6 +87,8 @@
                 $scope.updateType = function(){
 
                     if ($scope.TtypeEditForm.$valid) {
+
+                    if ($scope.TtypeCreateForm.$valid) {
                         crudService.update($scope.Ttype,'types').then(function(data)
                         {
                             if(data['estado'] == true){
@@ -123,4 +125,6 @@
                     });
                 }
             }]);
+})();
+
 })();

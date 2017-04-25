@@ -5,8 +5,12 @@ class Brand extends \Eloquent {
 
 	protected $table = 'brands';
     
+
     protected $fillable = [ 'nombre',
     						'shortname',
     						'descripcion'];
+
+    protected $fillable = ['nombre','shortname','descripcion'];
+
 
 }

@@ -16,7 +16,11 @@ class LaboratorioRepo extends BaseRepo{
                     ->paginate(15);
         return $laboratorios;
     }
+
     public function allLaboratorios()
+
+    public function traerLaboratorios()
+
     {
         $laboratorios =Laboratorio::get();
         return $laboratorios;

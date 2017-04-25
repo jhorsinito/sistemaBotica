@@ -31,7 +31,7 @@
                                             
                 <div class="row">
                   <div class="col-md-4">    
-                   <div class="form-group" ng-class="{true: 'has-error'}[ almacenCreateForm.nombreAlmacen.$error.required && almacenCreateForm.$submitted || almacenCreateForm.nombreAlmacen.$dirty && almacenCreateForm.nombreAlmacen.$invalid]">
+                                       <div class="form-group" ng-class="{true: 'has-error'}[ almacenCreateForm.nombreAlmacen.$error.required && almacenCreateForm.$submitted || almacenCreateForm.nombreAlmacen.$dirty && almacenCreateForm.nombreAlmacen.$invalid]">
                       <label for="nombreAlmacen">Nombre Almacen</label>
                       <input type="text" class="form-control" name="nombreAlmacen" g-blur="validanomAlmacen(almacen.nombreAlmacen)" placeholder="Nombre Almacen" ng-model="almacen.nombreAlmacen" required>
                       <label ng-show="almacenCreateForm.$submitted || almacenCreateForm.nombreAlmacen.$dirty && almacenCreateForm.nombreAlmacen.$invalid">
@@ -63,6 +63,25 @@
 
                 </div>
 
+
+
+
+                   <div class="form-group">
+                      <label for="descripcion">Descripción</label>
+                      <input type="text" class="form-control" name="descripcion" placeholder="Descripcion" >
+                    </div>
+
+                    
+                     <div class="form-group" ng-class="{'has-error': almacenCreateForm.tienda_id.$invalid,'has-success':almacenCreateForm.tienda_id.$invalid}">
+                            <label>Farmacia</label>
+                            <select class="form-control ng-pristine ng-valid ng-touched" name="tienda_id" ng-model="almacen.tienda_id" ng-options="item.id as item.nombreTienda for item in tiendas" required><option value="">-- Elige Farmacia --</option></select>
+                            <label ng-show="almacenCreateForm.tienda_id.$error.required">
+                                <span ng-show="almacenCreateForm.tienda_id.$error.required"><i class="fa fa-times-circle-o"></i>El campo Farmacia es Requerido. 
+                                </span>
+                              </label>
+                        </div>
+
+              
                 </div><!-- /.box-body -->
 
                   <div class="box-footer">

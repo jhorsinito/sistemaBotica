@@ -16,7 +16,7 @@
         <section class="content">
         <div class="row">
         <div class="col-md-12">
-          <a href="/products/create" type="submit" class="btn btn-primary pull-left">Nuevo Producto</a>
+          <a href="/productos/create" type="submit" class="btn btn-primary pull-left">Añadir Producto</a>
           </div>
 
         </div>
@@ -28,22 +28,20 @@
      <!--///////////////////////////////////////////////////////////////////-->
 
               <div class="box">
-        <!--<div class="row">
+        <div class="row">
         <div class="col-md-2">
             <input type="submit" class="btn btn-success" value="Generar Codigos de Barra" ng-click="GenerarCodigoBarras(cantidad)">
         </div>
         <div class="col-md-2">
             <input type="number" class="form-control" ng-model="cantidad">
         </div>
-       </div>-->
+       </div>
                 <div class="box-header with-border">
                   <h3 class="box-title">Productos</h3>
                   <div class="box-tools">
                   <form ng-keyup="searchProduct()">
                     <div class="input-group" style="width: 200px;">
-                      <input type="text" ng-model="query"  name="table_search" class="form-control input-sm pull-right" placeholder="Buscar Producto" />
-
-                      <input type="text" ng-model="query"  name="table_search" class="form-control input-sm pull-right" placeholder="Search" /> 
+                      <input type="text" ng-model="query"  name="table_search" class="form-control input-sm pull-right" placeholder="Search" />
                       <div class="input-group-btn">
                         <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                       </div>
@@ -80,24 +78,17 @@
                       <th style="width: 40px">Eliminar</th>
                     </tr>
                     
-                    <tr ng-repeat="row in products">
+                    <tr ng-repeat="row in productos">
                       <td>{{$index + 1}}</td>
 
                       <td>{{row.proCodigo }}</td>
-                      <td><a ng-href="/products/show/{{row.proId}}">{{row.proNombre}}</a></td>
+                      <td><a ng-href="/productos/show/{{row.proId}}">{{row.proNombre}}</a></td>
                         <td>{{row.detPresPri}}</td>
                       <td>{{row.braNombre}}</td>
                       <td>{{row.typNombre}}</td>
                         <td>{{row.proCreado}}</td>
                         <td>{{row.userNombre}}</td>
                         <td>
-                          <span ng-if="row.proHasVar == '1'">
-                              <span ng-if="row.proQuantvar == '0'">0</span>
-                                <a ng-if="row.proQuantvar != '0'" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" ng-click="showVariants(row)">{{row.proQuantvar}}</a>
-                                </span>
-                            <span ng-if="row.proHasVar == '0'">
-                                <span ng-if="row.proQuantvar == '0'">-</span>
-
                             <span ng-if="row.proHasVar == '1'">
                                         <span ng-if="row.proQuantvar == '0'">0</span>
                                         <a ng-if="row.proQuantvar != '0'" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" ng-click="showVariants(row)">{{row.proQuantvar}}</a>
@@ -111,11 +102,6 @@
                       <td><a ng-click="editProduct(row)" class="btn btn-warning btn-xs">Editar</a></td>
                         <td>
                             <span ng-if="row.proEstado == 1">
-                            <a ng-click="disableProduct(row)" class="btn bg-green-active color-palette btn-xs">Desactivar</a>
-                        </span>
-                            <span ng-if="row.proEstado == 0">
-                            <a ng-click="disableProduct(row)" class="btn bg-red-active color-palette btn-xs">Activar</a>
-
                             <a ng-click="disableProduct(row)" class="btn bg-purple-active color-palette btn-xs">Desactivar</a>
                         </span>
                             <span ng-if="row.proEstado == 0">
@@ -214,7 +200,7 @@
                 </tr>
                 <tr ng-repeat="row in stockVariants">
                     <td>{{$index + 1}}</td>
-                    <td>{{row.nombreAlmacen}}</td>
+                    <td>{{row.nombre}}</td>
                     <td>{{row.stockActual}}</td>
                     <td>{{row.porLlegar}}</td>
                     <td>{{row.codigo}}</td>

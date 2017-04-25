@@ -12,3 +12,5 @@ class DetComercialGenericoManager extends BaseManager {
         return $rules;
     }
 } 
+
+} 

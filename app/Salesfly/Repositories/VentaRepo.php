@@ -1,5 +1,4 @@
 <?php
-
 namespace Salesfly\Salesfly\Repositories;
 
 use Salesfly\Salesfly\Entities\Venta;

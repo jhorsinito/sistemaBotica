@@ -15,6 +15,17 @@ class Tienda extends \Eloquent {
                             'telMovil',
                             'telFijo',
                             'webSite'];
+    						'razonSocial',
+    						'ruc',
+    						'direccion',
+    						'distrito',
+    						'provincia',
+    						'departamento',
+    						'pais',
+    						'email',
+    						'telMovil',
+    						'telFijo',
+    						'webSite'];
 
     public function almacen()
     {
@@ -25,6 +36,3 @@ class Tienda extends \Eloquent {
     {
         return $this-> hasmany(Caja::class);
     }
-
-
-}

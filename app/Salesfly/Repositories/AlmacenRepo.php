@@ -21,6 +21,7 @@ class AlmacenRepo extends BaseRepo{
                         ->get();
         return $almacen;
     }
+
     
     public function paginaterepo($c){
         $almacen = Almacen::with('tienda')->paginate($c);
@@ -29,4 +30,7 @@ class AlmacenRepo extends BaseRepo{
         }))->paginate($c);
         return $almacen;
     }
+
+}
+
 }

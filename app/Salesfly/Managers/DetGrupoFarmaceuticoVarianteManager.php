@@ -11,4 +11,7 @@ class DetGrupoFarmaceuticoVarianteManager extends BaseManager {
                   ];
         return $rules;
     }
+
 } 
+} 
+

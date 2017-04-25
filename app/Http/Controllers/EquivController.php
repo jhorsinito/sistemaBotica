@@ -31,3 +31,5 @@ class EquivController extends Controller
         return response()->json($equiv);
     }
 }
+
+}

@@ -8,4 +8,4 @@
         'routes',
         'ui.bootstrap'
     ]);
-})();
+};

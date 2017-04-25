@@ -537,3 +537,4 @@ class ProductsController extends Controller
         return response()->json($product);
     }
 }
+}

@@ -72,12 +72,16 @@
 
 
                 $scope.validanomAlmacen=function(texto){
+
+                $scope.validanomMarca=function(texto){
                 
                    if(texto!=undefined){
                         crudService.validar('almacenes',texto).then(function (data){
                         $scope.almacen = data;
                         if($scope.almacen!=null){
                            alert("Usted no puede crear dos Almacénes con el mismo nombre");
+
+                           alert("Usted no puede crear dos Marcas con el mismo nombre");
                            $scope.almacen.nombre=''; 
                            $scope.almacen.descripcion=''; 
                         }
@@ -116,6 +120,11 @@
                         {
                             if(data['estado'] == true){
                                 $scope.success = data['nombreAlmacen'];
+                    if ($scope.AlmacenEditForm.$valid) {
+                        crudService.update($scope.almacen,'almacenes').then(function(data)
+                        {
+                            if(data['estado'] == true){
+                                $scope.success = data['nombres'];
                                 alert('editado correctamente');
                                 $location.path('/almacenes');
                             }else{
@@ -149,4 +158,4 @@
                     });
                 }
             }]);
-})();
+};

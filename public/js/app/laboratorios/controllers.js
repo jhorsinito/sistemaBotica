@@ -77,6 +77,7 @@
                 $scope.createLaboratorio = function(){
                     //$scope.atribut.estado = 1;
                     if ($scope.laboratorioCreateForm.$valid) {
+                    if ($scope.LaboratorioCreateForm.$valid) {
                         crudService.create($scope.laboratorio, 'laboratorios').then(function (data) {
                           
                             if (data['estado'] == true) {
@@ -100,6 +101,7 @@
                 $scope.updateLaboratorio = function(){
 
                     if ($scope.LaboratorioEditForm.$valid) {
+                    if ($scope.LaboratorioCreateForm.$valid) {
                         crudService.update($scope.laboratorio,'laboratorios').then(function(data)
                         {
                             if(data['estado'] == true){

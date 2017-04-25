@@ -25,3 +25,4 @@ class VentaManager extends BaseManager{
         return $rules;
     }
 }
+

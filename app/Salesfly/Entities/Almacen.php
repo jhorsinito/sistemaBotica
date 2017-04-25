@@ -13,8 +13,11 @@ class Almacen extends \Eloquent {
     {
         return $this->belongsTo('\Salesfly\Salesfly\Entities\Tienda');
     }
+
     public function caja()
     {
         return $this-> hasmany(Caja::class);
     }
+
+
 }

@@ -32,6 +32,12 @@
                     
                   <div class="row">
                     <div class="col-md-4">
+
+                                                  <ul>
+                                              <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
+                                              </ul>
+                                            </div>
+                    
                     <div class="form-group" >
                       <label for="nombre">Nombre</label>
                       <input type="text" class="form-control" name="nombre" placeholder="Nombre"
@@ -40,6 +46,7 @@
                   </div>
 
                  <div class="col-md-4">
+
                     <div class="form-group" >
                       <label for="pais">ShortName</label>
                       <input type="text" class="form-control" name="pais" placeholder="ShortName"
@@ -48,6 +55,7 @@
                   </div>
 
                   <div class="col-md-4">
+
                     <div class="form-group" >
                       <label for="notas">Descripcion</label>
                       <textarea type="notas" class="form-control" name="notas" placeholder="Descripcion"
@@ -55,6 +63,7 @@
                      </div>
                 </div>
                 </div>
+
 
                 </div><!-- /.box-body -->
 

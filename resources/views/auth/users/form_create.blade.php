@@ -78,12 +78,12 @@
                      <div class="col-md-6">
 
                      <div class="form-group" ng-class="{true: 'has-error'}[ userCreateForm.role.$error.required  && userCreateForm.$submitted || userCreateForm.role.$dirty && userCreateForm.role.$invalid]">
-                                               <label>Rol</label>
-                                                    <select name="role" class="form-control" ng-model="user.role_id" ng-options="role.key1 as role.value1 for role in roles">
+                      <label>Rol</label>
+                         <select name="role" class="form-control" ng-model="user.role_id" ng-options="role.key1 as role.value1 for role in roles">
 
-                                                 </select>
-                                                 <label ng-show="userCreateForm.$submitted || userCreateForm.role.$dirty && userCreateForm.role.$invalid">
-                                                                         <span ng-show="userCreateForm.role.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
+                         </select>
+                           <label ng-show="userCreateForm.$submitted || userCreateForm.role.$dirty && userCreateForm.role.$invalid">
+                             <span ng-show="userCreateForm.role.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
 
                                                                        </label>
                                           </div></div>
