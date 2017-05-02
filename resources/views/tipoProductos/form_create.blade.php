@@ -31,7 +31,7 @@
 
                    <div class="form-group" ng-class="{true: 'has-error'}[ tipoProductoCreateForm.nombre.$error.required && tipoProductoCreateForm.$submitted || tipoProductoCreateForm.nombre.$dirty && tipoProductoCreateForm.nombre.$invalid]">
                       <label for="nombre">Nombre</label>
-                      <input type="text" class="form-control" name="nombre" ng-blur="validanomComprobante(tipoProducto.nombre)" placeholder="Nombre Comprobante" ng-model="tipoProducto.nombre" required>
+                      <input type="text" class="form-control" name="nombre" ng-blur="validanomComprobante(tipoProducto.nombre)" placeholder="Nombre Tipo de Producto" ng-model="tipoProducto.nombre" required>
                       <label ng-show="tipoProductoCreateForm.$submitted || tipoProductoCreateForm.nombre.$dirty && tipoProductoCreateForm.nombre.$invalid">
                         <span ng-show="tipoProductoCreateForm.nombre.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
                       </label>

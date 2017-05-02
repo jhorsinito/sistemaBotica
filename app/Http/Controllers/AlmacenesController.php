@@ -65,4 +65,3 @@ class AlmacenesController extends Controller {
     }
 }
 
-}

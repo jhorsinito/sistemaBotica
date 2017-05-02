@@ -148,7 +148,7 @@
 
             @if($role == 1)
             <li><a href="/"><i class="fa fa-home"></i> <span>Home</span></a></li>
-                        <li><a href="/ventas"><i class="fa fa-shopping-cart"></i> <span>Ventas</span></a></li>
+            
             <li class="treeview">
               <a href="/">
                 <i class="fa fa-laptop"></i>
@@ -169,11 +169,11 @@
               </a>
               <ul class="treeview-menu">
                 <li class=""><a href="/ventas" ><i class="fa fa-user" ></i>Ventas</a></li>
+                <li class=""><a href="/clientes" ><i class="fa fa-circle-o"></i>Clientes</a></li>   
 
- </ul>
+              </ul>
             </li>
 
-         
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-laptop"></i>
@@ -195,6 +195,7 @@
                 <li class=""><a href="/cajas" ><i class="fa fa-circle-o"></i>Cajas</a></li>
               </ul>
             </li>
+            @endif
 
           </ul>
         </section>
@@ -566,10 +567,6 @@
     <script src="/js/app/servicesglobal.js"></script>
     <script src="/js/app/persons/app.js"></script>
     <script src="/js/app/persons/controllers.js"></script>
-
-
-
-
     <script src="/vendor/angular-ui-slider/src/slider.js"></script>
     <!-- endinject -->
     @section('js-customize')

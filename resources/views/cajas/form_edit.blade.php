@@ -75,7 +75,7 @@
                           </div></div>
 
 
-                    <div class="col-md-12">
+                    <div class="col-md-4">
                     <div class="form-group" >
                       <label for="notas">Descripcion</label>
                       <textarea type="notas" class="form-control" name="notas" placeholder="Descripcion"

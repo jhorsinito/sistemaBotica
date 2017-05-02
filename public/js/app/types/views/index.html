@@ -2,14 +2,11 @@
         <section class="content-header">
           <h1>
             Categorías
-            Líneas
             <small>Panel de Control</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
             <li class="active">Categorías</li>
-
-            <li class="active">Líneas</li>
           </ol>
 
           
@@ -20,28 +17,19 @@
         <div class="row">
         <div class="col-md-12">
           <a href="/types/create" type="submit" class="btn btn-primary pull-left">Nueva Categoría</a>
-
-          <a href="/types/create" type="submit" class="btn btn-primary pull-left">Add Line</a>
           </div>
         </div>
         </br>
           <div class="row">
             <div class="col-md-12">
-
-
               <div class="box">
-
                 <div class="box-header with-border">
                   <h3 class="box-title">Categorías</h3>
                   <div class="box-tools">
+                  
                   <form ng-keyup="searchBrand()">
                     <div class="input-group" style="width: 200px;">
                       <input type="text" ng-model="query"  name="table_search" class="form-control input-sm pull-right" placeholder="Buscar Categorías" />
-                  <h3 class="box-title">Líneas</h3>
-                  <div class="box-tools">
-                  <form ng-keyup="searchBrand()">
-                    <div class="input-group" style="width: 200px;">
-                      <input type="text" ng-model="query"  name="table_search" class="form-control input-sm pull-right" placeholder="Search" />
                       <div class="input-group-btn">
                         <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                       </div>
@@ -59,8 +47,6 @@
                     </div>
                 <div class="callout callout-info"  ng-show="Ttype.id">
                     <h4>¿ Estás seguro que deseas eliminar a "{{Ttype.nombre}}" ?</h4>
-
-                    <h4>¿ Estás seguro que deseas eliminar a "{{type.nombre}}" ?</h4>
                     <p>
                       <button type="button" class="btn btn-danger" ng-click="destroyType()">Si</button>
                       <button type="button" class="btn btn-default" ng-click="cancelType()">No</button>
@@ -72,7 +58,6 @@
                       <th style="width: 10px">#</th>
                       <th>Nombre</th>
                       <th>Abreviatura</th>
-                      <th>ShortName</th>
                       <th>Descripcion</th>
                       
                       <th style="width: 40px">Editar</th>

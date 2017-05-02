@@ -30,7 +30,4 @@ class AlmacenRepo extends BaseRepo{
         }))->paginate($c);
         return $almacen;
     }
-
-}
-
 }

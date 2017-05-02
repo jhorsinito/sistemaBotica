@@ -10,4 +10,5 @@ class BrandManager extends BaseManager {
             'descripcion'=> ''
                   ];
         return $rules;
-    }}
+}
+}

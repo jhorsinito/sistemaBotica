@@ -213,6 +213,4 @@ class AuthController extends Controller
         //Event::fire('update.atribut',$atribut->all());
         return response()->json(['estado'=>true]);
     }
-
-
 }

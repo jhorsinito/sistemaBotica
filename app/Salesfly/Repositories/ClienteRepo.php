@@ -21,13 +21,6 @@ class ClienteRepo extends BaseRepo{
                         ->get();
         return $clientes;
     }
-       
-}
-        $cliente =Cliente::where('nombreCliente','like', $q.'%')
-                    ->orwhere('direccion','like', $q.'%')
-                    ->paginate(15);
-        return $cliente;
-    }
     
-   
+    
 }

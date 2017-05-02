@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Salesfly | Log in</title>
+    <title>Botica Vencedor | Log in</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.4 -->
@@ -24,7 +24,7 @@
   <body class="login-page">
     <div class="login-box">
       <div class="login-logo">
-        <a href="../../index2.html"><b>Sales</b>Fly</a>
+        <a href="../../index2.html"><b>Botica</b>Vencedor</a>
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Escibre tus credenciales para iniciar sesión</p>
@@ -40,18 +40,18 @@
         <form action="/auth/login" method="post">
         {!! csrf_field() !!}
           <div class="form-group has-feedback">
-            <input type="email" class="form-control" placeholder="Email" name="email" value="{{old('email')}}"/>
+            <input type="email" class="form-control" placeholder="Correo Electrónico" name="email" value="{{old('email')}}"/>
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="Password" name="password"/>
+            <input type="password" class="form-control" placeholder="Contraseña" name="password"/>
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
           <div class="row">
             <div class="col-xs-8">
               <div class="checkbox icheck">
                 <label>
-                  <input type="checkbox" name="remember"> Recordar
+                  <input type="checkbox" name="remember"> Recordarme
                 </label>
               </div>
             </div><!-- /.col -->

@@ -45,13 +45,7 @@
                       <input type="text" class="form-control" name="shortName" placeholder="Abreviatura" ng-model="laboratorio.shortName" required>
                       </div>
 
-                    <div class="form-group" ng-class="{true: 'has-error'}[ laboratorioCreateForm.shortname.$error.required && laboratorioCreateForm.$submitted || laboratorioCreateForm.shortname.$dirty && laboratorioCreateForm.shortname.$invalid]">
-                      <label for="shortname">ShortName</label>
-                      <input type="text" class="form-control" name="shortname" ng-blur="validanomLaboratorio(laboratorio.nombre)" placeholder="ShortName" ng-model="laboratorio.shortname" required>
-                      <label ng-show="laboratorioCreateForm.$submitted || laboratorioCreateForm.laboratorioCreateForm.$dirty && laboratorioCreateForm.shortname.$invalid">
-                        <span ng-show="laboratorioCreateForm.shortname.$error.required"><i class="fa fa-times-circle-o"></i>Requerido.</span>
-                      </label>
-                    </div>
+                    
                     </div>
 
                     <div class="col-md-4">

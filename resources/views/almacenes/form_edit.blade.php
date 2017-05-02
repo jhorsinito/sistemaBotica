@@ -1,4 +1,4 @@
-<section class="content-header">
+        <section class="content-header">
           <h1>
             Editar Almacen
             <small>Panel de Control</small>
@@ -7,9 +7,7 @@
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
             <li class=""><a href="/almacenes">Almacenes</a></li>
             <li class="active">Editar</li>
-          </ol>
-
-          
+          </ol>  
         </section>
 
         <section class="content">
@@ -30,14 +28,13 @@
                    </div>
                                             
                 <div class="row">
-                  <div class="col-md-4">  
-
-                                                  <ul>
-                                              <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
-                                              </ul>
-                                            </div>
-                                            
-                    
+                  <ul>
+                    <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
+                  </ul>
+                 </div>
+                  
+                <div class="row">                        
+                <div class="col-md-4"> 
                    <div class="form-group" ng-class="{true: 'has-error'}[ almacenEditForm.nombreAlmacen.$error.required && almacenEditForm.$submitted || almacenEditForm.nombreAlmacen.$dirty && almacenEditForm.nombreAlmacen.$invalid]">
                       <label for="nombreAlmacen">Nombre Almacen</label>
                       <input type="text" class="form-control" name="nombreAlmacen" placeholder="Nombre Almacen" ng-model="almacen.nombreAlmacen" required>
@@ -46,6 +43,7 @@
                       </label>
                     </div>
                   </div>
+
                   <div class="col-md-4"> 
                    <div class="form-group" ng-class="{true: 'has-error'}[ almacenEditForm.descripcion.$error.required && almacenEditForm.$submitted || almacenEditForm.descripcion.$dirty && almacenEditForm.descripcion.$invalid]">
                       <label for="descripcion">Descripción</label>
@@ -55,17 +53,9 @@
                       </label>
                     </div>
                     </div> 
+
                     <div class="col-md-4"> 
 
-
-                    <div class="form-group" ng-class="{true: 'has-error'}[ almacenEditForm.descripcionAlmacen.$error.required && almacenEditForm.$submitted || almacenEditForm.descripcionAlmacen.$dirty && almacenEditForm.descripcionAlmacen.$invalid]">
-                      <label for="descripcionAlmacen">Descripción</label>
-                      <input type="text" class="form-control" name="descripcionAlmacen" placeholder="Descripción Almacen" ng-model="almacen.descripcionAlmacen" required>
-                      <label ng-show="almacenEditForm.$submitted || almacenEditForm.descripcionAlmacen.$dirty && almacenEditForm.descripcionAlmacen.$invalid">
-                        
-                      </label>
-                    </div>
-                     
                      <div class="form-group" ng-class="{'has-error': almacenEditForm.tienda_id.$invalid,'has-success':almacenEditForm.tienda_id.$invalid}">
                             <label>Farmacia</label>
                             <select class="form-control ng-pristine ng-valid ng-touched" name="tienda_id" ng-model="almacen.tienda_id" ng-options="item.id as item.nombreTienda for item in tiendas" required><option value="">-- Elige Farmacia --</option></select>
@@ -83,7 +73,6 @@
 
                   <div class="box-footer">
                     <button type="submit" class="btn btn-primary" ng-click="updateAlmacen()">Guardar</button>
-                    <button type="submit" class="btn btn-primary" ng-click="editAlmacen()">Guardar</button>
                     <a href="/almacenes" class="btn btn-danger">Cancelar</a>
                   </div>
                 </form>

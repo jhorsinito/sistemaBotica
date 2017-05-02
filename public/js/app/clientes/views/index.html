@@ -48,11 +48,8 @@
                             </div>
                         </div>
                     </div>
- 
                 <div class="callout callout-info"  ng-show="cliente.id">
                     <h4>¿ Estás seguro que deseas eliminar a "{{cliente.nombreCliente}}" ?</h4>
-                <div class="callout callout-info"  ng-show="clientes.id">
-                    <h4>¿ Estás seguro que deseas eliminar a "{{clientes.nombreCliente}}" ?</h4>
                     <p>
                       <button type="button" class="btn btn-danger" ng-click="destroyCliente()">Si</button>
                       <button type="button" class="btn btn-default" ng-click="cancelCliente()">No</button>
@@ -84,8 +81,6 @@
                         <td>{{row.email}}</td>
 
                         <td><a ng-click="editCliente(row)" class="btn btn-warning btn-xs">Editar</a></td>
-
-                        <td><a ng-click="editClientes(row)" class="btn btn-warning btn-xs">Editar</a></td>
                         <td><a ng-click="deleteClientes(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
 
                       </tr>
@@ -103,6 +98,4 @@
               </div><!-- /.box -->
             </div>
           </div>
-        </section>
-
         </section>

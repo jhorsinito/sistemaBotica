@@ -56,17 +56,6 @@
                    </div>
 
                   <div class="col-md-4">
-
-                    <div class="form-group" >
-                      <label for="nombre">Nombre</label>
-                      <input type="text" class="form-control" name="nombre" placeholder="Nombre"
-                      ng-model="laboratorio.nombre">
-                     </div>
-                    <div class="form-group" >
-                      <label for="pais">ShortName</label>
-                      <input type="text" class="form-control" name="pais" placeholder="ShortName"
-                      ng-model="laboratorio.shortname">
-                     </div>
                     <div class="form-group" >
                       <label for="notas">Descripcion</label>
                       <textarea type="notas" class="form-control" name="notas" placeholder="Descripcion"
@@ -80,8 +69,6 @@
 
                   <div class="box-footer">
                     <button type="submit" class="btn btn-primary" ng-click="updateLaboratorio()">Modificar</button>
-
-                    <button type="submit" class="btn btn-primary" ng-click="updateBrand()">Modificar</button>
                     <a href="/laboratorios" class="btn btn-danger">Cancelar</a>
                   </div>
                 </form>

@@ -9,8 +9,6 @@
             <li class=""><a href="/brands">Marcas</a> </li>
             <li class="active">Editar</li>
           </ol>
-
-
         </section>
 
         <section class="content">
@@ -29,21 +27,20 @@
                   <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
                  </ul>
                  </div>
+                      <ul>
+                         <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
+                      </ul>
                     
-                  <div class="row">
-                    <div class="col-md-4">
+                    <div class="row">
 
-                                                  <ul>
-                                              <li ng-repeat="row in errors track by $index"><strong >@{{row}}</strong></li>
-                                              </ul>
-                                            </div>
-                    
+                    <div class="col-md-4">
                     <div class="form-group" >
                       <label for="nombre">Nombre</label>
                       <input type="text" class="form-control" name="nombre" placeholder="Nombre"
                       ng-model="brand.nombre">
                      </div>
-                  </div>
+                     </div>
+                  
 
                  <div class="col-md-4">
 

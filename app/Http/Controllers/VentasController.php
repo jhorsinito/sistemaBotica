@@ -147,8 +147,5 @@ class VentasController extends Controller
         $customers = $this->ventaRepo->search($q);
 
         return response()->json($customers);
-    }
-
-    
-  
+    } 
 }

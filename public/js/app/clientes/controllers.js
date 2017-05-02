@@ -100,8 +100,6 @@
                 $scope.updateCliente = function(){
 
                     if ($scope.ClienteEditForm.$valid) {
-
-                    if ($scope.clienteCreateForm.$valid) {
                         crudService.update($scope.cliente,'clientes').then(function(data)
                         {
                             if(data['estado'] == true){
@@ -138,6 +136,4 @@
                     });
                 }
             }]);
-})();
-
 })();

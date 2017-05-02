@@ -19,8 +19,6 @@ class LaboratorioRepo extends BaseRepo{
 
     public function allLaboratorios()
 
-    public function traerLaboratorios()
-
     {
         $laboratorios =Laboratorio::get();
         return $laboratorios;

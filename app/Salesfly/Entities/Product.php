@@ -33,18 +33,15 @@ class Product extends Model
     public function type(){
         return $this->belongsTo('Salesfly\Salesfly\Entities\Ttype');
     }
-
     public function laboratorio(){
         return $this->belongsTo('Salesfly\Salesfly\Entities\Laboratorio');
     }
-
     public function station(){
         return $this->belongsTo('Salesfly\Salesfly\Entities\Station');
     }
     public function material(){
         return $this->belongsTo('Salesfly\Salesfly\Entities\Material');
     }
-
 
     public function venta()
     {
@@ -64,5 +61,10 @@ class Product extends Model
     public function presentation(){
         return $this->hasMany('Salesfly\Salesfly\Entities\Presentation');
     }
-    
+    //public function warehouses(){
+    //    return $this->hasManyThrough('App\Post', 'App\User', 'country_id', 'user_id');
+    //}
+    /*
+     * Fx para presentations
+     */
 }

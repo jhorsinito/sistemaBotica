@@ -139,9 +139,9 @@
                     templateUrl:'/brands/form-edit',
                     controller: 'BrandController'
                 })  
-                      //----------------------------------------------------------------------
-                      //-------------------------------------------------
-                .when('/products', {
+            //----------------------------------------------------------------------
+                      
+             .when('/products', {
                     templateUrl: '/js/app/products/views/index.html',
                     controller: 'ProductController'
                 })
@@ -157,6 +157,7 @@
                     templateUrl:'/products/view-show',
                     controller: 'ProductController'
                 })
+                      
                 //-----------------------------------------------
                 .when('/variants/create/:product_id',{
                     templateUrl: '/variants/form-create',

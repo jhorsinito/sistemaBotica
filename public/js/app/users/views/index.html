@@ -18,7 +18,7 @@
         <section class="content">
         <div class="row">
         <div class="col-md-12">
-          <a href="/users/create" type="submit" class="btn btn-primary pull-left">Añadir Usurio</a>
+          <a href="/users/create" type="submit" class="btn btn-primary pull-left">Añadir Usuario</a>
           </div>
         </div>
         </br>
@@ -59,9 +59,9 @@
                           <th>Nombre</th>
                           <th>email</th>
                           <th>Rol</th>
+                          <th>Opción</th>
                           <th>Editar</th>
-                          <th >Opción</th>
-                          <th >Eliminar</th>
+                          <th>Eliminar</th>
                         </tr>
                     
                         <tr ng-repeat="row in users">
@@ -69,19 +69,20 @@
 
                           <td>{{row.name }}</td>
                           <td>{{row.email}}</td>
-                          <td ng-if="row.role_id == '1'">Admin</td>
-                        <td ng-if="row.role_id == '2'">Administrativo</td>
-                        <td ng-if="row.role_id == 3">Tecnico</td>
+                          <td ng-if="row.role_id == '1'">Administrador</td>
+                        <td ng-if="row.role_id == '2'">Cajero</td>
+                        <td ng-if="row.role_id == 3">Asistente</td>
 
-                        <td><a ng-click="editUser(row)" class="btn btn-warning btn-xs">Editar</a></td>
                           <td>
                             <span ng-if="row.estado == 1">
-                            <a ng-click="disableUser(row)" class="btn bg-purple-active color-palette btn-xs">Deshabilitar</a>
+                            <a ng-click="disableUser(row)" class="btn bg-green-active color-palette btn-xs">Deshabilitar</a>
                               </span>
                             <span ng-if="row.estado == 0">
-                            <a ng-click="disableUser(row)" class="btn bg-purple-active color-palette btn-xs">Habilitar</a>
+                            <a ng-click="disableUser(row)" class="btn bg-red-active color-palette btn-xs">Habilitar</a>
                              </span>
                           </td>
+
+                        <td><a ng-click="editUser(row)" class="btn btn-warning btn-xs">Editar</a></td> 
                         <td><a ng-click="deleteUser(row)" class="btn btn-danger btn-xs">Eliminar</a></td>
                       
                       </tr>

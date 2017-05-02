@@ -29,8 +29,6 @@
                   <form ng-keyup="searchLaboratorio()">
                     <div class="input-group" style="width: 200px;">
                       <input type="text" ng-model="query"  name="table_search" class="form-control input-sm pull-right" placeholder="Buscar Laboratorio" />
-
-                      <input type="text" ng-model="query"  name="table_search" class="form-control input-sm pull-right" placeholder="Search" />
                       <div class="input-group-btn">
                         <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                       </div>
@@ -46,12 +44,9 @@
                             </div>
                         </div>
                     </div>
- 
+
                 <div class="callout callout-info"  ng-show="laboratorio.id">
                     <h4>¿ Estás seguro que deseas eliminar a "{{laboratorio.nombre}}" ?</h4>
-
-                <div class="callout callout-info"  ng-show="laboratorios.id">
-                    <h4>¿ Estás seguro que deseas eliminar a "{{Laboratorio.nombre}}" ?</h4>
                     <p>
                       <button type="button" class="btn btn-danger" ng-click="destroyLaboratorio()">Si</button>
                       <button type="button" class="btn btn-default" ng-click="cancelLaboratorio()">No</button>
@@ -62,7 +57,6 @@
                     <tr>
                       <th style="width: 10px">#</th>
                       <th>Nombre</th>
- 
                       <th>Abreviatura</th>
                       <th>Descripción</th>
                       

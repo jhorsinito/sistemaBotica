@@ -8,4 +8,5 @@ class AlmacenManager extends BaseManager {
     						'tienda_id'=>''
     						];
         return $rules;
-    }}
+    }
+}

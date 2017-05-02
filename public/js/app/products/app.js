@@ -168,5 +168,3 @@
         };
     });
 })(window.angular);
-
-})(window.angular);

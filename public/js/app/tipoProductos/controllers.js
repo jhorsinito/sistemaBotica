@@ -106,8 +106,7 @@
                 };
 
                 $scope.updateTipoProducto = function(){
-
-                    if ($scope.tipoProductoEditForm.$valid) {
+                    if ($scope.tipoProductosEditForm.$valid) {
                         crudService.update($scope.tipoProducto,'tipoProductos').then(function(data)
                         {
                             if(data['estado'] == true){

@@ -121,7 +121,7 @@
 
                         }else{
                             $scope.errors = data;
-                        }
+                                                    }
                     });
                 }
             }]);

@@ -72,8 +72,6 @@
 
 
                 $scope.validanomAlmacen=function(texto){
-
-                $scope.validanomMarca=function(texto){
                 
                    if(texto!=undefined){
                         crudService.validar('almacenes',texto).then(function (data){
@@ -113,6 +111,8 @@
                     $location.path('/almacenes/edit/'+row.id);
                 };
 
+                
+
                 $scope.updateAlmacen = function(){
 
                     if ($scope.almacenEditForm.$valid) {
@@ -120,11 +120,6 @@
                         {
                             if(data['estado'] == true){
                                 $scope.success = data['nombreAlmacen'];
-                    if ($scope.AlmacenEditForm.$valid) {
-                        crudService.update($scope.almacen,'almacenes').then(function(data)
-                        {
-                            if(data['estado'] == true){
-                                $scope.success = data['nombres'];
                                 alert('editado correctamente');
                                 $location.path('/almacenes');
                             }else{
@@ -154,8 +149,8 @@
 
                         }else{
                             $scope.errors = data;
-                        }
+                             }
                     });
                 }
             }]);
-};
+})();

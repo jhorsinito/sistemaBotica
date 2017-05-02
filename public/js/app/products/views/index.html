@@ -42,8 +42,6 @@
                   <form ng-keyup="searchProduct()">
                     <div class="input-group" style="width: 200px;">
                       <input type="text" ng-model="query"  name="table_search" class="form-control input-sm pull-right" placeholder="Buscar Producto" />
-
-                      <input type="text" ng-model="query"  name="table_search" class="form-control input-sm pull-right" placeholder="Search" /> 
                       <div class="input-group-btn">
                         <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                       </div>
@@ -68,7 +66,6 @@
                       <th style="width: 10px">#</th>
                       <th>Código</th>
                       <th>Nombre</th>
-                        <th>Precio</th>
                       <th>Marca</th>
                       <th>Línea</th>
                         <th>Creado</th>
@@ -85,7 +82,6 @@
 
                       <td>{{row.proCodigo }}</td>
                       <td><a ng-href="/products/show/{{row.proId}}">{{row.proNombre}}</a></td>
-                        <td>{{row.detPresPri}}</td>
                       <td>{{row.braNombre}}</td>
                       <td>{{row.typNombre}}</td>
                         <td>{{row.proCreado}}</td>
@@ -97,13 +93,6 @@
                                 </span>
                             <span ng-if="row.proHasVar == '0'">
                                 <span ng-if="row.proQuantvar == '0'">-</span>
-
-                            <span ng-if="row.proHasVar == '1'">
-                                        <span ng-if="row.proQuantvar == '0'">0</span>
-                                        <a ng-if="row.proQuantvar != '0'" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" ng-click="showVariants(row)">{{row.proQuantvar}}</a>
-                                </span>
-                            <span ng-if="row.proHasVar == '0'">
-                                        <span ng-if="row.proQuantvar == '0'">-</span>
                                 </span>
                         </td>
                         <td> <button popover-placement="bottom" popover-template="stockTemplate" type="button" class="btn btn-default btn-xs" ng-click="showStock(row.proId)">{{row.stoStockActual}}</button>
@@ -115,11 +104,6 @@
                         </span>
                             <span ng-if="row.proEstado == 0">
                             <a ng-click="disableProduct(row)" class="btn bg-red-active color-palette btn-xs">Activar</a>
-
-                            <a ng-click="disableProduct(row)" class="btn bg-purple-active color-palette btn-xs">Desactivar</a>
-                        </span>
-                            <span ng-if="row.proEstado == 0">
-                            <a ng-click="disableProduct(row)" class="btn bg-purple-active color-palette btn-xs">Activar</a>
                         </span>
 
                         </td>

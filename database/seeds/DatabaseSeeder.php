@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserTableSeeder::class);
         $this->call(PresentacionTableSeeder::class);
         $this->call(TipoProductosTableSeeder::class);
-<<<<<<< HEAD
         $this->call(TipoDocumentoTableSeeder::class);
         $this->call(ProveedorTableSeeder::class);
         $this->call(TiendaTableSeeder::class);
@@ -31,9 +30,6 @@ class DatabaseSeeder extends Seeder
         $this->call(MetodoPagoTableSeeder::class);
         $this->call(CompraTableSeeder::class);
         
-
-=======
->>>>>>> 165781028c8f2498a68939d90bd11eab813a4920
         Model::reguard();
     }
 }

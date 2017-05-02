@@ -36,16 +36,11 @@
                   <div class="col-md-8">
                       <b>Descripción:</b> @{{ product.descripcion }} <br/> <br/>
             ---------------------------------------------------------------------------<br/>
-
-            ------------------------------------------------------------------------------------------------------------------------------------<br/>
                       <b>SKU</b>: @{{variant.sku}}<br/>
             <b>Marca:</b> @{{ product.brand.nombre }} <br/> <br/>
             <b>Línea:</b> @{{ product.type.nombre }} <br/> <br/>
             <b>Código Único de Producto:</b> @{{ product.codigo }}<br/> <br/>
- 
                       <b>Código de Producto:</b> @{{ product.suppCode }} <br/><br/>
-
-                      <b>Código de Proveedor:</b> @{{ product.suppCode }} <br/><br/>
 
                   </div>
                   <div class="col-md-4">
@@ -110,10 +105,6 @@
                         </span>
                             <span ng-if="row.estado == 0">
                             <a ng-click="disableVariant(row)" class="btn bg-red-active color-palette btn-xs">Activar</a>
-                            <a ng-click="disableVariant(row)" class="btn bg-purple-active color-palette btn-xs">Desactivar</a>
-                        </span>
-                            <span ng-if="row.estado == 0">
-                            <a ng-click="disableVariant(row)" class="btn bg-purple-active color-palette btn-xs">Activar</a>
                         </span>
 
                                     </td>
@@ -204,6 +195,4 @@
         </div><!-- /.box -->
         </div>
     </div>
-</section>
-
 </section>

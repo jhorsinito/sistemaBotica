@@ -9,8 +9,4 @@ class Brand extends \Eloquent {
     protected $fillable = [ 'nombre',
     						'shortname',
     						'descripcion'];
-
-    protected $fillable = ['nombre','shortname','descripcion'];
-
-
-}
+    					}

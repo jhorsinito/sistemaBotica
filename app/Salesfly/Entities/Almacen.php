@@ -18,6 +18,4 @@ class Almacen extends \Eloquent {
     {
         return $this-> hasmany(Caja::class);
     }
-
-
 }

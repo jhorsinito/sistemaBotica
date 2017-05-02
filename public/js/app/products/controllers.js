@@ -449,6 +449,7 @@
                             $scope.products = data.data;
                         });
 
+                    
                     }
                 };
 
@@ -478,8 +479,6 @@
 
                                     if ($scope.product.tipoMedicamento=="Generico") {
                                         crudService.byId(id,"buscarGenerico").then(function(data){
-
-                                        crudService.byId(id,"buscarGenerioco").then(function(data){
                                             $scope.grupoProductos = data;
                                         });
 
@@ -493,6 +492,10 @@
                                         $scope.warehouses = data.data;
                                         $log.log($scope.warehouses);
                                     });
+
+
+                                    
+
 
                                     $scope.product.sku = data.sku;
                                     //alert(isEmpty(data.stock));
@@ -539,13 +542,8 @@
                                         $scope.tipoProductos = data.data;
                                         $log.log($scope.tipoProductos);
                                     });
-
-                         crudService.all('traerLaboratorios').then(function (data){
-                                        $scope.laboratorios = data;
-                                    });
-                         
-
-
+                        
+                        
                     };
 
                     if($location.path() == '/products/show/'+$routeParams.id) {
@@ -669,7 +667,7 @@
                         $scope.itemsperPage = 15;
 
                     });
-
+                    
 
                     if($location.path() == '/products/create') {
                         crudService.paginate('products',1).then(function (data) {
@@ -685,6 +683,7 @@
                         //});
 
                         
+
                         crudService.select('products', 'materials').then(function (data) {
                             $scope.materials = data;
                         });
@@ -709,12 +708,6 @@
                                         //$log.log('$scope.laboratorios');
                                         //$log.log($scope.laboratorios);
                                     //});
-
-                        crudService.all('traerLaboratorios').then(function (data){
-                                        $scope.laboratorios = data;
-                                        $log.log('$scope.laboratorios');
-                                        $log.log($scope.laboratorios);
-                                    });
                         crudService.all('presentations_base').then(function(data){
                             //alert('holi');
                             $scope.presentations_base = data;
@@ -784,6 +777,7 @@
                         $scope.currentPage = data.current_page;
                     });
 
+                    
                 }
                     
                 };
@@ -1921,7 +1915,6 @@
 
                 $scope.opcAtr = [];
                 $scope.opcAtr[1] = ['Tableta','Jarabe','Ampolla','Gel','Crema','Gotas','Champu','Crema Vaginal','Carpula','Elixir','Emulsion','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula','Carpula'];
-                $scope.opcAtr[1] = ['NEGRO','BLANCO','ROJO','AZUL','MARRÓN','VINO','NUDE','BEIGE','TURQUESA'];
                 $scope.opcAtr[2] = ['18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45'];
                 $scope.opcAtr[3] = ['3','5','7','9','10','11','12','13','15','18','20','21'];
                 $scope.opcAtr[4] = ['CUERO LISO','CUERO GAMUZA','CUERO CHAROL','SINTÉTICO LISO','SINTÉTICO GAMUZA','SINTÉTICO CHAROL','TELA'];
@@ -1938,6 +1931,4 @@
 
 
             }]);
-})();
-
 })();

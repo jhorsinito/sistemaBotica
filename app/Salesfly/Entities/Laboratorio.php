@@ -7,6 +7,4 @@ class Laboratorio extends \Eloquent {
     
 
     protected $fillable = ['nombre','shortName','descripcion'];
-
-    protected $fillable = ['nombre','descripcion'];
 }

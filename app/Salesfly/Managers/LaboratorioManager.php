@@ -15,6 +15,3 @@ class LaboratorioManager extends BaseManager {
     }
 
 } 
-
-} 
-

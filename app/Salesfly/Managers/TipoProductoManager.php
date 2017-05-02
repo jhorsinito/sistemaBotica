@@ -11,8 +11,4 @@ class TipoProductoManager extends BaseManager {
                   ];
         return $rules;
     }
-
-} 
-
-} 
-
+}  

@@ -52,7 +52,6 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        //
         return View('products.index');
     }
 
@@ -536,5 +535,4 @@ class ProductsController extends Controller
         $product = $this->productRepo->buscarProducto($dato1,$dato2);
         return response()->json($product);
     }
-}
 }
